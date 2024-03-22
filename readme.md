@@ -6,7 +6,7 @@ tooling, including why it was selected.
 
 Each "package" in this repo also contains a
 readme, providing further details on its tooling,
-and the reasoning for the tooling it has
+and the reasoning for the tooling it has.
 
 <!-- TOC -->
 - [Softeng Starter Code Repo](#softeng-starter-code-repo)
