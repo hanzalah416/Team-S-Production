@@ -1,5 +1,5 @@
 import express, { Router, Request, Response } from "express";
-import Graph from "./makegraph";
+import MakeGraph from "./makegraph";
 //import readCSV from "./readCSV";  --- TOdo change this // import { Prisma } from "database";
                                                   // import PrismaClient from "../bin/database-connection.ts";
 
