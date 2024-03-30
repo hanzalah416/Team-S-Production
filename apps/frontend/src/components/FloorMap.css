@@ -1,0 +1,73 @@
+
+.mapDiv{
+    font-family: 'Inter', sans-serif;
+
+}
+
+h1{
+    padding-top: 70px;
+    color: #042D58;
+}
+
+.hmap{
+    width: 70%;
+    height: auto;
+    border: 5px solid #042D58;
+}
+
+.mapDirectory{
+    color: #042D58;
+    background-color: #F1F1F1;
+    text-align: left;
+    top: 200px;
+    left:0px;
+   position: absolute;
+}
+
+.DirectoryHeader{
+    color: #F1F1F1;
+    padding: 0;
+    margin: 0;
+    padding: 10px;
+    background-color: #042D58;
+    text-align: center;
+}
+
+li{
+    padding: 10px;
+    display: block;
+}
+
+li:hover{
+    background-color: lightgray;
+    text-decoration: underline;
+}
+.Vkey{
+    background-color: white;
+    color: #042D58;
+    position: absolute;
+    text-align: left;
+    top: 200px;
+    right: 0px;
+    padding: 0;
+}
+
+#VisitorHeader{
+    width: 150px;
+    color: #F1F1F1;
+    padding: 0;
+    margin: 0;
+    padding: 10px;
+    background-color: #042D58;
+    text-align: center;
+}
+
+.material-symbols-outlined {
+    vertical-align: bottom;
+    color: #042D58;
+    font-variation-settings:
+             'FILL' 0,
+             'wght' 400,
+             'GRAD' 0,
+             'opsz' 24
+}

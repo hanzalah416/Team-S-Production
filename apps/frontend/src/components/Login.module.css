@@ -1,0 +1,184 @@
+/* Login.module.css */
+@import url('https://fonts.googleapis.com/css2?family=Jaldi:wght@400;700&display=swap');
+
+.title {
+
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 60px;
+    line-height: 250px;
+    color: White;
+    translate: 0 20px;
+    margin-bottom: 0; /* Space between title and form */
+}
+
+.inputRow {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    gap: 40px; /* Space between the two inputs */
+}
+
+.cb {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 2px;
+    color: white;
+    margin: 5px 480px;
+}
+
+
+.h3 {
+    font-size: 18px;
+    color: white;
+    margin: 15px;
+    margin-left: 240px;
+    margin-top: -35px;
+}
+
+input[type="checkbox"] {
+    margin: 0 0;
+    padding: 0.5em;
+    border-radius: 0;
+    border: 2px solid #ced0ce;
+    outline: none;
+    width: 1em;
+    height: 1em;
+
+    color: white;
+
+}
+
+input[type="checkbox"]:checked {
+    margin: 0 0;
+    padding: 0.5em;
+    border: 1px solid #ced0ce;
+    background: #ff7f11;
+    color: white;
+
+}
+
+
+.input,
+.textarea {
+    font-family: 'Inter', sans-serif;
+    box-sizing: border-box;
+    color: #000000;
+    padding: 15px 22px;
+    background: #FBFBFB;
+    border: 1px solid #B9B9B9;
+    box-shadow: 4px 4px 9.4px rgba(0, 0, 0, 0.25);
+    border-radius: 16px;
+    margin-top: 0;
+    display: flex;
+}
+
+.input {
+    width: 400px; /* Adjust width for gap */
+}
+
+.largeTextarea {
+    width: 540px;
+    height: 142px; /* Larger height for text area */
+    margin-top: 0; /* Space below the inputs */
+}
+
+.formGroup {
+    display: flex;
+    flex-direction: column; /* Stack elements vertically */
+    align-items: center; /* Align items to the start (left) */
+    margin-bottom: 20px; /* Add space below this form group */
+}
+
+.label {
+    font-family: 'Jaldi', sans-serif;
+    font-size: 20px;
+    line-height: 41px;
+    color: #000000;
+    margin-bottom: 5px; /* Add some space between label and input */
+}
+
+
+/* Existing styles... */
+
+.buttonGroup {
+    display: flex;
+
+    flex-direction: column; /* Stack elements vertically */
+    margin-bottom: 20px; /* Add space below this form group */
+    /* Take up full width of the parent container */
+    /* Remove gap if you want the buttons to align exactly at the ends */
+}
+
+.button,
+.loginButton,
+.newAcctButton {
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 8px 18px;
+    flex: 1; /* Buttons will grow equally to fill the flex container */
+    min-width: 234px; /* Minimum width for the buttons */
+    height: 57px;
+    background: #F3F3F3;
+    border: 1px solid #B9B9B9;
+    box-shadow: 4px 4px 9.4px rgba(0, 0, 0, 0.25);
+    border-radius: 16px;
+    cursor: pointer;
+    font-family: 'Jaldi', sans-serif;
+    font-size: 24px; /* Adjusted to match your specified font styles */
+    font-weight: 900;
+    line-height: 30px;
+    text-align: center;
+    text-transform: uppercase;
+    color: #FFFFFF;
+    margin-right: 5px; /* Spacing between buttons, adjust if needed */
+}
+
+.loginButton {
+    background: linear-gradient(90deg, #9360D5 0%, #5468B1 82%);
+    color: white;
+
+    display: block;
+    margin: auto;
+    width: 320px;
+    text-align: center;
+}
+
+.newAcctButton {
+    background: linear-gradient(90deg, #9360D5 0%, #5468B1 82%);
+    color: white;
+    display: block;
+    margin: auto;
+
+    width: 320px;
+
+}
+
+
+.remember {
+    color: white;
+    text-decoration:none;
+    font-family: Jaldi, serif;
+    font-size: 18px;
+
+}
+
+
+.forgotLink {
+    color: white;
+    text-decoration:none;
+    font-family: Jaldi, serif;
+    font-size: 18px;
+}
+
+.login {
+    color: white;
+    font-family: Jaldi, serif;
+    text-decoration:none;
+}
+
+
+
