@@ -5,7 +5,7 @@ function FloorMap() {
     <div className="mapDiv">
         <div className="ImageDiv">
             <h1>Lower Level</h1>
-            <img src="assets/HospitalMap/00_thelowerlevel1.png" className={"hmap"} alt={"map"} />
+            <img src="/src/components/assets/HospitalMap/00_thelowerlevel1.png" className={"hmap"} alt={"map"} />
         </div>
         <div className="mapDirectory">
             <h2 className="DirectoryHeader">Directory</h2>

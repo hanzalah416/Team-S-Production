@@ -11,14 +11,14 @@ function NavBar() {
     return(
         <div className="navbar">
             {/* Navbar content */}
-            <img src="assets/bwh-logo.svg" className={"bwh-logo"} alt={"Brigham and Women's Hospital logo, reading " +
+            <img src="/src/components/assets/bwh-logo.svg" className={"bwh-logo"} alt={"Brigham and Women's Hospital logo, reading " +
                 "'Founding member, Mass General Brigham'"}/>
             <div className={"navButtons"}>
                 <Link to={"/order-flowers"} className={"button"} id={"order"}><b>SERVICE REQUEST</b></Link>
                 <Link to={"/floor-map"} className={"button"} id={"map"}>HOSPITAL MAP</Link>
                 <div className={"dropdown"}>
                     <button className={"profile-button"}>
-                        <img src="assets/userIcon.png" className={"userIcon"} alt={"Profile Button"}/>
+                        <img src="/src/components/assets/userIcon.png" className={"userIcon"} alt={"Profile Button"}/>
                     </button>
                     <div className={"dropdown-content"}>
                         <ul>

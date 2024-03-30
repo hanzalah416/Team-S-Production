@@ -8,7 +8,7 @@ function NavBar() {
     return(
         <div className="navbarLogin">
             {/* Navbar content */}
-            <img src="assets/bwh-logo.svg" className={"bwh-logo-login"} alt={"logo"}/>
+            <img src="/src/components/assets/bwh-logo.svg" className={"bwh-logo-login"} alt={"logo"}/>
         </div>
     );
 }
