@@ -1,6 +1,22 @@
 /* Login.module.css */
 @import url('https://fonts.googleapis.com/css2?family=Jaldi:wght@400;700&display=swap');
 
+.container{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width:100vw;
+
+}
+.signInForm{
+    width:33.33vw;
+}
+
+.slideShow{
+    width: 66.66vw;
+}
+
 .title {
 
     font-family: 'Inter', sans-serif;
@@ -19,23 +35,30 @@
     gap: 40px; /* Space between the two inputs */
 }
 
-.cb {
+.extras{
     display: flex;
-    justify-content: start;
-    align-items: center;
-    gap: 2px;
-    color: white;
-    margin: 5px 480px;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
-
-.h3 {
+.forgotPassword {
     font-size: 18px;
     color: white;
     margin: 15px;
-    margin-left: 240px;
-    margin-top: -35px;
+
 }
+
+.cb {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 2px;
+    color: white;
+    margin: 5px
+}
+
+
+
 
 input[type="checkbox"] {
     margin: 0 0;
