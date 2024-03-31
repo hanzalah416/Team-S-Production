@@ -13,6 +13,8 @@ const Login: React.FC = () => {
     navigate("/welcome");
   };
 
+
+
   return (
    <div className={styles.wholePage}>
     <div className={styles.container}>
@@ -41,7 +43,7 @@ const Login: React.FC = () => {
 
         <div className={styles.extras}>
           <div className={styles.cb}>
-            <input type="checkbox" />
+            <input type="checkbox"/>
             <label className={styles.remember}>REMEMBER ME</label>
           </div>
 
@@ -68,7 +70,7 @@ const Login: React.FC = () => {
           </div>
       </form>
         <div className={styles.slideShow}>
-            <img src="/src/components/assets/HeroPhotos/Temp1.png" className={"heroImage"} alt={"map"}/>
+            {/*<img src="/src/components/assets/HeroPhotos/Temp1.png" className={"heroImage"} alt={"map"}/>*/}
         </div>
     </div>
       </div>

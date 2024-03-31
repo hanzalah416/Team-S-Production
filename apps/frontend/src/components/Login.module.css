@@ -10,6 +10,8 @@
     left:0;
     width:100vw;
     height: 100vh;
+    min-height: 580px;
+    min-width: 700px;
 }
 .container{
     padding: 0;
@@ -19,7 +21,7 @@
     top: 100px;
     display: flex;
     flex-direction: row;
-    justify-content: flex-start;
+    justify-content: space-between;
     align-items: center;
     width:98%;
     height: calc(100% - 100px);
@@ -29,8 +31,10 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    width:33.33%;
+    width:30%;
     height:60%;
+    min-height: 300px;
+    max-height: 450px;
     background: white;
 }
 
@@ -64,6 +68,8 @@
 }
 
 .forgotPassword {
+    align-self: center;
+    justify-self: end;
     font-size: 18px;
     color: black;
     margin: 15px;
@@ -75,8 +81,9 @@
     justify-content: flex-start;
     align-items: center;
     gap: 2px;
-    color: black;
-    margin: 5px
+    color: white;
+    margin: 5px;
+
 }
 
 
@@ -86,13 +93,14 @@ input[type="checkbox"] {
     margin: 0 0;
     padding: 0.5em;
     border-radius: 0;
-    border: 2px solid black;
-    outline: none;
+   /* border: 2px solid black;*/
+    outline: black solid 1px;
     width: 1em;
     height: 1em;
-
+    fill: white;
     color: white;
-
+    background: white;
+    box-shadow: white;
 }
 
 input[type="checkbox"]:checked {
@@ -228,13 +236,18 @@ input[type="checkbox"]:checked {
     width: 66.66vw;
     height: 100vh;
     align-self: flex-end;
-
+    overflow: hidden;
+    z-index: 0;
+    background-image: url("/src/components/assets/HeroPhotos/Temp1.png");
+    background-size: cover;
+    background-position: center;
 }
 
 .heroImage{
+    display: block;
     width: auto;
-    height: 100%;
-    object-fit: cover;
+    height: 100vh;
+
 }
 
 
