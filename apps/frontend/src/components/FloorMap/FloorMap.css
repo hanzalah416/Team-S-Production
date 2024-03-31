@@ -1,90 +1,50 @@
-
-.mapDiv{
-    font-family: 'Inter', sans-serif;
-
+html, body {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    /* This ensures there's no horizontal scrolling caused by a width greater than 100% */
+    overflow-x: hidden;
+    flex-shrink: 0;
 }
 
+.floorMapContainer {
+    flex-shrink: 0;
+    display: flex;
+    width: 100%; /* Ensure it's not less than 100% */
+    margin-top: 70px; /* Adjust if you have a navbar */
+    height: calc(100vh - 70px); /* Full viewport height minus the navbar */
+    /* Remove overflow-x if you don't want to hide the horizontal scroll */
+    overflow-x: hidden;
+}
+
+
+
+.sidebar {
+    color: black;
+    flex-shrink: 0;
+    width: 300px; /* Adjust to your sidebar's width */
+    background-color: #F1F1F1;
+    padding: 20px;
+    height: 94%;
+    /* No need for position absolute here */
+}
+
+.mapArea {
+    flex-grow: 1; /* Takes up the rest of the horizontal space */
+    height: calc(100vh - 70px); /* Full viewport height minus the navbar */
+    position: relative; /* Establishes a new positioning context */
+}
 
 .hmap-container {
-    width: 70%;
-    height: auto;
-    border: 5px solid #042D58;
-    transform: translateZ(0);
-    margin: 0 auto;  /* Center horizontally */
+    width: 100%; /* Ensures the container fills the .mapArea */
+    height: 100%; /* Ensures the container has the full height of .mapArea */
 }
 
-
-
-.ImageDiv img {
-    /* Remove styles from the image tag */
-    width: 100%;
-    height: auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;  /* Optional for vertical centering */
-}
-
-
-h1{
-    padding-top: 70px;
-    color: #042D58;
-}
-
-
-
-.mapDirectory{
-    color: #042D58;
-    background-color: #F1F1F1;
-    text-align: left;
-    top: 200px;
-    left:0px;
-   position: absolute;
-}
-
-.DirectoryHeader{
-    color: #F1F1F1;
-    padding: 0;
-    margin: 0;
-    padding: 10px;
-    background-color: #042D58;
-    text-align: center;
-}
-
-li{
-    padding: 10px;
-    display: block;
-}
-
-li:hover{
-    background-color: lightgray;
-    text-decoration: underline;
-}
-.Vkey{
-    background-color: white;
-    color: #042D58;
-    position: absolute;
-    text-align: left;
-    top: 200px;
-    right: 0px;
-    padding: 0;
-}
-
-#VisitorHeader{
-    width: 150px;
-    color: #F1F1F1;
-    padding: 0;
-    margin: 0;
-    padding: 10px;
-    background-color: #042D58;
-    text-align: center;
-}
-
-.material-symbols-outlined {
-    vertical-align: bottom;
-    color: #042D58;
-    font-variation-settings:
-             'FILL' 0,
-             'wght' 400,
-             'GRAD' 0,
-             'opsz' 24
+.hmap-image {
+    width: 100%; /* The image will fill the width of its container */
+    height: 100%; /* Maintains the image's aspect ratio */
+     /* Ensures the image covers the available space */
+     /* Positions the image absolutely within .hmap-container */
+    top: 0; /* Aligns the image to the top of .hmap-container */
+    right: 0; /* Aligns the image to the right of .hmap-container */
 }

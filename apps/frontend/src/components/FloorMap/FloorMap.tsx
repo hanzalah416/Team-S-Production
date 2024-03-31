@@ -1,65 +1,55 @@
 import React from 'react';
 import './FloorMap.css';
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
+import Autocomplete from '@mui/material/Autocomplete';
+import TextField from '@mui/material/TextField';
 
 function FloorMap() {
+    // Replace this with your actual data from the database
+    const locations = [
+        { label: 'Location 1', id: 1 },
+        { label: 'Location 2', id: 2 },
+        { label: 'Location 3', id: 3 },
+        // ...more locations
+    ];
+
     return (
-        <div className="mapDiv">
-            <div className="ImageDiv">
-                <h1>Lower Level</h1>
-                <div className="hmap-container">  {/* New container div */}
-                    <TransformWrapper>
-                        <TransformComponent>
-                            <img
-                                src="/src/components/assets/HospitalMap/00_thelowerlevel1.png"
-                                alt="map"
-                                className="hmap-image"
-                            />
-                        </TransformComponent>
-                    </TransformWrapper>
-                </div>
+
+        <div className="floorMapContainer">
+            <div className="sidebar">
+                <div>Enter Starting Point</div>
+                <Autocomplete
+                    disablePortal
+                    options={locations}
+                    getOptionLabel={(option) => option.label}
+                    renderInput={(params) => <TextField {...params} label="Enter Starting Point"/>}
+
+                />
+                <div>Enter Destination</div>
+                <Autocomplete
+                    disablePortal
+                    options={locations}
+                    getOptionLabel={(option) => option.label}
+                    renderInput={(params) => <TextField {...params} label="Enter Destination"/>}
+
+                />
+                <div>Directions</div>
             </div>
-            <div className="mapDirectory">
-                <h2 className="DirectoryHeader">Directory</h2>
-                <ul className="DirectoryList">
-                    <li>Amenities</li>
-                    <li>Clinics / Departments</li>
-                    <li>Meeting / Conference Rooms</li>
-                    <li>Patient Rooms</li>
-                    <li>Radiology</li>
-                    <li>Services</li>
-                </ul>
-            </div>
-            <div className="Vkey">
-                <link rel="stylesheet"
-                      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
-                <link rel="stylesheet"
-                      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
-                <link rel="stylesheet"
-                      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
-                <link rel="stylesheet"
-                      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
-                <link rel="stylesheet"
-                      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
-                <h2 id="VisitorHeader">Visitor Key</h2>
-                <ul id="VisitorList">
-                    <li>
-                        <span className="material-symbols-outlined">wc</span>
-                        Restroom
-                    </li>
-                    <li>
-                        <span className="material-symbols-outlined">local_atm</span>
-                        ATM
-                    </li>
-                    <li>
-                        <span className="material-symbols-outlined">stairs</span>
-                        Stairs
-                    </li>
-                    <li>
-                        <span className="material-symbols-outlined">elevator</span>
-                        Elevator
-                    </li>
-                </ul>
+            <div className="mapArea">
+                <TransformWrapper
+                        // initialScale={1.5} // Adjust this value to set the initial zoom level
+                        // initialPositionX={-100} // Adjust this value to set the initial X position
+                        // initialPositionY={-50} // Adjust this value to set the initial Y position
+                    //did this so we can focus on the parts of the map that are going to have pathfinding on them, still can zoom out
+                >
+                    <TransformComponent>
+                        <img
+                            src="/src/components/assets/HospitalMap/00_thelowerlevel1.png"
+                            alt="map"
+                            className="hmap-image"
+                        />
+                    </TransformComponent>
+                </TransformWrapper>
             </div>
         </div>
     );
