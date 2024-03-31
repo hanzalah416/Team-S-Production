@@ -19,7 +19,7 @@ function App() {
             children: [
 
                 { path: '/', element:<><Login/><LayoutLogin/></> },
-                { path: '/create-account', element:<><CreateAccount/><LayoutLogin/></> },
+                { path: '/create-account', element:<><CreateAccount/></> },
                 { path: '/welcome', element:<><Welcome/><Layout/></> },
                 { path: '/order-flowers', element: <><OrderFlowers /><Layout/></> },
                 { path: 'payment-info', element: <><OrderPayment /><Layout/></> },

@@ -41,8 +41,9 @@ const CreateAccount: React.FC = () => {
 
         <body>
         <div>
+            <img src="/src/components/assets/bwh-logo.svg"/>
             <h2 className={styles.title}>Create Account</h2>
-            <form onSubmit = {handleSubmit}>
+            <form onSubmit={handleSubmit}>
                 <div className={styles.formGroup}>
                     <h2 className={styles.header}>Email</h2>
                     <input
@@ -89,10 +90,11 @@ const CreateAccount: React.FC = () => {
             </form>
             <div className={styles.buttonGroup}>
                 <button className={`${styles.button} ${styles.backButton}`} type="button" onClick={handleBack}>
-                   Back
+                    Back
                 </button>
-                <button className={`${styles.button} ${styles.reviewButton}`} type="button" onClick={handleCreateAccount}>
-                   Create Account
+                <button className={`${styles.button} ${styles.reviewButton}`} type="button"
+                        onClick={handleCreateAccount}>
+                    Create Account
                 </button>
 
 
