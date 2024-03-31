@@ -1,6 +1,16 @@
 /* Login.module.css */
 @import url('https://fonts.googleapis.com/css2?family=Jaldi:wght@400;700&display=swap');
 
+.wholePage{
+    background: white;
+    position: absolute;
+    padding: 0;
+    margin: 0;
+    top:0;
+    left:0;
+    width:100vw;
+    height: 100vh;
+}
 .container{
     padding: 0;
     margin: 0;
@@ -24,9 +34,7 @@
     background: white;
 }
 
-.slideShow{
-    width: 66.66%;
-}
+
 
 .title {
     flex:1;
@@ -214,6 +222,19 @@ input[type="checkbox"]:checked {
     color: white;
     font-family: Jaldi, serif;
     text-decoration:none;
+}
+
+.slideShow{
+    width: 66.66vw;
+    height: 100vh;
+    align-self: flex-end;
+
+}
+
+.heroImage{
+    width: auto;
+    height: 100%;
+    object-fit: cover;
 }
 
 

@@ -13,12 +13,8 @@ const Login: React.FC = () => {
     navigate("/welcome");
   };
 
-  // const handleCreateAccount = () => {
-  //   // You may want to validate or process data here before navigating
-  //   navigate("/create-account");
-  // };
-
   return (
+   <div className={styles.wholePage}>
     <div className={styles.container}>
       <form className={styles.signInForm}>
         <h2 className={styles.title}>Sign in</h2>
@@ -69,19 +65,13 @@ const Login: React.FC = () => {
               <p className={styles.forgotPassword}>
                   Don't have an account? <Link to={"/create-account"}> Sign Up</Link>
               </p>
-              {/*<div className={styles.buttonGroup}>
-            <button
-              className={`${styles.button} ${styles.newAcctButton}`}
-              type="button"
-              onClick={handleCreateAccount}
-            >
-              Create Account
-            </button>
-          </div>*/}
           </div>
       </form>
-        <div className={styles.slideShow}></div>
+        <div className={styles.slideShow}>
+            <img src="/src/components/assets/HeroPhotos/Temp1.png" className={"heroImage"} alt={"map"}/>
+        </div>
     </div>
+      </div>
   );
 };
 
