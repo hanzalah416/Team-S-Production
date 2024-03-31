@@ -38,44 +38,50 @@ const CreateAccount: React.FC = () => {
     };
 
     return (
-        <div className = {styles.container}>
+
+        <body>
+        <div>
             <h2 className={styles.title}>Create Account</h2>
             <form onSubmit = {handleSubmit}>
                 <div className={styles.formGroup}>
+                    <h2 className={styles.header}>Email</h2>
                     <input
                         className={styles.input}
                         type="text"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        placeholder="Email"
+                        placeholder="Enter your email"
                     />
                 </div>
                 <div className={styles.formGroup}>
+                    <h2 className={styles.header}>Username</h2>
                     <input
                         className={styles.input}
                         type="text"
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
-                        placeholder="Username"
+                        placeholder="Enter your username"
                     />
                 </div>
 
                 <div className={styles.formGroup}>
+                    <h2 className={styles.header}>Password</h2>
                     <input
                         className={styles.input}
                         type="text"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        placeholder="Password"
+                        placeholder="Enter your password"
                     />
                 </div>
                 <div className={styles.formGroup}>
+                    <h2 className={styles.header}>Confirm Password</h2>
                     <input
                         className={styles.input}
                         type="text"
                         value={passwordAgain}
                         onChange={(e) => setPasswordAgain(e.target.value)}
-                        placeholder="Retype Password"
+                        placeholder="Retype your assword"
                     />
                 </div>
 
@@ -92,6 +98,7 @@ const CreateAccount: React.FC = () => {
 
             </div>
         </div>
+        </body>
     );
 };
 export default CreateAccount;
