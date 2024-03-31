@@ -1,53 +1,106 @@
 /* Login.module.css */
 @import url('https://fonts.googleapis.com/css2?family=Jaldi:wght@400;700&display=swap');
 
-.title {
+.wholePage{
+    background: white;
+    position: absolute;
+    padding: 0;
+    margin: 0;
+    top:0;
+    left:0;
+    width:100vw;
+    height: 100vh;
+    min-height: 580px;
+    min-width: 700px;
+}
+.container{
+    padding: 0;
+    margin: 0;
+    position: absolute;
+    left:2%;
+    top: 100px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width:98%;
+    height: calc(100% - 100px);
 
+}
+.signInForm{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width:30%;
+    height:60%;
+    min-height: 300px;
+    max-height: 450px;
+    background: white;
+}
+
+
+
+.title {
+    flex:1;
+    align-self: flex-start;
     font-family: 'Inter', sans-serif;
-    font-weight: 700;
-    font-size: 60px;
-    line-height: 250px;
-    color: White;
-    translate: 0 20px;
+    font-weight: 500;
+    font-size: 32px;
+    text-align: center;
+
+    color: Black;
     margin-bottom: 0; /* Space between title and form */
 }
 
 .inputRow {
+    flex:1;
     display: flex;
     justify-content: center;
     width: 100%;
     gap: 40px; /* Space between the two inputs */
 }
 
+.extras{
+    flex:1;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.forgotPassword {
+    align-self: center;
+    justify-self: end;
+    font-size: 18px;
+    color: black;
+    margin: 15px;
+
+}
+
 .cb {
     display: flex;
-    justify-content: start;
+    justify-content: flex-start;
     align-items: center;
     gap: 2px;
     color: white;
-    margin: 5px 480px;
+    margin: 5px;
+
 }
 
 
-.h3 {
-    font-size: 18px;
-    color: white;
-    margin: 15px;
-    margin-left: 240px;
-    margin-top: -35px;
-}
+
 
 input[type="checkbox"] {
     margin: 0 0;
     padding: 0.5em;
     border-radius: 0;
-    border: 2px solid #ced0ce;
-    outline: none;
+   /* border: 2px solid black;*/
+    outline: black solid 1px;
     width: 1em;
     height: 1em;
-
+    fill: white;
     color: white;
-
+    background: white;
+    box-shadow: white;
 }
 
 input[type="checkbox"]:checked {
@@ -75,7 +128,7 @@ input[type="checkbox"]:checked {
 }
 
 .input {
-    width: 400px; /* Adjust width for gap */
+    width: 100%; /* Adjust width for gap */
 }
 
 .largeTextarea {
@@ -138,12 +191,11 @@ input[type="checkbox"]:checked {
 }
 
 .loginButton {
-    background: linear-gradient(90deg, #9360D5 0%, #5468B1 82%);
+    background: #289BA5;
     color: white;
-
     display: block;
     margin: auto;
-    width: 320px;
+    width: 100%;
     text-align: center;
 }
 
@@ -159,7 +211,7 @@ input[type="checkbox"]:checked {
 
 
 .remember {
-    color: white;
+    color: black;
     text-decoration:none;
     font-family: Jaldi, serif;
     font-size: 18px;
@@ -168,7 +220,7 @@ input[type="checkbox"]:checked {
 
 
 .forgotLink {
-    color: white;
+    color: black;
     text-decoration:none;
     font-family: Jaldi, serif;
     font-size: 18px;
@@ -178,6 +230,24 @@ input[type="checkbox"]:checked {
     color: white;
     font-family: Jaldi, serif;
     text-decoration:none;
+}
+
+.slideShow{
+    width: 66.66vw;
+    height: 100vh;
+    align-self: flex-end;
+    overflow: hidden;
+    z-index: 0;
+    background-image: url("/src/components/assets/HeroPhotos/Temp1.png");
+    background-size: cover;
+    background-position: center;
+}
+
+.heroImage{
+    display: block;
+    width: auto;
+    height: 100vh;
+
 }
 
 
