@@ -3,6 +3,7 @@ import path from "path";
 
 function readCSVFile(fileName: string): string[][] {
   const filePath = path.join(__dirname, "..", "csv_folder", fileName);
+
   try {
     const data = fs.readFileSync(filePath, "utf-8");
     return data
