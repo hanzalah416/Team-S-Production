@@ -1,4 +1,3 @@
-
 // import {Link} from "react-router-dom";
 import React, {useState} from "react";
 import styles from "./CreateAccount.module.css";
@@ -23,7 +22,7 @@ const CreateAccount: React.FC = () => {
 
     const handleCreateAccount = () => {
         // You may want to validate or process data here before navigating
-        if (isSamePasswords() && password!= "" && passwordAgain!= "" && username!= "" && email!= "" ){
+        if (isSamePasswords() && password != "" && passwordAgain != "" && username != "" && email != "") {
             navigate('/welcome');
         } else {
             throw new Error("Passwords don't match");
