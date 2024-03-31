@@ -10,7 +10,7 @@
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
-    align-items: flex-start;
+    align-items: center;
     width:98%;
     height: calc(100% - 100px);
 
@@ -20,7 +20,8 @@
     flex-direction: column;
     justify-content: center;
     width:33.33%;
-    height:100%
+    height:60%;
+    background: white;
 }
 
 .slideShow{
@@ -28,16 +29,19 @@
 }
 
 .title {
+    flex:1;
     align-self: flex-start;
     font-family: 'Inter', sans-serif;
-    font-weight: 700;
-    font-size: 10vh;
-    line-height: 20vh;
-    color: White;
+    font-weight: 500;
+    font-size: 32px;
+    text-align: center;
+
+    color: Black;
     margin-bottom: 0; /* Space between title and form */
 }
 
 .inputRow {
+    flex:1;
     display: flex;
     justify-content: center;
     width: 100%;
@@ -45,6 +49,7 @@
 }
 
 .extras{
+    flex:1;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -52,7 +57,7 @@
 
 .forgotPassword {
     font-size: 18px;
-    color: white;
+    color: black;
     margin: 15px;
 
 }
@@ -62,7 +67,7 @@
     justify-content: flex-start;
     align-items: center;
     gap: 2px;
-    color: white;
+    color: black;
     margin: 5px
 }
 
@@ -73,7 +78,7 @@ input[type="checkbox"] {
     margin: 0 0;
     padding: 0.5em;
     border-radius: 0;
-    border: 2px solid #ced0ce;
+    border: 2px solid black;
     outline: none;
     width: 1em;
     height: 1em;
@@ -170,12 +175,11 @@ input[type="checkbox"]:checked {
 }
 
 .loginButton {
-    background: linear-gradient(90deg, #9360D5 0%, #5468B1 82%);
+    background: #289BA5;
     color: white;
-
     display: block;
     margin: auto;
-    width: 320px;
+    width: 100%;
     text-align: center;
 }
 
@@ -191,7 +195,7 @@ input[type="checkbox"]:checked {
 
 
 .remember {
-    color: white;
+    color: black;
     text-decoration:none;
     font-family: Jaldi, serif;
     font-size: 18px;
@@ -200,7 +204,7 @@ input[type="checkbox"]:checked {
 
 
 .forgotLink {
-    color: white;
+    color: black;
     text-decoration:none;
     font-family: Jaldi, serif;
     font-size: 18px;
