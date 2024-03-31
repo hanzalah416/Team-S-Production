@@ -2,29 +2,38 @@
 @import url('https://fonts.googleapis.com/css2?family=Jaldi:wght@400;700&display=swap');
 
 .container{
+    padding: 0;
+    margin: 0;
+    position: absolute;
+    left:2%;
+    top: 100px;
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
     align-items: flex-start;
-    width:100vw;
+    width:98%;
+    height: calc(100% - 100px);
 
 }
 .signInForm{
-    width:33.33vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width:33.33%;
+    height:100%
 }
 
 .slideShow{
-    width: 66.66vw;
+    width: 66.66%;
 }
 
 .title {
-
+    align-self: flex-start;
     font-family: 'Inter', sans-serif;
     font-weight: 700;
-    font-size: 60px;
-    line-height: 250px;
+    font-size: 10vh;
+    line-height: 20vh;
     color: White;
-    translate: 0 20px;
     margin-bottom: 0; /* Space between title and form */
 }
 
@@ -98,7 +107,7 @@ input[type="checkbox"]:checked {
 }
 
 .input {
-    width: 400px; /* Adjust width for gap */
+    width: 100%; /* Adjust width for gap */
 }
 
 .largeTextarea {
