@@ -17,8 +17,6 @@ html, body {
     overflow-x: hidden;
 }
 
-
-
 .sidebar {
     color: black;
     flex-shrink: 0;
@@ -47,4 +45,14 @@ html, body {
      /* Positions the image absolutely within .hmap-container */
     top: 0; /* Aligns the image to the top of .hmap-container */
     right: 0; /* Aligns the image to the right of .hmap-container */
+}
+
+
+.map-dot {
+    position: absolute; /* Position the dots absolutely within the TransformComponent */
+    width: 5px; /* Adjust the size of the dot */
+    height: 5px; /* Adjust the size of the dot */
+    background-color: red; /* Adjust the color of the dot */
+    border-radius: 50%; /* Make the dot circular */
+    transform: translate(-50%, -50%); /* Center the dot on its position */
 }

@@ -1,20 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './FloorMap.css';
-import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
+import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 
 function FloorMap() {
-    // Replace this with your actual data from the database
     const locations = [
-        { label: 'Location 1', id: 1 },
-        { label: 'Location 2', id: 2 },
-        { label: 'Location 3', id: 3 },
-        // ...more locations
+        { label: 'Location 1', id: 1, top: '20%', left: '30%' },
+        { label: 'Location 2', id: 2, top: '50%', left: '60%' },
+        { label: 'Location 3', id: 3, top: '40%', left: '70%' },
     ];
 
-    return (
+    const [startPosition, setStartPosition] = useState({ top: '0%', left: '0%' });
+    const [endPosition, setEndPosition] = useState({ top: '0%', left: '0%' });
 
+    return (
         <div className="floorMapContainer">
             <div className="sidebar">
                 <div>Enter Starting Point</div>
@@ -22,32 +22,29 @@ function FloorMap() {
                     disablePortal
                     options={locations}
                     getOptionLabel={(option) => option.label}
-                    renderInput={(params) => <TextField {...params} label="Enter Starting Point"/>}
-
+                    renderInput={(params) => <TextField {...params} label="Enter Starting Point" />}
+                    onChange={(event, value) => setStartPosition({ top: value.top, left: value.left })}
                 />
                 <div>Enter Destination</div>
                 <Autocomplete
                     disablePortal
                     options={locations}
                     getOptionLabel={(option) => option.label}
-                    renderInput={(params) => <TextField {...params} label="Enter Destination"/>}
-
+                    renderInput={(params) => <TextField {...params} label="Enter Destination" />}
+                    onChange={(event, value) => setEndPosition({ top: value.top, left: value.left })}
                 />
                 <div>Directions</div>
             </div>
             <div className="mapArea">
-                <TransformWrapper
-                        // initialScale={1.5} // Adjust this value to set the initial zoom level
-                        // initialPositionX={-100} // Adjust this value to set the initial X position
-                        // initialPositionY={-50} // Adjust this value to set the initial Y position
-                    //did this so we can focus on the parts of the map that are going to have pathfinding on them, still can zoom out
-                >
+                <TransformWrapper>
                     <TransformComponent>
                         <img
                             src="/src/components/assets/HospitalMap/00_thelowerlevel1.png"
                             alt="map"
                             className="hmap-image"
                         />
+                        <div className="map-dot" style={{ ...startPosition, backgroundColor: 'red' }}></div> {/* Start position */}
+                        <div className="map-dot" style={{ ...endPosition, backgroundColor: 'blue' }}></div> {/* End position */}
                     </TransformComponent>
                 </TransformWrapper>
             </div>
