@@ -2642,6 +2642,7 @@ const RAW_RUNTIME_STATE =
           ["@types/supertest", "npm:2.0.16"],\
           ["common", "workspace:packages/common"],\
           ["cookie-parser", "npm:1.4.6"],\
+          ["csv-writer", "npm:1.6.0"],\
           ["database", "workspace:packages/database"],\
           ["eslint", "npm:8.56.0"],\
           ["eslint-config-custom", "workspace:configs/eslint-config-custom"],\
@@ -3332,6 +3333,15 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/csstype-npm-3.1.3-e9a1c85013-f593cce41f.zip/node_modules/csstype/",\
         "packageDependencies": [\
           ["csstype", "npm:3.1.3"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["csv-writer", [\
+      ["npm:1.6.0", {\
+        "packageLocation": "./.yarn/cache/csv-writer-npm-1.6.0-c64e586af4-01ae6eb065.zip/node_modules/csv-writer/",\
+        "packageDependencies": [\
+          ["csv-writer", "npm:1.6.0"]\
         ],\
         "linkType": "HARD"\
       }]\

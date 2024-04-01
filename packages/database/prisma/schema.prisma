@@ -1,3 +1,4 @@
+
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
@@ -54,6 +55,8 @@ model FlowerRequests {
   patientName   String
   PatientRoom   Int
   customMessage String?
-  userID        Int
+  userID        String
   user          hospitalUser @relation(fields: [userID], references: [userID])
 }
+
+Done in 0.15s.
