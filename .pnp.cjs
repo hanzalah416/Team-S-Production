@@ -4052,12 +4052,20 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-
     ["csv-parse", [\
       ["npm:5.5.5", {\
         "packageLocation": "./.yarn/cache/csv-parse-npm-5.5.5-db6ed28c6c-759ca2e5f3.zip/node_modules/csv-parse/",\
         "packageDependencies": [\
           ["csv-parse", "npm:5.5.5"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["csv-writer", [\
+      ["npm:1.6.0", {\
+        "packageLocation": "./.yarn/cache/csv-writer-npm-1.6.0-c64e586af4-01ae6eb065.zip/node_modules/csv-writer/",\
+        "packageDependencies": [\
+          ["csv-writer", "npm:1.6.0"]\
         ],\
         "linkType": "HARD"\
       }]\
