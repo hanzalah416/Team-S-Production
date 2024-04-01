@@ -12,7 +12,7 @@ export const sendLocationData = (startId: string, endId: string): Promise<ApiRes
 
     console.log('Sending POST request with payload:', JSON.stringify(payload));
 
-    return fetch('YOUR_DATABASE_ENDPOINT', {
+    return fetch('YOUR_BACKEND_ENDPOINT', { // Replace 'YOUR_BACKEND_ENDPOINT' with your actual backend endpoint
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
