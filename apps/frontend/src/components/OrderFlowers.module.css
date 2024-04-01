@@ -121,7 +121,7 @@ body {
   flex-wrap: wrap;
 }
 
-.item,
+.button,
 .backButton,
 .reviewButton {
   box-sizing: border-box;
@@ -162,10 +162,10 @@ body {
 }
 
 /* Make sure this selector is specific enough to override any other styles applied to .button */
-.item:last-child {
+.button:last-child {
   margin-right: 0;
 }
-.item:first-child {
+.button:first-child {
   margin-left: 0;
 }
 
@@ -192,12 +192,12 @@ body {
     margin: 0 auto; /* Center the input/textarea horizontally */
   }
 
-  .item {
+  .button {
     max-width: 100%; /* Allow buttons to expand to the full width */
   }
 
   /* If you have set margins that may affect centering, adjust them here */
-  .item,
+  .button,
   .backButton,
   .reviewButton {
     margin: 0.5rem auto; /* Center buttons horizontally and add some vertical space */
