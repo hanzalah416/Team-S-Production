@@ -1,5 +1,5 @@
 import { PrismaClient } from "../../../packages/database/.prisma/client";
-import createCsvFile from "prisma/WriteCSV.ts";
+import createCsvFile from "./WriteCSV.ts";
 
 const prisma = new PrismaClient();
 

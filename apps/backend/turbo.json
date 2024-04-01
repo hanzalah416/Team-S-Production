@@ -7,7 +7,7 @@
       "env": ["PORT"]
     },
     "deploy": {
-      "env": ["PORT"]
+      "env": ["PORT", "BACKEND_PORT"]
     }
   }
 }

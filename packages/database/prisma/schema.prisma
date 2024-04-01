@@ -40,3 +40,20 @@ model NodeEdge {
 
   @@id([startNodeID, endNodeID])
 }
+
+model hospitalUser {
+  userID         Int              @id @default(autoincrement())
+  userEmail      String
+  userName       String
+  userPassword   String
+  flowerRequests FlowerRequests[]
+}
+
+model FlowerRequests {
+  flowerID      Int          @id @default(autoincrement())
+  patientName   String
+  PatientRoom   Int
+  customMessage String?
+  userID        Int
+  user          hospitalUser @relation(fields: [userID], references: [userID])
+}
