@@ -2,9 +2,9 @@ import express, { Router, Request, Response } from "express";
 import { Prisma } from "database";
 import PrismaClient from "../bin/database-connection.ts";
 
-const router2: Router = express.Router();
+const router: Router = express.Router();
 
-router2.post("/", async function (req: Request, res: Response) {
+router.post("/", async function (req: Request, res: Response) {
   const hospitalUserAttempt: Prisma.hospitalUserCreateInput = req.body;
   // Attempt to save the high score
   try {
@@ -25,7 +25,7 @@ router2.post("/", async function (req: Request, res: Response) {
 
 // Whenever a get request is made, return the high score
 // The only thing that should be getting is the Username
-router2.get("/", async function (req: Request, res: Response) {
+router.get("/", async function (req: Request, res: Response) {
   // Fetch the Username of the current users
   // might want to put try and catch in later on
   let userID: string | undefined = undefined;
@@ -59,4 +59,4 @@ router2.get("/", async function (req: Request, res: Response) {
   }
 });
 
-export default router2;
+export default router;

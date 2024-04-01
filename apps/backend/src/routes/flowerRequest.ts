@@ -2,10 +2,10 @@ import express, { Router, Request, Response } from "express";
 import { Prisma } from "database";
 import PrismaClient from "../bin/database-connection.ts";
 
-const router1: Router = express.Router();
+const router: Router = express.Router();
 
 // HTTP protocol
-router1.post("/", async function (req: Request, res: Response) {
+router.post("/", async function (req: Request, res: Response) {
   const flowerRequestAttempt: Prisma.FlowerRequestsCreateInput = req.body;
   // Attempt to save the high score
   try {
@@ -25,7 +25,7 @@ router1.post("/", async function (req: Request, res: Response) {
 });
 
 // Whenever a get request is made, return the high score
-router1.get("/", async function (req: Request, res: Response) {
+router.get("/", async function (req: Request, res: Response) {
   // Fetch the PatientName and PatientRoom from Prisma
   const flowerRequest = await PrismaClient.flowerRequests.findMany({
     select: {
@@ -45,4 +45,4 @@ router1.get("/", async function (req: Request, res: Response) {
   }
 });
 
-export default router1;
+export default router;

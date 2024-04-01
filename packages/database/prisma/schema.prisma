@@ -58,5 +58,3 @@ model FlowerRequests {
   userID        String
   user          hospitalUser @relation(fields: [userID], references: [userID])
 }
-
-Done in 0.15s.
