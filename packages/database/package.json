@@ -7,12 +7,13 @@
   "browser": "./src/index.ts",
   "module": "true",
   "devDependencies": {
+    "@types/node": "^20.12.2",
     "eslint": "latest",
     "eslint-config-custom": "workspace:*",
     "prettier": "latest",
     "prettier-config-custom": "workspace:*",
     "tsconfig-custom": "workspace:*",
-    "typescript": "^5.0.4",
+    "typescript": "^5.4.3",
     "vitest": "^0.34.1"
   },
   "scripts": {
@@ -31,7 +32,8 @@
     "@prisma/client": "4.15.0",
     "prisma": "4.15.0"
   },
+  "type": "module",
   "prisma": {
-    "seed": "ts-node prisma/seed.ts"
+    "seed": "node prisma/seed.js"
   }
 }
