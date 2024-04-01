@@ -1,13 +1,27 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./Login.module.css";
 import {Link, useNavigate} from "react-router-dom";
 
 const Login: React.FC = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-
   const navigate = useNavigate();
+  const [backgroundImage, setBackgroundImage] = useState<string>(
+      "/src/components/assets/HeroPhotos/Temp1.png"
+  );
 
+  useEffect(() => {
+      const imageUrls = [
+          "/src/components/assets/HeroPhotos/Temp1.png",
+          "/src/components/assets/HeroPhotos/Temp2.png",
+          "/src/components/assets/HeroPhotos/Temp3.png",
+
+
+      ];
+      const randomImageUrl =
+        imageUrls[Math.floor(imageUrls.length * Math.random())];
+       setBackgroundImage(`url(${randomImageUrl})`);
+  }, []);
   const handleLogin = () => {
     // You may want to validate or process data here before navigating
     navigate("/welcome");
@@ -69,7 +83,9 @@ const Login: React.FC = () => {
               </p>
           </div>
       </form>
-        <div className={styles.slideShow}>
+        <div className={styles.slideShow}
+        style={{ backgroundImage: backgroundImage }}
+        >
             {/*<img src="/src/components/assets/HeroPhotos/Temp1.png" className={"heroImage"} alt={"map"}/>*/}
         </div>
     </div>
