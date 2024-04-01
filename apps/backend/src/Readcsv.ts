@@ -1,18 +1,15 @@
 import fs from "fs";
-import path from "path";
 
-function readCSVFile(fileName: string): string[][] {
-  const filePath = path.join(__dirname, "..", "csv_folder", fileName);
-
+function readCSV(filePath: string): Array<Array<string>> {
   try {
     const data = fs.readFileSync(filePath, "utf-8");
     return data
       .split("\r\n")
-      .slice(1, -1) // Remove the first row and the last row
-      .map((row: string) => row.split(","));
-  } catch (err) {
-    console.error(err);
-    return [[]];
+      .slice(1, -1)
+      .map((line) => line.split(","));
+  } catch (error) {
+    console.error(error);
+    return [];
   }
 }
-export default readCSVFile;
+export default readCSV;

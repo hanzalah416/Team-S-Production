@@ -7,6 +7,9 @@ console.log(process.env.FRONTEND_PORT);
 export default defineConfig({
   resolve: {
     preserveSymlinks: true,
+      alias: {
+          '@mui/material': '@mui/material',
+      },
   },
   server: {
     host: "0.0.0.0",
