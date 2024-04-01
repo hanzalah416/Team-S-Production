@@ -1621,6 +1621,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/papaparse@npm:^5.3.14":
+  version: 5.3.14
+  resolution: "@types/papaparse@npm:5.3.14"
+  dependencies:
+    "@types/node": "npm:*"
+  checksum: 9bd5cc0e6a2c02def6c8903dc4604e499907cb465186ed3532390468082a06f023adbac0216428d0d8e8fe017206780a03d20007041e9fed47c8d391cd69a536
+  languageName: node
+  linkType: hard
+
 "@types/parse-json@npm:^4.0.0":
   version: 4.0.2
   resolution: "@types/parse-json@npm:4.0.2"
@@ -3182,6 +3191,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"csv-parse@npm:^5.5.5":
+  version: 5.5.5
+  resolution: "csv-parse@npm:5.5.5"
+  checksum: 759ca2e5f3977cac7cbf3b1992dd507c6dd458163ab60671e7959d7aefd5b367d7043db65d55ed77ec56aeba2ecfa0881a2c416a44341edcfd266c3d29a424f0
+  languageName: node
+  linkType: hard
+
 "database@workspace:*, database@workspace:packages/database":
   version: 0.0.0-use.local
   resolution: "database@workspace:packages/database"
@@ -4192,6 +4208,7 @@ __metadata:
     "@tanstack/react-table": "npm:^8.9.3"
     "@types/bootstrap": "npm:^5.2.6"
     "@types/node": "npm:^20.2.5"
+    "@types/papaparse": "npm:^5.3.14"
     "@types/prop-types": "npm:^15.7.5"
     "@types/react": "npm:^18.0.37"
     "@types/react-bootstrap": "npm:^0.32.32"
@@ -4203,6 +4220,7 @@ __metadata:
     axios: "npm:^1.4.0"
     bootstrap: "npm:^5.2.3"
     common: "workspace:*"
+    csv-parse: "npm:^5.5.5"
     database: "workspace:*"
     eslint: "npm:latest"
     eslint-config-custom: "workspace:*"
@@ -4210,6 +4228,7 @@ __metadata:
     eslint-plugin-react-refresh: "npm:^0.4.1"
     localforage: "npm:^1.10.0"
     match-sorter: "npm:^6.3.1"
+    papaparse: "npm:^5.4.1"
     postcss: "npm:^8.4.35"
     prettier: "npm:latest"
     prettier-config-custom: "workspace:*"
@@ -5703,6 +5722,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"papaparse@npm:^5.4.1":
+  version: 5.4.1
+  resolution: "papaparse@npm:5.4.1"
+  checksum: 5e6dc978187182ad2efa1d264ffe73d2042cd23b8fb1dcb0b0f5c8c7c772c11e3eb4e166fb0893880ed24529a96abe9065d704cc5b4cb96abf037413cfe43788
+  languageName: node
+  linkType: hard
+
 "parent-module@npm:^1.0.0":
   version: 1.0.1
   resolution: "parent-module@npm:1.0.1"
@@ -7006,6 +7032,7 @@ __metadata:
   resolution: "softeng-starter-code@workspace:."
   dependencies:
     "@mui/types": "npm:^7.2.14"
+    "@types/papaparse": "npm:^5.3.14"
     "@types/react": "npm:^18.0.37"
     "@types/react-dom": "npm:^18.0.11"
     "@vitest/ui": "npm:^0.33.0"
@@ -7016,6 +7043,7 @@ __metadata:
     eslint-config-custom: "workspace:*"
     happy-dom: "npm:^10.6.3"
     husky: "npm:^8.0.0"
+    papaparse: "npm:^5.4.1"
     prettier: "npm:2.8.8"
     prettier-config-custom: "workspace:*"
     react: "npm:^18.2.0"

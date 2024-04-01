@@ -1,35 +1,80 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './FloorMap.module.css';
 import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
-import { Box } from "@mui/material";
+import { Box } from '@mui/material';
+import { parse } from 'csv-parse/browser/esm/sync';
+import { sendLocationData } from './api';
 
 interface Position {
+    label: string;
+    id: string;
     top: string;
     left: string;
 }
 
+interface LocationData {
+    nodeID: string;
+    xcoord: string;
+    ycoord: string;
+    floor: string;
+    building: string;
+    nodeType: string;
+    longName: string;
+    shortName: string;
+}
+
 function FloorMap() {
-    const csvData = `nodeID,xcoord,ycoord,floor,building,nodeType,longName,shortName
-    CCONF001L1,2255,849,L1,45 Francis,CONF,Anesthesia Conf Floor L1,Conf C001L1
-    CCONF002L1,2665,1043,L1,45 Francis,CONF,Medical Records Conference Room Floor L1,Conf C002L1
-    CCONF003L1,2445,1245,L1,45 Francis,CONF,Abrams Conference Room,Conf C003L1
-    CDEPT002L1,1980,844,L1,Tower,DEPT,Day Surgery Family Waiting Floor L1,Department C002L1
-    CDEPT003L1,1845,844,L1,Tower,DEPT,Day Surgery Family Waiting Exit Floor L1,Department C003L1`;
-
-    const locations = csvData.split('\n').slice(1).map(row => {
-        const [nodeID, xcoord, ycoord, , , , longName, ] = row.split(',');
-        return {
-            label: longName.trim(),
-            id: nodeID.trim(),
-            top: `${(parseInt(ycoord, 10) / 3400) * 100}%`,
-            left: `${(parseInt(xcoord, 10) / 5000) * 100}%`,
-        };
-    });
-
+    const [locations, setLocations] = useState<Position[]>([]);
     const [startPosition, setStartPosition] = useState<Position | null>(null);
     const [endPosition, setEndPosition] = useState<Position | null>(null);
+
+    useEffect(() => {
+        fetch('src/components/FloorMap/L1Nodes.csv')
+            .then(response => response.text())
+            .then(csvData => {
+                const parsedData: LocationData[] = parse(csvData, {
+                    columns: true,
+                    skip_empty_lines: true
+                });
+
+                const formattedLocations: Position[] = parsedData.map((location: LocationData) => ({
+                    label: location.longName,
+                    id: location.nodeID,
+                    top: `${(parseInt(location.ycoord, 10) / 3400) * 100}%`,
+                    left: `${(parseInt(location.xcoord, 10) / 5000) * 100}%`,
+                }));
+
+                setLocations(formattedLocations);
+            });
+    }, []);
+
+    const toggleScrolling = (disableScroll: boolean) => {
+        if (disableScroll) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = '';
+        }
+    };
+
+    const handleSelection = (value: Position | null, type: 'start' | 'end') => {
+        const newStartId = type === 'start' ? value?.id : startPosition?.id;
+        const newEndId = type === 'end' ? value?.id : endPosition?.id;
+
+        if (type === 'start') {
+            setStartPosition(value);
+        } else {
+            setEndPosition(value);
+        }
+
+        if (newStartId && newEndId) {
+            sendLocationData(newStartId, newEndId)
+                .then(data => {
+                    console.log('Success:', data);
+                });
+        }
+    };
 
     return (
         <div className={styles.wholePage}>
@@ -53,9 +98,10 @@ function FloorMap() {
                                 }}
                             />
                         )}
-                        onChange={(event, value) => setStartPosition(value)}
+                        onOpen={() => toggleScrolling(true)}
+                        onClose={() => toggleScrolling(false)}
+                        onChange={(event, value) => handleSelection(value, 'start')}
                     />
-
                     <div className={styles.boldtag}>Enter Destination</div>
                     <Autocomplete
                         disablePortal
@@ -74,13 +120,13 @@ function FloorMap() {
                                 }}
                             />
                         )}
-                        onChange={(event, value) => setEndPosition(value)}
+                        onOpen={() => toggleScrolling(true)}
+                        onClose={() => toggleScrolling(false)}
+                        onChange={(event, value) => handleSelection(value, 'end')}
                     />
-
                     <Box className={styles.directionsBox}>
                         Directions
                     </Box>
-
                 </div>
                 <div className={styles.mapArea}>
                     <TransformWrapper initialScale={1.633} initialPositionX={-288.4} initialPositionY={-145.83}>

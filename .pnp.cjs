@@ -62,6 +62,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./",\
         "packageDependencies": [\
           ["@mui/types", "virtual:f7b030241781449f9f163484f540f772ec3707fc5214186cd12bce9e472ad0dbf6db26b799fb1d7d9f7a9e4faeedac41da01e533ee775acb5c8a31c546a0661d#npm:7.2.14"],\
+          ["@types/papaparse", "npm:5.3.14"],\
           ["@types/react", "npm:18.2.73"],\
           ["@types/react-dom", "npm:18.2.18"],\
           ["@vitest/ui", "virtual:f7b030241781449f9f163484f540f772ec3707fc5214186cd12bce9e472ad0dbf6db26b799fb1d7d9f7a9e4faeedac41da01e533ee775acb5c8a31c546a0661d#npm:0.33.0"],\
@@ -72,6 +73,7 @@ const RAW_RUNTIME_STATE =
           ["eslint-config-custom", "workspace:configs/eslint-config-custom"],\
           ["happy-dom", "npm:10.11.2"],\
           ["husky", "npm:8.0.3"],\
+          ["papaparse", "npm:5.4.1"],\
           ["prettier", "npm:2.8.8"],\
           ["prettier-config-custom", "workspace:configs/prettier-config-custom"],\
           ["react", "npm:18.2.0"],\
@@ -2155,6 +2157,16 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["@types/papaparse", [\
+      ["npm:5.3.14", {\
+        "packageLocation": "./.yarn/cache/@types-papaparse-npm-5.3.14-864eddd3a0-9bd5cc0e6a.zip/node_modules/@types/papaparse/",\
+        "packageDependencies": [\
+          ["@types/papaparse", "npm:5.3.14"],\
+          ["@types/node", "npm:20.11.5"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["@types/parse-json", [\
       ["npm:4.0.2", {\
         "packageLocation": "./.yarn/cache/@types-parse-json-npm-4.0.2-f87f65692e-5bf62eec37.zip/node_modules/@types/parse-json/",\
@@ -4031,6 +4043,15 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["csv-parse", [\
+      ["npm:5.5.5", {\
+        "packageLocation": "./.yarn/cache/csv-parse-npm-5.5.5-db6ed28c6c-759ca2e5f3.zip/node_modules/csv-parse/",\
+        "packageDependencies": [\
+          ["csv-parse", "npm:5.5.5"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["database", [\
       ["workspace:packages/database", {\
         "packageLocation": "./packages/database/",\
@@ -5180,6 +5201,7 @@ const RAW_RUNTIME_STATE =
           ["@tanstack/react-table", "virtual:d3996bc66f5a97675d735c6457b44af0f25df32a5e5981f61ff7f22e93004839ccc5d56298eff651f971a908820429de35800a3f2669be95e1c0f6bb82e8a700#npm:8.11.6"],\
           ["@types/bootstrap", "npm:5.2.10"],\
           ["@types/node", "npm:20.11.5"],\
+          ["@types/papaparse", "npm:5.3.14"],\
           ["@types/prop-types", "npm:15.7.11"],\
           ["@types/react", "npm:18.2.73"],\
           ["@types/react-bootstrap", "npm:0.32.35"],\
@@ -5191,6 +5213,7 @@ const RAW_RUNTIME_STATE =
           ["axios", "npm:1.6.5"],\
           ["bootstrap", "virtual:d3996bc66f5a97675d735c6457b44af0f25df32a5e5981f61ff7f22e93004839ccc5d56298eff651f971a908820429de35800a3f2669be95e1c0f6bb82e8a700#npm:5.3.2"],\
           ["common", "workspace:packages/common"],\
+          ["csv-parse", "npm:5.5.5"],\
           ["database", "workspace:packages/database"],\
           ["eslint", "npm:8.56.0"],\
           ["eslint-config-custom", "workspace:configs/eslint-config-custom"],\
@@ -5198,6 +5221,7 @@ const RAW_RUNTIME_STATE =
           ["eslint-plugin-react-refresh", "virtual:d3996bc66f5a97675d735c6457b44af0f25df32a5e5981f61ff7f22e93004839ccc5d56298eff651f971a908820429de35800a3f2669be95e1c0f6bb82e8a700#npm:0.4.5"],\
           ["localforage", "npm:1.10.0"],\
           ["match-sorter", "npm:6.3.3"],\
+          ["papaparse", "npm:5.4.1"],\
           ["postcss", "npm:8.4.35"],\
           ["prettier", "npm:3.2.4"],\
           ["prettier-config-custom", "workspace:configs/prettier-config-custom"],\
@@ -6859,6 +6883,15 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["papaparse", [\
+      ["npm:5.4.1", {\
+        "packageLocation": "./.yarn/cache/papaparse-npm-5.4.1-954555a2a7-5e6dc97818.zip/node_modules/papaparse/",\
+        "packageDependencies": [\
+          ["papaparse", "npm:5.4.1"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["parent-module", [\
       ["npm:1.0.1", {\
         "packageLocation": "./.yarn/cache/parent-module-npm-1.0.1-1fae11b095-6ba8b25514.zip/node_modules/parent-module/",\
@@ -8423,6 +8456,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["softeng-starter-code", "workspace:."],\
           ["@mui/types", "virtual:f7b030241781449f9f163484f540f772ec3707fc5214186cd12bce9e472ad0dbf6db26b799fb1d7d9f7a9e4faeedac41da01e533ee775acb5c8a31c546a0661d#npm:7.2.14"],\
+          ["@types/papaparse", "npm:5.3.14"],\
           ["@types/react", "npm:18.2.73"],\
           ["@types/react-dom", "npm:18.2.18"],\
           ["@vitest/ui", "virtual:f7b030241781449f9f163484f540f772ec3707fc5214186cd12bce9e472ad0dbf6db26b799fb1d7d9f7a9e4faeedac41da01e533ee775acb5c8a31c546a0661d#npm:0.33.0"],\
@@ -8433,6 +8467,7 @@ const RAW_RUNTIME_STATE =
           ["eslint-config-custom", "workspace:configs/eslint-config-custom"],\
           ["happy-dom", "npm:10.11.2"],\
           ["husky", "npm:8.0.3"],\
+          ["papaparse", "npm:5.4.1"],\
           ["prettier", "npm:2.8.8"],\
           ["prettier-config-custom", "workspace:configs/prettier-config-custom"],\
           ["react", "npm:18.2.0"],\

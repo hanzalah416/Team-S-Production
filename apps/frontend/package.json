@@ -24,8 +24,10 @@
     "axios": "^1.4.0",
     "bootstrap": "^5.2.3",
     "common": "workspace:*",
+    "csv-parse": "^5.5.5",
     "localforage": "^1.10.0",
     "match-sorter": "^6.3.1",
+    "papaparse": "^5.4.1",
     "postcss": "^8.4.35",
     "react": "^18.2.0",
     "react-bootstrap": "^2.7.4",
@@ -40,6 +42,7 @@
   "devDependencies": {
     "@types/bootstrap": "^5.2.6",
     "@types/node": "^20.2.5",
+    "@types/papaparse": "^5.3.14",
     "@types/prop-types": "^15.7.5",
     "@types/react": "^18.0.37",
     "@types/react-bootstrap": "^0.32.32",
