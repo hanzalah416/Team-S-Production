@@ -25,7 +25,6 @@ body {
     padding: 0;
     margin: 0;
     position: absolute;
-    left: 0%;
     top: 100px;
     display: flex;
     flex-direction: row;
@@ -109,11 +108,7 @@ body {
 
 
 .container .directionsBox {
-    margin-top: 2px;
-    padding-top: 0;
-    padding-bottom: 0;
-    padding-left: 0;
-    padding-right: 0;
+
     display: flex;
     align-items: center;
     justify-content: center;
