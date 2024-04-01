@@ -34,6 +34,8 @@
   },
   "packageManager": "yarn@4.0.2",
   "devDependencies": {
+    "@mui/types": "^7.2.14",
+    "@types/papaparse": "^5.3.14",
     "@types/react": "^18.0.37",
     "@types/react-dom": "^18.0.11",
     "@vitest/ui": "^0.33.0",
@@ -52,8 +54,11 @@
     "@yarnpkg/pnpify": "^4.0.0-rc.45",
     "dotenv": "^16.4.5",
     "dotenv-cli": "^7.4.0",
+    "papaparse": "^5.4.1",
     "react": "^18.2.0",
     "react-bootstrap": "^2.10.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-zoom-pan-pinch": "^3.4.4",
+    "styled-components": "^6.1.8"
   }
 }

@@ -9,7 +9,7 @@ import CreateAccount from "../src/components/CreateAccount";
 import OrderPayment from '../src/components/OrderPayment';
 import DisplayFormData from '../src/components/DisplayFormData.tsx';
 import {FormDataProvider} from './components/FormDataContext.tsx';
-import FloorMap from "../src/components/FloorMap.tsx";
+import FloorMap from "./components/FloorMap/FloorMap.tsx";
 
 
 
