@@ -4,7 +4,7 @@ import cookieParser from "cookie-parser";
 import logger from "morgan";
 import exampleRouter from "./routes/example.ts";
 import flowerRequestRouter from "./routes/flowerRequest.ts";
-
+//import main from "./seed.ts";
 const app: Express = express(); // Setup the backend
 
 // Setup generic middlewear
@@ -27,6 +27,12 @@ app.use("/api/flower-request", flowerRequestRouter);
 app.use("/healthcheck", (req, res) => {
   res.status(200).send();
 });
+
+// main().then(() => {
+//     console.log('Data populated successfully!');
+// }).catch(err => {
+//     console.error('Error populating data:', err);
+// });
 
 /**
  * Catch all 404 errors, and forward them to the error handler

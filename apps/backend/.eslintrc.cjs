@@ -3,7 +3,7 @@ module.exports = {
   extends: ["custom"],
   root: true,
   parserOptions: { ecmaVersion: "ESNext", sourceType: "script" },
-    rules: {
-      "@typescript-eslint/no-explicit-any": ["off"]
-    }
+  rules: {
+    "@typescript-eslint/no-explicit-any": ["off"],
+  },
 };
