@@ -28,14 +28,14 @@ router2.post("/", async function (req: Request, res: Response) {
 router2.get("/", async function (req: Request, res: Response) {
   // Fetch the Username of the current users
   // might want to put try and catch in later on
-  let userID: number | undefined = undefined;
+  let userID: string | undefined = undefined;
   // this is to get rid of the type error
   // finds if userID is equal to a string
   if (typeof req.query.userID === "string") {
-    userID = parseInt(req.query.userID);
+    userID = req.query.userID;
   }
   // checks if userID is
-  if (userID === undefined || isNaN(userID)) {
+  if (userID === undefined) {
     res.status(400).send("Invalid userID");
     return;
   }

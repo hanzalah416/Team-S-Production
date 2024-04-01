@@ -42,7 +42,7 @@ model NodeEdge {
 }
 
 model hospitalUser {
-  userID         Int              @id @default(autoincrement())
+  userID         String           @id @default(uuid())
   userEmail      String
   userName       String
   userPassword   String
