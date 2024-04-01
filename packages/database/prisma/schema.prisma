@@ -1,3 +1,4 @@
+
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
@@ -39,4 +40,21 @@ model NodeEdge {
   endNode     Node   @relation(name: "NodeEndEdges", fields: [endNodeID], references: [nodeID])
 
   @@id([startNodeID, endNodeID])
+}
+
+model hospitalUser {
+  userID         String           @id @default(uuid())
+  userEmail      String
+  userName       String
+  userPassword   String
+  flowerRequests FlowerRequests[]
+}
+
+model FlowerRequests {
+  flowerID      Int          @id @default(autoincrement())
+  patientName   String
+  PatientRoom   Int
+  customMessage String?
+  userID        String
+  user          hospitalUser @relation(fields: [userID], references: [userID])
 }
