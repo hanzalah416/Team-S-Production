@@ -3,8 +3,7 @@ import express, { Express, NextFunction, Request, Response } from "express";
 import cookieParser from "cookie-parser";
 import logger from "morgan";
 import exampleRouter from "./routes/example.ts";
-import flowerRequestRouter from "./routes/flowerRequest.ts";
-//import main from "./seed.ts";
+
 const app: Express = express(); // Setup the backend
 
 // Setup generic middlewear
@@ -23,16 +22,9 @@ app.use(cookieParser()); // Cookie parser
 // Setup routers. ALL ROUTERS MUST use /api as a start point, or they
 // won't be reached by the default proxy and prod setup
 app.use("/api/high-score", exampleRouter);
-app.use("/api/flower-request", flowerRequestRouter);
 app.use("/healthcheck", (req, res) => {
   res.status(200).send();
 });
-
-// main().then(() => {
-//     console.log('Data populated successfully!');
-// }).catch(err => {
-//     console.error('Error populating data:', err);
-// });
 
 /**
  * Catch all 404 errors, and forward them to the error handler
