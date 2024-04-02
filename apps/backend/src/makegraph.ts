@@ -1,5 +1,5 @@
 
-class Makegraph {
+class MakeGraph {
 
   private nodeMap: Map<string, GraphNode> = new Map();
   addNode(id: string): void {

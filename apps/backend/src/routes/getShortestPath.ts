@@ -1,6 +1,6 @@
 import express, { Router, Request, Response } from "express";
 
-import Makegraph from "../makegraph.ts";
+import MakeGraph from "../makegraph.ts";
 
 import readCSV from "../Readcsv.ts";
 /*
