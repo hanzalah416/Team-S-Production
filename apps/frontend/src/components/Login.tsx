@@ -1,7 +1,14 @@
 import React, { useState, useEffect } from "react";
 import styles from "./Login.module.css";
+
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+
+import Link from '@mui/material/Link';
+import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
+
+
 
 const Login: React.FC = () => {
   const [username, setUsername] = useState("");
@@ -44,6 +51,7 @@ const Login: React.FC = () => {
     <div>
 
     <div className={styles.wholePage}>
+
         <div className={styles.container}>
             <form className={styles.signInForm}>
                 <img src="/src/components/assets/bwh-logo.svg" className={styles.logo} alt={"BWH logo"}/>
@@ -106,6 +114,7 @@ const Login: React.FC = () => {
             </div>
         </div>
     </div>
+
     </div>
   );
 };

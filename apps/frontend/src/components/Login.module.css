@@ -1,43 +1,47 @@
 /* Login.module.css */
-@import url("https://fonts.googleapis.com/css2?family=Jaldi:wght@400;700&display=swap");
 
 
-.wholePage {
-  background: white;
-  position: absolute;
-  padding: 0;
-  margin: 0;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  min-height: 580px;
-  min-width: 700px;
+@import url('https://fonts.googleapis.com/css2?family=Jaldi:wght@400;700&display=swap');
+
+.wholePage{
+    background: white;
+    position: absolute;
+    padding: 0;
+    margin: 0;
+    top:0;
+    left:0;
+    width:100vw;
+    height: 100vh;
+    min-height: 580px;
+    min-width: 700px;
 }
-.container {
-  padding: 0;
-  margin: 0;
-  position: absolute;
-  left: 2%;
-  top: 100px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  width: 98%;
-  height: calc(100% - 100px);
+
+.container{
+    padding: 0;
+    margin: 0;
+    position: absolute;
+    left:2%;
+    top: 100px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width:98%;
+    height: calc(100% - 100px);
 }
 
 .signInForm {
-  display: flex;
-  flex-direction: column;
-  justify-content: start;
-  width: 30%;
-  height: 60%;
-  min-height: 300px;
-  max-height: 450px;
-  background: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 30%;
+    height: 60%;
+    min-height: 300px;
+    max-height: 450px;
+    background: white;
+
 }
+
 
 .title {
   flex: 1;
@@ -67,6 +71,7 @@
 }
 
 .forgotPassword {
+
   align-self: center;
   justify-self: end;
   font-size: 18px;
@@ -102,6 +107,7 @@ input[type="checkbox"]:checked {
   border: 1px solid #ced0ce;
   background: #ff7f11;
   color: white;
+
 }
 
 .input,
@@ -154,7 +160,7 @@ input[type="checkbox"]:checked {
   /* Remove gap if you want the buttons to align exactly at the ends */
 }
 
-.button,
+.item,
 .loginButton,
 .newAcctButton {
   box-sizing: border-box;
@@ -198,14 +204,8 @@ input[type="checkbox"]:checked {
   width: 320px;
 }
 
-.remember {
-  color: black;
-  text-decoration: none;
-  font-family: Jaldi, serif;
-  font-size: 18px;
-}
 
-.forgotLink {
+.remember {
   color: black;
   text-decoration: none;
   font-family: Jaldi, serif;
@@ -219,6 +219,7 @@ input[type="checkbox"]:checked {
 }
 
 .slideShow {
+
   width: 66.66vw;
   height: 100vh;
   align-self: flex-end;
@@ -238,3 +239,4 @@ input[type="checkbox"]:checked {
 .logo{
     flex-grow: 2;
 }
+

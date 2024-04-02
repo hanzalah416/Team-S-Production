@@ -33,7 +33,7 @@ function App() {
           path: "/welcome",
           element: (
             <>
-              <Welcome />
+              <FloorMap />
               <Layout />
             </>
           ),
@@ -73,15 +73,7 @@ function App() {
             </>
           ),
         },
-        {
-          path: "floor-map",
-          element: (
-            <>
-              <FloorMap />
-              <Layout />
-            </>
-          ),
-        },
+
 
         // ... other routes
       ],
@@ -97,13 +89,14 @@ function App() {
     </FormDataProvider>
   );
 }
-function Welcome() {
-  return (
-    <div className="welcome">
-      <h1>Welcome to your starter code.</h1>
-    </div>
-  );
-}
+
+// function Welcome() {
+//   return (
+//     <div className="welcome">
+//       <h1>Welcome to your starter code.</h1>
+//     </div>
+//   );
+// }
 
 function Layout() {
   return (

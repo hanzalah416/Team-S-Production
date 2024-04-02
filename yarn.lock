@@ -2512,7 +2512,6 @@ __metadata:
     "@types/supertest": "npm:^2.0.12"
     common: "workspace:*"
     cookie-parser: "npm:~1.4.4"
-    csv-writer: "npm:^1.6.0"
     database: "workspace:*"
     eslint: "npm:latest"
     eslint-config-custom: "workspace:*"
@@ -3205,13 +3204,6 @@ __metadata:
   version: 5.5.5
   resolution: "csv-parse@npm:5.5.5"
   checksum: 759ca2e5f3977cac7cbf3b1992dd507c6dd458163ab60671e7959d7aefd5b367d7043db65d55ed77ec56aeba2ecfa0881a2c416a44341edcfd266c3d29a424f0
-  languageName: node
-  linkType: hard
-
-"csv-writer@npm:^1.6.0":
-  version: 1.6.0
-  resolution: "csv-writer@npm:1.6.0"
-  checksum: 01ae6eb0653ef823278ba89192146631c577a8d4f69eba82cb71b315b87852952d7e1fa1d693561f00f89fd4e99433e2a8e570394d0273b0214999a0607326da
   languageName: node
   linkType: hard
 
