@@ -13,6 +13,7 @@
     min-height: 580px;
     min-width: 700px;
 }
+
 .container{
     padding: 0;
     margin: 0;
@@ -25,8 +26,8 @@
     align-items: center;
     width:98%;
     height: calc(100% - 100px);
-
 }
+
 .signInForm{
     display: flex;
     flex-direction: column;
@@ -37,8 +38,6 @@
     max-height: 450px;
     background: white;
 }
-
-
 
 .title {
     flex:1;
@@ -75,43 +74,6 @@
     margin: 15px;
 
 }
-
-.cb {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    gap: 2px;
-    color: white;
-    margin: 5px;
-
-}
-
-
-
-
-input[type="checkbox"] {
-    margin: 0 0;
-    padding: 0.5em;
-    border-radius: 0;
-   /* border: 2px solid black;*/
-    outline: black solid 1px;
-    width: 1em;
-    height: 1em;
-    fill: white;
-    color: white;
-    background: white;
-    box-shadow: white;
-}
-
-input[type="checkbox"]:checked {
-    margin: 0 0;
-    padding: 0.5em;
-    border: 1px solid #ced0ce;
-    background: #ff7f11;
-    color: white;
-
-}
-
 
 .input,
 .textarea {
@@ -209,16 +171,6 @@ input[type="checkbox"]:checked {
 
 }
 
-
-.remember {
-    color: black;
-    text-decoration:none;
-    font-family: Jaldi, serif;
-    font-size: 18px;
-
-}
-
-
 .forgotLink {
     color: black;
     text-decoration:none;
@@ -238,7 +190,7 @@ input[type="checkbox"]:checked {
     align-self: flex-end;
     overflow: hidden;
     z-index: 0;
-    background-image: url("/src/components/assets/HeroPhotos/Temp1.png");
+    background-image: url("apps/frontend/src/components/assets/HeroPhotos/Temp1.png");
     background-size: cover;
     background-position: center;
 }

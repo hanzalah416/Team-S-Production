@@ -58,10 +58,6 @@ const Login: React.FC = () => {
         </div>
 
         <div className={styles.extras}>
-            {/*<div className={styles.cb}>
-            <input type="checkbox"/>
-            <label className={styles.remember}>REMEMBER ME</label>
-          </div>*/}
             <FormControlLabel
                 control={<Checkbox  />}
                 label="Remember Me"
