@@ -39,7 +39,7 @@ function NavBar() {
         }
       />
       <div className={"navButtons"}>
-        <Link to={"/floor-map"} className={"item"} id={"map"}>
+        <Link to={"/welcome"} className={"item"} id={"map"}>
           <img
             src="/src/components/assets/NavBarIcons/map_icon_nav.png"
             className={"map_icon"}
