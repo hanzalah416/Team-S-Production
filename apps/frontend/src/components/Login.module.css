@@ -69,45 +69,12 @@
 }
 
 .forgotPassword {
-  align-self: center;
-  justify-self: end;
-  font-size: 18px;
-  color: black;
-  margin: 15px;
+    align-self: center;
+    justify-self: end;
+    font-size: 18px;
+    margin: 15px;
+    color: #bdbdbd;
 }
-
-
-.cb {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  gap: 2px;
-  color: white;
-  margin: 5px;
-}
-
-input[type="checkbox"] {
-  margin: 0 0;
-  padding: 0.5em;
-  border-radius: 0;
-  /* border: 2px solid black;*/
-  outline: black solid 1px;
-  width: 1em;
-  height: 1em;
-  fill: white;
-  color: white;
-  background: white;
-  box-shadow: white;
-}
-
-input[type="checkbox"]:checked {
-  margin: 0 0;
-  padding: 0.5em;
-  border: 1px solid #ced0ce;
-  background: #ff7f11;
-  color: white;
-}
-
 
 .input,
 .textarea {
@@ -211,20 +178,11 @@ input[type="checkbox"]:checked {
   font-size: 18px;
 }
 
-
-.forgotLink {
-  color: black;
-  text-decoration: none;
-  font-family: Jaldi, serif;
-  font-size: 18px;
-}
-
 .login {
   color: white;
   font-family: Jaldi, serif;
   text-decoration: none;
 }
-
 
 .slideShow {
     width: 66.66vw;
