@@ -1,41 +1,49 @@
 /* Login.module.css */
-@import url("https://fonts.googleapis.com/css2?family=Jaldi:wght@400;700&display=swap");
 
-.wholePage {
-  background: white;
-  position: absolute;
-  padding: 0;
-  margin: 0;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  min-height: 580px;
-  min-width: 700px;
+@import url('https://fonts.googleapis.com/css2?family=Jaldi:wght@400;700&display=swap');
+
+.wholePage{
+    background: white;
+    position: absolute;
+    padding: 0;
+    margin: 0;
+    top:0;
+    left:0;
+    width:100vw;
+    height: 100vh;
+    min-height: 580px;
+    min-width: 700px;
 }
-.container {
-  padding: 0;
-  margin: 0;
-  position: absolute;
-  left: 2%;
-  top: 100px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  width: 98%;
-  height: calc(100% - 100px);
+
+.container{
+    padding: 0;
+    margin: 0;
+    position: absolute;
+    left:2%;
+    top: 100px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width:98%;
+    height: calc(100% - 100px);
 }
+
 .signInForm {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  width: 30%;
-  height: 60%;
-  min-height: 300px;
-  max-height: 450px;
-  background: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 30%;
+    height: 60%;
+    min-height: 300px;
+    max-height: 450px;
+    background: white;
+
+    @import url("https://fonts.googleapis.com/css2?family=Jaldi:wght@400;700&display=swap");
+
 }
+
+
 
 .title {
   flex: 1;
@@ -72,6 +80,7 @@
   margin: 15px;
 }
 
+
 .cb {
   display: flex;
   justify-content: flex-start;
@@ -102,6 +111,7 @@ input[type="checkbox"]:checked {
   background: #ff7f11;
   color: white;
 }
+
 
 .input,
 .textarea {
@@ -197,12 +207,14 @@ input[type="checkbox"]:checked {
   width: 320px;
 }
 
+
 .remember {
   color: black;
   text-decoration: none;
   font-family: Jaldi, serif;
   font-size: 18px;
 }
+
 
 .forgotLink {
   color: black;
@@ -217,15 +229,16 @@ input[type="checkbox"]:checked {
   text-decoration: none;
 }
 
+
 .slideShow {
-  width: 66.66vw;
-  height: 100vh;
-  align-self: flex-end;
-  overflow: hidden;
-  z-index: 0;
-  background-image: url("/src/components/assets/HeroPhotos/Temp1.png");
-  background-size: cover;
-  background-position: center;
+    width: 66.66vw;
+    height: 100vh;
+    align-self: flex-end;
+    overflow: hidden;
+    z-index: 0;
+    background-image: url("apps/frontend/src/components/assets/HeroPhotos/Temp1.png");
+    background-size: cover;
+    background-position: center;
 }
 
 .heroImage {
