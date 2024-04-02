@@ -1,6 +1,7 @@
 /* Login.module.css */
 @import url("https://fonts.googleapis.com/css2?family=Jaldi:wght@400;700&display=swap");
 
+
 .wholePage {
   background: white;
   position: absolute;
@@ -26,10 +27,11 @@
   width: 98%;
   height: calc(100% - 100px);
 }
+
 .signInForm {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: start;
   width: 30%;
   height: 60%;
   min-height: 300px;
@@ -86,7 +88,6 @@ input[type="checkbox"] {
   padding: 0.5em;
   border-radius: 0;
   /* border: 2px solid black;*/
-  outline: black solid 1px;
   width: 1em;
   height: 1em;
   fill: white;
@@ -108,11 +109,11 @@ input[type="checkbox"]:checked {
   font-family: "Inter", sans-serif;
   box-sizing: border-box;
   color: #000000;
-  padding: 15px 22px;
+  padding: 10px;
   background: #fbfbfb;
   border: 1px solid #b9b9b9;
   box-shadow: 4px 4px 9.4px rgba(0, 0, 0, 0.25);
-  border-radius: 16px;
+  border-radius: 12px;
   margin-top: 0;
   display: flex;
 }
@@ -221,7 +222,7 @@ input[type="checkbox"]:checked {
   width: 66.66vw;
   height: 100vh;
   align-self: flex-end;
-  overflow: hidden;
+    overflow: hidden;
   z-index: 0;
   background-image: url("/src/components/assets/HeroPhotos/Temp1.png");
   background-size: cover;
@@ -232,4 +233,8 @@ input[type="checkbox"]:checked {
   display: block;
   width: auto;
   height: 100vh;
+}
+
+.logo{
+    flex-grow: 2;
 }

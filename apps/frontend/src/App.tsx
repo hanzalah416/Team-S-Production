@@ -3,7 +3,6 @@ import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 import NavBar from "../src/components/NavBar.tsx";
 import OrderFlowers from "../src/components/OrderFlowers";
 import Login from "../src/components/Login";
-import NavBarLogin from "../src/components/NavBarLogin";
 import CreateAccount from "../src/components/CreateAccount";
 import OrderPayment from "../src/components/OrderPayment";
 import DisplayFormData from "../src/components/DisplayFormData.tsx";
@@ -19,7 +18,6 @@ function App() {
           element: (
             <>
               <Login />
-              <LayoutLogin />
             </>
           ),
         },
@@ -71,8 +69,7 @@ function App() {
           path: "/forgot-password",
           element: (
             <>
-              <OrderFlowers />
-              <LayoutLogin />
+              <div/>
             </>
           ),
         },
@@ -112,15 +109,6 @@ function Layout() {
   return (
     <>
       <NavBar />
-      <Outlet /> {/* Child routes will render here */}
-    </>
-  );
-}
-
-function LayoutLogin() {
-  return (
-    <>
-      <NavBarLogin />
       <Outlet /> {/* Child routes will render here */}
     </>
   );
