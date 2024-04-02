@@ -20,5 +20,5 @@ function readCSVFile(fileName: string) {
     return [];
   }
 }
-export default readCSVFile();
+export default readCSVFile;
 
