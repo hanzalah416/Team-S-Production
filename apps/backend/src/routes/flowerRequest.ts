@@ -1,26 +1,25 @@
 import express, { Router, Request, Response } from "express";
 import { Prisma } from "database";
 import PrismaClient from "../bin/database-connection.ts";
+//import {FlowerRequests} from "../../../../packages/database/prisma/client";
 
 const router: Router = express.Router();
 
 // HTTP protocol
+
 router.post("/", async function (req: Request, res: Response) {
-  const flowerRequestAttempt: Prisma.FlowerRequestsCreateInput = req.body;
+  const FlowerRequestAttempt: Prisma.FlowerRequestsCreateInput = req.body;
   // Attempt to save the high score
   try {
     // Attempt to create in the database
-    res.status(200).json({
-      message: "hello from backend",
-    });
-    await PrismaClient.flowerRequests.create({ data: flowerRequestAttempt });
-    console.info("Successfully saved flower request"); // Log that it was successful
+    await PrismaClient.flowerRequests.create({ data: FlowerRequestAttempt });
+    console.info("Successfully saved flower request attempt"); // Log that it was successful
   } catch (error) {
     // Log any failures
     console.error(
-      `Unable to save flower request ${flowerRequestAttempt}: ${error}`,
+      `Unable to save flower request attempt ${FlowerRequestAttempt}: ${error}`,
     );
-    res.sendStatus(400).send("Flower request error"); // Send error
+    res.sendStatus(400); // Send error
     return; // Don't try to send duplicate statuses
   }
 

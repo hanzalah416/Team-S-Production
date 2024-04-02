@@ -5,7 +5,6 @@ import logger from "morgan";
 import exampleRouter from "./routes/example.ts";
 import flowerRequestRouter from "./routes/flowerRequest.ts";
 import logInRouter from "./routes/logIn.ts";
-//import main from "./seed.ts";
 const app: Express = express(); // Setup the backend
 
 // Setup generic middlewear

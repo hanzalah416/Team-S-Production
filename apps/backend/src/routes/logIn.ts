@@ -24,38 +24,30 @@ router.post("/", async function (req: Request, res: Response) {
 });
 
 // Whenever a get request is made, return the high score
-// The only thing that should be getting is the Username
+// The only thing that should be getting is the Username ( I return the userID for now)
 router.get("/", async function (req: Request, res: Response) {
-  // Fetch the Username of the current users
-  // might want to put try and catch in later on
-  let userID: string | undefined = undefined;
-  // this is to get rid of the type error
-  // finds if userID is equal to a string
-  if (typeof req.query.userID === "string") {
-    userID = req.query.userID;
-  }
-  // checks if userID is
-  if (userID === undefined) {
-    res.status(400).send("Invalid userID");
-    return;
-  }
-  const userName = await PrismaClient.hospitalUser.findMany({
-    where: {
-      userID: userID,
-    },
-    select: {
-      userName: true,
-    },
-  });
-  if (userName.length > 0) {
-    res.json(userName[0]);
-  }
+  try {
+    const userID: string = req.query.userID as string;
 
-  // If the high score doesn't exist
-  else {
-    // Log that (it's a problem)
-    console.error("Username is not found");
-    res.sendStatus(204); // and send 204, no data
+    const userName = await PrismaClient.hospitalUser.findMany({
+      where: {
+        userID: userID,
+      },
+      select: {
+        userName: true,
+        userID: true,
+      },
+    });
+
+    if (userName.length > 0) {
+      res.json(userName[0]);
+    } else {
+      console.error("Username not found");
+      res.sendStatus(204);
+    }
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).send("Internal Server Error");
   }
 });
 
