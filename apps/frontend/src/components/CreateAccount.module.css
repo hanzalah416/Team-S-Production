@@ -1,217 +1,214 @@
 /* OrderFlowers.module.css */
-@import url('https://fonts.googleapis.com/css2?family=Jaldi:wght@400;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Jaldi:wght@400;700&display=swap");
 
 .container {
-    position: absolute;
-    top: 59%;
-    left: 50%; /* Center the container horizontally */
-    transform: translate(-50%, -50%); /* Adjust horizontal centering with transform */
-    width: 50%; /* 53.4% of the parent element's width */
-    height: 80%;
-    border-radius: 43px;
+  position: absolute;
+  top: 59%;
+  left: 50%; /* Center the container horizontally */
+  transform: translate(
+    -50%,
+    -50%
+  ); /* Adjust horizontal centering with transform */
+  width: 50%; /* 53.4% of the parent element's width */
+  height: 80%;
+  border-radius: 43px;
 
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
 
-    min-width: 300px; /* This is the typical smallest screen size you would design for */
-    min-height: 50vh; /* Minimum height set to 50% of the viewport height */
-    max-height: 550px;
-    /* Allows vertical scrolling if the content is taller than the container */
-    overflow-y: auto;
-    padding: 1.25rem 2rem;
-
+  min-width: 300px; /* This is the typical smallest screen size you would design for */
+  min-height: 50vh; /* Minimum height set to 50% of the viewport height */
+  max-height: 550px;
+  /* Allows vertical scrolling if the content is taller than the container */
+  overflow-y: auto;
+  padding: 1.25rem 2rem;
 }
 
-
 .title {
-    font-family: 'Poppins', sans-serif;
-    font-weight: 400;
-    font-size: 60px;
-    line-height: 73px;
-    color: black;
-    margin-bottom: 20px;
-    margin-top: 0px; /* Space between title and form */
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  font-size: 60px;
+  line-height: 73px;
+  color: black;
+  margin-bottom: 20px;
+  margin-top: 0px; /* Space between title and form */
 }
 
 .header {
-    font-family: 'Poppins', sans-serif;
-    font-weight: 600;
-    font-size: 18px;
-    line-height: 73px;
-    color: black;
-    margin-bottom: -10px;
-    margin-top: -20px; /* Space between title and form */
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 73px;
+  color: black;
+  margin-bottom: -10px;
+  margin-top: -20px; /* Space between title and form */
 }
 
-
 .inputRow {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    gap: 40px; /* Space between the two inputs */
-
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  gap: 40px; /* Space between the two inputs */
 }
 
 .input,
 .textarea {
-    font-family: 'Inter', sans-serif;
-    box-sizing: border-box;
-    color: #000000;
-    padding: 12px 22px;
-    background: #FBFBFB;
-    border: 1px solid #B9B9B9;
-    box-shadow: 4px 4px 9.4px rgba(0, 0, 0, 0.25);
-    border-radius: 16px;
+  font-family: "Inter", sans-serif;
+  box-sizing: border-box;
+  color: #000000;
+  padding: 12px 22px;
+  background: #fbfbfb;
+  border: 1px solid #b9b9b9;
+  box-shadow: 4px 4px 9.4px rgba(0, 0, 0, 0.25);
+  border-radius: 16px;
 
-    display: flex;
-    width: calc(100% - 2rem); /* Subtract the padding and/or margin from the width to ensure it fits within the parent */
-    min-width: 0;
+  display: flex;
+  width: calc(
+    100% - 2rem
+  ); /* Subtract the padding and/or margin from the width to ensure it fits within the parent */
+  min-width: 0;
 }
 
 .input {
-    width: 500px; /* Adjust width for gap */
+  width: 500px; /* Adjust width for gap */
 }
 
 .largeTextarea {
-    width: 540px;
-    height: 142px; /* Larger height for text area */
-    /* Space below the inputs */
-    resize: none;
+  width: 540px;
+  height: 142px; /* Larger height for text area */
+  /* Space below the inputs */
+  resize: none;
 }
 
 .formGroup {
-    display: flex;
-    flex-direction: column; /* Stack elements vertically */
-    align-items: flex-start; /* Align items to the start (left) */
-    margin-bottom: 10px; /* Add space below this form group */
+  display: flex;
+  flex-direction: column; /* Stack elements vertically */
+  align-items: flex-start; /* Align items to the start (left) */
+  margin-bottom: 10px; /* Add space below this form group */
 
-    width: 100%; /* Set width to 100% of its parent to avoid overflow */
-    max-width: 100%
+  width: 100%; /* Set width to 100% of its parent to avoid overflow */
+  max-width: 100%;
 }
 
 .label {
-    font-family: 'Jaldi', sans-serif;
-    font-size: 20px;
-    line-height: 41px;
-    color: #000000;
+  font-family: "Jaldi", sans-serif;
+  font-size: 20px;
+  line-height: 41px;
+  color: #000000;
 }
-
 
 .cardNumberGroup .input,
 .nameOnCardGroup .input {
-    width: 100%; /* Full width */
-    margin-bottom: 10px;
+  width: 100%; /* Full width */
+  margin-bottom: 10px;
 }
 
-
 .cvvGroup .input {
-    flex-basis: 10%; /* Adjust the percentage as necessary for the CVV input */
-    /* Add any other styles that are specific to this input */
+  flex-basis: 10%; /* Adjust the percentage as necessary for the CVV input */
+  /* Add any other styles that are specific to this input */
 }
 
 .expirationDateGroup .input {
-    flex-basis: 70%; /* Adjust the percentage as necessary for the expiration date input */
-    /* Add any other styles that are specific to this input */
+  flex-basis: 70%; /* Adjust the percentage as necessary for the expiration date input */
+  /* Add any other styles that are specific to this input */
 }
-
 
 /* Existing styles... */
 
 .buttonGroup {
-    display: flex;
-    justify-content: space-between; /* Place the children at the start and end of the container */
-    /* Remove gap if you want the buttons to align exactly at the ends */
-    flex-wrap: wrap;
-    margin-top: 40px;
+  display: flex;
+  justify-content: space-between; /* Place the children at the start and end of the container */
+  /* Remove gap if you want the buttons to align exactly at the ends */
+  flex-wrap: wrap;
+  margin-top: 40px;
 }
 
 .button,
 .backButton,
 .reviewButton {
-    box-sizing: border-box;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 8px 18px;
-    min-width: 234px; /* Minimum width for the buttons */
-    height: 57px;
-    background: #F3F3F3;
-    border: 1px solid #B9B9B9;
-    box-shadow: 4px 4px 9.4px rgba(0, 0, 0, 0.25);
-    border-radius: 16px;
-    cursor: pointer;
-    font-family: 'Jaldi', sans-serif;
-    font-size: 24px; /* Adjusted to match your specified font styles */
-    font-weight: 900;
-    line-height: 41px;
-    text-align: center;
-    text-transform: uppercase;
-    color: #FFFFFF;
-    margin-right: 5px; /* Spacing between buttons, adjust if needed */
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 8px 18px;
+  min-width: 234px; /* Minimum width for the buttons */
+  height: 57px;
+  background: #f3f3f3;
+  border: 1px solid #b9b9b9;
+  box-shadow: 4px 4px 9.4px rgba(0, 0, 0, 0.25);
+  border-radius: 16px;
+  cursor: pointer;
+  font-family: "Jaldi", sans-serif;
+  font-size: 24px; /* Adjusted to match your specified font styles */
+  font-weight: 900;
+  line-height: 41px;
+  text-align: center;
+  text-transform: uppercase;
+  color: #ffffff;
+  margin-right: 5px; /* Spacing between buttons, adjust if needed */
 
-
-    flex: 1 1 auto; /* Allow the button to grow and shrink, but not to exceed the container's width */
-    max-width: calc(50% - 1rem);
+  flex: 1 1 auto; /* Allow the button to grow and shrink, but not to exceed the container's width */
+  max-width: calc(50% - 1rem);
 }
 
-
 .backButton {
-    background: #F3F3F3;
-    position: page;
-    color: #000000;
-    margin-right: 10px; /* Ensure this is the same as the left margin of the reviewButton */
+  background: #f3f3f3;
+  position: page;
+  color: #000000;
+  margin-right: 10px; /* Ensure this is the same as the left margin of the reviewButton */
 }
 
 .reviewButton {
-    background: linear-gradient(180deg, #5C99B3 0%, #F2F2F3 10%, #289BA5 100%) fixed;
-    color: white;
-    position: page;
-    margin-left: 10px; /* Same as the right margin of the backButton to ensure symmetry */
+  background: linear-gradient(180deg, #5c99b3 0%, #f2f2f3 10%, #289ba5 100%)
+    fixed;
+  color: white;
+  position: page;
+  margin-left: 10px; /* Same as the right margin of the backButton to ensure symmetry */
 }
 
 /* Make sure this selector is specific enough to override any other styles applied to .button */
 .button:last-child {
-    margin-right: 0;
+  margin-right: 0;
 }
 
 .button:first-child {
-    margin-left: 0;
+  margin-left: 0;
 }
 
 @media (max-width: 1104px) {
-    .container {
-        overflow-y: auto; /* Enable vertical scrolling for smaller screens */
-        /* ... other styles for smaller screens ... */
-    }
+  .container {
+    overflow-y: auto; /* Enable vertical scrolling for smaller screens */
+    /* ... other styles for smaller screens ... */
+  }
 
-    .title {
-        overflow-wrap: break-word;
-        font-size: 40px;
-    }
+  .title {
+    overflow-wrap: break-word;
+    font-size: 40px;
+  }
 
-    .inputRow {
-        flex-direction: column;
-        align-items: center; /* Center-align flex children vertically within the flex container */
-    }
+  .inputRow {
+    flex-direction: column;
+    align-items: center; /* Center-align flex children vertically within the flex container */
+  }
 
-    .input,
-    .textarea {
-        width: 100%; /* Allow input and textarea to take the full width of the container */
-        max-width: 100%; /* Prevent them from exceeding the container's width */
-        margin: 0 auto; /* Center the input/textarea horizontally */
-    }
+  .input,
+  .textarea {
+    width: 100%; /* Allow input and textarea to take the full width of the container */
+    max-width: 100%; /* Prevent them from exceeding the container's width */
+    margin: 0 auto; /* Center the input/textarea horizontally */
+  }
 
-    .button {
-        max-width: 100%; /* Allow buttons to expand to the full width */
-    }
+  .button {
+    max-width: 100%; /* Allow buttons to expand to the full width */
+  }
 
-    /* If you have set margins that may affect centering, adjust them here */
-    .button,
-    .backButton,
-    .reviewButton {
-        margin: 0.5rem auto; /* Center buttons horizontally and add some vertical space */
-    }
+  /* If you have set margins that may affect centering, adjust them here */
+  .button,
+  .backButton,
+  .reviewButton {
+    margin: 0.5rem auto; /* Center buttons horizontally and add some vertical space */
+  }
 }
