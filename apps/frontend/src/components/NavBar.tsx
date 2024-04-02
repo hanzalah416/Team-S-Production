@@ -26,6 +26,7 @@ function NavBar() {
   const handleClose1 = () => {
     setAnchorEl1(null);
   };
+
   return (
     <div className="navbar">
       {/* Navbar content */}
@@ -168,6 +169,7 @@ function NavBar() {
         </div>
       </div>
       <div className={"blueBar"} />
+
     </div>
   );
 }
