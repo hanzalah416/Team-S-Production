@@ -12,9 +12,7 @@ const router: Router = express.Router();
 
 router.get("/pathfind", async function (req: Request, res: Response) {
   try {
-
     const graph = new MakeGraph();
-
 
     const nodes = readCSV("L1Nodes.csv");
     const edges = readCSV("L1Edges.csv");

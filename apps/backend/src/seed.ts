@@ -1,18 +1,16 @@
-import { PrismaClient } from "../../../packages/database/.prisma/client";
+import PrismaClient from "./bin/database-connection.ts";
 
-import readCSVFile from "./Readcsv.js";
+import readCSVFile from "./Readcsv.ts";
 
-const prisma = new PrismaClient();
-
-async function main() {
+async function seed() {
   const edges = readCSVFile("L1Edges.csv");
   const nodes = readCSVFile("L1Nodes.csv");
 
-  await prisma.nodeEdge.deleteMany();
-  await prisma.node.deleteMany();
+  await PrismaClient.nodeEdge.deleteMany();
+  await PrismaClient.node.deleteMany();
 
   for (const node of nodes) {
-    await prisma.node.create({
+    await PrismaClient.node.create({
       data: {
         nodeID: node[0],
         xcoord: Number(node[1]),
@@ -28,7 +26,7 @@ async function main() {
   console.log(`Data import complete for ${"Nodes"}`);
 
   for (const edge of edges) {
-    await prisma.nodeEdge.create({
+    await PrismaClient.nodeEdge.create({
       data: {
         startNodeID: edge[0],
         endNodeID: edge[1],
@@ -38,13 +36,4 @@ async function main() {
   console.log(`Data import complete for ${"Edges"}`);
 }
 
-export default main;
-
-main()
-  .then(async () => {
-    await prisma.$disconnect();
-  })
-  .catch(async (e) => {
-    console.error(e);
-    await prisma.$disconnect();
-  });
+export default seed;
