@@ -1,8 +1,8 @@
 import PrismaClient from "./bin/database-connection.ts";
 
-import readCSVFile from "./Readcsv.js";
+import readCSVFile from "./Readcsv.ts";
 
-async function main() {
+async function seed() {
   const edges = readCSVFile("L1Edges.csv");
   const nodes = readCSVFile("L1Nodes.csv");
 
@@ -36,13 +36,4 @@ async function main() {
   console.log(`Data import complete for ${"Edges"}`);
 }
 
-export default main;
-
-main()
-  .then(async () => {
-    await PrismaClient.$disconnect();
-  })
-  .catch(async (e) => {
-    console.error(e);
-    await PrismaClient.$disconnect();
-  });
+export default seed;

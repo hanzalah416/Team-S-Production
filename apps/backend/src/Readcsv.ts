@@ -3,10 +3,7 @@ import fs from "fs";
 import path from "path";
 
 function readCSVFile(fileName: string) {
-  const __dirname = path.resolve(path.dirname(""));
   const filePath = path.join(__dirname, fileName);
-
-
 
   try {
     const data = fs.readFileSync(filePath, "utf-8");
@@ -21,4 +18,3 @@ function readCSVFile(fileName: string) {
   }
 }
 export default readCSVFile;
-
