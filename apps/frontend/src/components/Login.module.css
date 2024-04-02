@@ -1,4 +1,5 @@
 /* Login.module.css */
+
 @import url('https://fonts.googleapis.com/css2?family=Jaldi:wght@400;700&display=swap');
 
 .wholePage{
@@ -13,6 +14,7 @@
     min-height: 580px;
     min-width: 700px;
 }
+
 .container{
     padding: 0;
     margin: 0;
@@ -25,230 +27,213 @@
     align-items: center;
     width:98%;
     height: calc(100% - 100px);
-
 }
-.signInForm{
+
+.signInForm {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    width:30%;
-    height:60%;
+    width: 30%;
+    height: 60%;
     min-height: 300px;
     max-height: 450px;
     background: white;
 }
 
 
-
 .title {
-    flex:1;
-    align-self: flex-start;
-    font-family: 'Inter', sans-serif;
-    font-weight: 500;
-    font-size: 32px;
-    text-align: center;
+  flex: 1;
+  align-self: flex-start;
+  font-family: "Inter", sans-serif;
+  font-weight: 500;
+  font-size: 32px;
+  text-align: center;
 
-    color: Black;
-    margin-bottom: 0; /* Space between title and form */
+  color: Black;
+  margin-bottom: 0; /* Space between title and form */
 }
 
 .inputRow {
-    flex:1;
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    gap: 40px; /* Space between the two inputs */
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  gap: 40px; /* Space between the two inputs */
 }
 
-.extras{
-    flex:1;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+.extras {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 .forgotPassword {
-    align-self: center;
-    justify-self: end;
-    font-size: 18px;
-    color: black;
-    margin: 15px;
-
+  align-self: center;
+  justify-self: end;
+  font-size: 18px;
+  color: black;
+  margin: 15px;
 }
+
 
 .cb {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    gap: 2px;
-    color: white;
-    margin: 5px;
-
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 2px;
+  color: white;
+  margin: 5px;
 }
 
-
-
-
 input[type="checkbox"] {
-    margin: 0 0;
-    padding: 0.5em;
-    border-radius: 0;
-   /* border: 2px solid black;*/
-    outline: black solid 1px;
-    width: 1em;
-    height: 1em;
-    fill: white;
-    color: white;
-    background: white;
-    box-shadow: white;
+  margin: 0 0;
+  padding: 0.5em;
+  border-radius: 0;
+  /* border: 2px solid black;*/
+  outline: black solid 1px;
+  width: 1em;
+  height: 1em;
+  fill: white;
+  color: white;
+  background: white;
+  box-shadow: white;
 }
 
 input[type="checkbox"]:checked {
-    margin: 0 0;
-    padding: 0.5em;
-    border: 1px solid #ced0ce;
-    background: #ff7f11;
-    color: white;
-
+  margin: 0 0;
+  padding: 0.5em;
+  border: 1px solid #ced0ce;
+  background: #ff7f11;
+  color: white;
 }
 
 
 .input,
 .textarea {
-    font-family: 'Inter', sans-serif;
-    box-sizing: border-box;
-    color: #000000;
-    padding: 15px 22px;
-    background: #FBFBFB;
-    border: 1px solid #B9B9B9;
-    box-shadow: 4px 4px 9.4px rgba(0, 0, 0, 0.25);
-    border-radius: 16px;
-    margin-top: 0;
-    display: flex;
+  font-family: "Inter", sans-serif;
+  box-sizing: border-box;
+  color: #000000;
+  padding: 15px 22px;
+  background: #fbfbfb;
+  border: 1px solid #b9b9b9;
+  box-shadow: 4px 4px 9.4px rgba(0, 0, 0, 0.25);
+  border-radius: 16px;
+  margin-top: 0;
+  display: flex;
 }
 
 .input {
-    width: 100%; /* Adjust width for gap */
+  width: 100%; /* Adjust width for gap */
 }
 
 .largeTextarea {
-    width: 540px;
-    height: 142px; /* Larger height for text area */
-    margin-top: 0; /* Space below the inputs */
+  width: 540px;
+  height: 142px; /* Larger height for text area */
+  margin-top: 0; /* Space below the inputs */
 }
 
 .formGroup {
-    display: flex;
-    flex-direction: column; /* Stack elements vertically */
-    align-items: center; /* Align items to the start (left) */
-    margin-bottom: 20px; /* Add space below this form group */
+  display: flex;
+  flex-direction: column; /* Stack elements vertically */
+  align-items: center; /* Align items to the start (left) */
+  margin-bottom: 20px; /* Add space below this form group */
 }
 
 .label {
-    font-family: 'Jaldi', sans-serif;
-    font-size: 20px;
-    line-height: 41px;
-    color: #000000;
-    margin-bottom: 5px; /* Add some space between label and input */
+  font-family: "Jaldi", sans-serif;
+  font-size: 20px;
+  line-height: 41px;
+  color: #000000;
+  margin-bottom: 5px; /* Add some space between label and input */
 }
-
 
 /* Existing styles... */
 
 .buttonGroup {
-    display: flex;
+  display: flex;
 
-    flex-direction: column; /* Stack elements vertically */
-    margin-bottom: 20px; /* Add space below this form group */
-    /* Take up full width of the parent container */
-    /* Remove gap if you want the buttons to align exactly at the ends */
+  flex-direction: column; /* Stack elements vertically */
+  margin-bottom: 20px; /* Add space below this form group */
+  /* Take up full width of the parent container */
+  /* Remove gap if you want the buttons to align exactly at the ends */
 }
 
-.button,
+.item,
 .loginButton,
 .newAcctButton {
-    box-sizing: border-box;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 8px 18px;
-    flex: 1; /* Buttons will grow equally to fill the flex container */
-    min-width: 234px; /* Minimum width for the buttons */
-    height: 57px;
-    background: #F3F3F3;
-    border: 1px solid #B9B9B9;
-    box-shadow: 4px 4px 9.4px rgba(0, 0, 0, 0.25);
-    border-radius: 16px;
-    cursor: pointer;
-    font-family: 'Jaldi', sans-serif;
-    font-size: 24px; /* Adjusted to match your specified font styles */
-    font-weight: 900;
-    line-height: 30px;
-    text-align: center;
-    text-transform: uppercase;
-    color: #FFFFFF;
-    margin-right: 5px; /* Spacing between buttons, adjust if needed */
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 8px 18px;
+  flex: 1; /* Buttons will grow equally to fill the flex container */
+  min-width: 234px; /* Minimum width for the buttons */
+  height: 57px;
+  background: #f3f3f3;
+  border: 1px solid #b9b9b9;
+  box-shadow: 4px 4px 9.4px rgba(0, 0, 0, 0.25);
+  border-radius: 16px;
+  cursor: pointer;
+  font-family: "Jaldi", sans-serif;
+  font-size: 24px; /* Adjusted to match your specified font styles */
+  font-weight: 900;
+  line-height: 30px;
+  text-align: center;
+  text-transform: uppercase;
+  color: #ffffff;
+  margin-right: 5px; /* Spacing between buttons, adjust if needed */
 }
 
 .loginButton {
-    background: #289BA5;
-    color: white;
-    display: block;
-    margin: auto;
-    width: 100%;
-    text-align: center;
+  background: #289ba5;
+  color: white;
+  display: block;
+  margin: auto;
+  width: 100%;
+  text-align: center;
 }
 
 .newAcctButton {
-    background: linear-gradient(90deg, #9360D5 0%, #5468B1 82%);
-    color: white;
-    display: block;
-    margin: auto;
+  background: linear-gradient(90deg, #9360d5 0%, #5468b1 82%);
+  color: white;
+  display: block;
+  margin: auto;
 
-    width: 320px;
-
+  width: 320px;
 }
 
 
 .remember {
-    color: black;
-    text-decoration:none;
-    font-family: Jaldi, serif;
-    font-size: 18px;
-
+  color: black;
+  text-decoration: none;
+  font-family: Jaldi, serif;
+  font-size: 18px;
 }
 
 
 .forgotLink {
-    color: black;
-    text-decoration:none;
-    font-family: Jaldi, serif;
-    font-size: 18px;
+  color: black;
+  text-decoration: none;
+  font-family: Jaldi, serif;
+  font-size: 18px;
 }
 
 .login {
-    color: white;
-    font-family: Jaldi, serif;
-    text-decoration:none;
+  color: white;
+  font-family: Jaldi, serif;
+  text-decoration: none;
 }
 
-.slideShow{
+
+.slideShow {
     width: 66.66vw;
     height: 100vh;
     align-self: flex-end;
     overflow: hidden;
     z-index: 0;
-    background-image: url("/src/components/assets/HeroPhotos/Temp1.png");
+    background-image: url("apps/frontend/src/components/assets/HeroPhotos/Temp1.png");
     background-size: cover;
     background-position: center;
 }
-
-.heroImage{
-    display: block;
-    width: auto;
-    height: 100vh;
-
-}
-
-
 
