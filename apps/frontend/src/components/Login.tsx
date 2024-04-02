@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import styles from "./Login.module.css";
 import {Link, useNavigate} from "react-router-dom";
+import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
 
 const Login: React.FC = () => {
   const [username, setUsername] = useState("");
@@ -56,11 +58,15 @@ const Login: React.FC = () => {
         </div>
 
         <div className={styles.extras}>
-          <div className={styles.cb}>
+            {/*<div className={styles.cb}>
             <input type="checkbox"/>
             <label className={styles.remember}>REMEMBER ME</label>
-          </div>
-
+          </div>*/}
+            <FormControlLabel
+                control={<Checkbox  />}
+                label="Remember Me"
+                style={{color: 'black'}}
+            />
           <p className={styles.forgotPassword}>
             <a className={styles.forgotLink} href="url">
               FORGOT PASSWORD?
