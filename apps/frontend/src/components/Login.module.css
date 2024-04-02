@@ -38,11 +38,7 @@
     min-height: 300px;
     max-height: 450px;
     background: white;
-
-    @import url("https://fonts.googleapis.com/css2?family=Jaldi:wght@400;700&display=swap");
-
 }
-
 
 
 .title {
@@ -241,8 +237,3 @@ input[type="checkbox"]:checked {
     background-position: center;
 }
 
-.heroImage {
-  display: block;
-  width: auto;
-  height: 100vh;
-}
