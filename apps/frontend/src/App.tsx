@@ -3,7 +3,6 @@ import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 import NavBar from "../src/components/NavBar.tsx";
 import OrderFlowers from "../src/components/OrderFlowers";
 import Login from "../src/components/Login";
-import NavBarLogin from "../src/components/NavBarLogin";
 import CreateAccount from "../src/components/CreateAccount";
 import OrderPayment from "../src/components/OrderPayment";
 import DisplayFormData from "../src/components/DisplayFormData.tsx";
@@ -19,7 +18,6 @@ function App() {
           element: (
             <>
               <Login />
-              <LayoutLogin />
             </>
           ),
         },
@@ -35,7 +33,7 @@ function App() {
           path: "/welcome",
           element: (
             <>
-              <Welcome />
+              <FloorMap />
               <Layout />
             </>
           ),
@@ -71,17 +69,7 @@ function App() {
           path: "/forgot-password",
           element: (
             <>
-              <OrderFlowers />
-              <LayoutLogin />
-            </>
-          ),
-        },
-        {
-          path: "floor-map",
-          element: (
-            <>
-              <FloorMap />
-              <Layout />
+              <div />
             </>
           ),
         },
@@ -100,27 +88,19 @@ function App() {
     </FormDataProvider>
   );
 }
-function Welcome() {
-  return (
-    <div className="welcome">
-      <h1>Welcome to your starter code.</h1>
-    </div>
-  );
-}
+
+// function Welcome() {
+//   return (
+//     <div className="welcome">
+//       <h1>Welcome to your starter code.</h1>
+//     </div>
+//   );
+// }
 
 function Layout() {
   return (
     <>
       <NavBar />
-      <Outlet /> {/* Child routes will render here */}
-    </>
-  );
-}
-
-function LayoutLogin() {
-  return (
-    <>
-      <NavBarLogin />
       <Outlet /> {/* Child routes will render here */}
     </>
   );
