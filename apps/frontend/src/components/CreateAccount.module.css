@@ -149,7 +149,6 @@
   text-transform: uppercase;
   color: #ffffff;
   margin-right: 5px; /* Spacing between buttons, adjust if needed */
-
   flex: 1 1 auto; /* Allow the button to grow and shrink, but not to exceed the container's width */
   max-width: calc(50% - 1rem);
 }

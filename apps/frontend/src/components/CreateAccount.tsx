@@ -70,7 +70,7 @@ const CreateAccount: React.FC = () => {
             <h2 className={styles.header}>Password</h2>
             <input
               className={styles.input}
-              type="text"
+              type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Enter your password"
@@ -80,10 +80,10 @@ const CreateAccount: React.FC = () => {
             <h2 className={styles.header}>Confirm Password</h2>
             <input
               className={styles.input}
-              type="text"
+              type="password"
               value={passwordAgain}
               onChange={(e) => setPasswordAgain(e.target.value)}
-              placeholder="Retype your assword"
+              placeholder="Retype your password"
             />
           </div>
         </form>

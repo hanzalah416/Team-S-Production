@@ -1,5 +1,6 @@
 /* Login.module.css */
 
+
 @import url('https://fonts.googleapis.com/css2?family=Jaldi:wght@400;700&display=swap');
 
 .wholePage{
@@ -38,6 +39,7 @@
     min-height: 300px;
     max-height: 450px;
     background: white;
+
 }
 
 
@@ -69,11 +71,43 @@
 }
 
 .forgotPassword {
-    align-self: center;
-    justify-self: end;
-    font-size: 18px;
-    margin: 15px;
-    color: #bdbdbd;
+
+  align-self: center;
+  justify-self: end;
+  font-size: 18px;
+  color: black;
+  margin: 15px;
+}
+
+.cb {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 2px;
+  color: white;
+  margin: 5px;
+}
+
+input[type="checkbox"] {
+  margin: 0 0;
+  padding: 0.5em;
+  border-radius: 0;
+  /* border: 2px solid black;*/
+  width: 1em;
+  height: 1em;
+  fill: white;
+  color: white;
+  background: white;
+  box-shadow: white;
+}
+
+input[type="checkbox"]:checked {
+  margin: 0 0;
+  padding: 0.5em;
+  border: 1px solid #ced0ce;
+  background: #ff7f11;
+  color: white;
+
 }
 
 .input,
@@ -81,11 +115,11 @@
   font-family: "Inter", sans-serif;
   box-sizing: border-box;
   color: #000000;
-  padding: 15px 22px;
+  padding: 10px;
   background: #fbfbfb;
   border: 1px solid #b9b9b9;
   box-shadow: 4px 4px 9.4px rgba(0, 0, 0, 0.25);
-  border-radius: 16px;
+  border-radius: 12px;
   margin-top: 0;
   display: flex;
 }
@@ -185,13 +219,24 @@
 }
 
 .slideShow {
-    width: 66.66vw;
-    height: 100vh;
-    align-self: flex-end;
+
+  width: 66.66vw;
+  height: 100vh;
+  align-self: flex-end;
     overflow: hidden;
-    z-index: 0;
-    background-image: url("apps/frontend/src/components/assets/HeroPhotos/Temp1.png");
-    background-size: cover;
-    background-position: center;
+  z-index: 0;
+  background-image: url("/src/components/assets/HeroPhotos/Temp1.png");
+  background-size: cover;
+  background-position: center;
+}
+
+.heroImage {
+  display: block;
+  width: auto;
+  height: 100vh;
+}
+
+.logo{
+    flex-grow: 2;
 }
 
