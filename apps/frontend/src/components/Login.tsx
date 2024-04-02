@@ -32,67 +32,65 @@ const Login: React.FC = () => {
   return (
     <div className={styles.wholePage}>
       <div className={styles.container}>
-        <form className={styles.signInForm}>
-          <h2 className={styles.title}>Sign in</h2>
+          <form className={styles.signInForm}>
+              <h2 className={styles.title}>Sign in</h2>
 
-          <div className={styles.formGroup}>
-            <input
-              className={styles.input}
-              type="text"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              placeholder="Username"
-            />
+              <div className={styles.formGroup}>
+                  <input
+                      className={styles.input}
+                      type="text"
+                      value={username}
+                      onChange={(e) => setUsername(e.target.value)}
+                      placeholder="Username"
+                  />
+              </div>
+
+
+              <div className={styles.formGroup}>
+                  <input
+                      className={styles.input}
+                      type="text"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      placeholder="Password"
+                  />
+              </div>
+
+              <div className={styles.extras}>
+                  <FormControlLabel
+                      control={<Checkbox/>}
+                      label="Remember Me"
+                      style={{color: 'black'}}
+                  />
+                  <p className={styles.forgotPassword}>
+                      <a className={styles.forgotLink} href="url">
+                          FORGOT PASSWORD?
+                      </a>
+                  </p>
+              </div>
+
+              <div className={styles.buttonGroup}>
+                  <div className={styles.buttonGroup}>
+                      <button
+                          className={`${styles.button} ${styles.loginButton}`}
+                          type="button"
+                          onClick={handleLogin}
+                      >
+                          Login
+                      </button>
+                  </div>
+                  <p className={styles.forgotPassword}>
+                      Don't have an account?{" "}
+                      <Link to={"/create-account"}> Sign Up</Link>
+                  </p>
+              </div>
+          </form>
+          <div
+              className={styles.slideShow}
+              style={{backgroundImage: backgroundImage}}
+          >
+              {/*<img src="/src/components/assets/HeroPhotos/Temp1.png" className={"heroImage"} alt={"map"}/>*/}
           </div>
-
-
-        <div className={styles.extras}>
-            <FormControlLabel
-                control={<Checkbox  />}
-                label="Remember Me"
-                style={{color: 'black'}}
-            />
-          <p className={styles.forgotPassword}>
-            <a className={styles.forgotLink} href="url">
-              FORGOT PASSWORD?
-            </a>
-          </p>
-        </div>
-
-          <div className={styles.formGroup}>
-            <input
-              className={styles.input}
-              type="text"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Password"
-            />
-          </div>
-
-  
-
-          <div className={styles.buttonGroup}>
-            <div className={styles.buttonGroup}>
-              <button
-                className={`${styles.button} ${styles.loginButton}`}
-                type="button"
-                onClick={handleLogin}
-              >
-                Login
-              </button>
-            </div>
-            <p className={styles.forgotPassword}>
-              Don't have an account?{" "}
-              <Link to={"/create-account"}> Sign Up</Link>
-            </p>
-          </div>
-        </form>
-        <div
-          className={styles.slideShow}
-          style={{ backgroundImage: backgroundImage }}
-        >
-          {/*<img src="/src/components/assets/HeroPhotos/Temp1.png" className={"heroImage"} alt={"map"}/>*/}
-        </div>
       </div>
     </div>
   );
