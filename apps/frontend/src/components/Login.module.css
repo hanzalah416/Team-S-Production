@@ -153,7 +153,7 @@ input[type="checkbox"]:checked {
   /* Remove gap if you want the buttons to align exactly at the ends */
 }
 
-.button,
+.item,
 .loginButton,
 .newAcctButton {
   box-sizing: border-box;
