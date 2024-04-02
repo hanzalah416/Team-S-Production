@@ -1,116 +1,130 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
 
 body {
-  font-family: "Poppins", sans-serif;
-  font-size: 14px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
 }
 
 .wholePage {
-  background: #f1f1f1;
-  position: absolute;
-  padding: 0;
-  margin-top: 70px;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  min-height: 580px;
-  min-width: 700px;
+    background: #f1f1f1;
+    position: absolute;
+    padding: 0;
+    margin-top: 70px;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    min-height: 580px;
+    min-width: 700px;
 }
 
+
+
+
 .container {
-  padding: 0;
-  margin: 0;
-  position: absolute;
-  top: 100px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  height: calc(100% - 100px);
+    padding: 0;
+    margin: 0;
+    position: absolute;
+    top: 100px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: calc(100% - 100px);
 }
 
 .signInForm {
-  padding-left: 30px;
-  padding-right: 30px;
-  display: flex;
-  flex-direction: column;
-  width: 380px; /* Adjust the width as needed */
-  height: 60%;
-  min-height: 200px;
-  max-height: 200px;
-  background: #f1f1f1;
-  margin-top: -550px; /* Adjust this value as needed to control the distance from the top */
+    padding-left: 30px;
+    padding-right: 30px;
+    display: flex;
+    flex-direction: column;
+    width: 380px; /* Adjust the width as needed */
+    height: 60%;
+    min-height: 200px;
+    max-height: 200px;
+    background: #f1f1f1;
+    margin-top: -550px;/* Adjust this value as needed to control the distance from the top */
 }
 
+
+
+
+
 .mapArea {
-  width: 100vw;
-  height: 100vh;
-  align-self: flex-end;
-  overflow: hidden;
-  z-index: 0;
-  position: relative; /* Ensure this is set */
+    width: 100vw;
+    height: 100vh;
+    align-self: flex-end;
+    overflow: hidden;
+    z-index: 0;
+    position: relative; /* Ensure this is set */
 }
 
 .transformWrapper {
-  width: 100%;
-  height: 100%;
+    width: 100%;
+    height: 100%;
 }
 
 .transformComponent {
-  position: relative; /* Establish a positioning context for the dots */
-  width: 100%;
-  height: 100%;
+    position: relative; /* Establish a positioning context for the dots */
+    width: 100%;
+    height: 100%;
 }
 
 .hmap-image {
-  width: 100%; /* Fill the width of its container */
-  height: auto; /* Maintain aspect ratio */
-  max-height: 100%; /* Ensure it doesn't exceed the container's height */
+    width: 100%; /* Fill the width of its container */
+    height: auto; /* Maintain aspect ratio */
+    max-height: 100%; /* Ensure it doesn't exceed the container's height */
 }
 
 .mapDot {
-  position: absolute;
-  width: 5px;
-  height: 5px;
-  background-color: red;
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 1000;
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    background-color: red;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
 }
 
 .dotsContainer {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
 }
+
+
 
 .boldtag {
-  margin-top: 30px;
-  margin-bottom: 10px;
-  text-align: left;
-  font-weight: bold;
-  color: black;
+    margin-top: 30px;
+    margin-bottom: 10px;
+    text-align: left;
+    font-weight: bold;
+    color: black;
 }
 
+
 .container .directionsBox {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #003b9c;
-  color: white;
-  font-weight: bold;
-  line-height: 90px;
-  height: 48px !important;
-  width: 420px;
-  left: calc(-20%);
-  position: relative;
-  box-sizing: border-box;
-  text-align: center;
-  margin-top: 20px;
-  font-size: 20px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #003b9c;
+    color: white;
+    font-weight: bold;
+    line-height: 90px;
+    height: 48px !important;
+    width: 420px;
+    left: calc(-20%);
+    position: relative;
+    box-sizing: border-box;
+    text-align: center;
+    margin-top: 20px;
+    font-size: 20px;
 }
+
+
+
