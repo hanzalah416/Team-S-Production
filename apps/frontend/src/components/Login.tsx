@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import styles from "./Login.module.css";
 
-import {Link, useNavigate} from "react-router-dom";
+import {/*Link,*/ useNavigate} from "react-router-dom";
+import Link from '@mui/material/Link';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 
@@ -61,11 +62,10 @@ const Login: React.FC = () => {
                       control={<Checkbox/>}
                       label="Remember Me"
                       style={{color: 'black'}}
+                      disabled={true}
                   />
                   <p className={styles.forgotPassword}>
-                      <a className={styles.forgotLink} href="url">
-                          FORGOT PASSWORD?
-                      </a>
+                      <Link color={"inherit"} > Forgot Password? </Link>
                   </p>
               </div>
 
@@ -81,7 +81,7 @@ const Login: React.FC = () => {
                   </div>
                   <p className={styles.forgotPassword}>
                       Don't have an account?{" "}
-                      <Link to={"/create-account"}> Sign Up</Link>
+                      <Link href={"/create-account"}> Sign Up </Link>
                   </p>
               </div>
           </form>
