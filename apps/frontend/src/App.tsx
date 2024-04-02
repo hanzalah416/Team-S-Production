@@ -69,11 +69,10 @@ function App() {
           path: "/forgot-password",
           element: (
             <>
-              <div/>
+              <div />
             </>
           ),
         },
-
 
         // ... other routes
       ],

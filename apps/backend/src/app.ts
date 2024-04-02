@@ -5,8 +5,8 @@ import logger from "morgan";
 import exampleRouter from "./routes/example.ts";
 import flowerRequestRouter from "./routes/flowerRequest.ts";
 import PrismaClient from "./bin/database-connection.ts";
-//import logInRouter from "./routes/logIn.ts";
 import seed from "./seed.ts";
+import logInRouter from "./routes/logIn.ts";
 const app: Express = express(); // Setup the backend
 // Populate the database
 seed()
@@ -34,7 +34,7 @@ app.use(cookieParser()); // Cookie parser
 // won't be reached by the default proxy and prod setup
 app.use("/api/high-score", exampleRouter);
 app.use("/api/flower-request", flowerRequestRouter);
-//app.use("/api/log-in", logInRouter);
+app.use("/api/log-in", logInRouter);
 app.use("/healthcheck", (req, res) => {
   res.status(200).send();
 });
