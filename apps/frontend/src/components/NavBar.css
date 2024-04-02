@@ -51,16 +51,21 @@
   transition-duration: 0.5s;
 }
 
-.item :hover {
-  background-color: #003b9c;
-  color: white;
-  border-radius: 10px;
-  transition-duration: 0.5s;
-}
-
 .item p {
   font-family: Poppins, sans-serif;
   font-weight: 500;
+}
+
+.navNames {
+  font-family: Poppins, sans-serif;
+  font-weight: 500;
+  text-decoration: none;
+  font-size: 24px;
+  color: #003b9c;
+}
+
+.col_gap_5px {
+  column-gap: 5px;
 }
 
 .bold {
@@ -108,11 +113,4 @@
 /* Change the background color of the dropdown button when the dropdown content is shown */
 .dropdown:hover .profile-button {
   background-color: #6fb49f;
-}
-
-ul {
-  list-style: none;
-  margin: 0px;
-  padding: 10px;
-  gap: 10px;
 }
