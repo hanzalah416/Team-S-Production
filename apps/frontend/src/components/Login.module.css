@@ -29,17 +29,19 @@
     height: calc(100% - 100px);
 }
 
-.signInForm{
+.signInForm {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    width:30%;
-    height:60%;
+    width: 30%;
+    height: 60%;
     min-height: 300px;
     max-height: 450px;
     background: white;
 
-@import url("https://fonts.googleapis.com/css2?family=Jaldi:wght@400;700&display=swap");
+    @import url("https://fonts.googleapis.com/css2?family=Jaldi:wght@400;700&display=swap");
+
+}
 
 .wholePage {
   background: white;
@@ -263,7 +265,7 @@ input[type="checkbox"]:checked {
 }
 
 
-.slideShow{
+.slideShow {
     width: 66.66vw;
     height: 100vh;
     align-self: flex-end;
@@ -272,17 +274,6 @@ input[type="checkbox"]:checked {
     background-image: url("apps/frontend/src/components/assets/HeroPhotos/Temp1.png");
     background-size: cover;
     background-position: center;
-
-.slideShow {
-  width: 66.66vw;
-  height: 100vh;
-  align-self: flex-end;
-  overflow: hidden;
-  z-index: 0;
-  background-image: url("/src/components/assets/HeroPhotos/Temp1.png");
-  background-size: cover;
-  background-position: center;
-
 }
 
 .heroImage {
