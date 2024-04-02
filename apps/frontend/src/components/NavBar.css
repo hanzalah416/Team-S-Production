@@ -1,87 +1,119 @@
 /* NavBar.css */
 
 .navbar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    background-color: #FBFBFB;
-    color: white;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    height: 100px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    max-width: 100vw;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #fbfbfb;
+  color: white;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  z-index: 2;
+  height: 75px;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  max-width: 100vw;
+}
+
+.blueBar {
+  position: fixed;
+  top: 70px;
+  left: 0;
+  width: 100%;
+  height: 10px;
+  background-color: #003b9c;
 
 }
 
-.bwh-logo{
-    padding-left: 1rem;
-    margin: 0;
+.bwh-logo {
+  padding-left: 1rem;
+  margin: 0;
 }
 
 .navButtons {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    padding-right: 1rem;
-    font-family: Jaldi, sans-serif;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding-right: 1rem;
+  font-family: Jaldi, sans-serif;
 }
 
-.button{
-    padding: 1rem;
-    color: #003B9C;
-    font-weight: normal;
-    font-size: 24px;
-    text-decoration: none;
+.item {
+  padding: 1rem;
+  color: #003b9c;
+  font-weight: normal;
+  font-size: 24px;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  column-gap: 5px;
+  border-radius: 10px;
+  transition-duration: 0.5s;
 }
 
-.bold{
-    font-weight: bold;
+.item p {
+  font-family: Poppins, sans-serif;
+  font-weight: 500;
 }
 
-.userIcon{
-    padding: 0.5rem;
-    width: 55px;
-    height: 55px;
+.navNames {
+  font-family: Poppins, sans-serif;
+  font-weight: 500;
+  text-decoration: none;
+  font-size: 24px;
+  color: #003b9c;
+}
+
+.col_gap_5px {
+  column-gap: 5px;
+}
+
+.bold {
+  font-weight: bold;
+
 }
 
 .profile-button {
-    border: none;
-    cursor: pointer;
-    appearance: none;
-    background-color: inherit;
-    transition: transform .7s ease-in-out;
+  border: none;
+  cursor: pointer;
+  appearance: none;
+  background-color: inherit;
+  transition: transform 0.7s ease-in-out;
 }
 
 .dropdown {
-    position: relative;
-    display: inline-block;
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown p {
+  font-family: Poppins, sans-serif;
+  font-weight: 500;
 }
 
 .dropdown-content {
-    display: none;
-    position: absolute;
-    right: 0px;
-    background-color: #f1f1f1;
-    min-width: 235px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
+  display: none;
+  position: absolute;
+  right: 0px;
+  background-color: #f1f1f1;
+  min-width: 235px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
 }
 
 /* Change color of dropdown links on hover */
-.dropdown-content Link:hover {background-color: #d9d9d9;}
+.dropdown-content Link:hover {
+  background-color: #d9d9d9;
+}
 
 /* Show the dropdown menu on hover */
-.dropdown:hover .dropdown-content {display: flex;}
+.dropdown:hover .dropdown-content {
+  display: flex;
+}
 
 /* Change the background color of the dropdown button when the dropdown content is shown */
-.dropdown:hover .profile-button {background-color: #6fb49f;}
-
-ul {
-    list-style: none;
-    margin:0px;
-    padding:10px;
-    gap: 10px;
+.dropdown:hover .profile-button {
+  background-color: #6fb49f;
 }
