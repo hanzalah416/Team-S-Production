@@ -10,6 +10,9 @@ router.post("/", async function (req: Request, res: Response) {
   // Attempt to save the high score
   try {
     // Attempt to create in the database
+    res.status(200).json({
+      message: "hello from backend",
+    });
     await PrismaClient.flowerRequests.create({ data: flowerRequestAttempt });
     console.info("Successfully saved flower request"); // Log that it was successful
   } catch (error) {
@@ -31,6 +34,9 @@ router.get("/", async function (req: Request, res: Response) {
     select: {
       patientName: true,
       PatientRoom: true,
+      flowerID: true,
+      customMessage: true,
+      userID: true,
     },
   });
 
