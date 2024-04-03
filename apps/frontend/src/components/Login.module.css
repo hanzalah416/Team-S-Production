@@ -1,47 +1,44 @@
 /* Login.module.css */
 
+@import url("https://fonts.googleapis.com/css2?family=Jaldi:wght@400;700&display=swap");
 
-@import url('https://fonts.googleapis.com/css2?family=Jaldi:wght@400;700&display=swap');
-
-.wholePage{
-    background: white;
-    position: absolute;
-    padding: 0;
-    margin: 0;
-    top:0;
-    left:0;
-    width:100vw;
-    height: 100vh;
-    min-height: 580px;
-    min-width: 700px;
+.wholePage {
+  background: white;
+  position: absolute;
+  padding: 0;
+  margin: 0;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  min-height: 580px;
+  min-width: 700px;
 }
 
-.container{
-    padding: 0;
-    margin: 0;
-    position: absolute;
-    left:2%;
-    top: 100px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    width:98%;
-    height: calc(100% - 100px);
+.container {
+  padding: 0;
+  margin: 0;
+  position: absolute;
+  left: 2%;
+  top: 100px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 98%;
+  height: calc(100% - 100px);
 }
 
 .signInForm {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    width: 30%;
-    height: 60%;
-    min-height: 300px;
-    max-height: 450px;
-    background: white;
-
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 30%;
+  height: 60%;
+  min-height: 300px;
+  max-height: 450px;
+  background: white;
 }
-
 
 .title {
   flex: 1;
@@ -71,7 +68,6 @@
 }
 
 .forgotPassword {
-
   align-self: center;
   justify-self: end;
   font-size: 18px;
@@ -107,7 +103,6 @@ input[type="checkbox"]:checked {
   border: 1px solid #ced0ce;
   background: #ff7f11;
   color: white;
-
 }
 
 .input,
@@ -204,7 +199,6 @@ input[type="checkbox"]:checked {
   width: 320px;
 }
 
-
 .remember {
   color: black;
   text-decoration: none;
@@ -219,11 +213,10 @@ input[type="checkbox"]:checked {
 }
 
 .slideShow {
-
   width: 66.66vw;
   height: 100vh;
   align-self: flex-end;
-    overflow: hidden;
+  overflow: hidden;
   z-index: 0;
   background-image: url("/src/components/assets/HeroPhotos/Temp1.png");
   background-size: cover;
@@ -236,7 +229,6 @@ input[type="checkbox"]:checked {
   height: 100vh;
 }
 
-.logo{
-    flex-grow: 2;
+.logo {
+  flex-grow: 2;
 }
-

@@ -22,18 +22,18 @@ model HighScore {
 model hospitalUser {
   userID         String           @id @default(uuid())
   userEmail      String
-  userName       String
+  userName       String           @unique
   userPassword   String
   flowerRequests FlowerRequests[]
 }
 
 model FlowerRequests {
-  flowerID      Int          @id @default(autoincrement())
+  orderNumber   Int          @id @default(autoincrement())
   patientName   String
   PatientRoom   Int
   customMessage String?
-  userID        String
-  user          hospitalUser @relation(fields: [userID], references: [userID])
+  userName      String
+  user          hospitalUser @relation(fields: [userName], references: [userName])
 }
 
 model Node {

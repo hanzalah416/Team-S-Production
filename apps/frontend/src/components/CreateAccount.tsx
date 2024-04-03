@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import styles from "./CreateAccount.module.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import {userform} from "./common/userform.ts";
+import { userform } from "./common/userform.ts";
 
 const CreateAccount: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -37,31 +37,30 @@ const CreateAccount: React.FC = () => {
     }
   };
 
-
-    async function createAccount() {
+  async function createAccount() {
     handleCreateAccount();
-        const createdAccount: userform = {
-           userName: username,
-            userEmail: email,
-            userPassword: password,
-        };
-        console.log(createdAccount);
-        const res = await axios.post("/api/create-user", createdAccount, {
-            headers: {
-                "Content-Type": "application/json",
-            },
-        });
+    const createdAccount: userform = {
+      userName: username,
+      userEmail: email,
+      userPassword: password,
+    };
+    console.log(createdAccount);
+    const res = await axios.post("/api/create-user", createdAccount, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
-        console.log(res);
+    console.log(res);
 
-        if (res.status == 200) {
-            console.log("Order sent successfully");
-            navigate("/welcome");
-        } else if (res.status == 400) {
-            console.log("Order failed to send");
-            navigate("/create-account");
-        }
+    if (res.status == 200) {
+      console.log("Order sent successfully");
+      navigate("/welcome");
+    } else if (res.status == 400) {
+      console.log("Order failed to send");
+      navigate("/create-account");
     }
+  }
 
   const isSamePasswords = (): boolean => {
     return passwordAgain == password;

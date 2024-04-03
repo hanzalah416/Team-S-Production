@@ -29,18 +29,18 @@ router.get("/", async function (req: Request, res: Response) {
   try {
     const userName: string = req.query.userName as string;
 
-    const logIn = await PrismaClient.hospitalUser.findMany({
+    const logIn = await PrismaClient.hospitalUser.findFirst({
       where: {
         userName: userName,
       },
       select: {
-        userID: true,
+        userName: true,
         userPassword: true,
       },
     });
 
-    if (logIn.length > 0) {
-      res.json(logIn[0]);
+    if (logIn != null) {
+      res.json(logIn);
     } else {
       console.error("Username not found");
       res.sendStatus(204);
