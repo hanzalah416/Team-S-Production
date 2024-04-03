@@ -21,7 +21,7 @@ const Login: React.FC = () => {
   useEffect(() => {
     const imageUrls = [
       "/src/components/assets/HeroPhotos/Temp1.png",
-      "/src/components/assets/HeroPhotos/Temp2.png",
+      "/src/components/assets/HeroPhotos/nurse6.jpg",
       "/src/components/assets/HeroPhotos/Temp3.png",
     ];
     const randomImageUrl =
