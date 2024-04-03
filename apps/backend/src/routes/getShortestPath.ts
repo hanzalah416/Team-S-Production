@@ -1,43 +1,41 @@
 import express, { Router, Request, Response } from "express";
-
-import MakeGraph from "../makegraph.ts";
-
-import readCSV from "../Readcsv.ts";
-/*
-import { Prisma } from "database";
-import PrismaClient from "../bin/database-connection.ts";
- */
+import MakeGraph from "../makegraph";
+import client from "../bin/database-connection.ts";
+import { Node } from "../../../../packages/database/.prisma/client";
+import { NodeEdge } from "../../../../packages/database/.prisma/client";
 
 const router: Router = express.Router();
 
-router.get("/pathfind", async function (req: Request, res: Response) {
+router.post("/", async function (req: Request, res: Response) {
   try {
     const graph = new MakeGraph();
 
-    const nodes = readCSV("L1Nodes.csv");
-    const edges = readCSV("L1Edges.csv");
+    //Get data from the database to for node and edge variables
+    const nodes = await client.node.findMany();
+    const edges = await client.nodeEdge.findMany();
 
-    // Add all nodes to graph
-    nodes.forEach((nodeProperties) => {
-      graph.addNode(nodeProperties[0]);
+    nodes.forEach((node: Node) => {
+      graph.addNode(node);
     });
 
-    // Add all edges to graph
-    edges.forEach((edge) => {
-      graph.addEdge(edge[0], edge[1]);
+    edges.forEach((edge: NodeEdge) => {
+      graph.addEdge(edge);
     });
 
-    //pathfinding using BFS
     const { startNodeID, endNodeID } = req.body;
+
+    console.log("Received start and end nodes", startNodeID, endNodeID);
+
     const path = graph.BFS(startNodeID, endNodeID);
+
     if (!path) {
       throw new Error("Path was undefined");
     }
-    // Check
-    path.length === 0 ? res.sendStatus(204) : res.json({ pathNodeIDs: path });
+
+    path.length == 0 ? res.sendStatus(204) : res.json({ id: path });
   } catch (error) {
     console.error("Error by pathfinding: ", error);
-    res.sendStatus(400).send("Path was undefined");
+    res.status(400).send("Path was undefined");
   }
 });
 
