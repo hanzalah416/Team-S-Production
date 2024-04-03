@@ -20,20 +20,17 @@ model HighScore {
 }
 
 model hospitalUser {
-  userID         String           @id @default(uuid())
-  userEmail      String
-  userName       String           @unique
-  userPassword   String
-  flowerRequests FlowerRequests[]
+  userID       String @id @default(uuid())
+  userEmail    String
+  userName     String @unique
+  userPassword String
 }
 
 model FlowerRequests {
-  orderNumber   Int          @id @default(autoincrement())
+  orderNumber   Int     @id @default(autoincrement())
   patientName   String
   PatientRoom   Int
   customMessage String?
-  userName      String
-  user          hospitalUser @relation(fields: [userName], references: [userName])
 }
 
 model Node {
