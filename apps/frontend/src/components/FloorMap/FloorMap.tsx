@@ -126,6 +126,7 @@ function FloorMap() {
                   style: {
                     fontFamily: "Poppins",
                     fontSize: 14,
+                    textAlign: "center",
                   },
                 }}
               />
@@ -173,61 +174,14 @@ function FloorMap() {
                 alt="map"
                 className={styles.hmapImage}
               />
-              <svg
-                className={styles.pathSvg}
-                style={{
-                  position: "absolute",
-                  top: 0,
-                  left: 0,
-                  width: "100%",
-                  height: "100%",
-                }}
-              >
-                {queueNodeIDs.map((nodeID, index) => {
-                  const point = getPositionById(nodeID);
-                  if (point && index < queueNodeIDs.length - 1) {
-                    const nextPoint = getPositionById(queueNodeIDs[index + 1]);
-                    if (nextPoint) {
-                      return (
-                        <line
-                          key={index}
-                          x1={`${parseFloat(point.left)}%`}
-                          y1={`${parseFloat(point.top)}%`}
-                          x2={`${parseFloat(nextPoint.left)}%`}
-                          y2={`${parseFloat(nextPoint.top)}%`}
-                          stroke="blue"
-                          strokeWidth="2"
-                        />
-                      );
-                    }
-                  }
-                  return null;
-                })}
-              </svg>
+
               <div className={styles.dotsContainer}>
-                {startPosition && (
-                  <div
-                    className={styles.mapDot}
-                    style={{
-                      top: startPosition.top,
-                      left: startPosition.left,
-                      backgroundColor: "green",
-                    }}
-                  ></div>
-                )}
-                {endPosition && (
-                  <div
-                    className={styles.mapDot}
-                    style={{
-                      top: endPosition.top,
-                      left: endPosition.left,
-                      backgroundColor: "red",
-                    }}
-                  ></div>
-                )}
                 {queueNodeIDs.map((nodeID, index) => {
                   const point = getPositionById(nodeID);
-                  if (point) {
+                  if (
+                    point &&
+                    (index === 0 || index === queueNodeIDs.length - 1)
+                  ) {
                     return (
                       <div
                         key={index}
@@ -240,7 +194,8 @@ function FloorMap() {
                               ? "green"
                               : index === queueNodeIDs.length - 1
                                 ? "red"
-                                : "blue",
+                                : "transparent",
+                          display: "block",
                         }}
                       ></div>
                     );
@@ -248,6 +203,57 @@ function FloorMap() {
                   return null;
                 })}
               </div>
+
+              <svg
+                className={styles.pathSvg}
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  width: "100%",
+                  height: "100%",
+                }}
+              >
+                {queueNodeIDs
+                  .slice(0)
+                  .reverse()
+                  .map((nodeID, index) => {
+                    const point = getPositionById(nodeID);
+                    if (point && index < queueNodeIDs.length - 1) {
+                      const nextPoint = getPositionById(
+                        queueNodeIDs[queueNodeIDs.length - index - 2],
+                      );
+                      if (nextPoint) {
+                        return (
+                          <>
+                            {/*<line*/}
+                            {/*    key={`${index}-bg`}*/}
+                            {/*    x1={`${parseFloat(nextPoint.left)}%`}*/}
+                            {/*    y1={`${parseFloat(nextPoint.top)}%`}*/}
+                            {/*    x2={`${parseFloat(point.left)}%`}*/}
+                            {/*    y2={`${parseFloat(point.top)}%`}*/}
+                            {/*    strokeLinecap="round"*/}
+                            {/*    stroke="lightblue"*/}
+                            {/*    strokeWidth="2"*/}
+                            {/*/>*/}
+                            <line
+                              key={index}
+                              className={styles.line}
+                              x1={`${parseFloat(nextPoint.left)}%`}
+                              y1={`${parseFloat(nextPoint.top)}%`}
+                              x2={`${parseFloat(point.left)}%`}
+                              y2={`${parseFloat(point.top)}%`}
+                              strokeLinecap="round"
+                              stroke="blue"
+                              strokeWidth="2"
+                            />
+                          </>
+                        );
+                      }
+                    }
+                    return null;
+                  })}
+              </svg>
             </TransformComponent>
           </TransformWrapper>
         </div>

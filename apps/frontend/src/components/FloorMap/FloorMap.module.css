@@ -5,12 +5,19 @@ body {
   font-size: 14px;
 }
 
+.pathNotFoundBox {
+  background-color: red;
+  color: white;
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 5px;
+  text-align: center;
+}
 .wholePage {
   background: #f1f1f1;
-  position: absolute;
+  position: fixed;
   padding: 0;
-  margin-top: 70px;
-  top: 0;
+  top: 180px;
   left: 0;
   width: 100vw;
   height: 100vh;
@@ -22,7 +29,7 @@ body {
   padding: 0;
   margin: 0;
   position: absolute;
-  top: 100px;
+  top: 0px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -41,16 +48,23 @@ body {
   min-height: 200px;
   max-height: 200px;
   background: #f1f1f1;
-  margin-top: -550px; /* Adjust this value as needed to control the distance from the top */
+  margin-top: -700px; /* Adjust this value as needed to control the distance from the top */
 }
 
 .mapArea {
+  height: calc(
+    100vh + 110px
+  ); /* Subtract the navbar height or any padding you may have */
   width: 100vw;
-  height: 100vh;
-  align-self: flex-end;
+  position: relative;
   overflow: hidden;
-  z-index: 0;
-  position: relative; /* Ensure this is set */
+}
+
+.hmap-image {
+  height: 100%; /* Make the image fill the container height */
+  width: auto; /* Adjust width automatically */
+  object-fit: cover; /* Cover the area without losing aspect ratio */
+  max-width: none; /* Allow the width to go beyond 100% if necessary */
 }
 
 .transformWrapper {
@@ -64,20 +78,13 @@ body {
   height: 100%;
 }
 
-.hmap-image {
-  width: 100%; /* Fill the width of its container */
-  height: auto; /* Maintain aspect ratio */
-  max-height: 100%; /* Ensure it doesn't exceed the container's height */
-}
-
 .mapDot {
   position: absolute;
   width: 5px;
   height: 5px;
-  background-color: red;
   border-radius: 50%;
   transform: translate(-50%, -50%);
-  z-index: 1000;
+  z-index: 10;
 }
 
 .dotsContainer {
@@ -104,13 +111,31 @@ body {
   background-color: #003b9c;
   color: white;
   font-weight: bold;
-  line-height: 90px;
-  height: 48px !important;
+  line-height: 48px;
   width: 420px;
-  left: calc(-20%);
+  left: calc(-17%);
   position: relative;
   box-sizing: border-box;
   text-align: center;
   margin-top: 20px;
   font-size: 20px;
+}
+
+@keyframes moveDottedLine {
+  to {
+    stroke-dashoffset: -10;
+  }
+}
+
+.line {
+  stroke-dasharray: 3;
+  stroke-dashoffset: 20;
+  animation: moveDottedLine 1s linear infinite;
+  z-index: 100;
+}
+
+.mapDot.small {
+  width: 0px;
+  height: 0px;
+  z-index: 0;
 }
