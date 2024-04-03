@@ -8,6 +8,7 @@ import PrismaClient from "./bin/database-connection.ts";
 import seed from "./seed.ts";
 import logInRouter from "./routes/newAccount.ts";
 const app: Express = express(); // Setup the backend
+import pathfinderRouter from "./routes/getShortestPath.ts";
 // Populate the database
 seed()
   .then(async () => {
@@ -36,6 +37,8 @@ app.use("/api/high-score", exampleRouter);
 app.use("/api/flower-request", flowerRequestRouter);
 // app.use("/api/log-in", logInRouter);
 app.use("/api/create-user", logInRouter);
+app.use("/api/pathfind", pathfinderRouter);
+
 app.use("/healthcheck", (req, res) => {
   res.status(200).send();
 });

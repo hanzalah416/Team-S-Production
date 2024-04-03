@@ -1,41 +1,48 @@
+import { Node } from "../../../packages/database/.prisma/client";
+import { NodeEdge } from "../../../packages/database/.prisma/client";
+
 class MakeGraph {
   private nodeMap: Map<string, GraphNode> = new Map();
-  addNode(id: string): void {
-    const temp = new GraphNode(id);
-    this.nodeMap.set(id, temp);
+
+  addNode(node: Node): void {
+    const temp = new GraphNode(node.nodeID);
+    this.nodeMap.set(node.nodeID, temp);
   }
-  addEdge(id1: string, id2: string): void {
-    const node1 = this.nodeMap.get(id1);
-    const node2 = this.nodeMap.get(id2);
+
+  addEdge(nodeEdge: NodeEdge): void {
+    const node1 = this.nodeMap.get(nodeEdge.startNodeID);
+    const node2 = this.nodeMap.get(nodeEdge.endNodeID);
     if (node1 && node2) {
       node1.addNB(node2);
       node2.addNB(node1);
     } else {
-      console.error(`nodes not found: ${id1}, ${id2}`);
+      console.error(`nodes not found: ${nodeEdge}`);
     }
   }
+
   //main BFS ,to find a shortest path
   //If start or end is undefined return undefined
-  BFS(start: string, end: string) {
+  BFS(start: string, end: string): string[] {
     const startNode = this.nodeMap.get(start);
     const endNode = this.nodeMap.get(end);
 
-    //If start or end is undefined return undefined
     if (!startNode || !endNode) {
       console.error("nodes not found.");
-      return;
+      return [];
     }
-    //Initialize BFS
+
     const arrivedFrom: NBMap = new Map();
     const queue: GraphNode[] = [startNode];
     arrivedFrom.set(startNode, startNode);
 
+    let pathFound = false;
+
     while (queue.length > 0) {
-      const currentNode = queue.shift()!; //get the first the node
+      const currentNode = queue.shift()!;
       if (currentNode === endNode) {
+        pathFound = true;
         break;
       }
-      //serching for the goal node
       currentNode.neighbors.forEach((neighbor) => {
         if (!arrivedFrom.has(neighbor)) {
           arrivedFrom.set(neighbor, currentNode);
@@ -43,17 +50,24 @@ class MakeGraph {
         }
       });
     }
-    //Backtrack for path
+
+    if (!pathFound) {
+      console.log("No path found");
+      return [];
+    }
+
     const path: GraphNode[] = [];
     let currentNode = endNode;
     while (currentNode !== startNode) {
       path.push(currentNode);
       currentNode = arrivedFrom.get(currentNode)!;
     }
-    path.push(startNode); // Add the start node at the end
+    path.push(startNode);
 
-    console.log(path.reverse().map((node) => node.id));
-    return path;
+    // Convert the path of GraphNode objects to an array of node IDs
+    const pathIds = path.map((node) => node.id).reverse();
+    console.log("Path found:", pathIds);
+    return pathIds;
   }
 }
 
