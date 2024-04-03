@@ -2,13 +2,12 @@ import React, { useState, useEffect } from "react";
 import styles from "./Login.module.css";
 
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+// import axios from "axios";
 
 // import Link from '@mui/material/Link';
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
-
-
+// import {loginform} from "./common/loginform.ts";
 
 const Login: React.FC = () => {
   const [username, setUsername] = useState("");
@@ -31,29 +30,19 @@ const Login: React.FC = () => {
   }, []);
 
   const handleLogin = async () => {
+      navigate('welcome');
       // eslint-disable-next-line react-hooks/rules-of-hooks
-      const [loginData, setLoginData] = useState("");
-      useEffect(() => {
-          async function fetchData() {
-              const res = await axios.get("/api/create-user");
-              setLoginData(res.data);
-              console.log("successfully got data from get request");
-          }
-
-          fetchData().then();
-      }, []);
-      return (
-          <div className="flex flex-colgap-5">
-              {feedBackData != undefined ? (
-                  feedBackData.map((loginData) => {
-                      return <FeedBackDisplay feedback={feedback}></FeedBackDisplay>;
-                  })
-              ) : (
-                  <></>
-              )}
-          </div>
-      );
-
+      // const [loginCreds, setLoginCreds] = useState<loginform[]>([]);
+      //
+      // await axios.get("/api/create-user").then((response) => {setLoginCreds(response.data);});
+      // console.log("successfully got data from get request");
+      // loginCreds.forEach((loginform) => {
+      //     if(loginform.userPassword == password && loginform.userName == username) {
+      //         navigate('/welcome');
+      //     } else {
+      //         navigate('/');
+      //     }
+      // });
 
   };
 
