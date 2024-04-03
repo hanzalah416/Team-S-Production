@@ -41,14 +41,15 @@
 }
 
 .title {
-  align-self: flex-start;
+  align-self: center;
   font-family: "Inter", sans-serif;
   font-weight: 600;
   font-size: 32px;
   text-align: center;
 
   color: #444444;
-  margin-bottom: 0; /* Space between title and form */
+  margin-bottom: 20px; /* Space between title and form */
+
 }
 
 .inputRow {
@@ -63,6 +64,11 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+    translate: 60px;
+}
+
+.logo{
+    margin-top: -100px;
 }
 
 .forgotPassword {
@@ -70,8 +76,17 @@
   justify-self: end;
   font-size: 18px;
   color: black;
-  margin: 5px;
+ margin: 5px;
 }
+
+.signUp {
+    align-self: center;
+    justify-self: end;
+    font-size: 18px;
+    color: black;
+    margin-top: 20px;
+}
+
 
 input[type="checkbox"] {
   margin: 0 0;
@@ -96,7 +111,7 @@ input[type="checkbox"]:checked {
 .input,
 .textarea {
   box-sizing: border-box;
-  color: #ced0ce;
+  color: black;
   padding: 10px;
   background: #f1f1f1;
   border: 2px solid #ced0ce;
@@ -107,7 +122,7 @@ input[type="checkbox"]:checked {
 }
 
 .input {
-  width: 100%; /* Adjust width for gap */
+  width: 300px; /* Adjust width for gap */
 }
 
 .largeTextarea {
@@ -135,11 +150,11 @@ input[type="checkbox"]:checked {
   margin-bottom: 5px; /* Add some space between label and input */
 }
 
-/*.buttonGroup {
+.buttonGroup {
   display: flex;
   flex-direction: column;
-margin-bottom: 20px;
-} */
+margin-top: 5px;
+}
 
 .loginButton {
     padding: 8px 18px;
@@ -156,7 +171,7 @@ margin-bottom: 20px;
     color: white;
     display: block;
     margin: auto;
-    width: 100%;
+    width: 80%;
 }
 
 .slideShow {
