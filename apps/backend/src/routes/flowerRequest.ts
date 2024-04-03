@@ -38,7 +38,6 @@ router.get("/", async function (req: Request, res: Response) {
       userID: true,
     },
   });
-
   // No flower requests exist in the database
   if (flowerRequest === null) {
     // Log that
