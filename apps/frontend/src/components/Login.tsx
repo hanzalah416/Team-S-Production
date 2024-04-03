@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import styles from "./Login.module.css";
 
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-// import Link from '@mui/material/Link';
-import Checkbox from "@mui/material/Checkbox";
-import FormControlLabel from "@mui/material/FormControlLabel";
+//import Link from '@mui/material/Link';
+import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
 
 const Login: React.FC = () => {
   const [username, setUsername] = useState("");
@@ -19,8 +19,8 @@ const Login: React.FC = () => {
   useEffect(() => {
     const imageUrls = [
       "/src/components/assets/HeroPhotos/Temp1.png",
-      "/src/components/assets/HeroPhotos/Temp2.png",
       "/src/components/assets/HeroPhotos/Temp3.png",
+        "/src/components/assets/HeroPhotos/nurse6.jpg"
     ];
     const randomImageUrl =
       imageUrls[Math.floor(imageUrls.length * Math.random())];
@@ -48,63 +48,42 @@ const Login: React.FC = () => {
     <div>
       <div className={styles.wholePage}>
         <div className={styles.container}>
-          <form className={styles.signInForm}>
-            <img
-              src="/src/components/assets/bwh-logo.svg"
-              className={styles.logo}
-              alt={"BWH logo"}
-            />
-            <h2 className={styles.title}>Sign in</h2>
+            <form className={styles.signInForm}>
+                <img src="/src/components/assets/bwh-logo.svg" className={styles.logo} alt={"BWH logo"}/>
+                <h2 className={styles.title}>Sign in</h2>
 
-            <div className={styles.formGroup}>
-              <input
-                className={styles.input}
-                type="text"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                placeholder="Username"
-              />
-            </div>
+                <p className={styles.inputTxt}>Username</p>
+                <div className={styles.formGroup}>
+                    <input className={styles.input} type="text" value={username}
+                           onChange={(e) => setUsername(e.target.value)} placeholder="Enter your username"/>
+                </div>
 
-            <div className={styles.formGroup}>
-              <input
-                className={styles.input}
-                type="text"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Password"
-              />
-            </div>
+                <p className={styles.inputTxt}>Password</p>
+                <div className={styles.formGroup}>
+                    <input className={styles.input} type="text" value={password}
+                           onChange={(e) => setPassword(e.target.value)} placeholder="Enter your password"/>
+                </div>
 
-            <div className={styles.extras}>
-              <FormControlLabel
-                control={<Checkbox />}
-                label="Remember Me"
-                style={{ color: "black" }}
-              />
-              <p className={styles.forgotPassword}>
-                <a className={styles.forgotLink} href="url">
-                  FORGOT PASSWORD?
-                </a>
-              </p>
-            </div>
+                <div className={styles.extras}>
+                    <FormControlLabel control={<Checkbox/>} label="Remember Me" style={{color: '#444444'}}/>
+                    <p className={styles.forgotPassword}>
+                        <a className={styles.forgotLink} >Forgot Password?</a>
+                    </p>
+                </div>
 
-            <div className={styles.buttonGroup}>
-              <div className={styles.buttonGroup}>
-                <button
-                  className={`${styles.button} ${styles.loginButton}`}
-                  type="button"
-                  onClick={handleLogin}
-                >
-                  Login
-                </button>
-              </div>
-              <p className={styles.forgotPassword}>
-                Don't have an account?{" "}
-                <Link to={"/create-account"}> Sign Up</Link>
-              </p>
+                <div className={styles.buttonGroup}>
+                    <div className={styles.buttonGroup}>
+                        <button className={`${styles.button} ${styles.loginButton}`} type="button" onClick={handleLogin}>LOGIN</button>
+                    </div>
+                    <p className={styles.forgotPassword}>Don't have an account?{" "}<a className={styles.suLink} href="/create-account"> Sign
+                        Up</a>
+                    </p>
+                </div>
+            </form>
+
+            <div className={styles.slideShow} style={{backgroundImage: backgroundImage}}>
+                {/*<img src="/src/components/assets/HeroPhotos/Temp1.png" className={"heroImage"} alt={"map"}/>*/}
             </div>
-          </form>
           <div
             className={styles.slideShow}
             style={{ backgroundImage: backgroundImage }}
