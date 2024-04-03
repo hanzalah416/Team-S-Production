@@ -5,9 +5,9 @@ import OrderFlowers from "../src/components/OrderFlowers";
 import Login from "../src/components/Login";
 import CreateAccount from "../src/components/CreateAccount";
 import OrderPayment from "../src/components/OrderPayment";
-import DisplayFormData from "../src/components/DisplayFormData.tsx";
 import { FormDataProvider } from "./components/FormDataContext.tsx";
 import FloorMap from "./components/FloorMap/FloorMap.tsx";
+import { FlowerRequestGetter } from "./components/FlowerRequests/FlowerRequestGetter.tsx";
 
 function App() {
   const router = createBrowserRouter([
@@ -60,7 +60,7 @@ function App() {
           path: "/order-flowers-result",
           element: (
             <>
-              <DisplayFormData />
+              <FlowerRequestGetter />
               <Layout />
             </>
           ),
