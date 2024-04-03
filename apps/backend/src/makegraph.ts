@@ -1,6 +1,4 @@
-
-class Makegraph {
-
+class MakeGraph {
   private nodeMap: Map<string, GraphNode> = new Map();
   addNode(id: string): void {
     const temp = new GraphNode(id);
@@ -75,6 +73,4 @@ class GraphNode {
   }
 }
 
-
 export default MakeGraph;
-

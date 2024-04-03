@@ -16,7 +16,6 @@ body {
   width: 50%; /* 53.4% of the parent element's width */
   height: 80%;
   background: #ffffff;
-  border-radius: 43px;
 
   box-sizing: border-box;
   display: flex;
@@ -30,10 +29,11 @@ body {
   /* Allows vertical scrolling if the content is taller than the container */
   overflow-y: auto;
   padding: 1.25rem 2rem;
+  border: 2px solid #b9b9b9;
 }
 
 .title {
-  font-family: "Inter", sans-serif;
+  font-family: Poppins, sans-serif;
   font-weight: 700;
   font-size: 60px;
   line-height: 73px;
@@ -43,7 +43,6 @@ body {
 }
 
 .result {
-  font-family: "Inter", sans-serif;
   box-sizing: border-box;
   color: #000000;
   padding: 15px 22px;
@@ -67,7 +66,7 @@ body {
 
 .input,
 .textarea {
-  font-family: "Inter", sans-serif;
+  font-family: Poppins, sans-serif;
   box-sizing: border-box;
   color: #000000;
   padding: 15px 22px;
@@ -75,7 +74,6 @@ body {
   border: 1px solid #b9b9b9;
   box-shadow: 4px 4px 9.4px rgba(0, 0, 0, 0.25);
   border-radius: 16px;
-
   display: flex;
   width: calc(
     100% - 2rem
@@ -84,11 +82,11 @@ body {
 }
 
 .input {
-  width: 250px; /* Adjust width for gap */
+  width: 225px; /* Adjust width for gap */
 }
 
 .largeTextarea {
-  width: 540px;
+  width: 526px;
   height: 142px; /* Larger height for text area */
   /* Space below the inputs */
   resize: none;
@@ -104,7 +102,7 @@ body {
 }
 
 .label {
-  font-family: "Jaldi", sans-serif;
+  font-family: Poppins, sans-serif;
   font-size: 20px;
   line-height: 41px;
   color: #000000;
@@ -156,7 +154,7 @@ body {
 }
 
 .reviewButton {
-  background: linear-gradient(90deg, #9360d5 0%, #5468b1 82%);
+  background: #289ba5;
   color: white;
   margin-left: 10px; /* Same as the right margin of the backButton to ensure symmetry */
 }

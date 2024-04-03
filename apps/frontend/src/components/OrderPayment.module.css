@@ -164,7 +164,6 @@
   margin-right: 0;
 }
 .button:first-child {
-
   margin-left: 0;
 }
 
@@ -192,13 +191,11 @@
   }
 
   .item {
-
     max-width: 100%; /* Allow buttons to expand to the full width */
   }
 
   /* If you have set margins that may affect centering, adjust them here */
   .item,
-
   .backButton,
   .reviewButton {
     margin: 0.5rem auto; /* Center buttons horizontally and add some vertical space */

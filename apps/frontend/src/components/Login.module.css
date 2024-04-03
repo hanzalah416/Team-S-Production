@@ -91,7 +91,6 @@ input[type="checkbox"]:checked {
   padding: 0.5em;
   border: 1px solid #ced0ce;
   color: #f1f1f1;
-
 }
 
 .input,
@@ -164,7 +163,7 @@ margin-bottom: 20px;
   width: 66.66vw;
   height: 100vh;
   align-self: flex-end;
-    overflow: hidden;
+  overflow: hidden;
   z-index: 0;
   background-image: url("/src/components/assets/HeroPhotos/Temp1.png");
   background-size: cover;
@@ -189,4 +188,3 @@ margin-bottom: 20px;
     font-size: 15px;
     color: #444444;
 }
-

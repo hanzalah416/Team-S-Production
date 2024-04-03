@@ -1,6 +1,18 @@
 /* OrderFlowers.module.css */
 @import url("https://fonts.googleapis.com/css2?family=Jaldi:wght@400;700&display=swap");
 
+.wholePage {
+  position: relative;
+  top: -50px;
+  left: auto;
+  justify-self: center;
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
+}
+
 .container {
   position: absolute;
   top: 59%;
