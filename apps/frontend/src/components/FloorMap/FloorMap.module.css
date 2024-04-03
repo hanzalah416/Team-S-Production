@@ -48,7 +48,7 @@ body {
   min-height: 200px;
   max-height: 200px;
   background: #f1f1f1;
-  margin-top: -700px; /* Adjust this value as needed to control the distance from the top */
+  margin-top: -600px; /* Adjust this value as needed to control the distance from the top */
 }
 
 .mapArea {
