@@ -2,7 +2,11 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./OrderFlowers.module.css";
-import { useFormData } from "./useFormData";
+//import { useFormData } from "./useFormData";
+//import {Simulate} from "react-dom/test-utils";
+//import submit = Simulate.submit;
+import { flowerform } from "./common/flowerform.ts";
+import axios from "axios";
 
 const OrderFlowers: React.FC = () => {
   const [patientName, setPatientName] = useState("");
@@ -10,19 +14,48 @@ const OrderFlowers: React.FC = () => {
   const [customMessage, setCustomMessage] = useState("");
 
   const navigate = useNavigate();
-  const { formData, setFormData } = useFormData();
+  //const { formData, setFormData } = useFormData();
 
-  const handleReviewOrder = () => {
-    setFormData({
-      ...formData,
-      orderFlowers: {
-        patientName,
-        patientRoom,
-        customMessage,
-      },
-    });
-    navigate("/payment-info");
-  };
+  /*const handleReviewOrder = () => {
+      setFormData({
+        ...formData,
+        orderFlowers: {
+          patientName,
+          patientRoom,
+          customMessage,
+        },
+      });
+      navigate("/order-flowers-result");
+    };*/
+
+  async function submit() {
+    if (patientName == "" || patientRoom == "") {
+      alert("Please Fill out the Patient Name and Room Number");
+      return;
+    }
+
+    const orderFlowerSent: flowerform = {
+      patientName: patientName,
+      PatientRoom: parseInt(patientRoom),
+      customMessage: customMessage,
+    };
+    console.log(orderFlowerSent);
+
+    await axios
+      .post("/api/flower-request", orderFlowerSent, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      .then(() => {
+        console.log("Order sent successfully");
+        navigate("/order-flowers-result");
+      })
+      .catch(() => {
+        console.log("Order failed to send");
+        alert("Order failed to send. Please try again later.");
+      });
+  }
 
   const handleBack = () => {
     navigate("/welcome");
@@ -47,8 +80,11 @@ const OrderFlowers: React.FC = () => {
             <label className={styles.label}>Patient Room</label>
             <input
               className={styles.input}
-              type="text"
+              type="number"
               value={patientRoom}
+              onKeyDown={(e) =>
+                (e.keyCode === 69 || e.keyCode === 190) && e.preventDefault()
+              }
               onChange={(e) => setPatientRoom(e.target.value)}
               placeholder="Room Number Here"
             />
@@ -75,7 +111,7 @@ const OrderFlowers: React.FC = () => {
           <button
             className={`${styles.button} ${styles.reviewButton}`}
             type="button"
-            onClick={handleReviewOrder}
+            onClick={submit}
           >
             Continue
           </button>

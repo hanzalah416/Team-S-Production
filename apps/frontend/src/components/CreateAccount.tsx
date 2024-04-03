@@ -2,6 +2,8 @@
 import React, { useState } from "react";
 import styles from "./CreateAccount.module.css";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { userform } from "./common/userform.ts";
 
 const CreateAccount: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -35,13 +37,38 @@ const CreateAccount: React.FC = () => {
     }
   };
 
+  async function createAccount() {
+    handleCreateAccount();
+    const createdAccount: userform = {
+      userName: username,
+      userEmail: email,
+      userPassword: password,
+    };
+    console.log(createdAccount);
+    const res = await axios.post("/api/create-user", createdAccount, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    console.log(res);
+
+    if (res.status == 200) {
+      console.log("Order sent successfully");
+      navigate("/welcome");
+    } else if (res.status == 400) {
+      console.log("Order failed to send");
+      navigate("/create-account");
+    }
+  }
+
   const isSamePasswords = (): boolean => {
     return passwordAgain == password;
   };
 
   return (
     <body>
-      <div>
+      <div className={styles.wholePage}>
         <img src="/src/components/assets/bwh-logo.svg" />
         <h2 className={styles.title}>Create Account</h2>
         <form onSubmit={handleSubmit}>
@@ -70,7 +97,7 @@ const CreateAccount: React.FC = () => {
             <h2 className={styles.header}>Password</h2>
             <input
               className={styles.input}
-              type="text"
+              type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Enter your password"
@@ -80,10 +107,10 @@ const CreateAccount: React.FC = () => {
             <h2 className={styles.header}>Confirm Password</h2>
             <input
               className={styles.input}
-              type="text"
+              type="password"
               value={passwordAgain}
               onChange={(e) => setPasswordAgain(e.target.value)}
-              placeholder="Retype your assword"
+              placeholder="Retype your password"
             />
           </div>
         </form>
@@ -98,7 +125,7 @@ const CreateAccount: React.FC = () => {
           <button
             className={`${styles.button} ${styles.reviewButton}`}
             type="button"
-            onClick={handleCreateAccount}
+            onClick={createAccount}
           >
             Create Account
           </button>

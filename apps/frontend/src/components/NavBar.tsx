@@ -79,47 +79,47 @@ function NavBar() {
                 Order Flowers
               </Link>
             </MenuItem>
-            <MenuItem onClick={handleClose}>
+            <MenuItem onClick={handleClose} disabled={true}>
               <Link to={"/order-flowers"} className={"item"} id={"order"}>
                 Audio/Visual Services
               </Link>
             </MenuItem>
-            <MenuItem onClick={handleClose}>
+            <MenuItem onClick={handleClose} disabled={true}>
               <Link to={"/order-flowers"} className={"item"} id={"order"}>
                 External Transportation
               </Link>
             </MenuItem>
-            <MenuItem onClick={handleClose}>
+            <MenuItem onClick={handleClose} disabled={true}>
               <Link to={"/order-flowers"} className={"item"} id={"order"}>
                 Maintenance
               </Link>
             </MenuItem>
-            <MenuItem onClick={handleClose}>
+            <MenuItem onClick={handleClose} disabled={true}>
               <Link to={"/order-flowers"} className={"item"} id={"order"}>
                 Internal Transportation
               </Link>
             </MenuItem>
-            <MenuItem onClick={handleClose}>
+            <MenuItem onClick={handleClose} disabled={true}>
               <Link to={"/order-flowers"} className={"item"} id={"order"}>
                 Language Services
               </Link>
             </MenuItem>
-            <MenuItem onClick={handleClose}>
+            <MenuItem onClick={handleClose} disabled={true}>
               <Link to={"/order-flowers"} className={"item"} id={"order"}>
                 Medical Delivery
               </Link>
             </MenuItem>
-            <MenuItem onClick={handleClose}>
+            <MenuItem onClick={handleClose} disabled={true}>
               <Link to={"/order-flowers"} className={"item"} id={"order"}>
                 Religious Requests
               </Link>
             </MenuItem>
-            <MenuItem onClick={handleClose}>
+            <MenuItem onClick={handleClose} disabled={true}>
               <Link to={"/order-flowers"} className={"item"} id={"order"}>
                 Sanitation Services
               </Link>
             </MenuItem>
-            <MenuItem onClick={handleClose}>
+            <MenuItem onClick={handleClose} disabled={true}>
               <Link to={"/order-flowers"} className={"item"} id={"order"}>
                 Security Services
               </Link>
@@ -156,7 +156,7 @@ function NavBar() {
                 Log Out
               </Link>
             </MenuItem>
-            <MenuItem onClick={handleClose}>
+            <MenuItem onClick={handleClose} disabled={true}>
               <Link
                 to={"/change-password"}
                 className={"item"}
@@ -169,7 +169,6 @@ function NavBar() {
         </div>
       </div>
       <div className={"blueBar"} />
-
     </div>
   );
 }

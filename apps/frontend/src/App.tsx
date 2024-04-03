@@ -3,12 +3,12 @@ import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 import NavBar from "../src/components/NavBar.tsx";
 import OrderFlowers from "../src/components/OrderFlowers";
 import Login from "../src/components/Login";
-import NavBarLogin from "../src/components/NavBarLogin";
 import CreateAccount from "../src/components/CreateAccount";
 import OrderPayment from "../src/components/OrderPayment";
-import DisplayFormData from "../src/components/DisplayFormData.tsx";
 import { FormDataProvider } from "./components/FormDataContext.tsx";
 import FloorMap from "./components/FloorMap/FloorMap.tsx";
+import { FlowerRequestGetter } from "./components/FlowerRequests/FlowerRequestGetter.tsx";
+import NodeDataPage from "./components/NodeDataPage.tsx";
 
 function App() {
   const router = createBrowserRouter([
@@ -19,7 +19,6 @@ function App() {
           element: (
             <>
               <Login />
-              <LayoutLogin />
             </>
           ),
         },
@@ -62,7 +61,7 @@ function App() {
           path: "/order-flowers-result",
           element: (
             <>
-              <DisplayFormData />
+              <FlowerRequestGetter />
               <Layout />
             </>
           ),
@@ -71,13 +70,19 @@ function App() {
           path: "/forgot-password",
           element: (
             <>
-              <OrderFlowers />
-              <LayoutLogin />
+              <div />
             </>
           ),
         },
-
-
+          {
+              path:"/node-data",
+              element: (
+                  <>
+                      <NodeDataPage />
+                      <Layout />
+                  </>
+              ),
+          },
         // ... other routes
       ],
     },
@@ -105,15 +110,6 @@ function Layout() {
   return (
     <>
       <NavBar />
-      <Outlet /> {/* Child routes will render here */}
-    </>
-  );
-}
-
-function LayoutLogin() {
-  return (
-    <>
-      <NavBarLogin />
       <Outlet /> {/* Child routes will render here */}
     </>
   );

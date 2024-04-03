@@ -4,9 +4,20 @@ import cookieParser from "cookie-parser";
 import logger from "morgan";
 import exampleRouter from "./routes/example.ts";
 import flowerRequestRouter from "./routes/flowerRequest.ts";
-//import main from "./seed.ts";
+import PrismaClient from "./bin/database-connection.ts";
+import seed from "./seed.ts";
+import logInRouter from "./routes/newAccount.ts";
 const app: Express = express(); // Setup the backend
-
+import pathfinderRouter from "./routes/getShortestPath.ts";
+// Populate the database
+seed()
+  .then(async () => {
+    await PrismaClient.$disconnect();
+  })
+  .catch(async (e) => {
+    console.error(e);
+    await PrismaClient.$disconnect();
+  });
 // Setup generic middlewear
 app.use(
   logger("dev", {
@@ -24,6 +35,10 @@ app.use(cookieParser()); // Cookie parser
 // won't be reached by the default proxy and prod setup
 app.use("/api/high-score", exampleRouter);
 app.use("/api/flower-request", flowerRequestRouter);
+// app.use("/api/log-in", logInRouter);
+app.use("/api/create-user", logInRouter);
+app.use("/api/pathfind", pathfinderRouter);
+
 app.use("/healthcheck", (req, res) => {
   res.status(200).send();
 });

@@ -19,6 +19,20 @@ model HighScore {
   score Int
 }
 
+model hospitalUser {
+  userID       String @id @default(uuid())
+  userEmail    String
+  userName     String @unique
+  userPassword String
+}
+
+model FlowerRequests {
+  orderNumber   Int     @id @default(autoincrement())
+  patientName   String
+  PatientRoom   Int
+  customMessage String?
+}
+
 model Node {
   nodeID     String     @id
   xcoord     Int

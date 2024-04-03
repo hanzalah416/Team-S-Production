@@ -5,7 +5,6 @@ import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import { Box } from "@mui/material";
 import { parse } from "csv-parse/browser/esm/sync";
-import { sendLocationData } from "./api";
 
 interface Position {
   label: string;
@@ -29,8 +28,16 @@ function FloorMap() {
   const [locations, setLocations] = useState<Position[]>([]);
   const [startPosition, setStartPosition] = useState<Position | null>(null);
   const [endPosition, setEndPosition] = useState<Position | null>(null);
+  const [queueNodeIDs, setQueueNodeIDs] = useState<string[]>([]); // Initialize as empty array
+  const [pathFound, setPathFound] = useState(true);
 
   useEffect(() => {
+    // Fetch node IDs from the backend
+    fetch("/api/queueNodeIDs")
+      .then((response) => response.json())
+      .then((nodeIDs) => setQueueNodeIDs(nodeIDs))
+      .catch((error) => console.error("Failed to fetch node IDs:", error));
+
     fetch("src/components/FloorMap/L1Nodes.csv")
       .then((response) => response.text())
       .then((csvData) => {
@@ -52,6 +59,10 @@ function FloorMap() {
       });
   }, []);
 
+  const getPositionById = (id: string) => {
+    return locations.find((location) => location.id === id);
+  };
+
   const toggleScrolling = (disableScroll: boolean) => {
     if (disableScroll) {
       document.body.style.overflow = "hidden";
@@ -71,9 +82,29 @@ function FloorMap() {
     }
 
     if (newStartId && newEndId) {
-      sendLocationData(newStartId, newEndId).then((data) => {
-        console.log("Success:", data);
-      });
+      setQueueNodeIDs([]);
+
+      fetch("/api/pathfind", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          startNodeID: newStartId,
+          endNodeID: newEndId,
+        }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("Path:", data.id);
+          setQueueNodeIDs(data.id);
+          setPathFound(data.id.length > 0);
+        })
+        .catch((error) => {
+          console.error("Failed to find path:", error);
+          setQueueNodeIDs([]);
+          setPathFound(false);
+        });
     }
   };
 
@@ -95,6 +126,7 @@ function FloorMap() {
                   style: {
                     fontFamily: "Poppins",
                     fontSize: 14,
+                    textAlign: "center",
                   },
                 }}
               />
@@ -126,12 +158,15 @@ function FloorMap() {
             onChange={(event, value) => handleSelection(value, "end")}
           />
           <Box className={styles.directionsBox}>Directions</Box>
+          {!pathFound && (
+            <Box className={styles.pathNotFoundBox}>Path not found</Box>
+          )}
         </div>
         <div className={styles.mapArea}>
           <TransformWrapper
-            initialScale={1.633}
-            initialPositionX={-288.4}
-            initialPositionY={-145.83}
+            initialScale={1.3}
+            initialPositionX={-200.4}
+            initialPositionY={-100.83}
           >
             <TransformComponent>
               <img
@@ -139,28 +174,86 @@ function FloorMap() {
                 alt="map"
                 className={styles.hmapImage}
               />
+
               <div className={styles.dotsContainer}>
-                {startPosition && (
-                  <div
-                    className={styles.mapDot}
-                    style={{
-                      top: startPosition.top,
-                      left: startPosition.left,
-                      backgroundColor: "green",
-                    }}
-                  ></div>
-                )}
-                {endPosition && (
-                  <div
-                    className={styles.mapDot}
-                    style={{
-                      top: endPosition.top,
-                      left: endPosition.left,
-                      backgroundColor: "red",
-                    }}
-                  ></div>
-                )}
+                {queueNodeIDs.map((nodeID, index) => {
+                  const point = getPositionById(nodeID);
+                  if (
+                    point &&
+                    (index === 0 || index === queueNodeIDs.length - 1)
+                  ) {
+                    return (
+                      <div
+                        key={index}
+                        className={`${styles.mapDot} ${index !== 0 && index !== queueNodeIDs.length - 1 ? styles.small : ""}`}
+                        style={{
+                          top: point.top,
+                          left: point.left,
+                          backgroundColor:
+                            index === 0
+                              ? "green"
+                              : index === queueNodeIDs.length - 1
+                                ? "red"
+                                : "transparent",
+                          display: "block",
+                        }}
+                      ></div>
+                    );
+                  }
+                  return null;
+                })}
               </div>
+
+              <svg
+                className={styles.pathSvg}
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  width: "100%",
+                  height: "100%",
+                }}
+              >
+                {queueNodeIDs
+                  .slice(0)
+                  .reverse()
+                  .map((nodeID, index) => {
+                    const point = getPositionById(nodeID);
+                    if (point && index < queueNodeIDs.length - 1) {
+                      const nextPoint = getPositionById(
+                        queueNodeIDs[queueNodeIDs.length - index - 2],
+                      );
+                      if (nextPoint) {
+                        return (
+                          <>
+                            {/*<line*/}
+                            {/*    key={`${index}-bg`}*/}
+                            {/*    x1={`${parseFloat(nextPoint.left)}%`}*/}
+                            {/*    y1={`${parseFloat(nextPoint.top)}%`}*/}
+                            {/*    x2={`${parseFloat(point.left)}%`}*/}
+                            {/*    y2={`${parseFloat(point.top)}%`}*/}
+                            {/*    strokeLinecap="round"*/}
+                            {/*    stroke="lightblue"*/}
+                            {/*    strokeWidth="2"*/}
+                            {/*/>*/}
+                            <line
+                              key={index}
+                              className={styles.line}
+                              x1={`${parseFloat(nextPoint.left)}%`}
+                              y1={`${parseFloat(nextPoint.top)}%`}
+                              x2={`${parseFloat(point.left)}%`}
+                              y2={`${parseFloat(point.top)}%`}
+                              strokeLinecap="round"
+                              stroke="blue"
+                              strokeWidth="2"
+                            />
+                          </>
+                        );
+                      }
+                    }
+                    return null;
+                  })}
+              </svg>
             </TransformComponent>
           </TransformWrapper>
         </div>
