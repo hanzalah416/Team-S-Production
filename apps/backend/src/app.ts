@@ -6,7 +6,7 @@ import exampleRouter from "./routes/example.ts";
 import flowerRequestRouter from "./routes/flowerRequest.ts";
 import PrismaClient from "./bin/database-connection.ts";
 import seed from "./seed.ts";
-import logInRouter from "./routes/logIn.ts";
+import logInRouter from "./routes/newAccount.ts";
 const app: Express = express(); // Setup the backend
 // Populate the database
 seed()

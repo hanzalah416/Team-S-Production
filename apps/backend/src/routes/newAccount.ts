@@ -27,20 +27,20 @@ router.post("/", async function (req: Request, res: Response) {
 // The only thing that should be getting is the Username ( I return the userID for now)
 router.get("/", async function (req: Request, res: Response) {
   try {
-    const userID: string = req.query.userID as string;
+    const userName: string = req.query.userName as string;
 
-    const userName = await PrismaClient.hospitalUser.findMany({
+    const logIn = await PrismaClient.hospitalUser.findMany({
       where: {
-        userID: userID,
+        userName: userName,
       },
       select: {
-        userName: true,
         userID: true,
+        userPassword: true,
       },
     });
 
-    if (userName.length > 0) {
-      res.json(userName[0]);
+    if (logIn.length > 0) {
+      res.json(logIn[0]);
     } else {
       console.error("Username not found");
       res.sendStatus(204);
