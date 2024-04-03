@@ -29,6 +29,11 @@ const OrderFlowers: React.FC = () => {
     };*/
 
   async function submit() {
+    if (patientName == "" || patientRoom == "") {
+      alert("Please Fill out the Patient Name and Room Number");
+      return;
+    }
+
     const orderFlowerSent: flowerform = {
       patientName: patientName,
       PatientRoom: parseInt(patientRoom),
@@ -40,21 +45,21 @@ const OrderFlowers: React.FC = () => {
       },
     };
     console.log(orderFlowerSent);
-    const res = await axios.post("/api/flower-request", orderFlowerSent, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
 
-    console.log(res);
-
-    if (res.status == 200) {
-      console.log("Order sent successfully");
-      navigate("/order-flowers-result");
-    } else if (res.status == 400) {
-      console.log("Order failed to send");
-      navigate("/");
-    }
+    await axios
+      .post("/api/flower-request", orderFlowerSent, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      .then(() => {
+        console.log("Order sent successfully");
+        navigate("/order-flowers-result");
+      })
+      .catch(() => {
+        console.log("Order failed to send");
+        alert("Order failed to send. Please try again later.");
+      });
   }
 
   const handleBack = () => {
@@ -82,6 +87,9 @@ const OrderFlowers: React.FC = () => {
               className={styles.input}
               type="number"
               value={patientRoom}
+              onKeyDown={(e) =>
+                (e.keyCode === 69 || e.keyCode === 190) && e.preventDefault()
+              }
               onChange={(e) => setPatientRoom(e.target.value)}
               placeholder="Room Number Here"
             />
