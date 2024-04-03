@@ -21,8 +21,8 @@ const Login: React.FC = () => {
   useEffect(() => {
     const imageUrls = [
       "/src/components/assets/HeroPhotos/Temp1.png",
-      "/src/components/assets/HeroPhotos/Temp2.png",
       "/src/components/assets/HeroPhotos/Temp3.png",
+        "/src/components/assets/HeroPhotos/nurse6.jpg"
     ];
     const randomImageUrl =
       imageUrls[Math.floor(imageUrls.length * Math.random())];
@@ -57,59 +57,35 @@ const Login: React.FC = () => {
                 <img src="/src/components/assets/bwh-logo.svg" className={styles.logo} alt={"BWH logo"}/>
                 <h2 className={styles.title}>Sign in</h2>
 
+                <p className={styles.inputTxt}>Username</p>
                 <div className={styles.formGroup}>
-                    <input
-                        className={styles.input}
-                        type="text"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                        placeholder="Username"
-                    />
+                    <input className={styles.input} type="text" value={username}
+                           onChange={(e) => setUsername(e.target.value)} placeholder="Enter your username"/>
                 </div>
 
+                <p className={styles.inputTxt}>Password</p>
                 <div className={styles.formGroup}>
-                    <input
-                        className={styles.input}
-                        type="text"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        placeholder="Password"
-                    />
+                    <input className={styles.input} type="text" value={password}
+                           onChange={(e) => setPassword(e.target.value)} placeholder="Enter your password"/>
                 </div>
 
                 <div className={styles.extras}>
-                    <FormControlLabel
-                        control={<Checkbox/>}
-                        label="Remember Me"
-                        style={{color: 'black'}}
-                    />
+                    <FormControlLabel control={<Checkbox/>} label="Remember Me" style={{color: '#444444'}}/>
                     <p className={styles.forgotPassword}>
-                        <a className={styles.forgotLink} href="url">
-                            FORGOT PASSWORD?
-                        </a>
+                        <a className={styles.forgotLink} href="url">Forgot Password?</a>
                     </p>
                 </div>
 
                 <div className={styles.buttonGroup}>
                     <div className={styles.buttonGroup}>
-                        <button
-                            className={`${styles.button} ${styles.loginButton}`}
-                            type="button"
-                            onClick={handleLogin}
-                        >
-                            Login
-                        </button>
+                        <button className={`${styles.button} ${styles.loginButton}`} type="button" onClick={handleLogin}>LOGIN</button>
                     </div>
-                    <p className={styles.forgotPassword}>
-                        Don't have an account?{" "}
-                        <Link to={"/create-account"}> Sign Up</Link>
-                    </p>
+                    <p className={styles.forgotPassword}>Don't have an account?{" "}<Link to={"/create-account"} className={styles.suLink}> Sign
+                        Up</Link></p>
                 </div>
             </form>
-            <div
-                className={styles.slideShow}
-                style={{backgroundImage: backgroundImage}}
-            >
+
+            <div className={styles.slideShow} style={{backgroundImage: backgroundImage}}>
                 {/*<img src="/src/components/assets/HeroPhotos/Temp1.png" className={"heroImage"} alt={"map"}/>*/}
             </div>
         </div>
