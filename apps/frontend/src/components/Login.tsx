@@ -4,7 +4,7 @@ import styles from "./Login.module.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-import Link from '@mui/material/Link';
+//import Link from '@mui/material/Link';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 
@@ -75,15 +75,15 @@ const Login: React.FC = () => {
                     <div className={styles.buttonGroup}>
                         <button className={`${styles.button} ${styles.loginButton}`} type="button" onClick={handleLogin}>LOGIN</button>
                     </div>
-                    <p className={styles.forgotPassword}>Don't have an account?{" "}<Link to={"/create-account"} className={styles.suLink}> Sign
-                        Up</Link></p>
+                    <p className={styles.forgotPassword}>Don't have an account?{" "}<a className={styles.suLink} href="/create-account"> Sign
+                        Up</a>
+                    </p>
                 </div>
             </form>
 
             <div className={styles.slideShow} style={{backgroundImage: backgroundImage}}>
                 {/*<img src="/src/components/assets/HeroPhotos/Temp1.png" className={"heroImage"} alt={"map"}/>*/}
             </div>
-          </form>
           <div
             className={styles.slideShow}
             style={{ backgroundImage: backgroundImage }}
