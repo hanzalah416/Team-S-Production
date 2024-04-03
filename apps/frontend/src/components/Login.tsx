@@ -45,10 +45,6 @@ const Login: React.FC = () => {
       // });
 
   };
-
-
-
-
   return (
     <div>
       <div className={styles.wholePage}>
