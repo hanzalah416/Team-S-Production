@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import styles from "./Login.module.css";
 
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-// import Link from '@mui/material/Link';
+import Link from '@mui/material/Link';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 
@@ -72,7 +72,7 @@ const Login: React.FC = () => {
                 <div className={styles.extras}>
                     <FormControlLabel control={<Checkbox/>} label="Remember Me" style={{color: '#444444'}}/>
                     <p className={styles.forgotPassword}>
-                        <a className={styles.forgotLink} href="url">Forgot Password?</a>
+                        <a className={styles.forgotLink} >Forgot Password?</a>
                     </p>
                 </div>
 
