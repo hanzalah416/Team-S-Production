@@ -8,9 +8,12 @@ import axios from "axios";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
 
+
+
 const Login: React.FC = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+
   const navigate = useNavigate();
   const [backgroundImage, setBackgroundImage] = useState<string>(
     "/src/components/assets/HeroPhotos/Temp1.png",
@@ -27,22 +30,35 @@ const Login: React.FC = () => {
     setBackgroundImage(`url(${randomImageUrl})`);
   }, []);
 
-  const handleLogin = () => {
-    axios
-      .get("/api/log/in", {
-        params: {
-          userName: username,
-          userPassword: password,
-        },
-      })
-      .then((res) => {
-        if (res.data.success) {
-          navigate("/welcome");
-        } else {
-          console.error("Login failed: ", res.data.message);
-        }
-      });
+  const handleLogin = async () => {
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      const [loginData, setLoginData] = useState("");
+      useEffect(() => {
+          async function fetchData() {
+              const res = await axios.get("/api/create-user");
+              setLoginData(res.data);
+              console.log("successfully got data from get request");
+          }
+
+          fetchData().then();
+      }, []);
+      return (
+          <div className="flex flex-colgap-5">
+              {feedBackData != undefined ? (
+                  feedBackData.map((loginData) => {
+                      return <FeedBackDisplay feedback={feedback}></FeedBackDisplay>;
+                  })
+              ) : (
+                  <></>
+              )}
+          </div>
+      );
+
+
   };
+
+
+
 
   return (
     <div>
