@@ -5,16 +5,16 @@ import PrismaClient from "../bin/database-connection.ts";
 const router: Router = express.Router();
 
 router.post("/", async function (req: Request, res: Response) {
-  const hospitalUserAttempt: Prisma.hospitalUserCreateInput = req.body;
+  const createUserAttempt: Prisma.hospitalUserCreateInput = req.body;
   // Attempt to save the high score
   try {
     // Attempt to create in the database
-    await PrismaClient.hospitalUser.create({ data: hospitalUserAttempt });
+    await PrismaClient.hospitalUser.create({ data: createUserAttempt });
     console.info("Successfully saved hospitalUser attempt"); // Log that it was successful
   } catch (error) {
     // Log any failures
     console.error(
-      `Unable to save Hospital user login attempt ${hospitalUserAttempt}: ${error}`,
+      `Unable to save Hospital user login attempt ${createUserAttempt}: ${error}`,
     );
     res.sendStatus(400).send("Error with User data"); // Send error
     return; // Don't try to send duplicate statuses
@@ -27,15 +27,13 @@ router.post("/", async function (req: Request, res: Response) {
 // The only thing that should be getting is the Username ( I return the userID for now)
 router.get("/", async function (req: Request, res: Response) {
   try {
-    const userID: string = req.query.userID as string;
+    // const userID: string = req.query.userID as string;
 
     const userName = await PrismaClient.hospitalUser.findMany({
-      where: {
-        userID: userID,
-      },
       select: {
         userName: true,
-        userID: true,
+        userEmail: true,
+        userPassword: true,
       },
     });
 

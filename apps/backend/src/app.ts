@@ -34,7 +34,8 @@ app.use(cookieParser()); // Cookie parser
 // won't be reached by the default proxy and prod setup
 app.use("/api/high-score", exampleRouter);
 app.use("/api/flower-request", flowerRequestRouter);
-app.use("/api/log-in", logInRouter);
+// app.use("/api/log-in", logInRouter);
+app.use("/api/create-user", logInRouter);
 app.use("/healthcheck", (req, res) => {
   res.status(200).send();
 });
