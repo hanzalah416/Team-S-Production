@@ -14,7 +14,7 @@ router.post("/", async function (req: Request, res: Response) {
   } catch (error) {
     // Log any failures
     console.error(
-      `Unable to save high score attempt ${hospitalUserAttempt}: ${error}`,
+      `Unable to save Hospital user login attempt ${hospitalUserAttempt}: ${error}`,
     );
     res.sendStatus(400).send("Error with User data"); // Send error
     return; // Don't try to send duplicate statuses
@@ -27,20 +27,20 @@ router.post("/", async function (req: Request, res: Response) {
 // The only thing that should be getting is the Username ( I return the userID for now)
 router.get("/", async function (req: Request, res: Response) {
   try {
-    const userID: string = req.query.userID as string;
+    const userName: string = req.query.userName as string;
 
-    const userName = await PrismaClient.hospitalUser.findMany({
+    const logIn = await PrismaClient.hospitalUser.findFirst({
       where: {
-        userID: userID,
+        userName: userName,
       },
       select: {
         userName: true,
-        userID: true,
+        userPassword: true,
       },
     });
 
-    if (userName.length > 0) {
-      res.json(userName[0]);
+    if (logIn != null) {
+      res.json(logIn);
     } else {
       console.error("Username not found");
       res.sendStatus(204);

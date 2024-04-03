@@ -31,11 +31,10 @@ router.get("/", async function (req: Request, res: Response) {
   // Fetch the PatientName and PatientRoom from Prisma
   const flowerRequest = await PrismaClient.flowerRequests.findMany({
     select: {
+      orderNumber: true,
       patientName: true,
       PatientRoom: true,
-      flowerID: true,
       customMessage: true,
-      userID: true,
     },
   });
   // No flower requests exist in the database

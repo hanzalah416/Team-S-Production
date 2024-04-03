@@ -38,11 +38,6 @@ const OrderFlowers: React.FC = () => {
       patientName: patientName,
       PatientRoom: parseInt(patientRoom),
       customMessage: customMessage,
-      user: {
-        connect: {
-          userID: "1",
-        },
-      },
     };
     console.log(orderFlowerSent);
 

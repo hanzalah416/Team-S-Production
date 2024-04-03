@@ -169,7 +169,6 @@ function NavBar() {
         </div>
       </div>
       <div className={"blueBar"} />
-
     </div>
   );
 }
