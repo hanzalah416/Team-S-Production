@@ -180,7 +180,6 @@ margin-top: 5px;
   align-self: flex-end;
   overflow: hidden;
   z-index: 0;
-  background-image: url("apps/frontend/src/components/assets/HeroPhotos/Temp1.png");
   background-size: cover;
   background-position: center;
 }
