@@ -8,6 +8,7 @@ import OrderPayment from "../src/components/OrderPayment";
 import { FormDataProvider } from "./components/FormDataContext.tsx";
 import FloorMap from "./components/FloorMap/FloorMap.tsx";
 import { FlowerRequestGetter } from "./components/FlowerRequests/FlowerRequestGetter.tsx";
+import NodeDataPage from "./components/NodeDataPage.tsx";
 
 function App() {
   const router = createBrowserRouter([
@@ -73,7 +74,15 @@ function App() {
             </>
           ),
         },
-
+          {
+              path:"/node-data",
+              element: (
+                  <>
+                      <NodeDataPage />
+                      <Layout />
+                  </>
+              ),
+          },
         // ... other routes
       ],
     },
