@@ -4,6 +4,10 @@ import * as React from "react";
 import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
+import bwhLogo from "./assets/bwh-logo.svg";
+import mapIcon from "./assets/NavBarIcons/map_icon_nav.png";
+import arrowDropDown from "./assets/NavBarIcons/arrow_drop_down_nav.png";
+import profileIcon from "./assets/NavBarIcons/profile_icon_nav.png";
 
 function NavBar() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -31,7 +35,7 @@ function NavBar() {
     <div className="navbar">
       {/* Navbar content */}
       <img
-        src="./src/components/assets/bwh-logo.svg"
+        src={bwhLogo}
         className={"bwh-logo"}
         alt={
           "Brigham and Women's Hospital logo, reading " +
@@ -41,7 +45,7 @@ function NavBar() {
       <div className={"navButtons"}>
         <Link to={"/welcome"} className={"item"} id={"map"}>
           <img
-            src="./src/components/assets/NavBarIcons/map_icon_nav.png"
+            src={mapIcon}
             className={"map_icon"}
             alt={"map_icon"}
           />
@@ -58,7 +62,7 @@ function NavBar() {
           >
             <span>
               <img
-                src="./src/components/assets/NavBarIcons/arrow_drop_down_nav.png"
+                src={arrowDropDown}
                 className={"dropdown_arrow"}
                 alt={"Drop Down arrow"}
               />
@@ -145,7 +149,7 @@ function NavBar() {
             className={"col_gap_5px"}
           >
             <img
-              src="./src/components/assets/NavBarIcons/profile_icon_nav.png"
+              src={profileIcon}
               className={"userIcon"}
               alt={"Profile Button"}
             />

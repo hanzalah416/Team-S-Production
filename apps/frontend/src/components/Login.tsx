@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
 import styles from "./Login.module.css";
 import TextField from '@mui/material/TextField';
-
+import heroImage from "./assets/HeroPhotos/Temp1.png";
+import heroImage2 from "./assets/HeroPhotos/nurse6.jpg";
+import heroImage3 from "./assets/HeroPhotos/Temp3.png";
+import bwhLogo from "./assets/bwh-logo.svg";
 
 import { Link, useNavigate } from "react-router-dom";
 // import axios from "axios";
@@ -18,14 +21,14 @@ const Login: React.FC = () => {
 
   const navigate = useNavigate();
   const [backgroundImage, setBackgroundImage] = useState<string>(
-    "./src/components/assets/HeroPhotos/Temp1.png",
+    heroImage,
   );
 
   useEffect(() => {
     const imageUrls = [
-      "./src/components/assets/HeroPhotos/Temp1.png",
-      "./src/components/assets/HeroPhotos/nurse6.jpg",
-      "./src/components/assets/HeroPhotos/Temp3.png",
+      heroImage,
+      heroImage2,
+      heroImage3
     ];
     const randomImageUrl =
       imageUrls[Math.floor(imageUrls.length * Math.random())];
@@ -62,7 +65,7 @@ const Login: React.FC = () => {
       <div className={styles.wholePage}>
         <div className={styles.container}>
           <form className={styles.signInForm}>
-            <img src="./src/components/assets/bwh-logo.svg" className={styles.logo} alt={"BWH logo"}/>
+            <img src={bwhLogo} className={styles.logo} alt={"BWH logo"}/>
             <h2 className={styles.title}>Sign in</h2>
 
             <div className={styles.formGroup}>

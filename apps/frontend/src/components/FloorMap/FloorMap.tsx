@@ -5,6 +5,7 @@ import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import { Box } from "@mui/material";
 import Button from "@mui/material/Button";
+import l1Map from "../assets/HospitalMap/00_thelowerlevel1.png";
 
 interface Position {
   label: string;
@@ -182,7 +183,7 @@ function FloorMap() {
           >
             <TransformComponent>
               <img
-                src="./src/components/assets/HospitalMap/00_thelowerlevel1.png"
+                src={l1Map}
                 alt="map"
                 className={styles.hmapImage}
               />
