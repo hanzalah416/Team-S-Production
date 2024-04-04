@@ -31,7 +31,7 @@ function NavBar() {
     <div className="navbar">
       {/* Navbar content */}
       <img
-        src="./assets/bwh-logo.svg"
+        src="/src/components/assets/bwh-logo.svg"
         className={"bwh-logo"}
         alt={
           "Brigham and Women's Hospital logo, reading " +
@@ -41,7 +41,7 @@ function NavBar() {
       <div className={"navButtons"}>
         <Link to={"/welcome"} className={"item"} id={"map"}>
           <img
-            src="./assets/NavBarIcons/map_icon_nav.png"
+            src="/src/components/assets/NavBarIcons/map_icon_nav.png"
             className={"map_icon"}
             alt={"map_icon"}
           />
@@ -58,7 +58,7 @@ function NavBar() {
           >
             <span>
               <img
-                src="./assets/NavBarIcons/arrow_drop_down_nav.png"
+                src="/src/components/assets/NavBarIcons/arrow_drop_down_nav.png"
                 className={"dropdown_arrow"}
                 alt={"Drop Down arrow"}
               />
@@ -145,7 +145,7 @@ function NavBar() {
             className={"col_gap_5px"}
           >
             <img
-              src="./assets/NavBarIcons/profile_icon_nav.png"
+              src="/src/components/assets/NavBarIcons/profile_icon_nav.png"
               className={"userIcon"}
               alt={"Profile Button"}
             />
