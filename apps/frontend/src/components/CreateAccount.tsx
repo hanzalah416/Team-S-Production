@@ -69,7 +69,7 @@ const CreateAccount: React.FC = () => {
   return (
     <body>
       <div className={styles.wholePage}>
-        <img src="/src/components/assets/bwh-logo.svg" />
+        <img src="./src/components/assets/bwh-logo.svg" />
         <h2 className={styles.title}>Create Account</h2>
         <form onSubmit={handleSubmit}>
           <div className={styles.formGroup}>

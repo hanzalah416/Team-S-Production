@@ -18,14 +18,14 @@ const Login: React.FC = () => {
 
   const navigate = useNavigate();
   const [backgroundImage, setBackgroundImage] = useState<string>(
-    "/src/components/assets/HeroPhotos/Temp1.png",
+    "./src/components/assets/HeroPhotos/Temp1.png",
   );
 
   useEffect(() => {
     const imageUrls = [
-      "/src/components/assets/HeroPhotos/Temp1.png",
-      "/src/components/assets/HeroPhotos/nurse6.jpg",
-      "/src/components/assets/HeroPhotos/Temp3.png",
+      "./src/components/assets/HeroPhotos/Temp1.png",
+      "./src/components/assets/HeroPhotos/nurse6.jpg",
+      "./src/components/assets/HeroPhotos/Temp3.png",
     ];
     const randomImageUrl =
       imageUrls[Math.floor(imageUrls.length * Math.random())];
@@ -62,7 +62,7 @@ const Login: React.FC = () => {
       <div className={styles.wholePage}>
         <div className={styles.container}>
           <form className={styles.signInForm}>
-            <img src="/src/components/assets/bwh-logo.svg" className={styles.logo} alt={"BWH logo"}/>
+            <img src="./src/components/assets/bwh-logo.svg" className={styles.logo} alt={"BWH logo"}/>
             <h2 className={styles.title}>Sign in</h2>
 
             <div className={styles.formGroup}>
@@ -96,7 +96,7 @@ const Login: React.FC = () => {
             </div>
           </form>
           <div className={styles.slideShow} style={{ backgroundImage: backgroundImage }}>
-            {/*<img src="/src/components/assets/HeroPhotos/Temp1.png" className={"heroImage"} alt={"map"}/>*/}
+            {/*<img src="./src/components/assets/HeroPhotos/Temp1.png" className={"heroImage"} alt={"map"}/>*/}
           </div>
         </div>
       </div>
