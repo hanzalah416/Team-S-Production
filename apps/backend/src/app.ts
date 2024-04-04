@@ -9,6 +9,7 @@ import seed from "./seed.ts";
 import logInRouter from "./routes/newAccount.ts";
 const app: Express = express(); // Setup the backend
 import pathfinderRouter from "./routes/getShortestPath.ts";
+import nodeRouter from "./routes/getNodes.ts";
 // Populate the database
 seed()
   .then(async () => {
@@ -38,6 +39,7 @@ app.use("/api/flower-request", flowerRequestRouter);
 // app.use("/api/log-in", logInRouter);
 app.use("/api/create-user", logInRouter);
 app.use("/api/pathfind", pathfinderRouter);
+app.use("/api/nodes", nodeRouter);
 
 app.use("/healthcheck", (req, res) => {
   res.status(200).send();
