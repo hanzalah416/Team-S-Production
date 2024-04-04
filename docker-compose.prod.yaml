@@ -91,7 +91,7 @@ services:
 
       # Despite the "loadbalancer" naming, this just describes what port this container exposes
       - "traefik.http.services.frontend-https.loadbalancer.server.port=80"
-    image: aceohearts/sonteng-team-s:frountend
+    image: aceohearts/sonteng-team-s:frontend
     restart: always
     healthcheck:
       *health-check
