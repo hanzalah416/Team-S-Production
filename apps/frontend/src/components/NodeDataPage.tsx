@@ -7,7 +7,8 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import CreateCSVFromDB from "../../../backend/src/DBtoCSV.ts";
+import axios from "axios";
+//import CreateCSVFromDB from "../../../backend/src/DBtoCSV.ts";
 
 function createData(
   nodeID: string,
@@ -51,7 +52,15 @@ const rows = [
 const NodeDataPage: React.FC = () => {
   useEffect(() => {
     // Run main function when the component mounts
-    CreateCSVFromDB();
+    {
+      /*CreateCSVFromDB().then(r => );*/
+    }
+    async function fetchData() {
+      const res = await axios.get("/api/nodes");
+      console.log(res.data);
+      console.log("successfully got data from get request");
+    }
+    fetchData().then();
   }, []);
   return (
     <TableContainer component={Paper}>

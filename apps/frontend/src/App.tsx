@@ -74,15 +74,15 @@ function App() {
             </>
           ),
         },
-          {
-              path:"/node-data",
-              element: (
-                  <>
-                      <NodeDataPage />
-                      <Layout />
-                  </>
-              ),
-          },
+        {
+          path: "/node-data",
+          element: (
+            <>
+              <NodeDataPage />
+              <Layout />
+            </>
+          ),
+        },
         // ... other routes
       ],
     },

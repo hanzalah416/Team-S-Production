@@ -7055,7 +7055,6 @@ __metadata:
     "@types/react-dom": "npm:^18.0.11"
     "@vitest/ui": "npm:^0.33.0"
     "@yarnpkg/pnpify": "npm:^4.0.0-rc.45"
-    csv-writer: "npm:^1.6.0"
     dotenv: "npm:^16.4.5"
     dotenv-cli: "npm:^7.4.0"
     eslint: "npm:^8.56.0"

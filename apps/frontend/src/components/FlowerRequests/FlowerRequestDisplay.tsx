@@ -1,8 +1,7 @@
-import * as React from 'react';
-import { styled } from '@mui/material/styles';
-import TableCell, { tableCellClasses } from '@mui/material/TableCell';
-import TableRow from '@mui/material/TableRow';
-
+import * as React from "react";
+import { styled } from "@mui/material/styles";
+import TableCell, { tableCellClasses } from "@mui/material/TableCell";
+import TableRow from "@mui/material/TableRow";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -32,10 +31,14 @@ export function FlowerRequestDisplay(props: {
   };
 }) {
   return (
-      <TableRow>
-        <StyledTableCell>{props.flowerform.patientName}</StyledTableCell>
-        <StyledTableCell align="right">{props.flowerform.PatientRoom}</StyledTableCell>
-        <StyledTableCell align="right">{props.flowerform.customMessage}</StyledTableCell>
-      </TableRow>
+    <TableRow>
+      <StyledTableCell>{props.flowerform.patientName}</StyledTableCell>
+      <StyledTableCell align="right">
+        {props.flowerform.PatientRoom}
+      </StyledTableCell>
+      <StyledTableCell align="right">
+        {props.flowerform.customMessage}
+      </StyledTableCell>
+    </TableRow>
   );
 }

@@ -30,20 +30,19 @@ const Login: React.FC = () => {
   }, []);
 
   const handleLogin = async () => {
-      navigate('welcome');
-      // eslint-disable-next-line react-hooks/rules-of-hooks
-      // const [loginCreds, setLoginCreds] = useState<loginform[]>([]);
-      //
-      // await axios.get("/api/create-user").then((response) => {setLoginCreds(response.data);});
-      // console.log("successfully got data from get request");
-      // loginCreds.forEach((loginform) => {
-      //     if(loginform.userPassword == password && loginform.userName == username) {
-      //         navigate('/welcome');
-      //     } else {
-      //         navigate('/');
-      //     }
-      // });
+    navigate("welcome");
 
+    // const [loginCreds, setLoginCreds] = useState<loginform[]>([]);
+    //
+    // await axios.get("/api/create-user").then((response) => {setLoginCreds(response.data);});
+    // console.log("successfully got data from get request");
+    // loginCreds.forEach((loginform) => {
+    //     if(loginform.userPassword == password && loginform.userName == username) {
+    //         navigate('/welcome');
+    //     } else {
+    //         navigate('/');
+    //     }
+    // });
   };
   return (
     <div>
