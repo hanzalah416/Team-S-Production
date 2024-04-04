@@ -1,7 +1,7 @@
 /* Login.module.css */
 @import url('https://fonts.googleapis.com/css2?family=Jaldi:wght@400;700&display=swap');
 
-.wholePage{
+.wholePage {
     font-family: "Inter", sans-serif;
     background: #f1f1f1;
     position: absolute;
@@ -15,7 +15,7 @@
     min-width: 700px;
 }
 
-.container{
+.container {
     padding: 0;
     margin: 0;
     position: absolute;
@@ -64,10 +64,10 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-    translate: 60px;
+    translate: 65px;
 }
 
-.logo{
+.logo {
     margin-top: -100px;
 }
 
@@ -171,7 +171,8 @@ margin-top: 5px;
     color: white;
     display: block;
     margin: auto;
-    width: 80%;
+    width: 70%;
+    /* max-width: 300px;  Adjust width for gap */
 }
 
 .slideShow {
@@ -190,15 +191,21 @@ margin-top: 5px;
   height: 100vh;
 }
 
-.forgotLink{
+.forgotLink {
     text-decoration: line-through;
     color: #444444;
 }
 
-.inputTxt{
+.inputTxt {
     align-self: flex-start;
     font-family: "Inter", sans-serif;
     font-weight: 700;
     font-size: 15px;
     color: #444444;
+}
+
+.muiInput {
+    display: flex;
+    align-self: center;
+    width: 300px;
 }
