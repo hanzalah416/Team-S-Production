@@ -4,6 +4,7 @@ import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import { Box } from "@mui/material";
+import Button from '@mui/material/Button';
 
 interface Position {
   label: string;
@@ -166,7 +167,15 @@ function FloorMap() {
           {!pathFound && (
             <Box className={styles.pathNotFoundBox}>Path not found</Box>
           )}
+            <div className={styles.mbDiv}>
+                <Button variant="contained" href="/" className={styles.csvButton}
+                        style={{backgroundColor: '#003b9c',
+                                fontFamily: "Poppins",
+                                fontSize: 14,
+                                textAlign: "center",}}>Import/Export Nodes and Edges</Button>
+            </div>
         </div>
+
         <div className={styles.mapArea}>
           <TransformWrapper
             initialScale={1.3}
