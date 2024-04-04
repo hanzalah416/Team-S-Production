@@ -79,6 +79,15 @@ function NavBar() {
                 Order Flowers
               </Link>
             </MenuItem>
+            <MenuItem onClick={handleClose}>
+              <Link
+                to={"/all-service-requests"}
+                className={"item"}
+                id={"order"}
+              >
+                All Service Requests
+              </Link>
+            </MenuItem>
             <MenuItem onClick={handleClose} disabled={true}>
               <Link to={"/order-flowers"} className={"item"} id={"order"}>
                 Audio/Visual Services
@@ -163,15 +172,6 @@ function NavBar() {
                 id={"change-password"}
               >
                 Change Password
-              </Link>
-            </MenuItem>
-            <MenuItem onClick={handleClose}>
-              <Link
-                to={"/all-service-requests"}
-                className={"item"}
-                id={"order"}
-              >
-                All Service Requests
               </Link>
             </MenuItem>
           </Menu>

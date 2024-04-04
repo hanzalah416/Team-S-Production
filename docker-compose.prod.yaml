@@ -1,7 +1,7 @@
 # Production arguments passed to both containers
 x-prod-args: &prod-args
   # Port that both servers will run production on
-  PRODUCTION_PORT: &prod-port 80
+  BACKEND_PORT: &prod-port 80
   PORT: *prod-port # Duplicate this under the name that the env variable will expect. Build args will override as necessary
 
 x-db-info: &db-args
@@ -86,7 +86,7 @@ services:
 
       # The 443 entrypoint is the actual site
       - "traefik.http.routers.frontend-https.entrypoints=websecure"
-      - "traefik.http.routers.frontend-https.rule=Host(`ec2-18-117-240-192.us-east-2.compute.amazonaws.com`)"
+      - "traefik.http.routers.frontend-https.rule=Host(`ec2-18-216-252-230.us-east-2.compute.amazonaws.com`)"
       - "traefik.http.routers.frontend-https.tls=true"
 
       # Despite the "loadbalancer" naming, this just describes what port this container exposes
@@ -121,7 +121,7 @@ services:
 
       # The 443 entrypoint is the actual site
       - "traefik.http.routers.backend-https.entrypoints=websecure"
-      - "traefik.http.routers.backend-https.rule=Host(`ec2-18-117-240-192.us-east-2.compute.amazonaws.com`) && PathPrefix(`/api`)"
+      - "traefik.http.routers.backend-https.rule=Host(`ec2-18-216-252-230.us-east-2.compute.amazonaws.com`) && PathPrefix(`/api`)"
       - "traefik.http.routers.backend-https.tls=true"
 
       # Despite the "loadbalancer" naming, this just describes what port this container exposes

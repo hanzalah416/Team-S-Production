@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styles from "./Login.module.css";
+import TextField from "@mui/material/TextField";
 
 import { Link, useNavigate } from "react-router-dom";
 // import axios from "axios";
@@ -67,22 +68,21 @@ const Login: React.FC = () => {
             <h2 className={styles.title}>Sign in</h2>
 
             <div className={styles.formGroup}>
-              <input
-                className={styles.input}
-                type="text"
-                value={username}
+              <TextField
+                id="standard-basic"
+                label="Username"
+                variant="standard"
+                className={styles.muiInput}
                 onChange={(e) => setUsername(e.target.value)}
-                placeholder="Username"
               />
             </div>
-
             <div className={styles.formGroup}>
-              <input
-                className={styles.input}
-                type="password"
-                value={password}
+              <TextField
+                id="standard-basic"
+                label="Password"
+                variant="standard"
+                className={styles.muiInput}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="Password"
               />
             </div>
 
