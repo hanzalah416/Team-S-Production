@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import styles from "./Login.module.css";
-import TextField from "@mui/material/TextField";
 
 import { Link, useNavigate } from "react-router-dom";
 // import axios from "axios";
@@ -16,14 +15,14 @@ const Login: React.FC = () => {
 
   const navigate = useNavigate();
   const [backgroundImage, setBackgroundImage] = useState<string>(
-    "/src/components/assets/HeroPhotos/Temp1.png",
+    "./assets/HeroPhotos/Temp1.png",
   );
 
   useEffect(() => {
     const imageUrls = [
-      "/src/components/assets/HeroPhotos/Temp1.png",
-      "/src/components/assets/HeroPhotos/nurse6.jpg",
-      "/src/components/assets/HeroPhotos/Temp3.png",
+      "./assets/HeroPhotos/Temp1.png",
+      "./assets/HeroPhotos/nurse6.jpg",
+      "./assets/HeroPhotos/Temp3.png",
     ];
     const randomImageUrl =
       imageUrls[Math.floor(imageUrls.length * Math.random())];
@@ -61,28 +60,29 @@ const Login: React.FC = () => {
         <div className={styles.container}>
           <form className={styles.signInForm}>
             <img
-              src="/src/components/assets/bwh-logo.svg"
+              src="./assets/bwh-logo.svg"
               className={styles.logo}
               alt={"BWH logo"}
             />
             <h2 className={styles.title}>Sign in</h2>
 
             <div className={styles.formGroup}>
-              <TextField
-                id="standard-basic"
-                label="Username"
-                variant="standard"
-                className={styles.muiInput}
+              <input
+                className={styles.input}
+                type="text"
+                value={username}
                 onChange={(e) => setUsername(e.target.value)}
+                placeholder="Username"
               />
             </div>
+
             <div className={styles.formGroup}>
-              <TextField
-                id="standard-basic"
-                label="Password"
-                variant="standard"
-                className={styles.muiInput}
+              <input
+                className={styles.input}
+                type="password"
+                value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                placeholder="Password"
               />
             </div>
 
@@ -119,7 +119,7 @@ const Login: React.FC = () => {
             className={styles.slideShow}
             style={{ backgroundImage: backgroundImage }}
           >
-            {/*<img src="/src/components/assets/HeroPhotos/Temp1.png" className={"heroImage"} alt={"map"}/>*/}
+            {/*<img src="./assets/HeroPhotos/Temp1.png" className={"heroImage"} alt={"map"}/>*/}
           </div>
         </div>
       </div>

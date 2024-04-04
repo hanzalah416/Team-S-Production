@@ -182,7 +182,7 @@ function FloorMap() {
           >
             <TransformComponent>
               <img
-                src="/src/components/assets/HospitalMap/00_thelowerlevel1.png"
+                src="../assets/HospitalMap/00_thelowerlevel1.png"
                 alt="map"
                 className={styles.hmapImage}
               />
