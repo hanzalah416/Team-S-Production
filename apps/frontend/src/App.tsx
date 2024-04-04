@@ -7,11 +7,11 @@ import CreateAccount from "../src/components/CreateAccount";
 import OrderPayment from "../src/components/OrderPayment";
 import { FormDataProvider } from "./components/FormDataContext.tsx";
 import FloorMap from "./components/FloorMap/FloorMap.tsx";
-import { FlowerRequestGetter } from "./components/FlowerRequests/FlowerRequestGetter.tsx";
 import NodeDataPage from "./components/NodeDataPage.tsx";
 import { ServiceRequestGetter } from "./components/AllServiceRequestsGetter.tsx";
 import OutlinedAlerts from "./components/ServiceNotice.tsx";
 import Stack from '@mui/material/Stack';
+import OrderConfirmation from "./components/OrderConfirmation.tsx";
 
 
 function App() {
@@ -65,7 +65,7 @@ function App() {
           path: "/order-flowers-result",
           element: (
             <>
-              <FlowerRequestGetter />
+              <OrderConfirmation />
               <Layout />
             </>
           ),

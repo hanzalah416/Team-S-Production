@@ -23,10 +23,10 @@ export function ServiceRequestDisplay(props: {
 }) {
     return (
         <TableRow>
-            <StyledTableCell>'Flower Request'</StyledTableCell>
+            <StyledTableCell>Flower Request</StyledTableCell>
             <StyledTableCell align="right">{props.flowerform.customMessage}</StyledTableCell>
-            <StyledTableCell align="right">'Patient Room:' + {props.flowerform.PatientRoom}</StyledTableCell>
-            <StyledTableCell align="right">'1'</StyledTableCell>
+            <StyledTableCell align="right">Patient Room: {props.flowerform.PatientRoom}</StyledTableCell>
+            <StyledTableCell align="right">1</StyledTableCell>
         </TableRow>
     );
 }
