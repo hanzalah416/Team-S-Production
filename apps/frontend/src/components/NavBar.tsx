@@ -165,6 +165,11 @@ function NavBar() {
                 Change Password
               </Link>
             </MenuItem>
+            <MenuItem onClick={handleClose}>
+              <Link to={"/all-service-requests"} className={"item"} id={"order"}>
+                All Service Requests
+              </Link>
+            </MenuItem>
           </Menu>
         </div>
       </div>

@@ -9,6 +9,10 @@ import { FormDataProvider } from "./components/FormDataContext.tsx";
 import FloorMap from "./components/FloorMap/FloorMap.tsx";
 import { FlowerRequestGetter } from "./components/FlowerRequests/FlowerRequestGetter.tsx";
 import NodeDataPage from "./components/NodeDataPage.tsx";
+import { ServiceRequestGetter } from "./components/AllServiceRequestsGetter.tsx";
+import OutlinedAlerts from "./components/ServiceNotice.tsx";
+import Stack from '@mui/material/Stack';
+
 
 function App() {
   const router = createBrowserRouter([
@@ -83,6 +87,20 @@ function App() {
                   </>
               ),
           },
+
+          {
+              path: "/all-service-requests",
+              element: (
+                  <>
+                      <Stack spacing={5}>
+                          <OutlinedAlerts />
+                          <ServiceRequestGetter />
+                      </Stack>
+                      <Layout />
+                  </>
+              ),
+          },
+
         // ... other routes
       ],
     },
