@@ -1,7 +1,7 @@
 # Production arguments passed to both containers
 x-prod-args: &prod-args
   # Port that both servers will run production on
-  PRODUCTION_PORT: &prod-port 80
+  BACKEND_PORT: &prod-port 80
   PORT: *prod-port # Duplicate this under the name that the env variable will expect. Build args will override as necessary
 
 x-db-info: &db-args
