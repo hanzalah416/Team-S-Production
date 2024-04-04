@@ -160,7 +160,7 @@ function FloorMap() {
           <div className={styles.mbDiv}>
             <Button
               variant="contained"
-              href="/"
+              href="/node-data"
               className={styles.csvButton}
               style={{
                 backgroundColor: "#003b9c",
