@@ -4239,6 +4239,7 @@ __metadata:
     bootstrap: "npm:^5.2.3"
     common: "workspace:*"
     csv-parse: "npm:^5.5.5"
+    csv-writer: "npm:^1.6.0"
     database: "workspace:*"
     eslint: "npm:latest"
     eslint-config-custom: "workspace:*"
