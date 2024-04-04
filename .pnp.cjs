@@ -67,6 +67,7 @@ const RAW_RUNTIME_STATE =
           ["@types/react-dom", "npm:18.2.18"],\
           ["@vitest/ui", "virtual:f7b030241781449f9f163484f540f772ec3707fc5214186cd12bce9e472ad0dbf6db26b799fb1d7d9f7a9e4faeedac41da01e533ee775acb5c8a31c546a0661d#npm:0.33.0"],\
           ["@yarnpkg/pnpify", "npm:4.0.1"],\
+          ["csv-writer", "npm:1.6.0"],\
           ["dotenv", "npm:16.4.5"],\
           ["dotenv-cli", "npm:7.4.0"],\
           ["eslint", "npm:8.56.0"],\
@@ -3263,6 +3264,7 @@ const RAW_RUNTIME_STATE =
           ["@types/supertest", "npm:2.0.16"],\
           ["common", "workspace:packages/common"],\
           ["cookie-parser", "npm:1.4.6"],\
+          ["csv-writer", "npm:1.6.0"],\
           ["database", "workspace:packages/database"],\
           ["eslint", "npm:8.56.0"],\
           ["eslint-config-custom", "workspace:configs/eslint-config-custom"],\
@@ -4056,6 +4058,15 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/csv-parse-npm-5.5.5-db6ed28c6c-759ca2e5f3.zip/node_modules/csv-parse/",\
         "packageDependencies": [\
           ["csv-parse", "npm:5.5.5"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["csv-writer", [\
+      ["npm:1.6.0", {\
+        "packageLocation": "./.yarn/cache/csv-writer-npm-1.6.0-c64e586af4-01ae6eb065.zip/node_modules/csv-writer/",\
+        "packageDependencies": [\
+          ["csv-writer", "npm:1.6.0"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -8470,6 +8481,7 @@ const RAW_RUNTIME_STATE =
           ["@types/react-dom", "npm:18.2.18"],\
           ["@vitest/ui", "virtual:f7b030241781449f9f163484f540f772ec3707fc5214186cd12bce9e472ad0dbf6db26b799fb1d7d9f7a9e4faeedac41da01e533ee775acb5c8a31c546a0661d#npm:0.33.0"],\
           ["@yarnpkg/pnpify", "npm:4.0.1"],\
+          ["csv-writer", "npm:1.6.0"],\
           ["dotenv", "npm:16.4.5"],\
           ["dotenv-cli", "npm:7.4.0"],\
           ["eslint", "npm:8.56.0"],\
