@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
 import styles from "./Login.module.css";
-import TextField from '@mui/material/TextField';
-
 
 import { Link, useNavigate } from "react-router-dom";
 // import axios from "axios";
@@ -11,21 +9,20 @@ import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
 // import {loginform} from "./common/loginform.ts";
 
-
 const Login: React.FC = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
   const navigate = useNavigate();
   const [backgroundImage, setBackgroundImage] = useState<string>(
-    "/src/components/assets/HeroPhotos/Temp1.png",
+    "./assets/HeroPhotos/Temp1.png",
   );
 
   useEffect(() => {
     const imageUrls = [
-      "/src/components/assets/HeroPhotos/Temp1.png",
-      "/src/components/assets/HeroPhotos/nurse6.jpg",
-      "/src/components/assets/HeroPhotos/Temp3.png",
+      "./assets/HeroPhotos/Temp1.png",
+      "./assets/HeroPhotos/nurse6.jpg",
+      "./assets/HeroPhotos/Temp3.png",
     ];
     const randomImageUrl =
       imageUrls[Math.floor(imageUrls.length * Math.random())];
@@ -65,18 +62,39 @@ const Login: React.FC = () => {
       <div className={styles.wholePage}>
         <div className={styles.container}>
           <form className={styles.signInForm}>
-            <img src="/src/components/assets/bwh-logo.svg" className={styles.logo} alt={"BWH logo"}/>
+            <img
+              src="./assets/bwh-logo.svg"
+              className={styles.logo}
+              alt={"BWH logo"}
+            />
             <h2 className={styles.title}>Sign in</h2>
 
             <div className={styles.formGroup}>
-                <TextField id="standard-basic" label="Username" variant="standard" className={styles.muiInput} onChange={(e) => setUsername(e.target.value)}/>
+              <input
+                className={styles.input}
+                type="text"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                placeholder="Username"
+              />
             </div>
-              <div className={styles.formGroup}>
-                  <TextField id="standard-basic" label="Password" variant="standard" className={styles.muiInput} onChange={(e) => setPassword(e.target.value)}/>
-              </div>
+
+            <div className={styles.formGroup}>
+              <input
+                className={styles.input}
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Password"
+              />
+            </div>
 
             <div className={styles.extras}>
-              <FormControlLabel control={<Checkbox />} label="Remember Me" style={{ color: "black" }} />
+              <FormControlLabel
+                control={<Checkbox />}
+                label="Remember Me"
+                style={{ color: "black" }}
+              />
               {/*<p className={styles.forgotPassword}>*/}
               {/*  <a className={styles.forgotLink} href="url">*/}
               {/*    FORGOT PASSWORD?*/}
@@ -90,7 +108,9 @@ const Login: React.FC = () => {
                   className={`${styles.button} ${styles.loginButton}`}
                   type="button"
                   onClick={handleLogin}
-                >Login</button>
+                >
+                  Login
+                </button>
               </div>
               <p className={styles.signUp}>
                 Don't have an account?{" "}
@@ -98,8 +118,11 @@ const Login: React.FC = () => {
               </p>
             </div>
           </form>
-          <div className={styles.slideShow} style={{ backgroundImage: backgroundImage }}>
-            {/*<img src="/src/components/assets/HeroPhotos/Temp1.png" className={"heroImage"} alt={"map"}/>*/}
+          <div
+            className={styles.slideShow}
+            style={{ backgroundImage: backgroundImage }}
+          >
+            {/*<img src="./assets/HeroPhotos/Temp1.png" className={"heroImage"} alt={"map"}/>*/}
           </div>
         </div>
       </div>
