@@ -46,16 +46,13 @@ const Login: React.FC = () => {
   //
   // };
 
-
-    const handleLogin = () => {
-        if (username == "admin" && password == "admin") {
-            navigate('welcome');
-        } else {
-            throw new Error("Invalid login!");
-        }
-
-    };
-
+  const handleLogin = () => {
+    if (username == "admin" && password == "admin") {
+      navigate("welcome");
+    } else {
+      throw new Error("Invalid login!");
+    }
+  };
 
   return (
     <div>

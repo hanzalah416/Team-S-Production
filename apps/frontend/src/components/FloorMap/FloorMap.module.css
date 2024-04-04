@@ -141,16 +141,16 @@ body {
 }
 
 .csvButton {
-    bottom: 0;
-    width: 360px;
-    position: fixed;
-    background-color: #003b9c;
-    color: white;
-    font-weight: bold;
-    left: -20px;
+  bottom: 0;
+  width: 360px;
+  position: fixed;
+  background-color: #003b9c;
+  color: white;
+  font-weight: bold;
+  left: -20px;
 }
 
 .mbDiv {
-    position: absolute;
-    bottom:12vh;
+  position: absolute;
+  bottom: 12vh;
 }

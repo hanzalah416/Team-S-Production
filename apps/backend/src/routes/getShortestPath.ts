@@ -1,8 +1,8 @@
 import express, { Router, Request, Response } from "express";
 import MakeGraph from "../makegraph";
 import client from "../bin/database-connection.ts";
-import { Node } from "../../../../packages/database/.prisma/client";
-import { NodeEdge } from "../../../../packages/database/.prisma/client";
+import { Node } from "../../../../packages/database";
+import { NodeEdge } from "../../../../packages/database";
 
 const router: Router = express.Router();
 

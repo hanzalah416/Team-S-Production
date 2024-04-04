@@ -30,7 +30,6 @@
       "outputs": ["build/**"]
     },
     "docker:build": {
-      "dependsOn": [],
       "cache": false
     },
     "docker:upload": {

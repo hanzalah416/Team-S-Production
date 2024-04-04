@@ -1,5 +1,5 @@
-import { Node } from "../../../packages/database/.prisma/client";
-import { NodeEdge } from "../../../packages/database/.prisma/client";
+import { Node } from "../../../packages/database";
+import { NodeEdge } from "../../../packages/database";
 
 class MakeGraph {
   private nodeMap: Map<string, GraphNode> = new Map();

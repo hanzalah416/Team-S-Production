@@ -80,7 +80,11 @@ function NavBar() {
               </Link>
             </MenuItem>
             <MenuItem onClick={handleClose}>
-              <Link to={"/all-service-requests"} className={"item"} id={"order"}>
+              <Link
+                to={"/all-service-requests"}
+                className={"item"}
+                id={"order"}
+              >
                 All Service Requests
               </Link>
             </MenuItem>

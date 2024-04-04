@@ -25,6 +25,7 @@
     "bootstrap": "^5.2.3",
     "common": "workspace:*",
     "csv-parse": "^5.5.5",
+    "csv-writer": "^1.6.0",
     "localforage": "^1.10.0",
     "match-sorter": "^6.3.1",
     "papaparse": "^5.4.1",
