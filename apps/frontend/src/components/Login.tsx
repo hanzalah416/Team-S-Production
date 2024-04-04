@@ -21,7 +21,7 @@ const Login: React.FC = () => {
   useEffect(() => {
     const imageUrls = [
       "/src/components/assets/HeroPhotos/Temp1.png",
-      "/src/components/assets/HeroPhotos/Temp2.png",
+      "/src/components/assets/HeroPhotos/nurse6.jpg",
       "/src/components/assets/HeroPhotos/Temp3.png",
     ];
     const randomImageUrl =
@@ -29,21 +29,31 @@ const Login: React.FC = () => {
     setBackgroundImage(`url(${randomImageUrl})`);
   }, []);
 
-  const handleLogin = async () => {
-    navigate("welcome");
+  // const handleLogin = async () => {
+  //     navigate('welcome');
+  //
+  //     const [loginCreds, setLoginCreds] = useState<loginform[]>([]);
+  //
+  //     await axios.get("/api/create-user").then((response) => {setLoginCreds(response.data);});
+  //     console.log("successfully got data from get request");
+  //     loginCreds.forEach((loginform) => {
+  //         if(loginform.userPassword == password && loginform.userName == username) {
+  //             navigate('/welcome');
+  //         } else {
+  //             navigate('/');
+  //         }
+  //     });
+  //
+  // };
 
-    // const [loginCreds, setLoginCreds] = useState<loginform[]>([]);
-    //
-    // await axios.get("/api/create-user").then((response) => {setLoginCreds(response.data);});
-    // console.log("successfully got data from get request");
-    // loginCreds.forEach((loginform) => {
-    //     if(loginform.userPassword == password && loginform.userName == username) {
-    //         navigate('/welcome');
-    //     } else {
-    //         navigate('/');
-    //     }
-    // });
+  const handleLogin = () => {
+    if (username == "admin" && password == "admin") {
+      navigate("welcome");
+    } else {
+      throw new Error("Invalid login!");
+    }
   };
+
   return (
     <div>
       <div className={styles.wholePage}>
@@ -69,7 +79,7 @@ const Login: React.FC = () => {
             <div className={styles.formGroup}>
               <input
                 className={styles.input}
-                type="text"
+                type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Password"
@@ -82,11 +92,11 @@ const Login: React.FC = () => {
                 label="Remember Me"
                 style={{ color: "black" }}
               />
-              <p className={styles.forgotPassword}>
-                <a className={styles.forgotLink} href="url">
-                  FORGOT PASSWORD?
-                </a>
-              </p>
+              {/*<p className={styles.forgotPassword}>*/}
+              {/*  <a className={styles.forgotLink} href="url">*/}
+              {/*    FORGOT PASSWORD?*/}
+              {/*  </a>*/}
+              {/*</p>*/}
             </div>
 
             <div className={styles.buttonGroup}>
@@ -99,7 +109,7 @@ const Login: React.FC = () => {
                   Login
                 </button>
               </div>
-              <p className={styles.forgotPassword}>
+              <p className={styles.signUp}>
                 Don't have an account?{" "}
                 <Link to={"/create-account"}> Sign Up</Link>
               </p>
