@@ -40,8 +40,8 @@
 }
 
 .title {
-  font-family: "Poppins", sans-serif;
-  font-weight: 400;
+    font-family: "Inter", sans-serif;
+    font-weight: 600;
   font-size: 60px;
   line-height: 73px;
   color: black;
@@ -98,11 +98,9 @@
 .formGroup {
   display: flex;
   flex-direction: column; /* Stack elements vertically */
-  align-items: flex-start; /* Align items to the start (left) */
+  align-items: center; /* Align items to the start (left) */
   margin-bottom: 10px; /* Add space below this form group */
 
-  width: 100%; /* Set width to 100% of its parent to avoid overflow */
-  max-width: 100%;
 }
 
 .label {
@@ -222,4 +220,10 @@
   .reviewButton {
     margin: 0.5rem auto; /* Center buttons horizontally and add some vertical space */
   }
+}
+
+.muiInput {
+    display: flex;
+    align-self: center;
+    width: 350px;
 }
