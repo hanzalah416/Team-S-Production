@@ -34,10 +34,8 @@ const NodeDataPage: React.FC = () => {
                     });
                     if (result.data) {
                         setCsvData(result.data);
-                        console.log(result.data);
 
-                        const ids = result.data.map(row => row.nodeID);
-                        console.log(ids);
+
                     }
                 }
             };
@@ -48,9 +46,6 @@ const NodeDataPage: React.FC = () => {
     useEffect(() => {
         async function fetchData() {
             const res = await axios.get("/api/all-edges-data");
-
-            console.log(res.data);
-            console.log("successfully got data from get request");
 
             const formattedData: NodeEdgeRow[] = res.data.map((edge) => ({
                 startNode: String(edge.startNode),
@@ -82,7 +77,7 @@ const NodeDataPage: React.FC = () => {
                     </TableHead>
                     <TableBody>
                         {rows.map((row, index) => {
-                            console.log(`Rendering row ${index}: Start Node ID = ${row.startNode}, End Node ID = ${row.endNode}`); // Add this line to print the values
+
                             return (
                                 <TableRow
                                     key={`${index}-${row.startNode}-${row.endNode}`}
