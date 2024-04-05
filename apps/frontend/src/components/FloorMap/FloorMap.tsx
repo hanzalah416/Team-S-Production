@@ -182,11 +182,7 @@ function FloorMap() {
             initialPositionY={-100.83}
           >
             <TransformComponent>
-              <img
-                src={l1Map}
-                alt="map"
-                className={styles.hmapImage}
-              />
+              <img src={l1Map} alt="map" className={styles.hmapImage} />
 
               <div className={styles.dotsContainer}>
                 {queueNodeIDs.map((nodeID, index) => {

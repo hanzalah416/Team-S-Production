@@ -10,6 +10,7 @@ import logInRouter from "./routes/newAccount.ts";
 const app: Express = express(); // Setup the backend
 import pathfinderRouter from "./routes/getShortestPath.ts";
 import nodeRouter from "./routes/getNodes.ts";
+import csvRouter from "./routes/csvRouter.ts";
 // Populate the database
 seed()
   .then(async () => {
@@ -37,6 +38,7 @@ app.use(cookieParser()); // Cookie parser
 app.use("/api/high-score", exampleRouter);
 app.use("/api/flower-request", flowerRequestRouter);
 // app.use("/api/log-in", logInRouter);
+app.use("/api/csv", csvRouter);
 app.use("/api/create-user", logInRouter);
 app.use("/api/pathfind", pathfinderRouter);
 app.use("/api/nodes", nodeRouter);
