@@ -80,15 +80,6 @@ async function GetDataFromClick() {
   }
 }
 
-// function downloadTxtFile = () =>{
-//     const element = document.createElement("nodeElement");
-//     const file = new Blob([document.getElementById('myInput').value], {type: 'csv/text'});
-//     element.href = URL.createObjectURL(file);
-//     element.download = "myFile.txt";
-//     document.body.appendChild(element); // Required for this to work in FireFox
-//     element.click();
-// }
-
 const NodeDataPage: React.FC = () => {
   const [rows, setRows] = useState<Node[]>([]);
   useEffect(() => {
@@ -113,48 +104,6 @@ const NodeDataPage: React.FC = () => {
 
   return (
     <div className={styles.outerDiv}>
-      <div className={styles.nodeCSV}>
-        <h2>Import / Export Nodes</h2>
-        <div className={styles.Butt}>
-          <div className={styles.ospacer}></div>
-          <Button
-            className={styles.ufileButton}
-            component="label"
-            role={undefined}
-            variant="contained"
-            tabIndex={-1}
-            startIcon={<CloudUploadIcon />}
-            style={{
-              backgroundColor: "#003b9c",
-              fontFamily: "Poppins",
-              fontSize: 14,
-              textAlign: "center",
-            }}
-          >
-            Import Nodes
-            <VisuallyHiddenInput type="file" />
-          </Button>
-          <div className={styles.spacer}></div>
-          <Button
-            className={styles.dfileButton}
-            component="label"
-            role={undefined}
-            variant="contained"
-            tabIndex={-1}
-            startIcon={<CloudDownloadIcon />}
-            style={{
-              backgroundColor: "#003b9c",
-              fontFamily: "Poppins",
-              fontSize: 14,
-              textAlign: "center",
-            }}
-            onClick={GetDataFromClick}
-          >
-            Export
-          </Button>
-          <div className={styles.ospacer}></div>
-        </div>
-      </div>
       <Box sx={{ width: "100%", typography: "body1" }}>
         <TabContext value={value}>
           <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
@@ -204,10 +153,10 @@ const NodeDataPage: React.FC = () => {
                 }}
                 onClick={GetDataFromClick}
               >
-                Export
+                Export Nodes
               </Button>
             </div>
-            <TableContainer component={Paper} style={{ marginTop: "75px" }}>
+            <TableContainer component={Paper} style={{ marginTop: "25px" }}>
               <Table sx={{ minWidth: 650 }} aria-label="simple table">
                 <TableHead>
                   <TableRow>
@@ -225,9 +174,7 @@ const NodeDataPage: React.FC = () => {
                   {rows.map((row) => (
                     <TableRow
                       key={row.nodeID}
-                      sx={{
-                        "&:last-child td, &:last-child th": { border: 0 },
-                      }}
+                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                     >
                       <TableCell align="right">{row.nodeID}</TableCell>
                       <TableCell align="right">{row.xcoord}</TableCell>
@@ -245,7 +192,6 @@ const NodeDataPage: React.FC = () => {
           </TabPanel>
           <TabPanel value="2" style={{ padding: 0 }}>
             <div className={styles.nodeCSV}>
-              {/* <h2>Import / Export Nodes</h2> */}
               <Button
                 className={styles.ufileButton}
                 component="label"
@@ -280,7 +226,6 @@ const NodeDataPage: React.FC = () => {
                 }}
               >
                 Export Edges
-                <VisuallyHiddenInput type="file" />
               </Button>
             </div>
           </TabPanel>
