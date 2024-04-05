@@ -18,7 +18,8 @@ import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 import axios from "axios";
-import { Node } from "../../../../packages/database/.prisma/client";
+import { Node } from "../../../../packages/database";
+import { NodeEdge } from "../../../../packages/database";
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -58,7 +59,7 @@ function convertToCSV(
   return headers + rows;
 }
 
-async function GetDataFromClick() {
+async function GetNodeDataFromClick() {
   try {
     const res = await axios.get("/api/csv");
     console.log(res.data);
@@ -80,22 +81,54 @@ async function GetDataFromClick() {
   }
 }
 
+async function GetEdgeDataFromClick() {
+  try {
+    const res = await axios.get("/api/nodeEdge");
+    console.log(res.data);
+    console.log("successfully got data from get request");
+
+    const csvString = convertToCSV(res.data); // Assuming res.data is of the type Array<{ [key: string]: number | string } you might need to change this>
+    const blob = new Blob([csvString], { type: "text/csv;charset=utf-8;" });
+    const downloadUrl = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = downloadUrl;
+    a.download = "Edge.csv";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(downloadUrl);
+  } catch (error) {
+    console.error("Error fetching or downloading CSV", error);
+  }
+}
+
 const NodeDataPage: React.FC = () => {
-  const [rows, setRows] = useState<Node[]>([]);
+  const [nodeRows, setNodeRows] = useState<Node[]>([]);
+  const [edgeRows, setEdgeRows] = useState<NodeEdge[]>([]);
   useEffect(() => {
     async function fetchData() {
       try {
-        const res = await axios.get("/api/csv");
-        console.log(res.data);
-        console.log("successfully got data from get request");
-        setRows(res.data);
+        const nodeRes = await axios.get("/api/csv");
+        console.log("successfully got node data from get request:");
+        console.log(nodeRes.data);
+        setNodeRows(nodeRes.data);
+        //figure out how to handle setRows for Edge data
       } catch (error) {
-        console.error("Error fetching", error);
+        console.error("Error fetching node data", error);
+      }
+      try {
+        const edgeRes = await axios.get("/api/nodeEdge");
+        console.log("successfully got Edge data from get request:");
+        console.log(edgeRes.data);
+        setEdgeRows(edgeRes.data);
+        //figure out how to handle setRows for Edge data
+      } catch (error) {
+        console.error("Error fetching Edge data", error);
       }
     }
     fetchData().then();
   }, []);
-  console.log(rows);
 
   const [value, setValue] = React.useState("1");
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
@@ -118,7 +151,6 @@ const NodeDataPage: React.FC = () => {
           </Box>
           <TabPanel value="1" style={{ padding: 0 }}>
             <div className={styles.nodeCSV}>
-              {/* <h2>Import / Export Nodes</h2> */}
               <Button
                 className={styles.ufileButton}
                 component="label"
@@ -134,7 +166,7 @@ const NodeDataPage: React.FC = () => {
                   textAlign: "center",
                 }}
               >
-                Import Nodes
+                Upload Nodes
                 <VisuallyHiddenInput type="file" />
               </Button>
               <Button
@@ -151,9 +183,9 @@ const NodeDataPage: React.FC = () => {
                   fontSize: 14,
                   textAlign: "center",
                 }}
-                onClick={GetDataFromClick}
+                onClick={GetNodeDataFromClick}
               >
-                Export Nodes
+                Download Nodes
               </Button>
             </div>
             <TableContainer component={Paper} style={{ marginTop: "25px" }}>
@@ -171,19 +203,19 @@ const NodeDataPage: React.FC = () => {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {rows.map((row) => (
+                  {nodeRows.map((row) => (
                     <TableRow
                       key={row.nodeID}
                       sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                     >
-                      <TableCell align="right">{row.nodeID}</TableCell>
-                      <TableCell align="right">{row.xcoord}</TableCell>
-                      <TableCell align="right">{row.ycoord}</TableCell>
-                      <TableCell align="right">{row.floor}</TableCell>
-                      <TableCell align="right">{row.building}</TableCell>
-                      <TableCell align="right">{row.nodeType}</TableCell>
-                      <TableCell align="right">{row.longName}</TableCell>
-                      <TableCell align="right">{row.shortName}</TableCell>
+                      <TableCell align="center">{row.nodeID}</TableCell>
+                      <TableCell align="center">{row.xcoord}</TableCell>
+                      <TableCell align="center">{row.ycoord}</TableCell>
+                      <TableCell align="center">{row.floor}</TableCell>
+                      <TableCell align="center">{row.building}</TableCell>
+                      <TableCell align="center">{row.nodeType}</TableCell>
+                      <TableCell align="center">{row.longName}</TableCell>
+                      <TableCell align="center">{row.shortName}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
@@ -207,7 +239,7 @@ const NodeDataPage: React.FC = () => {
                   textAlign: "center",
                 }}
               >
-                Import Edges
+                Upload Edges
                 <VisuallyHiddenInput type="file" />
               </Button>
               <Button
@@ -224,10 +256,32 @@ const NodeDataPage: React.FC = () => {
                   fontSize: 14,
                   textAlign: "center",
                 }}
+                onClick={GetEdgeDataFromClick}
               >
-                Export Edges
+                Download Edges
               </Button>
             </div>
+            <TableContainer component={Paper} style={{ marginTop: "25px" }}>
+              <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                <TableHead>
+                  <TableRow>
+                    <TableCell align="center">startNodeID</TableCell>
+                    <TableCell align="center">endNodeID</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {edgeRows.map((row) => (
+                    <TableRow
+                      key={row.startNodeID}
+                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                    >
+                      <TableCell align="center">{row.startNodeID}</TableCell>
+                      <TableCell align="center">{row.endNodeID}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
           </TabPanel>
         </TabContext>
       </Box>

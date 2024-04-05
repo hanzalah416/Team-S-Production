@@ -11,8 +11,8 @@ router.get("/", async function (req: Request, res: Response) {
     const nodeEdges: NodeEdge[] = await client.nodeEdge.findMany();
 
     const formattedNodes = nodeEdges.map((NodeEdge) => ({
-      startNodeID: "startNodeID_value",
-      endNodeID: "endNodeID_value",
+      startNodeID: NodeEdge.startNodeID,
+      endNodeID: NodeEdge.endNodeID,
     }));
     res.json(formattedNodes);
   } catch (error) {
