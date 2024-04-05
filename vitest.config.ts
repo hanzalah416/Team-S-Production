@@ -6,12 +6,12 @@ export default defineConfig({
   },
   server: {
     watch: {
-      usePolling: true
-    }
+      usePolling: true,
+    },
   },
   test: {
     api: {
-      port:  parseInt(<string>process.env["FRONTEND_PORT"]),
+      port: parseInt(<string>process.env["FRONTEND_PORT"]),
       host: "0.0.0.0",
     },
   },

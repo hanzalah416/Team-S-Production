@@ -13,5 +13,12 @@
     "noEmit": true,
     "noImplicitAny": true
   },
-  "exclude": ["**/node_modules", "**/.turbo", "**/build", "**/coverage", "**/.prisma", "**/.yarn"]
+  "exclude": [
+    "**/node_modules",
+    "**/.turbo",
+    "**/build",
+    "**/coverage",
+    "**/.prisma",
+    "**/.yarn"
+  ]
 }

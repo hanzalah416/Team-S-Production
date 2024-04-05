@@ -75,17 +75,43 @@ const CreateAccount: React.FC = () => {
         <h2 className={styles.title}>Create Account</h2>
         <form onSubmit={handleSubmit}>
           <div className={styles.formGroup}>
-              <TextField id="standard-basic" label="Email" variant="standard" className={styles.muiInput} onChange={(e) => setEmail(e.target.value)}/>
+            <TextField
+              id="standard-basic"
+              label="Email"
+              variant="standard"
+              className={styles.muiInput}
+              onChange={(e) => setEmail(e.target.value)}
+            />
           </div>
           <div className={styles.formGroup}>
-              <TextField id="standard-basic" label="Username" variant="standard" className={styles.muiInput} onChange={(e) => setUsername(e.target.value)}/>
+            <TextField
+              id="standard-basic"
+              label="Username"
+              variant="standard"
+              className={styles.muiInput}
+              onChange={(e) => setUsername(e.target.value)}
+            />
           </div>
 
           <div className={styles.formGroup}>
-              <TextField type = "password" id="standard-basic" label="Password" variant="standard" className={styles.muiInput} onChange={(e) => setPassword(e.target.value)}/>
+            <TextField
+              type="password"
+              id="standard-basic"
+              label="Password"
+              variant="standard"
+              className={styles.muiInput}
+              onChange={(e) => setPassword(e.target.value)}
+            />
           </div>
           <div className={styles.formGroup}>
-              <TextField type = "password" id="standard-basic" label="Confirm Password" variant="standard" className={styles.muiInput} onChange={(e) => setPasswordAgain(e.target.value)}/>
+            <TextField
+              type="password"
+              id="standard-basic"
+              label="Confirm Password"
+              variant="standard"
+              className={styles.muiInput}
+              onChange={(e) => setPasswordAgain(e.target.value)}
+            />
           </div>
         </form>
         <div className={styles.buttonGroup}>

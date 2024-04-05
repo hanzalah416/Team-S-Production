@@ -18,6 +18,7 @@ import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import axios from "axios";
+import { Node } from "../../../../packages/database/.prisma/client";
 
 const VisuallyHiddenInput = styled('input')({
     clip: 'rect(0 0 0 0)',
@@ -31,21 +32,23 @@ const VisuallyHiddenInput = styled('input')({
     width: 1,
 });
 
-export interface NodeRow {
-  id: string;
-  xcoord: number;
-  ycoord: number;
-  longName: string;
-}
-
 const NodeDataPage: React.FC = () => {
-  const [rows, setRows] = useState<NodeRow[]>([]);
+  const [rows, setRows] = useState<Node[]>([]);
   useEffect(() => {
     async function fetchData() {
-      const res = await axios.get("/api/nodes");
-
+      const res = await axios.get("/api/csv");
       console.log(res.data);
       console.log("successfully got data from get request");
+
+      //     try {
+      //         if (Array.isArray(res.data) && res.data.length > 0) {
+      //             await createCsvFile({ headers: [{ id: "nodeID", title: "title" }], data: res.data },"csv_data/FrontEndNodes.csv");
+      //         } else {
+      //             console.error("Invalid data received from API.");
+      //         }
+      //     } catch (error) {
+      //         console.error("Error fetching data:", error);
+      //     }
       setRows(res.data);
     }
     fetchData().then();
@@ -59,6 +62,7 @@ const NodeDataPage: React.FC = () => {
 
   return (
       <div className={styles.outerDiv}>
+
           <Box sx={{ width: '100%', typography: 'body1' }}>
               <TabContext value={value}>
                   <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
@@ -164,6 +168,7 @@ const NodeDataPage: React.FC = () => {
                   </TabPanel>
               </TabContext>
           </Box>
+
       </div>
   );
 };
