@@ -35,13 +35,25 @@ const NodeDataPage: React.FC = () => {
             reader.onload = (e) => {
                 if (e.target) {
                     const text = e.target.result as string;
-                    const result = parse(text, { header: true, dynamicTyping: true });
-
-                    if (result.data) {
-                        const ids = result.data.map((row) => row.id); // Extract ids
-                        console.log(ids); // Log only the ids
+                    const result = parse(text, {
+                        header: true,
+                        dynamicTyping: true,
+                        transform: (value, header) => {
+                            if (header === "nodeID") {
+                                return value !== undefined ? String(value) : ""; // Ensure nodeID is parsed as a string
+                            }
+                            return value;
+                        },
+                    });
+                    if (result.data) { // Log the parsed CSV data
                         setCsvData(result.data);
+                        console.log(result.data);
+
+                        // Log only the IDs
+                        const ids = result.data.map(row => row.nodeID);
+                        console.log(ids);
                     }
+
                 }
             };
             reader.readAsText(file);
@@ -62,7 +74,7 @@ const NodeDataPage: React.FC = () => {
     useEffect(() => {
         // Convert CSV data to NodeRow format
         const convertedData: NodeRow[] = csvData.map((row) => ({
-            id: row.id,
+            id: row.nodeID,
             xcoord: parseFloat(row.xcoord),
             ycoord: parseFloat(row.ycoord),
             floor: row.floor,
@@ -92,21 +104,24 @@ const NodeDataPage: React.FC = () => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {rows.map((row) => (
-                            <TableRow
-                                key={`${row.id}-${row.floor}-${row.building}`}
-                                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                            >
-                                <TableCell align="right">{row.id}</TableCell>
-                                <TableCell align="right">{row.xcoord}</TableCell>
-                                <TableCell align="right">{row.ycoord}</TableCell>
-                                <TableCell align="right">{row.floor}</TableCell>
-                                <TableCell align="right">{row.building}</TableCell>
-                                <TableCell align="right">{row.nodeType}</TableCell>
-                                <TableCell align="right">{row.longName}</TableCell>
-                                <TableCell align="right">{row.shortName}</TableCell>
-                            </TableRow>
-                        ))}
+                        {rows.map((row, index) => {
+                            console.log("Row ID:", row.id); // Log the row.id value
+                            return (
+                                <TableRow
+                                    key={`${row.id || index}-${row.floor}-${row.building}`}
+                                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                                >
+                                    <TableCell align="center">{String(row.id)}</TableCell>
+                                    <TableCell align="center">{row.xcoord}</TableCell>
+                                    <TableCell align="center">{row.ycoord}</TableCell>
+                                    <TableCell align="center">{row.floor}</TableCell>
+                                    <TableCell align="center">{row.building}</TableCell>
+                                    <TableCell align="center">{row.nodeType}</TableCell>
+                                    <TableCell align="center">{row.longName}</TableCell>
+                                    <TableCell align="center">{row.shortName}</TableCell>
+                                </TableRow>
+                            );
+                        })}
                     </TableBody>
                 </Table>
             </TableContainer>
