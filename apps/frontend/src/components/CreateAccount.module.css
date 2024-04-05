@@ -40,8 +40,8 @@
 }
 
 .title {
-    font-family: "Inter", sans-serif;
-    font-weight: 600;
+  font-family: "Inter", sans-serif;
+  font-weight: 600;
   font-size: 60px;
   line-height: 73px;
   color: black;
@@ -100,7 +100,6 @@
   flex-direction: column; /* Stack elements vertically */
   align-items: center; /* Align items to the start (left) */
   margin-bottom: 10px; /* Add space below this form group */
-
 }
 
 .label {
@@ -223,7 +222,7 @@
 }
 
 .muiInput {
-    display: flex;
-    align-self: center;
-    width: 350px;
+  display: flex;
+  align-self: center;
+  width: 350px;
 }

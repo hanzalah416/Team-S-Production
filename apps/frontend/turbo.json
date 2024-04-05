@@ -9,6 +9,7 @@
         ".env.local",
         ".env"
       ],
+
       "env": ["PORT", "BACKEND_PORT", "BACKEND_SOURCE"]
     },
     "deploy": {
