@@ -160,44 +160,61 @@ function FloorMap() {
           {!pathFound && (
             <Box className={styles.pathNotFoundBox}>Path not found</Box>
           )}
-          <div className={styles.mbDiv}>
-            <Button
-              variant="contained"
-              href="/node-data"
-              className={styles.csvButton}
-              style={{
-                backgroundColor: "#003b9c",
-                fontFamily: "Poppins",
-                fontSize: 14,
-                textAlign: "center",
-              }}
-            >
-              Import/Export Nodes and Edges
-            </Button>
-          </div>
+            <div className={styles.mbDiv}>
+                <div style={{display: "flex", flexDirection: "column"}}>
+                    <Button
+                        variant="contained"
+                        href="/node-data"
+                        className={styles.csvButton}
+                        style={{
+                            backgroundColor: "#003b9c",
+                            fontFamily: "Poppins",
+                            fontSize: 14,
+                            textAlign: "center",
+                        }}
+                    >
+                        Import/Export Nodes
+                    </Button>
+
+                    <Button
+                        variant="contained"
+                        href="/edges-data"
+                        className={styles.csvButton}
+                        style={{
+                            backgroundColor: "#003b9c",
+                            fontFamily: "Poppins",
+                            fontSize: 14,
+                            textAlign: "center",
+                            marginTop: "20px", // Add margin to create space between buttons
+                        }}
+                    >
+                        Import/Export Edges
+                    </Button>
+                </div>
+            </div>
         </div>
 
-        <div className={styles.mapArea}>
-          <TransformWrapper
-            initialScale={1.3}
-            initialPositionX={-200.4}
-            initialPositionY={-100.83}
-            centered
-          >
-            <TransformComponent>
-              <img src={l1Map} alt="map" className={styles.hmapImage} />
+          <div className={styles.mapArea}>
+              <TransformWrapper
+                  initialScale={1.3}
+                  initialPositionX={-200.4}
+                  initialPositionY={-100.83}
+                  centered
+              >
+                  <TransformComponent>
+                      <img src={l1Map} alt="map" className={styles.hmapImage}/>
 
-              <div className={styles.dotsContainer}>
-                {queueNodeIDs.map((nodeID, index) => {
-                  const point = getPositionById(nodeID);
-                  if (
-                    point &&
-                    (index === 0 || index === queueNodeIDs.length - 1)
-                  ) {
-                    return (
-                      <div
-                        key={nodeID} // Use nodeID as the key
-                        className={`${styles.mapDot} ${index !== 0 && index !== queueNodeIDs.length - 1 ? styles.small : ""}`}
+                      <div className={styles.dotsContainer}>
+                          {queueNodeIDs.map((nodeID, index) => {
+                              const point = getPositionById(nodeID);
+                              if (
+                                  point &&
+                                  (index === 0 || index === queueNodeIDs.length - 1)
+                              ) {
+                                  return (
+                                      <div
+                                          key={nodeID} // Use nodeID as the key
+                                          className={`${styles.mapDot} ${index !== 0 && index !== queueNodeIDs.length - 1 ? styles.small : ""}`}
                         style={{
                           top: point.top,
                           left: point.left,
