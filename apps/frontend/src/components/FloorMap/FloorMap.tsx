@@ -194,7 +194,11 @@ function FloorMap() {
                     return (
                       <div
                         key={nodeID} // Use nodeID as the key
-                        className={`${styles.mapDot} ${index !== 0 && index !== queueNodeIDs.length - 1 ? styles.small : ""}`}
+                        className={`${styles.mapDot} ${
+                          index !== 0 && index !== queueNodeIDs.length - 1
+                            ? styles.small
+                            : ""
+                        }`}
                         style={{
                           top: point.top,
                           left: point.left,

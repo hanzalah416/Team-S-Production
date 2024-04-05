@@ -17,7 +17,12 @@
     "dev": {
       "dependsOn": ["^build:dev"],
       "cache": false,
-      "dotEnv": [".env.development.local", ".env.development", ".env.local", ".env"],
+      "dotEnv": [
+        ".env.development.local",
+        ".env.development",
+        ".env.local",
+        ".env"
+      ],
       "persistent": true
     },
     "deploy": {
