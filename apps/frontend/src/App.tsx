@@ -89,15 +89,15 @@ function App() {
           ),
         },
 
-          {
-              path: "/edges-data",
-              element: (
-                  <>
-                      <EdgesDataPage />
-                      <Layout />
-                  </>
-              ),
-          },
+        {
+          path: "/edges-data",
+          element: (
+            <>
+              <EdgesDataPage />
+              <Layout />
+            </>
+          ),
+        },
 
         {
           path: "/all-service-requests",
