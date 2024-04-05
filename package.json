@@ -54,6 +54,7 @@
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
     "@mui/icons-material": "^5.15.15",
+    "@mui/lab": "^5.0.0-alpha.170",
     "@mui/material": "^5.15.15",
     "@yarnpkg/pnpify": "^4.0.0-rc.45",
     "dotenv": "^16.4.5",
