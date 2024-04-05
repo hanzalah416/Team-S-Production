@@ -25,6 +25,7 @@ router.get("/", async function (req: Request, res: Response) {
       floor: node.floor,
       building: node.building,
       nodeType: node.nodeType,
+      shortName: node.shortName,
       longName: node.longName,
       shortName: node.shortName,
     }));

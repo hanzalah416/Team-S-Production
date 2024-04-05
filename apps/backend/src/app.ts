@@ -11,6 +11,7 @@ const app: Express = express(); // Setup the backend
 import pathfinderRouter from "./routes/getShortestPath.ts";
 import nodeRouter from "./routes/getNodes.ts";
 import csvRouter from "./routes/csvRouter.ts";
+import nodeEdgeRouter from "./routes/nodeEdge.ts";
 // Populate the database
 seed()
   .then(async () => {
@@ -38,6 +39,7 @@ app.use(cookieParser()); // Cookie parser
 app.use("/api/high-score", exampleRouter);
 app.use("/api/flower-request", flowerRequestRouter);
 // app.use("/api/log-in", logInRouter);
+app.use("/api/nodeEdge", nodeEdgeRouter);
 app.use("/api/csv", csvRouter);
 app.use("/api/create-user", logInRouter);
 app.use("/api/pathfind", pathfinderRouter);
