@@ -1,7 +1,8 @@
 import express, { Router, Request, Response } from "express";
 import client from "../bin/database-connection.ts";
-import { Node, Prisma } from "../../../../packages/database/.prisma/client";
+import { Node } from "../../../../packages/database/.prisma/client";
 import PrismaClient from "../bin/database-connection.ts";
+import { Prisma } from "database";
 
 const router: Router = express.Router();
 
@@ -13,6 +14,9 @@ router.get("/", async function (req: Request, res: Response) {
       id: node.nodeID,
       xcoord: node.xcoord,
       ycoord: node.ycoord,
+      floor: node.floor,
+      building: node.building,
+      nodeType: node.nodeType,
       longName: node.longName,
     }));
 
@@ -29,10 +33,10 @@ router.post("/", async function (req: Request, res: Response) {
   try {
     // Attempt to create in the database
     await PrismaClient.node.create({ data: nodeAttempt });
-    console.info("Successfully saved high score attempt"); // Log that it was successful
+    console.info("Successfully saved node attempt"); // Log that it was successful
   } catch (error) {
     // Log any failures
-    console.error(`Unable to save high score attempt ${nodeAttempt}: ${error}`);
+    console.error(`Unable to save node attempt ${nodeAttempt}: ${error}`);
     res.sendStatus(400); // Send error
     return; // Don't try to send duplicate statuses
   }

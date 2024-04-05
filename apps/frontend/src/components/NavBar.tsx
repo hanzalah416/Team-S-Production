@@ -44,11 +44,7 @@ function NavBar() {
       />
       <div className={"navButtons"}>
         <Link to={"/welcome"} className={"item"} id={"map"}>
-          <img
-            src={mapIcon}
-            className={"map_icon"}
-            alt={"map_icon"}
-          />
+          <img src={mapIcon} className={"map_icon"} alt={"map_icon"} />
           <p>Our Map</p>
         </Link>
         <div>
