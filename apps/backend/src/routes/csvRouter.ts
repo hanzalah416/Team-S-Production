@@ -18,6 +18,7 @@ router.get("/", async function (req: Request, res: Response) {
       building: node.building,
       nodeType: node.nodeType,
       longName: node.longName,
+      shortName: node.shortName,
     }));
 
     res.json(formattedNodes);
