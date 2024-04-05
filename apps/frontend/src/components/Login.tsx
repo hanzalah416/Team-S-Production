@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styles from "./Login.module.css";
-import TextField from '@mui/material/TextField';
+import TextField from "@mui/material/TextField";
 import heroImage from "./assets/HeroPhotos/Temp1.png";
 import heroImage2 from "./assets/HeroPhotos/nurse6.jpg";
 import heroImage3 from "./assets/HeroPhotos/Temp3.png";
@@ -14,22 +14,15 @@ import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
 // import {loginform} from "./common/loginform.ts";
 
-
 const Login: React.FC = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
   const navigate = useNavigate();
-  const [backgroundImage, setBackgroundImage] = useState<string>(
-    heroImage,
-  );
+  const [backgroundImage, setBackgroundImage] = useState<string>(heroImage);
 
   useEffect(() => {
-    const imageUrls = [
-      heroImage,
-      heroImage2,
-      heroImage3
-    ];
+    const imageUrls = [heroImage, heroImage2, heroImage3];
     const randomImageUrl =
       imageUrls[Math.floor(imageUrls.length * Math.random())];
     setBackgroundImage(`url(${randomImageUrl})`);
@@ -65,18 +58,31 @@ const Login: React.FC = () => {
       <div className={styles.wholePage}>
         <div className={styles.container}>
           <form className={styles.signInForm}>
-            <img src={bwhLogo} className={styles.logo} alt={"BWH logo"}/>
+            <img src={bwhLogo} className={styles.logo} alt={"BWH logo"} />
             <h2 className={styles.title}>Sign in</h2>
 
             <div className={styles.formGroup}>
-                <TextField id="standard-basic" label="Username" variant="standard" className={styles.muiInput} onChange={(e) => setUsername(e.target.value)}/>
+              <TextField
+                id="standard-basic"
+                label="Username"
+                variant="standard"
+                className={styles.muiInput}
+                onChange={(e) => setUsername(e.target.value)}
+              />
             </div>
+
+
               <div className={styles.formGroup}>
                   <TextField type = "password"  id="standard-basic" label="Password" variant="standard" className={styles.muiInput} onChange={(e) => setPassword(e.target.value)}/>
               </div>
 
+
             <div className={styles.extras}>
-              <FormControlLabel control={<Checkbox />} label="Remember Me" style={{ color: "black" }} />
+              <FormControlLabel
+                control={<Checkbox />}
+                label="Remember Me"
+                style={{ color: "black" }}
+              />
               {/*<p className={styles.forgotPassword}>*/}
               {/*  <a className={styles.forgotLink} href="url">*/}
               {/*    FORGOT PASSWORD?*/}
@@ -90,7 +96,9 @@ const Login: React.FC = () => {
                   className={`${styles.button} ${styles.loginButton}`}
                   type="button"
                   onClick={handleLogin}
-                >Login</button>
+                >
+                  Login
+                </button>
               </div>
               <p className={styles.signUp}>
                 Don't have an account?{" "}
@@ -98,7 +106,10 @@ const Login: React.FC = () => {
               </p>
             </div>
           </form>
-          <div className={styles.slideShow} style={{ backgroundImage: backgroundImage }}>
+          <div
+            className={styles.slideShow}
+            style={{ backgroundImage: backgroundImage }}
+          >
             {/*<img src="./src/components/assets/HeroPhotos/Temp1.png" className={"heroImage"} alt={"map"}/>*/}
           </div>
         </div>
