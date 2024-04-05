@@ -106,8 +106,9 @@ async function GetEdgeDataFromClick() {
 }
 
 const NodeDataPage: React.FC = () => {
-  const [rows, setRows] = useState<NodeRow[] | nodes[]>([]);
-  const [csvData, setCsvData] = useState<string[][]>([]);
+    const [nodeRows, setNodeRows] = useState<Node[]>([]);
+    const [edgeRows, setEdgeRows] = useState<NodeEdge[]>([]);
+    const [csvData, setCsvData] = useState<string[][]>([]);
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -163,7 +164,7 @@ const NodeDataPage: React.FC = () => {
 
   useEffect(() => {
     // Convert CSV data to NodeRow format
-    const convertedData: nodes[] = csvData.map((row) => ({
+    const convertedData: Node[] = csvData.map((row) => ({
       nodeID: row.nodeID,
       xcoord: parseFloat(row.xcoord),
       ycoord: parseFloat(row.ycoord),
@@ -191,7 +192,9 @@ const NodeDataPage: React.FC = () => {
     }); // Log the converted data
     setRows(convertedData);
   }, [csvData]);
-
+    const [value, setValue] = React.useState("1");
+    const handleChange = (event: React.SyntheticEvent, newValue: string) => {
+        setValue(newValue);
   return (
     <div className={styles.outerDiv}>
       <Box sx={{ width: "100%", typography: "body1" }}>
