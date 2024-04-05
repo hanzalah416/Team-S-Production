@@ -72,7 +72,7 @@ const Login: React.FC = () => {
                 <TextField id="standard-basic" label="Username" variant="standard" className={styles.muiInput} onChange={(e) => setUsername(e.target.value)}/>
             </div>
               <div className={styles.formGroup}>
-                  <TextField id="standard-basic" label="Password" variant="standard" className={styles.muiInput} onChange={(e) => setPassword(e.target.value)}/>
+                  <TextField type = "password"  id="standard-basic" label="Password" variant="standard" className={styles.muiInput} onChange={(e) => setPassword(e.target.value)}/>
               </div>
 
             <div className={styles.extras}>
