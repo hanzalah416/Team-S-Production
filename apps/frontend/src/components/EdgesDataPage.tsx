@@ -10,8 +10,8 @@ import axios from "axios";
 import { parse } from "papaparse"; // Import papaparse for CSV parsing
 
 export interface NodeEdgeRow {
-    startNodeID: string;
-    endNodeID: string;
+    startNode: string;
+    endNode: string;
 }
 
 const NodeDataPage: React.FC = () => {
@@ -34,14 +34,10 @@ const NodeDataPage: React.FC = () => {
                     });
                     if (result.data) {
                         setCsvData(result.data);
-                        console.log("Parsed CSV Data:", result.data);
+                        console.log(result.data);
 
-                        const convertedData: NodeEdgeRow[] = result.data.map((row) => ({
-                            startNode: row.startNode,
-                            endNode: row.endNode,
-                        }));
-                        console.log("Converted Data:", convertedData);
-                        setRows(convertedData);
+                        const ids = result.data.map(row => row.nodeID);
+                        console.log(ids);
                     }
                 }
             };
@@ -49,26 +45,30 @@ const NodeDataPage: React.FC = () => {
         }
     };
 
-
     useEffect(() => {
         async function fetchData() {
             const res = await axios.get("/api/all-edges-data");
 
             console.log(res.data);
             console.log("successfully got data from get request");
-            setRows(res.data);
+
+            const formattedData: NodeEdgeRow[] = res.data.map((edge) => ({
+                startNode: String(edge.startNode),
+                endNode: String(edge.endNode),
+            }));
+            setRows(formattedData);
         }
         fetchData().then();
     }, []);
 
+
     useEffect(() => {
         const convertedData: NodeEdgeRow[] = csvData.map((row) => ({
-            startNodeID: row.startNodeID,
-            endNodeID: row.endNodeID,
+            startNode: String(row.startNode),
+            endNode: String(row.endNode),
         }));
         setRows(convertedData);
     }, [csvData]);
-
     return (
         <div>
             <input type="file" onChange={handleFileUpload} style={{ marginTop: "75px" }} />
@@ -82,13 +82,14 @@ const NodeDataPage: React.FC = () => {
                     </TableHead>
                     <TableBody>
                         {rows.map((row, index) => {
+                            console.log(`Rendering row ${index}: Start Node ID = ${row.startNode}, End Node ID = ${row.endNode}`); // Add this line to print the values
                             return (
                                 <TableRow
-                                    key={`${index}-${row.startNodeID}-${row.endNodeID}`}
+                                    key={`${index}-${row.startNode}-${row.endNode}`}
                                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                                 >
-                                    <TableCell align="center">{row.startNodeID}</TableCell>
-                                    <TableCell align="center">{row.endNodeID}</TableCell>
+                                    <TableCell align="center">{row.startNode}</TableCell>
+                                    <TableCell align="center">{row.endNode}</TableCell>
                                 </TableRow>
                             );
                         })}
