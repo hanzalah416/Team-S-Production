@@ -24,8 +24,11 @@ interface Node {
 
 function FloorMap() {
   const [locations, setLocations] = useState<Position[]>([]);
+    const sortedLocations = [...locations]
+        .filter((location) => !location.label.startsWith('Hall'))
+        .sort((a, b) => a.label.localeCompare(b.label));
 
-  const [startPosition, setStartPosition] = useState<Position | null>(null);
+    const [startPosition, setStartPosition] = useState<Position | null>(null);
   const [endPosition, setEndPosition] = useState<Position | null>(null);
   const [queueNodeIDs, setQueueNodeIDs] = useState<string[]>([]); // Initialize as empty array
   const [pathFound, setPathFound] = useState(true);
@@ -110,31 +113,30 @@ function FloorMap() {
       <div className={styles.container}>
         <div className={styles.signInForm}>
           <div className={styles.boldtag}>Enter Starting Point</div>
-          <Autocomplete
-            options={locations}
-            getOptionLabel={(option) => option.label || "Unknown"}
-            isOptionEqualToValue={(option, value) => option.id === value.id}
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                label="Enter Starting Point"
-                InputLabelProps={{
-                  style: {
-                    fontFamily: "Poppins",
-                    fontSize: 14,
-                    textAlign: "center",
-                  },
-                }}
-              />
-            )}
-            onOpen={() => toggleScrolling(true)}
-            onClose={() => toggleScrolling(false)}
-            onChange={(event, value) => handleSelection(value, "start")}
-          />
-
+            <Autocomplete
+                options={sortedLocations}
+                getOptionLabel={(option) => option.label || "Unknown"}
+                isOptionEqualToValue={(option, value) => option.id === value.id}
+                renderInput={(params) => (
+                    <TextField
+                        {...params}
+                        label="Enter Starting Point"
+                        InputLabelProps={{
+                            style: {
+                                fontFamily: "Poppins",
+                                fontSize: 14,
+                                textAlign: "center",
+                            },
+                        }}
+                    />
+                )}
+                onOpen={() => toggleScrolling(true)}
+                onClose={() => toggleScrolling(false)}
+                onChange={(event, value) => handleSelection(value, "start")}
+            />
           <div className={styles.boldtag}>Enter Destination</div>
           <Autocomplete
-            options={locations}
+              options={sortedLocations}
             getOptionLabel={(option) => option.label || "Unknown"}
             isOptionEqualToValue={(option, value) => option.id === value.id}
             renderInput={(params) => (
@@ -158,31 +160,49 @@ function FloorMap() {
           {!pathFound && (
             <Box className={styles.pathNotFoundBox}>Path not found</Box>
           )}
-          <div className={styles.mbDiv}>
-            <Button
-              variant="contained"
-              href="/node-data"
-              className={styles.csvButton}
-              style={{
-                backgroundColor: "#003b9c",
-                fontFamily: "Poppins",
-                fontSize: 14,
-                textAlign: "center",
-              }}
-            >
-              Import/Export Nodes and Edges
-            </Button>
-          </div>
+            <div className={styles.mbDiv}>
+                <div style={{display: "flex", flexDirection: "column"}}>
+                    <Button
+                        variant="contained"
+                        href="/node-data"
+                        className={styles.csvButton}
+                        style={{
+                            backgroundColor: "#003b9c",
+                            fontFamily: "Poppins",
+                            fontSize: 14,
+                            textAlign: "center",
+                        }}
+                    >
+                        Import/Export Nodes
+                    </Button>
+
+                    <Button
+                        variant="contained"
+                        href="/edges-data"
+                        className={styles.csvButton}
+                        style={{
+                            backgroundColor: "#003b9c",
+                            fontFamily: "Poppins",
+                            fontSize: 14,
+                            textAlign: "center",
+                            marginTop: "20px", // Add margin to create space between buttons
+                        }}
+                    >
+                        Import/Export Edges
+                    </Button>
+                </div>
+            </div>
         </div>
 
-        <div className={styles.mapArea}>
-          <TransformWrapper
-            initialScale={1.3}
-            initialPositionX={-200.4}
-            initialPositionY={-100.83}
-          >
-            <TransformComponent>
-              <img src={l1Map} alt="map" className={styles.hmapImage} />
+          <div className={styles.mapArea}>
+              <TransformWrapper
+                  initialScale={1.3}
+                  initialPositionX={-200.4}
+                  initialPositionY={-100.83}
+                  centered
+              >
+                  <TransformComponent>
+                      <img src={l1Map} alt="map" className={styles.hmapImage}/>
 
               <div className={styles.dotsContainer}>
                 {queueNodeIDs.map((nodeID, index) => {

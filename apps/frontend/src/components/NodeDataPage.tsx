@@ -20,6 +20,8 @@ import TabPanel from "@mui/lab/TabPanel";
 import axios from "axios";
 import { Node } from "../../../../packages/database";
 import { NodeEdge } from "../../../../packages/database";
+import { parse } from "papaparse";
+import { nodes } from "./common/nodes.ts"; // Import papaparse for CSV parsing
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -104,8 +106,37 @@ async function GetEdgeDataFromClick() {
 }
 
 const NodeDataPage: React.FC = () => {
-  const [nodeRows, setNodeRows] = useState<Node[]>([]);
-  const [edgeRows, setEdgeRows] = useState<NodeEdge[]>([]);
+  const [rows, setRows] = useState<NodeRow[] | nodes[]>([]);
+  const [csvData, setCsvData] = useState<string[][]>([]);
+
+  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        if (e.target) {
+          const text = e.target.result as string;
+          const result = parse(text, {
+            header: true,
+            dynamicTyping: true,
+            transform: (value, header) => {
+              if (header === "nodeID") {
+                return value !== undefined ? String(value) : ""; // Ensure nodeID is parsed as a string
+              }
+              return value;
+            },
+          });
+          if (result.data) {
+            // Log the parsed CSV data
+            setCsvData(result.data as string[][]);
+            console.log(result.data);
+          }
+        }
+      };
+      reader.readAsText(file);
+    }
+  };
+
   useEffect(() => {
     async function fetchData() {
       try {
@@ -130,10 +161,36 @@ const NodeDataPage: React.FC = () => {
     fetchData().then();
   }, []);
 
-  const [value, setValue] = React.useState("1");
-  const handleChange = (event: React.SyntheticEvent, newValue: string) => {
-    setValue(newValue);
-  };
+  useEffect(() => {
+    // Convert CSV data to NodeRow format
+    const convertedData: nodes[] = csvData.map((row) => ({
+      nodeID: row.nodeID,
+      xcoord: parseFloat(row.xcoord),
+      ycoord: parseFloat(row.ycoord),
+      floor: row.floor,
+      building: row.building,
+      nodeType: row.nodeType,
+      longName: row.longName,
+      shortName: row.shortName,
+    }));
+    console.log(convertedData);
+    convertedData.forEach((row) => {
+      console.log("Row:", row);
+      axios
+        .post("/api/csv", row, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+        .then(() => {
+          console.log("Node sent successfully");
+        })
+        .catch(() => {
+          console.log("Node failed to send");
+        });
+    }); // Log the converted data
+    setRows(convertedData);
+  }, [csvData]);
 
   return (
     <div className={styles.outerDiv}>
@@ -165,6 +222,7 @@ const NodeDataPage: React.FC = () => {
                   fontSize: 14,
                   textAlign: "center",
                 }}
+                onClick={handleFileUpload}
               >
                 Upload Nodes
                 <VisuallyHiddenInput type="file" />
