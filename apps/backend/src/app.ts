@@ -11,6 +11,7 @@ const app: Express = express(); // Setup the backend
 import pathfinderRouter from "./routes/getShortestPath.ts";
 import nodeRouter from "./routes/getNodes.ts";
 import csvRouter from "./routes/csvRouter.ts";
+import allNodeRouter from "./routes/getAllNodeData.ts";
 // Populate the database
 seed()
   .then(async () => {
@@ -42,6 +43,7 @@ app.use("/api/csv", csvRouter);
 app.use("/api/create-user", logInRouter);
 app.use("/api/pathfind", pathfinderRouter);
 app.use("/api/nodes", nodeRouter);
+app.use("/api/all-node-data", allNodeRouter);
 
 app.use("/healthcheck", (req, res) => {
   res.status(200).send();
