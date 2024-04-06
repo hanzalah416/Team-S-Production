@@ -118,6 +118,15 @@ async function PostNodeData() {
   }
 }
 
+// async function PostEdgeData() {
+//     try {
+//         await axios.post("/api/csv", csvData);
+//         console.log("data sent");
+//     } catch (error) {
+//         console.log("error with sending data");
+//     }
+// }
+
 const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>): void => {
   const file = event.target.files?.[0];
   if (file) {
@@ -150,35 +159,6 @@ const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>): void => {
     reader.readAsText(file);
   }
 };
-// Convert CSV data to NodeRow format
-// const convertedData: Node[] = csvData.map((row) => ({
-//     nodeID: row.nodeID,
-//     xcoord: parseFloat(row.xcoord),
-//     ycoord: parseFloat(row.ycoord),
-//     floor: row.floor,
-//     building: row.building,
-//     nodeType: row.nodeType,
-//     longName: row.longName,
-//     shortName: row.shortName,
-// }));
-//     console.log(convertedData);
-//     convertedData.forEach((row) => {
-//         console.log("Row:", row);
-//         axios
-//             .post("/api/csv", row, {
-//                 headers: {
-//                     "Content-Type": "application/json",
-//                 },
-//             })
-//             .then(() => {
-//                 console.log("Node sent successfully");
-//             })
-//             .catch(() => {
-//                 console.log("Node failed to send");
-//             });
-//     }); // Log the converted data
-//     setRows(convertedData);
-// }, [csvData]);
 
 const NodeDataPage: React.FC = () => {
   const [nodeRows, setNodeRows] = useState<Node[]>([]);

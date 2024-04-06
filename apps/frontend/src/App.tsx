@@ -8,7 +8,6 @@ import OrderPayment from "../src/components/OrderPayment";
 import { FormDataProvider } from "./components/FormDataContext.tsx";
 import FloorMap from "./components/FloorMap/FloorMap.tsx";
 import NodeDataPage from "./components/NodeDataPage.tsx";
-import EdgesDataPage from "./components/EdgesDataPage.tsx";
 
 import { ServiceRequestGetter } from "./components/AllServiceRequestsGetter.tsx";
 import OutlinedAlerts from "./components/ServiceNotice.tsx";
@@ -88,17 +87,6 @@ function App() {
             </>
           ),
         },
-
-        {
-          path: "/edges-data",
-          element: (
-            <>
-              <EdgesDataPage />
-              <Layout />
-            </>
-          ),
-        },
-
         {
           path: "/all-service-requests",
           element: (

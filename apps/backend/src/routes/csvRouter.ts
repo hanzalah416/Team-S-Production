@@ -2,7 +2,7 @@ import express, { Router, Request, Response } from "express";
 import client from "../bin/database-connection.ts";
 import { Node } from "../../../../packages/database/.prisma/client";
 import PrismaClient from "../bin/database-connection.ts";
-import { Prisma } from "database";
+//import { Prisma } from "database";
 import createCsvFile from "../WriteCSV.ts";
 import * as path from "path";
 
@@ -51,37 +51,31 @@ router.get("/", async function (req: Request, res: Response) {
   }
 });
 
-router.post("/", async function (req: Request, res: Response) {
-  const nodeAttempt: Prisma.NodeCreateInput[] = req.body;
-  // Attempt to save the high score
+//const express = require('express');
+//const router = express.Router();
+//const { PrismaClient } = require('@prisma/client');
+
+//const PrismaClientInstance = new PrismaClient();
+
+router.post("/", async function (req, res) {
+  const nodeAttempt = req.body;
+  console.log(req.body); // Log the request body to see the incoming data
+  console.log(nodeAttempt); // Log the parsed data to be inserted
+
   try {
-    await PrismaClient.$executeRaw`DROP TABLE IF EXISTS Node`;
-
-    await PrismaClient.$executeRaw`CREATE TABLE IF NOT EXISTS Node(
-          nodeID     VARCHAR(255) PRIMARY KEY,
-          xcoord     Int,
-          ycoord     Int,
-          floor      VARCHAR(255),
-          building   VARCHAR(255),
-          nodeType   VARCHAR(255),
-          longName   VARCHAR(255),
-          shortName  VARCHAR(255),
-     )`;
     // Attempt to create in the database
-    await PrismaClient.node.createMany({ data: nodeAttempt });
+    await PrismaClient.node.createMany({
+      data: nodeAttempt,
+      skipDuplicates: true, // Consider using skipDuplicates to avoid errors on duplicate keys
+    });
     console.info("Successfully saved node attempt"); // Log that it was successful
+    res.sendStatus(200); // Respond with success status
   } catch (error) {
-    // Log any failures
-    console.error(`Unable to save node attempt: ${error}`);
-    //console.log(nodeAttempt);
-    //console.error(error);
-    res
-      .sendStatus(400)
-      .send("Unable to save node attempt ${nodeAttempt}: ${error}"); // Send error
-    return; // Don't try to send duplicate statuses
+    console.error(`Unable to save node attempt: ${error}`); // Log failures, making sure to use template literals for variables
+    res.sendStatus(400); // Send a failure status
   }
-
-  res.sendStatus(200); // Otherwise say it's fine
 });
+
+module.exports = router;
 
 export default router;
