@@ -18,8 +18,10 @@ import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 import axios from "axios";
-import { Node } from "database";
-import { NodeEdge } from "database";
+import { Node } from "../../../../packages/database";
+import { NodeEdge } from "../../../../packages/database";
+import { parse } from "papaparse";
+//import { nodes } from "./common/nodes.ts"; // Import papaparse for CSV parsing
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -103,9 +105,102 @@ async function GetEdgeDataFromClick() {
   }
 }
 
+//const [csvData, setCsvData] = useState<string[][]>([]);
+let csvData: string[][];
+//const [csvData, setCsvData] = useState<String[][]>([]);
+
+async function PostNodeData() {
+  try {
+    await axios.post("/api/csv", csvData);
+    console.log("data sent");
+  } catch (error) {
+    console.log("error with sending data");
+  }
+}
+
+async function PostEdgeData() {
+  try {
+    await axios.post("/api/nodeEdge", csvData);
+    console.log("data sent");
+  } catch (error) {
+    console.log("error with sending data");
+  }
+}
+
+const handleFileUploadNode = (
+  event: React.ChangeEvent<HTMLInputElement>,
+): void => {
+  const file = event.target.files?.[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      if (e.target) {
+        const text = e.target.result as string;
+        const result = parse(text, {
+          header: true,
+          dynamicTyping: true,
+          transform: (value, header) => {
+            if (header === "nodeID") {
+              return value !== undefined ? String(value) : ""; // Ensure nodeID is parsed as a string
+            }
+            return value;
+          },
+        });
+        if (result.data) {
+          // Log the parsed CSV data
+          csvData = result.data as string[][];
+          console.log("result.data:");
+          console.log(result.data);
+          console.log("csvData:");
+          console.log(csvData);
+          //console.log(convertCSVtoStringArrays(csvData));
+          PostNodeData().then();
+        }
+      }
+    };
+    reader.readAsText(file);
+  }
+};
+
+const handleFileUploadEdge = (
+  event: React.ChangeEvent<HTMLInputElement>,
+): void => {
+  const file = event.target.files?.[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      if (e.target) {
+        const text = e.target.result as string;
+        const result = parse(text, {
+          header: true,
+          dynamicTyping: true,
+          transform: (value, header) => {
+            if (header === "nodeID") {
+              return value !== undefined ? String(value) : ""; // Ensure nodeID is parsed as a string
+            }
+            return value;
+          },
+        });
+        if (result.data) {
+          // Log the parsed CSV data
+          csvData = result.data as string[][];
+          console.log("result.data:");
+          console.log(result.data);
+          console.log("csvData:");
+          console.log(csvData);
+          //console.log(convertCSVtoStringArrays(csvData));
+          PostEdgeData().then();
+        }
+      }
+    };
+    reader.readAsText(file);
+  }
+};
+
 const NodeDataPage: React.FC = () => {
   const [nodeRows, setNodeRows] = useState<Node[]>([]);
   const [edgeRows, setEdgeRows] = useState<NodeEdge[]>([]);
+
   useEffect(() => {
     async function fetchData() {
       try {
@@ -127,14 +222,13 @@ const NodeDataPage: React.FC = () => {
         console.error("Error fetching Edge data", error);
       }
     }
+
     fetchData().then();
   }, []);
-
   const [value, setValue] = React.useState("1");
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
   };
-
   return (
     <div className={styles.outerDiv}>
       <Box sx={{ width: "100%", typography: "body1" }}>
@@ -167,7 +261,10 @@ const NodeDataPage: React.FC = () => {
                 }}
               >
                 Upload Nodes
-                <VisuallyHiddenInput type="file" />
+                <VisuallyHiddenInput
+                  type="file"
+                  onChange={handleFileUploadNode}
+                />
               </Button>
               <Button
                 className={styles.dfileButton}
@@ -240,7 +337,10 @@ const NodeDataPage: React.FC = () => {
                 }}
               >
                 Upload Edges
-                <VisuallyHiddenInput type="file" />
+                <VisuallyHiddenInput
+                  type="file"
+                  onChange={handleFileUploadEdge}
+                />
               </Button>
               <Button
                 className={styles.dfileButton}
@@ -288,5 +388,4 @@ const NodeDataPage: React.FC = () => {
     </div>
   );
 };
-
 export default NodeDataPage;
