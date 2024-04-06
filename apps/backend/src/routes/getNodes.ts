@@ -16,6 +16,8 @@ router.get("/", async function (req: Request, res: Response) {
       longName: node.longName,
     }));
 
+    formattedNodes.sort((a, b) => a.longName.localeCompare(b.longName));
+
     res.json(formattedNodes);
   } catch (error) {
     console.error("Error fetching nodes: ", error);
