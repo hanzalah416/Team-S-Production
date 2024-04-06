@@ -109,59 +109,58 @@ async function GetEdgeDataFromClick() {
 let csvData: string[][];
 //const [csvData, setCsvData] = useState<String[][]>([]);
 
-
-async function PostNodeData(){
-    try{
-        await axios.post("/api/csv",csvData);
-        console.log("data sent");
-    }catch (error){
-        console.log("error with sending data");
-    }
+async function PostNodeData() {
+  try {
+    await axios.post("/api/csv", csvData);
+    console.log("data sent");
+  } catch (error) {
+    console.log("error with sending data");
+  }
 }
 
 const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    const file = event.target.files?.[0];
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            if (e.target) {
-                const text = e.target.result as string;
-                const result = parse(text, {
-                    header: true,
-                    dynamicTyping: true,
-                    transform: (value, header) => {
-                        if (header === "nodeID") {
-                            return value !== undefined ? String(value) : ""; // Ensure nodeID is parsed as a string
-                        }
-                        return value;
-                    },
-                });
-                if (result.data) {
-                    // Log the parsed CSV data
-                    csvData=result.data as string[][];
-                    console.log("result.data:");
-                    console.log(result.data);
-                    console.log("csvData:");
-                    console.log(csvData);
-                    //console.log(convertCSVtoStringArrays(csvData));
-                    PostNodeData().then();
-                }
+  const file = event.target.files?.[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      if (e.target) {
+        const text = e.target.result as string;
+        const result = parse(text, {
+          header: true,
+          dynamicTyping: true,
+          transform: (value, header) => {
+            if (header === "nodeID") {
+              return value !== undefined ? String(value) : ""; // Ensure nodeID is parsed as a string
             }
-        };
-        reader.readAsText(file);
-    }
+            return value;
+          },
+        });
+        if (result.data) {
+          // Log the parsed CSV data
+          csvData = result.data as string[][];
+          console.log("result.data:");
+          console.log(result.data);
+          console.log("csvData:");
+          console.log(csvData);
+          //console.log(convertCSVtoStringArrays(csvData));
+          PostNodeData().then();
+        }
+      }
+    };
+    reader.readAsText(file);
+  }
 };
-    // Convert CSV data to NodeRow format
-    // const convertedData: Node[] = csvData.map((row) => ({
-    //     nodeID: row.nodeID,
-    //     xcoord: parseFloat(row.xcoord),
-    //     ycoord: parseFloat(row.ycoord),
-    //     floor: row.floor,
-    //     building: row.building,
-    //     nodeType: row.nodeType,
-    //     longName: row.longName,
-    //     shortName: row.shortName,
-    // }));
+// Convert CSV data to NodeRow format
+// const convertedData: Node[] = csvData.map((row) => ({
+//     nodeID: row.nodeID,
+//     xcoord: parseFloat(row.xcoord),
+//     ycoord: parseFloat(row.ycoord),
+//     floor: row.floor,
+//     building: row.building,
+//     nodeType: row.nodeType,
+//     longName: row.longName,
+//     shortName: row.shortName,
+// }));
 //     console.log(convertedData);
 //     convertedData.forEach((row) => {
 //         console.log("Row:", row);
@@ -182,191 +181,189 @@ const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>): void => {
 // }, [csvData]);
 
 const NodeDataPage: React.FC = () => {
-    const [nodeRows, setNodeRows] = useState<Node[]>([]);
-    const [edgeRows, setEdgeRows] = useState<NodeEdge[]>([]);
+  const [nodeRows, setNodeRows] = useState<Node[]>([]);
+  const [edgeRows, setEdgeRows] = useState<NodeEdge[]>([]);
 
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const nodeRes = await axios.get("/api/csv");
+        console.log("successfully got node data from get request:");
+        console.log(nodeRes.data);
+        setNodeRows(nodeRes.data);
+        //figure out how to handle setRows for Edge data
+      } catch (error) {
+        console.error("Error fetching node data", error);
+      }
+      try {
+        const edgeRes = await axios.get("/api/nodeEdge");
+        console.log("successfully got Edge data from get request:");
+        console.log(edgeRes.data);
+        setEdgeRows(edgeRes.data);
+        //figure out how to handle setRows for Edge data
+      } catch (error) {
+        console.error("Error fetching Edge data", error);
+      }
+    }
 
-    useEffect(() => {
-        async function fetchData() {
-            try {
-                const nodeRes = await axios.get("/api/csv");
-                console.log("successfully got node data from get request:");
-                console.log(nodeRes.data);
-                setNodeRows(nodeRes.data);
-                //figure out how to handle setRows for Edge data
-            } catch (error) {
-                console.error("Error fetching node data", error);
-            }
-            try {
-                const edgeRes = await axios.get("/api/nodeEdge");
-                console.log("successfully got Edge data from get request:");
-                console.log(edgeRes.data);
-                setEdgeRows(edgeRes.data);
-                //figure out how to handle setRows for Edge data
-            } catch (error) {
-                console.error("Error fetching Edge data", error);
-            }
-        }
-
-        fetchData().then();
-    }, []);
-    const [value, setValue] = React.useState("1");
-    const handleChange = (event: React.SyntheticEvent, newValue: string) => {
-        setValue(newValue);
-    };
-        return (
-            <div className={styles.outerDiv}>
-                <Box sx={{width: "100%", typography: "body1"}}>
-                    <TabContext value={value}>
-                        <Box sx={{borderBottom: 1, borderColor: "divider"}}>
-                            <TabList
-                                onChange={handleChange}
-                                aria-label="lab API tabs example"
-                                centered
-                            >
-                                <Tab label="Nodes" value="1"/>
-                                <Tab label="Edges" value="2"/>
-                            </TabList>
-                        </Box>
-                        <TabPanel value="1" style={{padding: 0}}>
-                            <div className={styles.nodeCSV}>
-                                <Button
-                                    className={styles.ufileButton}
-                                    component="label"
-                                    role={undefined}
-                                    variant="contained"
-                                    tabIndex={-1}
-                                    startIcon={<CloudUploadIcon/>}
-                                    style={{
-                                        marginRight: "5px",
-                                        backgroundColor: "#003b9c",
-                                        fontFamily: "Poppins",
-                                        fontSize: 14,
-                                        textAlign: "center",
-                                    }}
-                                    //onClick={handleFileUpload}
-                                >
-                                    Upload Nodes
-                                    <VisuallyHiddenInput type="file"
-                                    onChange={handleFileUpload}/>
-                                </Button>
-                                <Button
-                                    className={styles.dfileButton}
-                                    component="label"
-                                    role={undefined}
-                                    variant="contained"
-                                    tabIndex={-1}
-                                    startIcon={<CloudDownloadIcon/>}
-                                    style={{
-                                        marginLeft: "5px",
-                                        backgroundColor: "#003b9c",
-                                        fontFamily: "Poppins",
-                                        fontSize: 14,
-                                        textAlign: "center",
-                                    }}
-                                    onClick={GetNodeDataFromClick}
-                                >
-                                    Download Nodes
-                                </Button>
-                            </div>
-                            <TableContainer component={Paper} style={{marginTop: "25px"}}>
-                                <Table sx={{minWidth: 650}} aria-label="simple table">
-                                    <TableHead>
-                                        <TableRow>
-                                            <TableCell>nodeID(key)</TableCell>
-                                            <TableCell align="center">xcoord</TableCell>
-                                            <TableCell align="center">ycoord</TableCell>
-                                            <TableCell align="center">floor</TableCell>
-                                            <TableCell align="center">building</TableCell>
-                                            <TableCell align="center">nodeType</TableCell>
-                                            <TableCell align="center">longName</TableCell>
-                                            <TableCell align="center">shortName</TableCell>
-                                        </TableRow>
-                                    </TableHead>
-                                    <TableBody>
-                                        {nodeRows.map((row) => (
-                                            <TableRow
-                                                key={row.nodeID}
-                                                sx={{"&:last-child td, &:last-child th": {border: 0}}}
-                                            >
-                                                <TableCell align="center">{row.nodeID}</TableCell>
-                                                <TableCell align="center">{row.xcoord}</TableCell>
-                                                <TableCell align="center">{row.ycoord}</TableCell>
-                                                <TableCell align="center">{row.floor}</TableCell>
-                                                <TableCell align="center">{row.building}</TableCell>
-                                                <TableCell align="center">{row.nodeType}</TableCell>
-                                                <TableCell align="center">{row.longName}</TableCell>
-                                                <TableCell align="center">{row.shortName}</TableCell>
-                                            </TableRow>
-                                        ))}
-                                    </TableBody>
-                                </Table>
-                            </TableContainer>
-                        </TabPanel>
-                        <TabPanel value="2" style={{padding: 0}}>
-                            <div className={styles.nodeCSV}>
-                                <Button
-                                    className={styles.ufileButton}
-                                    component="label"
-                                    role={undefined}
-                                    variant="contained"
-                                    tabIndex={-1}
-                                    startIcon={<CloudUploadIcon/>}
-                                    style={{
-                                        marginRight: "5px",
-                                        backgroundColor: "#003b9c",
-                                        fontFamily: "Poppins",
-                                        fontSize: 14,
-                                        textAlign: "center",
-                                    }}
-                                >
-                                    Upload Edges
-                                    <VisuallyHiddenInput type="file"/>
-                                </Button>
-                                <Button
-                                    className={styles.dfileButton}
-                                    component="label"
-                                    role={undefined}
-                                    variant="contained"
-                                    tabIndex={-1}
-                                    startIcon={<CloudDownloadIcon/>}
-                                    style={{
-                                        marginLeft: "5px",
-                                        backgroundColor: "#003b9c",
-                                        fontFamily: "Poppins",
-                                        fontSize: 14,
-                                        textAlign: "center",
-                                    }}
-                                    onClick={GetEdgeDataFromClick}
-                                >
-                                    Download Edges
-                                </Button>
-                            </div>
-                            <TableContainer component={Paper} style={{marginTop: "25px"}}>
-                                <Table sx={{minWidth: 650}} aria-label="simple table">
-                                    <TableHead>
-                                        <TableRow>
-                                            <TableCell align="center">startNodeID</TableCell>
-                                            <TableCell align="center">endNodeID</TableCell>
-                                        </TableRow>
-                                    </TableHead>
-                                    <TableBody>
-                                        {edgeRows.map((row) => (
-                                            <TableRow
-                                                key={row.startNodeID}
-                                                sx={{"&:last-child td, &:last-child th": {border: 0}}}
-                                            >
-                                                <TableCell align="center">{row.startNodeID}</TableCell>
-                                                <TableCell align="center">{row.endNodeID}</TableCell>
-                                            </TableRow>
-                                        ))}
-                                    </TableBody>
-                                </Table>
-                            </TableContainer>
-                        </TabPanel>
-                    </TabContext>
-                </Box>
+    fetchData().then();
+  }, []);
+  const [value, setValue] = React.useState("1");
+  const handleChange = (event: React.SyntheticEvent, newValue: string) => {
+    setValue(newValue);
+  };
+  return (
+    <div className={styles.outerDiv}>
+      <Box sx={{ width: "100%", typography: "body1" }}>
+        <TabContext value={value}>
+          <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+            <TabList
+              onChange={handleChange}
+              aria-label="lab API tabs example"
+              centered
+            >
+              <Tab label="Nodes" value="1" />
+              <Tab label="Edges" value="2" />
+            </TabList>
+          </Box>
+          <TabPanel value="1" style={{ padding: 0 }}>
+            <div className={styles.nodeCSV}>
+              <Button
+                className={styles.ufileButton}
+                component="label"
+                role={undefined}
+                variant="contained"
+                tabIndex={-1}
+                startIcon={<CloudUploadIcon />}
+                style={{
+                  marginRight: "5px",
+                  backgroundColor: "#003b9c",
+                  fontFamily: "Poppins",
+                  fontSize: 14,
+                  textAlign: "center",
+                }}
+                //onClick={handleFileUpload}
+              >
+                Upload Nodes
+                <VisuallyHiddenInput type="file" onChange={handleFileUpload} />
+              </Button>
+              <Button
+                className={styles.dfileButton}
+                component="label"
+                role={undefined}
+                variant="contained"
+                tabIndex={-1}
+                startIcon={<CloudDownloadIcon />}
+                style={{
+                  marginLeft: "5px",
+                  backgroundColor: "#003b9c",
+                  fontFamily: "Poppins",
+                  fontSize: 14,
+                  textAlign: "center",
+                }}
+                onClick={GetNodeDataFromClick}
+              >
+                Download Nodes
+              </Button>
             </div>
-        );
-    };
+            <TableContainer component={Paper} style={{ marginTop: "25px" }}>
+              <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                <TableHead>
+                  <TableRow>
+                    <TableCell>nodeID(key)</TableCell>
+                    <TableCell align="center">xcoord</TableCell>
+                    <TableCell align="center">ycoord</TableCell>
+                    <TableCell align="center">floor</TableCell>
+                    <TableCell align="center">building</TableCell>
+                    <TableCell align="center">nodeType</TableCell>
+                    <TableCell align="center">longName</TableCell>
+                    <TableCell align="center">shortName</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {nodeRows.map((row) => (
+                    <TableRow
+                      key={row.nodeID}
+                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                    >
+                      <TableCell align="center">{row.nodeID}</TableCell>
+                      <TableCell align="center">{row.xcoord}</TableCell>
+                      <TableCell align="center">{row.ycoord}</TableCell>
+                      <TableCell align="center">{row.floor}</TableCell>
+                      <TableCell align="center">{row.building}</TableCell>
+                      <TableCell align="center">{row.nodeType}</TableCell>
+                      <TableCell align="center">{row.longName}</TableCell>
+                      <TableCell align="center">{row.shortName}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </TabPanel>
+          <TabPanel value="2" style={{ padding: 0 }}>
+            <div className={styles.nodeCSV}>
+              <Button
+                className={styles.ufileButton}
+                component="label"
+                role={undefined}
+                variant="contained"
+                tabIndex={-1}
+                startIcon={<CloudUploadIcon />}
+                style={{
+                  marginRight: "5px",
+                  backgroundColor: "#003b9c",
+                  fontFamily: "Poppins",
+                  fontSize: 14,
+                  textAlign: "center",
+                }}
+              >
+                Upload Edges
+                <VisuallyHiddenInput type="file" />
+              </Button>
+              <Button
+                className={styles.dfileButton}
+                component="label"
+                role={undefined}
+                variant="contained"
+                tabIndex={-1}
+                startIcon={<CloudDownloadIcon />}
+                style={{
+                  marginLeft: "5px",
+                  backgroundColor: "#003b9c",
+                  fontFamily: "Poppins",
+                  fontSize: 14,
+                  textAlign: "center",
+                }}
+                onClick={GetEdgeDataFromClick}
+              >
+                Download Edges
+              </Button>
+            </div>
+            <TableContainer component={Paper} style={{ marginTop: "25px" }}>
+              <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                <TableHead>
+                  <TableRow>
+                    <TableCell align="center">startNodeID</TableCell>
+                    <TableCell align="center">endNodeID</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {edgeRows.map((row) => (
+                    <TableRow
+                      key={row.startNodeID}
+                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                    >
+                      <TableCell align="center">{row.startNodeID}</TableCell>
+                      <TableCell align="center">{row.endNodeID}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </TabPanel>
+        </TabContext>
+      </Box>
+    </div>
+  );
+};
 export default NodeDataPage;
