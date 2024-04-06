@@ -19,11 +19,18 @@ model HighScore {
   score Int
 }
 
+enum Authentication {
+  user
+  staff
+  admin
+}
+
 model hospitalUser {
-  userID       String @id @default(uuid())
+  userID       String         @id @default(uuid())
   userEmail    String
-  userName     String @unique
+  userName     String         @unique
   userPassword String
+  authType     Authentication @default(user)
 }
 
 model FlowerRequests {
