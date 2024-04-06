@@ -18,8 +18,8 @@ import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 import axios from "axios";
-import { Node } from "../../../../packages/database";
-import { NodeEdge } from "../../../../packages/database";
+import { Node } from "../../../../../packages/database";
+import { NodeEdge } from "../../../../../packages/database";
 import { parse } from "papaparse";
 //import { nodes } from "./common/nodes.ts"; // Import papaparse for CSV parsing
 

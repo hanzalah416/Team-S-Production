@@ -184,7 +184,7 @@ function FloorMap() {
             initialScale={1.3}
             initialPositionX={-200.4}
             initialPositionY={-100.83}
-            centered
+            //centered
           >
             <TransformComponent>
               <img src={l1Map} alt="map" className={styles.hmapImage} />
