@@ -3,8 +3,8 @@ import React, { useState } from "react";
 import styles from "./CreateAccount.module.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { userform } from "./common/userform.ts";
-import bwhLogo from "./assets/bwh-logo.svg";
+import { userform } from "../../common/userform.ts";
+import bwhLogo from "../../assets/bwh-logo.svg";
 import TextField from "@mui/material/TextField";
 
 const CreateAccount: React.FC = () => {

@@ -2,7 +2,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./OrderFlowers.module.css";
-import { FlowerRequestGetter } from "./FlowerRequests/FlowerRequestGetter";
+import { FlowerRequestGetter } from "./FlowerRequestGetter.tsx";
 
 const OrderFlowersResult: React.FC = () => {
   const navigate = useNavigate();

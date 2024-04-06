@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { ServiceRequestDisplay } from "./AllServiceRequestsTable.tsx";
-import { flowerform } from "./common/flowerform.ts";
+import { flowerform } from "../../common/flowerform.ts";
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";

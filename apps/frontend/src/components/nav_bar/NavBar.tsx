@@ -4,10 +4,10 @@ import * as React from "react";
 import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import bwhLogo from "./assets/bwh-logo.svg";
-import mapIcon from "./assets/NavBarIcons/map_icon_nav.png";
-import arrowDropDown from "./assets/NavBarIcons/arrow_drop_down_nav.png";
-import profileIcon from "./assets/NavBarIcons/profile_icon_nav.png";
+import bwhLogo from "../assets/bwh-logo.svg";
+import mapIcon from "../assets/NavBarIcons/map_icon_nav.png";
+import arrowDropDown from "../assets/NavBarIcons/arrow_drop_down_nav.png";
+import profileIcon from "../assets/NavBarIcons/profile_icon_nav.png";
 
 function NavBar() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);

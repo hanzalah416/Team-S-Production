@@ -1,17 +1,17 @@
 import "./App.css";
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
-import NavBar from "../src/components/NavBar.tsx";
-import OrderFlowers from "../src/components/OrderFlowers";
-import Login from "../src/components/Login";
-import CreateAccount from "../src/components/CreateAccount";
-import OrderPayment from "../src/components/OrderPayment";
-import { FormDataProvider } from "./components/FormDataContext.tsx";
-import FloorMap from "./components/FloorMap/FloorMap.tsx";
-import NodeDataPage from "./components/NodeDataPage.tsx";
-import { ServiceRequestGetter } from "./components/AllServiceRequestsGetter.tsx";
-import OutlinedAlerts from "./components/ServiceNotice.tsx";
+import NavBar from "./components/nav_bar/NavBar.tsx";
+import OrderFlowers from "./components/flower_requests/OrderFlowers.tsx";
+import Login from "./components/login/Login.tsx";
+import CreateAccount from "./components/login/create_account/CreateAccount.tsx";
+import OrderPayment from "./components/service_requests/payment/OrderPayment.tsx";
+import { FormDataProvider } from "./components/service_requests/FormDataContext.tsx";
+import FloorMap from "./components/floor_map/FloorMap.tsx";
+import NodeDataPage from "./components/nodes/NodeDataPage.tsx";
+import { ServiceRequestGetter } from "./components/service_requests/all_requests/AllServiceRequestsGetter.tsx";
+import OutlinedAlerts from "./components/service_requests/ServiceNotice.tsx";
 import Stack from "@mui/material/Stack";
-import OrderConfirmation from "./components/OrderConfirmation.tsx";
+import OrderConfirmation from "./components/service_requests/OrderConfirmation.tsx";
 
 function App() {
   const router = createBrowserRouter([
