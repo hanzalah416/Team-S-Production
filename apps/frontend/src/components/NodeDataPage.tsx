@@ -30,31 +30,33 @@ const NodeDataPage: React.FC = () => {
   }, []);
   console.log(rows);
   return (
-    <TableContainer component={Paper} style={{ marginTop: "75px" }}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
-        <TableHead>
-          <TableRow>
-            <TableCell>nodeID(key)</TableCell>
-            <TableCell align="center">xcoord</TableCell>
-            <TableCell align="center">ycoord</TableCell>
-            <TableCell align="center">longName</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map((row) => (
-            <TableRow
-              key={row.id}
-              sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-            >
-              <TableCell align="right">{row.id}</TableCell>
-              <TableCell align="right">{row.xcoord}</TableCell>
-              <TableCell align="right">{row.ycoord}</TableCell>
-              <TableCell align="right">{row.longName}</TableCell>
+    <>
+      <TableContainer component={Paper} style={{ marginTop: "75px" }}>
+        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell>nodeID(key)</TableCell>
+              <TableCell align="center">xcoord</TableCell>
+              <TableCell align="center">ycoord</TableCell>
+              <TableCell align="center">longName</TableCell>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+          </TableHead>
+          <TableBody>
+            {rows.map((row) => (
+              <TableRow
+                key={row.id}
+                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+              >
+                <TableCell align="right">{row.id}</TableCell>
+                <TableCell align="right">{row.xcoord}</TableCell>
+                <TableCell align="right">{row.ycoord}</TableCell>
+                <TableCell align="right">{row.longName}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </>
   );
 };
 
