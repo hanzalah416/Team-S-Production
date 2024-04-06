@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import styles from "./Login.module.css";
 import TextField from "@mui/material/TextField";
-import heroImage from "./assets/HeroPhotos/Temp1.png";
-import heroImage2 from "./assets/HeroPhotos/nurse6.jpg";
-import heroImage3 from "./assets/HeroPhotos/Temp3.png";
-import bwhLogo from "./assets/bwh-logo.svg";
+import heroImage from "../assets/HeroPhotos/Temp1.png";
+import heroImage2 from "../assets/HeroPhotos/nurse6.jpg";
+import heroImage3 from "../assets/HeroPhotos/Temp3.png";
+import bwhLogo from "../assets/bwh-logo.svg";
 
 import { Link, useNavigate } from "react-router-dom";
 // import axios from "axios";

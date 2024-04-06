@@ -13,10 +13,12 @@ router.get("/", async function (req: Request, res: Response) {
       id: node.nodeID,
       xcoord: node.xcoord,
       ycoord: node.ycoord,
+      floor: node.floor,
+      building: node.building,
+      nodeType: node.nodeType,
       longName: node.longName,
+      shortName: node.shortName,
     }));
-
-    formattedNodes.sort((a, b) => a.longName.localeCompare(b.longName));
 
     res.json(formattedNodes);
   } catch (error) {

@@ -24,6 +24,9 @@ interface Node {
 
 function FloorMap() {
   const [locations, setLocations] = useState<Position[]>([]);
+  const sortedLocations = [...locations]
+    .filter((location) => !location.label.startsWith("Hall"))
+    .sort((a, b) => a.label.localeCompare(b.label));
 
   const [startPosition, setStartPosition] = useState<Position | null>(null);
   const [endPosition, setEndPosition] = useState<Position | null>(null);
@@ -111,7 +114,7 @@ function FloorMap() {
         <div className={styles.signInForm}>
           <div className={styles.boldtag}>Enter Starting Point</div>
           <Autocomplete
-            options={locations}
+            options={sortedLocations}
             getOptionLabel={(option) => option.label || "Unknown"}
             isOptionEqualToValue={(option, value) => option.id === value.id}
             renderInput={(params) => (
@@ -131,10 +134,9 @@ function FloorMap() {
             onClose={() => toggleScrolling(false)}
             onChange={(event, value) => handleSelection(value, "start")}
           />
-
           <div className={styles.boldtag}>Enter Destination</div>
           <Autocomplete
-            options={locations}
+            options={sortedLocations}
             getOptionLabel={(option) => option.label || "Unknown"}
             isOptionEqualToValue={(option, value) => option.id === value.id}
             renderInput={(params) => (
@@ -159,19 +161,21 @@ function FloorMap() {
             <Box className={styles.pathNotFoundBox}>Path not found</Box>
           )}
           <div className={styles.mbDiv}>
-            <Button
-              variant="contained"
-              href="/node-data"
-              className={styles.csvButton}
-              style={{
-                backgroundColor: "#003b9c",
-                fontFamily: "Poppins",
-                fontSize: 14,
-                textAlign: "center",
-              }}
-            >
-              Import/Export Nodes and Edges
-            </Button>
+            <div style={{ display: "flex", flexDirection: "column" }}>
+              <Button
+                variant="contained"
+                href="/node-data"
+                className={styles.csvButton}
+                style={{
+                  backgroundColor: "#003b9c",
+                  fontFamily: "Poppins",
+                  fontSize: 14,
+                  textAlign: "center",
+                }}
+              >
+                Import/Export Nodes
+              </Button>
+            </div>
           </div>
         </div>
 
@@ -180,6 +184,7 @@ function FloorMap() {
             initialScale={1.3}
             initialPositionX={-200.4}
             initialPositionY={-100.83}
+            //centered
           >
             <TransformComponent>
               <img src={l1Map} alt="map" className={styles.hmapImage} />
@@ -194,7 +199,11 @@ function FloorMap() {
                     return (
                       <div
                         key={nodeID} // Use nodeID as the key
-                        className={`${styles.mapDot} ${index !== 0 && index !== queueNodeIDs.length - 1 ? styles.small : ""}`}
+                        className={`${styles.mapDot} ${
+                          index !== 0 && index !== queueNodeIDs.length - 1
+                            ? styles.small
+                            : ""
+                        }`}
                         style={{
                           top: point.top,
                           left: point.left,

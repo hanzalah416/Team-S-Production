@@ -52,6 +52,7 @@ async function seed() {
         userName: "admin",
         userPassword: "admin",
         userEmail: "wwong2@wpi.edu",
+        authType: "admin",
       },
     });
   }
