@@ -118,16 +118,18 @@ async function PostNodeData() {
   }
 }
 
-// async function PostEdgeData() {
-//     try {
-//         await axios.post("/api/csv", csvData);
-//         console.log("data sent");
-//     } catch (error) {
-//         console.log("error with sending data");
-//     }
-// }
+async function PostEdgeData() {
+  try {
+    await axios.post("/api/nodeEdge", csvData);
+    console.log("data sent");
+  } catch (error) {
+    console.log("error with sending data");
+  }
+}
 
-const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>): void => {
+const handleFileUploadNode = (
+  event: React.ChangeEvent<HTMLInputElement>,
+): void => {
   const file = event.target.files?.[0];
   if (file) {
     const reader = new FileReader();
@@ -153,6 +155,41 @@ const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>): void => {
           console.log(csvData);
           //console.log(convertCSVtoStringArrays(csvData));
           PostNodeData().then();
+        }
+      }
+    };
+    reader.readAsText(file);
+  }
+};
+
+const handleFileUploadEdge = (
+  event: React.ChangeEvent<HTMLInputElement>,
+): void => {
+  const file = event.target.files?.[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      if (e.target) {
+        const text = e.target.result as string;
+        const result = parse(text, {
+          header: true,
+          dynamicTyping: true,
+          transform: (value, header) => {
+            if (header === "nodeID") {
+              return value !== undefined ? String(value) : ""; // Ensure nodeID is parsed as a string
+            }
+            return value;
+          },
+        });
+        if (result.data) {
+          // Log the parsed CSV data
+          csvData = result.data as string[][];
+          console.log("result.data:");
+          console.log(result.data);
+          console.log("csvData:");
+          console.log(csvData);
+          //console.log(convertCSVtoStringArrays(csvData));
+          PostEdgeData().then();
         }
       }
     };
@@ -222,10 +259,12 @@ const NodeDataPage: React.FC = () => {
                   fontSize: 14,
                   textAlign: "center",
                 }}
-                //onClick={handleFileUpload}
               >
                 Upload Nodes
-                <VisuallyHiddenInput type="file" onChange={handleFileUpload} />
+                <VisuallyHiddenInput
+                  type="file"
+                  onChange={handleFileUploadNode}
+                />
               </Button>
               <Button
                 className={styles.dfileButton}
@@ -298,7 +337,10 @@ const NodeDataPage: React.FC = () => {
                 }}
               >
                 Upload Edges
-                <VisuallyHiddenInput type="file" />
+                <VisuallyHiddenInput
+                  type="file"
+                  onChange={handleFileUploadEdge}
+                />
               </Button>
               <Button
                 className={styles.dfileButton}
