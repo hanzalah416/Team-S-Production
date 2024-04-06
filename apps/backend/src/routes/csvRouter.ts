@@ -52,16 +52,32 @@ router.get("/", async function (req: Request, res: Response) {
 });
 
 router.post("/", async function (req: Request, res: Response) {
-  const nodeAttempt: Prisma.NodeCreateInput = req.body;
+  const nodeAttempt: Prisma.NodeCreateInput[] = req.body;
   // Attempt to save the high score
   try {
+    await PrismaClient.$executeRaw`DROP TABLE IF EXISTS Node`;
+
+    await PrismaClient.$executeRaw`CREATE TABLE IF NOT EXISTS Node(
+          nodeID     VARCHAR(255) PRIMARY KEY,
+          xcoord     Int,
+          ycoord     Int,
+          floor      VARCHAR(255),
+          building   VARCHAR(255),
+          nodeType   VARCHAR(255),
+          longName   VARCHAR(255),
+          shortName  VARCHAR(255),
+     )`;
     // Attempt to create in the database
-    await PrismaClient.node.create({ data: nodeAttempt });
+    await PrismaClient.node.createMany({ data: nodeAttempt });
     console.info("Successfully saved node attempt"); // Log that it was successful
   } catch (error) {
     // Log any failures
-    console.error(`Unable to save node attempt ${nodeAttempt}: ${error}`);
-    res.sendStatus(400); // Send error
+    console.error(`Unable to save node attempt: ${error}`);
+    //console.log(nodeAttempt);
+    //console.error(error);
+    res
+      .sendStatus(400)
+      .send("Unable to save node attempt ${nodeAttempt}: ${error}"); // Send error
     return; // Don't try to send duplicate statuses
   }
 
