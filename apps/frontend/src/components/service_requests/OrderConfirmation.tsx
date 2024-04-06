@@ -1,6 +1,6 @@
 import React from "react";
-import styles from "./OrderFlowers.module.css";
-import checkMark from "./assets/checkmark.webp";
+import styles from "../flower_requests/OrderFlowers.module.css";
+import checkMark from "../assets/checkmark.webp";
 
 export default function OrderConfirmation() {
   return (

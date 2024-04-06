@@ -1,6 +1,6 @@
 // DisplayFormData.tsx
 import React from "react";
-import { useFormData } from "./useFormData";
+import { useFormData } from "../common/useFormData.ts";
 
 const DisplayFormData: React.FC = () => {
   const { formData } = useFormData();

@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./OrderPayment.module.css";
-import { useFormData } from "./useFormData";
+import { useFormData } from "../../common/useFormData.ts";
 
 const OrderPayment: React.FC = () => {
   const [cardNumber, setCardNumber] = useState("");
