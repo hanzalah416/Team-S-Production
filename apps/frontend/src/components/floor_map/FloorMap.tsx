@@ -175,21 +175,6 @@ function FloorMap() {
               >
                 Import/Export Nodes
               </Button>
-
-              <Button
-                variant="contained"
-                href="/edges-data"
-                className={styles.csvButton}
-                style={{
-                  backgroundColor: "#003b9c",
-                  fontFamily: "Poppins",
-                  fontSize: 14,
-                  textAlign: "center",
-                  marginTop: "20px", // Add margin to create space between buttons
-                }}
-              >
-                Import/Export Edges
-              </Button>
             </div>
           </div>
         </div>
