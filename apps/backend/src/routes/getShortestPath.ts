@@ -26,7 +26,7 @@ router.post("/", async function (req: Request, res: Response) {
 
     console.log("Received start and end nodes", startNodeID, endNodeID);
 
-    const path = graph.BFS(startNodeID, endNodeID);
+    const path = graph.AStar(startNodeID, endNodeID);
 
     if (!path) {
       throw new Error("Path was undefined");
