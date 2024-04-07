@@ -28,21 +28,42 @@ interface Node {
 
 function FloorMap() {
     const [locations, setLocations] = useState<Position[]>([]);
-    const [currentFloor, setCurrentFloor] = useState("L1");
+    const [currentFloor, setCurrentFloor] = useState("1");
     const sortedLocations = [...locations]
-        .filter((location) => location.floor === currentFloor)
         .filter((location) => !location.label.startsWith("Hall"))
         .sort((a, b) => a.label.localeCompare(b.label));
-
     const [startPosition, setStartPosition] = useState<Position | null>(null);
     const [endPosition, setEndPosition] = useState<Position | null>(null);
     const [queueNodeIDs, setQueueNodeIDs] = useState<string[]>([]);
     const [pathFound, setPathFound] = useState(true);
+    const [filteredQueueNodeIDs, setFilteredQueueNodeIDs] = useState<string[]>([]);
+
+
+    const getFloorNumber = (nodeID) => {
+        const floor = nodeID.slice(-2); // Get the last two characters
+        switch (floor) {
+            case "01":
+                return "1";
+            case "02":
+                return "2";
+            case "03":
+                return "3";
+            case "L1":
+                return "-1";
+            case "L2":
+                return "-2";
+            default:
+                return "0"; // Default case, should not happen
+        }
+    };
+
+
 
     const clearInputs = () => {
         setStartPosition(null);
         setEndPosition(null);
         setQueueNodeIDs([]);
+        setFilteredQueueNodeIDs([]); // Clear filtered node IDs for each floor
         setPathFound(true);
         setResetKey((prevKey) => prevKey + 1); // Increment the reset key
     };
@@ -99,8 +120,9 @@ function FloorMap() {
         }
     };
 
+
+
     const fetchPath = (startNodeId: string, endNodeId: string) => {
-        setQueueNodeIDs([]);
         fetch("/api/pathfind", {
             method: "POST",
             headers: {
@@ -113,29 +135,71 @@ function FloorMap() {
         })
             .then((response) => response.json())
             .then((data) => {
+                console.log("Pathfinding result node IDs:", data.id); // Print the node IDs to the console
                 setQueueNodeIDs(data.id);
+                // Filter the node IDs for the current floor
+                setFilteredQueueNodeIDs(data.id.filter((id) => getFloorNumber(id) === parseInt(currentFloor, 10)));
+
                 setPathFound(data.id.length > 0);
             })
             .catch((error) => {
                 console.error("Failed to find path:", error);
                 setQueueNodeIDs([]);
+                setFilteredQueueNodeIDs([]);
                 setPathFound(false);
             });
     };
 
+
+
+    let previousFloor = currentFloor;
+    // Update the FloorSwitcher component to include a print statement
     const FloorSwitcher = ({ onChange }) => (
         <div className={styles.floorSwitcher}>
             {["L1", "L2", "1", "2", "3"].map((floor) => (
                 <Button
                     key={floor}
                     variant={currentFloor === floor ? "contained" : "outlined"}
-                    onClick={() => onChange(floor)}
+                    onClick={() => {
+                        // Print the previous floor and node ID before changing floors
+                        console.log(`Floor switched from ${previousFloor} to ${floor}`);
+                        console.log(`Node ID before switch: ${queueNodeIDs[0]}`);
+                        console.log(`Node ID after switch: ${queueNodeIDs[queueNodeIDs.length - 1]}`);
+                        previousFloor = floor;
+                        setCurrentFloor(floor);
+                        setStartPosition(null); // Reset start position
+                        setEndPosition(null);   // Reset end position
+                        // Filter the node IDs for the new floor
+                        const newFilteredQueueNodeIDs = queueNodeIDs.filter((id) => id.endsWith(floor));
+                        setFilteredQueueNodeIDs(newFilteredQueueNodeIDs);
+                        onChange(floor);
+                    }}
                 >
                     {floor}
                 </Button>
             ))}
         </div>
     );
+
+
+    const getLineColor = (floor) => {
+        switch (floor) {
+            case 1:
+                return "red";
+            case 2:
+                return "green";
+            case 3:
+                return "blue";
+            case -1:
+                return "purple";
+            case -2:
+                return "orange";
+            // Add more cases as needed for other floors
+            default:
+                return "black"; // Default color
+        }
+    };
+
 
     const floorMaps = {
         L1: l1Map,
@@ -145,9 +209,34 @@ function FloorMap() {
         3: f3Map,
     };
 
+    const getLineSegments = (startNodeID, endNodeID) => {
+        const segments = [];
+        let currentFloor = getFloorNumber(startNodeID);
+        let segmentStartNodeID = startNodeID;
+
+        for (let i = 1; i < filteredQueueNodeIDs.length; i++) {
+            const nodeID = filteredQueueNodeIDs[i];
+            const nodeFloor = getFloorNumber(nodeID);
+
+            if (nodeFloor !== currentFloor) {
+                // Floor change detected, create a segment for the current floor
+                segments.push({ startNodeID: segmentStartNodeID, endNodeID: nodeID, floor: currentFloor });
+                currentFloor = nodeFloor; // Update the current floor
+                segmentStartNodeID = nodeID; // Update the segment start node ID
+            }
+
+            if (nodeID === endNodeID) {
+                // End node reached, create the final segment for the current floor
+                segments.push({ startNodeID: segmentStartNodeID, endNodeID: nodeID, floor: currentFloor });
+                break;
+            }
+        }
+        return segments;
+    };
+
+
     return (
         <div className={styles.wholePage}>
-            <FloorSwitcher onChange={(floor) => setCurrentFloor(floor)} />
             <div className={styles.container}>
                 <div className={styles.signInForm}>
                     <div className={styles.boldtag}>Enter Starting Point</div>
@@ -201,7 +290,7 @@ function FloorMap() {
                         <Box className={styles.pathNotFoundBox}>Path not found</Box>
                     )}
 
-                    <FloorSwitcher onChange={(floor) => setCurrentFloor(floor)} />
+                    <FloorSwitcher onChange={(floor) => setCurrentFloor(floor)}/>
 
                     <Button
                         variant="outlined"
@@ -217,10 +306,21 @@ function FloorMap() {
                         }}
                     >
                         Clear
+
                     </Button>
 
+                    <div className={styles.boldtag}>
+                        <div className={styles.pathListContainer}>
+                            <ul className={styles.pathList}>
+                                {filteredQueueNodeIDs.map((nodeID) => (
+                                    <li key={nodeID}>{nodeID}</li>
+                                ))}
+                            </ul>
+                        </div>
+                    </div>
+
                     <div className={styles.mbDiv}>
-                        <div style={{ display: "flex", flexDirection: "column" }}>
+                        <div style={{display: "flex", flexDirection: "column"}}>
                             <Button
                                 variant="contained"
                                 href="/node-data"
@@ -253,29 +353,39 @@ function FloorMap() {
                             />
 
                             <div className={styles.dotsContainer}>
-                                {queueNodeIDs.map((nodeID, index) => {
+                                {filteredQueueNodeIDs.map((nodeID, index) => {
                                     const point = getPositionById(nodeID);
-                                    if (
-                                        point &&
-                                        (index === 0 || index === queueNodeIDs.length - 1)
-                                    ) {
+                                    if (point) {
+                                        const isStartNode = index === 0;
+                                        const isEndNode = index === filteredQueueNodeIDs.length - 1;
+                                        const isMultifloorNode =
+                                            !isStartNode &&
+                                            !isEndNode &&
+                                            (getFloorNumber(nodeID) !== getFloorNumber(filteredQueueNodeIDs[index - 1]) ||
+                                                getFloorNumber(nodeID) !== getFloorNumber(filteredQueueNodeIDs[index + 1]));
+
+                                        if (!isMultifloorNode && getFloorNumber(nodeID) !== currentFloor) {
+                                            return null; // Skip rendering if not on the correct floor
+                                        }
+
                                         return (
                                             <div
                                                 key={nodeID}
                                                 className={`${styles.mapDot} ${
-                                                    index !== 0 && index !== queueNodeIDs.length - 1
-                                                        ? styles.small
-                                                        : ""
+                                                    isStartNode ? styles.startNode : ""
+                                                } ${
+                                                    isEndNode ? styles.endNode : ""
+                                                } ${
+                                                    isMultifloorNode ? styles.multifloorNode : ""
                                                 }`}
                                                 style={{
                                                     top: point.top,
                                                     left: point.left,
                                                     backgroundColor:
-                                                        index === 0
-                                                            ? "green"
-                                                            : index === queueNodeIDs.length - 1
-                                                                ? "red"
-                                                                : "transparent",
+                                                        isStartNode ? "green"
+                                                            : isEndNode ? "red"
+                                                                : isMultifloorNode ? "yellow"
+                                                                    : "transparent",
                                                     display: "block",
                                                 }}
                                             ></div>
@@ -283,6 +393,7 @@ function FloorMap() {
                                     }
                                     return null;
                                 })}
+
                             </div>
 
                             <svg
@@ -295,34 +406,34 @@ function FloorMap() {
                                     height: "100%",
                                 }}
                             >
-                                {queueNodeIDs
-                                    .slice(0)
-                                    .reverse()
-                                    .map((nodeID, index) => {
-                                        const point = getPositionById(nodeID);
-                                        if (point && index < queueNodeIDs.length - 1) {
-                                            const nextPoint = getPositionById(
-                                                queueNodeIDs[queueNodeIDs.length - index - 2]
+                                {filteredQueueNodeIDs
+                                    .slice(0, -1) // Exclude the last node ID as it's used as the end node for the last segment
+                                    .map((startNodeID, index) => {
+                                        const endNodeID = filteredQueueNodeIDs[index + 1];
+                                        const segments = getLineSegments(startNodeID, endNodeID);
+
+                                        return segments.map((segment, segmentIndex) => {
+                                            const startPoint = getPositionById(segment.startNodeID);
+                                            const endPoint = getPositionById(segment.endNodeID);
+                                            const lineColor = getLineColor(segment.floor);
+
+                                            return (
+                                                <line
+                                                    key={`${segment.startNodeID}-${segment.endNodeID}-${segmentIndex}`}
+                                                    className={styles.line}
+                                                    x1={`${parseFloat(startPoint.left)}%`}
+                                                    y1={`${parseFloat(startPoint.top)}%`}
+                                                    x2={`${parseFloat(endPoint.left)}%`}
+                                                    y2={`${parseFloat(endPoint.top)}%`}
+                                                    strokeLinecap="round"
+                                                    stroke={lineColor}
+                                                    strokeWidth="2"
+                                                />
                                             );
-                                            if (nextPoint) {
-                                                return (
-                                                    <line
-                                                        key={`${nodeID}-${index}`}
-                                                        className={styles.line}
-                                                        x1={`${parseFloat(nextPoint.left)}%`}
-                                                        y1={`${parseFloat(nextPoint.top)}%`}
-                                                        x2={`${parseFloat(point.left)}%`}
-                                                        y2={`${parseFloat(point.top)}%`}
-                                                        strokeLinecap="round"
-                                                        stroke="blue"
-                                                        strokeWidth="2"
-                                                    />
-                                                );
-                                            }
-                                        }
-                                        return null;
+                                        });
                                     })}
                             </svg>
+
                         </TransformComponent>
                     </TransformWrapper>
                 </div>

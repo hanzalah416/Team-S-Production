@@ -135,9 +135,22 @@ body {
 }
 
 .mapDot.small {
-  width: 0px;
-  height: 0px;
-  z-index: 0;
+  width: 1px;
+  height: 1px;
+  z-index: 3;
+}
+
+.pathListContainer {
+    max-height: 150px; /* Set a maximum height for the list */
+    overflow-y: auto; /* Enable vertical scrolling */
+    margin-top: 0px;
+    /* Adjust as needed */
+    padding: 5px; /* Add padding for better readability */
+}
+
+.pathList {
+    list-style-type: none; /* Remove default list styles */
+    padding-left: 0; /* Remove default left padding */
 }
 
 .csvButton {
