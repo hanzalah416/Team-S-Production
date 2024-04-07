@@ -28,41 +28,39 @@ interface Node {
 
 function FloorMap() {
     const [locations, setLocations] = useState<Position[]>([]);
-    const [currentFloor, setCurrentFloor] = useState("1");
+    const [currentFloor, setCurrentFloor] = useState("01");
     const sortedLocations = [...locations]
         .filter((location) => !location.label.startsWith("Hall"))
         .sort((a, b) => a.label.localeCompare(b.label));
     const [startPosition, setStartPosition] = useState<Position | null>(null);
     const [endPosition, setEndPosition] = useState<Position | null>(null);
-    const [queueNodeIDs, setQueueNodeIDs] = useState<string[]>([]);
+    // const [queueNodeIDs, setQueueNodeIDs] = useState<string[]>([]);
     const [pathFound, setPathFound] = useState(true);
     const [filteredQueueNodeIDs, setFilteredQueueNodeIDs] = useState<string[]>([]);
+    const [fullPath, setFullPath] = useState<string[]>([]);
 
 
     const getFloorNumber = (nodeID) => {
         const floor = nodeID.slice(-2); // Get the last two characters
         switch (floor) {
             case "01":
-                return "1";
+                return "01";
             case "02":
-                return "2";
+                return "02";
             case "03":
-                return "3";
+                return "03";
             case "L1":
-                return "-1";
+                return "L1";
             case "L2":
-                return "-2";
+                return "L2";
             default:
-                return "0"; // Default case, should not happen
+                return "00"; // Default case, should not happen
         }
     };
-
-
 
     const clearInputs = () => {
         setStartPosition(null);
         setEndPosition(null);
-        setQueueNodeIDs([]);
         setFilteredQueueNodeIDs([]); // Clear filtered node IDs for each floor
         setPathFound(true);
         setResetKey((prevKey) => prevKey + 1); // Increment the reset key
@@ -136,15 +134,15 @@ function FloorMap() {
             .then((response) => response.json())
             .then((data) => {
                 console.log("Pathfinding result node IDs:", data.id); // Print the node IDs to the console
-                setQueueNodeIDs(data.id);
-                // Filter the node IDs for the current floor
-                setFilteredQueueNodeIDs(data.id.filter((id) => getFloorNumber(id) === parseInt(currentFloor, 10)));
 
+                setFullPath(data.id); // Store the full path
+                // Filter the node IDs for the current floor
+                setFilteredQueueNodeIDs(data.id.filter((id) => getFloorNumber(id) === currentFloor));
                 setPathFound(data.id.length > 0);
             })
             .catch((error) => {
                 console.error("Failed to find path:", error);
-                setQueueNodeIDs([]);
+
                 setFilteredQueueNodeIDs([]);
                 setPathFound(false);
             });
@@ -156,21 +154,16 @@ function FloorMap() {
     // Update the FloorSwitcher component to include a print statement
     const FloorSwitcher = ({ onChange }) => (
         <div className={styles.floorSwitcher}>
-            {["L1", "L2", "1", "2", "3"].map((floor) => (
+            {["L1", "L2", "01", "02", "03"].map((floor) => (
                 <Button
                     key={floor}
                     variant={currentFloor === floor ? "contained" : "outlined"}
                     onClick={() => {
-                        // Print the previous floor and node ID before changing floors
                         console.log(`Floor switched from ${previousFloor} to ${floor}`);
-                        console.log(`Node ID before switch: ${queueNodeIDs[0]}`);
-                        console.log(`Node ID after switch: ${queueNodeIDs[queueNodeIDs.length - 1]}`);
                         previousFloor = floor;
                         setCurrentFloor(floor);
-                        setStartPosition(null); // Reset start position
-                        setEndPosition(null);   // Reset end position
-                        // Filter the node IDs for the new floor
-                        const newFilteredQueueNodeIDs = queueNodeIDs.filter((id) => id.endsWith(floor));
+                        // Filter the full path for the new floor
+                        const newFilteredQueueNodeIDs = fullPath.filter((id) => getFloorNumber(id) === floor);
                         setFilteredQueueNodeIDs(newFilteredQueueNodeIDs);
                         onChange(floor);
                     }}
@@ -184,15 +177,15 @@ function FloorMap() {
 
     const getLineColor = (floor) => {
         switch (floor) {
-            case 1:
+            case "01":
                 return "red";
-            case 2:
+            case "02":
                 return "green";
-            case 3:
+            case "03":
                 return "blue";
-            case -1:
+            case "L1":
                 return "purple";
-            case -2:
+            case "L2":
                 return "orange";
             // Add more cases as needed for other floors
             default:
@@ -204,9 +197,9 @@ function FloorMap() {
     const floorMaps = {
         L1: l1Map,
         L2: l2Map,
-        1: f1Map,
-        2: f2Map,
-        3: f3Map,
+        "01": f1Map,
+        "02": f2Map,
+        "03": f3Map,
     };
 
     const getLineSegments = (startNodeID, endNodeID) => {
