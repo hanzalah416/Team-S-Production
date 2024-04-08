@@ -104,7 +104,7 @@ body {
   color: black;
 }
 .boldtag2 {
-    margin-top: 0px;
+    margin-top: 5px;
     margin-bottom: 10px;
     text-align: left;
     font-weight: bold;
@@ -181,7 +181,7 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    font-size: 2px;
+    font-size: 5px;
     color: black;
 }
 
@@ -190,4 +190,14 @@ body {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+}
+
+
+.floorSwitcherContainer {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: none;
+    padding: 5px;
+    z-index: 10; /* Ensure it's above the map */
 }
