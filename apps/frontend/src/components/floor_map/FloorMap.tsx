@@ -29,12 +29,14 @@ interface Node {
 function FloorMap() {
     const [locations, setLocations] = useState<Position[]>([]);
     const [currentFloor, setCurrentFloor] = useState("01");
-
+    const [zoomLevel, setZoomLevel] = useState(1);
     const sortedLocations = [...locations]
         .filter((location) => !location.label.includes("Hall")) // Change startsWith to includes
         .sort((a, b) => a.label.localeCompare(b.label));
 
     const [startPosition, setStartPosition] = useState<Position | null>(null);
+
+
     const [endPosition, setEndPosition] = useState<Position | null>(null);
     // const [queueNodeIDs, setQueueNodeIDs] = useState<string[]>([]);
     const [pathFound, setPathFound] = useState(true);
@@ -61,6 +63,8 @@ function FloorMap() {
         }).filter(tag => tag !== null); // Filter out null tags from the final array
         return tags;
     };
+
+
 
 
     const getFloorNumber = (nodeID) => {
@@ -209,12 +213,43 @@ function FloorMap() {
                     key={floor}
                     variant={currentFloor === floor ? "contained" : "outlined"}
                     onClick={() => {
-                        // console.log(`Floor switched from ${previousFloor} to ${floor}`);
-                        // previousFloor = floor;
                         setCurrentFloor(floor);
+
                         // Filter the full path for the new floor
                         const newFilteredQueueNodeIDs = fullPath.filter((id) => getFloorNumber(id) === floor || id.length === 3);
                         setFilteredQueueNodeIDs(newFilteredQueueNodeIDs);
+
+                        // Calculate the bounding box of the path segments on this floor
+                        const { minX, maxX, minY, maxY } = newFilteredQueueNodeIDs.reduce((acc, nodeID) => {
+                            const position = getPositionById(nodeID);
+                            if (position) {
+                                const x = parseFloat(position.left);
+                                const y = parseFloat(position.top);
+                                return {
+                                    minX: Math.min(acc.minX, x),
+                                    maxX: Math.max(acc.maxX, x),
+                                    minY: Math.min(acc.minY, y),
+                                    maxY: Math.max(acc.maxY, y),
+                                };
+                            }
+                            return acc;
+                        }, { minX: Infinity, maxX: -Infinity, minY: Infinity, maxY: -Infinity });
+
+                        // Calculate the center of the bounding box
+                        const centerX = (minX + maxX) / 2;
+                        const centerY = (minY + maxY) / 2;
+
+                        // Calculate the zoom level based on the size of the bounding box
+                        // Adjust these values based on your map's dimensions and desired zoom behavior
+                        const zoomFactorX = 100 / (maxX - minX);
+                        const zoomFactorY = 100 / (maxY - minY);
+                        const zoomLevel = Math.min(zoomFactorX, zoomFactorY);
+
+                        // Set the zoom level and position
+                        setZoomLevel(zoomLevel);
+                        setPositionX(centerX);
+                        setPositionY(centerY);
+
                         onChange(floor);
                     }}
                 >
@@ -223,6 +258,7 @@ function FloorMap() {
             ))}
         </div>
     );
+
 
 
     const getLineColor = (floor) => {
@@ -360,15 +396,29 @@ function FloorMap() {
                     <FloorSwitcher onChange={(floor) => setCurrentFloor(floor)}/>
 
 
-                    <div className={styles.boldtag}>
-                        <div className={styles.boldtag}>Floors:</div>
-                        {getTagsFromPath(fullPath).map((tag, index) => (
-                            <span key={tag}>
-            {index + 1}. {tag.tag.slice(-2)} {/* Display only the last two characters of the tag */}
-                                <br/>
-        </span>
-                        ))}
+                    <div className={styles.boldtag2}>
+                        <div className={styles.boldtag2}>Floors for the Current Path:</div>
+                        <div className={styles.floorButtonsContainer}>
+                            {getTagsFromPath(fullPath).map((tag) => (
+                                <Button
+                                    key={tag.tag}
+                                    variant={currentFloor === tag.tag ? "contained" : "outlined"}
+                                    onClick={() => {
+                                        setCurrentFloor(tag.tag);
+
+                                        // Filter the full path for the new floor
+                                        const newFilteredQueueNodeIDs = fullPath.filter((id) => getFloorNumber(id) === tag.tag || id.length === 3);
+                                        setFilteredQueueNodeIDs(newFilteredQueueNodeIDs);
+
+                                    }}
+                                    style={{marginBottom: "5px"}}
+                                >
+                                    {tag.tag.slice(-2)} {/* Display only the last two characters of the tag */}
+                                </Button>
+                            ))}
+                        </div>
                     </div>
+
 
                     {/*<div className={styles.boldtag}>*/}
                     {/*    <div className={styles.pathListCont  ainer}>*/}
@@ -401,6 +451,7 @@ function FloorMap() {
 
                 <div className={styles.mapArea}>
                     <TransformWrapper
+                        initialScale={zoomLevel}
                         // initialScale={1.3}
                         // initialPositionX={-200.4}
                         // initialPositionY={-100.83}
