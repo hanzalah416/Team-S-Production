@@ -372,11 +372,11 @@ const NodeDataPage: React.FC = () => {
                 <TableBody>
                   {edgeRows.map((row) => (
                     <TableRow
-                      key={row.startNodeID}
+                      key={row.startnode}
                       sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                     >
-                      <TableCell align="center">{row.startNodeID}</TableCell>
-                      <TableCell align="center">{row.endNodeID}</TableCell>
+                      <TableCell align="center">{row.startnode}</TableCell>
+                      <TableCell align="center">{row.endnode}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
