@@ -29,34 +29,44 @@ interface Node {
 function FloorMap() {
     const [locations, setLocations] = useState<Position[]>([]);
     const [currentFloor, setCurrentFloor] = useState("01");
+
     const sortedLocations = [...locations]
-        .filter((location) => !location.label.startsWith("Hall"))
+        .filter((location) => !location.label.includes("Hall")) // Change startsWith to includes
         .sort((a, b) => a.label.localeCompare(b.label));
+
     const [startPosition, setStartPosition] = useState<Position | null>(null);
     const [endPosition, setEndPosition] = useState<Position | null>(null);
     // const [queueNodeIDs, setQueueNodeIDs] = useState<string[]>([]);
     const [pathFound, setPathFound] = useState(true);
     const [filteredQueueNodeIDs, setFilteredQueueNodeIDs] = useState<string[]>([]);
     const [fullPath, setFullPath] = useState<string[]>([]);
-    const getTagsFromPath = (path, currentFloor) => {
+    const getTagsFromPath = (path) => {
         const floorOrder = ["L1", "L2", "01", "02", "03"];
-
-        const filteredAndSorted = path
-            .filter((nodeID) => nodeID.length == 3)
-            .sort((a, b) => floorOrder.indexOf(a) - floorOrder.indexOf(b));
-
-        const currentFloorIndex = filteredAndSorted.indexOf(currentFloor);
-
-        if (currentFloorIndex !== -1) {
-            // Move current floor to the beginning
-            filteredAndSorted.splice(currentFloorIndex, 1);
-            filteredAndSorted.unshift(currentFloor);
-        }
-
-        return filteredAndSorted.map((tag) => ({ tag, index: floorOrder.indexOf(tag) + 1 }));
+        const startFloor = getFloorNumber(path[0]);
+        const tags = [
+            { tag: startFloor, index: floorOrder.indexOf(startFloor) },
+            ...path
+                .filter((nodeID) => nodeID && nodeID.length == 3) // Ensure nodeID is not null before checking length
+                .sort((a, b) => floorOrder.indexOf(a) - floorOrder.indexOf(b))
+                .map((tag) => ({ tag, index: floorOrder.indexOf(tag) + 1 })),
+        ].map(({ tag, index }) => {
+            if (tag === null) {
+                return null; // Return null if tag is null
+            }
+            const finalTag = typeof tag === 'object' ? tag.tag : tag; // Ensure finalTag is always a string
+            return {
+                tag: finalTag ? finalTag.slice(-2) : "",
+                index,
+            };
+        }).filter(tag => tag !== null); // Filter out null tags from the final array
+        return tags;
     };
 
+
     const getFloorNumber = (nodeID) => {
+        if (typeof nodeID !== 'string') {
+            return null; // Return a default value if nodeID is not a string
+        }
         const floor = nodeID.slice(-2); // Get the last two characters
         switch (floor) {
             case "01":
