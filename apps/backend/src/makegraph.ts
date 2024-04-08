@@ -29,8 +29,8 @@ class MakeGraph {
   }
 
   addEdge(nodeEdge: NodeEdge): void {
-    const node1 = this.nodeMap.get(nodeEdge.startNodeID);
-    const node2 = this.nodeMap.get(nodeEdge.endNodeID);
+    const node1 = this.nodeMap.get(nodeEdge.startnode);
+    const node2 = this.nodeMap.get(nodeEdge.endnode);
     if (node1 && node2) {
       node1.addNB(node2);
       node2.addNB(node1);
