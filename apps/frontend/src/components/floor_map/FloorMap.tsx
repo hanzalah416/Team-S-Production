@@ -38,6 +38,13 @@ function FloorMap() {
     const [pathFound, setPathFound] = useState(true);
     const [filteredQueueNodeIDs, setFilteredQueueNodeIDs] = useState<string[]>([]);
     const [fullPath, setFullPath] = useState<string[]>([]);
+    const getTagsFromPath = (path) => {
+        const floorOrder = ["L1", "L2", "01", "02", "03"];
+        return path
+            .filter((nodeID) => nodeID.length == 3)
+            .sort((a, b) => floorOrder.indexOf(a) - floorOrder.indexOf(b))
+            .map((tag) => ({ tag, index: floorOrder.indexOf(tag) + 1 }));
+    };
 
 
     const getFloorNumber = (nodeID) => {
@@ -167,6 +174,12 @@ function FloorMap() {
             });
     };
 
+    useEffect(() => {
+        if (fullPath.length > 0) {
+            console.log("Full path with tags:");
+            console.log(fullPath.join(" -> "));
+        }
+    }, [fullPath]);
 
     // let previousFloor = currentFloor;
     // Update the FloorSwitcher component to include a print statement
@@ -195,19 +208,19 @@ function FloorMap() {
 
     const getLineColor = (floor) => {
         switch (floor) {
-            case "01":
-                return "red";
-            case "02":
-                return "green";
-            case "03":
-                return "blue";
-            case "L1":
-                return "purple";
-            case "L2":
-                return "orange";
+            // case "01":
+            //     return "red";
+            // case "02":
+            //     return "green";
+            // case "03":
+            //     return "black";
+            // case "L1":
+            //     return "purple";
+            // case "L2":
+            //     return "orange";
             // Add more cases as needed for other floors
             default:
-                return "black"; // Default color
+                return "blue"; // Default color
         }
     };
 
@@ -302,12 +315,7 @@ function FloorMap() {
                         onClose={() => toggleScrolling(false)}
                         onChange={(event, value) => handleSelection(value, "end")}
                     />
-                    <Box className={styles.directionsBox}>Directions</Box>
-                    {!pathFound && (
-                        <Box className={styles.pathNotFoundBox}>Path not found</Box>
-                    )}
 
-                    <FloorSwitcher onChange={(floor) => setCurrentFloor(floor)}/>
 
                     <Button
                         variant="outlined"
@@ -325,16 +333,36 @@ function FloorMap() {
                         Clear
 
                     </Button>
+                    <Box className={styles.directionsBox}>Directions</Box>
+                    {!pathFound && (
+                        <Box className={styles.pathNotFoundBox}>Path not found</Box>
+                    )}
+
+                    <FloorSwitcher onChange={(floor) => setCurrentFloor(floor)}/>
+
+
+
+<div className={styles.boldtag}>Steps:</div>
 
                     <div className={styles.boldtag}>
-                        <div className={styles.pathListContainer}>
-                            <ul className={styles.pathList}>
-                                {filteredQueueNodeIDs.map((nodeID) => (
-                                    <li key={nodeID}>{nodeID}</li>
-                                ))}
-                            </ul>
-                        </div>
+
+                        {getTagsFromPath(fullPath).map((tag, index) => (
+                            <span key={tag}>
+        {index + 1}. {tag.tag} {/* Assuming you want to display the tag property */}
+                                <br />
+    </span>
+                        ))}
                     </div>
+
+                    {/*<div className={styles.boldtag}>*/}
+                    {/*    <div className={styles.pathListCont  ainer}>*/}
+                    {/*        <ul className={styles.pathList}>*/}
+                    {/*            {filteredQueueNodeIDs.map((nodeID) => (*/}
+                    {/*                <li key={nodeID}>{nodeID}</li>*/}
+                    {/*            ))}*/}
+                    {/*        </ul>*/}
+                    {/*    </div>*/}
+                    {/*</div>*/}
 
                     <div className={styles.mbDiv}>
                         <div style={{display: "flex", flexDirection: "column"}}>
@@ -397,7 +425,7 @@ function FloorMap() {
                                         } else if (isActualEndNode) {
                                             nodeColor = "red";
                                         } else if (isMultifloorNode) {
-                                            nodeColor = "yellow"; // Multifloor nodes not being actual start/end
+                                            nodeColor = "#fcec08"; // Multifloor nodes not being actual start/end
                                         }
 
                                         else {
@@ -421,7 +449,7 @@ function FloorMap() {
                                                     display: "block",
                                                 }}
                                             >
-                                                {isMultifloorNode && <div className={styles.floorSwitchText}>flswitch</div>}
+                                                {isMultifloorNode && <div className={styles.floorSwitchText}>FLCHANGE</div>}
 
                                             </div>
                                         );
