@@ -226,8 +226,9 @@ function FloorMap() {
                         marginRight: "2px",
                         marginBottom: "5px",
                         color: currentFloor === floor ? "white" : "black", // Text color
-                        backgroundColor: currentFloor === floor ? "#003b9c" :  "rgba(0, 0, 0, 0.1)", // Background color
+                        backgroundColor: currentFloor === floor ? "#003b9c" :  "#f1f1f1", // Background color
                         borderColor: "black", // Border color
+                        fontFamily: "Poppins",
                     }}
                 >
                     {floor}
@@ -355,14 +356,15 @@ function FloorMap() {
                         onClick={clearInputs}
                         style={{
                             marginTop: "10px",
-                            backgroundColor: "#f5f5f5",
+                            backgroundColor: "#f1f1f1",
                             color: "#000",
                             fontFamily: "Poppins",
                             fontSize: 14,
                             textAlign: "center",
+                            borderColor: "black",
                         }}
                     >
-                        Clear
+                        Clear Path
 
                     </Button>
                     <Box className={styles.directionsBox}>Directions</Box>
@@ -373,6 +375,7 @@ function FloorMap() {
 
                     <div className={styles.boldtag2}>
                         <div className={styles.boldtag2}>Floors for the Current Path:</div>
+                        <br/>
                         <div className={styles.floorButtonsContainer}>
                             {getTagsFromPath(fullPath).map((tag) => (
                                 <Button
@@ -389,8 +392,10 @@ function FloorMap() {
                                     style={{
                                         marginBottom: "5px",
                                         color: currentFloor === tag.tag ? "white" : "black", // Text color
-                                        backgroundColor: currentFloor === tag.tag ? "#003b9c" : "rgba(0, 0, 0, 0.1)", // Background color with transparency
+                                        backgroundColor: currentFloor === tag.tag ? "#003b9c" : "#f1f1f1", // Background color with transparency
                                         borderColor: "black", // Border color
+                                        fontFamily: "Poppins",
+                                        textAlign: "center",
                                     }}
                                 >
                                     {tag.tag.slice(-2)} {/* Display only the last two characters of the tag */}
