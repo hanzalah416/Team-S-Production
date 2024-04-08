@@ -38,17 +38,22 @@ function FloorMap() {
     const [pathFound, setPathFound] = useState(true);
     const [filteredQueueNodeIDs, setFilteredQueueNodeIDs] = useState<string[]>([]);
     const [fullPath, setFullPath] = useState<string[]>([]);
-    const getTagsFromPath = (path) => {
+    const getTagsFromPath = (path, currentFloor) => {
         const floorOrder = ["L1", "L2", "01", "02", "03"];
-        const startFloor = getFloorNumber(path[0]);
-        const tags = [
-            { tag: startFloor, index: floorOrder.indexOf(startFloor) },
-            ...path
-                .filter((nodeID) => nodeID.length == 3)
-                .sort((a, b) => floorOrder.indexOf(a) - floorOrder.indexOf(b))
-                .map((tag) => ({ tag, index: floorOrder.indexOf(tag) + 1 })),
-        ];
-        return tags;
+
+        const filteredAndSorted = path
+            .filter((nodeID) => nodeID.length == 3)
+            .sort((a, b) => floorOrder.indexOf(a) - floorOrder.indexOf(b));
+
+        const currentFloorIndex = filteredAndSorted.indexOf(currentFloor);
+
+        if (currentFloorIndex !== -1) {
+            // Move current floor to the beginning
+            filteredAndSorted.splice(currentFloorIndex, 1);
+            filteredAndSorted.unshift(currentFloor);
+        }
+
+        return filteredAndSorted.map((tag) => ({ tag, index: floorOrder.indexOf(tag) + 1 }));
     };
 
     const getFloorNumber = (nodeID) => {
@@ -391,7 +396,7 @@ function FloorMap() {
                         // initialPositionY={-100.83}
                         // centered
                     >
-                    <TransformComponent>
+                        <TransformComponent>
                             <img
                                 src={floorMaps[currentFloor]}
                                 alt="map"
@@ -450,7 +455,7 @@ function FloorMap() {
                                                     display: "block",
                                                 }}
                                             >
-                                                {isMultifloorNode && <div className={styles.floorSwitchText}>FLCHANGE</div>}
+                                                {isMultifloorNode && <div className={styles.floorSwitchText}>+FLCHANGE</div>}
 
                                             </div>
                                         );
