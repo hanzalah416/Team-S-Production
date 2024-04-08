@@ -40,12 +40,16 @@ function FloorMap() {
     const [fullPath, setFullPath] = useState<string[]>([]);
     const getTagsFromPath = (path) => {
         const floorOrder = ["L1", "L2", "01", "02", "03"];
-        return path
-            .filter((nodeID) => nodeID.length == 3)
-            .sort((a, b) => floorOrder.indexOf(a) - floorOrder.indexOf(b))
-            .map((tag) => ({ tag, index: floorOrder.indexOf(tag) + 1 }));
+        const startFloor = getFloorNumber(path[0]);
+        const tags = [
+            { tag: startFloor, index: floorOrder.indexOf(startFloor) },
+            ...path
+                .filter((nodeID) => nodeID.length == 3)
+                .sort((a, b) => floorOrder.indexOf(a) - floorOrder.indexOf(b))
+                .map((tag) => ({ tag, index: floorOrder.indexOf(tag) + 1 })),
+        ];
+        return tags;
     };
-
 
     const getFloorNumber = (nodeID) => {
         const floor = nodeID.slice(-2); // Get the last two characters
@@ -341,16 +345,13 @@ function FloorMap() {
                     <FloorSwitcher onChange={(floor) => setCurrentFloor(floor)}/>
 
 
-
-<div className={styles.boldtag}>Steps:</div>
-
                     <div className={styles.boldtag}>
-
+                        <div className={styles.boldtag}>Floors:</div>
                         {getTagsFromPath(fullPath).map((tag, index) => (
                             <span key={tag}>
-        {index + 1}. {tag.tag} {/* Assuming you want to display the tag property */}
-                                <br />
-    </span>
+            {index + 1}. {tag.tag.slice(-2)} {/* Display only the last two characters of the tag */}
+                                <br/>
+        </span>
                         ))}
                     </div>
 
@@ -390,7 +391,7 @@ function FloorMap() {
                         // initialPositionY={-100.83}
                         // centered
                     >
-                        <TransformComponent>
+                    <TransformComponent>
                             <img
                                 src={floorMaps[currentFloor]}
                                 alt="map"
