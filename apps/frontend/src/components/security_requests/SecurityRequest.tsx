@@ -114,17 +114,22 @@ const SecurityRequest: React.FC = () => {
 
   return (
     <div>
-      <Paper >
-      <h2 className={styles.title}>Security Request</h2>
-      <form>
+      <Paper>
+        <br/><br/>
+        <h2 className={styles.title}>Security Request</h2>
+        <form>
 
-          <FormControl>
+          <FormControl
+              sx={{m: 1, width: '25ch'}}
+          >
             <TextField id="outlined-basic" label="Staff Name" variant="outlined"
-              onChange={(e) => setStaffName(e.target.value)}
+                       onChange={(e) => setStaffName(e.target.value)}
             />
           </FormControl>
 
-          <FormControl fullWidth>
+          <FormControl
+              sx={{m: 1, width: '25ch'}}
+          >
             <InputLabel
                 id="location-label"
                 color="primary"
@@ -137,125 +142,136 @@ const SecurityRequest: React.FC = () => {
                 id="serviceLocation"
                 label="Location"
                 value={location}
-                onChange = {handleChangeLocation}/* add funtion here */
+                onChange={handleChangeLocation}/* add funtion here */
                 fullWidth
             >
               <MenuItem value="CCONF001L1">Anesthesia Conf Floor L1</MenuItem>
               <MenuItem value="CCONF003L1">Abrams Conference Room</MenuItem>
             </Select>
           </FormControl>
+          <br/><br/>
+          <FormControl>
+            <FormLabel id="demo-controlled-radio-buttons-group">Request Status</FormLabel>
+            <RadioGroup
+                row
+                aria-labelledby="demo-controlled-radio-buttons-group"
+                name="controlled-radio-buttons-group"
+                value={requestStatus}
+                onChange={handleChangeRequestStatus}
+            >
+              <FormControlLabel value="unassigned" control={<Radio/>} label="Unassigned"/>
+              <FormControlLabel value="assigned" control={<Radio/>} label="Assigned"/>
+              <FormControlLabel value="in_progress" control={<Radio/>} label="In Progress"/>
+              <FormControlLabel value="closed" control={<Radio/>} label="Closed"/>
 
-        <FormControl>
-          <FormLabel id="demo-controlled-radio-buttons-group">Request Status</FormLabel>
-          <RadioGroup
-              row
-              aria-labelledby="demo-controlled-radio-buttons-group"
-              name="controlled-radio-buttons-group"
-              value={requestStatus}
-              onChange={handleChangeRequestStatus}
-          >
-            <FormControlLabel value="unassigned" control={<Radio />} label="Unassigned" />
-            <FormControlLabel value="assigned" control={<Radio />} label="Assigned" />
-            <FormControlLabel value="in_progress" control={<Radio />} label="In Progress" />
-            <FormControlLabel value="closed" control={<Radio />} label="Closed" />
+            </RadioGroup>
+          </FormControl>
+          <br/><br/>
+          <FormControl>
+            <FormLabel id="demo-controlled-radio-buttons-group">Request Priority</FormLabel>
+            <RadioGroup
+                row
+                aria-labelledby="demo-controlled-radio-buttons-group"
+                name="other"
+                value={requestPriority}
+                onChange={handleChangeRequestPriority}
+            >
+              <FormControlLabel value="low" control={<Radio/>} label="Low"/>
+              <FormControlLabel value="medium" control={<Radio/>} label="Medium"/>
+              <FormControlLabel value="high" control={<Radio/>} label="High"/>
+              <FormControlLabel value="emergency" control={<Radio/>} label="Emergency"/>
 
-          </RadioGroup>
-        </FormControl>
-        <br/>
-        <FormControl>
-          <FormLabel id="demo-controlled-radio-buttons-group">Request Priority</FormLabel>
-          <RadioGroup
-              row
-              aria-labelledby="demo-controlled-radio-buttons-group"
-              name="other"
-              value={requestPriority}
-              onChange={handleChangeRequestPriority}
-          >
-            <FormControlLabel value="low" control={<Radio />} label="Low" />
-            <FormControlLabel value="medium" control={<Radio />} label="Medium" />
-            <FormControlLabel value="high" control={<Radio />} label="High" />
-            <FormControlLabel value="emergency" control={<Radio />} label="Emergency" />
+            </RadioGroup>
+          </FormControl>
 
-          </RadioGroup>
-        </FormControl>
+          <br/><br/>
 
-        <FormControl fullWidth>
-          <InputLabel
-              id="security-type-label"
-              color="primary"
-              htmlFor={"security-type-label"}
+          <FormControl
+              sx={{m: 1, width: '25ch'}}
           >
-            Threat Type
-          </InputLabel>
-          <Select
-              labelId="security-type-label"
-              id="security-type"
-              label="security-type"
-              value={threatType}
-              onChange = {handleChangeThreatType}/* add funtion here */
-              fullWidth
+            <InputLabel
+                id="security-type-label"
+                color="primary"
+                htmlFor={"security-type-label"}
+            >
+              Threat Type
+            </InputLabel>
+            <Select
+                labelId="threat-type-label"
+                id="threat-type"
+                label="threat type "
+                value={threatType }
+                onChange={handleChangeThreatType}/* add funtion here */
+
+            >
+              <MenuItem value="intruder">Intruder</MenuItem>
+              <MenuItem value="terrorist">Terrorist</MenuItem>
+              <MenuItem value="other">Other</MenuItem>
+            </Select>
+          </FormControl>
+          <FormControl
+              sx={{m: 1, width: '25ch'}}
           >
-            <MenuItem value="intruder">Intruder</MenuItem>
-            <MenuItem value="terrorist">Terrorist</MenuItem>
-            <MenuItem value="other">Other</MenuItem>
-          </Select>
-        </FormControl>
+            <InputLabel
+                id="location-label"
+                color="primary"
+                htmlFor={"location-label"}
+            >
+              Security Type
+            </InputLabel>
+            <Select
+                labelId="location-label"
+                id="serviceLocation"
+                label="security type "
+                value={securityType}
+                onChange={handleChangeSecurityType}/* add funtion here */
+            >
+              <MenuItem value="bodyguard">Bodyguard</MenuItem>
+              <MenuItem value="escort">Escort</MenuItem>
+            </Select>
+          </FormControl>
+
+          <br/><br/>
+          <div>
+            <Button
+                variant="outlined"
+                onClick={() => {
+                  handleBack();
+                }}>
+              Back
+            </Button>
+
+            <Button
+                variant="contained"
+                onClick={() => {
+                  submit();
+                }}>
+              Submit
+            </Button>
+          </div>
+
+        </form>
         <br/><br/>
-        <FormControl fullWidth>
-          <InputLabel
-              id="location-label"
-              color="primary"
-              htmlFor={"location-label"}
-          >
-            Security Type
-          </InputLabel>
-          <Select
-              labelId="location-label"
-              id="serviceLocation"
-              label="Location"
-              value={securityType}
-              onChange = {handleChangeSecurityType}/* add funtion here */
-              fullWidth
-          >
-            <MenuItem value="bodyguard">Bodyguard</MenuItem>
-            <MenuItem value="escort">Escort</MenuItem>
-          </Select>
-        </FormControl>
 
-        <div>
-          <Button
-              variant="outlined"
-              onClick={() => {
-                handleBack();
-              }}>
-            Back
-          </Button>
 
-          <Button
-              variant="contained"
-              onClick={() => {
-                submit();
-              }}>
-            Submit
-          </Button>
-        </div>
 
-      </form>
+      </Paper>
 
+      <div className={"table"}>
         <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 700 }} aria-label="customized table">
+          <Table sx={{minWidth: 700}} aria-label="customized table">
             <TableHead>
               <TableRow>
                 <StyledTableCell>Staff Name</StyledTableCell>
                 <StyledTableCell>Location</StyledTableCell>
                 <StyledTableCell>Status</StyledTableCell>
                 <StyledTableCell>Priority</StyledTableCell>
-                <StyledTableCell>Threat</StyledTableCell>
                 <StyledTableCell>Security Type</StyledTableCell>
+                <StyledTableCell>Threat</StyledTableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {submittedRequests.map((row,key) => (
+              {submittedRequests.map((row, key) => (
                   <StyledTableRow key={key}>
                     <StyledTableCell>{row.staffName}</StyledTableCell>
                     <StyledTableCell>{row.location}</StyledTableCell>
@@ -264,11 +280,12 @@ const SecurityRequest: React.FC = () => {
                     <StyledTableCell>{row.securityType}</StyledTableCell>
                     <StyledTableCell>{row.threatType}</StyledTableCell>
                   </StyledTableRow>
-                  ))}
+              ))}
             </TableBody>
           </Table>
         </TableContainer>
-    </Paper>
+      </div>
+
     </div>
   );
 };
