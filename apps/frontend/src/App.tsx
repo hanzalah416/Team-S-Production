@@ -100,25 +100,25 @@ function App() {
             </>
           ),
         },
-          {
-              path: "/sanitation-request",
-              element: (
-                  <>
-                      <SanitationForm/>
-                      <Layout />
-                  </>
-              ),
-          },
+        {
+          path: "/sanitation-request",
+          element: (
+            <>
+              <SanitationForm />
+              <Layout />
+            </>
+          ),
+        },
 
-          {
-              path: "/map-debug",
-              element: (
-                  <>
-                      <FloorMapDebug/>
-                      <Layout />
-                  </>
-              ),
-          },
+        {
+          path: "/map-debug",
+          element: (
+            <>
+              <FloorMapDebug />
+              <Layout />
+            </>
+          ),
+        },
 
         // ... other routes
       ],
