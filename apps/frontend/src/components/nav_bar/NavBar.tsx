@@ -123,8 +123,8 @@ function NavBar() {
                 Religious Requests
               </Link>
             </MenuItem>
-            <MenuItem onClick={handleClose} disabled={true}>
-              <Link to={"/order-flowers"} className={"item"} id={"order"}>
+            <MenuItem onClick={handleClose}>
+              <Link to={"/sanitation-request"} className={"item"} id={"order"}>
                 Sanitation Services
               </Link>
             </MenuItem>
