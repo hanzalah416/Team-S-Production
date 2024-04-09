@@ -12,6 +12,7 @@ import { ServiceRequestGetter } from "./components/service_requests/all_requests
 import OutlinedAlerts from "./components/service_requests/ServiceNotice.tsx";
 import Stack from "@mui/material/Stack";
 import OrderConfirmation from "./components/service_requests/OrderConfirmation.tsx";
+import SecurityRequest from "./components/security_requests/SecurityRequest.tsx";
 
 function App() {
   const router = createBrowserRouter([
@@ -51,6 +52,15 @@ function App() {
             </>
           ),
         },
+          {
+              path: "/security-request",
+              element: (
+                  <>
+                      <SecurityRequest/>
+                      <Layout />
+                  </>
+              ),
+          },
         {
           path: "payment-info",
           element: (

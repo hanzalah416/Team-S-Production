@@ -21,7 +21,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   },
 }));
 
-export function FlowerRequestGetter() {
+export function SecurityRequestGetter() {
   const [flowerRequestData, setFlowerRequestData] = useState<securityform[]>([]);
 
   useEffect(() => {

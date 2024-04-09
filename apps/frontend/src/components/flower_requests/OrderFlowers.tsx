@@ -5,7 +5,7 @@ import styles from "./OrderFlowers.module.css";
 //import { useFormData } from "./useFormData";
 //import {Simulate} from "react-dom/test-utils";
 //import submit = Simulate.submit;
-import { flowerform } from "../common/flowerform.ts";
+import { securityform } from "../common/flowerform.ts";
 import axios from "axios";
 
 const OrderFlowers: React.FC = () => {
@@ -34,7 +34,7 @@ const OrderFlowers: React.FC = () => {
       return;
     }
 
-    const orderFlowerSent: flowerform = {
+    const orderFlowerSent: securityform = {
       patientName: patientName,
       PatientRoom: parseInt(patientRoom),
       customMessage: customMessage,
