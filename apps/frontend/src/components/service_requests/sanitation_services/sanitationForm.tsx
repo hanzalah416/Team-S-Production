@@ -137,249 +137,249 @@ export default function SanitationForm() {
       <br />
       <br />
 
-        <Paper elevation={4}>
-            <br/>
-            <p className={"title"}>Sanitation Request Form </p>
-            <p className={"names"}>Jacob Antepli & Dorothy Alexander</p>
+      <Paper elevation={4}>
+        <br />
+        <p className={"title"}>Sanitation Request Form </p>
+        <p className={"names"}>Jacob Antepli & Dorothy Alexander</p>
 
-            <Stack alignItems="center" justifyContent="center" spacing={3} p={4}>
-                <div>
-                    <InputLabel
-                        style={{
-                            color: "#3B54A0",
-                        }}
-                        id="demo-simple-select-label"
-                    >
-                        Name of Requester
-                    </InputLabel>
-                    <TextField
-                        style={{
-                            borderColor: "#3B54A0",
-                            color: "#3B54A0",
-                            accentColor: "#3B54A0",
-                            borderBlockColor: "#3B54A0",
-                        }}
-                        id="outlined-controlled"
-                        label=""
-                        value={name}
-                        onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                            setName(event.target.value);
-                        }}
-                        sx={{minWidth: 400}}
-                    />
-                </div>
-                <div>
-                    <InputLabel
-                        style={{
-                            color: "#3B54A0",
-                        }}
-                        id="priority-dropdown"
-                    >
-                        Priority
-                    </InputLabel>
-                    <Select
-                        labelId="demo-simple-select-label"
-                        id="demo-simple-select"
-                        value={priority}
-                        label=""
-                        onChange={handlePriorityChange}
-                        sx={{minWidth: 400, color: "#3B54A0"}}
-                    >
-                        <MenuItem value={"Low"}>Low</MenuItem>
-                        <MenuItem value={"Medium"}>Medium</MenuItem>
-                        <MenuItem value={"High"}>High</MenuItem>
-                        <MenuItem value={"Emergency"}>Emergency</MenuItem>
-                    </Select>
-                </div>
+        <Stack alignItems="center" justifyContent="center" spacing={3} p={4}>
+          <div>
+            <InputLabel
+              style={{
+                color: "#3B54A0",
+              }}
+              id="demo-simple-select-label"
+            >
+              Name of Requester
+            </InputLabel>
+            <TextField
+              style={{
+                borderColor: "#3B54A0",
+                color: "#3B54A0",
+                accentColor: "#3B54A0",
+                borderBlockColor: "#3B54A0",
+              }}
+              id="outlined-controlled"
+              label=""
+              value={name}
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                setName(event.target.value);
+              }}
+              sx={{ minWidth: 400 }}
+            />
+          </div>
+          <div>
+            <InputLabel
+              style={{
+                color: "#3B54A0",
+              }}
+              id="priority-dropdown"
+            >
+              Priority
+            </InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={priority}
+              label=""
+              onChange={handlePriorityChange}
+              sx={{ minWidth: 400, color: "#3B54A0" }}
+            >
+              <MenuItem value={"Low"}>Low</MenuItem>
+              <MenuItem value={"Medium"}>Medium</MenuItem>
+              <MenuItem value={"High"}>High</MenuItem>
+              <MenuItem value={"Emergency"}>Emergency</MenuItem>
+            </Select>
+          </div>
 
-                <div>
-                    <InputLabel
-                        style={{
-                            color: "#3B54A0",
-                        }}
-                        id="location-dropdown"
-                    >
-                        Location
-                    </InputLabel>
-                    <Autocomplete
-                        options={locations}
-                        getOptionLabel={(option) => option.label || "Unknown"}
-                        isOptionEqualToValue={(option, value) => option.id === value.id}
-                        renderInput={(params) => (
-                            <TextField
-                                sx={{minWidth: 400}}
-                                {...params}
-                                label=""
-                                InputLabelProps={{
-                                    style: {
-                                        fontFamily: "Poppins",
-                                        fontSize: 14,
-                                        textAlign: "center",
-                                    },
-                                }}
-                            />
-                        )}
-                        onOpen={() => toggleScrolling(true)}
-                        onClose={() => toggleScrolling(false)}
-                        onChange={(event, value) => setLocation(value.label)}
-                    />
-                </div>
+          <div>
+            <InputLabel
+              style={{
+                color: "#3B54A0",
+              }}
+              id="location-dropdown"
+            >
+              Location
+            </InputLabel>
+            <Autocomplete
+              options={locations}
+              getOptionLabel={(option) => option.label || "Unknown"}
+              isOptionEqualToValue={(option, value) => option.id === value.id}
+              renderInput={(params) => (
+                <TextField
+                  sx={{ minWidth: 400 }}
+                  {...params}
+                  label=""
+                  InputLabelProps={{
+                    style: {
+                      fontFamily: "Poppins",
+                      fontSize: 14,
+                      textAlign: "center",
+                    },
+                  }}
+                />
+              )}
+              onOpen={() => toggleScrolling(true)}
+              onClose={() => toggleScrolling(false)}
+              onChange={(event, value) => setLocation(value.label)}
+            />
+          </div>
 
-                <div>
-                    <InputLabel
-                        style={{
-                            color: "#3B54A0",
-                        }}
-                        id="demo-simple-select-label"
-                    >
-                        Request Type
-                    </InputLabel>
-                    <ToggleButtonGroup
-                        color="primary"
-                        value={requestType} // Use the state value here
-                        exclusive
-                        onChange={(
-                            _event: React.MouseEvent<HTMLElement>,
-                            newValue: string | null,
-                        ) => {
-                            if (newValue !== null) {
-                                setRequestType(newValue); // Update state on change
-                            }
-                        }}
-                        aria-label="Sanitation Type Buttons"
-                        sx={{minWidth: 120}}
-                    >
-                        <ToggleButton
-                            style={{
-                                color: "#10778c",
-                                outlineColor: "#949DB5",
-                                borderColor: "#949DB5",
-                            }}
-                            value="Garbage Pickup"
-                        >
-                            Garbage Pickup
-                        </ToggleButton>
-                        <ToggleButton
-                            style={{
-                                color: "#10778c",
-                                outlineColor: "#949DB5",
-                                borderColor: "#949DB5",
-                            }}
-                            value="Recycling Pickup"
-                        >
-                            Recycling Pickup
-                        </ToggleButton>
-                        <ToggleButton
-                            style={{
-                                color: "#10778c",
-                                outlineColor: "#949DB5",
-                                borderColor: "#949DB5",
-                            }}
-                            value="Hazardous Waste Disposal"
-                        >
-                            Hazardous Waste Disposal
-                        </ToggleButton>
-                    </ToggleButtonGroup>
-                </div>
+          <div>
+            <InputLabel
+              style={{
+                color: "#3B54A0",
+              }}
+              id="demo-simple-select-label"
+            >
+              Request Type
+            </InputLabel>
+            <ToggleButtonGroup
+              color="primary"
+              value={requestType} // Use the state value here
+              exclusive
+              onChange={(
+                _event: React.MouseEvent<HTMLElement>,
+                newValue: string | null,
+              ) => {
+                if (newValue !== null) {
+                  setRequestType(newValue); // Update state on change
+                }
+              }}
+              aria-label="Sanitation Type Buttons"
+              sx={{ minWidth: 120 }}
+            >
+              <ToggleButton
+                style={{
+                  color: "#10778c",
+                  outlineColor: "#949DB5",
+                  borderColor: "#949DB5",
+                }}
+                value="Garbage Pickup"
+              >
+                Garbage Pickup
+              </ToggleButton>
+              <ToggleButton
+                style={{
+                  color: "#10778c",
+                  outlineColor: "#949DB5",
+                  borderColor: "#949DB5",
+                }}
+                value="Recycling Pickup"
+              >
+                Recycling Pickup
+              </ToggleButton>
+              <ToggleButton
+                style={{
+                  color: "#10778c",
+                  outlineColor: "#949DB5",
+                  borderColor: "#949DB5",
+                }}
+                value="Hazardous Waste Disposal"
+              >
+                Hazardous Waste Disposal
+              </ToggleButton>
+            </ToggleButtonGroup>
+          </div>
 
-                <div>
-                    <FormLabel
-                        style={{
-                            color: "#3B54A0",
-                        }}
-                        id="demo-controlled-radio-buttons-group"
-                    >
-                        Permission
-                    </FormLabel>
-                    <RadioGroup
-                        aria-labelledby="demo-controlled-radio-buttons-group"
-                        name="controlled-radio-buttons-group"
-                        value={permission}
-                        onChange={(e) => {
-                            setPermission(e.target.value);
-                        }}
-                    >
-                        <FormControlLabel
-                            style={{
-                                color: "#3D4A6B",
-                                font: "Jaldi",
-                            }}
-                            value="Only enter with supervision"
-                            control={<Radio/>}
-                            label="Only enter with supervision"
-                        />
-                        <FormControlLabel
-                            style={{
-                                color: "#3D4A6B",
-                                font: "Jaldi",
-                            }}
-                            value="Can enter without supervision"
-                            control={<Radio/>}
-                            label="Can enter without supervision"
-                        />
-                    </RadioGroup>
-                </div>
+          <div>
+            <FormLabel
+              style={{
+                color: "#3B54A0",
+              }}
+              id="demo-controlled-radio-buttons-group"
+            >
+              Permission
+            </FormLabel>
+            <RadioGroup
+              aria-labelledby="demo-controlled-radio-buttons-group"
+              name="controlled-radio-buttons-group"
+              value={permission}
+              onChange={(e) => {
+                setPermission(e.target.value);
+              }}
+            >
+              <FormControlLabel
+                style={{
+                  color: "#3D4A6B",
+                  font: "Jaldi",
+                }}
+                value="Only enter with supervision"
+                control={<Radio />}
+                label="Only enter with supervision"
+              />
+              <FormControlLabel
+                style={{
+                  color: "#3D4A6B",
+                  font: "Jaldi",
+                }}
+                value="Can enter without supervision"
+                control={<Radio />}
+                label="Can enter without supervision"
+              />
+            </RadioGroup>
+          </div>
 
-                <div>
-                    <InputLabel
-                        style={{
-                            color: "#3B54A0",
-                        }}
-                        id="demo-simple-select-label"
-                    >
-                        Status
-                    </InputLabel>
-                    <Select
-                        labelId="demo-simple-select-label"
-                        id="demo-simple-select"
-                        value={status}
-                        label=""
-                        onChange={handleStatusChange}
-                        sx={{minWidth: 300}}
-                    >
-                        <MenuItem value={"Unassigned"}>Unassigned</MenuItem>
-                        <MenuItem value={"Assigned"}>Assigned</MenuItem>
-                        <MenuItem value={"In Progress"}>In Progress</MenuItem>
-                        <MenuItem value={"Closed"}>Closed</MenuItem>
-                    </Select>
-                </div>
+          <div>
+            <InputLabel
+              style={{
+                color: "#3B54A0",
+              }}
+              id="demo-simple-select-label"
+            >
+              Status
+            </InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={status}
+              label=""
+              onChange={handleStatusChange}
+              sx={{ minWidth: 300 }}
+            >
+              <MenuItem value={"Unassigned"}>Unassigned</MenuItem>
+              <MenuItem value={"Assigned"}>Assigned</MenuItem>
+              <MenuItem value={"In Progress"}>In Progress</MenuItem>
+              <MenuItem value={"Closed"}>Closed</MenuItem>
+            </Select>
+          </div>
 
-                <Stack
-                    spacing={2}
-                    direction="row"
-                    alignItems="center"
-                    justifyContent="center"
-                >
-                    <Button
-                        style={{
-                            color: "#3B54A0",
-                            outlineColor: "#3B54A0",
-                            borderColor: "#3B54A0",
-                        }}
-                        variant="outlined"
-                        sx={{minWidth: 100}}
-                        onClick={clear}
-                    >
-                        Clear
-                    </Button>
+          <Stack
+            spacing={2}
+            direction="row"
+            alignItems="center"
+            justifyContent="center"
+          >
+            <Button
+              style={{
+                color: "#3B54A0",
+                outlineColor: "#3B54A0",
+                borderColor: "#3B54A0",
+              }}
+              variant="outlined"
+              sx={{ minWidth: 100 }}
+              onClick={clear}
+            >
+              Clear
+            </Button>
 
-                    <Button
-                        style={{
-                            backgroundColor: "#3B54A0",
-                        }}
-                        variant="contained"
-                        sx={{minWidth: 100}}
-                        onClick={submit}
-                    >
-                        Submit
-                    </Button>
-                </Stack>
-            </Stack>
-        </Paper>
-        <br/>
-        <br/>
-        <br/>
-        <Paper elevation={4}>
+            <Button
+              style={{
+                backgroundColor: "#3B54A0",
+              }}
+              variant="contained"
+              sx={{ minWidth: 100 }}
+              onClick={submit}
+            >
+              Submit
+            </Button>
+          </Stack>
+        </Stack>
+      </Paper>
+      <br />
+      <br />
+      <br />
+      <Paper elevation={4}>
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 700 }}>
             <TableHead>

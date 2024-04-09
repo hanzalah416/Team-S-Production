@@ -365,18 +365,18 @@ const NodeDataPage: React.FC = () => {
               <Table sx={{ minWidth: 650 }} aria-label="simple table">
                 <TableHead>
                   <TableRow>
-                    <TableCell align="center">startNodeID</TableCell>
-                    <TableCell align="center">endNodeID</TableCell>
+                    <TableCell align="center">startNode</TableCell>
+                    <TableCell align="center">endNode</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   {edgeRows.map((row) => (
                     <TableRow
-                      key={row.startnode}
-                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                    /*key={row.startnode}*/
+                    /* sx={{ "&:last-child td, &:last-child th": { border: 0 } }}*/
                     >
-                      <TableCell align="center">{row.startnode}</TableCell>
-                      <TableCell align="center">{row.endnode}</TableCell>
+                      <TableCell align="center">{row.startNode}</TableCell>
+                      <TableCell align="center">{row.endNode}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>

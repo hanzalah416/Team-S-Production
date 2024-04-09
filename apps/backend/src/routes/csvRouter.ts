@@ -61,8 +61,9 @@ router.post("/", async function (req, res) {
   const nodeAttempt = req.body;
   console.log(req.body); // Log the request body to see the incoming data
   console.log(nodeAttempt); // Log the parsed data to be inserted
-
   try {
+    await PrismaClient.node.deleteMany();
+    await PrismaClient.nodeEdge.deleteMany();
     // Attempt to create in the database
     await PrismaClient.node.createMany({
       data: nodeAttempt,

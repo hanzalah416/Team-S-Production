@@ -43,17 +43,17 @@ CREATE TABLE "Node" (
 
 -- CreateTable
 CREATE TABLE "NodeEdge" (
-    "startNodeID" TEXT NOT NULL,
-    "endNodeID" TEXT NOT NULL,
+    "startNode" TEXT NOT NULL,
+    "endNode" TEXT NOT NULL,
 
-    CONSTRAINT "NodeEdge_pkey" PRIMARY KEY ("startNodeID","endNodeID")
+    CONSTRAINT "NodeEdge_pkey" PRIMARY KEY ("startNode","endNode")
 );
 
 -- CreateIndex
 CREATE UNIQUE INDEX "hospitalUser_userName_key" ON "hospitalUser"("userName");
 
 -- AddForeignKey
-ALTER TABLE "NodeEdge" ADD CONSTRAINT "NodeEdge_startNodeID_fkey" FOREIGN KEY ("startNodeID") REFERENCES "Node"("nodeID") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "NodeEdge" ADD CONSTRAINT "NodeEdge_startNodeID_fkey" FOREIGN KEY ("startNode") REFERENCES "Node"("nodeID") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "NodeEdge" ADD CONSTRAINT "NodeEdge_endNodeID_fkey" FOREIGN KEY ("endNodeID") REFERENCES "Node"("nodeID") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "NodeEdge" ADD CONSTRAINT "NodeEdge_endNodeID_fkey" FOREIGN KEY ("endNode") REFERENCES "Node"("nodeID") ON DELETE RESTRICT ON UPDATE CASCADE;

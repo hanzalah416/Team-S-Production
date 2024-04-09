@@ -11,8 +11,8 @@ router.get("/", async function (req: Request, res: Response) {
     const nodeEdges: NodeEdge[] = await client.nodeEdge.findMany();
 
     const formattedNodes = nodeEdges.map((NodeEdge) => ({
-      startNodeID: NodeEdge.startnode,
-      endNodeID: NodeEdge.endnode,
+      startNode: NodeEdge.startNode,
+      endNode: NodeEdge.endNode,
     }));
     res.json(formattedNodes);
   } catch (error) {
@@ -28,6 +28,9 @@ router.post("/", async function (req, res) {
 
   try {
     // Attempt to create in the database
+    console.log("start try");
+    await PrismaClient.nodeEdge.deleteMany();
+    console.log("deleted");
     await PrismaClient.nodeEdge.createMany({
       data: EdgeAttempt,
       skipDuplicates: true, // Consider using skipDuplicates to avoid errors on duplicate keys

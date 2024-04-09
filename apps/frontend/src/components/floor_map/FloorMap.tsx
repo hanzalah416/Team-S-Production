@@ -84,7 +84,7 @@ function FloorMap() {
     }
   };
 
-  const fetchPath = (startNodeId: string, endNodeId: string) => {
+  const fetchPath = (startNode: string, endNode: string) => {
     setQueueNodeIDs([]);
     fetch("/api/pathfind", {
       method: "POST",
@@ -92,8 +92,8 @@ function FloorMap() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        startNodeID: startNodeId,
-        endNodeID: endNodeId,
+        startNode: startNode,
+        endNode: endNode,
       }),
     })
       .then((response) => response.json())

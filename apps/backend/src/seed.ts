@@ -30,8 +30,8 @@ async function seed() {
     for (const edge of edges) {
       await PrismaClient.nodeEdge.create({
         data: {
-          startnode: edge[0],
-          endnode: edge[1],
+          startNode: edge[0],
+          endNode: edge[1],
         },
       });
     }
