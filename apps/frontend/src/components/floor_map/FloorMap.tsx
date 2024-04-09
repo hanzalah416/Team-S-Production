@@ -477,6 +477,7 @@ function FloorMap() {
                                             nodeColor = "red";
                                         } else if (isMultifloorNode) {
                                             nodeColor = "#fcec08"; // Multifloor nodes not being actual start/end
+
                                         } else {
                                             nodeColor = "transparent"; // Default for nodes not matching any condition above
                                         }
