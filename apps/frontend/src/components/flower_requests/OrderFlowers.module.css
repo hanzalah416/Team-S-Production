@@ -5,6 +5,13 @@ body {
   background-color: #5c99b3;
 }
 
+.check {
+    width: 500px;
+    height: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 .container {
   position: absolute;
   top: 59%;
@@ -46,8 +53,8 @@ body {
   box-sizing: border-box;
   color: #000000;
   padding: 15px 22px;
-  font-size: 30px;
-  display: flex;
+  font-size: 24px;
+  /*display: flex;*/
 
   /*width: calc(
     100% - 2rem
@@ -121,11 +128,18 @@ body {
   flex-wrap: wrap;
 }
 
+.buttonReturn {
+    justify-content: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 .button,
 .backButton,
 .reviewButton {
   box-sizing: border-box;
-  display: flex;
+  /*display: flex;*/
+    /* commented out for OrderConfirmation.tsx, this doesn't seem to break the order flowers page*/
   justify-content: center;
   align-items: center;
   padding: 8px 18px;
@@ -180,10 +194,10 @@ body {
     align-items: center; /* Center-align flex children vertically within the flex container */
   }
 
-  .title {
-    overflow-wrap: break-word;
-    font-size: 40px;
-  }
+  /*.title {*/
+  /*  overflow-wrap: break-word;*/
+  /*  font-size: 40px;*/
+  /*}*/
 
   .input,
   .textarea {
@@ -203,15 +217,4 @@ body {
     margin: 0.5rem auto; /* Center buttons horizontally and add some vertical space */
   }
 
-  .fill {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-  }
-  .fill img {
-    flex-shrink: 0;
-    min-width: 100%;
-    min-height: 100%;
-  }
 }
