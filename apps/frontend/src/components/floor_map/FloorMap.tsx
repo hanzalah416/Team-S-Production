@@ -424,6 +424,7 @@ function FloorMap() {
                     }}
                     style={{
                       marginBottom: "5px",
+                        marginTop: "3px",
                       color: currentFloor === tag.tag ? "white" : "black", // Text color
                       backgroundColor:
                         currentFloor === tag.tag ? "#003b9c" : "#f1f1f1", // Background color with transparency

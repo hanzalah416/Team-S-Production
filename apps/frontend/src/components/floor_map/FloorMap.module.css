@@ -187,10 +187,19 @@ body {
 
 .floorButtonsContainer {
   margin-top: -20px;
+    max-height: 190px;
   display: flex;
   flex-direction: column;
   align-items: center;
-    overflow:scroll;
+    overflow: auto;
+    scrollbar-color: #003b9c transparent;
+
+}
+
+
+.floorButtonsContainer::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+
 }
 
 .floorSwitcherContainer {
@@ -200,6 +209,7 @@ body {
   background-color: none;
   padding: 5px;
   z-index: 10; /* Ensure it's above the map */
+
 }
 
 .multifloorNode {
