@@ -12,13 +12,6 @@ datasource db {
   url      = env("POSTGRES_URL")
 }
 
-// example table used in the express router example
-model HighScore {
-  id    Int      @id @default(autoincrement())
-  time  DateTime
-  score Int
-}
-
 enum Authentication {
   user
   staff
@@ -40,6 +33,15 @@ model FlowerRequests {
   customMessage String?
 }
 
+model StaffRequests {
+  requestID   Int    @id @default(autoincrement())
+  priority    String
+  location    String
+  firstField  String
+  secondField String
+  status      String
+}
+
 model Node {
   nodeID     String     @id
   xcoord     Int
@@ -54,10 +56,10 @@ model Node {
 }
 
 model NodeEdge {
-  startNodeID String
-  endNodeID   String
-  startNode   Node   @relation(name: "NodeStartEdges", fields: [startNodeID], references: [nodeID])
-  endNode     Node   @relation(name: "NodeEndEdges", fields: [endNodeID], references: [nodeID])
+  startnode String
+  endnode   String
+  startNode Node   @relation(name: "NodeStartEdges", fields: [startnode], references: [nodeID])
+  endNode   Node   @relation(name: "NodeEndEdges", fields: [endnode], references: [nodeID])
 
-  @@id([startNodeID, endNodeID])
+  @@id([startnode, endnode])
 }

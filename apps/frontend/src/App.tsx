@@ -12,7 +12,7 @@ import { ServiceRequestGetter } from "./components/service_requests/all_requests
 import OutlinedAlerts from "./components/service_requests/ServiceNotice.tsx";
 import Stack from "@mui/material/Stack";
 import OrderConfirmation from "./components/service_requests/OrderConfirmation.tsx";
-import SanitationForm from "./components/service_requests/sanitationForm.tsx";
+import SanitationForm from "./components/service_requests/sanitation_services/sanitationForm.tsx";
 import FloorMapDebug from "./components/floor_map/FloorMapDebug.tsx";
 
 function App() {
