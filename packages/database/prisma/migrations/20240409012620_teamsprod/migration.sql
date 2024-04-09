@@ -1,11 +1,5 @@
--- CreateTable
-CREATE TABLE "HighScore" (
-    "id" SERIAL NOT NULL,
-    "time" TIMESTAMP(3) NOT NULL,
-    "score" INTEGER NOT NULL,
-
-    CONSTRAINT "HighScore_pkey" PRIMARY KEY ("id")
-);
+-- CreateEnum
+CREATE TYPE "Authentication" AS ENUM ('user', 'staff', 'admin');
 
 -- CreateTable
 CREATE TABLE "hospitalUser" (
@@ -13,6 +7,7 @@ CREATE TABLE "hospitalUser" (
     "userEmail" TEXT NOT NULL,
     "userName" TEXT NOT NULL,
     "userPassword" TEXT NOT NULL,
+    "authType" "Authentication" NOT NULL DEFAULT 'user',
 
     CONSTRAINT "hospitalUser_pkey" PRIMARY KEY ("userID")
 );
@@ -25,6 +20,18 @@ CREATE TABLE "FlowerRequests" (
     "customMessage" TEXT,
 
     CONSTRAINT "FlowerRequests_pkey" PRIMARY KEY ("orderNumber")
+);
+
+-- CreateTable
+CREATE TABLE "StaffRequests" (
+    "requestID" SERIAL NOT NULL,
+    "priority" TEXT NOT NULL,
+    "location" TEXT NOT NULL,
+    "firstField" TEXT NOT NULL,
+    "secondField" TEXT NOT NULL,
+    "status" TEXT NOT NULL,
+
+    CONSTRAINT "StaffRequests_pkey" PRIMARY KEY ("requestID")
 );
 
 -- CreateTable
@@ -43,17 +50,17 @@ CREATE TABLE "Node" (
 
 -- CreateTable
 CREATE TABLE "NodeEdge" (
-    "startNodeID" TEXT NOT NULL,
-    "endNodeID" TEXT NOT NULL,
+    "startnode" TEXT NOT NULL,
+    "endnode" TEXT NOT NULL,
 
-    CONSTRAINT "NodeEdge_pkey" PRIMARY KEY ("startNodeID","endNodeID")
+    CONSTRAINT "NodeEdge_pkey" PRIMARY KEY ("startnode","endnode")
 );
 
 -- CreateIndex
 CREATE UNIQUE INDEX "hospitalUser_userName_key" ON "hospitalUser"("userName");
 
 -- AddForeignKey
-ALTER TABLE "NodeEdge" ADD CONSTRAINT "NodeEdge_startNodeID_fkey" FOREIGN KEY ("startNodeID") REFERENCES "Node"("nodeID") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "NodeEdge" ADD CONSTRAINT "NodeEdge_startnode_fkey" FOREIGN KEY ("startnode") REFERENCES "Node"("nodeID") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "NodeEdge" ADD CONSTRAINT "NodeEdge_endNodeID_fkey" FOREIGN KEY ("endNodeID") REFERENCES "Node"("nodeID") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "NodeEdge" ADD CONSTRAINT "NodeEdge_endnode_fkey" FOREIGN KEY ("endnode") REFERENCES "Node"("nodeID") ON DELETE RESTRICT ON UPDATE CASCADE;
