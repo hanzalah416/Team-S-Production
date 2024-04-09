@@ -450,14 +450,12 @@ function FloorMap() {
 
                             <div className={styles.dotsContainer}>
                                 {filteredQueueNodeIDs.map((nodeID, index) => {
-                                    // Skip rendering if nodeID is a floor change marker (3 characters long)
                                     if (nodeID.length === 3) {
                                         return null;
                                     }
 
                                     const point = getPositionById(nodeID);
                                     if (point) {
-                                        // Determine if the node is the start or end node based on the fullPath
                                         const isActualStartNode = fullPath[0] === nodeID;
                                         const isActualEndNode = fullPath[fullPath.length - 1] === nodeID;
                                         const isDisplayedStartNode = index === 0;
@@ -466,20 +464,24 @@ function FloorMap() {
                                             (getFloorNumber(nodeID) !== getFloorNumber(filteredQueueNodeIDs[index - 1]) ||
                                                 getFloorNumber(nodeID) !== getFloorNumber(filteredQueueNodeIDs[index + 1]));
 
-                                        // Adjust coloring logic based on actual start/end status
                                         let nodeColor;
                                         if (isDisplayedStartNode && !isActualStartNode || isDisplayedEndNode && !isActualEndNode) {
-                                            // Nodes displayed as start/end but not actually start/end of the fullPath
                                             nodeColor = "purple";
                                         } else if (isActualStartNode) {
                                             nodeColor = "green";
                                         } else if (isActualEndNode) {
                                             nodeColor = "red";
                                         } else if (isMultifloorNode) {
-                                            nodeColor = "#fcec08"; // Multifloor nodes not being actual start/end
-
+                                            nodeColor = "#fcec08";
                                         } else {
-                                            nodeColor = "transparent"; // Default for nodes not matching any condition above
+                                            nodeColor = "transparent";
+                                        }
+
+                                        let nextFloorLabel = "";
+                                        if (isMultifloorNode) {
+                                            const nextNodeID = filteredQueueNodeIDs[index + 1];
+                                            const nextFloor = getFloorNumber(nextNodeID);
+                                            nextFloorLabel = nextFloor.slice(-2);
                                         }
 
                                         return (
@@ -500,13 +502,13 @@ function FloorMap() {
                                                 }}
                                             >
                                                 {isMultifloorNode &&
-                                                    <div className={styles.floorSwitchText}>FC</div>}
-
+                                                    <div className={styles.floorSwitchText}>{nextFloorLabel}</div>}
                                             </div>
                                         );
                                     }
                                     return null;
                                 })}
+
                             </div>
                             <svg
                                 className={styles.pathSvg}
