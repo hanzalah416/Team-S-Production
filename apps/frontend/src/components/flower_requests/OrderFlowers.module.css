@@ -6,10 +6,10 @@ body {
 }
 
 .check {
-    width: 500px;
-    height: 500px;
-    margin-left: auto;
-    margin-right: auto;
+  width: 500px;
+  height: 500px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .container {
@@ -129,9 +129,9 @@ body {
 }
 
 .buttonReturn {
-    justify-content: center;
-    margin-left: auto;
-    margin-right: auto;
+  justify-content: center;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .button,
@@ -139,7 +139,7 @@ body {
 .reviewButton {
   box-sizing: border-box;
   /*display: flex;*/
-    /* commented out for OrderConfirmation.tsx, this doesn't seem to break the order flowers page*/
+  /* commented out for OrderConfirmation.tsx, this doesn't seem to break the order flowers page*/
   justify-content: center;
   align-items: center;
   padding: 8px 18px;
@@ -216,5 +216,4 @@ body {
   .reviewButton {
     margin: 0.5rem auto; /* Center buttons horizontally and add some vertical space */
   }
-
 }
