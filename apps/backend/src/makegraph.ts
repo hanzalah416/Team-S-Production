@@ -29,6 +29,7 @@ class MakeGraph {
       node.xcoord,
       node.ycoord,
       node.nodeType,
+      node.floor,
     );
     this.nodeMap.set(node.nodeID, temp);
   }
@@ -44,7 +45,7 @@ class MakeGraph {
     }
   }
 
-  //main BFS ,to find  shortest path
+  //main BFS ,to find a shortest path
   //If start or end is undefined return undefined
   BFS(start: string, end: string): string[] {
     const startNode = this.nodeMap.get(start);
@@ -111,14 +112,14 @@ class MakeGraph {
     costSoFar.set(startNode, 0);
 
     let pathFound = false;
+
     while (queue.length > 0) {
       // Sort the queue based on the total estimated cost from start to end via each node
       queue.sort((a, b) => {
         return (
-          (costSoFar.get(a) || 0) +
-          this.getCost(a, endNode) * (a.nodeType === "ELEV" ? 0.5 : 1) -
-          ((costSoFar.get(b) || 0) +
-            this.getCost(b, endNode) * (b.nodeType === "ELEV" ? 0.5 : 1))
+          this.getCost(a, startNode) +
+          this.getCost(a, endNode) -
+          (this.getCost(b, startNode) + this.getCost(b, endNode))
         );
       });
 
@@ -133,17 +134,21 @@ class MakeGraph {
 
       //Add available neighbors of the node to the queue
       currentNode.neighbors.forEach((neighbor) => {
-        // Adjusting the transition cost for elevator preference
-        const transitionCost = neighbor.nodeType === "ELEV" ? 0.5 : 1; // Lower cost if neighbor is an elevator
-        const newCost = (costSoFar.get(currentNode) || 0) + transitionCost; // Adding transition cost to current cost
+        //Cost of the current neighbor
+        const newCost = (costSoFar.get(currentNode) || Infinity) + 1;
 
+        //Ensure that the neighbor has not already been checked and if its cost is lower then the
         if (
           !costSoFar.has(neighbor) ||
           newCost < (costSoFar.get(neighbor) || Infinity)
         ) {
-          costSoFar.set(neighbor, newCost);
+          //Add info to the Node parent map for backtracing
           arrivedFrom.set(neighbor, currentNode);
 
+          //Input the neighbors cost in the cost map
+          costSoFar.set(neighbor, newCost);
+
+          //If the neighboring node hasn't been queued already push it to the queue
           if (!queue.includes(neighbor)) {
             queue.push(neighbor);
           }
@@ -173,15 +178,22 @@ class MakeGraph {
   }
 
   getCost(node: GraphNode, goal: GraphNode): number {
-    const baseCost = Math.sqrt(
+    // Calcuate the distance between two nodes
+    let distance = Math.sqrt(
       Math.pow(node.xcoord - goal.xcoord, 2) +
         Math.pow(node.ycoord - goal.ycoord, 2),
     );
 
-    // Apply a cost reduction for elevator nodes to make them preferred
-    const costReduction = node.nodeType === "ELEV" ? 0.5 : 1;
+    // Adjust the cost based on node types only if start and end nodes are on different floors
+    if (node.floor !== goal.floor) {
+      if (node.nodeType === "ELEV") {
+        distance *= 4; // Adjust weight for elevators
+      } else if (node.nodeType === "STAI") {
+        distance += 8; // Adjust weight for stairs
+      }
+    }
 
-    return baseCost * costReduction;
+    return distance;
   }
 }
 
@@ -193,13 +205,20 @@ class GraphNode {
   xcoord: number;
   ycoord: number;
   nodeType: string;
-
-  constructor(id: string, xcoord: number, ycoord: number, nodeType: string) {
+  floor: string;
+  constructor(
+    id: string,
+    xcoord: number,
+    ycoord: number,
+    nodeType: string,
+    floor: string,
+  ) {
     this.id = id;
     this.neighbors = [];
     this.xcoord = xcoord;
     this.ycoord = ycoord;
     this.nodeType = nodeType;
+    this.floor = floor;
   }
   //add neighbor
   addNB(node: GraphNode) {

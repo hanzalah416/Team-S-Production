@@ -139,12 +139,11 @@ function NavBar() {
               </Link>
             </MenuItem>
 
-              <MenuItem onClick={handleClose} >
-                  <Link to={"/room-scheduling"} className={"item"} id={"order"}>
-                     Room Scheduling Services
-                  </Link>
-              </MenuItem>
-
+            <MenuItem onClick={handleClose}>
+              <Link to={"/room-scheduling"} className={"item"} id={"order"}>
+                Room Scheduling Services
+              </Link>
+            </MenuItem>
           </Menu>
         </div>
         <div>
