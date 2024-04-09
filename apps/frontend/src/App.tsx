@@ -13,6 +13,7 @@ import OutlinedAlerts from "./components/service_requests/ServiceNotice.tsx";
 import Stack from "@mui/material/Stack";
 import OrderConfirmation from "./components/service_requests/OrderConfirmation.tsx";
 import SanitationForm from "./components/service_requests/sanitation_services/sanitationForm.tsx";
+import MiniMap from "./components/floor_map/MiniMap.tsx";
 
 function App() {
   const router = createBrowserRouter([
@@ -108,6 +109,14 @@ function App() {
             </>
           ),
         },
+        {
+            path: "/MiniMap",
+              element: (
+                  <>
+                      <MiniMap />
+                  </>
+              ),
+          },
 
         // ... other routes
       ],
