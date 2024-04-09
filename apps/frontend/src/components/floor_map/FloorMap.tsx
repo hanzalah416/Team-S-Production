@@ -207,35 +207,47 @@ function FloorMap() {
     // Update the FloorSwitcher component to include a print statement
     const FloorSwitcher = ({ onChange }) => (
         <div className={styles.floorSwitcher}>
-            {["L1", "L2", "01", "02", "03"].map((floor) => (
-                <Button
-                    key={floor}
-                    variant={currentFloor === floor ? "contained" : "outlined"}
-                    onClick={() => {
-                        setCurrentFloor(floor);
-
-                        // Filter the full path for the new floor
-                        const newFilteredQueueNodeIDs = fullPath.filter((id) => getFloorNumber(id) === floor || id.length === 3);
-                        setFilteredQueueNodeIDs(newFilteredQueueNodeIDs);
-
-
-                        onChange(floor);
-                    }}
-
-                    style={{
-                        marginRight: "2px",
-                        marginBottom: "5px",
-                        color: currentFloor === floor ? "white" : "black", // Text color
-                        backgroundColor: currentFloor === floor ? "#003b9c" :  "#f1f1f1", // Background color
-                        borderColor: "black", // Border color
-                        fontFamily: "Poppins",
-                    }}
-                >
-                    {floor}
-                </Button>
-            ))}
+            {["L1", "L2", "01", "02", "03"].map((floor) => {
+                let displayFloor = floor;
+                switch (floor) {
+                    case "01":
+                        displayFloor = "1";
+                        break;
+                    case "02":
+                        displayFloor = "2";
+                        break;
+                    case "03":
+                        displayFloor = "3";
+                        break;
+                    default:
+                        break; // Keep "L1" and "L2" as is
+                }
+                return (
+                    <Button
+                        key={floor}
+                        variant={currentFloor === floor ? "contained" : "outlined"}
+                        onClick={() => {
+                            setCurrentFloor(floor);
+                            const newFilteredQueueNodeIDs = fullPath.filter((id) => getFloorNumber(id) === floor || id.length === 3);
+                            setFilteredQueueNodeIDs(newFilteredQueueNodeIDs);
+                            onChange(floor);
+                        }}
+                        style={{
+                            marginRight: "2px",
+                            marginBottom: "5px",
+                            color: currentFloor === floor ? "white" : "black", // Text color
+                            backgroundColor: currentFloor === floor ? "#003b9c" : "#f1f1f1", // Background color
+                            borderColor: "black", // Border color
+                            fontFamily: "Poppins",
+                        }}
+                    >
+                        {displayFloor}
+                    </Button>
+                );
+            })}
         </div>
     );
+
 
 
 
@@ -377,30 +389,45 @@ function FloorMap() {
                         <div className={styles.boldtag2}>Floors for the Current Path:</div>
                         <br/>
                         <div className={styles.floorButtonsContainer}>
-                            {getTagsFromPath(fullPath).map((tag) => (
-                                <Button
-                                    key={tag.tag}
-                                    variant={currentFloor === tag.tag ? "contained" : "outlined"}
-                                    onClick={() => {
-                                        setCurrentFloor(tag.tag);
+                            {getTagsFromPath(fullPath).map((tag) => {
+                                let displayFloor = tag.tag;
+                                switch (tag.tag) {
+                                    case "01":
+                                        displayFloor = "1";
+                                        break;
+                                    case "02":
+                                        displayFloor = "2";
+                                        break;
+                                    case "03":
+                                        displayFloor = "3";
+                                        break;
+                                    default:
+                                        break; // Keep "L1" and "L2" as is
+                                }
+                                return (
+                                    <Button
+                                        key={tag.tag}
+                                        variant={currentFloor === tag.tag ? "contained" : "outlined"}
+                                        onClick={() => {
+                                            setCurrentFloor(tag.tag);
 
-                                        // Filter the full path for the new floor
-                                        const newFilteredQueueNodeIDs = fullPath.filter((id) => getFloorNumber(id) === tag.tag || id.length === 3);
-                                        setFilteredQueueNodeIDs(newFilteredQueueNodeIDs);
-
-                                    }}
-                                    style={{
-                                        marginBottom: "5px",
-                                        color: currentFloor === tag.tag ? "white" : "black", // Text color
-                                        backgroundColor: currentFloor === tag.tag ? "#003b9c" : "#f1f1f1", // Background color with transparency
-                                        borderColor: "black", // Border color
-                                        fontFamily: "Poppins",
-                                        textAlign: "center",
-                                    }}
-                                >
-                                    {tag.tag.slice(-2)} {/* Display only the last two characters of the tag */}
-                                </Button>
-                            ))}
+                                            // Filter the full path for the new floor
+                                            const newFilteredQueueNodeIDs = fullPath.filter((id) => getFloorNumber(id) === tag.tag || id.length === 3);
+                                            setFilteredQueueNodeIDs(newFilteredQueueNodeIDs);
+                                        }}
+                                        style={{
+                                            marginBottom: "5px",
+                                            color: currentFloor === tag.tag ? "white" : "black", // Text color
+                                            backgroundColor: currentFloor === tag.tag ? "#003b9c" : "#f1f1f1", // Background color with transparency
+                                            borderColor: "black", // Border color
+                                            fontFamily: "Poppins",
+                                            textAlign: "center",
+                                        }}
+                                    >
+                                        {displayFloor}
+                                    </Button>
+                                );
+                            })}
                         </div>
                     </div>
 
@@ -481,8 +508,22 @@ function FloorMap() {
                                         if (isMultifloorNode) {
                                             const nextNodeID = filteredQueueNodeIDs[index + 1];
                                             const nextFloor = getFloorNumber(nextNodeID);
-                                            nextFloorLabel = nextFloor.slice(-2);
+                                            switch (nextFloor) {
+                                                case "01":
+                                                    nextFloorLabel = "1";
+                                                    break;
+                                                case "02":
+                                                    nextFloorLabel = "2";
+                                                    break;
+                                                case "03":
+                                                    nextFloorLabel = "3";
+                                                    break;
+                                                default:
+                                                    nextFloorLabel = nextFloor.slice(-2); // Fallback for other floors like "L1", "L2"
+                                                    break;
+                                            }
                                         }
+
 
                                         return (
                                             <div
