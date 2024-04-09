@@ -1,12 +1,11 @@
 // OrderFlowers.tsx
-import React, { useState } from "react";
+import React, {useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./SecurityRequest.module.css";
 //import { useFormData } from "./useFormData";
 //import {Simulate} from "react-dom/test-utils";
 //import submit = Simulate.submit;
 import { securityform } from "../common/securityform.ts";
-import axios from "axios";
 
 import {
   FormControl,
@@ -18,10 +17,19 @@ import {
   FormControlLabel,
   RadioGroup,
   FormLabel,
-  Radio
+  Radio,
+  Button,
+  Table,
+  TableBody,
+  styled,
+  TableRow,
+  tableCellClasses,
+  TableCell,
+  TableHead
 
 } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
+import TableContainer from "@mui/material/TableContainer";
 
 const SecurityRequest: React.FC = () => {
   const [staffName, setStaffName] = useState("");
@@ -31,17 +39,11 @@ const SecurityRequest: React.FC = () => {
   const [securityType, setSecurityType] = useState("");
   const [threatType, setThreatType] = useState("");
 
+  const [submittedRequests, setSubmittedRequests] = useState<securityform[]>([]);
 
   const navigate = useNavigate();
-  //const { formData, setFormData } = useFormData();
 
-  // const handleChangeStaffName = (event: SelectChangeEvent) => {
-  //   setStaffName(event.target.value as string);
-  // };
 
-  const handleChangeStaffName = (event: SelectChangeEvent) => {
-    setStaffName(event.target.value as string);
-  };
   const handleChangeSecurityType = (event: SelectChangeEvent) => {
     setSecurityType(event.target.value as string);
   };
@@ -64,41 +66,51 @@ const SecurityRequest: React.FC = () => {
 
 
   async function submit() {
-    if (staffName == "" ) {
-      alert("Please Fill out the Patient Name and Room Number");
-      return;
-    }
+    // if (staffName == "" ) {
+    //   alert("Please Fill out the Patient Name and Room Number");
+    //   return;
+    // }
 
     const securityRequestSent: securityform = {
       staffName: staffName,
-      location: staffName,
-      requestStatus: staffName,
-      requestPriority: staffName,
-      threatType: staffName,
-      securityType: staffName
+      location: location,
+      requestStatus: requestStatus,
+      requestPriority: requestPriority,
+      threatType: threatType,
+      securityType: securityType
     };
 
-    console.log(securityRequestSent);
+    setSubmittedRequests([...submittedRequests, securityRequestSent]);
 
-    await axios
-      .post("/api/security-request", securityRequestSent, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-      .then(() => {
-        console.log("Request sent successfully");
-        navigate("/order-flowers-result");
-      })
-      .catch(() => {
-        console.log("Request failed to send");
-        alert("Request failed to send. Please try again later.");
-      });
   }
+
+  useEffect(() => {
+  }, [submittedRequests]);
 
   const handleBack = () => {
     navigate("/welcome");
   };
+
+  const StyledTableCell = styled(TableCell)(({ theme }) => ({
+    [`&.${tableCellClasses.head}`]: {
+      backgroundColor: theme.palette.common.black,
+      color: theme.palette.common.white,
+    },
+    [`&.${tableCellClasses.body}`]: {
+      fontSize: 14,
+    },
+  }));
+
+  const StyledTableRow = styled(TableRow)(({ theme }) => ({
+    '&:nth-of-type(odd)': {
+      backgroundColor: theme.palette.action.hover,
+    },
+    // hide last border
+    '&:last-child td, &:last-child th': {
+      border: 0,
+    },
+  }));
+
 
   return (
     <div>
@@ -108,7 +120,8 @@ const SecurityRequest: React.FC = () => {
 
           <FormControl>
             <TextField id="outlined-basic" label="Staff Name" variant="outlined"
-            onChange={(e) => handleChangeStaffName(e.target.value)}/>
+              onChange={(e) => setStaffName(e.target.value)}
+            />
           </FormControl>
 
           <FormControl fullWidth>
@@ -209,23 +222,52 @@ const SecurityRequest: React.FC = () => {
           </Select>
         </FormControl>
 
-        <div className={styles.buttonGroup}>
-          <button
-              className={`${styles.button} ${styles.backButton}`}
-              type="button"
-              onClick={handleBack}
-          >
+        <div>
+          <Button
+              variant="outlined"
+              onClick={() => {
+                handleBack();
+              }}>
             Back
-          </button>
-          <button
-              className={`${styles.button} ${styles.reviewButton}`}
-              type="button"
-              onClick={submit}
-          >
-            Continue
-          </button>
+          </Button>
+
+          <Button
+              variant="contained"
+              onClick={() => {
+                submit();
+              }}>
+            Submit
+          </Button>
         </div>
+
       </form>
+
+        <TableContainer component={Paper}>
+          <Table sx={{ minWidth: 700 }} aria-label="customized table">
+            <TableHead>
+              <TableRow>
+                <StyledTableCell>Staff Name</StyledTableCell>
+                <StyledTableCell>Location</StyledTableCell>
+                <StyledTableCell>Status</StyledTableCell>
+                <StyledTableCell>Priority</StyledTableCell>
+                <StyledTableCell>Threat</StyledTableCell>
+                <StyledTableCell>Security Type</StyledTableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {submittedRequests.map((row,key) => (
+                  <StyledTableRow key={key}>
+                    <StyledTableCell>{row.staffName}</StyledTableCell>
+                    <StyledTableCell>{row.location}</StyledTableCell>
+                    <StyledTableCell>{row.requestStatus}</StyledTableCell>
+                    <StyledTableCell>{row.requestPriority}</StyledTableCell>
+                    <StyledTableCell>{row.securityType}</StyledTableCell>
+                    <StyledTableCell>{row.threatType}</StyledTableCell>
+                  </StyledTableRow>
+                  ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
     </Paper>
     </div>
   );

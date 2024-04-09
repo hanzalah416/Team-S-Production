@@ -2,7 +2,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./OrderFlowers.module.css";
-import { FlowerRequestGetter } from "./FlowerRequestGetter.tsx";
+import {SecurityRequestGetter} from "./SecurityRequestGetter.tsx";
 
 const SecurityRequestResult: React.FC = () => {
   const navigate = useNavigate();
@@ -18,7 +18,7 @@ const SecurityRequestResult: React.FC = () => {
   return (
     <div>
       <div>
-        <FlowerRequestGetter />
+        <SecurityRequestGetter />
         <p>I AM HERE</p>
       </div>
 
@@ -42,4 +42,4 @@ const SecurityRequestResult: React.FC = () => {
   );
 };
 
-export default OrderFlowersResult;
+export default SecurityRequestResult;

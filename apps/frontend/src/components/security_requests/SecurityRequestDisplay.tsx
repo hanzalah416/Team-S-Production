@@ -24,21 +24,33 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 }*/
 
 export function SecurityRequestDisplay(props: {
-  flowerform: {
-    patientName: string;
-    PatientRoom: number;
-    customMessage: string;
+  securityform: {
+    staffName: string;
+    location: string;
+    requestStatus: string;
+    requestPriority: string;
+    securityType: string;
+    threatType: string;
   };
 }) {
   return (
     <TableRow>
-      <StyledTableCell>{props.flowerform.patientName}</StyledTableCell>
-      <StyledTableCell align="right">
-        {props.flowerform.PatientRoom}
+      <StyledTableCell>{props.securityform.staffName}</StyledTableCell>
+      <StyledTableCell>
+        {props.securityform.location}
       </StyledTableCell>
-      <StyledTableCell align="right">
-        {props.flowerform.customMessage}
+      <StyledTableCell>
+        {props.securityform.requestStatus}
       </StyledTableCell>
+        <StyledTableCell>
+            {props.securityform.requestPriority}
+        </StyledTableCell>
+        <StyledTableCell>
+            {props.securityform.securityType}
+        </StyledTableCell>
+        <StyledTableCell>
+            {props.securityform.threatType}
+        </StyledTableCell>
     </TableRow>
   );
 }
