@@ -135,7 +135,7 @@ function NavBar() {
             </MenuItem>
               <MenuItem onClick={handleClose}>
                   <Link to={"/map-debug"} className={"item"} id={"order"}>
-                      Debug Map
+                      Map Editing Page
                   </Link>
               </MenuItem>
           </Menu>
