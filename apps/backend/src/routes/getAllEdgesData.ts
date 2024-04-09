@@ -9,8 +9,8 @@ router.get("/", async function (req: Request, res: Response) {
     const edges: NodeEdge[] = await PrismaClient.nodeEdge.findMany();
 
     const formattedEdges = edges.map((edge) => ({
-      startNode: edge.startNodeID,
-      endNode: edge.endNodeID,
+      startNode: edge.startnode,
+      endNode: edge.endnode,
     }));
 
     res.json(formattedEdges);

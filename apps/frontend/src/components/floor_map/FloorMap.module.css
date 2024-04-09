@@ -103,6 +103,13 @@ body {
   font-weight: bold;
   color: black;
 }
+.boldtag2 {
+  margin-top: 5px;
+  margin-bottom: 10px;
+  text-align: center;
+  font-weight: bold;
+  color: black;
+}
 
 .container .directionsBox {
   display: flex;
@@ -135,9 +142,22 @@ body {
 }
 
 .mapDot.small {
-  width: 0px;
-  height: 0px;
-  z-index: 0;
+  width: 1px;
+  height: 1px;
+  z-index: 3;
+}
+
+.pathListContainer {
+  max-height: 150px; /* Set a maximum height for the list */
+  overflow-y: auto; /* Enable vertical scrolling */
+  margin-top: 0px;
+  /* Adjust as needed */
+  padding: 5px; /* Add padding for better readability */
+}
+
+.pathList {
+  list-style-type: none; /* Remove default list styles */
+  padding-left: 0; /* Remove default left padding */
 }
 
 .csvButton {
@@ -153,4 +173,38 @@ body {
 .mbDiv {
   position: absolute;
   bottom: 12vh;
+}
+
+.floorSwitchText {
+  font-weight: bold;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 7.5px;
+  color: black;
+}
+
+.floorButtonsContainer {
+  margin-top: -10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.floorSwitcherContainer {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background-color: none;
+  padding: 5px;
+  z-index: 10; /* Ensure it's above the map */
+}
+
+.multifloorNode {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
 }
