@@ -512,7 +512,7 @@ function FloorMap() {
                     ) {
                       nodeColor = "purple";
                     } else if (isActualStartNode) {
-                      nodeColor = "green";
+                      nodeColor = "#03fc0b";
                     } else if (isActualEndNode) {
                       nodeColor = "red";
                     } else if (isMultifloorNode) {
