@@ -111,12 +111,11 @@ function App() {
             </>
           ),
         },
-
         {
-          path: "/map-debug",
+          path: "/room-scheduling",
           element: (
             <>
-              <FloorMapDebug />
+              <RoomScheduling />
               <Layout />
             </>
           ),
@@ -130,6 +129,16 @@ function App() {
                   </>
               ),
           },
+        {
+          path: "/map-debug",
+          element: (
+            <>
+              <FloorMapDebug />
+              <Layout />
+            </>
+          ),
+        },
+
 
         // ... other routes
       ],
