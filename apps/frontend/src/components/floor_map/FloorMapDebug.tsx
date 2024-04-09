@@ -16,9 +16,15 @@ interface Node {
     floor: string;
 }
 
+interface Edge {
+    startNode: string;
+    endNode: string;
+}
+
 const StaticFloorMapDebug = () => {
     const [nodes, setNodes] = useState<Node[]>([]);
-    const [currentFloor, setCurrentFloor] = useState('01');
+    const [edges, setEdges] = useState<Edge[]>([]);
+    const [currentFloor, setCurrentFloor] = useState('1');
 
     useEffect(() => {
         fetch('/api/nodes')
@@ -26,47 +32,58 @@ const StaticFloorMapDebug = () => {
             .then(setNodes)
             .catch((error) => console.error('Failed to fetch nodes:', error));
 
+        fetch('/api/edges')
+            .then((response) => response.json())
+            .then(setEdges)
+            .catch((error) => console.error('Failed to fetch edges:', error));
     }, []);
 
     const floorMaps = {
         L1: l1Map,
         L2: l2Map,
-        '01': f1Map,
-        '02': f2Map,
-        '03': f3Map,
+        '1': f1Map,
+        '2': f2Map,
+        '3': f3Map,
     };
 
-    const FloorSwitcher = () => (
-        <div className={styles.floorSwitcher}>
-            {Object.keys(floorMaps).map((floor) => (
-                <Button
-                    key={floor}
-                    variant={currentFloor === floor ? 'contained' : 'outlined'}
-                    onClick={() => setCurrentFloor(floor)}
-                    style={{
-                        marginRight: "2px",
-                        marginBottom: "5px",
-                        color: currentFloor === floor ? "white" : "black",
-                        backgroundColor: currentFloor === floor ? "#003b9c" :  "#f1f1f1",
-                        borderColor: "black",
-                        fontFamily: "Poppins",
-                    }}
-                >
-                    {floor}
-                </Button>
-            ))}
-        </div>
-    );
+    const FloorSwitcher = () => {
+        const floorOrder = ["L1", "L2", "1", "2", "3"];
+        const sortedFloors = Object.keys(floorMaps).sort((a, b) => floorOrder.indexOf(a) - floorOrder.indexOf(b));
 
-    const getPositionById = (id: string): { top: string; left: string } => {
+        return (
+            <div className={styles.floorSwitcher}>
+                {sortedFloors.map((floor) => (
+                    <Button
+                        key={floor}
+                        variant={currentFloor === floor ? 'contained' : 'outlined'}
+                        onClick={() => setCurrentFloor(floor)}
+                        style={{
+                            marginRight: "2px",
+                            marginBottom: "5px",
+                            color: currentFloor === floor ? "white" : "black",
+                            backgroundColor: currentFloor === floor ? "#003b9c" : "#f1f1f1",
+                            borderColor: "black",
+                            fontFamily: "Poppins",
+                        }}
+                    >
+                        {floor}
+                    </Button>
+                ))}
+            </div>
+        );
+    };
+
+    const getPositionById = (id: string): { x: string; y: string } => {
         const position = nodes.find((node) => node.id === id);
         if (position) {
+            const mapWidth = 5000;
+            const mapHeight = 3400;
             return {
-                top: `${(parseInt(position.ycoord, 10) / 3400) * 100}%`,
-                left: `${(parseInt(position.xcoord, 10) / 5000) * 100}%`,
+                x: `${(parseInt(position.xcoord, 10) / mapWidth) * mapWidth}`,
+                y: `${(parseInt(position.ycoord, 10) / mapHeight) * mapHeight}`,
             };
         }
-        return { top: "0%", left: "0%" };
+        return { x: "0", y: "0" };
     };
 
     return (
@@ -75,23 +92,43 @@ const StaticFloorMapDebug = () => {
                 <FloorSwitcher />
                 <TransformWrapper>
                     <TransformComponent>
-                        <img src={floorMaps[currentFloor]} alt={`Floor ${currentFloor}`} className={styles.mapImage} />
-                        <svg className={styles.overlay} viewBox="0 0 100 100">
-                            {nodes
-                                .filter((node) => node.floor === currentFloor)
-                                .map((node) => {
+                        <div className={styles.mapAndDots}>
+                            <img src={floorMaps[currentFloor]} alt={`Floor ${currentFloor}`} className={styles.mapImage} />
+                            <svg className={styles.overlay} viewBox="0 0 5000 3400">
+                                {nodes.filter((node) => node.floor === currentFloor).map((node) => {
                                     const position = getPositionById(node.id);
                                     return (
                                         <circle
                                             key={node.id}
-                                            cx={position.left}
-                                            cy={position.top}
-                                            r="0.5"
+                                            cx={position.x}
+                                            cy={position.y}
+                                            r="12"
                                             fill="red"
                                         />
                                     );
                                 })}
-                        </svg>
+                                {edges.map((edge) => {
+                                    const startNode = nodes.find((node) => node.id === edge.startNode);
+                                    const endNode = nodes.find((node) => node.id === edge.endNode);
+                                    if (startNode && endNode && startNode.floor === currentFloor && endNode.floor === currentFloor) {
+                                        const startPosition = getPositionById(startNode.id);
+                                        const endPosition = getPositionById(endNode.id);
+                                        return (
+                                            <line
+                                                key={`${edge.startNode}-${edge.endNode}`}
+                                                x1={startPosition.x}
+                                                y1={startPosition.y}
+                                                x2={endPosition.x}
+                                                y2={endPosition.y}
+                                                stroke="blue"
+                                                strokeWidth="8"
+                                            />
+                                        );
+                                    }
+                                    return null;
+                                })}
+                            </svg>
+                        </div>
                     </TransformComponent>
                 </TransformWrapper>
             </div>

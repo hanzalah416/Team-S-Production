@@ -133,6 +133,11 @@ function NavBar() {
                 Security Services
               </Link>
             </MenuItem>
+              <MenuItem onClick={handleClose}>
+                  <Link to={"/map-debug"} className={"item"} id={"order"}>
+                      Debug Map
+                  </Link>
+              </MenuItem>
           </Menu>
         </div>
         <div>
