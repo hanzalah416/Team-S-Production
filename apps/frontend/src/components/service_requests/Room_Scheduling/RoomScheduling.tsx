@@ -18,6 +18,7 @@ import TableRow from "@mui/material/TableRow";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Radio from "@mui/material/Radio";
+import styles from "./RoomScheduling.module.css";
 
 //Interface for positions
 interface Position {
@@ -144,7 +145,7 @@ export default function RoomScheduling() {
       <Paper elevation={4}>
         <br />
         <p className={"title"}>Room Scheduling Form </p>
-        <p className={"names"}>Jeffrey Li</p>
+        <p className={"names"}>Jeffrey Li and Nate Schneider</p>
 
         <Stack alignItems="center" justifyContent="center" spacing={3} p={4}>
           <div>
@@ -344,7 +345,7 @@ export default function RoomScheduling() {
                 id="date"
                 sx={{ Width: 20 }}
                 type="datetime-local"
-                className="border border-slate-300 rounded p-2 w-full"
+                className={styles.textBox}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                   setStartTime(e.target.value);
                 }}
