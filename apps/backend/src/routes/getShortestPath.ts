@@ -22,11 +22,11 @@ router.post("/", async function (req: Request, res: Response) {
       graph.addEdge(edge);
     });
 
-    const { startNodeID, endNodeID } = req.body;
+    const { startNode: startNode, endNode: endNode } = req.body;
 
-    console.log("Received start and end nodes", startNodeID, endNodeID);
+    console.log("Received start and end nodes", startNode, endNode);
 
-    const path = graph.AStar(startNodeID, endNodeID);
+    const path = graph.AStar(startNode, endNode);
 
     if (!path) {
       throw new Error("Path was undefined");

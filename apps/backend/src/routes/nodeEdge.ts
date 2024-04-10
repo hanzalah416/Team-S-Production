@@ -11,8 +11,8 @@ router.get("/", async function (req: Request, res: Response) {
     const nodeEdges: NodeEdge[] = await client.nodeEdge.findMany();
 
     const formattedNodes = nodeEdges.map((NodeEdge) => ({
-      startNodeID: NodeEdge.startnode,
-      endNodeID: NodeEdge.endnode,
+      startNode: NodeEdge.startNode,
+      endNode: NodeEdge.endNode,
     }));
     res.json(formattedNodes);
   } catch (error) {
@@ -22,14 +22,18 @@ router.get("/", async function (req: Request, res: Response) {
 });
 
 router.post("/", async function (req, res) {
-  const EdgeAttempt = req.body;
+  const EdgeAttempt: NodeEdge[] = req.body;
   console.log(req.body); // Log the request body to see the incoming data
   console.log(EdgeAttempt); // Log the parsed data to be inserted
 
   try {
+    const filteredEdge = EdgeAttempt.filter((x) => x.startNode !== null);
     // Attempt to create in the database
+    console.log("start try");
+    await PrismaClient.nodeEdge.deleteMany();
+    console.log("deleted");
     await PrismaClient.nodeEdge.createMany({
-      data: EdgeAttempt,
+      data: filteredEdge,
       skipDuplicates: true, // Consider using skipDuplicates to avoid errors on duplicate keys
     });
     console.info("Successfully saved Edge attempt"); // Log that it was successful
