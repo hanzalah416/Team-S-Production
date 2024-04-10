@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { SecurityRequestDisplay } from "./SecurityRequestDisplay.tsx";
-import { securityform } from "../common/securityform.ts";
+import { securityform } from "../../common/securityform.ts";
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
