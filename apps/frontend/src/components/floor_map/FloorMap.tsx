@@ -76,9 +76,7 @@ function FloorMap() {
   };
 
   const getFloorNumber = (nodeID: string) => {
-    if (typeof nodeID !== "string") {
-      return null; // Return a default value if nodeID is not a string
-    }
+
     const floor = nodeID.slice(-2); // Get the last two characters
     switch (floor) {
       case "01":
