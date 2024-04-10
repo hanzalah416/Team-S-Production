@@ -9,10 +9,10 @@ const router: Router = express.Router();
 router.get("/", async function (req: Request, res: Response) {
   try {
     const nodeEdges: NodeEdge[] = await client.nodeEdge.findMany();
-
-    const formattedNodes = nodeEdges.map((NodeEdge) => ({
-      startNode: NodeEdge.startNode,
-      endNode: NodeEdge.endNode,
+    const filteredNodeEdges =  nodeEdges.filter((x) => x.startnode !== null);
+    const formattedNodes = filteredNodeEdges.map((NodeEdge) => ({
+      startNode: NodeEdge.startnode,
+      endNode: NodeEdge.endnode,
     }));
     res.json(formattedNodes);
   } catch (error) {
@@ -27,7 +27,7 @@ router.post("/", async function (req, res) {
   console.log(EdgeAttempt); // Log the parsed data to be inserted
 
   try {
-    const filteredEdge = EdgeAttempt.filter((x) => x.startNode !== null);
+    const filteredEdge = EdgeAttempt.filter((x) => x.startnode !== null);
     // Attempt to create in the database
     console.log("start try");
     await PrismaClient.nodeEdge.deleteMany();
