@@ -16,7 +16,6 @@ import SanitationForm from "./components/service_requests/sanitation_services/sa
 import FloorMapDebug from "./components/floor_map/FloorMapDebug.tsx";
 import RoomScheduling from "./components/service_requests/Room_Scheduling/RoomScheduling.tsx";
 
-
 function App() {
   const router = createBrowserRouter([
     {
@@ -120,15 +119,15 @@ function App() {
             </>
           ),
         },
-          {
-              path: "/room-scheduling",
-              element: (
-                  <>
-                      <RoomScheduling />
-                      <Layout />
-                  </>
-              ),
-          },
+        {
+          path: "/room-scheduling",
+          element: (
+            <>
+              <RoomScheduling />
+              <Layout />
+            </>
+          ),
+        },
         {
           path: "/map-debug",
           element: (
@@ -138,7 +137,6 @@ function App() {
             </>
           ),
         },
-
 
         // ... other routes
       ],

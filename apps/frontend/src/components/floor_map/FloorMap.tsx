@@ -27,10 +27,13 @@ interface Node {
 }
 
 interface FloorSwitcherProps {
-    onChange: (floor: string) => void;
+  onChange: (floor: string) => void;
 }
 
-
+interface Tag {
+  tag: string;
+  index: number;
+}
 
 function FloorMap() {
   const [locations, setLocations] = useState<Position[]>([]);
@@ -51,10 +54,10 @@ function FloorMap() {
   const getTagsFromPath = (path: string[]) => {
     const floorOrder = ["L1", "L2", "01", "02", "03"];
     const startFloor = getFloorNumber(path[0]);
-    const tags = [
+    const tags: (null | { index: number; tag: string })[] = [
       { tag: startFloor, index: floorOrder.indexOf(startFloor!) },
       ...path
-        .filter((nodeID) => nodeID && nodeID.length == 3) // Ensure nodeID is not null before checking length
+        .filter((nodeID) => nodeID && nodeID.length === 3) // Ensure nodeID is not null before checking length
         .sort((a, b) => floorOrder.indexOf(a) - floorOrder.indexOf(b))
         .map((tag) => ({ tag, index: floorOrder.indexOf(tag) + 1 })),
     ]
@@ -62,13 +65,13 @@ function FloorMap() {
         if (tag === null) {
           return null; // Return null if tag is null
         }
-        const finalTag = typeof tag === "object" ? tag.tag : tag; // Ensure finalTag is always a string
+        const finalTag = typeof tag === "string" ? tag : ""; // Ensure finalTag is always a string
         return {
           tag: finalTag ? finalTag.slice(-2) : "",
           index,
         };
       })
-      .filter((tag) => tag !== null); // Filter out null tags from the final array
+      .filter((tag): tag is Tag => tag !== null); // Filter out null tags from the final array
     return tags;
   };
 
@@ -206,10 +209,9 @@ function FloorMap() {
       });
   };
 
-
   // let previousFloor = currentFloor;
   // Update the FloorSwitcher component to include a print statement
-    const FloorSwitcher: React.FC<FloorSwitcherProps> = ({ onChange }) => (
+  const FloorSwitcher: React.FC<FloorSwitcherProps> = ({ onChange }) => (
     <div className={styles.floorSwitcher}>
       {["L1", "L2", "01", "02", "03"].map((floor) => {
         let displayFloor = floor;
@@ -262,8 +264,8 @@ function FloorMap() {
   };
 
   const floorMaps = {
-    "L1": l1Map,
-    "L2": l2Map,
+    L1: l1Map,
+    L2: l2Map,
     "01": f1Map,
     "02": f2Map,
     "03": f3Map,
@@ -420,7 +422,7 @@ function FloorMap() {
                     }}
                     style={{
                       marginBottom: "5px",
-                        marginTop: "3px",
+                      marginTop: "3px",
                       color: currentFloor === tag.tag ? "white" : "black", // Text color
                       backgroundColor:
                         currentFloor === tag.tag ? "#003b9c" : "#f1f1f1", // Background color with transparency
@@ -435,8 +437,6 @@ function FloorMap() {
               })}
             </div>
           </div>
-
-
 
           <div className={styles.mbDiv}>
             <div style={{ display: "flex", flexDirection: "column" }}>
@@ -466,7 +466,7 @@ function FloorMap() {
           >
             <TransformComponent>
               <img
-                src={floorMaps[currentFloor]}
+                src={floorMaps[currentFloor as keyof typeof floorMaps]}
                 alt="map"
                 className={styles.hmapImage}
               />
@@ -533,28 +533,28 @@ function FloorMap() {
                       }
                     }
 
-                      return (
-                          <div
-                              key={nodeID}
-                              className={`${styles.mapDot} ${
-                                  isDisplayedStartNode ? styles.startNode : ""
-                              } ${isDisplayedEndNode ? `${styles.endNode} ${styles.endNodeAnimation}` : ""} ${
-                                  isMultifloorNode ? styles.multifloorNode : ""
-                              }`}
-                              style={{
-                                  top: point.top,
-                                  left: point.left,
-                                  backgroundColor: nodeColor,
-                                  display: "block",
-                              }}
-                          >
-                              {isMultifloorNode && (
-                                  <div className={styles.floorSwitchText}>
-                                      {nextFloorLabel}
-                                  </div>
-                              )}
+                    return (
+                      <div
+                        key={nodeID}
+                        className={`${styles.mapDot} ${
+                          isDisplayedStartNode ? styles.startNode : ""
+                        } ${isDisplayedEndNode ? `${styles.endNode} ${styles.endNodeAnimation}` : ""} ${
+                          isMultifloorNode ? styles.multifloorNode : ""
+                        }`}
+                        style={{
+                          top: point.top,
+                          left: point.left,
+                          backgroundColor: nodeColor,
+                          display: "block",
+                        }}
+                      >
+                        {isMultifloorNode && (
+                          <div className={styles.floorSwitchText}>
+                            {nextFloorLabel}
                           </div>
-                      );
+                        )}
+                      </div>
+                    );
                   }
                   return null;
                 })}

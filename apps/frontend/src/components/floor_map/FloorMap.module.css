@@ -87,8 +87,6 @@ body {
   z-index: 10;
 }
 
-
-
 .dotsContainer {
   position: absolute;
   top: 0;
@@ -189,19 +187,16 @@ body {
 
 .floorButtonsContainer {
   margin-top: -20px;
-    max-height: 190px;
+  max-height: 190px;
   display: flex;
   flex-direction: column;
   align-items: center;
-    overflow: auto;
-    scrollbar-color: #003b9c transparent;
-
+  overflow: auto;
+  scrollbar-color: #003b9c transparent;
 }
 
-
 .floorButtonsContainer::-webkit-scrollbar-thumb {
-    border-radius: 4px;
-
+  border-radius: 4px;
 }
 
 .floorSwitcherContainer {
@@ -211,7 +206,6 @@ body {
   background-color: none;
   padding: 5px;
   z-index: 10; /* Ensure it's above the map */
-
 }
 
 .multifloorNode {
@@ -222,24 +216,23 @@ body {
   transform: translate(-50%, -50%);
 }
 
-
 @keyframes pulse {
-    0% {
-        transform: scale(1) translate(-50%, -50%);
-        opacity: 1;
-    }
-    50% {
-        transform: scale(1.5) translate(-50%, -50%);
-        opacity: 1;
-    }
-    100% {
-        transform: scale(1) translate(-50%, -50%);
-        opacity: 1;
-    }
+  0% {
+    transform: scale(1) translate(-50%, -50%);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.5) translate(-50%, -50%);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1) translate(-50%, -50%);
+    opacity: 1;
+  }
 }
 
 .endNodeAnimation {
-    animation: pulse 1.5s infinite;
+  animation: pulse 1.5s infinite;
 
-    transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
 }
