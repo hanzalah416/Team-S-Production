@@ -134,18 +134,17 @@ function NavBar() {
               </Link>
             </MenuItem>
 
-
             <MenuItem onClick={handleClose}>
               <Link to={"/room-scheduling"} className={"item"} id={"order"}>
                 Room Scheduling Services
               </Link>
             </MenuItem>
 
-              <MenuItem onClick={handleClose}>
-                  <Link to={"/map-debug"} className={"item"} id={"order"}>
-                      Map Editing Page
-                  </Link>
-              </MenuItem>
+            <MenuItem onClick={handleClose}>
+              <Link to={"/map-debug"} className={"item"} id={"order"}>
+                Map Editing Page
+              </Link>
+            </MenuItem>
           </Menu>
         </div>
         <div>
