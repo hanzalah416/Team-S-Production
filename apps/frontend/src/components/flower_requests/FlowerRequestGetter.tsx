@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { FlowerRequestDisplay } from "./FlowerRequestDisplay.tsx";
-import { securityform } from "../common/flowerform.ts";
+import { flowerform } from "../common/flowerform.ts";
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -22,7 +22,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 }));
 
 export function FlowerRequestGetter() {
-  const [flowerRequestData, setFlowerRequestData] = useState<securityform[]>([]);
+  const [flowerRequestData, setFlowerRequestData] = useState<flowerform[]>([]);
 
   useEffect(() => {
     async function fetchData() {
