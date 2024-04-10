@@ -35,6 +35,7 @@ router.get("/", async function (req: Request, res: Response) {
       patientName: true,
       PatientRoom: true,
       customMessage: true,
+      status: true,
     },
   });
   // No flower requests exist in the database
@@ -45,6 +46,31 @@ router.get("/", async function (req: Request, res: Response) {
   } else {
     // Otherwise, send the score
     res.send(flowerRequest);
+  }
+});
+
+// router.patch("/:orderNumber", (req, res) => {
+//   res.send("PATCH route is working");
+// });
+
+router.patch("/:orderNumber", async (req: Request, res: Response) => {
+  const { orderNumber } = req.params;
+  const { status } = req.body;
+
+  try {
+    const updatedFlowerRequest = await PrismaClient.flowerRequests.update({
+      where: {
+        orderNumber: parseInt(orderNumber),
+      },
+      data: {
+        status: status,
+      },
+    });
+
+    res.json(updatedFlowerRequest); // Send the updated flower request object back to the client
+  } catch (error) {
+    console.error(`Error updating flower request status: ${error}`);
+    res.sendStatus(500);
   }
 });
 
