@@ -152,7 +152,8 @@ class MakeGraph {
           }
 
           //Calculate the g,h, and f cost for the nodes and add them to the map
-          const gCostNeighbor = gCost.get(currentNode)! + 1;
+          const gCostNeighbor =
+            gCost.get(currentNode)! + this.getCost(neighbor, currentNode);
           const hCostNeighbor = this.getCost(neighbor, endNode);
           const fCostNeighbor = gCostNeighbor + hCostNeighbor;
 
@@ -161,6 +162,7 @@ class MakeGraph {
           hCost.set(neighbor, hCostNeighbor);
           fCost.set(neighbor, fCostNeighbor);
 
+          //Check if node is already in the open queue
           if (!queue.includes(neighbor)) {
             queue.push(neighbor);
           }
@@ -196,20 +198,45 @@ class MakeGraph {
         Math.pow(node.ycoord - goal.ycoord, 2),
     );
 
+    //Calculate distance between floors
+    const floorDif = Math.abs(
+      this.getFloorNum(node.floor) - this.getFloorNum(goal.floor),
+    );
+    let floorCost = 0;
+
     // Adjust the cost based on node types only if start and end nodes are on different floors
-    if (node.floor !== goal.floor) {
+    if (floorDif > 0) {
       if (node.nodeType === "ELEV") {
-        distance *= 1.2; // Adjust weight for elevators
+        floorCost = 1.5 * floorDif; // Adjust weight for elevators
       } else if (node.nodeType === "STAI") {
-        distance *= 1.4; // Adjust weight for stairs
-      } else {
-        distance *= 0.5;
+        floorCost = 3 * floorDif; // Adjust weight for stairs
       }
     } else {
       distance *= 0.5;
     }
+    return distance + floorCost;
+  }
 
-    return distance;
+  getFloorNum(floor: string) {
+    switch (floor) {
+      case "L2":
+        return 1;
+        break;
+      case "L1":
+        return 2;
+        break;
+      case "1":
+        return 3;
+        break;
+      case "2":
+        return 4;
+        break;
+      case "3":
+        return 5;
+        break;
+      default:
+        return 0;
+    }
   }
 }
 
