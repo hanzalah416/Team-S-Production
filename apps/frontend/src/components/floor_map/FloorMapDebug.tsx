@@ -96,7 +96,7 @@ const StaticFloorMapDebug = () => {
           <TransformComponent>
             <div className={styles.mapAndDots}>
               <img
-                src={floorMaps[currentFloor]}
+                src={floorMaps[currentFloor as keyof typeof floorMaps]}
                 alt={`Floor ${currentFloor}`}
                 className={styles.mapImage}
               />

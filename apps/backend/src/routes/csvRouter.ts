@@ -58,14 +58,15 @@ router.get("/", async function (req: Request, res: Response) {
 //const PrismaClientInstance = new PrismaClient();
 
 router.post("/", async function (req, res) {
-  const nodeAttempt = req.body;
+  const nodeAttempt: Node[] = req.body;
   console.log(req.body); // Log the request body to see the incoming data
   console.log(nodeAttempt); // Log the parsed data to be inserted
 
   try {
+    const filteredNodes = nodeAttempt.filter((x) => x.nodeID !== null);
     // Attempt to create in the database
     await PrismaClient.node.createMany({
-      data: nodeAttempt,
+      data: filteredNodes,
       skipDuplicates: true, // Consider using skipDuplicates to avoid errors on duplicate keys
     });
     console.info("Successfully saved node attempt"); // Log that it was successful
