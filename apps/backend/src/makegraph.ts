@@ -190,9 +190,11 @@ class MakeGraph {
         distance += 5; // Adjust weight for elevators
       } else if (node.nodeType === "STAI") {
         distance += 10; // Adjust weight for stairs
+      } else {
+        distance *= 0.15;
       }
     } else {
-      distance *= 0.25;
+      distance *= 0.15;
     }
 
     return distance;
