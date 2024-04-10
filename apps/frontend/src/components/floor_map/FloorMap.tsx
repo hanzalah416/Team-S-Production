@@ -42,11 +42,11 @@ function FloorMap() {
     [],
   );
   const [fullPath, setFullPath] = useState<string[]>([]);
-  const getTagsFromPath = (path) => {
+  const getTagsFromPath = (path: string[]) => {
     const floorOrder = ["L1", "L2", "01", "02", "03"];
     const startFloor = getFloorNumber(path[0]);
     const tags = [
-      { tag: startFloor, index: floorOrder.indexOf(startFloor) },
+      { tag: startFloor, index: floorOrder.indexOf(startFloor!) },
       ...path
         .filter((nodeID) => nodeID && nodeID.length == 3) // Ensure nodeID is not null before checking length
         .sort((a, b) => floorOrder.indexOf(a) - floorOrder.indexOf(b))
@@ -66,7 +66,7 @@ function FloorMap() {
     return tags;
   };
 
-  const getFloorNumber = (nodeID) => {
+  const getFloorNumber = (nodeID: string) => {
     if (typeof nodeID !== "string") {
       return null; // Return a default value if nodeID is not a string
     }
@@ -135,8 +135,12 @@ function FloorMap() {
 
   const handleSelection = (value: Position | null, type: "start" | "end") => {
     if (type === "start") {
+      if (!value) {
+        throw new Error("Value was undefined was undefined");
+      }
+
       const selectedFloor = getFloorNumber(value.id); // Get the floor of the selected start point
-      setCurrentFloor(selectedFloor);
+      setCurrentFloor(selectedFloor!);
       setStartPosition(value);
       if (value && endPosition) {
         fetchPath(value.id, endPosition.id);
@@ -172,7 +176,7 @@ function FloorMap() {
           pathWithFloorChanges.push(data.id[i]);
           if (currentFloor !== nextFloor) {
             const floorChangeMarker =
-              (parseInt(nextFloor) > parseInt(currentFloor) ? "+" : "-") +
+              (parseInt(nextFloor!) > parseInt(currentFloor!) ? "+" : "-") +
               nextFloor;
             pathWithFloorChanges.push(floorChangeMarker);
           }
@@ -250,7 +254,7 @@ function FloorMap() {
     </div>
   );
 
-  const getLineColor = (floor) => {
+  const getLineColor = (floor: string) => {
     switch (floor) {
       // case "01":
       //     return "red";
@@ -276,7 +280,7 @@ function FloorMap() {
     "03": f3Map,
   };
 
-  const getLineSegments = (startNodeID, endNodeID) => {
+  const getLineSegments = (startNodeID: string, endNodeID: string) => {
     const segments = [];
     let currentFloor = getFloorNumber(startNodeID);
     let segmentStartNodeID = startNodeID;
@@ -392,6 +396,9 @@ function FloorMap() {
             <br />
             <div className={styles.floorButtonsContainer}>
               {getTagsFromPath(fullPath).map((tag) => {
+                if (!tag) {
+                  throw new Error("Tag was undefined");
+                }
                 let displayFloor = tag.tag;
                 switch (tag.tag) {
                   case "01":
@@ -536,6 +543,9 @@ function FloorMap() {
                           nextFloorLabel = "3";
                           break;
                         default:
+                          if (!nextFloor) {
+                            throw new Error("Next floor was null");
+                          }
                           nextFloorLabel = nextFloor.slice(-2); // Fallback for other floors like "L1", "L2"
                           break;
                       }
@@ -589,7 +599,7 @@ function FloorMap() {
                       return segments.map((segment, segmentIndex) => {
                         const startPoint = getPositionById(segment.startNodeID);
                         const endPoint = getPositionById(segment.endNodeID);
-                        const lineColor = getLineColor(segment.floor);
+                        const lineColor = getLineColor(segment.floor!);
 
                         return (
                           <line
@@ -613,7 +623,9 @@ function FloorMap() {
             </TransformComponent>
           </TransformWrapper>
           <div className={styles.floorSwitcherContainer}>
-            <FloorSwitcher onChange={(floor) => setCurrentFloor(floor)} />
+            <FloorSwitcher
+              onChange={(floor: string) => setCurrentFloor(floor)}
+            />
           </div>
         </div>
       </div>
