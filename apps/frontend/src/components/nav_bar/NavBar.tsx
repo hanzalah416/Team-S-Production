@@ -113,8 +113,12 @@ function NavBar() {
                 Language Services
               </Link>
             </MenuItem>
-            <MenuItem onClick={handleClose} >
-              <Link to={"/medicine-delivery-request"} className={"item"} id={"order"}>
+            <MenuItem onClick={handleClose}>
+              <Link
+                to={"/medicine-delivery-request"}
+                className={"item"}
+                id={"order"}
+              >
                 Medical Delivery
               </Link>
             </MenuItem>

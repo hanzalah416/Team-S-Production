@@ -187,10 +187,12 @@ class MakeGraph {
     // Adjust the cost based on node types only if start and end nodes are on different floors
     if (node.floor !== goal.floor) {
       if (node.nodeType === "ELEV") {
-        distance *= 4; // Adjust weight for elevators
+        distance += 5; // Adjust weight for elevators
       } else if (node.nodeType === "STAI") {
-        distance *= 8; // Adjust weight for stairs
+        distance += 10; // Adjust weight for stairs
       }
+    } else {
+      distance *= 0.25;
     }
 
     return distance;

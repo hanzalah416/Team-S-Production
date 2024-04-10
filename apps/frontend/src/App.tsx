@@ -19,7 +19,6 @@ import RoomScheduling from "./components/service_requests/Room_Scheduling/RoomSc
 import MedicineDeliveryForm from "./components/service_requests/medicine_delivery/MedicineDeliveryForm.tsx";
 import SecurityRequest from "./components/service_requests/security_requests/SecurityRequest.tsx";
 
-
 function App() {
   const router = createBrowserRouter([
     {
@@ -125,7 +124,6 @@ function App() {
           ),
         },
         {
-
           path: "/MiniMap",
           element: (
             <>
@@ -133,7 +131,7 @@ function App() {
             </>
           ),
         },
-          {
+        {
           path: "/medicine-delivery-request",
           element: (
             <>
@@ -143,7 +141,6 @@ function App() {
           ),
         },
         {
-
           path: "/room-scheduling",
           element: (
             <>
@@ -159,7 +156,6 @@ function App() {
             <>
               <FloorMapDebug />
               <Layout />
-
             </>
           ),
         },
