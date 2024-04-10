@@ -5,13 +5,13 @@ import readCSVFile from "./Readcsv.ts";
 async function seed() {
   const edges = readCSVFile("L1Edges.csv");
   const nodes = readCSVFile("L1Nodes.csv");
-
   const dbNodeEdges = await PrismaClient.nodeEdge.findMany();
   const dbNodes = await PrismaClient.node.findMany();
-  if (dbNodes.length != nodes.length) {
+  if (dbNodes.length == 0) {
     for (const node of nodes) {
-      await PrismaClient.node.create({
-        data: {
+      await PrismaClient.node.upsert({
+        where: { nodeID: node[0] },
+        create: {
           nodeID: node[0],
           xcoord: Number(node[1]),
           ycoord: Number(node[2]),
@@ -21,17 +21,18 @@ async function seed() {
           longName: node[6],
           shortName: node[7],
         },
+        update: {},
       });
     }
     console.log("Nodes populated");
   }
 
-  if (dbNodeEdges.length != edges.length) {
+  if (dbNodeEdges.length == 0) {
     for (const edge of edges) {
       await PrismaClient.nodeEdge.create({
         data: {
-          startnode: edge[0],
-          endnode: edge[1],
+          startNode: edge[0],
+          endNode: edge[1],
         },
       });
     }

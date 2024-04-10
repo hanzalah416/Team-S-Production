@@ -1,16 +1,9 @@
 import React, { useState, useEffect } from "react";
 import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
+// import MenuItem from "@mui/material/MenuItem";
 import TextField from "@mui/material/TextField";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
+// import Select, { SelectChangeEvent } from "@mui/material/Select";
 import Autocomplete from "@mui/material/Autocomplete";
-import "./sanitationForm.css";
-import ToggleButton from "@mui/material/ToggleButton";
-import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import FormLabel from "@mui/material/FormLabel";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Unstable_Grid2"; // Grid version 2
@@ -22,6 +15,10 @@ import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
+import RadioGroup from "@mui/material/RadioGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Radio from "@mui/material/Radio";
+import styles from "./RoomScheduling.module.css";
 
 //Interface for positions
 interface Position {
@@ -44,8 +41,8 @@ type entry = {
   name: string;
   priority: string;
   location: string;
-  requestType: string;
-  permission: string;
+  startTime: string;
+  endTime: string;
   status: string;
 };
 
@@ -69,15 +66,14 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-export default function SanitationForm() {
+export default function RoomScheduling() {
   const [name, setName] = useState("");
   const [priority, setPriority] = useState("");
   const [location, setLocation] = useState("");
-  const [requestType, setRequestType] = useState("");
-  const [permission, setPermission] = useState("");
   const [status, setStatus] = useState("");
   const [locations, setLocations] = useState<Position[]>([]);
-
+  const [startTime, setStartTime] = useState("");
+  const [endTime, setEndTime] = useState("");
   const [submittedEntries, setSubmittedEntries] = useState<entry[]>([]);
 
   useEffect(() => {
@@ -105,21 +101,21 @@ export default function SanitationForm() {
     }
   };
 
-  const handlePriorityChange = (event: SelectChangeEvent) => {
-    setPriority(event.target.value as string);
-  };
-  const handleStatusChange = (event: SelectChangeEvent) => {
-    setStatus(event.target.value as string);
-  };
+  // const handlePriorityChange = (event: SelectChangeEvent) => {
+  //   setPriority(event.target.value as string);
+  // };
+  // const handleStatusChange = (event: SelectChangeEvent) => {
+  //   setStatus(event.target.value as string);
+  // };
 
   function submit() {
     const newEntry = {
       name: name,
       priority: priority,
       location: location,
-      requestType: requestType,
-      permission: permission,
       status: status,
+      startTime: startTime,
+      endTime: endTime,
     };
     setSubmittedEntries((prevEntries) => [...prevEntries, newEntry]);
     clear();
@@ -129,9 +125,9 @@ export default function SanitationForm() {
     setName("");
     setPriority("");
     setLocation("");
-    setRequestType("");
-    setPermission("");
     setStatus("");
+    setStartTime("");
+    setEndTime("");
   }
 
   return (
@@ -148,8 +144,8 @@ export default function SanitationForm() {
 
       <Paper elevation={4}>
         <br />
-        <p className={"title"}>Sanitation Request Form </p>
-        <p className={"names"}>Jacob Antepli & Dorothy Alexander</p>
+        <p className={"title"}>Room Scheduling Form </p>
+        <p className={"names"}>Jeffrey Li and Nate Schneider</p>
 
         <Stack alignItems="center" justifyContent="center" spacing={3} p={4}>
           <div>
@@ -177,29 +173,6 @@ export default function SanitationForm() {
               sx={{ minWidth: 400 }}
             />
           </div>
-          <div>
-            <InputLabel
-              style={{
-                color: "#3B54A0",
-              }}
-              id="priority-dropdown"
-            >
-              Priority
-            </InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={priority}
-              label=""
-              onChange={handlePriorityChange}
-              sx={{ minWidth: 400, color: "#3B54A0" }}
-            >
-              <MenuItem value={"Low"}>Low</MenuItem>
-              <MenuItem value={"Medium"}>Medium</MenuItem>
-              <MenuItem value={"High"}>High</MenuItem>
-              <MenuItem value={"Emergency"}>Emergency</MenuItem>
-            </Select>
-          </div>
 
           <div>
             <InputLabel
@@ -208,7 +181,7 @@ export default function SanitationForm() {
               }}
               id="location-dropdown"
             >
-              Location
+              Room
             </InputLabel>
             <Autocomplete
               options={locations}
@@ -230,131 +203,175 @@ export default function SanitationForm() {
               )}
               onOpen={() => toggleScrolling(true)}
               onClose={() => toggleScrolling(false)}
-
               onChange={(event, value) => setLocation(value!.label)}
-
             />
           </div>
+          <Stack
+            spacing={10}
+            direction="row"
+            alignItems="center"
+            justifyContent=""
+          >
+            <div>
+              <InputLabel
+                style={{
+                  color: "#3B54A0",
+                }}
+                id="priority"
+              >
+                Priority
+              </InputLabel>
+              <RadioGroup
+                aria-labelledby="demo-controlled-radio-buttons-group"
+                name="controlled-radio-buttons-group"
+                value={priority}
+                onChange={(e) => {
+                  setPriority(e.target.value);
+                }}
+              >
+                <FormControlLabel
+                  style={{
+                    color: "#3D4A6B",
+                    font: "Jaldi",
+                  }}
+                  value="Emergency"
+                  control={<Radio />}
+                  label="Emergency"
+                />
+                <FormControlLabel
+                  style={{
+                    color: "#3D4A6B",
+                    font: "Jaldi",
+                  }}
+                  value="High"
+                  control={<Radio />}
+                  label="High"
+                />
+                <FormControlLabel
+                  style={{
+                    color: "#3D4A6B",
+                    font: "Jaldi",
+                  }}
+                  value="Medium"
+                  control={<Radio />}
+                  label="Medium"
+                />
+                <FormControlLabel
+                  style={{
+                    color: "#3D4A6B",
+                    font: "Jaldi",
+                  }}
+                  value="Low"
+                  control={<Radio />}
+                  label="Low"
+                />
+              </RadioGroup>
+            </div>
 
-          <div>
-            <InputLabel
-              style={{
-                color: "#3B54A0",
-              }}
-              id="demo-simple-select-label"
-            >
-              Request Type
-            </InputLabel>
-            <ToggleButtonGroup
-              color="primary"
-              value={requestType} // Use the state value here
-              exclusive
-              onChange={(
-                _event: React.MouseEvent<HTMLElement>,
-                newValue: string | null,
-              ) => {
-                if (newValue !== null) {
-                  setRequestType(newValue); // Update state on change
-                }
-              }}
-              aria-label="Sanitation Type Buttons"
-              sx={{ minWidth: 120 }}
-            >
-              <ToggleButton
+            <div>
+              <InputLabel
                 style={{
-                  color: "#10778c",
-                  outlineColor: "#949DB5",
-                  borderColor: "#949DB5",
+                  color: "#3B54A0",
                 }}
-                value="Garbage Pickup"
+                id="demo-simple-select-label"
               >
-                Garbage Pickup
-              </ToggleButton>
-              <ToggleButton
-                style={{
-                  color: "#10778c",
-                  outlineColor: "#949DB5",
-                  borderColor: "#949DB5",
+                Status
+              </InputLabel>
+              <RadioGroup
+                aria-labelledby="demo-controlled-radio-buttons-group"
+                name="controlled-radio-buttons-group"
+                value={status}
+                onChange={(e) => {
+                  setStatus(e.target.value);
                 }}
-                value="Recycling Pickup"
               >
-                Recycling Pickup
-              </ToggleButton>
-              <ToggleButton
-                style={{
-                  color: "#10778c",
-                  outlineColor: "#949DB5",
-                  borderColor: "#949DB5",
-                }}
-                value="Hazardous Waste Disposal"
-              >
-                Hazardous Waste Disposal
-              </ToggleButton>
-            </ToggleButtonGroup>
-          </div>
+                <FormControlLabel
+                  style={{
+                    color: "#3D4A6B",
+                    font: "Jaldi",
+                  }}
+                  value="Unassigned"
+                  control={<Radio />}
+                  label="Unassigned"
+                />
+                <FormControlLabel
+                  style={{
+                    color: "#3D4A6B",
+                    font: "Jaldi",
+                  }}
+                  value="Assigned"
+                  control={<Radio />}
+                  label="Assigned"
+                />
+                <FormControlLabel
+                  style={{
+                    color: "#3D4A6B",
+                    font: "Jaldi",
+                  }}
+                  value="In Progress"
+                  control={<Radio />}
+                  label="In Progress"
+                />
+                <FormControlLabel
+                  style={{
+                    color: "#3D4A6B",
+                    font: "Jaldi",
+                  }}
+                  value="Closed"
+                  control={<Radio />}
+                  label="Closed"
+                />
+              </RadioGroup>
+            </div>
+          </Stack>
 
-          <div>
-            <FormLabel
-              style={{
-                color: "#3B54A0",
-              }}
-              id="demo-controlled-radio-buttons-group"
-            >
-              Permission
-            </FormLabel>
-            <RadioGroup
-              aria-labelledby="demo-controlled-radio-buttons-group"
-              name="controlled-radio-buttons-group"
-              value={permission}
-              onChange={(e) => {
-                setPermission(e.target.value);
-              }}
-            >
-              <FormControlLabel
+          <Stack
+            spacing={2}
+            direction="row"
+            alignItems="center"
+            justifyContent="center"
+          >
+            <div>
+              <InputLabel
                 style={{
-                  color: "#3D4A6B",
-                  font: "Jaldi",
+                  color: "#3B54A0",
                 }}
-                value="Only enter with supervision"
-                control={<Radio />}
-                label="Only enter with supervision"
+                id="demo-simple-select-label"
+              >
+                Start Date
+              </InputLabel>
+              <TextField
+                value={startTime}
+                id="date"
+                sx={{ Width: 20 }}
+                type="datetime-local"
+                className={styles.textBox}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                  setStartTime(e.target.value);
+                }}
               />
-              <FormControlLabel
+            </div>
+            <div>
+              <InputLabel
                 style={{
-                  color: "#3D4A6B",
-                  font: "Jaldi",
+                  color: "#3B54A0",
                 }}
-                value="Can enter without supervision"
-                control={<Radio />}
-                label="Can enter without supervision"
+                id="demo-simple-select-label"
+              >
+                End Date
+              </InputLabel>
+              <TextField
+                value={endTime}
+                sx={{ minWidth: 20 }}
+                id="date"
+                type="datetime-local"
+                className="border border-slate-300 rounded p-2 w-full"
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                  setEndTime(e.target.value);
+                }}
               />
-            </RadioGroup>
-          </div>
-
-          <div>
-            <InputLabel
-              style={{
-                color: "#3B54A0",
-              }}
-              id="demo-simple-select-label"
-            >
-              Status
-            </InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={status}
-              label=""
-              onChange={handleStatusChange}
-              sx={{ minWidth: 300 }}
-            >
-              <MenuItem value={"Unassigned"}>Unassigned</MenuItem>
-              <MenuItem value={"Assigned"}>Assigned</MenuItem>
-              <MenuItem value={"In Progress"}>In Progress</MenuItem>
-              <MenuItem value={"Closed"}>Closed</MenuItem>
-            </Select>
-          </div>
-
+            </div>
+          </Stack>
           <Stack
             spacing={2}
             direction="row"
@@ -402,13 +419,13 @@ export default function SanitationForm() {
                   Priority
                 </StyledTableCell>
                 <StyledTableCell className={"border border-gray-800 p-2"}>
-                  Location
+                  Room
                 </StyledTableCell>
                 <StyledTableCell className={"border border-gray-800 p-2"}>
-                  Request Type
+                  Start Time
                 </StyledTableCell>
                 <StyledTableCell className={"border border-gray-800 p-2"}>
-                  Permission
+                  End Time
                 </StyledTableCell>
                 <StyledTableCell className={"border border-gray-800 p-2"}>
                   Status
@@ -432,10 +449,10 @@ export default function SanitationForm() {
                     {entry.location}
                   </StyledTableCell>
                   <StyledTableCell className={"border border-gray-800 p-2"}>
-                    {entry.requestType}
+                    {entry.startTime}
                   </StyledTableCell>
                   <StyledTableCell className={"border border-gray-800 p-2"}>
-                    {entry.permission}
+                    {entry.endTime}
                   </StyledTableCell>
                   <StyledTableCell className={"border border-gray-800 p-2"}>
                     {entry.status}

@@ -14,6 +14,9 @@ import Stack from "@mui/material/Stack";
 import OrderConfirmation from "./components/service_requests/OrderConfirmation.tsx";
 import SanitationForm from "./components/service_requests/sanitation_services/sanitationForm.tsx";
 import MiniMap from "./components/floor_map/MiniMap.tsx";
+import FloorMapDebug from "./components/floor_map/FloorMapDebug.tsx";
+import RoomScheduling from "./components/service_requests/Room_Scheduling/RoomScheduling.tsx";
+
 
 function App() {
   const router = createBrowserRouter([
@@ -110,10 +113,28 @@ function App() {
           ),
         },
         {
+
           path: "/MiniMap",
           element: (
             <>
               <MiniMap />
+
+          path: "/room-scheduling",
+          element: (
+            <>
+              <RoomScheduling />
+              <Layout />
+            </>
+          ),
+        },
+
+        {
+          path: "/map-debug",
+          element: (
+            <>
+              <FloorMapDebug />
+              <Layout />
+
             </>
           ),
         },
