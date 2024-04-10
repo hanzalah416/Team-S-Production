@@ -20,23 +20,23 @@ function MiniMap() {
       <div className={styles.outerDiv}>
         <div className={styles.ll1}>
           <header>LL1</header>
-          <img src={ll1} alt="map" />
+          <img src={ll1} alt="map" className={styles.mmimg}/>
         </div>
         <div className={styles.ll2}>
           <header>LL2</header>
-          <img src={ll2} alt="map" />
+          <img src={ll2} alt="map" className={styles.mmimg}/>
         </div>
         <div className={styles.f1}>
           <header>1</header>
-          <img src={f1} alt="map" />
+          <img src={f1} alt="map" className={styles.mmimg}/>
         </div>
         <div className={styles.f2}>
           <header>2</header>
-          <img src={f2} alt="map" />
+          <img src={f2} alt="map" className={styles.mmimg}/>
         </div>
         <div className={styles.f3}>
           <header>3</header>
-          <img src={f3} alt="map" />
+          <img src={f3} alt="map" className={styles.mmimg}/>
         </div>
       </div>
     </div>

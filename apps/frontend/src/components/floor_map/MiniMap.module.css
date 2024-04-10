@@ -20,7 +20,7 @@
   transition: translate 0.4s ease-in-out;
 }
 
-img {
+.mmimg {
   position: relative;
   z-index: 1;
   width: auto; /* or any custom size */
@@ -29,7 +29,7 @@ img {
   border-radius: 15px;
   border: 1px solid #6fb49f;
 }
-header:hover ~ img {
+header:hover ~ .mmimg {
   box-shadow: 2px 2px 2px 2px #6fb49f;
 }
 
@@ -43,7 +43,7 @@ header {
   font-weight: bold;
 }
 
-img:hover {
+.mmimg:hover {
   box-shadow: 2px 2px 2px 2px #6fb49f;
   /*#99b2d*/
 }
