@@ -111,7 +111,7 @@ body {
   margin-bottom: 5px; /* Add some space between label and input */
 }
 
-.radioLabel  {
+.radioLabel {
   font-family: Poppins, sans-serif;
   font-size: 15px;
   line-height: 41px;
@@ -223,4 +223,3 @@ body {
     min-height: 100%;
   }
 }
-
