@@ -26,6 +26,15 @@ interface Node {
   floor: string;
 }
 
+interface FloorSwitcherProps {
+  onChange: (floor: string) => void;
+}
+
+interface Tag {
+  tag: string;
+  index: number;
+}
+
 function FloorMap() {
   const [locations, setLocations] = useState<Position[]>([]);
   const [currentFloor, setCurrentFloor] = useState("01");
@@ -42,34 +51,34 @@ function FloorMap() {
     [],
   );
   const [fullPath, setFullPath] = useState<string[]>([]);
-  const getTagsFromPath = (path) => {
+  const getTagsFromPath = (path: string[]) => {
     const floorOrder = ["L1", "L2", "01", "02", "03"];
-    const startFloor = getFloorNumber(path[0]);
-    const tags = [
-      { tag: startFloor, index: floorOrder.indexOf(startFloor) },
+    const startFloor = path[0] ? getFloorNumber(path[0]) : null;
+    const tags: (null | { index: number; tag: string })[] = [
+      {
+        tag: startFloor,
+        index: startFloor ? floorOrder.indexOf(startFloor) : -1,
+      },
       ...path
-        .filter((nodeID) => nodeID && nodeID.length == 3) // Ensure nodeID is not null before checking length
+        .filter((nodeID) => nodeID && nodeID.length === 3)
         .sort((a, b) => floorOrder.indexOf(a) - floorOrder.indexOf(b))
         .map((tag) => ({ tag, index: floorOrder.indexOf(tag) + 1 })),
     ]
       .map(({ tag, index }) => {
         if (tag === null) {
-          return null; // Return null if tag is null
+          return null;
         }
-        const finalTag = typeof tag === "object" ? tag.tag : tag; // Ensure finalTag is always a string
+        const finalTag = typeof tag === "string" ? tag : "";
         return {
           tag: finalTag ? finalTag.slice(-2) : "",
           index,
         };
       })
-      .filter((tag) => tag !== null); // Filter out null tags from the final array
+      .filter((tag): tag is Tag => tag !== null);
     return tags;
   };
 
-  const getFloorNumber = (nodeID) => {
-    if (typeof nodeID !== "string") {
-      return null; // Return a default value if nodeID is not a string
-    }
+  const getFloorNumber = (nodeID: string) => {
     const floor = nodeID.slice(-2); // Get the last two characters
     switch (floor) {
       case "01":
@@ -135,8 +144,12 @@ function FloorMap() {
 
   const handleSelection = (value: Position | null, type: "start" | "end") => {
     if (type === "start") {
+      if (!value) {
+        throw new Error("Value was undefined was undefined");
+      }
+
       const selectedFloor = getFloorNumber(value.id); // Get the floor of the selected start point
-      setCurrentFloor(selectedFloor);
+      setCurrentFloor(selectedFloor!);
       setStartPosition(value);
       if (value && endPosition) {
         fetchPath(value.id, endPosition.id);
@@ -150,7 +163,6 @@ function FloorMap() {
   };
 
   const fetchPath = (startNode: string, endNode: string) => {
-    setQueueNodeIDs([]);
     fetch("/api/pathfind", {
       method: "POST",
       headers: {
@@ -163,7 +175,7 @@ function FloorMap() {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log("Pathfinding result node IDs:", data.id); // Print the node IDs to the console
+        // console.log("Pathfinding result node IDs:", data.id); // Print the node IDs to the console
 
         // Insert floor change markers into the full path
         const pathWithFloorChanges = [];
@@ -173,7 +185,7 @@ function FloorMap() {
           pathWithFloorChanges.push(data.id[i]);
           if (currentFloor !== nextFloor) {
             const floorChangeMarker =
-              (parseInt(nextFloor) > parseInt(currentFloor) ? "+" : "-") +
+              (parseInt(nextFloor!) > parseInt(currentFloor!) ? "+" : "-") +
               nextFloor;
             pathWithFloorChanges.push(floorChangeMarker);
           }
@@ -197,16 +209,9 @@ function FloorMap() {
       });
   };
 
-  useEffect(() => {
-    if (fullPath.length > 0) {
-      console.log("Full path with tags:");
-      console.log(fullPath.join(" -> "));
-    }
-  }, [fullPath]);
-
   // let previousFloor = currentFloor;
   // Update the FloorSwitcher component to include a print statement
-  const FloorSwitcher = ({ onChange }) => (
+  const FloorSwitcher: React.FC<FloorSwitcherProps> = ({ onChange }) => (
     <div className={styles.floorSwitcher}>
       {["L1", "L2", "01", "02", "03"].map((floor) => {
         let displayFloor = floor;
@@ -251,19 +256,8 @@ function FloorMap() {
     </div>
   );
 
-  const getLineColor = (floor) => {
+  const getLineColor = (floor: string) => {
     switch (floor) {
-      // case "01":
-      //     return "red";
-      // case "02":
-      //     return "green";
-      // case "03":
-      //     return "black";
-      // case "L1":
-      //     return "purple";
-      // case "L2":
-      //     return "orange";
-      // Add more cases as needed for other floors
       default:
         return "blue"; // Default color
     }
@@ -277,7 +271,7 @@ function FloorMap() {
     "03": f3Map,
   };
 
-  const getLineSegments = (startNodeID, endNodeID) => {
+  const getLineSegments = (startNodeID: string, endNodeID: string) => {
     const segments = [];
     let currentFloor = getFloorNumber(startNodeID);
     let segmentStartNodeID = startNodeID;
@@ -329,7 +323,7 @@ function FloorMap() {
             renderInput={(params) => (
               <TextField
                 {...params}
-                label="Enter Starting Point"
+                label=""
                 InputLabelProps={{
                   style: {
                     fontFamily: "Poppins",
@@ -352,7 +346,7 @@ function FloorMap() {
             renderInput={(params) => (
               <TextField
                 {...params}
-                label="Enter Destination"
+                label=""
                 InputLabelProps={{
                   style: {
                     fontFamily: "Poppins",
@@ -393,6 +387,9 @@ function FloorMap() {
             <br />
             <div className={styles.floorButtonsContainer}>
               {getTagsFromPath(fullPath).map((tag) => {
+                if (!tag) {
+                  throw new Error("Tag was undefined");
+                }
                 let displayFloor = tag.tag;
                 switch (tag.tag) {
                   case "01":
@@ -425,6 +422,7 @@ function FloorMap() {
                     }}
                     style={{
                       marginBottom: "5px",
+                      marginTop: "3px",
                       color: currentFloor === tag.tag ? "white" : "black", // Text color
                       backgroundColor:
                         currentFloor === tag.tag ? "#003b9c" : "#f1f1f1", // Background color with transparency
@@ -439,16 +437,6 @@ function FloorMap() {
               })}
             </div>
           </div>
-
-          {/*<div className={styles.boldtag}>*/}
-          {/*    <div className={styles.pathListCont  ainer}>*/}
-          {/*        <ul className={styles.pathList}>*/}
-          {/*            {filteredQueueNodeIDs.map((nodeID) => (*/}
-          {/*                <li key={nodeID}>{nodeID}</li>*/}
-          {/*            ))}*/}
-          {/*        </ul>*/}
-          {/*    </div>*/}
-          {/*</div>*/}
 
           <div className={styles.mbDiv}>
             <div style={{ display: "flex", flexDirection: "column" }}>
@@ -478,7 +466,7 @@ function FloorMap() {
           >
             <TransformComponent>
               <img
-                src={floorMaps[currentFloor]}
+                src={floorMaps[currentFloor as keyof typeof floorMaps]}
                 alt="map"
                 className={styles.hmapImage}
               />
@@ -513,7 +501,7 @@ function FloorMap() {
                     ) {
                       nodeColor = "purple";
                     } else if (isActualStartNode) {
-                      nodeColor = "green";
+                      nodeColor = "#19a300";
                     } else if (isActualEndNode) {
                       nodeColor = "red";
                     } else if (isMultifloorNode) {
@@ -537,6 +525,9 @@ function FloorMap() {
                           nextFloorLabel = "3";
                           break;
                         default:
+                          if (!nextFloor) {
+                            throw new Error("Next floor was null");
+                          }
                           nextFloorLabel = nextFloor.slice(-2); // Fallback for other floors like "L1", "L2"
                           break;
                       }
@@ -547,7 +538,7 @@ function FloorMap() {
                         key={nodeID}
                         className={`${styles.mapDot} ${
                           isDisplayedStartNode ? styles.startNode : ""
-                        } ${isDisplayedEndNode ? styles.endNode : ""} ${
+                        } ${isDisplayedEndNode ? `${styles.endNode} ${styles.endNodeAnimation}` : ""} ${
                           isMultifloorNode ? styles.multifloorNode : ""
                         }`}
                         style={{
@@ -590,7 +581,7 @@ function FloorMap() {
                       return segments.map((segment, segmentIndex) => {
                         const startPoint = getPositionById(segment.startNodeID);
                         const endPoint = getPositionById(segment.endNodeID);
-                        const lineColor = getLineColor(segment.floor);
+                        const lineColor = getLineColor(segment.floor!);
 
                         return (
                           <line
@@ -614,7 +605,9 @@ function FloorMap() {
             </TransformComponent>
           </TransformWrapper>
           <div className={styles.floorSwitcherContainer}>
-            <FloorSwitcher onChange={(floor) => setCurrentFloor(floor)} />
+            <FloorSwitcher
+              onChange={(floor: string) => setCurrentFloor(floor)}
+            />
           </div>
         </div>
       </div>

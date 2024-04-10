@@ -36,6 +36,15 @@ interface Node {
   // Add other properties if needed
 }
 
+type entry = {
+  name: string;
+  priority: string;
+  location: string;
+  startTime: string;
+  endTime: string;
+  status: string;
+};
+
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,
@@ -64,7 +73,7 @@ export default function RoomScheduling() {
   const [locations, setLocations] = useState<Position[]>([]);
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
-  const [submittedEntries, setSubmittedEntries] = useState([]);
+  const [submittedEntries, setSubmittedEntries] = useState<entry[]>([]);
 
   useEffect(() => {
     // Fetch node data from the backend
@@ -193,7 +202,7 @@ export default function RoomScheduling() {
               )}
               onOpen={() => toggleScrolling(true)}
               onClose={() => toggleScrolling(false)}
-              onChange={(event, value) => setLocation(value.label)}
+              onChange={(event, value) => setLocation(value!.label)}
             />
           </div>
           <Stack
