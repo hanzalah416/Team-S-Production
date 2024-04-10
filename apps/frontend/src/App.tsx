@@ -123,15 +123,6 @@ function App() {
           ),
         },
         {
-          path: "/MiniMap",
-          element: (
-            <>
-              <MiniMap />
-            </>
-          ),
-        },
-        {
-
           path: "/medicine-delivery-request",
           element: (
             <>
