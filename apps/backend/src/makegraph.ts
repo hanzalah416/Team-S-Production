@@ -107,24 +107,34 @@ class MakeGraph {
 
     const arrivedFrom: NBMap = new Map(); //Map that contains the node to node parent relationship
     const queue: GraphNode[] = [startNode]; //Queue of open nodes
-    const costSoFar: Map<GraphNode, number> = new Map(); //Map that stores node cost information
-    arrivedFrom.set(startNode, startNode);
-    costSoFar.set(startNode, 0);
+    arrivedFrom.set(startNode, startNode); //Add arrived from for the start node
+    const closedList: GraphNode[] = []; // List of closed
+
+    //Map of different costs
+    const gCost: Map<GraphNode, number> = new Map();
+    const hCost: Map<GraphNode, number> = new Map();
+    const fCost: Map<GraphNode, number> = new Map();
+
+    //Set start node costs
+    gCost.set(startNode, 0);
+    hCost.set(startNode, 0);
+    fCost.set(startNode, 0);
+
+    //Set end node costs
+    gCost.set(endNode, 0);
+    hCost.set(endNode, 0);
+    fCost.set(endNode, 0);
 
     let pathFound = false;
-
     while (queue.length > 0) {
       // Sort the queue based on the total estimated cost from start to end via each node
       queue.sort((a, b) => {
-        return (
-          this.getCost(a, startNode) +
-          this.getCost(a, endNode) -
-          (this.getCost(b, startNode) + this.getCost(b, endNode))
-        );
+        return fCost.get(a)! - fCost.get(b)!;
       });
 
       //Make the current node the top of the queue (node with the lowest cost)
       const currentNode = queue.shift()!;
+      closedList.push(currentNode);
 
       //If the current node is equal to the end node break the loop and begin tracing the path
       if (currentNode === endNode) {
@@ -134,21 +144,23 @@ class MakeGraph {
 
       //Add available neighbors of the node to the queue
       currentNode.neighbors.forEach((neighbor) => {
-        //Cost of the current neighbor
-        const newCost = (costSoFar.get(currentNode) || Infinity) + 1;
+        //See if node has already been added
 
-        //Ensure that the neighbor has not already been checked and if its cost is lower then the
-        if (
-          !costSoFar.has(neighbor) ||
-          newCost < (costSoFar.get(neighbor) || Infinity)
-        ) {
-          //Add info to the Node parent map for backtracing
-          arrivedFrom.set(neighbor, currentNode);
+        if (!closedList.includes(neighbor)) {
+          if (!arrivedFrom.has(neighbor)) {
+            arrivedFrom.set(neighbor, currentNode);
+          }
 
-          //Input the neighbors cost in the cost map
-          costSoFar.set(neighbor, newCost);
+          //Calculate the g,h, and f cost for the nodes and add them to the map
+          const gCostNeighbor = gCost.get(currentNode)! + 1;
+          const hCostNeighbor = this.getCost(neighbor, endNode);
+          const fCostNeighbor = gCostNeighbor + hCostNeighbor;
 
-          //If the neighboring node hasn't been queued already push it to the queue
+          //Set the costs for neighbors
+          gCost.set(neighbor, gCostNeighbor);
+          hCost.set(neighbor, hCostNeighbor);
+          fCost.set(neighbor, fCostNeighbor);
+
           if (!queue.includes(neighbor)) {
             queue.push(neighbor);
           }
@@ -187,11 +199,11 @@ class MakeGraph {
     // Adjust the cost based on node types only if start and end nodes are on different floors
     if (node.floor !== goal.floor) {
       if (node.nodeType === "ELEV") {
-        distance += 5; // Adjust weight for elevators
+        distance *= 1.2; // Adjust weight for elevators
       } else if (node.nodeType === "STAI") {
-        distance += 10; // Adjust weight for stairs
+        distance *= 1.4; // Adjust weight for stairs
       } else {
-        distance *= 0.15;
+        distance *= 0.5;
       }
     } else {
       distance *= 0.15;
