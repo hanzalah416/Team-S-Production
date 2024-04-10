@@ -27,9 +27,9 @@ interface Node {
   floor: string;
 }
 
-interface FloorSwitcherProps {
-  onChange: (floor: string) => void;
-}
+// interface FloorSwitcherProps {
+//   onChange: (floor: string) => void;
+// }
 
 interface Tag {
   tag: string;
@@ -52,7 +52,21 @@ function FloorMap() {
     [],
   );
   const [fullPath, setFullPath] = useState<string[]>([]);
-  const getTagsFromPath = (path: string[]) => {
+
+
+    const handleFloorChange = (floor: string) => {
+        setCurrentFloor(floor);
+        const newFilteredQueueNodeIDs = fullPath.filter(
+            (id) => getFloorNumber(id) === floor || id.length === 3,
+        );
+        setFilteredQueueNodeIDs(newFilteredQueueNodeIDs);
+
+        // Call any additional logic that occurs when changing floors
+        // For example:
+
+    };
+
+    const getTagsFromPath = (path: string[]) => {
     const floorOrder = ["L1", "L2", "01", "02", "03"];
     const startFloor = path[0] ? getFloorNumber(path[0]) : null;
     const tags: (null | { index: number; tag: string })[] = [
@@ -212,50 +226,54 @@ function FloorMap() {
 
   // let previousFloor = currentFloor;
   // Update the FloorSwitcher component to include a print statement
-  const FloorSwitcher: React.FC<FloorSwitcherProps> = ({ onChange }) => (
-    <div className={styles.floorSwitcher}>
-      {["L1", "L2", "01", "02", "03"].map((floor) => {
-        let displayFloor = floor;
-        switch (floor) {
-          case "01":
-            displayFloor = "1";
-            break;
-          case "02":
-            displayFloor = "2";
-            break;
-          case "03":
-            displayFloor = "3";
-            break;
-          default:
-            break; // Keep "L1" and "L2" as is
-        }
-        return (
-          <Button
-            key={floor}
-            variant={currentFloor === floor ? "contained" : "outlined"}
-            onClick={() => {
-              setCurrentFloor(floor);
-              const newFilteredQueueNodeIDs = fullPath.filter(
-                (id) => getFloorNumber(id) === floor || id.length === 3,
-              );
-              setFilteredQueueNodeIDs(newFilteredQueueNodeIDs);
-              onChange(floor);
-            }}
-            style={{
-              marginRight: "2px",
-              marginBottom: "5px",
-              color: currentFloor === floor ? "white" : "black", // Text color
-              backgroundColor: currentFloor === floor ? "#003b9c" : "#f1f1f1", // Background color
-              borderColor: "black", // Border color
-              fontFamily: "Poppins",
-            }}
-          >
-            {displayFloor}
-          </Button>
-        );
-      })}
-    </div>
-  );
+  // const FloorSwitcher: React.FC<FloorSwitcherProps> = ({ onChange }) => (
+  //   <div className={styles.floorSwitcher}>
+  //     {["L1", "L2", "01", "02", "03"].map((floor) => {
+  //       let displayFloor = floor;
+  //       switch (floor) {
+  //         case "01":
+  //           displayFloor = "1";
+  //           break;
+  //         case "02":
+  //           displayFloor = "2";
+  //           break;
+  //         case "03":
+  //           displayFloor = "3";
+  //           break;
+  //         default:
+  //           break; // Keep "L1" and "L2" as is
+  //       }
+  //       return (
+  //
+  //           <div>
+  //         <Button
+  //           key={floor}
+  //           variant={currentFloor === floor ? "contained" : "outlined"}
+  //           onClick={() => {
+  //             setCurrentFloor(floor);
+  //             const newFilteredQueueNodeIDs = fullPath.filter(
+  //               (id) => getFloorNumber(id) === floor || id.length === 3,
+  //             );
+  //             setFilteredQueueNodeIDs(newFilteredQueueNodeIDs);
+  //             onChange(floor);
+  //           }}
+  //           style={{
+  //             marginRight: "2px",
+  //             marginBottom: "5px",
+  //             color: currentFloor === floor ? "white" : "black", // Text color
+  //             backgroundColor: currentFloor === floor ? "#003b9c" : "#f1f1f1", // Background color
+  //             borderColor: "black", // Border color
+  //             fontFamily: "Poppins",
+  //           }}
+  //         >
+  //           {displayFloor}
+  //
+  //         </Button>
+  //           </div>
+  //       );
+  //     })}
+  //   </div>
+  // );
 
   const getLineColor = (floor: string) => {
     switch (floor) {
@@ -605,16 +623,13 @@ function FloorMap() {
               </svg>
             </TransformComponent>
           </TransformWrapper>
-          <div className={styles.floorSwitcherContainer}>
-            <FloorSwitcher
-              onChange={(floor: string) => setCurrentFloor(floor)}
-            />
-          </div>
+
 
             <div className={styles.mMap}>
                 <Suspense fallback={<div>MiniMap loading please wait...</div>}>
-                <MiniMap />
-            </Suspense></div>
+                    <MiniMap onChangeFloor={handleFloorChange} />
+                </Suspense>
+            </div>
         </div>
       </div>
     </div>
