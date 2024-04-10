@@ -118,7 +118,10 @@ function App() {
           element: (
             <>
               <MiniMap />
-
+            </>
+          ),
+        },
+          {
           path: "/room-scheduling",
           element: (
             <>
