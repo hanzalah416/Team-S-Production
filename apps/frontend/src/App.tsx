@@ -54,6 +54,16 @@ function App() {
             </>
           ),
         },
+
+        {
+          path: "/security-request",
+          element: (
+            <>
+              <SecurityRequest />
+              <Layout />
+            </>
+          ),
+        },
         {
           path: "payment-info",
           element: (
