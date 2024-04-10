@@ -95,7 +95,7 @@ const SecurityRequest: React.FC = () => {
     setSubmittedRequests([...submittedRequests, securityRequestSent]);
   }
 
-  useEffect(() => {}, [submittedRequests]);
+  // useEffect(() => {}, [submittedRequests]);
 
   const handleBack = () => {
     navigate("/welcome");
