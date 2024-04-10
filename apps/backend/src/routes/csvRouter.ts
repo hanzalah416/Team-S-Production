@@ -69,6 +69,7 @@ router.post("/", async function (req, res) {
   //console.log(req.body); // Log the request body to see the incoming data
   //console.log(nodeAttempt); // Log the parsed data to be inserted
   try {
+    const filteredNodes = nodeAttempt.filter((x) => x.nodeID !== null);
     console.log("starting try");
     await PrismaClient.node.deleteMany();
     console.log("deleted old nodes");
@@ -76,7 +77,7 @@ router.post("/", async function (req, res) {
     console.log("deleted old edges");
     // Attempt to create in the database
     await PrismaClient.node.createMany({
-      data: nodeAttempt,
+      data: filteredNodes,
       skipDuplicates: true, // Consider using skipDuplicates to avoid errors on duplicate keys
     });
     console.info("Successfully saved node attempt"); // Log that it was successful

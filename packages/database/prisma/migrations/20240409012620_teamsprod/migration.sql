@@ -1,11 +1,5 @@
--- CreateTable
-CREATE TABLE "HighScore" (
-    "id" SERIAL NOT NULL,
-    "time" TIMESTAMP(3) NOT NULL,
-    "score" INTEGER NOT NULL,
-
-    CONSTRAINT "HighScore_pkey" PRIMARY KEY ("id")
-);
+-- CreateEnum
+CREATE TYPE "Authentication" AS ENUM ('user', 'staff', 'admin');
 
 -- CreateTable
 CREATE TABLE "hospitalUser" (
@@ -13,6 +7,7 @@ CREATE TABLE "hospitalUser" (
     "userEmail" TEXT NOT NULL,
     "userName" TEXT NOT NULL,
     "userPassword" TEXT NOT NULL,
+    "authType" "Authentication" NOT NULL DEFAULT 'user',
 
     CONSTRAINT "hospitalUser_pkey" PRIMARY KEY ("userID")
 );
@@ -25,6 +20,18 @@ CREATE TABLE "FlowerRequests" (
     "customMessage" TEXT,
 
     CONSTRAINT "FlowerRequests_pkey" PRIMARY KEY ("orderNumber")
+);
+
+-- CreateTable
+CREATE TABLE "StaffRequests" (
+    "requestID" SERIAL NOT NULL,
+    "priority" TEXT NOT NULL,
+    "location" TEXT NOT NULL,
+    "firstField" TEXT NOT NULL,
+    "secondField" TEXT NOT NULL,
+    "status" TEXT NOT NULL,
+
+    CONSTRAINT "StaffRequests_pkey" PRIMARY KEY ("requestID")
 );
 
 -- CreateTable

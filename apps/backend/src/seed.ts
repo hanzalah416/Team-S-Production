@@ -5,7 +5,6 @@ import readCSVFile from "./Readcsv.ts";
 async function seed() {
   const edges = readCSVFile("L1Edges.csv");
   const nodes = readCSVFile("L1Nodes.csv");
-
   const dbNodeEdges = await PrismaClient.nodeEdge.findMany();
   const dbNodes = await PrismaClient.node.findMany();
   if (dbNodes.length != nodes.length) {

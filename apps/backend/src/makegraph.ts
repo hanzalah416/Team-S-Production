@@ -24,7 +24,13 @@ class MakeGraph {
   private nodeMap: Map<string, GraphNode> = new Map();
 
   addNode(node: Node): void {
-    const temp = new GraphNode(node.nodeID, node.xcoord, node.ycoord);
+    const temp = new GraphNode(
+      node.nodeID,
+      node.xcoord,
+      node.ycoord,
+      node.nodeType,
+      node.floor,
+    );
     this.nodeMap.set(node.nodeID, temp);
   }
 
@@ -111,10 +117,9 @@ class MakeGraph {
       // Sort the queue based on the total estimated cost from start to end via each node
       queue.sort((a, b) => {
         return (
-          (costSoFar.get(a) || Infinity) +
+          this.getCost(a, startNode) +
           this.getCost(a, endNode) -
-          (costSoFar.get(b) || Infinity) -
-          this.getCost(b, endNode)
+          (this.getCost(b, startNode) + this.getCost(b, endNode))
         );
       });
 
@@ -174,10 +179,21 @@ class MakeGraph {
 
   getCost(node: GraphNode, goal: GraphNode): number {
     // Calcuate the distance between two nodes
-    return Math.sqrt(
+    let distance = Math.sqrt(
       Math.pow(node.xcoord - goal.xcoord, 2) +
         Math.pow(node.ycoord - goal.ycoord, 2),
     );
+
+    // Adjust the cost based on node types only if start and end nodes are on different floors
+    if (node.floor !== goal.floor) {
+      if (node.nodeType === "ELEV") {
+        distance *= 4; // Adjust weight for elevators
+      } else if (node.nodeType === "STAI") {
+        distance *= 8; // Adjust weight for stairs
+      }
+    }
+
+    return distance;
   }
 }
 
@@ -188,12 +204,21 @@ class GraphNode {
   neighbors: GraphNode[];
   xcoord: number;
   ycoord: number;
-
-  constructor(id: string, xcoord: number, ycoord: number) {
+  nodeType: string;
+  floor: string;
+  constructor(
+    id: string,
+    xcoord: number,
+    ycoord: number,
+    nodeType: string,
+    floor: string,
+  ) {
     this.id = id;
     this.neighbors = [];
     this.xcoord = xcoord;
     this.ycoord = ycoord;
+    this.nodeType = nodeType;
+    this.floor = floor;
   }
   //add neighbor
   addNB(node: GraphNode) {
