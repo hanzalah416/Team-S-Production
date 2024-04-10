@@ -1,7 +1,6 @@
 .outerDiv {
   height: 40vh;
   width: 30vw;
-  border: 2px solid black;
   position: relative;
   perspective: 70vh;
 }
@@ -11,7 +10,8 @@
 .f1,
 .f2,
 .f3 {
-  height: 30vh;
+    right: 1vw;
+  height: 25vh;
   width: auto;
   transform: rotate(10deg) rotateY(-15deg) rotateX(45deg) rotateZ(10deg);
 
@@ -34,29 +34,31 @@ header:hover ~ .mmimg {
 }
 
 header {
-  position: relative;
+  position: absolute;
   z-index: 2;
-  translate: 17vh 15vw;
+    right: 1vw;
+    bottom: 1vh;
   fontfamily: "Poppins";
   fontsize: 14;
   textalign: "center";
   font-weight: bold;
+    color: black;
 }
 
 .mmimg:hover {
-  box-shadow: 2px 2px 2px 2px #6fb49f;
+  box-shadow: 1.5px 1.5px 1.5px 1.5px #6fb49f;
   /*#99b2d*/
 }
 
 .f3 {
   perspective: 72vh;
-  translate: 0vh -10vw;
+  translate: 0vh -8vw;
   z-index: 5;
 }
 
 .f2 {
   perspective: 71vh;
-  translate: 0vh -5vw;
+  translate: 0vh -4vw;
   z-index: 4;
 }
 
@@ -66,51 +68,34 @@ header {
 
 .ll2 {
   perspective: 69vh;
-  translate: 0vh 5vw;
+  translate: 0vh 4vw;
   z-index: 2;
 }
 
 .ll1 {
   perspective: 75vh;
-  translate: 0vh 10vw;
+  translate: 0vh 8vw;
   z-index: 1;
-}
-
-.f3:hover {
-  translate: 0vh -10vw;
-}
-
-.f2:hover {
-  translate: 0vh -5vw;
-}
-
-.f1:hover {
-}
-
-.ll1:hover {
-}
-
-.ll2:hover {
 }
 
 .f2:hover ~ .f3,
 .f1:hover ~ .f3,
 .ll1:hover ~ .f3,
 .ll2:hover ~ .f3 {
-  translate: 00vh -15.5vw 0vh; /* Adjust the vertical translation */
+  translate: 00vh -12vw 0vh; /* Adjust the vertical translation */
 }
 
 .f1:hover ~ .f2,
 .ll1:hover ~ .f2,
 .ll2:hover ~ .f2 {
-  translate: 0vh -10.5vw;
+  translate: 0vh -8vw;
 }
 
 .ll1:hover ~ .f1,
 .ll2:hover ~ .f1 {
-  translate: 0vh -5.5vw;
+  translate: 0vh -4vw;
 }
 
 .ll1:hover ~ .ll2 {
-  translate: 0vh -1vw;
+  translate: 0vh 0vw;
 }

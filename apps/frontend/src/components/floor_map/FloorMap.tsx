@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense, lazy} from "react";
 import styles from "./FloorMap.module.css";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import Autocomplete from "@mui/material/Autocomplete";
@@ -9,6 +9,7 @@ import l2Map from "../assets/HospitalMap/00_thelowerlevel2.png";
 import f1Map from "../assets/HospitalMap/01_thefirstfloor.png";
 import f2Map from "../assets/HospitalMap/02_thesecondfloor.png";
 import f3Map from "../assets/HospitalMap/03_thethirdfloor.png";
+const MiniMap = lazy(() => import('./MiniMap.tsx'));
 
 interface Position {
   label: string;
@@ -609,6 +610,11 @@ function FloorMap() {
               onChange={(floor: string) => setCurrentFloor(floor)}
             />
           </div>
+
+            <div className={styles.mMap}>
+                <Suspense fallback={<div>MiniMap loading please wait...</div>}>
+                <MiniMap />
+            </Suspense></div>
         </div>
       </div>
     </div>
