@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { FlowerRequestDisplay } from "./FlowerRequestDisplay.tsx";
-import { securityform } from "../common/flowerform.ts";
+import { SecurityRequestDisplay } from "./SecurityRequestDisplay.tsx";
+import { securityform } from "../../common/securityform.ts";
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -21,13 +21,13 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   },
 }));
 
-export function FlowerRequestGetter() {
-  const [flowerRequestData, setFlowerRequestData] = useState<securityform[]>([]);
+export function SecurityRequestGetter() {
+  const [securityRequestData, setSecurityRequestData] = useState<securityform[]>([]);
 
   useEffect(() => {
     async function fetchData() {
-      const res = await axios.get("/api/flower-request");
-      setFlowerRequestData(res.data);
+      const res = await axios.get("/api/security-request");
+      setSecurityRequestData(res.data);
       console.log(res.data);
       console.log("successfully got data from get request");
     }
@@ -46,12 +46,12 @@ export function FlowerRequestGetter() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {flowerRequestData != undefined ? (
-              flowerRequestData.map((flowerform) => {
+            {securityRequestData != undefined ? (
+              securityRequestData.map((securityform) => {
                 return (
-                  <FlowerRequestDisplay
-                    flowerform={flowerform}
-                  ></FlowerRequestDisplay>
+                  <SecurityRequestDisplay
+                    securityform={securityform}
+                  ></SecurityRequestDisplay>
                 );
               })
             ) : (
