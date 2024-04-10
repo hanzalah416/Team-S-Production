@@ -231,7 +231,6 @@ const NodeDataPage: React.FC = () => {
   const [value, setValue] = React.useState("1");
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
-    console.log(edgeRows);
   };
   return (
     <div className={styles.outerDiv}>
@@ -374,15 +373,15 @@ const NodeDataPage: React.FC = () => {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {/*{edgeRows.map((row) => (*/}
-                  {/*  <TableRow*/}
-                  {/*  key={row.startnode}*/}
-                  {/*  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}*/}
-                  {/*  >*/}
-                  {/*    <TableCell align="center">{row.startNode}</TableCell>*/}
-                  {/*    <TableCell align="center">{row.endNode}</TableCell>*/}
-                  {/*  </TableRow>*/}
-                  {/*))}*/}
+                  {edgeRows.map((row) => (
+                    <TableRow
+                    /*key={row.startnode}*/
+                    /* sx={{ "&:last-child td, &:last-child th": { border: 0 } }}*/
+                    >
+                      <TableCell align="center">{row.startNode}</TableCell>
+                      <TableCell align="center">{row.endNode}</TableCell>
+                    </TableRow>
+                  ))}
                 </TableBody>
               </Table>
             </TableContainer>
