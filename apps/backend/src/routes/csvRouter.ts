@@ -58,12 +58,22 @@ router.get("/", async function (req: Request, res: Response) {
 //const PrismaClientInstance = new PrismaClient();
 
 router.post("/", async function (req, res) {
-  const nodeAttempt = req.body;
-  console.log(req.body); // Log the request body to see the incoming data
-  console.log(nodeAttempt); // Log the parsed data to be inserted
+  const nodeAttempt: Node[] = req.body;
+  console.log("pre-stringification:");
+  console.log(nodeAttempt);
+  nodeAttempt.forEach((node, index) => {
+    nodeAttempt[index].floor = node.floor.toString();
+  });
+  console.log("post-Stringification:");
+  console.log(nodeAttempt);
+  //console.log(req.body); // Log the request body to see the incoming data
+  //console.log(nodeAttempt); // Log the parsed data to be inserted
   try {
+    console.log("starting try");
     await PrismaClient.node.deleteMany();
+    console.log("deleted old nodes");
     await PrismaClient.nodeEdge.deleteMany();
+    console.log("deleted old edges");
     // Attempt to create in the database
     await PrismaClient.node.createMany({
       data: nodeAttempt,
