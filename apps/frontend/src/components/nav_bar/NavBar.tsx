@@ -128,9 +128,20 @@ function NavBar() {
                 Sanitation Services
               </Link>
             </MenuItem>
-            <MenuItem onClick={handleClose} disabled={true}>
-              <Link to={"/order-flowers"} className={"item"} id={"order"}>
-                Security Services
+            <MenuItem onClick={handleClose}>
+              <Link to={"/security-request"} className={"item"} id={"order"}>
+                Security Requests
+              </Link>
+            </MenuItem>
+            <MenuItem onClick={handleClose}>
+              <Link to={"/map-debug"} className={"item"} id={"order"}>
+                Map Editing Page
+              </Link>
+            </MenuItem>
+
+            <MenuItem onClick={handleClose}>
+              <Link to={"/room-scheduling"} className={"item"} id={"order"}>
+                Room Scheduling Services
               </Link>
             </MenuItem>
           </Menu>

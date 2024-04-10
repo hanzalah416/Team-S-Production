@@ -14,6 +14,7 @@ router.get("/", async function (req: Request, res: Response) {
       xcoord: node.xcoord,
       ycoord: node.ycoord,
       longName: node.longName,
+      floor: node.floor,
     }));
 
     formattedNodes.sort((a, b) => a.longName.localeCompare(b.longName));
