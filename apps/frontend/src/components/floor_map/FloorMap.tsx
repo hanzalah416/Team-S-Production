@@ -26,6 +26,12 @@ interface Node {
   floor: string;
 }
 
+interface FloorSwitcherProps {
+    onChange: (floor: string) => void;
+}
+
+
+
 function FloorMap() {
   const [locations, setLocations] = useState<Position[]>([]);
   const [currentFloor, setCurrentFloor] = useState("01");
@@ -42,6 +48,8 @@ function FloorMap() {
     [],
   );
   const [fullPath, setFullPath] = useState<string[]>([]);
+
+
   const getTagsFromPath = (path) => {
     const floorOrder = ["L1", "L2", "01", "02", "03"];
     const startFloor = getFloorNumber(path[0]);
@@ -162,22 +170,24 @@ function FloorMap() {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log("Pathfinding result node IDs:", data.id); // Print the node IDs to the console
+        // console.log("Pathfinding result node IDs:", data.id); // Print the node IDs to the console
 
         // Insert floor change markers into the full path
-        const pathWithFloorChanges = [];
-        for (let i = 0; i < data.id.length - 1; i++) {
-          const currentFloor = getFloorNumber(data.id[i]);
-          const nextFloor = getFloorNumber(data.id[i + 1]);
-          pathWithFloorChanges.push(data.id[i]);
-          if (currentFloor !== nextFloor) {
-            const floorChangeMarker =
-              (parseInt(nextFloor) > parseInt(currentFloor) ? "+" : "-") +
-              nextFloor;
-            pathWithFloorChanges.push(floorChangeMarker);
+          const pathWithFloorChanges = [];
+          for (let i = 0; i < data.id.length - 1; i++) {
+              const currentFloor = getFloorNumber(data.id[i]);
+              const nextFloor = getFloorNumber(data.id[i + 1]);
+              pathWithFloorChanges.push(data.id[i]);
+              if (currentFloor !== nextFloor) {
+                  if (currentFloor !== null && nextFloor !== null) {
+                      const floorChangeMarker =
+                          (parseInt(nextFloor, 10) > parseInt(currentFloor, 10) ? "+" : "-") +
+                          nextFloor;
+                      pathWithFloorChanges.push(floorChangeMarker);
+                  }
+              }
           }
-        }
-        pathWithFloorChanges.push(data.id[data.id.length - 1]); // Add the last node ID
+          pathWithFloorChanges.push(data.id[data.id.length - 1]);
 
         setFullPath(pathWithFloorChanges); // Store the full path with floor change markers
 
@@ -196,16 +206,10 @@ function FloorMap() {
       });
   };
 
-  useEffect(() => {
-    if (fullPath.length > 0) {
-      console.log("Full path with tags:");
-      console.log(fullPath.join(" -> "));
-    }
-  }, [fullPath]);
 
   // let previousFloor = currentFloor;
   // Update the FloorSwitcher component to include a print statement
-  const FloorSwitcher = ({ onChange }) => (
+    const FloorSwitcher: React.FC<FloorSwitcherProps> = ({ onChange }) => (
     <div className={styles.floorSwitcher}>
       {["L1", "L2", "01", "02", "03"].map((floor) => {
         let displayFloor = floor;
@@ -250,33 +254,22 @@ function FloorMap() {
     </div>
   );
 
-  const getLineColor = (floor) => {
+  const getLineColor = (floor: string | null) => {
     switch (floor) {
-      // case "01":
-      //     return "red";
-      // case "02":
-      //     return "green";
-      // case "03":
-      //     return "black";
-      // case "L1":
-      //     return "purple";
-      // case "L2":
-      //     return "orange";
-      // Add more cases as needed for other floors
       default:
         return "blue"; // Default color
     }
   };
 
   const floorMaps = {
-    L1: l1Map,
-    L2: l2Map,
+    "L1": l1Map,
+    "L2": l2Map,
     "01": f1Map,
     "02": f2Map,
     "03": f3Map,
   };
 
-  const getLineSegments = (startNodeID, endNodeID) => {
+  const getLineSegments = (startNodeID: string, endNodeID: string) => {
     const segments = [];
     let currentFloor = getFloorNumber(startNodeID);
     let segmentStartNodeID = startNodeID;
@@ -440,15 +433,7 @@ function FloorMap() {
             </div>
           </div>
 
-          {/*<div className={styles.boldtag}>*/}
-          {/*    <div className={styles.pathListCont  ainer}>*/}
-          {/*        <ul className={styles.pathList}>*/}
-          {/*            {filteredQueueNodeIDs.map((nodeID) => (*/}
-          {/*                <li key={nodeID}>{nodeID}</li>*/}
-          {/*            ))}*/}
-          {/*        </ul>*/}
-          {/*    </div>*/}
-          {/*</div>*/}
+
 
           <div className={styles.mbDiv}>
             <div style={{ display: "flex", flexDirection: "column" }}>
@@ -542,28 +527,28 @@ function FloorMap() {
                       }
                     }
 
-                    return (
-                      <div
-                        key={nodeID}
-                        className={`${styles.mapDot} ${
-                          isDisplayedStartNode ? styles.startNode : ""
-                        } ${isDisplayedEndNode ? styles.endNode : ""} ${
-                          isMultifloorNode ? styles.multifloorNode : ""
-                        }`}
-                        style={{
-                          top: point.top,
-                          left: point.left,
-                          backgroundColor: nodeColor,
-                          display: "block",
-                        }}
-                      >
-                        {isMultifloorNode && (
-                          <div className={styles.floorSwitchText}>
-                            {nextFloorLabel}
+                      return (
+                          <div
+                              key={nodeID}
+                              className={`${styles.mapDot} ${
+                                  isDisplayedStartNode ? styles.startNode : ""
+                              } ${isDisplayedEndNode ? `${styles.endNode} ${styles.endNodeAnimation}` : ""} ${
+                                  isMultifloorNode ? styles.multifloorNode : ""
+                              }`}
+                              style={{
+                                  top: point.top,
+                                  left: point.left,
+                                  backgroundColor: nodeColor,
+                                  display: "block",
+                              }}
+                          >
+                              {isMultifloorNode && (
+                                  <div className={styles.floorSwitchText}>
+                                      {nextFloorLabel}
+                                  </div>
+                              )}
                           </div>
-                        )}
-                      </div>
-                    );
+                      );
                   }
                   return null;
                 })}
