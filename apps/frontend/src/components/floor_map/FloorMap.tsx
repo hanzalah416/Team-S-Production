@@ -51,29 +51,29 @@ function FloorMap() {
     [],
   );
   const [fullPath, setFullPath] = useState<string[]>([]);
-  const getTagsFromPath = (path: string[]) => {
-    const floorOrder = ["L1", "L2", "01", "02", "03"];
-    const startFloor = getFloorNumber(path[0]);
-    const tags: (null | { index: number; tag: string })[] = [
-      { tag: startFloor, index: floorOrder.indexOf(startFloor!) },
-      ...path
-        .filter((nodeID) => nodeID && nodeID.length === 3) // Ensure nodeID is not null before checking length
-        .sort((a, b) => floorOrder.indexOf(a) - floorOrder.indexOf(b))
-        .map((tag) => ({ tag, index: floorOrder.indexOf(tag) + 1 })),
-    ]
-      .map(({ tag, index }) => {
-        if (tag === null) {
-          return null; // Return null if tag is null
-        }
-        const finalTag = typeof tag === "string" ? tag : ""; // Ensure finalTag is always a string
-        return {
-          tag: finalTag ? finalTag.slice(-2) : "",
-          index,
-        };
-      })
-      .filter((tag): tag is Tag => tag !== null); // Filter out null tags from the final array
-    return tags;
-  };
+    const getTagsFromPath = (path: string[]) => {
+        const floorOrder = ["L1", "L2", "01", "02", "03"];
+        const startFloor = path[0] ? getFloorNumber(path[0]) : null;
+        const tags: (null | { index: number; tag: string })[] = [
+            { tag: startFloor, index: startFloor ? floorOrder.indexOf(startFloor) : -1 },
+            ...path
+                .filter((nodeID) => nodeID && nodeID.length === 3)
+                .sort((a, b) => floorOrder.indexOf(a) - floorOrder.indexOf(b))
+                .map((tag) => ({ tag, index: floorOrder.indexOf(tag) + 1 })),
+        ]
+            .map(({ tag, index }) => {
+                if (tag === null) {
+                    return null;
+                }
+                const finalTag = typeof tag === "string" ? tag : "";
+                return {
+                    tag: finalTag ? finalTag.slice(-2) : "",
+                    index,
+                };
+            })
+            .filter((tag): tag is Tag => tag !== null);
+        return tags;
+    };
 
   const getFloorNumber = (nodeID: string) => {
 
@@ -321,7 +321,7 @@ function FloorMap() {
             renderInput={(params) => (
               <TextField
                 {...params}
-                label="Enter Starting Point"
+                label=""
                 InputLabelProps={{
                   style: {
                     fontFamily: "Poppins",
@@ -344,7 +344,7 @@ function FloorMap() {
             renderInput={(params) => (
               <TextField
                 {...params}
-                label="Enter Destination"
+                label=""
                 InputLabelProps={{
                   style: {
                     fontFamily: "Poppins",
