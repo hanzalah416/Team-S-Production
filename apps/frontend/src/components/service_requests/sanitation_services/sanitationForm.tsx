@@ -230,7 +230,9 @@ export default function SanitationForm() {
               )}
               onOpen={() => toggleScrolling(true)}
               onClose={() => toggleScrolling(false)}
+
               onChange={(event, value) => setLocation(value!.label)}
+
             />
           </div>
 
