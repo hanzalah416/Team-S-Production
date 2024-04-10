@@ -63,7 +63,7 @@ router.post("/", async function (req, res) {
   console.log(nodeAttempt); // Log the parsed data to be inserted
 
   try {
-    const filteredNodes = nodeAttempt.filter(x => x.nodeID !== null);
+    const filteredNodes = nodeAttempt.filter((x) => x.nodeID !== null);
     // Attempt to create in the database
     await PrismaClient.node.createMany({
       data: filteredNodes,
