@@ -206,7 +206,7 @@ class MakeGraph {
         distance *= 0.5;
       }
     } else {
-      distance *= 0.15;
+      distance *= 0.5;
     }
 
     return distance;
