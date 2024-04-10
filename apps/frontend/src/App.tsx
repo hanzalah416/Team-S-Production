@@ -16,6 +16,8 @@ import SanitationForm from "./components/service_requests/sanitation_services/sa
 import MiniMap from "./components/floor_map/MiniMap.tsx";
 import FloorMapDebug from "./components/floor_map/FloorMapDebug.tsx";
 import RoomScheduling from "./components/service_requests/Room_Scheduling/RoomScheduling.tsx";
+import MedicineDeliveryForm from "./components/service_requests/medicine_delivery/MedicineDeliveryForm.tsx";
+import SecurityRequest from "./components/service_requests/security_requests/SecurityRequest.tsx";
 
 
 function App() {
@@ -52,6 +54,16 @@ function App() {
           element: (
             <>
               <OrderFlowers />
+              <Layout />
+            </>
+          ),
+        },
+
+        {
+          path: "/security-request",
+          element: (
+            <>
+              <SecurityRequest />
               <Layout />
             </>
           ),
@@ -122,6 +134,16 @@ function App() {
           ),
         },
           {
+          path: "/medicine-delivery-request",
+          element: (
+            <>
+              <MedicineDeliveryForm />
+              <Layout />
+            </>
+          ),
+        },
+        {
+
           path: "/room-scheduling",
           element: (
             <>

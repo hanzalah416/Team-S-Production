@@ -18,7 +18,7 @@ const csvPath = path.join(
 router.get("/", async function (req: Request, res: Response) {
   try {
     const nodes: Node[] = await client.node.findMany();
-    const filteredNodes =  nodes.filter((x) => x.nodeID !== null);
+    const filteredNodes = nodes.filter((x) => x.nodeID !== null);
     const formattedNodes = filteredNodes.map((node) => ({
       nodeID: node.nodeID,
       xcoord: node.xcoord,
