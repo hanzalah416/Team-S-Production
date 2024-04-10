@@ -16,6 +16,8 @@ import SanitationForm from "./components/service_requests/sanitation_services/sa
 import FloorMapDebug from "./components/floor_map/FloorMapDebug.tsx";
 import RoomScheduling from "./components/service_requests/Room_Scheduling/RoomScheduling.tsx";
 
+// import OrderFlowerTypes from "./components/flower_requests/OrderFlowerTypes.tsx";
+
 function App() {
   const router = createBrowserRouter([
     {
@@ -110,15 +112,15 @@ function App() {
             </>
           ),
         },
-        {
-          path: "/room-scheduling",
-          element: (
-            <>
-              <RoomScheduling />
-              <Layout />
-            </>
-          ),
-        },
+          {
+              path: "/room-scheduling",
+              element: (
+                  <>
+                      <RoomScheduling />
+                      <Layout />
+                  </>
+              ),
+          },
 
         {
           path: "/map-debug",
@@ -129,6 +131,16 @@ function App() {
             </>
           ),
         },
+
+          // {
+          //     path: "/choose-flowers",
+          //     element: (
+          //         <>
+          //             <OrderFlowerTypes />
+          //             <Layout />
+          //         </>
+          //     ),
+          // },
 
         // ... other routes
       ],
