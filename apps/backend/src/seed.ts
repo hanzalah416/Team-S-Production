@@ -7,7 +7,7 @@ async function seed() {
   const nodes = readCSVFile("L1Nodes.csv");
   const dbNodeEdges = await PrismaClient.nodeEdge.findMany();
   const dbNodes = await PrismaClient.node.findMany();
-  if (dbNodes.length != nodes.length) {
+  if (dbNodes.length == 0) {
     for (const node of nodes) {
       await PrismaClient.node.upsert({
         where: { nodeID: node[0] },
@@ -27,7 +27,7 @@ async function seed() {
     console.log("Nodes populated");
   }
 
-  if (dbNodeEdges.length != edges.length) {
+  if (dbNodeEdges.length == 0) {
     for (const edge of edges) {
       await PrismaClient.nodeEdge.create({
         data: {
