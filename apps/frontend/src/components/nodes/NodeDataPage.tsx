@@ -202,7 +202,7 @@ const NodeDataPage: React.FC = () => {
   const [edgeRows, setEdgeRows] = useState<NodeEdge[]>([]);
 
   useEffect(() => {
-    async function fetchData() {
+    async function fetchNodeData() {
       try {
         const nodeRes = await axios.get("/api/csv");
         console.log("successfully got node data from get request:");
@@ -212,18 +212,23 @@ const NodeDataPage: React.FC = () => {
       } catch (error) {
         console.error("Error fetching node data", error);
       }
+    }
+    async function fetchEdgeData() {
       try {
         const edgeRes = await axios.get("/api/nodeEdge");
         console.log("successfully got Edge data from get request:");
         console.log(edgeRes.data);
-        setEdgeRows(edgeRes.data);
+        const edgeData:NodeEdge[] = edgeRes.data;
+        const filteredEdge = edgeData.filter(x => x.startNode != null);
+        setEdgeRows(filteredEdge);
         //figure out how to handle setRows for Edge data
       } catch (error) {
         console.error("Error fetching Edge data", error);
       }
     }
-
-    fetchData().then();
+    fetchNodeData().then(() => {
+      fetchEdgeData().then();
+    });
   }, []);
   const [value, setValue] = React.useState("1");
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
