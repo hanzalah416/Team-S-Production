@@ -110,13 +110,13 @@ function App() {
           ),
         },
         {
-            path: "/MiniMap",
-              element: (
-                  <>
-                      <MiniMap />
-                  </>
-              ),
-          },
+          path: "/MiniMap",
+          element: (
+            <>
+              <MiniMap />
+            </>
+          ),
+        },
 
         // ... other routes
       ],
