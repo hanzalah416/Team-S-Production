@@ -40,6 +40,15 @@ interface Node {
   // Add other properties if needed
 }
 
+type entry = {
+  name: string;
+  priority: string;
+  location: string;
+  requestType: string;
+  permission: string;
+  status: string;
+};
+
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,
@@ -69,7 +78,7 @@ export default function SanitationForm() {
   const [status, setStatus] = useState("");
   const [locations, setLocations] = useState<Position[]>([]);
 
-  const [submittedEntries, setSubmittedEntries] = useState([]);
+  const [submittedEntries, setSubmittedEntries] = useState<entry[]>([]);
 
   useEffect(() => {
     // Fetch node data from the backend
@@ -221,7 +230,7 @@ export default function SanitationForm() {
               )}
               onOpen={() => toggleScrolling(true)}
               onClose={() => toggleScrolling(false)}
-              onChange={(event, value) => setLocation(value.label)}
+              onChange={(event, value) => setLocation(value!.label)}
             />
           </div>
 

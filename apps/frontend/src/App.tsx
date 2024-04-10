@@ -119,7 +119,15 @@ function App() {
             </>
           ),
         },
-
+        {
+          path: "/room-scheduling",
+          element: (
+            <>
+              <RoomScheduling />
+              <Layout />
+            </>
+          ),
+        },
         {
           path: "/map-debug",
           element: (
