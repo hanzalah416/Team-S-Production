@@ -15,6 +15,7 @@ import OrderConfirmation from "./components/service_requests/OrderConfirmation.t
 import SanitationForm from "./components/service_requests/sanitation_services/sanitationForm.tsx";
 import FloorMapDebug from "./components/floor_map/FloorMapDebug.tsx";
 import RoomScheduling from "./components/service_requests/Room_Scheduling/RoomScheduling.tsx";
+import MedicineDeliveryForm from "./components/service_requests/medicine_delivery/MedicineDeliveryForm.tsx";
 
 function App() {
   const router = createBrowserRouter([
@@ -106,6 +107,15 @@ function App() {
           element: (
             <>
               <SanitationForm />
+              <Layout />
+            </>
+          ),
+        },
+        {
+          path: "/medicine-delivery-request",
+          element: (
+            <>
+              <MedicineDeliveryForm />
               <Layout />
             </>
           ),
