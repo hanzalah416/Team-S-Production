@@ -9,8 +9,9 @@ async function seed() {
   const dbNodes = await PrismaClient.node.findMany();
   if (dbNodes.length != nodes.length) {
     for (const node of nodes) {
-      await PrismaClient.node.create({
-        data: {
+      await PrismaClient.node.upsert({
+        where: { nodeID: node[0] },
+        create: {
           nodeID: node[0],
           xcoord: Number(node[1]),
           ycoord: Number(node[2]),
@@ -20,6 +21,7 @@ async function seed() {
           longName: node[6],
           shortName: node[7],
         },
+        update: {},
       });
     }
     console.log("Nodes populated");

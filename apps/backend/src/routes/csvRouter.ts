@@ -73,8 +73,8 @@ router.post("/", async function (req, res) {
     console.log("starting try");
     await PrismaClient.node.deleteMany();
     console.log("deleted old nodes");
-    await PrismaClient.nodeEdge.deleteMany();
-    console.log("deleted old edges");
+    //await PrismaClient.nodeEdge.deleteMany();
+    //console.log("deleted old edges");
     // Attempt to create in the database
     await PrismaClient.node.createMany({
       data: filteredNodes,
