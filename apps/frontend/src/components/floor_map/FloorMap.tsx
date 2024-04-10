@@ -51,32 +51,34 @@ function FloorMap() {
     [],
   );
   const [fullPath, setFullPath] = useState<string[]>([]);
-    const getTagsFromPath = (path: string[]) => {
-        const floorOrder = ["L1", "L2", "01", "02", "03"];
-        const startFloor = path[0] ? getFloorNumber(path[0]) : null;
-        const tags: (null | { index: number; tag: string })[] = [
-            { tag: startFloor, index: startFloor ? floorOrder.indexOf(startFloor) : -1 },
-            ...path
-                .filter((nodeID) => nodeID && nodeID.length === 3)
-                .sort((a, b) => floorOrder.indexOf(a) - floorOrder.indexOf(b))
-                .map((tag) => ({ tag, index: floorOrder.indexOf(tag) + 1 })),
-        ]
-            .map(({ tag, index }) => {
-                if (tag === null) {
-                    return null;
-                }
-                const finalTag = typeof tag === "string" ? tag : "";
-                return {
-                    tag: finalTag ? finalTag.slice(-2) : "",
-                    index,
-                };
-            })
-            .filter((tag): tag is Tag => tag !== null);
-        return tags;
-    };
+  const getTagsFromPath = (path: string[]) => {
+    const floorOrder = ["L1", "L2", "01", "02", "03"];
+    const startFloor = path[0] ? getFloorNumber(path[0]) : null;
+    const tags: (null | { index: number; tag: string })[] = [
+      {
+        tag: startFloor,
+        index: startFloor ? floorOrder.indexOf(startFloor) : -1,
+      },
+      ...path
+        .filter((nodeID) => nodeID && nodeID.length === 3)
+        .sort((a, b) => floorOrder.indexOf(a) - floorOrder.indexOf(b))
+        .map((tag) => ({ tag, index: floorOrder.indexOf(tag) + 1 })),
+    ]
+      .map(({ tag, index }) => {
+        if (tag === null) {
+          return null;
+        }
+        const finalTag = typeof tag === "string" ? tag : "";
+        return {
+          tag: finalTag ? finalTag.slice(-2) : "",
+          index,
+        };
+      })
+      .filter((tag): tag is Tag => tag !== null);
+    return tags;
+  };
 
   const getFloorNumber = (nodeID: string) => {
-
     const floor = nodeID.slice(-2); // Get the last two characters
     switch (floor) {
       case "01":
