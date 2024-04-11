@@ -328,7 +328,7 @@ function FloorMap() {
   };
 
   //for slide in of mini map
-  const [mapChecked, setMapChecked] = React.useState(false);
+  const [mapChecked, setMapChecked] = React.useState(true);
   const handleChange = () => {
     setMapChecked((prev) => !prev);
   };
