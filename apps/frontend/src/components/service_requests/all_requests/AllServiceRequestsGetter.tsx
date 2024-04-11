@@ -34,8 +34,34 @@ export function ServiceRequestGetter() {
     fetchData().then();
   }, []);
 
+  // Function to update the status of a flower request
+  const updateFlowerRequestStatus = async (
+    orderNumber: number,
+    newStatus: string,
+  ) => {
+    try {
+      await axios.patch(`/api/flower-request/${orderNumber}`, {
+        status: newStatus,
+      });
+      setFlowerRequestData((prevData) =>
+        prevData.map((request) =>
+          request.orderNumber === orderNumber
+            ? { ...request, status: newStatus }
+            : request,
+        ),
+      );
+    } catch (error) {
+      console.error("Error updating flower request status:", error);
+    }
+  };
+
+  // Sort the data by orderNumber before rendering
+  const sortedFlowerRequestData = [...flowerRequestData].sort(
+    (a, b) => a.orderNumber - b.orderNumber,
+  );
+
   return (
-    <div className="flex flex-colgap-5">
+    <div className="flex flex-col gap-5">
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 700 }} aria-label="customized table">
           <TableHead>
@@ -44,20 +70,19 @@ export function ServiceRequestGetter() {
               <StyledTableCell align="right">Comment</StyledTableCell>
               <StyledTableCell align="right">Misc Info</StyledTableCell>
               <StyledTableCell align="right">ID Number</StyledTableCell>
+              <StyledTableCell align="right">Status</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {flowerRequestData != undefined ? (
-              flowerRequestData.map((flowerform) => {
-                return (
-                  <ServiceRequestDisplay
-                    flowerform={flowerform}
-                  ></ServiceRequestDisplay>
-                );
-              })
-            ) : (
-              <>no</>
-            )}
+            {sortedFlowerRequestData.map((flowerform) => (
+              <ServiceRequestDisplay
+                key={flowerform.orderNumber}
+                flowerform={flowerform}
+                onUpdateStatus={(newStatus) =>
+                  updateFlowerRequestStatus(flowerform.orderNumber, newStatus)
+                }
+              />
+            ))}
           </TableBody>
         </Table>
       </TableContainer>

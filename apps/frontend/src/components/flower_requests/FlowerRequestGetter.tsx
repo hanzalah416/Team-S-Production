@@ -34,6 +34,11 @@ export function FlowerRequestGetter() {
     fetchData().then();
   }, []);
 
+  // Sort the data by orderNumber before rendering
+  const sortedFlowerRequestData = [...flowerRequestData].sort(
+    (a, b) => a.orderNumber - b.orderNumber,
+  );
+
   return (
     <div className="flex flex-colgap-5">
       <TableContainer component={Paper}>
@@ -46,17 +51,12 @@ export function FlowerRequestGetter() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {flowerRequestData != undefined ? (
-              flowerRequestData.map((flowerform) => {
-                return (
-                  <FlowerRequestDisplay
-                    flowerform={flowerform}
-                  ></FlowerRequestDisplay>
-                );
-              })
-            ) : (
-              <>no</>
-            )}
+            {sortedFlowerRequestData.map((flowerform) => (
+              <FlowerRequestDisplay
+                key={flowerform.orderNumber}
+                flowerform={flowerform}
+              />
+            ))}
           </TableBody>
         </Table>
       </TableContainer>

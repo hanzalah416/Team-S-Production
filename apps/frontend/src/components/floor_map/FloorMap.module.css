@@ -240,23 +240,23 @@ body {
   position: absolute;
   right: -50%;
   top: 37%;
-    width: min-content;
-    height: min-content;
-    transition: right 0.3s ease;
+  width: min-content;
+  height: min-content;
+  transition: right 0.3s ease;
 }
 
 .showMMap {
-    right: 0%;
+  right: 0%;
 }
 
 .mMapbox {
-    display: flex;
-    color: black;
-    text-align: center;
-    font-weight: bold;
-    position: absolute;
-    z-index: 4;
-    height: min-content;
-    bottom: 17vh;
-    left: 7vw;
+  display: flex;
+  color: black;
+  text-align: center;
+  font-weight: bold;
+  position: absolute;
+  z-index: 4;
+  height: min-content;
+  bottom: 17vh;
+  left: 7vw;
 }

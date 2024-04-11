@@ -18,8 +18,14 @@ export function ServiceRequestDisplay(props: {
     patientName: string;
     PatientRoom: number;
     customMessage: string;
+    status: string;
+    orderNumber: number;
   };
+  onUpdateStatus: (newStatus: string) => void;
 }) {
+  const handleStatusChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    props.onUpdateStatus(event.target.value);
+  };
   return (
     <TableRow>
       <StyledTableCell>Flower Request</StyledTableCell>
@@ -29,7 +35,15 @@ export function ServiceRequestDisplay(props: {
       <StyledTableCell align="right">
         Patient Room: {props.flowerform.PatientRoom}
       </StyledTableCell>
-      <StyledTableCell align="right">1</StyledTableCell>
+      <StyledTableCell align="right">
+        {props.flowerform.orderNumber}
+      </StyledTableCell>
+      <select value={props.flowerform.status} onChange={handleStatusChange}>
+        <option value="unassigned">Unassigned</option>
+        <option value="assigned">Assigned</option>
+        <option value="in_progress">In Progress</option>
+        <option value="closed">Closed</option>
+      </select>
     </TableRow>
   );
 }

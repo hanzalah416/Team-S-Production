@@ -27,19 +27,27 @@ model hospitalUser {
 }
 
 model FlowerRequests {
-  orderNumber   Int     @id @default(autoincrement())
+  orderNumber   Int           @id @default(autoincrement())
   patientName   String
   PatientRoom   Int
   customMessage String?
+  status        RequestStatus @default(unassigned)
+}
+
+enum RequestStatus {
+  unassigned
+  assigned
+  in_progress
+  closed
 }
 
 model StaffRequests {
-  requestID   Int    @id @default(autoincrement())
+  requestID   Int           @id @default(autoincrement())
   priority    String
   location    String
   firstField  String
   secondField String
-  status      String
+  status      RequestStatus @default(unassigned)
 }
 
 model Node {
