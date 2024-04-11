@@ -3,18 +3,18 @@ import client from "../bin/database-connection.ts";
 import { Node } from "../../../../packages/database/.prisma/client";
 import PrismaClient from "../bin/database-connection.ts";
 //import { Prisma } from "database";
-import createCsvFile from "../WriteCSV.ts";
-import * as path from "path";
+//import createCsvFile from "../WriteCSV.ts";
+//import * as path from "path";
 
 const router: Router = express.Router();
-const csvPath = path.join(
-  path.resolve(path.resolve(path.resolve(__dirname, ".."), ".."), ".."),
-  "frontend",
-  "src",
-  "components",
-  "csv_data",
-  "Nodes.csv",
-);
+// const csvPath = path.join(
+//   path.resolve(path.resolve(path.resolve(__dirname, ".."), ".."), ".."),
+//   "frontend",
+//   "src",
+//   "components",
+//   "csv_data",
+//   "Nodes.csv",
+// );
 router.get("/", async function (req: Request, res: Response) {
   try {
     const nodes: Node[] = await client.node.findMany();
@@ -29,22 +29,22 @@ router.get("/", async function (req: Request, res: Response) {
       longName: node.longName,
       shortName: node.shortName,
     }));
-    createCsvFile(
-      {
-        headers: [
-          { id: "nodeID", title: "nodeID" },
-          { id: "xcoord", title: "xcoord" },
-          { id: "ycoord", title: "ycoord" },
-          { id: "floor", title: "floor" },
-          { id: "building", title: "building" },
-          { id: "nodeType", title: "nodeType" },
-          { id: "longName", title: "longName" },
-          { id: "shortName", title: "shortName" },
-        ],
-        data: formattedNodes,
-      },
-      csvPath,
-    );
+    // createCsvFile(
+    //   {
+    //     headers: [
+    //       { id: "nodeID", title: "nodeID" },
+    //       { id: "xcoord", title: "xcoord" },
+    //       { id: "ycoord", title: "ycoord" },
+    //       { id: "floor", title: "floor" },
+    //       { id: "building", title: "building" },
+    //       { id: "nodeType", title: "nodeType" },
+    //       { id: "longName", title: "longName" },
+    //       { id: "shortName", title: "shortName" },
+    //     ],
+    //     data: formattedNodes,
+    //   },
+    //   csvPath,
+    // );
     res.json(formattedNodes);
   } catch (error) {
     console.error("Error fetching nodes: ", error);
