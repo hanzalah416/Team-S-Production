@@ -232,10 +232,10 @@ class MakeGraph {
 
   getFloorNum(floor: string) {
     switch (floor) {
-      case "L2":
+      case "L1":
         return 1;
         break;
-      case "L1":
+      case "L2":
         return 2;
         break;
       case "1":
