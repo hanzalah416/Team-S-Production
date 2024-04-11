@@ -66,10 +66,13 @@ export function ServiceRequestGetter() {
         <Table sx={{ minWidth: 700 }} aria-label="customized table">
           <TableHead>
             <TableRow>
-              <StyledTableCell>Request Type</StyledTableCell>
-              <StyledTableCell align="right">Comment</StyledTableCell>
-              <StyledTableCell align="right">Misc Info</StyledTableCell>
-              <StyledTableCell align="right">ID Number</StyledTableCell>
+              <StyledTableCell>Requester's Name</StyledTableCell>
+              <StyledTableCell align="right">Priority</StyledTableCell>
+              <StyledTableCell align="right">Location</StyledTableCell>
+              <StyledTableCell align="right">Type of Request</StyledTableCell>
+              <StyledTableCell align="right">
+                Specialized Feature
+              </StyledTableCell>
               <StyledTableCell align="right">Status</StyledTableCell>
             </TableRow>
           </TableHead>
