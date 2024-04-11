@@ -17,7 +17,6 @@ import FloorMapDebug from "./components/floor_map/FloorMapDebug.tsx";
 import RoomScheduling from "./components/service_requests/Room_Scheduling/RoomScheduling.tsx";
 import MedicineDeliveryForm from "./components/service_requests/medicine_delivery/MedicineDeliveryForm.tsx";
 import SecurityRequest from "./components/service_requests/security_requests/SecurityRequest.tsx";
-// import MiniMap from "./components/floor_map/MiniMap.tsx";
 
 function App() {
   const router = createBrowserRouter([
@@ -123,16 +122,7 @@ function App() {
             </>
           ),
         },
-        // {
-        //   path: "/MiniMap",
-        //   element: (
-        //     <>
-        //       <MiniMap />
-        //     </>
-        //   ),
-        // },
         {
-
           path: "/medicine-delivery-request",
           element: (
             <>
