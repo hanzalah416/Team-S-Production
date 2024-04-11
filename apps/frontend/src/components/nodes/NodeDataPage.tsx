@@ -218,8 +218,8 @@ const NodeDataPage: React.FC = () => {
         const edgeRes = await axios.get("/api/nodeEdge");
         console.log("successfully got Edge data from get request:");
         console.log(edgeRes.data);
-        const edgeData: NodeEdge[] = edgeRes.data;
-        const filteredEdge = edgeData.filter((x) => x.startNode != null);
+        const edgeData:NodeEdge[] = edgeRes.data;
+        const filteredEdge = edgeData.filter(x => x.startNode != null);
         setEdgeRows(filteredEdge);
         //figure out how to handle setRows for Edge data
       } catch (error) {

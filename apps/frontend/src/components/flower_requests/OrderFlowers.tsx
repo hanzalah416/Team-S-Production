@@ -11,7 +11,7 @@ import axios from "axios";
 const OrderFlowers: React.FC = () => {
   const [patientName, setPatientName] = useState("");
   const [patientRoom, setPatientRoom] = useState("");
-  const [customMessage, setCustomMessage] = useState("");
+    const [customMessage, setCustomMessage] = useState("");
 
   const navigate = useNavigate();
   //const { formData, setFormData } = useFormData();
@@ -34,11 +34,7 @@ const OrderFlowers: React.FC = () => {
       return;
     }
 
-    const orderFlowerSent: {
-      patientName: string;
-      customMessage: string;
-      PatientRoom: number;
-    } = {
+    const orderFlowerSent: { patientName: string; customMessage: string; PatientRoom: number } = {
       patientName: patientName,
       PatientRoom: parseInt(patientRoom),
       customMessage: customMessage,
