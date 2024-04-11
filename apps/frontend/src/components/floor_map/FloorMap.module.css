@@ -187,7 +187,7 @@ body {
 
 .floorButtonsContainer {
   margin-top: -20px;
-  max-height: 190px;
+  max-height: 150px;
   display: flex;
   flex-direction: column;
   align-items: center;
