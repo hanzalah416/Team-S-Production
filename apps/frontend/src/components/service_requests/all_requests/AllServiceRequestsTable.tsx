@@ -15,35 +15,33 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 
 export function ServiceRequestDisplay(props: {
   flowerform: {
-    patientName: string;
-    PatientRoom: number;
+    orderNumber: number;
+    nameRequester: string;
+    priority: string;
+    location: string;
+    typeFlower: string;
     customMessage: string;
     status: string;
-    orderNumber: number;
   };
   onUpdateStatus: (newStatus: string) => void;
 }) {
-  const handleStatusChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    props.onUpdateStatus(event.target.value);
-  };
+  // const handleStatusChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  //   props.onUpdateStatus(event.target.value);
+  // };
   return (
     <TableRow>
-      <StyledTableCell>Flower Request</StyledTableCell>
+      <StyledTableCell>{props.flowerform.nameRequester}</StyledTableCell>
+      <StyledTableCell>{props.flowerform.priority}</StyledTableCell>
+      <StyledTableCell align="right">
+        {props.flowerform.location}
+      </StyledTableCell>
+      <StyledTableCell align="right">
+        {props.flowerform.typeFlower}
+      </StyledTableCell>
       <StyledTableCell align="right">
         {props.flowerform.customMessage}
       </StyledTableCell>
-      <StyledTableCell align="right">
-        Patient Room: {props.flowerform.PatientRoom}
-      </StyledTableCell>
-      <StyledTableCell align="right">
-        {props.flowerform.orderNumber}
-      </StyledTableCell>
-      <select value={props.flowerform.status} onChange={handleStatusChange}>
-        <option value="unassigned">Unassigned</option>
-        <option value="assigned">Assigned</option>
-        <option value="in_progress">In Progress</option>
-        <option value="closed">Closed</option>
-      </select>
+      <StyledTableCell align="right">{props.flowerform.status}</StyledTableCell>
     </TableRow>
   );
 }

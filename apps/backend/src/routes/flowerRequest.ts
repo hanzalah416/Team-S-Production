@@ -32,8 +32,10 @@ router.get("/", async function (req: Request, res: Response) {
   const flowerRequest = await PrismaClient.flowerRequests.findMany({
     select: {
       orderNumber: true,
-      patientName: true,
-      PatientRoom: true,
+      nameRequester: true,
+      priority: true,
+      location: true,
+      typeFlower: true,
       customMessage: true,
       status: true,
     },

@@ -28,9 +28,11 @@ model hospitalUser {
 
 model FlowerRequests {
   orderNumber   Int           @id @default(autoincrement())
-  patientName   String
-  PatientRoom   Int
-  customMessage String?
+  nameRequester String
+  priority      String
+  location      String
+  typeFlower    String
+  customMessage String
   status        RequestStatus @default(unassigned)
 }
 
@@ -47,6 +49,7 @@ model StaffRequests {
   location    String
   firstField  String
   secondField String
+  thirdField  String
   status      RequestStatus @default(unassigned)
 }
 

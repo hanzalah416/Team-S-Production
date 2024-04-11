@@ -25,20 +25,28 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 
 export function FlowerRequestDisplay(props: {
   flowerform: {
-    patientName: string;
-    PatientRoom: number;
+    nameRequester: string;
+    priority: string;
+    location: string;
+    typeFlower: string;
     customMessage: string;
+    status: string;
   };
 }) {
   return (
     <TableRow>
-      <StyledTableCell>{props.flowerform.patientName}</StyledTableCell>
+      <StyledTableCell>{props.flowerform.nameRequester}</StyledTableCell>
+      <StyledTableCell>{props.flowerform.priority}</StyledTableCell>
       <StyledTableCell align="right">
-        {props.flowerform.PatientRoom}
+        {props.flowerform.location}
+      </StyledTableCell>
+      <StyledTableCell align="right">
+        {props.flowerform.typeFlower}
       </StyledTableCell>
       <StyledTableCell align="right">
         {props.flowerform.customMessage}
       </StyledTableCell>
+      <StyledTableCell align="right">{props.flowerform.status}</StyledTableCell>
     </TableRow>
   );
 }
