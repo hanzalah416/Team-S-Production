@@ -126,6 +126,11 @@ class MakeGraph {
     fCost.set(endNode, 0);
 
     let pathFound = false;
+    let sameFloor = false;
+    if (startNode.floor === endNode.floor) {
+      sameFloor = true;
+      console.log(sameFloor);
+    }
     while (queue.length > 0) {
       // Sort the queue based on the total estimated cost from start to end via each node
       queue.sort((a, b) => {
@@ -153,8 +158,9 @@ class MakeGraph {
 
           //Calculate the g,h, and f cost for the nodes and add them to the map
           const gCostNeighbor =
-            gCost.get(currentNode)! + this.getCost(neighbor, currentNode);
-          const hCostNeighbor = this.getCost(neighbor, endNode);
+            gCost.get(currentNode)! +
+            this.getCost(neighbor, currentNode, sameFloor);
+          const hCostNeighbor = this.getCost(neighbor, endNode, sameFloor);
           const fCostNeighbor = gCostNeighbor + hCostNeighbor;
 
           //Set the costs for neighbors
@@ -191,9 +197,9 @@ class MakeGraph {
     return pathIds;
   }
 
-  getCost(node: GraphNode, goal: GraphNode): number {
+  getCost(node: GraphNode, goal: GraphNode, sameFloor: boolean): number {
     // Calcuate the distance between two nodes
-    let distance = Math.sqrt(
+    const distance = Math.sqrt(
       Math.pow(node.xcoord - goal.xcoord, 2) +
         Math.pow(node.ycoord - goal.ycoord, 2),
     );
@@ -206,14 +212,21 @@ class MakeGraph {
 
     // Adjust the cost based on node types only if start and end nodes are on different floors
     if (floorDif > 0) {
-      if (node.nodeType === "ELEV") {
-        floorCost = 1.5 * floorDif; // Adjust weight for elevators
-      } else if (node.nodeType === "STAI") {
-        floorCost = 3 * floorDif; // Adjust weight for stairs
+      if (node.nodeType === "ELEV" || goal.nodeType === "ELEV") {
+        floorCost = 4 * floorDif; // Adjust weight for elevators
+      } else if (node.nodeType === "STAI" || goal.nodeType === "STAI") {
+        floorCost = 8 * floorDif; // Adjust weight for stairs
       }
-    } else {
-      distance *= 0.5;
     }
+    //If it's on the same floor don't switch floors unless really needed
+    if (sameFloor) {
+      if (node.nodeType === "ELEV" || goal.nodeType === "ELEV") {
+        floorCost = 10000000 * floorDif; // Adjust weight for elevators
+      } else if (node.nodeType === "STAI" || goal.nodeType === "STAI") {
+        floorCost = 30000000 * floorDif; // Adjust weight for stairs
+      }
+    }
+
     return distance + floorCost;
   }
 
