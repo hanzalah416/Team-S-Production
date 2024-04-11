@@ -44,7 +44,7 @@ interface Node {
 }
 
 type entry = {
-  nameRequester: string;
+  name: string;
   priority: string;
   location: string;
   typeFlower: string;
@@ -141,7 +141,7 @@ const OrderFlowers: React.FC = () => {
     }
 
     const orderFlowerSent = {
-      nameRequester: nameRequester,
+      name: nameRequester,
       priority: priority,
       location: location,
       typeFlower: typeFlower,
@@ -445,7 +445,7 @@ const OrderFlowers: React.FC = () => {
                     scope="row"
                     className={"border border-gray-800 p-2"}
                   >
-                    {entry.nameRequester}
+                    {entry.name}
                   </StyledTableCell>
                   <StyledTableCell className={"border border-gray-800 p-2"}>
                     {entry.priority}

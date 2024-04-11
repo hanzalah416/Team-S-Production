@@ -27,13 +27,10 @@ model hospitalUser {
 }
 
 model FlowerRequests {
-  orderNumber   Int           @id @default(autoincrement())
-  nameRequester String
-  priority      String
-  location      String
+  orderNumber   Int            @id
   typeFlower    String
   customMessage String
-  status        RequestStatus @default(unassigned)
+  servreq       ServiceRequest @relation(fields: [orderNumber], references: [requestID])
 }
 
 enum RequestStatus {
@@ -43,14 +40,13 @@ enum RequestStatus {
   closed
 }
 
-model StaffRequests {
-  requestID   Int           @id @default(autoincrement())
-  priority    String
-  location    String
-  firstField  String
-  secondField String
-  thirdField  String
-  status      RequestStatus @default(unassigned)
+model ServiceRequest {
+  requestID      Int             @id @default(autoincrement())
+  name           String
+  priority       String
+  location       String
+  status         RequestStatus   @default(unassigned)
+  FlowerRequests FlowerRequests?
 }
 
 model Node {
