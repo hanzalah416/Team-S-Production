@@ -1476,20 +1476,19 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@prisma/client", [\
-      ["npm:4.15.0", {\
-        "packageLocation": "./.yarn/unplugged/@prisma-client-virtual-1fb12a8bef/node_modules/@prisma/client/",\
+      ["npm:5.12.1", {\
+        "packageLocation": "./.yarn/unplugged/@prisma-client-virtual-8f280d8f17/node_modules/@prisma/client/",\
         "packageDependencies": [\
-          ["@prisma/client", "npm:4.15.0"]\
+          ["@prisma/client", "npm:5.12.1"]\
         ],\
         "linkType": "SOFT"\
       }],\
-      ["virtual:fe27c481e11f854f2aaf80c4760560439cddfbeba750e60d2e16a63e1f6a6a95afa15077c31c3bb85454931e3cde1f859cec18d092f611e16a968032948f7247#npm:4.15.0", {\
-        "packageLocation": "./.yarn/unplugged/@prisma-client-virtual-1fb12a8bef/node_modules/@prisma/client/",\
+      ["virtual:fe27c481e11f854f2aaf80c4760560439cddfbeba750e60d2e16a63e1f6a6a95afa15077c31c3bb85454931e3cde1f859cec18d092f611e16a968032948f7247#npm:5.12.1", {\
+        "packageLocation": "./.yarn/unplugged/@prisma-client-virtual-8f280d8f17/node_modules/@prisma/client/",\
         "packageDependencies": [\
-          ["@prisma/client", "virtual:fe27c481e11f854f2aaf80c4760560439cddfbeba750e60d2e16a63e1f6a6a95afa15077c31c3bb85454931e3cde1f859cec18d092f611e16a968032948f7247#npm:4.15.0"],\
-          ["@prisma/engines-version", "npm:4.15.0-28.8fbc245156db7124f997f4cecdd8d1219e360944"],\
+          ["@prisma/client", "virtual:fe27c481e11f854f2aaf80c4760560439cddfbeba750e60d2e16a63e1f6a6a95afa15077c31c3bb85454931e3cde1f859cec18d092f611e16a968032948f7247#npm:5.12.1"],\
           ["@types/prisma", null],\
-          ["prisma", "npm:4.15.0"]\
+          ["prisma", "npm:5.12.1"]\
         ],\
         "packagePeers": [\
           "@types/prisma",\
@@ -1508,13 +1507,6 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@prisma/engines", [\
-      ["npm:4.15.0", {\
-        "packageLocation": "./.yarn/unplugged/@prisma-engines-npm-4.15.0-9024b482d4/node_modules/@prisma/engines/",\
-        "packageDependencies": [\
-          ["@prisma/engines", "npm:4.15.0"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
       ["npm:5.12.1", {\
         "packageLocation": "./.yarn/unplugged/@prisma-engines-npm-5.12.1-c15f0f7eea/node_modules/@prisma/engines/",\
         "packageDependencies": [\
@@ -1528,13 +1520,6 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@prisma/engines-version", [\
-      ["npm:4.15.0-28.8fbc245156db7124f997f4cecdd8d1219e360944", {\
-        "packageLocation": "./.yarn/cache/@prisma-engines-version-npm-4.15.0-28.8fbc245156db7124f997f4cecdd8d1219e360944-45ae46b86e-693ebe6c19.zip/node_modules/@prisma/engines-version/",\
-        "packageDependencies": [\
-          ["@prisma/engines-version", "npm:4.15.0-28.8fbc245156db7124f997f4cecdd8d1219e360944"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
       ["npm:5.12.0-21.473ed3124229e22d881cb7addf559799debae1ab", {\
         "packageLocation": "./.yarn/cache/@prisma-engines-version-npm-5.12.0-21.473ed3124229e22d881cb7addf559799debae1ab-6c4e73c389-99db2c71a0.zip/node_modules/@prisma/engines-version/",\
         "packageDependencies": [\
@@ -4223,13 +4208,13 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/database/",\
         "packageDependencies": [\
           ["database", "workspace:packages/database"],\
-          ["@prisma/client", "virtual:fe27c481e11f854f2aaf80c4760560439cddfbeba750e60d2e16a63e1f6a6a95afa15077c31c3bb85454931e3cde1f859cec18d092f611e16a968032948f7247#npm:4.15.0"],\
+          ["@prisma/client", "virtual:fe27c481e11f854f2aaf80c4760560439cddfbeba750e60d2e16a63e1f6a6a95afa15077c31c3bb85454931e3cde1f859cec18d092f611e16a968032948f7247#npm:5.12.1"],\
           ["@types/node", "npm:20.12.2"],\
           ["eslint", "npm:8.56.0"],\
           ["eslint-config-custom", "workspace:configs/eslint-config-custom"],\
           ["prettier", "npm:3.2.4"],\
           ["prettier-config-custom", "workspace:configs/prettier-config-custom"],\
-          ["prisma", "npm:4.15.0"],\
+          ["prisma", "npm:5.12.1"],\
           ["tsconfig-custom", "workspace:configs/tsconfig-custom"],\
           ["typescript", "patch:typescript@npm%3A5.4.3#optional!builtin<compat/typescript>::version=5.4.3&hash=e012d7"],\
           ["vitest", "virtual:281b7ec5658d805f88196484313c874810ad4b28fdb3886a7f2b6292faec9bee3b9a92af4348cfaefb8b484dd7e409e815eac63879fbb0501eb0b5d3afa613d1#npm:0.34.6"]\
@@ -7727,14 +7712,6 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["prisma", [\
-      ["npm:4.15.0", {\
-        "packageLocation": "./.yarn/unplugged/prisma-npm-4.15.0-4c274529fd/node_modules/prisma/",\
-        "packageDependencies": [\
-          ["prisma", "npm:4.15.0"],\
-          ["@prisma/engines", "npm:4.15.0"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
       ["npm:5.12.1", {\
         "packageLocation": "./.yarn/unplugged/prisma-npm-5.12.1-5c0a0a0472/node_modules/prisma/",\
         "packageDependencies": [\
