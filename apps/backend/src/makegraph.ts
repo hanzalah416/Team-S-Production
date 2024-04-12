@@ -103,13 +103,14 @@ class MakeGraph {
     // Initialize DFS
     arrivedFrom.set(startNode, startNode);
     stack.push(startNode);
-    const pathFound = false;
+    let pathFound = false;
     // Main DFS loop
     while (stack.length != 0) {
       // Grab the first node
       const currNode = stack.pop()!;
       // destination
       if (currNode == endNode) {
+        pathFound = true;
         break;
       }
       // Keep searching
