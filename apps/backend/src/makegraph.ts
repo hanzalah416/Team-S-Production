@@ -13,6 +13,15 @@ export const breadthFirst: Algorthim = (
 ) => {
   return graph.BFS(startNode, endNode);
 };
+
+export const depthFirst: Algorthim = (
+  graph: MakeGraph,
+  startNode: string,
+  endNode: string,
+) => {
+  return graph.DFS(startNode, endNode);
+};
+
 export const selectSearchMethod = (
   algorthim: Algorthim,
   graph: MakeGraph,
@@ -76,24 +85,49 @@ class MakeGraph {
       });
     }
 
-    if (!pathFound) {
-      console.log("No path found");
+    //Back trace path
+    return this.backTracePath(arrivedFrom, pathFound, startNode, endNode);
+  }
+  DFS(start: string, end: string) {
+    const startNode = this.nodeMap.get(start);
+    const endNode = this.nodeMap.get(end);
+
+    // Check if the nodes are within the graph
+    if (startNode === undefined || endNode === undefined) {
       return [];
     }
+    const visited: GraphNode[] = [];
+    const arrivedFrom = new Map<GraphNode, GraphNode>();
+    const stack: GraphNode[] = [];
 
-    const path: GraphNode[] = [];
-    let currentNode = endNode;
-    while (currentNode !== startNode) {
-      path.push(currentNode);
-      currentNode = arrivedFrom.get(currentNode)!;
+    // Initialize DFS
+    arrivedFrom.set(startNode, startNode);
+    stack.push(startNode);
+    const pathFound = false;
+    // Main DFS loop
+    while (stack.length != 0) {
+      // Grab the first node
+      const currNode = stack.pop()!;
+      // destination
+      if (currNode == endNode) {
+        break;
+      }
+      // Keep searching
+      for (const neighbor of currNode.neighbors) {
+        if (arrivedFrom.has(neighbor)) {
+          continue;
+        }
+        arrivedFrom.set(neighbor, currNode);
+        if (visited.indexOf(neighbor) < 0) {
+          stack.push(neighbor);
+          visited.push(neighbor);
+        }
+      }
     }
-    path.push(startNode);
 
-    // Convert the path of GraphNode objects to an array of node IDs
-    const pathIds = path.map((node) => node.id).reverse();
-    console.log("Path found:", pathIds);
-    return pathIds;
+    return this.backTracePath(arrivedFrom, pathFound, startNode, endNode);
   }
+
   AStar(start: string, end: string): string[] {
     //Get start and end nodes from map
     const startNode = this.nodeMap.get(start);
@@ -176,6 +210,16 @@ class MakeGraph {
       });
     }
 
+    //Back trace path
+    return this.backTracePath(arrivedFrom, pathFound, startNode, endNode);
+  }
+
+  backTracePath(
+    arrivedFrom: NBMap,
+    pathFound: boolean,
+    startNode: GraphNode,
+    endNode: GraphNode,
+  ): string[] {
     //If a path was not fund return an empty array
     if (!pathFound) {
       console.log("No path found");
