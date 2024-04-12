@@ -93,20 +93,20 @@ const SecurityRequest: React.FC = () => {
     };
 
     await axios
-        .post("/api/security-request", securityRequestSent, {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        })
-        .then(() => {
-          console.log("Order sent successfully");
-          console.log(securityRequestSent);
-        })
-        .catch(() => {
-          console.log("Order failed to send");
-          console.log(securityRequestSent);
-          alert("Order failed to send. Please try again later");
-        });
+      .post("/api/security-request", securityRequestSent, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      .then(() => {
+        console.log("Order sent successfully");
+        console.log(securityRequestSent);
+      })
+      .catch(() => {
+        console.log("Order failed to send");
+        console.log(securityRequestSent);
+        alert("Order failed to send. Please try again later");
+      });
 
     setSubmittedRequests([...submittedRequests, securityRequestSent]);
   }

@@ -55,23 +55,16 @@ enum RequestStatus {
 }
 
 model ServiceRequest {
-  requestID        Int               @id @default(autoincrement())
-  name             String
-  priority         String
-  location         String
-  requestType      String
-  status           RequestStatus     @default(unassigned)
-  FlowerRequests   FlowerRequests?
-  requestID      Int             @id @default(autoincrement())
-  name           String
-  priority       String
-  location       String
-  requestType    String
-  status         RequestStatus   @default(unassigned)
-  FlowerRequests FlowerRequests?
-  SecurityRequests SecurityRequest?
-  MedicineRequests MedicineRequests?
-  SanitationRequest SanitationRequest[]
+  requestID         Int                @id @default(autoincrement())
+  name              String
+  priority          String
+  location          String
+  requestType       String
+  status            RequestStatus      @default(unassigned)
+  FlowerRequests    FlowerRequests?
+  SecurityRequests  SecurityRequest?
+  MedicineRequests  MedicineRequests?
+  SanitationRequest SanitationRequest?
 }
 
 model SanitationRequest {
