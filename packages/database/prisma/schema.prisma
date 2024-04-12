@@ -33,6 +33,13 @@ model FlowerRequests {
   servreq       ServiceRequest @relation(fields: [orderNumber], references: [requestID])
 }
 
+model MedicineRequests {
+  medicineNumber Int            @id
+  typeMedicine   String
+  nameMedicine   String
+  servreq        ServiceRequest @relation(fields: [medicineNumber], references: [requestID])
+}
+
 model SecurityRequest {
   orderNumberSec Int            @id
   securityType   String
@@ -48,6 +55,13 @@ enum RequestStatus {
 }
 
 model ServiceRequest {
+  requestID        Int               @id @default(autoincrement())
+  name             String
+  priority         String
+  location         String
+  requestType      String
+  status           RequestStatus     @default(unassigned)
+  FlowerRequests   FlowerRequests?
   requestID      Int             @id @default(autoincrement())
   name           String
   priority       String
@@ -56,6 +70,7 @@ model ServiceRequest {
   status         RequestStatus   @default(unassigned)
   FlowerRequests FlowerRequests?
   SecurityRequests SecurityRequest?
+  MedicineRequests MedicineRequests?
   SanitationRequest SanitationRequest[]
 }
 

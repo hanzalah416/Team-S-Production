@@ -312,10 +312,10 @@ export default function MedicineDeliveryForm() {
               onChange={handleStatusChange}
               sx={{ minWidth: 300 }}
             >
-              <MenuItem value={"Unassigned"}>Unassigned</MenuItem>
-              <MenuItem value={"Assigned"}>Assigned</MenuItem>
-              <MenuItem value={"In Progress"}>In Progress</MenuItem>
-              <MenuItem value={"Closed"}>Closed</MenuItem>
+              <MenuItem value={"unassigned"}>Unassigned</MenuItem>
+              <MenuItem value={"assigned"}>Assigned</MenuItem>
+              <MenuItem value={"in_progress"}>In Progress</MenuItem>
+              <MenuItem value={"closed"}>Closed</MenuItem>
             </Select>
           </div>
 
