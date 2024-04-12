@@ -12,6 +12,7 @@ import nodeRouter from "./routes/getNodes.ts";
 import csvRouter from "./routes/csvRouter.ts";
 import nodeEdgeRouter from "./routes/nodeEdge.ts";
 import allEdgeRouter from "./routes/getAllEdgesData.ts";
+import securityRouter from "./routes/securityRequest.ts";
 import sanitationRouter from "./routes/saniationRoute.ts";
 // import allEdgesRouter from "./routes/getAllEdgesData.ts";
 // import allNodeRouter from "./routes/getAllNodeData.ts";
@@ -50,6 +51,7 @@ app.use("/api/nodes", nodeRouter);
 app.use("/api/edges", allEdgeRouter);
 // app.use("/api/all-node-data", allNodeRouter);
 // app.use("/api/all-edges-data", allEdgesRouter);
+app.use("/api/security-request", securityRouter);
 
 app.use("/healthcheck", (req, res) => {
   res.status(200).send();
