@@ -13,6 +13,7 @@ import csvRouter from "./routes/csvRouter.ts";
 import nodeEdgeRouter from "./routes/nodeEdge.ts";
 import allEdgeRouter from "./routes/getAllEdgesData.ts";
 import securityRouter from "./routes/securityRequest.ts";
+import sanitationRouter from "./routes/saniationRoute.ts";
 // import allEdgesRouter from "./routes/getAllEdgesData.ts";
 // import allNodeRouter from "./routes/getAllNodeData.ts";
 // Populate the database
@@ -40,6 +41,7 @@ app.use(cookieParser()); // Cookie parser
 // Setup routers. ALL ROUTERS MUST use /api as a start point, or they
 // won't be reached by the default proxy and prod setup
 app.use("/api/flower-request", flowerRequestRouter);
+app.use("/api/sanitation-request", sanitationRouter);
 // app.use("/api/log-in", logInRouter);
 app.use("/api/nodeEdge", nodeEdgeRouter);
 app.use("/api/csv", csvRouter);
