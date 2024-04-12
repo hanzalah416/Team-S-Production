@@ -29,7 +29,6 @@ body {
   padding: 0;
   margin: 0;
   position: absolute;
-  top: 0px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -44,11 +43,14 @@ body {
   display: flex;
   flex-direction: column;
   width: 380px; /* Adjust the width as needed */
-  height: 60%;
-  min-height: 200px;
-  max-height: 200px;
+  min-height: calc(100%);
+  max-height: calc(100%);
   background: #f1f1f1;
-  margin-top: -600px; /* Adjust this value as needed to control the distance from the top */
+  position: relative;
+  z-index: 300;
+  margin-top: -200px;
+  margin-bottom: 10px;
+  /* Adjust this value as needed to control the distance from the top */
 }
 
 .mapArea {
@@ -56,6 +58,7 @@ body {
     100vh + 110px
   ); /* Subtract the navbar height or any padding you may have */
   width: 100vw;
+  margin-left: 0px;
   position: relative;
   overflow: hidden;
 }
@@ -105,7 +108,7 @@ body {
 }
 .boldtag2 {
   margin-top: 5px;
-  margin-bottom: 10px;
+  margin-bottom: -20px;
   text-align: center;
   font-weight: bold;
   color: black;
@@ -119,13 +122,18 @@ body {
   color: white;
   font-weight: bold;
   line-height: 48px;
-  width: 420px;
+
   left: calc(-17%);
   position: relative;
   box-sizing: border-box;
   text-align: center;
-  margin-top: 20px;
+
   font-size: 20px;
+}
+
+.directionsBox {
+  width: 405px;
+  margin-top: 20px;
 }
 
 @keyframes moveDottedLine {
@@ -172,7 +180,7 @@ body {
 
 .mbDiv {
   position: absolute;
-  bottom: 12vh;
+  bottom: 0px;
 }
 
 .floorSwitchText {
@@ -186,8 +194,8 @@ body {
 }
 
 .floorButtonsContainer {
-  margin-top: -20px;
-  max-height: 190px;
+  max-height: 600px;
+  min-height: 225px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -257,6 +265,6 @@ body {
   position: absolute;
   z-index: 4;
   height: min-content;
-  bottom: 17vh;
+  bottom: 40px;
   left: 7vw;
 }

@@ -157,15 +157,19 @@ function FloorMap() {
 
   const handleSelection = (value: Position | null, type: "start" | "end") => {
     if (type === "start") {
-      if (!value) {
-        throw new Error("Value was undefined was undefined");
-      }
-
-      const selectedFloor = getFloorNumber(value.id); // Get the floor of the selected start point
-      setCurrentFloor(selectedFloor!);
       setStartPosition(value);
-      if (value && endPosition) {
-        fetchPath(value.id, endPosition.id);
+      if (value) {
+        const selectedFloor = getFloorNumber(value.id);
+        setCurrentFloor(selectedFloor);
+        if (endPosition) {
+          fetchPath(value.id, endPosition.id);
+        }
+
+        // Filter the full path for the new floor based on the selected start position
+        const newFilteredQueueNodeIDs = fullPath.filter(
+          (id) => getFloorNumber(id) === selectedFloor || id.length === 3,
+        );
+        setFilteredQueueNodeIDs(newFilteredQueueNodeIDs);
       }
     } else {
       setEndPosition(value);
@@ -188,8 +192,6 @@ function FloorMap() {
     })
       .then((response) => response.json())
       .then((data) => {
-        // console.log("Pathfinding result node IDs:", data.id); // Print the node IDs to the console
-
         // Insert floor change markers into the full path
         const pathWithFloorChanges = [];
         for (let i = 0; i < data.id.length - 1; i++) {
@@ -207,10 +209,11 @@ function FloorMap() {
 
         setFullPath(pathWithFloorChanges); // Store the full path with floor change markers
 
-        // Filter the node IDs for the current floor, including floor change markers
+        // Filter the node IDs for the floor of the start node, including floor change markers
+        const startNodeFloor = getFloorNumber(startNode);
         setFilteredQueueNodeIDs(
           pathWithFloorChanges.filter(
-            (id) => getFloorNumber(id) === currentFloor || id.length === 3,
+            (id) => getFloorNumber(id) === startNodeFloor || id.length === 3,
           ),
         );
         setPathFound(pathWithFloorChanges.length > 0);
@@ -328,7 +331,7 @@ function FloorMap() {
   };
 
   //for slide in of mini map
-  const [mapChecked, setMapChecked] = React.useState(false);
+  const [mapChecked, setMapChecked] = React.useState(true);
   const handleChange = () => {
     setMapChecked((prev) => !prev);
   };
