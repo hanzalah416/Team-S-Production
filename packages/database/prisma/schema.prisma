@@ -55,7 +55,7 @@ enum RequestStatus {
 }
 
 model ServiceRequest {
-  requestID         Int                @id @default(autoincrement())
+  requestID         Int                 @id @default(autoincrement())
   name              String
   priority          String
   location          String
