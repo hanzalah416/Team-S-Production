@@ -1,5 +1,5 @@
 export type securityform = {
-  nameRequester: string;
+  name: string;
   location: string;
   priority: string;
   status: string;

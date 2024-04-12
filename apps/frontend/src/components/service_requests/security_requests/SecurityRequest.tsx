@@ -84,7 +84,7 @@ const SecurityRequest: React.FC = () => {
     // }
 
     const securityRequestSent: securityform = {
-      nameRequester: staffName,
+      name: staffName,
       location: location,
       status: requestStatus,
       priority: requestPriority,
@@ -93,19 +93,20 @@ const SecurityRequest: React.FC = () => {
     };
 
     await axios
-      .post("/api/security-request", securityRequestSent, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-      .then(() => {
-        console.log("Order sent successfully");
-      })
-      .catch(() => {
-        console.log("Order failed to send");
-        console.log(securityRequestSent);
-        alert("Order failed to send. Please try again later");
-      });
+        .post("/api/security-request", securityRequestSent, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+        .then(() => {
+          console.log("Order sent successfully");
+          console.log(securityRequestSent);
+        })
+        .catch(() => {
+          console.log("Order failed to send");
+          console.log(securityRequestSent);
+          alert("Order failed to send. Please try again later");
+        });
 
     setSubmittedRequests([...submittedRequests, securityRequestSent]);
   }
@@ -465,7 +466,7 @@ const SecurityRequest: React.FC = () => {
                 {submittedRequests.map((row, key) => (
                   <StyledTableRow key={key}>
                     <StyledTableCell className={"border border-gray-800 p-2"}>
-                      {row.nameRequester}
+                      {row.name}
                     </StyledTableCell>
                     <StyledTableCell className={"border border-gray-800 p-2"}>
                       {row.location}
