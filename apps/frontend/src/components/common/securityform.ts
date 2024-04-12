@@ -1,8 +1,8 @@
 export type securityform = {
-  staffName: string;
+  nameRequester: string;
   location: string;
-  requestPriority: string;
-  requestStatus: string;
+  priority: string;
+  status: string;
   securityType: string;
   threatType: string;
 };

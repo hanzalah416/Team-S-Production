@@ -33,6 +33,13 @@ model FlowerRequests {
   servreq       ServiceRequest @relation(fields: [orderNumber], references: [requestID])
 }
 
+model SecurityRequest {
+  orderNumberSec Int            @id
+  securityType   String
+  threatType     String
+  servreq        ServiceRequest @relation(fields: [orderNumberSec], references: [requestID])
+}
+
 enum RequestStatus {
   unassigned
   assigned
@@ -41,13 +48,14 @@ enum RequestStatus {
 }
 
 model ServiceRequest {
-  requestID      Int             @id @default(autoincrement())
-  name           String
-  priority       String
-  location       String
-  requestType    String
-  status         RequestStatus   @default(unassigned)
-  FlowerRequests FlowerRequests?
+  requestID        Int              @id @default(autoincrement())
+  name             String
+  priority         String
+  location         String
+  requestType      String
+  status           RequestStatus    @default(unassigned)
+  FlowerRequests   FlowerRequests?
+  SecurityRequests SecurityRequest?
 }
 
 model Node {
