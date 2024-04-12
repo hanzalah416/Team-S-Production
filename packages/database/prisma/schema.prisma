@@ -47,6 +47,15 @@ model ServiceRequest {
   location       String
   status         RequestStatus   @default(unassigned)
   FlowerRequests FlowerRequests?
+  RoomScheduling RoomScheduling?
+}
+
+model RoomScheduling {
+  requestNumber Int            @id
+  roomNum       Int
+  startTime     String
+  endTime       String
+  servreq       ServiceRequest @relation(fields: [requestNumber], references: [requestID])
 }
 
 model Node {
