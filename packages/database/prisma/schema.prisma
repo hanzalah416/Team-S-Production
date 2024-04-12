@@ -72,10 +72,9 @@ model Node {
 }
 
 model NodeEdge {
+  edgeID        String @id
   startNode     String
   endNode       String
   startNodeNode Node   @relation(name: "NodeStartEdges", fields: [startNode], references: [nodeID], onDelete: Cascade)
   endNodeNode   Node   @relation(name: "NodeEndEdges", fields: [endNode], references: [nodeID], onDelete: Cascade)
-
-  @@id([startNode, endNode])
 }
