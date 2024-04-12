@@ -41,12 +41,20 @@ enum RequestStatus {
 }
 
 model ServiceRequest {
-  requestID      Int             @id @default(autoincrement())
-  name           String
-  priority       String
-  location       String
-  status         RequestStatus   @default(unassigned)
-  FlowerRequests FlowerRequests?
+  requestID         Int                @id @default(autoincrement())
+  name              String
+  priority          String
+  location          String
+  status            RequestStatus      @default(unassigned)
+  FlowerRequests    FlowerRequests?
+  SanitationRequest SanitationRequest?
+}
+
+model SanitationRequest {
+  orderNumber Int            @id
+  requestType String
+  permission  String
+  servreq     ServiceRequest @relation(fields: [orderNumber], references: [requestID])
 }
 
 model Node {
