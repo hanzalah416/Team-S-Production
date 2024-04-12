@@ -52,10 +52,10 @@ model ServiceRequest {
 }
 
 model SanitationRequest {
-  orderNumber Int            @id
-  requestType String
-  permission  String
-  servreq     ServiceRequest @relation(fields: [orderNumber], references: [requestID])
+  orderNumber    Int            @id
+  sanitationType String
+  permission     String
+  servreq        ServiceRequest @relation(fields: [orderNumber], references: [requestID])
 }
 
 model Node {

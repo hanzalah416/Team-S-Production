@@ -24,7 +24,7 @@ export default function OrderConfirmation() {
       }}
     >
       <Paper elevation={3}>
-        <h2 className={styles.title}>Order Flowers</h2>
+        <h2 className={styles.title}>Service Request</h2>
         <p className={styles.result}>
           Request placed! Awaiting staff assignment.
         </p>
