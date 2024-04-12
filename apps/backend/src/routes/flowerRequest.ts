@@ -19,6 +19,7 @@ router.post("/", async function (req: Request, res: Response) {
         name: name,
         priority,
         location,
+        requestType: "Flower",
         status,
       },
     });
