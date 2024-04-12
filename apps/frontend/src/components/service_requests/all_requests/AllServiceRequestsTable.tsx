@@ -14,13 +14,12 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 }));
 
 export function ServiceRequestDisplay(props: {
-  flowerform: {
-    orderNumber: number;
-    nameRequester: string;
+  allRequestForm: {
+    requestID: number;
+    name: string;
     priority: string;
     location: string;
-    typeFlower: string;
-    customMessage: string;
+    requestType: string;
     status: string;
   };
   onUpdateStatus: (newStatus: string) => void;
@@ -30,18 +29,20 @@ export function ServiceRequestDisplay(props: {
   // };
   return (
     <TableRow>
-      <StyledTableCell>{props.flowerform.nameRequester}</StyledTableCell>
-      <StyledTableCell>{props.flowerform.priority}</StyledTableCell>
+      <StyledTableCell>{props.allRequestForm.requestID}</StyledTableCell>
+      <StyledTableCell>{props.allRequestForm.name}</StyledTableCell>
       <StyledTableCell align="right">
-        {props.flowerform.location}
+        {props.allRequestForm.priority}
       </StyledTableCell>
       <StyledTableCell align="right">
-        {props.flowerform.typeFlower}
+        {props.allRequestForm.location}
       </StyledTableCell>
       <StyledTableCell align="right">
-        {props.flowerform.customMessage}
+        {props.allRequestForm.requestType}
       </StyledTableCell>
-      <StyledTableCell align="right">{props.flowerform.status}</StyledTableCell>
+      <StyledTableCell align="right">
+        {props.allRequestForm.status}
+      </StyledTableCell>
     </TableRow>
   );
 }
