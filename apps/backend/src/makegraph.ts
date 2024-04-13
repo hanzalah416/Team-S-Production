@@ -125,10 +125,8 @@ class MakeGraph {
         }
       }
     }
-
     return this.backTracePath(arrivedFrom, pathFound, startNode, endNode);
   }
-
   AStar(start: string, end: string): string[] {
     //Get start and end nodes from map
     const startNode = this.nodeMap.get(start);
@@ -214,6 +212,86 @@ class MakeGraph {
     //Back trace path
     return this.backTracePath(arrivedFrom, pathFound, startNode, endNode);
   }
+  Dijsktra(start: string, end: string): string[] {
+    //Get start and end nodes from map
+    const startNode = this.nodeMap.get(start);
+    const endNode = this.nodeMap.get(end);
+
+    //Ensure that the start and end nodes are not identical
+    if (!startNode || !endNode) {
+      console.error("nodes not found.");
+      return [];
+    }
+
+    const arrivedFrom: NBMap = new Map(); //Map that contains the node to node parent relationship
+    const queue: GraphNode[] = [startNode]; //Queue of open nodes
+    arrivedFrom.set(startNode, startNode); //Add arrived from for the start node
+    const closedList: GraphNode[] = []; // List of closed
+
+    //Map of different costs
+    const gCost: Map<GraphNode, number> = new Map();
+    const hCost: Map<GraphNode, number> = new Map();
+    const fCost: Map<GraphNode, number> = new Map();
+
+    //Set start node costs
+    gCost.set(startNode, 0);
+    hCost.set(startNode, 0);
+    fCost.set(startNode, 0);
+
+    //Set end node costs
+    gCost.set(endNode, 0);
+    hCost.set(endNode, 0);
+    fCost.set(endNode, 0);
+
+    let pathFound = false;
+
+    while (queue.length > 0) {
+      // Sort the queue based on the total estimated cost from start to end via each node
+      queue.sort((a, b) => {
+        return fCost.get(a)! - fCost.get(b)!;
+      });
+
+      //Make the current node the top of the queue (node with the lowest cost)
+      const currentNode = queue.shift()!;
+      closedList.push(currentNode);
+
+      //If the current node is equal to the end node break the loop and begin tracing the path
+      if (currentNode === endNode) {
+        pathFound = true;
+        break;
+      }
+
+      //Add available neighbors of the node to the queue
+      currentNode.neighbors.forEach((neighbor) => {
+        //See if node has already been added
+        if (!closedList.includes(neighbor)) {
+          if (!arrivedFrom.has(neighbor)) {
+            arrivedFrom.set(neighbor, currentNode);
+          }
+
+          //Calculate the g,h, and f cost for the nodes and add them to the map
+          const gCostNeighbor =
+            gCost.get(currentNode)! +
+            this.getEucDistance(neighbor, currentNode);
+          const hCostNeighbor = this.getEucDistance(neighbor, endNode);
+          const fCostNeighbor = gCostNeighbor + hCostNeighbor;
+
+          //Set the costs for neighbors
+          gCost.set(neighbor, gCostNeighbor);
+          hCost.set(neighbor, hCostNeighbor);
+          fCost.set(neighbor, fCostNeighbor);
+
+          //Check if node is already in the open queue
+          if (!queue.includes(neighbor)) {
+            queue.push(neighbor);
+          }
+        }
+      });
+    }
+
+    //Back trace path
+    return this.backTracePath(arrivedFrom, pathFound, startNode, endNode);
+  }
 
   backTracePath(
     arrivedFrom: NBMap,
@@ -242,12 +320,18 @@ class MakeGraph {
     return pathIds;
   }
 
-  getCost(node: GraphNode, goal: GraphNode, sameFloor: boolean): number {
-    // Calcuate the distance between two nodes
+  //Gets the euclidean distance between nodes
+  getEucDistance(node: GraphNode, goal: GraphNode): number {
     const distance = Math.sqrt(
       Math.pow(node.xcoord - goal.xcoord, 2) +
         Math.pow(node.ycoord - goal.ycoord, 2),
     );
+    return distance;
+  }
+
+  getCost(node: GraphNode, goal: GraphNode, sameFloor: boolean): number {
+    // Calculate the distance between two nodes
+    const distance = this.getEucDistance(node, goal);
 
     //Calculate distance between floors
     const floorDif = Math.abs(
