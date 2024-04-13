@@ -3,6 +3,7 @@ import styles from "./FloorMap.module.css";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
+import { Select, MenuItem } from "@mui/material";
 import { Box, Button, FormControlLabel, Switch } from "@mui/material";
 import l1Map from "../assets/HospitalMap/00_thelowerlevel1.png";
 import l2Map from "../assets/HospitalMap/00_thelowerlevel2.png";
@@ -37,6 +38,7 @@ interface Tag {
 }
 
 function FloorMap() {
+  const [selectedAlgorithm] = useState("astar");
   const [locations, setLocations] = useState<Position[]>([]);
   const [currentFloor, setCurrentFloor] = useState("01");
   const sortedLocations = [...locations]
@@ -469,6 +471,24 @@ function FloorMap() {
               label="Floor Navigation"
             />
           </div>
+
+          <Select
+            value={selectedAlgorithm}
+            // onChange={handleAlgorithmChange}
+            displayEmpty
+            inputProps={{ "aria-label": "Select Pathfinding Algorithm" }}
+            style={{
+              marginBottom: "10px",
+              fontFamily: "Poppins",
+              fontSize: 14,
+            }}
+          >
+            <MenuItem value="dijkstra">Dijkstra's Algorithm</MenuItem>
+            <MenuItem value="dfs">Depth-First Search</MenuItem>
+            <MenuItem value="bfs">Breadth-First Search</MenuItem>
+            <MenuItem value="astar">A* Search</MenuItem>
+          </Select>
+
           <div className={styles.mbDiv}>
             <div style={{ display: "flex", flexDirection: "column" }}>
               <Button
@@ -503,138 +523,148 @@ function FloorMap() {
               />
 
               <div className={styles.dotsContainer}>
-                {filteredQueueNodeIDs.map((nodeID, index) => {
-                  if (nodeID.length === 3) {
-                    return null;
-                  }
-
-                  const point = getPositionById(nodeID);
-                  if (point) {
-                    const isActualStartNode = fullPath[0] === nodeID;
-                    const isActualEndNode =
-                      fullPath[fullPath.length - 1] === nodeID;
-                    const isDisplayedStartNode = index === 0;
-                    const isDisplayedEndNode =
-                      index === filteredQueueNodeIDs.length - 1;
-                    const isMultifloorNode =
-                      !isDisplayedStartNode &&
-                      !isDisplayedEndNode &&
-                      fullPath.includes(nodeID) &&
-                      (getFloorNumber(nodeID) !==
-                        getFloorNumber(filteredQueueNodeIDs[index - 1]) ||
-                        getFloorNumber(nodeID) !==
-                          getFloorNumber(filteredQueueNodeIDs[index + 1]));
-
-                    let nodeColor;
-                    if (
-                      (isDisplayedStartNode && !isActualStartNode) ||
-                      (isDisplayedEndNode && !isActualEndNode)
-                    ) {
-                      nodeColor = "purple";
-                    } else if (isActualStartNode) {
-                      nodeColor = "#19a300";
-                    } else if (isActualEndNode) {
-                      nodeColor = "red";
-                    } else if (isMultifloorNode) {
-                      nodeColor = "#fcec08";
-                    } else {
-                      nodeColor = "transparent";
-                    }
-
-                    let nextFloorLabel = "";
-                    if (isMultifloorNode) {
-                      const nextNodeID = filteredQueueNodeIDs[index + 1];
-                      const nextFloor = getFloorNumber(nextNodeID);
-                      switch (nextFloor) {
-                        case "01":
-                          nextFloorLabel = "1";
-                          break;
-                        case "02":
-                          nextFloorLabel = "2";
-                          break;
-                        case "03":
-                          nextFloorLabel = "3";
-                          break;
-                        default:
-                          if (!nextFloor) {
-                            throw new Error("Next floor was null");
-                          }
-                          nextFloorLabel = nextFloor.slice(-2); // Fallback for other floors like "L1", "L2"
-                          break;
+                  {filteredQueueNodeIDs.map((nodeID, index) => {
+                      if (nodeID.length === 3) {  // Skip floor change markers
+                          return null;
                       }
-                    }
 
-                    return (
-                      <div
-                        key={nodeID}
-                        className={`${styles.mapDot} ${
-                          isDisplayedStartNode ? styles.startNode : ""
-                        } ${isDisplayedEndNode ? `${styles.endNode} ${styles.endNodeAnimation}` : ""} ${
-                          isMultifloorNode ? styles.multifloorNode : ""
-                        }`}
-                        style={{
-                          top: point.top,
-                          left: point.left,
-                          backgroundColor: nodeColor,
-                          display: "block",
-                        }}
-                      >
-                        {isMultifloorNode && (
-                          <div className={styles.floorSwitchText}>
-                            {nextFloorLabel}
-                          </div>
-                        )}
-                      </div>
-                    );
-                  }
-                  return null;
-                })}
-              </div>
-              <svg
-                className={styles.pathSvg}
-                style={{
-                  position: "absolute",
-                  top: 0,
-                  left: 0,
-                  width: "100%",
-                  height: "100%",
-                }}
-              >
-                {filteredQueueNodeIDs
-                  .slice(0, -1) // Exclude the last node ID as it's used as the end node for the last segment
-                  .map((startNodeID, index) => {
-                    const endNodeID = filteredQueueNodeIDs[index + 1];
+                      const point = getPositionById(nodeID);
+                      if (point) {
+                          const isActualStartNode = fullPath[0] === nodeID;
+                          const isActualEndNode = fullPath[fullPath.length - 1] === nodeID;
+                          const isDisplayedStartNode = index === 0;
 
-                    // Only get segments for non-floor-change nodes
-                    if (startNodeID.length !== 3 && endNodeID.length !== 3) {
-                      const segments = getLineSegments(startNodeID, endNodeID);
+                          const isDisplayedEndNode = index === filteredQueueNodeIDs.length - 1;
+                          const isMultifloorEndNode = !isDisplayedStartNode && !isDisplayedEndNode &&
+                              fullPath.includes(nodeID) &&
+                              (getFloorNumber(nodeID) !== getFloorNumber(filteredQueueNodeIDs[index - 1]) ||
+                                  getFloorNumber(nodeID) !== getFloorNumber(filteredQueueNodeIDs[index + 1]));
 
-                      return segments.map((segment, segmentIndex) => {
-                        const startPoint = getPositionById(segment.startNodeID);
-                        const endPoint = getPositionById(segment.endNodeID);
-                        const lineColor = getLineColor(segment.floor!);
+                          const isMultifloorStartNode = index > 0 && filteredQueueNodeIDs[index - 1].length === 3 && !isActualEndNode;
 
-                        return (
-                          <line
-                            key={`${segment.startNodeID}-${segment.endNodeID}-${segmentIndex}`}
-                            className={styles.line}
-                            x1={`${parseFloat(startPoint.left)}%`}
-                            y1={`${parseFloat(startPoint.top)}%`}
-                            x2={`${parseFloat(endPoint.left)}%`}
-                            y2={`${parseFloat(endPoint.top)}%`}
-                            strokeLinecap="round"
-                            stroke={lineColor}
-                            strokeWidth="2"
-                          />
-                        );
-                      });
-                    }
 
-                    return null;
+                          let nodeColor, lastFloorLabel = "";
+                          if (isMultifloorStartNode) {
+                              nodeColor = "MediumOrchid";  // Set color to purple for intermediary start nodes
+                              const fullPathIndex = fullPath.indexOf(nodeID);
+                              if (fullPathIndex !== -1 && fullPathIndex > 1) {
+                                  const targetNodeID = fullPath[fullPathIndex - 2];
+                                  lastFloorLabel = targetNodeID.slice(-2);  // Extract the last two characters
+                                  // console.log(lastFloorLabel);
+                              }
+                          } else if (isActualStartNode) {
+                              nodeColor = "#19a300";  // Green for the actual start node
+                          } else if (isActualEndNode) {
+                              nodeColor = "red";  // Red for the actual end node
+                              // Print the nodes around the actual end node if it's not near the start of the array
+                              const fullPathIndex = fullPath.indexOf(nodeID);
+                              if (fullPathIndex !== -1 && fullPathIndex > 1) {
+                                  // Additional logic to check the length of the node before the end node
+                                  if (fullPath[fullPathIndex - 1].length === 3) {  // Check if the preceding node is a floor change marker
+                                      console.log("Previous Node to the terminal:", fullPath[fullPathIndex - 2]); // Log the node before the marker
+                                  }
+                              }
+                          } else if (isMultifloorEndNode) {
+                              nodeColor = "#fcec08";  // Yellow for multifloor nodes
+                          } else {
+                              nodeColor = "transparent";  // Transparent for other nodes
+                          }
+
+                          let nextFloorLabel = "";
+                          if (isMultifloorEndNode) {
+                              const nextNodeID = filteredQueueNodeIDs[index + 1];
+                              const nextFloor = getFloorNumber(nextNodeID);
+                              switch (nextFloor) {
+                                  case "01":
+                                      nextFloorLabel = "1";
+                                      break;
+                                  case "02":
+                                      nextFloorLabel = "2";
+                                      break;
+                                  case "03":
+                                      nextFloorLabel = "3";
+                                      break;
+                                  default:
+                                      if (!nextFloor) {
+                                          throw new Error("Next floor was null");
+                                      }
+                                      nextFloorLabel = nextFloor.slice(-2);  // Extract floor from ID
+                                      break;
+                              }
+                          }
+
+                          return (
+                              <div
+                                  key={nodeID}
+                                  className={`${styles.mapDot} ${
+                                      (isDisplayedStartNode || isDisplayedEndNode) ? styles.endNodeAnimation : ""
+                                  } ${isDisplayedStartNode ? styles.startNode : ""} ${
+                                      isDisplayedEndNode ? styles.endNode : ""} ${
+                                      (isMultifloorEndNode || isMultifloorStartNode) ? styles.multifloorNode : ""
+                                  }`}
+                                  style={{
+                                      top: point.top,
+                                      left: point.left,
+                                      backgroundColor: nodeColor,
+                                      display: "block",
+                                  }}
+                              >
+                                  {(isMultifloorEndNode || isMultifloorStartNode) && (
+                                      <div className={styles.floorSwitchText}>
+                                          {isMultifloorStartNode ? lastFloorLabel : (nextFloorLabel ? nextFloorLabel : "")}
+                                      </div>
+                                  )}
+                              </div>
+                          );
+                      }
+                      return null;
                   })}
-              </svg>
-            </TransformComponent>
-          </TransformWrapper>
+              </div>
+                <svg
+                    className={styles.pathSvg}
+                    style={{
+                        position: "absolute",
+                        top: 0,
+                        left: 0,
+                        width: "100%",
+                        height: "100%",
+                                      }}
+                                  >
+                                      {filteredQueueNodeIDs
+                                          .slice(0, -1) // Exclude the last node ID as it's used as the end node for the last segment
+                                          .map((startNodeID, index) => {
+                                              const endNodeID = filteredQueueNodeIDs[index + 1];
+
+                                              // Only get segments for non-floor-change nodes
+                                              if (startNodeID.length !== 3 && endNodeID.length !== 3) {
+                                                  const segments = getLineSegments(startNodeID, endNodeID);
+
+                                                  return segments.map((segment, segmentIndex) => {
+                                                      const startPoint = getPositionById(segment.startNodeID);
+                                                      const endPoint = getPositionById(segment.endNodeID);
+                                                      const lineColor = getLineColor(segment.floor!);
+
+                                                      return (
+                                                          <line
+                                                              key={`${segment.startNodeID}-${segment.endNodeID}-${segmentIndex}`}
+                                                              className={styles.line}
+                                                              x1={`${parseFloat(startPoint.left)}%`}
+                                                              y1={`${parseFloat(startPoint.top)}%`}
+                                                              x2={`${parseFloat(endPoint.left)}%`}
+                                                              y2={`${parseFloat(endPoint.top)}%`}
+                                                              strokeLinecap="round"
+                                                              stroke={lineColor}
+                                                              strokeWidth="2"
+                                                          />
+                                                      );
+                                                  });
+                                              }
+
+                                              return null;
+                                          })}
+                                  </svg>
+                              </TransformComponent>
+                      </TransformWrapper>
 
           <div
             className={`${styles.mMap} ${mapChecked ? styles.showMMap : ""}`}
