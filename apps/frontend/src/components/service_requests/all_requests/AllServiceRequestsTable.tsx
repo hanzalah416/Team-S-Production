@@ -44,9 +44,6 @@ export function ServiceRequestDisplay(props: {
         {props.allRequestForm.requestType}
       </StyledTableCell>
       <StyledTableCell align="right">
-        {props.allRequestForm.status}
-      </StyledTableCell>
-      <StyledTableCell align="right">
         <Select
           value={props.allRequestForm.status}
           onChange={handleStatusChange}

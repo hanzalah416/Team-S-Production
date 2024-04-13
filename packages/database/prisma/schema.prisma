@@ -60,11 +60,11 @@ model ServiceRequest {
   priority          String
   location          String
   requestType       String
-  status            RequestStatus       @default(unassigned)
+  status            RequestStatus      @default(unassigned)
   FlowerRequests    FlowerRequests?
   SecurityRequests  SecurityRequest?
   MedicineRequests  MedicineRequests?
-  SanitationRequest SanitationRequest[]
+  SanitationRequest SanitationRequest?
 }
 
 model SanitationRequest {
