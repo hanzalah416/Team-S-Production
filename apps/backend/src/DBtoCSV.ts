@@ -21,6 +21,7 @@ async function CreateCSVFromDB() {
 
   const edgeData = {
     headers: [
+      { id: "edgeID", title: "edgeID" },
       { id: "startNode", title: "startNode" },
       { id: "endNode", title: "endNode" },
     ],
