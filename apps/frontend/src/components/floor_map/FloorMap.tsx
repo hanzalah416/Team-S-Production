@@ -549,9 +549,23 @@ function FloorMap() {
                               const fullPathIndex = fullPath.indexOf(nodeID);
                               if (fullPathIndex !== -1 && fullPathIndex > 1) {
                                   const targetNodeID = fullPath[fullPathIndex - 2];
-                                  lastFloorLabel = targetNodeID.slice(-2);  // Extract the last two characters
+                                  lastFloorLabel = targetNodeID.slice(-2);
+                                  switch (lastFloorLabel) {
+
+                                      case "01":
+                                          lastFloorLabel = "1";
+                                          break;
+                                      case "02":
+                                          lastFloorLabel = "2";
+                                          break;
+                                      case "03":
+                                          lastFloorLabel = "3";
+                                          break;
+                                  }
+                              // Extract the last two characters
                                   // console.log(lastFloorLabel);
                               }
+
                           } else if (isActualStartNode) {
                               nodeColor = "#19a300";  // Green for the actual start node
                           } else if (isActualEndNode) {
