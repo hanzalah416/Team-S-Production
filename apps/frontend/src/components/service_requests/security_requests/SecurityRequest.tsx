@@ -6,7 +6,6 @@ import { useNavigate } from "react-router-dom";
 //import {Simulate} from "react-dom/test-utils";
 //import submit = Simulate.submit;
 import { securityform } from "../../common/securityform.ts";
-
 import {
   InputLabel,
   Select,
@@ -30,6 +29,7 @@ import {
 } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import TableContainer from "@mui/material/TableContainer";
+import axios from "axios";
 
 interface Position {
   label: string;
@@ -84,18 +84,32 @@ const SecurityRequest: React.FC = () => {
     // }
 
     const securityRequestSent: securityform = {
-      staffName: staffName,
+      name: staffName,
       location: location,
-      requestStatus: requestStatus,
-      requestPriority: requestPriority,
+      status: requestStatus,
+      priority: requestPriority,
       threatType: threatType,
       securityType: securityType,
     };
 
+    await axios
+      .post("/api/security-request", securityRequestSent, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      .then(() => {
+        console.log("Order sent successfully");
+        console.log(securityRequestSent);
+      })
+      .catch(() => {
+        console.log("Order failed to send");
+        console.log(securityRequestSent);
+        alert("Order failed to send. Please try again later");
+      });
+
     setSubmittedRequests([...submittedRequests, securityRequestSent]);
   }
-
-  // useEffect(() => {}, [submittedRequests]);
 
   const handleBack = () => {
     navigate("/welcome");
@@ -302,7 +316,7 @@ const SecurityRequest: React.FC = () => {
                     color: "#3D4A6B",
                     font: "Jaldi",
                   }}
-                  value="Unassigned"
+                  value="unassigned"
                   control={<Radio />}
                   label="Unassigned"
                 />
@@ -311,7 +325,7 @@ const SecurityRequest: React.FC = () => {
                     color: "#3D4A6B",
                     font: "Jaldi",
                   }}
-                  value="Assigned"
+                  value="assigned"
                   control={<Radio />}
                   label="Assigned"
                 />
@@ -320,7 +334,7 @@ const SecurityRequest: React.FC = () => {
                     color: "#3D4A6B",
                     font: "Jaldi",
                   }}
-                  value="In Progress"
+                  value="in_progress"
                   control={<Radio />}
                   label="In Progress"
                 />
@@ -329,7 +343,7 @@ const SecurityRequest: React.FC = () => {
                     color: "#3D4A6B",
                     font: "Jaldi",
                   }}
-                  value="Closed"
+                  value="closed"
                   control={<Radio />}
                   label="Closed"
                 />
@@ -452,16 +466,16 @@ const SecurityRequest: React.FC = () => {
                 {submittedRequests.map((row, key) => (
                   <StyledTableRow key={key}>
                     <StyledTableCell className={"border border-gray-800 p-2"}>
-                      {row.staffName}
+                      {row.name}
                     </StyledTableCell>
                     <StyledTableCell className={"border border-gray-800 p-2"}>
                       {row.location}
                     </StyledTableCell>
                     <StyledTableCell className={"border border-gray-800 p-2"}>
-                      {row.requestPriority}
+                      {row.priority}
                     </StyledTableCell>
                     <StyledTableCell className={"border border-gray-800 p-2"}>
-                      {row.requestStatus}
+                      {row.status}
                     </StyledTableCell>
                     <StyledTableCell className={"border border-gray-800 p-2"}>
                       {row.threatType}

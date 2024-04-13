@@ -8,38 +8,36 @@ const router: Router = express.Router();
 // HTTP protocol
 
 router.post("/", async function (req: Request, res: Response) {
-  //const FlowerRequestAttempt: Prisma.FlowerRequestsCreateInput = req.body;
-  // Attempt to save the high score
+  // Attempt to save medicial request
   try {
-    const { name, priority, location, status, customMessage, typeFlower } =
+    const { name, priority, location, status, typeMedicine, nameMedicine } =
       req.body;
     // Attempt to create in the database
     const serviceRequest = await prisma.serviceRequest.create({
       data: {
-        name: name,
+        name,
         priority,
         location,
-        requestType: "Flower",
+        requestType: "Medicine",
         status,
       },
     });
 
-    // Connect servreq to the newly created flower request
-
-    await prisma.flowerRequests.create({
+    // Creates the medicine request specific fields
+    await prisma.medicineRequests.create({
       data: {
-        customMessage,
-        typeFlower,
+        typeMedicine,
+        nameMedicine,
         servreq: {
           connect: { requestID: serviceRequest.requestID },
         },
       },
     });
 
-    console.info("Successfully saved flower request attempt"); // Log that it was successful
+    console.info("Successfully saved medicine request attempt"); // Log that it was successful
   } catch (error) {
     // Log any failures
-    console.error(`Unable to save flower request attempt: ${error}`);
+    console.error(`Unable to save medicine request attempt: ${error}`);
     res.sendStatus(400); // Send error
     return; // Don't try to send duplicate statuses
   }
@@ -52,11 +50,14 @@ router.get("/", async function (req: Request, res: Response) {
   try {
     // Fetch the PatientName and PatientRoom from Prisma
     const serviceRequests = await prisma.serviceRequest.findMany({
+      where: {
+        requestType: "Medicine",
+      },
       include: {
-        FlowerRequests: {
+        MedicineRequests: {
           select: {
-            typeFlower: true,
-            customMessage: true,
+            typeMedicine: true,
+            nameMedicine: true,
           },
         },
       },
@@ -79,20 +80,20 @@ router.get("/", async function (req: Request, res: Response) {
 // });
 
 router.patch("/:orderNumber", async (req: Request, res: Response) => {
-  const { orderNumber } = req.params;
-  // const { status } = req.body;
+  const { requestID } = req.params;
+  const { status } = req.body;
 
   try {
-    const updatedFlowerRequest = await prisma.flowerRequests.update({
+    const updatedMedicineRequest = await prisma.serviceRequest.update({
       where: {
-        orderNumber: parseInt(orderNumber),
+        requestID: parseInt(requestID),
       },
       data: {
-        //status: status,
+        status: status,
       },
     });
 
-    res.json(updatedFlowerRequest); // Send the updated flower request object back to the client
+    res.json(updatedMedicineRequest); // Send the updated flower request object back to the client
   } catch (error) {
     console.error(`Error updating flower request status: ${error}`);
     res.sendStatus(500);

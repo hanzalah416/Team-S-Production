@@ -26,7 +26,7 @@ router.post("/", async function (req: Request, res: Response) {
 
     console.log("Received start and end nodes", startNode, endNode);
 
-    const path = graph.AStar(startNode, endNode);
+    const path = graph.Dijsktra(startNode, endNode);
 
     if (!path) {
       throw new Error("Path was undefined");

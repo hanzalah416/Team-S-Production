@@ -3,20 +3,21 @@ import express, { Express, NextFunction, Request, Response } from "express";
 import cookieParser from "cookie-parser";
 import logger from "morgan";
 import flowerRequestRouter from "./routes/flowerRequest.ts";
-import roomSchedulingRouter from "./routes/roomScheduling.ts";
 import PrismaClient from "./bin/database-connection.ts";
 import seed from "./seed.ts";
 import logInRouter from "./routes/newAccount.ts";
-const app: Express = express(); // Set up the backend
+const app: Express = express(); // Setup the backend
 import pathfinderRouter from "./routes/getShortestPath.ts";
 import nodeRouter from "./routes/getNodes.ts";
 import csvRouter from "./routes/csvRouter.ts";
 import nodeEdgeRouter from "./routes/nodeEdge.ts";
 import allEdgeRouter from "./routes/getAllEdgesData.ts";
-
+import medicineRouter from "./routes/MedicineRoute.ts";
+import allRequests from "./routes/allServiceRequests.ts";
+import securityRouter from "./routes/securityRequest.ts";
+import sanitationRouter from "./routes/saniationRoute.ts";
 // import allEdgesRouter from "./routes/getAllEdgesData.ts";
 // import allNodeRouter from "./routes/getAllNodeData.ts";
-
 // Populate the database
 seed()
   .then(async () => {
@@ -26,7 +27,7 @@ seed()
     console.error(e);
     await PrismaClient.$disconnect();
   });
-// Setup generic middle wear
+// Setup generic middlewear
 app.use(
   logger("dev", {
     stream: {
@@ -42,17 +43,19 @@ app.use(cookieParser()); // Cookie parser
 // Setup routers. ALL ROUTERS MUST use /api as a start point, or they
 // won't be reached by the default proxy and prod setup
 app.use("/api/flower-request", flowerRequestRouter);
-app.use("/api/room-scheduling", roomSchedulingRouter);
-app.use("/api/log-in", logInRouter);
+app.use("/api/sanitation-request", sanitationRouter);
+// app.use("/api/log-in", logInRouter);
 app.use("/api/nodeEdge", nodeEdgeRouter);
 app.use("/api/csv", csvRouter);
 app.use("/api/create-user", logInRouter);
 app.use("/api/pathfind", pathfinderRouter);
 app.use("/api/nodes", nodeRouter);
 app.use("/api/edges", allEdgeRouter);
-
+app.use("/api/medicine-request", medicineRouter);
+app.use("/api/all-requests", allRequests);
 // app.use("/api/all-node-data", allNodeRouter);
 // app.use("/api/all-edges-data", allEdgesRouter);
+app.use("/api/security-request", securityRouter);
 
 app.use("/healthcheck", (req, res) => {
   res.status(200).send();

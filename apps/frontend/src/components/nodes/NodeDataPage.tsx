@@ -370,6 +370,7 @@ const NodeDataPage: React.FC = () => {
               <Table sx={{ minWidth: 650 }} aria-label="simple table">
                 <TableHead>
                   <TableRow>
+                    <TableCell align="center">edgeID</TableCell>
                     <TableCell align="center">startNode</TableCell>
                     <TableCell align="center">endNode</TableCell>
                   </TableRow>
@@ -380,6 +381,7 @@ const NodeDataPage: React.FC = () => {
                     /*key={row.startnode}*/
                     /* sx={{ "&:last-child td, &:last-child th": { border: 0 } }}*/
                     >
+                      <TableCell align="center">{row.edgeID}</TableCell>
                       <TableCell align="center">{row.startNode}</TableCell>
                       <TableCell align="center">{row.endNode}</TableCell>
                     </TableRow>
