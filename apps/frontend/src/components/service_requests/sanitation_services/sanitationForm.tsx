@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import TextField from "@mui/material/TextField";
@@ -15,13 +16,7 @@ import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Unstable_Grid2"; // Grid version 2
 import Paper from "@mui/material/Paper";
-import { styled } from "@mui/material/styles";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell, { tableCellClasses } from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
+import axios from "axios";
 
 //Interface for positions
 interface Position {
@@ -39,46 +34,16 @@ interface Node {
   longName: string;
   // Add other properties if needed
 }
-
-type entry = {
-  name: string;
-  priority: string;
-  location: string;
-  requestType: string;
-  permission: string;
-  status: string;
-};
-
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
-  [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
-  },
-  [`&.${tableCellClasses.body}`]: {
-    fontSize: 14,
-  },
-}));
-
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  "&:nth-of-type(odd)": {
-    backgroundColor: theme.palette.action.hover,
-  },
-  // hide last border
-  "&:last-child td, &:last-child th": {
-    border: 0,
-  },
-}));
-
 export default function SanitationForm() {
   const [name, setName] = useState("");
   const [priority, setPriority] = useState("");
   const [location, setLocation] = useState("");
-  const [requestType, setRequestType] = useState("");
+  const [sanitationType, setSanitationType] = useState("");
   const [permission, setPermission] = useState("");
   const [status, setStatus] = useState("");
   const [locations, setLocations] = useState<Position[]>([]);
 
-  const [submittedEntries, setSubmittedEntries] = useState<entry[]>([]);
+  const navigate = useNavigate(); //Function to navigate to other pages
 
   useEffect(() => {
     // Fetch node data from the backend
@@ -112,16 +77,31 @@ export default function SanitationForm() {
     setStatus(event.target.value as string);
   };
 
-  function submit() {
+  async function submit() {
     const newEntry = {
       name: name,
       priority: priority,
       location: location,
-      requestType: requestType,
+      sanitationType: sanitationType,
       permission: permission,
       status: status,
     };
-    setSubmittedEntries((prevEntries) => [...prevEntries, newEntry]);
+
+    await axios
+      .post("/api/sanitation-request", newEntry, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      .then(() => {
+        console.log("Sanitation request sent successfully");
+        navigate("/order-flowers-result");
+      })
+      .catch(() => {
+        console.log("Sanitation request  failed to send");
+        console.log(newEntry);
+        alert("Sanitation request failed to send. Please try again later");
+      });
     clear();
   }
 
@@ -129,7 +109,7 @@ export default function SanitationForm() {
     setName("");
     setPriority("");
     setLocation("");
-    setRequestType("");
+    setSanitationType("");
     setPermission("");
     setStatus("");
   }
@@ -245,14 +225,14 @@ export default function SanitationForm() {
             </InputLabel>
             <ToggleButtonGroup
               color="primary"
-              value={requestType} // Use the state value here
+              value={sanitationType} // Use the state value here
               exclusive
               onChange={(
                 _event: React.MouseEvent<HTMLElement>,
                 newValue: string | null,
               ) => {
                 if (newValue !== null) {
-                  setRequestType(newValue); // Update state on change
+                  setSanitationType(newValue); // Update state on change
                 }
               }}
               aria-label="Sanitation Type Buttons"
@@ -346,10 +326,10 @@ export default function SanitationForm() {
               onChange={handleStatusChange}
               sx={{ minWidth: 300 }}
             >
-              <MenuItem value={"Unassigned"}>Unassigned</MenuItem>
-              <MenuItem value={"Assigned"}>Assigned</MenuItem>
-              <MenuItem value={"In Progress"}>In Progress</MenuItem>
-              <MenuItem value={"Closed"}>Closed</MenuItem>
+              <MenuItem value={"unassigned"}>Unassigned</MenuItem>
+              <MenuItem value={"assigned"}>Assigned</MenuItem>
+              <MenuItem value={"in_progress"}>In Progress</MenuItem>
+              <MenuItem value={"closed"}>Closed</MenuItem>
             </Select>
           </div>
 
@@ -384,65 +364,6 @@ export default function SanitationForm() {
             </Button>
           </Stack>
         </Stack>
-      </Paper>
-      <br />
-      <br />
-      <br />
-      <Paper elevation={4}>
-        <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 700 }}>
-            <TableHead>
-              <TableRow>
-                <StyledTableCell className={"border border-gray-800 p-2"}>
-                  Name
-                </StyledTableCell>
-                <StyledTableCell className={"border border-gray-800 p-2"}>
-                  Priority
-                </StyledTableCell>
-                <StyledTableCell className={"border border-gray-800 p-2"}>
-                  Location
-                </StyledTableCell>
-                <StyledTableCell className={"border border-gray-800 p-2"}>
-                  Request Type
-                </StyledTableCell>
-                <StyledTableCell className={"border border-gray-800 p-2"}>
-                  Permission
-                </StyledTableCell>
-                <StyledTableCell className={"border border-gray-800 p-2"}>
-                  Status
-                </StyledTableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {submittedEntries.map((entry, index) => (
-                <StyledTableRow key={index}>
-                  <StyledTableCell
-                    component="th"
-                    scope="row"
-                    className={"border border-gray-800 p-2"}
-                  >
-                    {entry.name}
-                  </StyledTableCell>
-                  <StyledTableCell className={"border border-gray-800 p-2"}>
-                    {entry.priority}
-                  </StyledTableCell>
-                  <StyledTableCell className={"border border-gray-800 p-2"}>
-                    {entry.location}
-                  </StyledTableCell>
-                  <StyledTableCell className={"border border-gray-800 p-2"}>
-                    {entry.requestType}
-                  </StyledTableCell>
-                  <StyledTableCell className={"border border-gray-800 p-2"}>
-                    {entry.permission}
-                  </StyledTableCell>
-                  <StyledTableCell className={"border border-gray-800 p-2"}>
-                    {entry.status}
-                  </StyledTableCell>
-                </StyledTableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
       </Paper>
     </Grid>
   );

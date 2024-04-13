@@ -33,6 +33,20 @@ model FlowerRequests {
   servreq       ServiceRequest @relation(fields: [orderNumber], references: [requestID])
 }
 
+model MedicineRequests {
+  medicineNumber Int            @id
+  typeMedicine   String
+  nameMedicine   String
+  servreq        ServiceRequest @relation(fields: [medicineNumber], references: [requestID])
+}
+
+model SecurityRequest {
+  orderNumberSec Int            @id
+  securityType   String
+  threatType     String
+  servreq        ServiceRequest @relation(fields: [orderNumberSec], references: [requestID])
+}
+
 enum RequestStatus {
   unassigned
   assigned
@@ -41,12 +55,23 @@ enum RequestStatus {
 }
 
 model ServiceRequest {
-  requestID      Int             @id @default(autoincrement())
-  name           String
-  priority       String
-  location       String
-  status         RequestStatus   @default(unassigned)
-  FlowerRequests FlowerRequests?
+  requestID         Int                @id @default(autoincrement())
+  name              String
+  priority          String
+  location          String
+  requestType       String
+  status            RequestStatus      @default(unassigned)
+  FlowerRequests    FlowerRequests?
+  SecurityRequests  SecurityRequest?
+  MedicineRequests  MedicineRequests?
+  SanitationRequest SanitationRequest?
+}
+
+model SanitationRequest {
+  orderNumber    Int            @id
+  sanitationType String
+  permission     String
+  servreq        ServiceRequest @relation(fields: [orderNumber], references: [requestID])
 }
 
 model Node {
@@ -63,10 +88,9 @@ model Node {
 }
 
 model NodeEdge {
+  edgeID        String @id
   startNode     String
   endNode       String
   startNodeNode Node   @relation(name: "NodeStartEdges", fields: [startNode], references: [nodeID], onDelete: Cascade)
   endNodeNode   Node   @relation(name: "NodeEndEdges", fields: [endNode], references: [nodeID], onDelete: Cascade)
-
-  @@id([startNode, endNode])
 }

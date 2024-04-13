@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { ServiceRequestDisplay } from "./AllServiceRequestsTable.tsx";
-import { flowerform } from "../../common/flowerform.ts";
+import { allRequestForm } from "../../common/allRequestForm.ts";
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -22,42 +22,42 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 }));
 
 export function ServiceRequestGetter() {
-  const [flowerRequestData, setFlowerRequestData] = useState<flowerform[]>([]);
+  const [allRequestData, setAllRequestData] = useState<allRequestForm[]>([]);
 
   useEffect(() => {
     async function fetchData() {
-      const res = await axios.get("/api/flower-request");
-      setFlowerRequestData(res.data);
+      const res = await axios.get("/api/all-requests");
+      setAllRequestData(res.data);
       console.log(res.data);
       console.log("successfully got data from get request");
     }
     fetchData().then();
   }, []);
 
-  // Function to update the status of a flower request
-  const updateFlowerRequestStatus = async (
-    orderNumber: number,
+  // Function to update the status of all requests
+  const updateAllRequestStatus = async (
+    requestID: number,
     newStatus: string,
   ) => {
     try {
-      await axios.patch(`/api/flower-request/${orderNumber}`, {
+      await axios.patch(`/api/all-requests/${requestID}`, {
         status: newStatus,
       });
-      setFlowerRequestData((prevData) =>
+      setAllRequestData((prevData) =>
         prevData.map((request) =>
-          request.orderNumber === orderNumber
+          request.requestID === requestID
             ? { ...request, status: newStatus }
             : request,
         ),
       );
     } catch (error) {
-      console.error("Error updating flower request status:", error);
+      console.error("Error updating all request status:", error);
     }
   };
 
   // Sort the data by orderNumber before rendering
-  const sortedFlowerRequestData = [...flowerRequestData].sort(
-    (a, b) => a.orderNumber - b.orderNumber,
+  const sortedAllRequestData = [...allRequestData].sort(
+    (a, b) => a.requestID - b.requestID,
   );
 
   return (
@@ -66,23 +66,21 @@ export function ServiceRequestGetter() {
         <Table sx={{ minWidth: 700 }} aria-label="customized table">
           <TableHead>
             <TableRow>
-              <StyledTableCell>Requester's Name</StyledTableCell>
+              <StyledTableCell>Requester ID</StyledTableCell>
+              <StyledTableCell align="right">Requester's Name</StyledTableCell>
               <StyledTableCell align="right">Priority</StyledTableCell>
               <StyledTableCell align="right">Location</StyledTableCell>
               <StyledTableCell align="right">Type of Request</StyledTableCell>
-              <StyledTableCell align="right">
-                Specialized Feature
-              </StyledTableCell>
               <StyledTableCell align="right">Status</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {sortedFlowerRequestData.map((flowerform) => (
+            {sortedAllRequestData.map((allRequestForm) => (
               <ServiceRequestDisplay
-                key={flowerform.orderNumber}
-                flowerform={flowerform}
+                key={allRequestForm.requestID}
+                allRequestForm={allRequestForm}
                 onUpdateStatus={(newStatus) =>
-                  updateFlowerRequestStatus(flowerform.orderNumber, newStatus)
+                  updateAllRequestStatus(allRequestForm.requestID, newStatus)
                 }
               />
             ))}
