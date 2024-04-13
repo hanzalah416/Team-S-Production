@@ -1,5 +1,6 @@
 import { Node } from "../../../packages/database";
 import { NodeEdge } from "../../../packages/database";
+import { PathToText } from "./textPath.ts";
 
 type Algorthim = (
   graph: MakeGraph,
@@ -39,6 +40,7 @@ class MakeGraph {
       node.ycoord,
       node.nodeType,
       node.floor,
+      node.longName,
     );
     this.nodeMap.set(node.nodeID, temp);
   }
@@ -288,7 +290,6 @@ class MakeGraph {
         }
       });
     }
-
     //Back trace path
     return this.backTracePath(arrivedFrom, pathFound, startNode, endNode);
   }
@@ -314,9 +315,11 @@ class MakeGraph {
     }
     path.push(startNode);
 
+    console.log(PathToText(path.reverse()));
+
     // Convert the path of GraphNode objects to an array of node IDs
-    const pathIds = path.map((node) => node.id).reverse();
-    console.log("Path found:", pathIds);
+    const pathIds = path.map((node) => node.id);
+    //console.log("Path found:", pathIds);
     return pathIds;
   }
 
@@ -384,19 +387,21 @@ class MakeGraph {
 
 type NBMap = Map<GraphNode, GraphNode>;
 // creat class the node in the graph
-class GraphNode {
+export class GraphNode {
   id: string;
   neighbors: GraphNode[];
   xcoord: number;
   ycoord: number;
   nodeType: string;
   floor: string;
+  longName: string;
   constructor(
     id: string,
     xcoord: number,
     ycoord: number,
     nodeType: string,
     floor: string,
+    longName: string,
   ) {
     this.id = id;
     this.neighbors = [];
@@ -404,6 +409,7 @@ class GraphNode {
     this.ycoord = ycoord;
     this.nodeType = nodeType;
     this.floor = floor;
+    this.longName = longName;
   }
   //add neighbor
   addNB(node: GraphNode) {
