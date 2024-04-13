@@ -229,10 +229,10 @@ const OrderFlowers: React.FC = () => {
               onChange={handlePriorityChange}
               sx={{ minWidth: 400, color: "#3B54A0" }}
             >
-              <MenuItem value={"Low"}>Low</MenuItem>
-              <MenuItem value={"Medium"}>Medium</MenuItem>
-              <MenuItem value={"High"}>High</MenuItem>
-              <MenuItem value={"Emergency"}>Emergency</MenuItem>
+              <MenuItem value={"low"}>L ow</MenuItem>
+              <MenuItem value={"medium"}>Medium</MenuItem>
+              <MenuItem value={"high"}>High</MenuItem>
+              <MenuItem value={"emergency"}>Emergency</MenuItem>
             </Select>
           </div>
 

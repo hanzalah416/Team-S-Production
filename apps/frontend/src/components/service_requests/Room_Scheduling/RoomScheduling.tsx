@@ -19,6 +19,10 @@ import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Radio from "@mui/material/Radio";
 import styles from "./RoomScheduling.module.css";
+import axios from "axios";
+import {useNavigate} from "react-router-dom";
+
+
 
 //Interface for positions
 interface Position {
@@ -45,6 +49,7 @@ type entry = {
   endTime: string;
   status: string;
 };
+
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -75,6 +80,9 @@ export default function RoomScheduling() {
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
   const [submittedEntries, setSubmittedEntries] = useState<entry[]>([]);
+
+  const navigate = useNavigate();
+
 
   useEffect(() => {
     // Fetch node data from the backend
@@ -108,18 +116,11 @@ export default function RoomScheduling() {
   //   setStatus(event.target.value as string);
   // };
 
-  function submit() {
-    const newEntry = {
-      name: name,
-      priority: priority,
-      location: location,
-      status: status,
-      startTime: startTime,
-      endTime: endTime,
-    };
-    setSubmittedEntries((prevEntries) => [...prevEntries, newEntry]);
-    clear();
-  }
+  // function submit() {
+  //
+  //   setSubmittedEntries((prevEntries) => [...prevEntries, newEntry]);
+  //   clear();
+  // }
 
   function clear() {
     setName("");
@@ -129,6 +130,50 @@ export default function RoomScheduling() {
     setStartTime("");
     setEndTime("");
   }
+
+    async function submit() {
+        if (
+            name == "" ||
+            priority == "" ||
+            location == "" ||
+            status == "" ||
+            startTime == "" ||
+            endTime == "" ||
+            status == ""
+        ) {
+            alert("Please fill out all information on the page");
+            return;
+        }
+
+        const newRoomReq = {
+            name: name,
+            priority: priority,
+            location: location,
+            status: status,
+            startTime: startTime,
+            endTime: endTime,
+        };
+        console.log(newRoomReq);
+
+        await axios
+            .post("/api/room-scheduling", newRoomReq, {
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            })
+            .then(() => {
+                console.log("Schedule request sent successfully");
+                navigate("/order-flowers-result");
+            })
+            .catch(() => {
+                console.log("Room Scheduling failed");
+                console.log(newRoomReq);
+                alert("Scheduling failed to send. Please try again later");
+            });
+
+        setSubmittedEntries((prevEntries) => [...prevEntries, newRoomReq]);
+        clear();
+    }
 
   return (
     <Grid
