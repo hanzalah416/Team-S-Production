@@ -1,30 +1,30 @@
 import express, { Router, Request, Response } from "express";
-//import { Prisma } from "database";
 import prisma from "../bin/database-connection.ts";
-//import {flower_requests} from "../../../../packages/database/prisma/client";
 
 const router: Router = express.Router();
 
 // HTTP protocol
 
 router.post("/", async function (req: Request, res: Response) {
-  //const FlowerRequestAttempt: Prisma.FlowerRequestsCreateInput = req.body;
+  //const SecurityRequestAttempt: Prisma.SecurityRequestsCreateInput = req.body;
   // Attempt to save the high score
   try {
-    const { name, priority, location, status, roomNum, startTime, endTime } =
-      req.body;
+    const { name, priority, location, status, startTime, endTime } = req.body;
     // Attempt to create in the database
     const serviceRequest = await prisma.serviceRequest.create({
       data: {
-        name: name,
+        name,
         priority,
         location,
+        requestType: "Room Scheduling",
         status,
       },
     });
+
+    // Connect servreq to the newly created Security request
+
     await prisma.roomScheduling.create({
       data: {
-        roomNum,
         startTime,
         endTime,
         servreq: {
@@ -37,11 +37,11 @@ router.post("/", async function (req: Request, res: Response) {
   } catch (error) {
     // Log any failures
     console.error(`Unable to save room request attempt: ${error}`);
-    res.sendStatus(400);
-    return;
+    res.sendStatus(400); // Send error
+    return; // Don't try to send duplicate statuses
   }
 
-  res.sendStatus(200);
+  res.sendStatus(200); // Otherwise say it's fine
 });
 
 // Whenever a get request is made, return the high score
@@ -49,16 +49,19 @@ router.get("/", async function (req: Request, res: Response) {
   try {
     // Fetch the PatientName and PatientRoom from Prisma
     const serviceRequests = await prisma.serviceRequest.findMany({
+      where: {
+        requestType: "Room Scheduling",
+      },
       include: {
         RoomScheduling: {
           select: {
-            roomNum: true,
             startTime: true,
             endTime: true,
           },
         },
       },
     });
+    // No  Security requests exist in the database
     if (serviceRequests.length === 0) {
       console.error("No room requests have been made!");
       res.sendStatus(204); // Send 204 status if there is no data
@@ -71,23 +74,27 @@ router.get("/", async function (req: Request, res: Response) {
     res.status(500).send("Internal Server Error"); // Send 500 status with error message
   }
 });
+// router.patch("/:orderNumber", (req, res) => {
+//   res.send("PATCH route is working");
+// });
 
-router.patch("/:requestNumber", async (req: Request, res: Response) => {
+router.patch("/:orderNumber", async (req: Request, res: Response) => {
   const { requestNumber } = req.params;
+  const { status } = req.body;
 
   try {
-    const updatedRoomScheduling = await prisma.roomScheduling.update({
+    const updatedRoomRequest = await prisma.serviceRequest.update({
       where: {
-        requestNumber: parseInt(requestNumber),
+        requestID: parseInt(requestNumber),
       },
       data: {
-        //status: status,
+        status: status,
       },
     });
 
-    res.json(updatedRoomScheduling); // Send the updated flower request object back to the client
+    res.json(updatedRoomRequest); // Send the updated Security request object back to the client
   } catch (error) {
-    console.error(`Error updating Room request status: ${error}`);
+    console.error(`Error updating room request status: ${error}`);
     res.sendStatus(500);
   }
 });

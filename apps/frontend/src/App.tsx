@@ -17,7 +17,7 @@ import FloorMapDebug from "./components/floor_map/FloorMapDebug.tsx";
 import RoomScheduling from "./components/service_requests/Room_Scheduling/RoomScheduling.tsx";
 import MedicineDeliveryForm from "./components/service_requests/medicine_delivery/MedicineDeliveryForm.tsx";
 import SecurityRequest from "./components/service_requests/security_requests/SecurityRequest.tsx";
-import RoomSchedulingConfirmation from "./components/service_requests/Room_Scheduling/RoomSchedulingConfirmation.tsx";
+
 function App() {
   const router = createBrowserRouter([
     {
@@ -84,15 +84,7 @@ function App() {
             </>
           ),
         },
-          {
-              path: "/room-schedule-result",
-              element: (
-                  <>
-                      <RoomSchedulingConfirmation />
-                      <Layout />
-                  </>
-              ),
-          },
+
         {
           path: "/forgot-password",
           element: (
@@ -149,7 +141,6 @@ function App() {
             </>
           ),
         },
-
         {
           path: "/map-debug",
           element: (
