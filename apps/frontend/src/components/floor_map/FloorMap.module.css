@@ -264,7 +264,6 @@ body {
   align-items: center; /* Center the contents vertically */
   justify-content: start; /* Aligns the switch to the start */
   padding-left: 20px; /* Adds some padding on the left */
-
   width: 100%; /* Full width of the container */
   /* Center the switch horizontally */
   margin-bottom: 10px; /* Space between switch and select */
@@ -274,9 +273,10 @@ body {
   position: absolute;
   top: 20px; /* Adjust to place it right at the top */
   left: 20px; /* Right aligned */
-  width: 215px; /* Auto width based on content */
-  z-index: 10; /* Ensure it is above the TransformComponent */
+  width: 210px; /* Auto width based on content */
+  z-index: 4; /* Ensure it is above the TransformComponent */
   display: flex;
+
   flex-direction: column; /* Stack children vertically */
   justify-content: flex-start;
   padding: 10px; /* Adds some spacing around the controls */
@@ -290,3 +290,4 @@ body {
   width: 100%; /* Full width of the container */
   justify-content: center; /* Center the select horizontally */
 }
+
