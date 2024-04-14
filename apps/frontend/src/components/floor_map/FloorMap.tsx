@@ -559,7 +559,7 @@ function FloorMap() {
                     checked={mapChecked}
                     onChange={handleChange}
                     sx={{
-                        fontSize: 9,
+                      fontSize: 9,
                       "& .MuiSwitch-switchBase": {
                         // Thumb color when unchecked
                         "&.Mui-checked": {
@@ -569,12 +569,10 @@ function FloorMap() {
                           backgroundColor: "#0251d4", // Track color when checked
                         },
                       },
-
                     }}
                   />
                 }
                 label="Level Select"
-
               />
             </div>
             <div className={styles.mMapbox}>
@@ -585,7 +583,7 @@ function FloorMap() {
                     onChange={toggleNodesVisibility}
                     name="showNodes"
                     sx={{
-                        fontSize: 9,
+                      fontSize: 9,
                       "& .MuiSwitch-switchBase": {
                         // Thumb color when unchecked
                         "&.Mui-checked": {
@@ -593,14 +591,12 @@ function FloorMap() {
                         },
                         "&.Mui-checked + .MuiSwitch-track": {
                           backgroundColor: "#0251d4", // Track color when checked
-
                         },
                       },
                     }}
                   />
                 }
                 label="Toggle Nodes"
-
               />
             </div>
             <Select
