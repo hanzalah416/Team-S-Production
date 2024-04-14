@@ -21,7 +21,7 @@ router.get("/", async function (req: Request, res: Response) {
     });
     // No flower requests exist in the database
     if (serviceRequests.length === 0) {
-      console.error("No flower requests have been made!");
+      console.error("No requests have been made!");
       res.sendStatus(204); // Send 204 status if there is no data
     } else {
       console.log("Service requests:", serviceRequests); // Log retrieved data
@@ -37,22 +37,30 @@ router.get("/", async function (req: Request, res: Response) {
 // });
 
 router.patch("/:orderNumber", async (req: Request, res: Response) => {
-  const { requestID } = req.params;
+  const { orderNumber } = req.params;
   const { status } = req.body;
 
   try {
     const updatedMedicineRequest = await prisma.serviceRequest.update({
       where: {
-        requestID: parseInt(requestID),
+        requestID: parseInt(orderNumber),
       },
       data: {
         status: status,
       },
     });
 
+    if (!updatedMedicineRequest) {
+      console.error("No requests have been made!");
+      res.sendStatus(204); // Send 204 status if there is no data
+    } else {
+      console.log("Service requests:", updatedMedicineRequest); // Log retrieved data
+      res.status(200).json(updatedMedicineRequest); // Send JSON response with data
+    }
+
     res.json(updatedMedicineRequest); // Send the updated flower request object back to the client
   } catch (error) {
-    console.error(`Error updating flower request status: ${error}`);
+    console.error(`Error updating all request status: ${error}`);
     res.sendStatus(500);
   }
 });
