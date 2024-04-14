@@ -88,31 +88,6 @@ function NavBar() {
                 All Service Requests
               </Link>
             </MenuItem>
-            <MenuItem onClick={handleClose} disabled={true}>
-              <Link to={"/order-flowers"} className={"item"} id={"order"}>
-                Audio/Visual Services
-              </Link>
-            </MenuItem>
-            <MenuItem onClick={handleClose} disabled={true}>
-              <Link to={"/order-flowers"} className={"item"} id={"order"}>
-                External Transportation
-              </Link>
-            </MenuItem>
-            <MenuItem onClick={handleClose} disabled={true}>
-              <Link to={"/order-flowers"} className={"item"} id={"order"}>
-                Maintenance
-              </Link>
-            </MenuItem>
-            <MenuItem onClick={handleClose} disabled={true}>
-              <Link to={"/order-flowers"} className={"item"} id={"order"}>
-                Internal Transportation
-              </Link>
-            </MenuItem>
-            <MenuItem onClick={handleClose} disabled={true}>
-              <Link to={"/order-flowers"} className={"item"} id={"order"}>
-                Language Services
-              </Link>
-            </MenuItem>
             <MenuItem onClick={handleClose}>
               <Link
                 to={"/medicine-delivery-request"}
@@ -120,11 +95,6 @@ function NavBar() {
                 id={"order"}
               >
                 Medical Delivery
-              </Link>
-            </MenuItem>
-            <MenuItem onClick={handleClose} disabled={true}>
-              <Link to={"/order-flowers"} className={"item"} id={"order"}>
-                Religious Requests
               </Link>
             </MenuItem>
             <MenuItem onClick={handleClose}>
