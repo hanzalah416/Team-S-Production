@@ -1,6 +1,4 @@
-// OrderFlowers.tsx
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 // import styles from "./SecurityRequest.module.css";
 //import { useFormData } from "./useFormData";
 //import {Simulate} from "react-dom/test-utils";
@@ -31,12 +29,6 @@ import MenuItem from "@mui/material/MenuItem";
 import TableContainer from "@mui/material/TableContainer";
 import axios from "axios";
 
-interface Position {
-  label: string;
-  id: string;
-  top: string;
-  left: string;
-}
 
 interface Node {
   xcoord: string;
@@ -44,6 +36,13 @@ interface Node {
   id: string;
   longName: string;
   // Add other properties if needed
+}
+
+interface Position {
+  label: string;
+  id: string;
+  top: string;
+  left: string;
 }
 
 const SecurityRequest: React.FC = () => {
@@ -59,7 +58,6 @@ const SecurityRequest: React.FC = () => {
     [],
   );
 
-  const navigate = useNavigate();
 
   const handleChangeSecurityType = (event: SelectChangeEvent) => {
     setSecurityType(event.target.value as string);
@@ -78,11 +76,15 @@ const SecurityRequest: React.FC = () => {
   };
 
   async function submit() {
-    // if (staffName == "" ) {
-    //   alert("Please Fill out the Patient Name and Room Number");
-    //   return;
-    // }
-
+    if (staffName == ""
+      || location == ""
+      || requestPriority == ""
+      || requestStatus == ""
+      || threatType == ""
+      || securityType == "") {
+      alert("Please fill out all of the fields");
+      return;
+    }
     const securityRequestSent: securityform = {
       name: staffName,
       location: location,
@@ -111,9 +113,14 @@ const SecurityRequest: React.FC = () => {
     setSubmittedRequests([...submittedRequests, securityRequestSent]);
   }
 
-  const handleBack = () => {
-    navigate("/welcome");
-  };
+  function clear() {
+    setStaffName("");
+    setRequestPriority("");
+    setLocation("");
+    setSecurityType("");
+    setThreatType("");
+    setRequestStatus("");
+  }
 
   const toggleScrolling = (disableScroll: boolean) => {
     if (disableScroll) {
@@ -126,19 +133,18 @@ const SecurityRequest: React.FC = () => {
   useEffect(() => {
     // Fetch node data from the backend
     fetch("/api/nodes")
-      .then((response) => response.json())
-      .then((nodes: Node[]) => {
-        const formattedLocations: Position[] = nodes.map((node) => ({
-          label: node.longName || "Unknown", // Use the correct property name
-          id: node.id,
-          top: `${node.ycoord}px`,
-          left: `${node.xcoord}px`,
-        }));
+        .then((response) => response.json())
+        .then((nodes: Node[]) => {
+          const formattedLocations: Position[] = nodes.map((node) => ({
+            label: node.longName || "Unknown", // Use the correct property name
+            id: node.id,
+            top: `${node.ycoord}px`,
+            left: `${node.xcoord}px`,
+          }));
 
-        console.log(formattedLocations);
-        setLocations(formattedLocations);
-      })
-      .catch((error) => console.error("Failed to fetch node data:", error));
+          setLocations(formattedLocations);
+        })
+        .catch((error) => console.error("Failed to fetch node data:", error));
   }, []);
 
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -196,7 +202,7 @@ const SecurityRequest: React.FC = () => {
                 borderBlockColor: "#3B54A0",
               }}
               onChange={(e) => setStaffName(e.target.value)}
-              sx={{ minWidth: 400 }}
+              sx={{ minWidth: 516 }}
             />
           </div>
           <div>
@@ -214,7 +220,7 @@ const SecurityRequest: React.FC = () => {
               isOptionEqualToValue={(option, value) => option.id === value.id}
               renderInput={(params) => (
                 <TextField
-                  sx={{ minWidth: 400 }}
+                  sx={{ minWidth: 516 }}
                   {...params}
                   label=""
                   InputLabelProps={{
@@ -228,7 +234,8 @@ const SecurityRequest: React.FC = () => {
               )}
               onOpen={() => toggleScrolling(true)}
               onClose={() => toggleScrolling(false)}
-              onChange={(event, value) => setLocation(value!.label)}
+              onChange={(event, value, ) => setLocation(value!.label)}
+
             />
           </div>
 
@@ -373,8 +380,10 @@ const SecurityRequest: React.FC = () => {
                 value={threatType}
                 onChange={handleChangeThreatType} /* add funtion here */
               >
-                <MenuItem value="intruder">Intruder</MenuItem>
-                <MenuItem value="terrorist">Terrorist</MenuItem>
+                <MenuItem value="intrusion">Intrusion</MenuItem>
+                <MenuItem value="terrorism">Terrorism</MenuItem>
+                <MenuItem value="vandalism">Vandalism</MenuItem>
+                <MenuItem value="theft">Theft</MenuItem>
                 <MenuItem value="other">Other</MenuItem>
               </Select>
             </div>
@@ -396,6 +405,8 @@ const SecurityRequest: React.FC = () => {
               >
                 <MenuItem value="bodyguard">Bodyguard</MenuItem>
                 <MenuItem value="escort">Escort</MenuItem>
+                <MenuItem value="crowd_control">Crowd Control</MenuItem>
+                <MenuItem value="other">Other</MenuItem>
               </Select>
             </div>
           </Stack>
@@ -407,16 +418,16 @@ const SecurityRequest: React.FC = () => {
             justifyContent="center"
           >
             <Button
-              style={{
-                color: "#3B54A0",
-                outlineColor: "#3B54A0",
-                borderColor: "#3B54A0",
-              }}
-              variant="outlined"
-              sx={{ minWidth: 100 }}
-              onClick={handleBack}
+                style={{
+                  color: "#3B54A0",
+                  outlineColor: "#3B54A0",
+                  borderColor: "#3B54A0",
+                }}
+                variant="outlined"
+                sx={{ minWidth: 100 }}
+                onClick={clear}
             >
-              Back
+              Clear
             </Button>
 
             <Button
