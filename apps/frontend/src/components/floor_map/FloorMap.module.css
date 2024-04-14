@@ -179,6 +179,7 @@ body {
 
 .mbDiv {
   position: absolute;
+  bottom: 0px;
 }
 
 .floorSwitchText {
@@ -192,7 +193,7 @@ body {
 }
 
 .floorButtonsContainer {
-  flex-grow: 1;
+    flex-grow: 1;
   max-height: 260px;
   min-height: 250px;
   display: flex;
@@ -253,6 +254,7 @@ body {
 }
 
 .showMMap {
+  right: 0%;
 }
 
 .mMapbox {
