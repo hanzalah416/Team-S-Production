@@ -239,7 +239,7 @@ function FloorMap() {
           ),
         );
         setPathFound(pathWithFloorChanges.length > 0);
-        console.log(pathWithFloorChanges);
+
         return pathWithFloorChanges;
       } catch (error) {
         console.error("Failed to find path:", error);
@@ -398,8 +398,8 @@ function FloorMap() {
               className={styles.floorButtonsContainer}
             >
               {getTagsFromPath(fullPath).map((tag) => {
-                console.log("Full path:", fullPath);
-                console.log("Current tag:", tag);
+                // console.log("Full path:", fullPath);
+                // console.log("Current tag:", tag);
                 if (!tag) {
                   throw new Error("Tag was undefined");
                 }
