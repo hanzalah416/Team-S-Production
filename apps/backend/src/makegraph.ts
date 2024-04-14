@@ -315,10 +315,9 @@ class MakeGraph {
     }
     path.push(startNode);
 
-    console.log(PathToText(path.reverse()));
-
     // Convert the path of GraphNode objects to an array of node IDs
-    const pathIds = path.map((node) => node.id);
+    const pathIds = path.map((node) => node.id).reverse();
+    console.log(PathToText(path.reverse()));
     //console.log("Path found:", pathIds);
     return pathIds;
   }
