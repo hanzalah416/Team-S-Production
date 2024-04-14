@@ -1,15 +1,15 @@
-import React, { useState, useEffect, Suspense, lazy, useCallback } from "react";
+import React, {lazy, Suspense, useCallback, useEffect, useState} from "react";
 import styles from "./FloorMap.module.css";
-import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
+import {TransformComponent, TransformWrapper} from "react-zoom-pan-pinch";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
-import { Select, MenuItem } from "@mui/material";
-import { Box, Button, FormControlLabel, Switch } from "@mui/material";
+import {Box, Button, FormControlLabel, MenuItem, Select, Switch} from "@mui/material";
 import l1Map from "../assets/HospitalMap/00_thelowerlevel1.png";
 import l2Map from "../assets/HospitalMap/00_thelowerlevel2.png";
 import f1Map from "../assets/HospitalMap/01_thefirstfloor.png";
 import f2Map from "../assets/HospitalMap/02_thesecondfloor.png";
 import f3Map from "../assets/HospitalMap/03_thethirdfloor.png";
+
 const MiniMap = lazy(() => import("./MiniMap.tsx"));
 
 interface Position {
@@ -122,8 +122,8 @@ function FloorMap() {
     };
 
     const getFloorNumber = (nodeID: string) => {
-        const floor = nodeID.slice(-2); // Get the last two characters
-        return floor;
+         // Get the last two characters
+        return nodeID.slice(-2);
     };
 
 
