@@ -194,8 +194,9 @@ body {
 }
 
 .floorButtonsContainer {
-  max-height: 600px;
-  min-height: 225px;
+    flex-grow: 1;
+  max-height: 260px;
+  min-height: 250px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -258,13 +259,38 @@ body {
 }
 
 .mMapbox {
+  flex: 1;
   display: flex;
   color: black;
-  text-align: center;
-  font-weight: bold;
+  align-items: center; /* Center the contents vertically */
+  justify-content: start; /* Aligns the switch to the start */
+  padding-left: 20px; /* Adds some padding on the left */
+}
+
+.MapButtons {
   position: absolute;
-  z-index: 4;
-  height: min-content;
-  bottom: 40px;
-  left: 7vw;
+  top: 20px; /* Adjust to place it right at the top */
+  left: 20px; /* Right aligned */
+  width: 215px; /* Auto width based on content */
+  z-index: 10; /* Ensure it is above the TransformComponent */
+  display: flex;
+  flex-direction: column; /* Stack children vertically */
+  justify-content: flex-start;
+  padding: 10px; /* Adds some spacing around the controls */
+  background: rgba(241, 241, 241, 0.7); /* Semi-transparent background */
+  border: 1px solid black; /* Black border */
+  border-radius: 5px; /* Rounded corners */
+}
+
+.mMapbox {
+  display: flex;
+  width: 100%; /* Full width of the container */
+  justify-content: center; /* Center the switch horizontally */
+  margin-bottom: 10px; /* Space between switch and select */
+}
+
+.Select {
+  display: flex;
+  width: 100%; /* Full width of the container */
+  justify-content: center; /* Center the select horizontally */
 }
