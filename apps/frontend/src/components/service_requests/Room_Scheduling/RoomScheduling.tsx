@@ -8,17 +8,13 @@ import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Unstable_Grid2"; // Grid version 2
 import Paper from "@mui/material/Paper";
-import { styled } from "@mui/material/styles";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell, { tableCellClasses } from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Radio from "@mui/material/Radio";
 import styles from "./RoomScheduling.module.css";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { SelectChangeEvent } from "@mui/material/Select";
 
 //Interface for positions
 interface Position {
@@ -37,35 +33,6 @@ interface Node {
   // Add other properties if needed
 }
 
-type entry = {
-  name: string;
-  priority: string;
-  location: string;
-  startTime: string;
-  endTime: string;
-  status: string;
-};
-
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
-  [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
-  },
-  [`&.${tableCellClasses.body}`]: {
-    fontSize: 14,
-  },
-}));
-
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  "&:nth-of-type(odd)": {
-    backgroundColor: theme.palette.action.hover,
-  },
-  // hide last border
-  "&:last-child td, &:last-child th": {
-    border: 0,
-  },
-}));
-
 export default function RoomScheduling() {
   const [name, setName] = useState("");
   const [priority, setPriority] = useState("");
@@ -74,7 +41,7 @@ export default function RoomScheduling() {
   const [locations, setLocations] = useState<Position[]>([]);
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
-  const [submittedEntries, setSubmittedEntries] = useState<entry[]>([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Fetch node data from the backend
@@ -87,7 +54,7 @@ export default function RoomScheduling() {
           top: `${node.ycoord}px`,
           left: `${node.xcoord}px`,
         }));
-
+        console.log(formattedLocations);
         setLocations(formattedLocations);
       })
       .catch((error) => console.error("Failed to fetch node data:", error));
@@ -101,25 +68,12 @@ export default function RoomScheduling() {
     }
   };
 
-  // const handlePriorityChange = (event: SelectChangeEvent) => {
-  //   setPriority(event.target.value as string);
-  // };
-  // const handleStatusChange = (event: SelectChangeEvent) => {
-  //   setStatus(event.target.value as string);
-  // };
-
-  function submit() {
-    const newEntry = {
-      name: name,
-      priority: priority,
-      location: location,
-      status: status,
-      startTime: startTime,
-      endTime: endTime,
-    };
-    setSubmittedEntries((prevEntries) => [...prevEntries, newEntry]);
-    clear();
-  }
+  const handlePriorityChange = (event: SelectChangeEvent) => {
+    setPriority(event.target.value as string);
+  };
+  const handleStatusChange = (event: SelectChangeEvent) => {
+    setStatus(event.target.value as string);
+  };
 
   function clear() {
     setName("");
@@ -128,6 +82,34 @@ export default function RoomScheduling() {
     setStatus("");
     setStartTime("");
     setEndTime("");
+  }
+
+  async function submit() {
+    const roomRequestSent = {
+      name: name,
+      priority: priority,
+      location: location,
+      status: status,
+      startTime: startTime,
+      endTime: endTime,
+    };
+
+    await axios
+      .post("/api/room-scheduling", roomRequestSent, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      .then(() => {
+        console.log("Schedule request sent successfully");
+        navigate("/order-flowers-result");
+      })
+      .catch(() => {
+        console.log("Room Scheduling failed");
+        console.log(roomRequestSent);
+        alert("Scheduling failed to send. Please try again later");
+      });
+    clear();
   }
 
   return (
@@ -225,9 +207,7 @@ export default function RoomScheduling() {
                 aria-labelledby="demo-controlled-radio-buttons-group"
                 name="controlled-radio-buttons-group"
                 value={priority}
-                onChange={(e) => {
-                  setPriority(e.target.value);
-                }}
+                onChange={handlePriorityChange}
               >
                 <FormControlLabel
                   style={{
@@ -281,16 +261,14 @@ export default function RoomScheduling() {
                 aria-labelledby="demo-controlled-radio-buttons-group"
                 name="controlled-radio-buttons-group"
                 value={status}
-                onChange={(e) => {
-                  setStatus(e.target.value);
-                }}
+                onChange={handleStatusChange}
               >
                 <FormControlLabel
                   style={{
                     color: "#3D4A6B",
                     font: "Jaldi",
                   }}
-                  value="Unassigned"
+                  value="unassigned"
                   control={<Radio />}
                   label="Unassigned"
                 />
@@ -299,7 +277,7 @@ export default function RoomScheduling() {
                     color: "#3D4A6B",
                     font: "Jaldi",
                   }}
-                  value="Assigned"
+                  value="assigned"
                   control={<Radio />}
                   label="Assigned"
                 />
@@ -308,7 +286,7 @@ export default function RoomScheduling() {
                     color: "#3D4A6B",
                     font: "Jaldi",
                   }}
-                  value="In Progress"
+                  value="in_progress"
                   control={<Radio />}
                   label="In Progress"
                 />
@@ -317,7 +295,7 @@ export default function RoomScheduling() {
                     color: "#3D4A6B",
                     font: "Jaldi",
                   }}
-                  value="Closed"
+                  value="closed"
                   control={<Radio />}
                   label="Closed"
                 />
@@ -407,62 +385,6 @@ export default function RoomScheduling() {
       <br />
       <br />
       <br />
-      <Paper elevation={4}>
-        <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 700 }}>
-            <TableHead>
-              <TableRow>
-                <StyledTableCell className={"border border-gray-800 p-2"}>
-                  Name
-                </StyledTableCell>
-                <StyledTableCell className={"border border-gray-800 p-2"}>
-                  Priority
-                </StyledTableCell>
-                <StyledTableCell className={"border border-gray-800 p-2"}>
-                  Room
-                </StyledTableCell>
-                <StyledTableCell className={"border border-gray-800 p-2"}>
-                  Start Time
-                </StyledTableCell>
-                <StyledTableCell className={"border border-gray-800 p-2"}>
-                  End Time
-                </StyledTableCell>
-                <StyledTableCell className={"border border-gray-800 p-2"}>
-                  Status
-                </StyledTableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {submittedEntries.map((entry, index) => (
-                <StyledTableRow key={index}>
-                  <StyledTableCell
-                    component="th"
-                    scope="row"
-                    className={"border border-gray-800 p-2"}
-                  >
-                    {entry.name}
-                  </StyledTableCell>
-                  <StyledTableCell className={"border border-gray-800 p-2"}>
-                    {entry.priority}
-                  </StyledTableCell>
-                  <StyledTableCell className={"border border-gray-800 p-2"}>
-                    {entry.location}
-                  </StyledTableCell>
-                  <StyledTableCell className={"border border-gray-800 p-2"}>
-                    {entry.startTime}
-                  </StyledTableCell>
-                  <StyledTableCell className={"border border-gray-800 p-2"}>
-                    {entry.endTime}
-                  </StyledTableCell>
-                  <StyledTableCell className={"border border-gray-800 p-2"}>
-                    {entry.status}
-                  </StyledTableCell>
-                </StyledTableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </Paper>
     </Grid>
   );
 }
