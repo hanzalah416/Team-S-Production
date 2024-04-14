@@ -193,7 +193,7 @@ body {
 }
 
 .floorButtonsContainer {
-    flex-grow: 1;
+  flex-grow: 1;
   max-height: 260px;
   min-height: 250px;
   display: flex;
@@ -265,9 +265,9 @@ body {
   justify-content: start; /* Aligns the switch to the start */
   padding-left: 20px; /* Adds some padding on the left */
 
-    width: 100%; /* Full width of the container */
-    /* Center the switch horizontally */
-    margin-bottom: 10px; /* Space between switch and select */
+  width: 100%; /* Full width of the container */
+  /* Center the switch horizontally */
+  margin-bottom: 10px; /* Space between switch and select */
 }
 
 .MapButtons {
@@ -284,7 +284,6 @@ body {
   border: 1px solid black; /* Black border */
   border-radius: 5px; /* Rounded corners */
 }
-
 
 .Select {
   display: flex;

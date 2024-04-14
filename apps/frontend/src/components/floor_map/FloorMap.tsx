@@ -1,4 +1,4 @@
-import React, { lazy, Suspense, useCallback, useEffect, useState, } from "react";
+import React, { lazy, Suspense, useCallback, useEffect, useState } from "react";
 import styles from "./FloorMap.module.css";
 import { TransformComponent, TransformWrapper } from "react-zoom-pan-pinch";
 import Autocomplete from "@mui/material/Autocomplete";
@@ -60,86 +60,80 @@ function FloorMap() {
     [],
   );
   const [fullPath, setFullPath] = useState<string[]>([]);
-    const [showNodes, setShowNodes] = useState(false);
+  const [showNodes, setShowNodes] = useState(false);
 
-
-    const handleNodeClick = (node: Position | null) => {
-        console.log("Node clicked:", node);
-        const formatFloor = (floor: string) => {
-            // Prepend '0' if the floor is '1', '2', or '3'
-            return ['1', '2', '3'].includes(floor) ? `0${floor}` : floor;
-        };
-
-
-        if (!startPosition) {
-            // Directly use handleSelection to manage setting start position
-            handleSelection(node, "start");
-            // Optionally, change floor to the selected node's floor
-            // This is already handled inside handleSelection, so it might be redundant here
-        } else if (!endPosition) {
-            // Use handleSelection to manage setting end position
-            handleSelection(node, "end");
-            // Toggle node visibility off and change floor to the start node's floor
-            setShowNodes(false); // This will hide the nodes
-            // The floor change to start position's floor is already handled by handleSelection
-            setCurrentFloor(formatFloor(startPosition.floor));
-        }
+  const handleNodeClick = (node: Position | null) => {
+    console.log("Node clicked:", node);
+    const formatFloor = (floor: string) => {
+      // Prepend '0' if the floor is '1', '2', or '3'
+      return ["1", "2", "3"].includes(floor) ? `0${floor}` : floor;
     };
 
+    if (!startPosition) {
+      // Directly use handleSelection to manage setting start position
+      handleSelection(node, "start");
+      // Optionally, change floor to the selected node's floor
+      // This is already handled inside handleSelection, so it might be redundant here
+    } else if (!endPosition) {
+      // Use handleSelection to manage setting end position
+      handleSelection(node, "end");
+      // Toggle node visibility off and change floor to the start node's floor
+      setShowNodes(false); // This will hide the nodes
+      // The floor change to start position's floor is already handled by handleSelection
+      setCurrentFloor(formatFloor(startPosition.floor));
+    }
+  };
 
-    const toggleNodesVisibility = () => {
-        clearInputs();
-        setShowNodes(!showNodes);
+  const toggleNodesVisibility = () => {
+    clearInputs();
+    setShowNodes(!showNodes);
+  };
+
+  //{styles.mapDot}
+
+  const renderFloorNodes = () => {
+    if (!showNodes) return null;
+
+    // Function to format floor strings by removing leading zeros
+    const formatFloor = (floor: string) => {
+      if (floor === "01" || floor === "02" || floor === "03") {
+        return floor.substring(1); // Removes the leading '0'
+      }
+      return floor;
     };
 
-    //{styles.mapDot}
+    // Map dimensions
+    const mapWidth = 5000; // Example width, adjust as necessary
+    const mapHeight = 3400; // Example height, adjust as necessary
 
-    const renderFloorNodes = () => {
-        if (!showNodes) return null;
+    // Current floor formatted to remove leading zeros if necessary
+    const formattedCurrentFloor = formatFloor(currentFloor);
+    // console.log("Formatted current floor:", formattedCurrentFloor); // Debug to check formatted current floor
+    const nodesOnCurrentFloor = sortedLocations.filter(
+      (node) => node.floor === formattedCurrentFloor,
+    );
+    // console.log("Nodes on current floor:", nodesOnCurrentFloor); // Debug to see filtered results
 
-        // Function to format floor strings by removing leading zeros
-        const formatFloor = (floor: string) => {
-            if (floor === "01" || floor === "02" || floor === "03") {
-                return floor.substring(1);  // Removes the leading '0'
-            }
-            return floor;
-        };
+    return nodesOnCurrentFloor.map((node) => (
+      <div
+        key={node.id}
+        className={styles.mapDot}
+        style={{
+          top: `${(parseInt(node.top) / mapHeight) * 100}%`, // Convert ycoord to percentage
+          left: `${(parseInt(node.left) / mapWidth) * 100}%`, // Convert xcoord to percentage
+          position: "absolute",
+          zIndex: 1000, // Ensure it's visible above other elements
+          cursor: "pointer", // Cursor indicates it's clickable
+          borderRadius: "50%", // Makes the div circular
+          backgroundColor: "orangered", // Color of the dot
+        }}
+        onClick={() => handleNodeClick(node)}
+        title={node.label} // Tooltip to show label on hover
+      ></div>
+    ));
+  };
 
-        // Map dimensions
-        const mapWidth = 5000;  // Example width, adjust as necessary
-        const mapHeight = 3400; // Example height, adjust as necessary
-
-        // Current floor formatted to remove leading zeros if necessary
-        const formattedCurrentFloor = formatFloor(currentFloor);
-        // console.log("Formatted current floor:", formattedCurrentFloor); // Debug to check formatted current floor
-        const nodesOnCurrentFloor = sortedLocations.filter(node => node.floor === formattedCurrentFloor);
-        // console.log("Nodes on current floor:", nodesOnCurrentFloor); // Debug to see filtered results
-
-        return nodesOnCurrentFloor.map((node) => (
-            <div
-                key={node.id}
-                className={styles.mapDot}
-                style={{
-                    top: `${(parseInt(node.top) / mapHeight) * 100}%`, // Convert ycoord to percentage
-                    left: `${(parseInt(node.left) / mapWidth) * 100}%`, // Convert xcoord to percentage
-                    position: "absolute",
-                    zIndex: 1000, // Ensure it's visible above other elements
-                    cursor: 'pointer', // Cursor indicates it's clickable
-                    borderRadius: '50%', // Makes the div circular
-                    backgroundColor: 'orangered', // Color of the dot
-                }}
-                onClick={() => handleNodeClick(node)}
-                title={node.label} // Tooltip to show label on hover
-            ></div>
-        ));
-    };
-
-
-
-
-
-
-    const handleAlgorithmChange = async (event: {
+  const handleAlgorithmChange = async (event: {
     target: { value: React.SetStateAction<string> };
   }) => {
     const newAlgorithm = event.target.value;
@@ -253,31 +247,31 @@ function FloorMap() {
   };
 
   const handleSelection = (value: Position | null, type: "start" | "end") => {
-      if (type === "start") {
-          setStartPosition(value);
-          if (value) {
-              const selectedFloor = getFloorNumber(value.id);
-              setCurrentFloor((selectedFloor));
-              if (endPosition) {
-                  // Fetch path between new start and existing end
-                  fetchPath(value.id, endPosition.id);
-              }
+    if (type === "start") {
+      setStartPosition(value);
+      if (value) {
+        const selectedFloor = getFloorNumber(value.id);
+        setCurrentFloor(selectedFloor);
+        if (endPosition) {
+          // Fetch path between new start and existing end
+          fetchPath(value.id, endPosition.id);
+        }
 
-              // Filter the full path for the new floor based on the selected start position
-              const newFilteredQueueNodeIDs = fullPath.filter(
-                  (id) => getFloorNumber(id) === selectedFloor || id.length === 3
-              );
-              setFilteredQueueNodeIDs(newFilteredQueueNodeIDs);
-          }
-      } else if (type === "end") {
-          setEndPosition(value);
-          if (value && startPosition) {
-              // Fetch path with new end and existing start
-              fetchPath(startPosition.id, value.id);
-              // Ensure that we return to the floor of the start position
-              setCurrentFloor((getFloorNumber(startPosition.id)));
-          }
+        // Filter the full path for the new floor based on the selected start position
+        const newFilteredQueueNodeIDs = fullPath.filter(
+          (id) => getFloorNumber(id) === selectedFloor || id.length === 3,
+        );
+        setFilteredQueueNodeIDs(newFilteredQueueNodeIDs);
       }
+    } else if (type === "end") {
+      setEndPosition(value);
+      if (value && startPosition) {
+        // Fetch path with new end and existing start
+        fetchPath(startPosition.id, value.id);
+        // Ensure that we return to the floor of the start position
+        setCurrentFloor(getFloorNumber(startPosition.id));
+      }
+    }
   };
 
   const fetchPath = useCallback(
@@ -403,7 +397,6 @@ function FloorMap() {
 
   return (
     <div className={styles.wholePage}>
-
       <div className={styles.container}>
         <div className={styles.signInForm}>
           <div className={styles.boldtag}>Enter Starting Point</div>
@@ -558,7 +551,6 @@ function FloorMap() {
         </div>
 
         <div className={styles.mapArea}>
-
           <div className={styles.MapButtons}>
             <div className={styles.mMapbox}>
               <FormControlLabel
@@ -580,33 +572,31 @@ function FloorMap() {
                   />
                 }
                 label="Level Select"
-
               />
-
             </div>
-              <div className={styles.mMapbox}>
+            <div className={styles.mMapbox}>
               <FormControlLabel
-                  control={
-                      <Switch
-                          checked={showNodes}
-                          onChange={toggleNodesVisibility}
-                          name="showNodes"
-                          sx={{
-                              "& .MuiSwitch-switchBase": {
-                                  // Thumb color when unchecked
-                                  "&.Mui-checked": {
-                                      color: "#003b9c", // Thumb color when checked
-                                  },
-                                  "&.Mui-checked + .MuiSwitch-track": {
-                                      backgroundColor: "#0251d4", // Track color when checked
-                                  },
-                              },
-                          }}
-                      />
-                  }
-                  label="Toggle Nodes"
+                control={
+                  <Switch
+                    checked={showNodes}
+                    onChange={toggleNodesVisibility}
+                    name="showNodes"
+                    sx={{
+                      "& .MuiSwitch-switchBase": {
+                        // Thumb color when unchecked
+                        "&.Mui-checked": {
+                          color: "#003b9c", // Thumb color when checked
+                        },
+                        "&.Mui-checked + .MuiSwitch-track": {
+                          backgroundColor: "#0251d4", // Track color when checked
+                        },
+                      },
+                    }}
+                  />
+                }
+                label="Toggle Nodes"
               />
-              </div>
+            </div>
             <Select
               value={algorithm}
               onChange={handleAlgorithmChange}
@@ -635,7 +625,7 @@ function FloorMap() {
           // centered
           >
             <TransformComponent>
-                {renderFloorNodes()}
+              {renderFloorNodes()}
               <img
                 src={floorMaps[currentFloor as keyof typeof floorMaps]}
                 alt="map"
