@@ -21,6 +21,8 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import FreeSoloCreateOptionDialog from "./TextBoxMD.tsx";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 //Interface for positions
 interface Position {
@@ -43,8 +45,8 @@ type entry = {
   name: string;
   priority: string;
   location: string;
-  requestType: string;
-  medicineName: string;
+  typeMedicine: string;
+  nameMedicine: string;
   status: string;
 };
 
@@ -72,12 +74,13 @@ export default function MedicineDeliveryForm() {
   const [name, setName] = useState("");
   const [priority, setPriority] = useState("");
   const [location, setLocation] = useState("");
-  const [medicineName, setMedicineName] = useState("");
-  const [requestType, setRequestType] = useState("");
+  const [nameMedicine, setNameMedicine] = useState("");
+  const [typeMedicine, setTypeMedicine] = useState("");
   const [status, setStatus] = useState("");
   const [locations, setLocations] = useState<Position[]>([]);
 
-  const [submittedEntries, setSubmittedEntries] = useState<entry[]>([]);
+  const navigate = useNavigate(); //Function to navigate to other pages
+  const [submittedEntries] = useState<entry[]>([]);
 
   useEffect(() => {
     // Fetch node data from the backend
@@ -111,16 +114,31 @@ export default function MedicineDeliveryForm() {
     setStatus(event.target.value as string);
   };
 
-  function submit() {
+  async function submit() {
     const newEntry = {
       name: name,
       priority: priority,
       location: location,
-      requestType: requestType, // this is my target currently
-      medicineName: medicineName,
+      typeMedicine: typeMedicine,
+      nameMedicine: nameMedicine,
       status: status,
     };
-    setSubmittedEntries((prevEntries) => [...prevEntries, newEntry]);
+
+    await axios
+      .post("/api/medicine-request", newEntry, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      .then(() => {
+        console.log("Sanitation request sent successfully");
+        navigate("/order-flowers-result");
+      })
+      .catch(() => {
+        console.log("Sanitation request  failed to send");
+        console.log(newEntry);
+        alert("Sanitation request failed to send. Please try again later");
+      });
     clear();
   }
 
@@ -128,8 +146,8 @@ export default function MedicineDeliveryForm() {
     setName("");
     setPriority("");
     setLocation("");
-    setRequestType("");
-    setMedicineName("");
+    setTypeMedicine("");
+    setNameMedicine("");
     setStatus("");
   }
 
@@ -244,9 +262,9 @@ export default function MedicineDeliveryForm() {
             <RadioGroup
               aria-labelledby="demo-controlled-radio-buttons-group"
               name="controlled-radio-buttons-group"
-              value={medicineName}
+              value={typeMedicine}
               onChange={(e) => {
-                setMedicineName(e.target.value);
+                setTypeMedicine(e.target.value);
               }}
             >
               <FormControlLabel
@@ -290,8 +308,8 @@ export default function MedicineDeliveryForm() {
             {/*  />*/}
             {/*</form>*/}
             <FreeSoloCreateOptionDialog
-              requestType={requestType}
-              setRequestType={setRequestType}
+              nameMedicine={nameMedicine}
+              setNameMedicine={setNameMedicine}
             />
           </div>
 
@@ -396,10 +414,10 @@ export default function MedicineDeliveryForm() {
                     {entry.location}
                   </StyledTableCell>
                   <StyledTableCell className={"border border-gray-800 p-2"}>
-                    {entry.medicineName}
+                    {entry.typeMedicine}
                   </StyledTableCell>
                   <StyledTableCell className={"border border-gray-800 p-2"}>
-                    {entry.requestType}
+                    {entry.nameMedicine}
                   </StyledTableCell>
                   <StyledTableCell className={"border border-gray-800 p-2"}>
                     {entry.status}

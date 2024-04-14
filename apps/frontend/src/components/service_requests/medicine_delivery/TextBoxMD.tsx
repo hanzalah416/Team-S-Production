@@ -12,8 +12,8 @@ import { useEffect } from "react";
 const filter = createFilterOptions<MedicineOptionType>();
 
 interface FreeSoloCreateOptionDialogProps {
-  requestType: string;
-  setRequestType: React.Dispatch<React.SetStateAction<string>>;
+  nameMedicine: string;
+  setNameMedicine: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export default function FreeSoloCreateOptionDialog(
@@ -41,14 +41,14 @@ export default function FreeSoloCreateOptionDialog(
       GenericName: dialogValue.GenericName,
       BrandName: dialogValue.BrandName,
     });
-    prop.setRequestType(dialogValue.BrandName + dialogValue.GenericName);
+    prop.setNameMedicine(dialogValue.BrandName + dialogValue.GenericName);
     console.log(dialogValue.BrandName + dialogValue.GenericName);
     handleClose();
   };
 
   useEffect(() => {
     if (value != null) {
-      prop.setRequestType(value.GenericName);
+      prop.setNameMedicine(value.GenericName);
     }
   }, [value, prop, dialogValue]);
 
