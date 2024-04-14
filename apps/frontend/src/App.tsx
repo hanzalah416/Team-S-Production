@@ -84,6 +84,7 @@ function App() {
             </>
           ),
         },
+
         {
           path: "/forgot-password",
           element: (
@@ -140,7 +141,6 @@ function App() {
             </>
           ),
         },
-
         {
           path: "/map-debug",
           element: (

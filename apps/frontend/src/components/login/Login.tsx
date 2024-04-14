@@ -44,12 +44,12 @@ const Login: React.FC = () => {
   //     });
   //
   // };
-    const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
-        if (event.key === 'Enter') {
-            // Trigger login function here
-            handleLogin();
-        }
-    };
+  const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      // Trigger login function here
+      handleLogin();
+    }
+  };
 
   const handleLogin = () => {
     if (username == "admin" && password == "admin") {
@@ -59,84 +59,75 @@ const Login: React.FC = () => {
     }
   };
 
-
-
   return (
+    <div>
+      <div className={styles.wholePage}>
+        <div className={styles.container}>
+          <form className={styles.signInForm}>
+            <img src={bwhLogo} className={styles.logo} alt={"BWH logo"} />
+            <h2 className={styles.title}>Sign in</h2>
 
-      <div>
+            <div className={styles.formGroup}>
+              <TextField
+                id="standard-basic"
+                label="Username"
+                variant="standard"
+                className={styles.muiInput}
+                onChange={(e) => setUsername(e.target.value)}
+                onKeyPress={handleKeyPress}
+              />
+            </div>
 
+            <div className={styles.formGroup}>
+              <TextField
+                type="password"
+                id="standard-basic"
+                label="Password"
+                variant="standard"
+                className={styles.muiInput}
+                onChange={(e) => setPassword(e.target.value)}
+                onKeyPress={handleKeyPress}
+              />
+            </div>
 
-          <div className={styles.wholePage}>
-              <div className={styles.container}>
-                  <form className={styles.signInForm}>
-                      <img src={bwhLogo} className={styles.logo} alt={"BWH logo"}/>
-                      <h2 className={styles.title}>Sign in</h2>
+            <div className={styles.extras}>
+              <FormControlLabel
+                control={<Checkbox />}
+                label="Remember Me"
+                style={{ color: "black" }}
+              />
+              {/*<p className={styles.forgotPassword}>*/}
+              {/*  <a className={styles.forgotLink} href="url">*/}
+              {/*    FORGOT PASSWORD?*/}
+              {/*  </a>*/}
+              {/*</p>*/}
+            </div>
 
-                      <div className={styles.formGroup}>
-                          <TextField
-                              id="standard-basic"
-                              label="Username"
-                              variant="standard"
-                              className={styles.muiInput}
-                              onChange={(e) => setUsername(e.target.value)}
-                              onKeyPress={handleKeyPress}
-                          />
-                      </div>
-
-                      <div className={styles.formGroup}>
-                          <TextField
-                              type="password"
-                              id="standard-basic"
-                              label="Password"
-                              variant="standard"
-                              className={styles.muiInput}
-                              onChange={(e) => setPassword(e.target.value)}
-                              onKeyPress={handleKeyPress}
-                          />
-                      </div>
-
-                      <div className={styles.extras}>
-                          <FormControlLabel
-                              control={<Checkbox/>}
-                              label="Remember Me"
-                              style={{color: "black"}}
-                          />
-                          {/*<p className={styles.forgotPassword}>*/}
-                          {/*  <a className={styles.forgotLink} href="url">*/}
-                          {/*    FORGOT PASSWORD?*/}
-                          {/*  </a>*/}
-                          {/*</p>*/}
-                      </div>
-
-                      <div className={styles.buttonGroup}>
-                          <div className={styles.buttonGroup}>
-                              <button
-                                  className={`${styles.button} ${styles.loginButton}`}
-                                  type="button"
-                                  onClick={handleLogin}
-
-                              >
-                                  Login
-                              </button>
-
-                          </div>
-                          <p className={styles.signUp}>
-                              Don't have an account?{" "}
-                              <Link to={"/create-account"}> Sign Up</Link>
-                          </p>
-
-                      </div>
-
-                  </form>
-                  <div
-                      className={styles.slideShow}
-                      style={{backgroundImage: backgroundImage}}
-                  >
-                      {/*<img src="./src/components/assets/HeroPhotos/Temp1.png" className={"heroImage"} alt={"map"}/>*/}
-                  </div>
+            <div className={styles.buttonGroup}>
+              <div className={styles.buttonGroup}>
+                <button
+                  className={`${styles.button} ${styles.loginButton}`}
+                  type="button"
+                  onClick={handleLogin}
+                >
+                  Login
+                </button>
               </div>
+              <p className={styles.signUp}>
+                Don't have an account?{" "}
+                <Link to={"/create-account"}> Sign Up</Link>
+              </p>
+            </div>
+          </form>
+          <div
+            className={styles.slideShow}
+            style={{ backgroundImage: backgroundImage }}
+          >
+            {/*<img src="./src/components/assets/HeroPhotos/Temp1.png" className={"heroImage"} alt={"map"}/>*/}
           </div>
+        </div>
       </div>
+    </div>
   );
 };
 
