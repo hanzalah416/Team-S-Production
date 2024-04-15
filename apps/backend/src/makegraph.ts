@@ -286,8 +286,6 @@ class MakeGraph {
     }
     path.push(startNode);
 
-    path.reverse();
-
     const pathIds = path.map((node) => node.id).reverse();
     console.log(PathToText(path));
     //console.log("Path found:", pathIds);
