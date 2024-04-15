@@ -8,7 +8,7 @@ function readCSVFile(fileName: string) {
   try {
     const data = fs.readFileSync(filePath, "utf-8");
     return data
-      .split("\n")
+      .split("\r\n")
 
       .slice(1, -1)
       .map((line) => line.split(","));

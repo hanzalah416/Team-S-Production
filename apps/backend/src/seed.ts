@@ -6,10 +6,10 @@ import * as console from "console";
 async function seed() {
   const edges = readCSVFile("L1Edges.csv");
   const nodes = readCSVFile("L1Nodes.csv");
-  //const medicines = readCSVFile("Medicine.csv");
+  const medicines = readCSVFile("Medicine.csv");
   const dbNodeEdges = await PrismaClient.nodeEdge.findMany();
   const dbNodes = await PrismaClient.node.findMany();
-  //const medicineArray = await PrismaClient.medicine.findMany();
+  const medicineArray = await PrismaClient.medicine.findMany();
   if (dbNodes.length == 0) {
     for (const node of nodes) {
       await PrismaClient.node.upsert({
@@ -43,18 +43,21 @@ async function seed() {
     console.log("Edges populated");
   }
 
-  // if (medicineArray.length == 0) {
-  //   for (const medicine of medicines) {
-  //     await PrismaClient.medicine.create({
-  //       data: {
-  //         CAS: medicine[1],
-  //         genericName: medicine[0],
-  //         synName: medicine[2],
-  //       },
-  //     });
-  //   }
-  //   console.log("Medicine Populated");
-  // }
+  if (medicineArray.length == 0) {
+    for (const medicine of medicines) {
+      if (medicine[0] && medicine[1]) {
+        await PrismaClient.medicine.create({
+          data: {
+            genericName: medicine[0],
+            synName: medicine[1],
+          },
+        });
+      } else {
+        console.log("Medicine Populated");
+        break;
+      }
+    }
+  }
 
   const temp = await PrismaClient.hospitalUser.findMany({
     where: {
