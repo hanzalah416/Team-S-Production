@@ -75,10 +75,10 @@
 }
 
 .nodeDetailsPopup {
-    font-size: 16px !important;
+  font-size: 16px !important;
   color: black;
   padding: 40px;
-    background-color: rgba(241, 241, 241, 0.97);
+  background-color: rgba(241, 241, 241, 0.97);
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   z-index: 4;
@@ -88,9 +88,33 @@
 }
 
 .customButton {
-  margin-top: 10px;
   color: black;
   background-color: #f1f1f1;
   border: 1px solid black;
   cursor: pointer;
+  margin: 10px;
+}
+
+.detailsTable {
+  width: 100%; /* Ensures the table takes the full width of the popup */
+  border-collapse: collapse; /* Optional: for better table cell border handling */
+}
+
+.detailsTable td {
+  text-align: left; /* Left-align text in table cells */
+  padding: 8px; /* Add some padding for better readability */
+}
+
+.label {
+  font-weight: bold; /* Optional: to differentiate labels from values */
+}
+
+.inputField {
+  width: 100%; /* Makes the input field take up the full width of its container */
+  padding: 8px; /* Adds some padding inside the input field for better text visibility */
+  border: 1px solid black; /* Adds a black border around the input field */
+  box-sizing: border-box; /* Includes padding and border in the element's total width and height */
+  background-color: white; /* Sets the background color to white */
+  color: black; /* Ensures the text color is black */
+  margin-right: 30px;
 }

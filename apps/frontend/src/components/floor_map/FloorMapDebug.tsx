@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 import styles from "./FloorMapDebug.module.css";
 import { Button, FormControlLabel, Checkbox, Typography } from "@mui/material";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
+import axios from "axios";
 
 // Importing map images
 import l1Map from "../assets/HospitalMap/00_thelowerlevel1.png";
@@ -17,6 +18,9 @@ interface Node {
   id: string;
   longName: string;
   floor: string;
+  nodeType: string;
+  building: string;
+  shortName: string;
 }
 
 interface Edge {
@@ -26,6 +30,8 @@ interface Edge {
 
 interface NodeDetailsPopupProps {
   node: Node | null;
+  onSave: (node: Node) => void;
+  fetchNodes: () => void; // Add this line
 }
 
 const StaticFloorMapDebug = () => {
@@ -34,9 +40,31 @@ const StaticFloorMapDebug = () => {
   const [currentFloor, setCurrentFloor] = useState("1");
   const [showNodes, setShowNodes] = useState(true);
   const [showEdges, setShowEdges] = useState(true);
+
   const [selectedNodeDetails, setSelectedNodeDetails] = useState<Node | null>(
     null,
   );
+
+  const handleUpdateNode = (updatedNode: Node) => {
+    setNodes((prevNodes) =>
+      prevNodes.map((node) =>
+        node.id === updatedNode.id ? updatedNode : node,
+      ),
+    );
+  };
+
+  const fetchNodes = async () => {
+    try {
+      const response = await axios.get("/api/nodes");
+      setNodes(response.data);
+    } catch (error) {
+      console.error("Failed to fetch nodes:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchNodes(); // Call this function on component mount to load nodes initially
+  }, []);
 
   const handleNodeClick = (nodeId: string) => {
     const node = nodes.find((node) => node.id === nodeId);
@@ -47,16 +75,59 @@ const StaticFloorMapDebug = () => {
     }
   };
 
-  const NodeDetailsPopup: React.FC<NodeDetailsPopupProps> = ({ node }) => {
+  const NodeDetailsPopup: React.FC<NodeDetailsPopupProps> = ({
+    node,
+    onSave,
+  }) => {
     const popupRef = useRef<HTMLDivElement>(null);
+    const defaultNode: Node = {
+      xcoord: "",
+      ycoord: "",
+      id: "",
+      longName: "",
+      floor: "",
+      building: "",
+      nodeType: "",
+      shortName: "",
+    };
+
+    const [editableNode, setEditableNode] = useState<Node>({
+      ...defaultNode,
+      ...node,
+    });
 
     const handleClose = useCallback(() => {
       setSelectedNodeDetails(null);
     }, []);
 
+    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+      const { name, value } = event.target;
+      setEditableNode((prev) => ({ ...prev, [name]: value }));
+    };
+
+    const handleSave = async () => {
+      const url = `/api/nodes/${editableNode.id}`;
+      try {
+        const response = await axios.patch(url, {
+          xcoord: editableNode.xcoord,
+          ycoord: editableNode.ycoord,
+          floor: editableNode.floor,
+          longName: editableNode.longName,
+          nodeType: editableNode.nodeType,
+          building: editableNode.building,
+          shortName: editableNode.shortName,
+        });
+
+        onSave(response.data); // Update local state with the response
+        handleClose(); // Close the popup
+        await fetchNodes(); // Fetch all nodes again to reflect the update
+      } catch (error) {
+        console.error("Error updating node details:", error);
+      }
+    };
+
     const handleClickOutside = useCallback(
       (event: MouseEvent) => {
-        // Use instanceof to check if event.target is a Node
         if (
           popupRef.current &&
           event.target instanceof Node &&
@@ -66,16 +137,16 @@ const StaticFloorMapDebug = () => {
         }
       },
       [handleClose],
-    ); // Include all dependencies used inside the callback
+    );
 
     useEffect(() => {
       document.addEventListener("mousedown", handleClickOutside);
       return () => {
         document.removeEventListener("mousedown", handleClickOutside);
       };
-    }, [handleClickOutside]); // Depend on the memoized handleClickOutside
+    }, [handleClickOutside]);
 
-    if (!node) return null;
+    if (!editableNode) return null;
 
     return (
       <div className={styles.nodeDetailsPopupContainer} onClick={handleClose}>
@@ -84,24 +155,115 @@ const StaticFloorMapDebug = () => {
           ref={popupRef}
           onClick={(e) => e.stopPropagation()}
         >
-          <div>
-            <strong>ID:</strong> {node.id}
+          <table className={styles.detailsTable}>
+            <tbody>
+              <tr>
+                <td className={styles.label}>ID:</td>
+                <td>
+                  <input
+                    type="text"
+                    name="id"
+                    value={editableNode.id}
+                    onChange={handleInputChange}
+                    className={styles.inputField}
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td className={styles.label}>Name:</td>
+                <td>
+                  <input
+                    type="text"
+                    name="longName"
+                    value={editableNode.longName}
+                    onChange={handleInputChange}
+                    className={styles.inputField}
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td className={styles.label}>Floor:</td>
+                <td>
+                  <input
+                    type="text"
+                    name="floor"
+                    value={editableNode.floor}
+                    onChange={handleInputChange}
+                    className={styles.inputField}
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td className={styles.label}>X Coordinate:</td>
+                <td>
+                  <input
+                    type="text"
+                    name="xcoord"
+                    value={editableNode.xcoord}
+                    onChange={handleInputChange}
+                    className={styles.inputField}
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td className={styles.label}>Y Coordinate:</td>
+                <td>
+                  <input
+                    type="text"
+                    name="ycoord"
+                    value={editableNode.ycoord}
+                    onChange={handleInputChange}
+                    className={styles.inputField}
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td className={styles.label}>Node Type:</td>
+                <td>
+                  <input
+                    type="text"
+                    name="nodeType"
+                    value={editableNode.nodeType}
+                    onChange={handleInputChange}
+                    className={styles.inputField}
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td className={styles.label}>Building:</td>
+                <td>
+                  <input
+                    type="text"
+                    name="building"
+                    value={editableNode.building}
+                    onChange={handleInputChange}
+                    className={styles.inputField}
+                  />
+                </td>
+              </tr>
+
+              <tr>
+                <td className={styles.label}>Short Name:</td>
+                <td>
+                  <input
+                    type="text"
+                    name="shortName"
+                    value={editableNode.shortName}
+                    onChange={handleInputChange}
+                    className={styles.inputField}
+                  />
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div className={styles.buttonGroup}>
+            <button onClick={handleSave} className={styles.customButton}>
+              Save
+            </button>
+            <button onClick={handleClose} className={styles.customButton}>
+              Close
+            </button>
           </div>
-          <div>
-            <strong>Name:</strong> {node.longName}
-          </div>
-          <div>
-            <strong>Floor:</strong> {node.floor}
-          </div>
-          <div>
-            <strong>X Coordinate:</strong> {node.xcoord}
-          </div>
-          <div>
-            <strong>Y Coordinate:</strong> {node.ycoord}
-          </div>
-          <button onClick={handleClose} className={styles.customButton}>
-            Close
-          </button>
         </div>
       </div>
     );
@@ -194,112 +356,118 @@ const StaticFloorMapDebug = () => {
 
   return (
     <div className={styles.container}>
-      {selectedNodeDetails && <NodeDetailsPopup node={selectedNodeDetails} />}
+      {selectedNodeDetails && (
+        <NodeDetailsPopup
+          node={selectedNodeDetails}
+          onSave={handleUpdateNode}
+          fetchNodes={fetchNodes}
+        />
+      )}
 
       <div className={styles.mapContainer}>
         <FloorSwitcher />
 
-          <TransformWrapper
-              doubleClick={{
-                  disabled: true,
-              }}
-          >
-              <div className={styles.checkboxContainer}>
-                  <FormControlLabel
-                      control={
-                          <Checkbox
-                              checked={showEdges}
-                              onChange={(e) => setShowEdges(e.target.checked)}
-                          />
-                      }
-                      label={
-                          <Typography
-                              className={styles.checkboxLabel}
-                              onClick={(e) => e.stopPropagation()}
-                          >
-                              Edges
-                          </Typography>
-                      }
-                  />
-                  <FormControlLabel
-                      control={
-                          <Checkbox
-                              checked={showNodes}
-                              onChange={(e) => setShowNodes(e.target.checked)}
-                          />
-                      }
-                      label={
-                          <Typography
-                              className={styles.checkboxLabel}
-                              onClick={(e) => e.stopPropagation()}
-                          >
-                              Nodes
-                          </Typography>
-                      }
-                  />
-              </div>
-              <TransformComponent>
-                  <div className={styles.mapAndDots}>
-                      <img
-                          src={floorMaps[currentFloor as keyof typeof floorMaps]}
-                          alt={`Floor ${currentFloor}`}
-                          className={styles.mapImage}
-                      />
-                      <svg className={styles.overlay} viewBox="0 0 5000 3400">
-                          {showEdges &&
-                              edges.map((edge) => {
-                                  const startNode = nodes.find(
-                                      (node) => node.id === edge.startNode,
-                                  );
-                                  const endNode = nodes.find(
-                                      (node) => node.id === edge.endNode,
-                                  );
-                                  if (
-                                      startNode &&
-                                      endNode &&
-                                      startNode.floor === currentFloor &&
-                                      endNode.floor === currentFloor
-                                  ) {
-                                      const startPosition = getPositionById(startNode.id);
-                                      const endPosition = getPositionById(endNode.id);
-                                      return (
-                                          <line
-                                              key={`${edge.startNode}-${edge.endNode}`}
-                                              x1={startPosition.x}
-                                              y1={startPosition.y}
-                                              x2={endPosition.x}
-                                              y2={endPosition.y}
-                                              stroke="blue"
-                                              strokeWidth="5"
-                                          />
-                                      );
-                                  }
-                                  return null;
-                              })}
-                          {showNodes &&
-                              nodes
-                                  .filter((node) => node.floor === currentFloor)
-                                  .map((node) => {
-                                      const position = getPositionById(node.id);
-                                      const isSelected = node === selectedNodeDetails;
-                                      return (
-                                          <circle
-                                              key={node.id}
-                                              cx={position.x}
-                                              cy={position.y}
-                                              r="9"
-                                              fill="red"
-                                              stroke={isSelected ? "black" : "none"}
-                                              strokeWidth={isSelected ? "3" : "0"}
-                                              onClick={() => handleNodeClick(node.id)}
-                                              style={{cursor: "pointer"}} // Makes it clear the node is clickable
-                                          />
-                                      );
-                                  })}
-                      </svg>
-                  </div>
-              </TransformComponent>
-          </TransformWrapper>
+        <TransformWrapper
+          doubleClick={{
+            disabled: true,
+          }}
+        >
+          <div className={styles.checkboxContainer}>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={showEdges}
+                  onChange={(e) => setShowEdges(e.target.checked)}
+                />
+              }
+              label={
+                <Typography
+                  className={styles.checkboxLabel}
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  Edges
+                </Typography>
+              }
+            />
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={showNodes}
+                  onChange={(e) => setShowNodes(e.target.checked)}
+                />
+              }
+              label={
+                <Typography
+                  className={styles.checkboxLabel}
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  Nodes
+                </Typography>
+              }
+            />
+          </div>
+          <TransformComponent>
+            <div className={styles.mapAndDots}>
+              <img
+                src={floorMaps[currentFloor as keyof typeof floorMaps]}
+                alt={`Floor ${currentFloor}`}
+                className={styles.mapImage}
+              />
+              <svg className={styles.overlay} viewBox="0 0 5000 3400">
+                {showEdges &&
+                  edges.map((edge) => {
+                    const startNode = nodes.find(
+                      (node) => node.id === edge.startNode,
+                    );
+                    const endNode = nodes.find(
+                      (node) => node.id === edge.endNode,
+                    );
+                    if (
+                      startNode &&
+                      endNode &&
+                      startNode.floor === currentFloor &&
+                      endNode.floor === currentFloor
+                    ) {
+                      const startPosition = getPositionById(startNode.id);
+                      const endPosition = getPositionById(endNode.id);
+                      return (
+                        <line
+                          key={`${edge.startNode}-${edge.endNode}`}
+                          x1={startPosition.x}
+                          y1={startPosition.y}
+                          x2={endPosition.x}
+                          y2={endPosition.y}
+                          stroke="blue"
+                          strokeWidth="5"
+                        />
+                      );
+                    }
+                    return null;
+                  })}
+                {showNodes &&
+                  nodes
+                    .filter((node) => node.floor === currentFloor)
+                    .map((node) => {
+                      const position = getPositionById(node.id);
+                      const isSelected = node === selectedNodeDetails;
+                      return (
+                        <circle
+                          key={node.id}
+                          cx={position.x}
+                          cy={position.y}
+                          r="9"
+                          fill="red"
+                          stroke={isSelected ? "black" : "none"}
+                          strokeWidth={isSelected ? "3" : "0"}
+                          onClick={() => handleNodeClick(node.id)}
+                          style={{ cursor: "pointer" }} // Makes it clear the node is clickable
+                        />
+                      );
+                    })}
+              </svg>
+            </div>
+          </TransformComponent>
+        </TransformWrapper>
       </div>
     </div>
   );

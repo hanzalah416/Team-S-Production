@@ -31,7 +31,6 @@ interface Node {
   // Add other properties if needed
 }
 
-
 const OrderFlowers: React.FC = () => {
   const [nameRequester, setNameRequester] = useState("");
   const [priority, setPriority] = useState("");
@@ -41,7 +40,6 @@ const OrderFlowers: React.FC = () => {
   const [status, setStatus] = useState("");
 
   const [locations, setLocations] = useState<Position[]>([]);
-
 
   const navigate = useNavigate();
 
@@ -208,27 +206,27 @@ const OrderFlowers: React.FC = () => {
               Location
             </InputLabel>
             <Autocomplete
-                sx={{minWidth: 400, color: "#3B54A0"}}
-                options={locations}
-                getOptionLabel={(option) => option.label || "Unknown"}
-                isOptionEqualToValue={(option, value) => option.id === value.id}
-                value={location}
-                renderInput={(params) => (
-                    <TextField
-                        {...params}
-                        label=""
-                        InputLabelProps={{
-                          style: {
-                            fontFamily: "Poppins",
-                            fontSize: 14,
-                            textAlign: "center",
-                          },
-                        }}
-                    />
-                )}
-                onOpen={() => toggleScrolling(true)}
-                onClose={() => toggleScrolling(false)}
-                onChange={(event, value) => handleChangeLocation(value)}
+              sx={{ minWidth: 400, color: "#3B54A0" }}
+              options={locations}
+              getOptionLabel={(option) => option.label || "Unknown"}
+              isOptionEqualToValue={(option, value) => option.id === value.id}
+              value={location}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label=""
+                  InputLabelProps={{
+                    style: {
+                      fontFamily: "Poppins",
+                      fontSize: 14,
+                      textAlign: "center",
+                    },
+                  }}
+                />
+              )}
+              onOpen={() => toggleScrolling(true)}
+              onClose={() => toggleScrolling(false)}
+              onChange={(event, value) => handleChangeLocation(value)}
             />
           </div>
 
@@ -371,7 +369,6 @@ const OrderFlowers: React.FC = () => {
           </Stack>
         </Stack>
       </Paper>
-
     </Grid>
   );
 };
