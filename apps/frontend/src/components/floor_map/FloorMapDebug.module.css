@@ -1,4 +1,8 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap");
+
 .container {
+  font-family: "Poppins", sans-serif !important;
+  font-weight: 400;
   margin-top: 6px;
   display: flex;
   justify-content: center;
@@ -33,4 +37,59 @@
   left: 50%;
   transform: translateX(-50%); /* Center the switcher horizontally */
   z-index: 2;
+}
+
+.checkboxContainer {
+  position: absolute; /* Positioning relative to its positioned parent */
+  top: 10px; /* Distance from the top of the parent container */
+  left: 10px; /* Distance from the left of the parent container */
+  display: flex; /* Using flexbox to stack items */
+  flex-direction: column; /* Align children vertically */
+  align-items: flex-start; /* Align children to the left */
+  z-index: 2;
+  margin-top: 90px; /* Ensure it appears above other content */
+  border: 1px solid black;
+  background-color: white;
+  border-radius: 15px;
+  padding: 10px; /* Add padding to create space between contents and edge */
+}
+
+.checkboxLabel {
+  color: black !important; /* Force text color to be black */
+  font-family: "Poppins", sans-serif !important; /* Force usage of Poppins font */
+  font-weight: 400 !important; /* Ensure font weight is 400 */
+  font-size: 14px !important; /* Force font size to 14 pixels */
+}
+
+.nodeDetailsPopupContainer {
+  position: fixed; /* Fixed or absolute, depending on container */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5); /* Grey out backdrop */
+  z-index: 3;
+}
+
+.nodeDetailsPopup {
+  color: black;
+  padding: 40px;
+  background: #f1f1f1;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 4;
+  width: auto;
+  border: 2px solid black;
+  max-width: 90%; /* Responsive max width */
+}
+
+.customButton {
+  margin-top: 10px;
+  color: black;
+  background-color: #f1f1f1;
+  border: 1px solid black;
+  cursor: pointer;
 }
