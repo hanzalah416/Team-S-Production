@@ -91,49 +91,57 @@ function FloorMap() {
 
   //{styles.mapDot}
 
-  const renderFloorNodes = () => {
-    if (!showNodes) return null;
+    const renderFloorNodes = () => {
+        if (!showNodes) return null;
 
-    // Function to format floor strings by removing leading zeros
-    const formatFloor = (floor: string) => {
-      if (floor === "01" || floor === "02" || floor === "03") {
-        return floor.substring(1); // Removes the leading '0'
-      }
-      return floor;
+        // Function to format floor strings by removing leading zeros
+        const formatFloor = (floor: string) => {
+            if (floor === "01" || floor === "02" || floor === "03") {
+                return floor.substring(1); // Removes the leading '0'
+            }
+            return floor;
+        };
+
+        // Map dimensions
+        const mapWidth = 5000; // Example width, adjust as necessary
+        const mapHeight = 3400; // Example height, adjust as necessary
+
+        // Current floor formatted to remove leading zeros if necessary
+        const formattedCurrentFloor = formatFloor(currentFloor);
+        const nodesOnCurrentFloor = sortedLocations.filter(
+            (node) => node.floor === formattedCurrentFloor,
+        );
+
+        return nodesOnCurrentFloor.map((node) => {
+            // Determine the background color based on whether the node is the start position
+            const isStartNode = startPosition && node.id === startPosition.id;
+            const nodeColor = isStartNode ? "green" : (startPosition ? "red" : "green");
+
+
+            const tooltipText = `${node.label}, ${node.id}`;
+
+            return (
+                <div
+                    key={node.id}
+                    className={styles.mapDot}
+                    style={{
+                        top: `${(parseInt(node.top) / mapHeight) * 100}%`, // Convert ycoord to percentage
+                        left: `${(parseInt(node.left) / mapWidth) * 100}%`, // Convert xcoord to percentage
+                        position: "absolute",
+                        zIndex: 1000, // Ensure it's visible above other elements
+                        cursor: "pointer", // Cursor indicates it's clickable
+                        borderRadius: "50%", // Makes the div circular
+                        backgroundColor: nodeColor, // Dynamic color based on the node status
+                    }}
+                    onClick={() => handleNodeClick(node)}
+                    title={tooltipText} // Enhanced tooltip with label and ID
+                ></div>
+            );
+        });
     };
 
-    // Map dimensions
-    const mapWidth = 5000; // Example width, adjust as necessary
-    const mapHeight = 3400; // Example height, adjust as necessary
 
-    // Current floor formatted to remove leading zeros if necessary
-    const formattedCurrentFloor = formatFloor(currentFloor);
-    // console.log("Formatted current floor:", formattedCurrentFloor); // Debug to check formatted current floor
-    const nodesOnCurrentFloor = sortedLocations.filter(
-      (node) => node.floor === formattedCurrentFloor,
-    );
-    // console.log("Nodes on current floor:", nodesOnCurrentFloor); // Debug to see filtered results
-
-    return nodesOnCurrentFloor.map((node) => (
-      <div
-        key={node.id}
-        className={styles.mapDot}
-        style={{
-          top: `${(parseInt(node.top) / mapHeight) * 100}%`, // Convert ycoord to percentage
-          left: `${(parseInt(node.left) / mapWidth) * 100}%`, // Convert xcoord to percentage
-          position: "absolute",
-          zIndex: 1000, // Ensure it's visible above other elements
-          cursor: "pointer", // Cursor indicates it's clickable
-          borderRadius: "50%", // Makes the div circular
-          backgroundColor: "orangered", // Color of the dot
-        }}
-        onClick={() => handleNodeClick(node)}
-        title={node.label} // Tooltip to show label on hover
-      ></div>
-    ));
-  };
-
-  const handleAlgorithmChange = async (event: {
+    const handleAlgorithmChange = async (event: {
     target: { value: React.SetStateAction<string> };
   }) => {
     const newAlgorithm = event.target.value;
