@@ -75,7 +75,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 const OrderFlowers: React.FC = () => {
   const [nameRequester, setNameRequester] = useState("");
   const [priority, setPriority] = useState("");
-  const [location, setLocation] = useState("");
+  const [location, setLocation] = useState<Position | null>(null);
   const [typeFlower, setTypeFlower] = useState("");
   const [customMessage, setCustomMessage] = useState("");
   const [status, setStatus] = useState("");
@@ -118,10 +118,14 @@ const OrderFlowers: React.FC = () => {
     setStatus(event.target.value as string);
   };
 
+  const handleChangeLocation = (value: Position | null) => {
+    setLocation(value);
+  };
+
   function clear() {
     setNameRequester("");
     setPriority("");
-    setLocation("");
+    setLocation(null);
     setTypeFlower("");
     setCustomMessage("");
     setStatus("");
@@ -131,7 +135,7 @@ const OrderFlowers: React.FC = () => {
     if (
       nameRequester == "" ||
       priority == "" ||
-      location == "" ||
+      location == null ||
       typeFlower == "" ||
       customMessage == "" ||
       status == ""
@@ -143,7 +147,7 @@ const OrderFlowers: React.FC = () => {
     const orderFlowerSent = {
       name: nameRequester,
       priority: priority,
-      location: location,
+      location: location.label,
       typeFlower: typeFlower,
       customMessage: customMessage,
       status: status,
@@ -229,7 +233,7 @@ const OrderFlowers: React.FC = () => {
               onChange={handlePriorityChange}
               sx={{ minWidth: 400, color: "#3B54A0" }}
             >
-              <MenuItem value={"low"}>L ow</MenuItem>
+              <MenuItem value={"low"}>Low</MenuItem>
               <MenuItem value={"medium"}>Medium</MenuItem>
               <MenuItem value={"high"}>High</MenuItem>
               <MenuItem value={"emergency"}>Emergency</MenuItem>
@@ -246,26 +250,27 @@ const OrderFlowers: React.FC = () => {
               Location
             </InputLabel>
             <Autocomplete
-              options={locations}
-              getOptionLabel={(option) => option.label || "Unknown"}
-              isOptionEqualToValue={(option, value) => option.id === value.id}
-              renderInput={(params) => (
-                <TextField
-                  sx={{ minWidth: 400 }}
-                  {...params}
-                  label=""
-                  InputLabelProps={{
-                    style: {
-                      fontFamily: "Poppins",
-                      fontSize: 14,
-                      textAlign: "center",
-                    },
-                  }}
-                />
-              )}
-              onOpen={() => toggleScrolling(true)}
-              onClose={() => toggleScrolling(false)}
-              onChange={(event, value) => setLocation(value!.label)}
+                sx={{minWidth: 400, color: "#3B54A0"}}
+                options={locations}
+                getOptionLabel={(option) => option.label || "Unknown"}
+                isOptionEqualToValue={(option, value) => option.id === value.id}
+                value={location}
+                renderInput={(params) => (
+                    <TextField
+                        {...params}
+                        label=""
+                        InputLabelProps={{
+                          style: {
+                            fontFamily: "Poppins",
+                            fontSize: 14,
+                            textAlign: "center",
+                          },
+                        }}
+                    />
+                )}
+                onOpen={() => toggleScrolling(true)}
+                onClose={() => toggleScrolling(false)}
+                onChange={(event, value) => handleChangeLocation(value)}
             />
           </div>
 
@@ -368,7 +373,7 @@ const OrderFlowers: React.FC = () => {
               value={status}
               label=""
               onChange={handleStatusChange}
-              sx={{ minWidth: 300 }}
+              sx={{ minWidth: 400 }}
             >
               <MenuItem value={"unassigned"}>Unassigned</MenuItem>
               <MenuItem value={"assigned"}>Assigned</MenuItem>

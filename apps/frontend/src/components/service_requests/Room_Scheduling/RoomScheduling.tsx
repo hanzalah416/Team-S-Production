@@ -37,7 +37,7 @@ interface Node {
 export default function RoomScheduling() {
   const [name, setName] = useState("");
   const [priority, setPriority] = useState("");
-  const [location, setLocation] = useState("");
+  const [location, setLocation] = useState<Position | null>(null);
   const [status, setStatus] = useState("");
   const [locations, setLocations] = useState<Position[]>([]);
   const [startTime, setStartTime] = useState("");
@@ -76,10 +76,14 @@ export default function RoomScheduling() {
     setStatus(event.target.value as string);
   };
 
+  const handleChangeLocation = (value: Position | null) => {
+    setLocation(value);
+  };
+
   function clear() {
     setName("");
     setPriority("");
-    setLocation("");
+    setLocation(null);
     setStatus("");
     setStartTime("");
     setEndTime("");
@@ -89,7 +93,7 @@ export default function RoomScheduling() {
     const roomRequestSent = {
       name: name,
       priority: priority,
-      location: location,
+      location: location?.label,
       status: status,
       startTime: startTime,
       endTime: endTime,
@@ -167,26 +171,27 @@ export default function RoomScheduling() {
               Room
             </InputLabel>
             <Autocomplete
-              options={locations}
-              getOptionLabel={(option) => option.label || "Unknown"}
-              isOptionEqualToValue={(option, value) => option.id === value.id}
-              renderInput={(params) => (
-                <TextField
-                  sx={{ minWidth: 400 }}
-                  {...params}
-                  label=""
-                  InputLabelProps={{
-                    style: {
-                      fontFamily: "Poppins",
-                      fontSize: 14,
-                      textAlign: "center",
-                    },
-                  }}
-                />
-              )}
-              onOpen={() => toggleScrolling(true)}
-              onClose={() => toggleScrolling(false)}
-              onChange={(event, value) => setLocation(value!.label)}
+                sx={{minWidth: 400, color: "#3B54A0"}}
+                options={locations}
+                getOptionLabel={(option) => option.label || "Unknown"}
+                isOptionEqualToValue={(option, value) => option.id === value.id}
+                value={location}
+                renderInput={(params) => (
+                    <TextField
+                        {...params}
+                        label=""
+                        InputLabelProps={{
+                          style: {
+                            fontFamily: "Poppins",
+                            fontSize: 14,
+                            textAlign: "center",
+                          },
+                        }}
+                    />
+                )}
+                onOpen={() => toggleScrolling(true)}
+                onClose={() => toggleScrolling(false)}
+                onChange={(event, value) => handleChangeLocation(value)}
             />
           </div>
           <div>
