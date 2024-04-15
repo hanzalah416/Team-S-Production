@@ -288,10 +288,10 @@ class MakeGraph {
 
     path.reverse();
 
+    const pathIds = path.map((node) => node.id).reverse();
     console.log(PathToText(path));
-
     //console.log("Path found:", pathIds);
-    return path;
+    return pathIds;
   }
 
   //Gets the euclidean distance between nodes
