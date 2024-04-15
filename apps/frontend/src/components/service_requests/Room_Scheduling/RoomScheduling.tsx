@@ -130,195 +130,194 @@ export default function RoomScheduling() {
         <p className={"title"}>Room Scheduling Form </p>
         <p className={"names"}>Jeffrey Li and Nate Schneider</p>
 
-          <Stack alignItems="center" justifyContent="center" spacing={3} p={4}>
-              <div>
-                  <InputLabel
-                      style={{
-                          color: "#3B54A0",
-                      }}
-                      id="demo-simple-select-label"
-                  >
-                      Name of Requester
-                  </InputLabel>
-                  <TextField
-                      style={{
-                          borderColor: "#3B54A0",
-                          color: "#3B54A0",
-                          accentColor: "#3B54A0",
-                          borderBlockColor: "#3B54A0",
-                      }}
-                      id="outlined-controlled"
-                      label=""
-                      value={name}
-                      onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                          setName(event.target.value);
-                      }}
-                      sx={{minWidth: 400}}
-                  />
-              </div>
+        <Stack alignItems="center" justifyContent="center" spacing={3} p={4}>
+          <div>
+            <InputLabel
+              style={{
+                color: "#3B54A0",
+              }}
+              id="demo-simple-select-label"
+            >
+              Name of Requester
+            </InputLabel>
+            <TextField
+              style={{
+                borderColor: "#3B54A0",
+                color: "#3B54A0",
+                accentColor: "#3B54A0",
+                borderBlockColor: "#3B54A0",
+              }}
+              id="outlined-controlled"
+              label=""
+              value={name}
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                setName(event.target.value);
+              }}
+              sx={{ minWidth: 400 }}
+            />
+          </div>
 
-              <div>
-                  <InputLabel
-                      style={{
-                          color: "#3B54A0",
-                      }}
-                      id="location-dropdown"
-                  >
-                      Room
-                  </InputLabel>
-                  <Autocomplete
-                      options={locations}
-                      getOptionLabel={(option) => option.label || "Unknown"}
-                      isOptionEqualToValue={(option, value) => option.id === value.id}
-                      renderInput={(params) => (
-                          <TextField
-                              sx={{minWidth: 400}}
-                              {...params}
-                              label=""
-                              InputLabelProps={{
-                                  style: {
-                                      fontFamily: "Poppins",
-                                      fontSize: 14,
-                                      textAlign: "center",
-                                  },
-                              }}
-                          />
-                      )}
-                      onOpen={() => toggleScrolling(true)}
-                      onClose={() => toggleScrolling(false)}
-                      onChange={(event, value) => setLocation(value!.label)}
-                  />
-              </div>
-              <div>
-                  <InputLabel
-                      style={{
-                          color: "#3B54A0",
-                      }}
-                      id="priority-dropdown"
-                  >
-                      Priority
-                  </InputLabel>
-                  <Select
-                      labelId="demo-simple-select-label"
-                      id="demo-simple-select"
-                      value={priority}
-                      label=""
-                      onChange={handlePriorityChange}
-                      sx={{minWidth: 400, color: "#3B54A0"}}
-                  >
-                      <MenuItem value={"Low"}>Low</MenuItem>
-                      <MenuItem value={"Medium"}>Medium</MenuItem>
-                      <MenuItem value={"High"}>High</MenuItem>
-                      <MenuItem value={"Emergency"}>Emergency</MenuItem>
-                  </Select>
-              </div>
-              <div>
-                  <InputLabel
-                      style={{
-                          color: "#3B54A0",
-                      }}
-                      id="demo-simple-select-label"
-                  >
-                      Status
-                  </InputLabel>
-                  <Select
-                      labelId="demo-simple-select-label"
-                      id="demo-simple-select"
-                      value={status}
-                      label=""
-                      onChange={handleStatusChange}
-                      sx={{minWidth: 400}}
-                  >
-                      <MenuItem value={"unassigned"}>Unassigned</MenuItem>
-                      <MenuItem value={"assigned"}>Assigned</MenuItem>
-                      <MenuItem value={"in_progress"}>In Progress</MenuItem>
-                      <MenuItem value={"closed"}>Closed</MenuItem>
-                  </Select>
-              </div>
+          <div>
+            <InputLabel
+              style={{
+                color: "#3B54A0",
+              }}
+              id="location-dropdown"
+            >
+              Room
+            </InputLabel>
+            <Autocomplete
+              options={locations}
+              getOptionLabel={(option) => option.label || "Unknown"}
+              isOptionEqualToValue={(option, value) => option.id === value.id}
+              renderInput={(params) => (
+                <TextField
+                  sx={{ minWidth: 400 }}
+                  {...params}
+                  label=""
+                  InputLabelProps={{
+                    style: {
+                      fontFamily: "Poppins",
+                      fontSize: 14,
+                      textAlign: "center",
+                    },
+                  }}
+                />
+              )}
+              onOpen={() => toggleScrolling(true)}
+              onClose={() => toggleScrolling(false)}
+              onChange={(event, value) => setLocation(value!.label)}
+            />
+          </div>
+          <div>
+            <InputLabel
+              style={{
+                color: "#3B54A0",
+              }}
+              id="priority-dropdown"
+            >
+              Priority
+            </InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={priority}
+              label=""
+              onChange={handlePriorityChange}
+              sx={{ minWidth: 400, color: "#3B54A0" }}
+            >
+              <MenuItem value={"Low"}>Low</MenuItem>
+              <MenuItem value={"Medium"}>Medium</MenuItem>
+              <MenuItem value={"High"}>High</MenuItem>
+              <MenuItem value={"Emergency"}>Emergency</MenuItem>
+            </Select>
+          </div>
+          <div>
+            <InputLabel
+              style={{
+                color: "#3B54A0",
+              }}
+              id="demo-simple-select-label"
+            >
+              Status
+            </InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={status}
+              label=""
+              onChange={handleStatusChange}
+              sx={{ minWidth: 400 }}
+            >
+              <MenuItem value={"unassigned"}>Unassigned</MenuItem>
+              <MenuItem value={"assigned"}>Assigned</MenuItem>
+              <MenuItem value={"in_progress"}>In Progress</MenuItem>
+              <MenuItem value={"closed"}>Closed</MenuItem>
+            </Select>
+          </div>
 
-
-              <Stack
-                  spacing={2}
-                  direction="row"
-                  alignItems="center"
-                  justifyContent="center"
+          <Stack
+            spacing={2}
+            direction="row"
+            alignItems="center"
+            justifyContent="center"
+          >
+            <div>
+              <InputLabel
+                style={{
+                  color: "#3B54A0",
+                }}
+                id="demo-simple-select-label"
               >
-                  <div>
-                      <InputLabel
-                          style={{
-                              color: "#3B54A0",
-                          }}
-                          id="demo-simple-select-label"
-                      >
-                          Start Date
-                      </InputLabel>
-                      <TextField
-                          value={startTime}
-                          id="date"
-                          sx={{minWidth: 20}}
-                          type="datetime-local"
-                          className={styles.textBox}
-                          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                              setStartTime(e.target.value);
-                          }}
-                      />
-                  </div>
-                  <div>
-                      <InputLabel
-                          style={{
-                              color: "#3B54A0",
-                          }}
-                          id="demo-simple-select-label"
-                      >
-                          End Date
-                      </InputLabel>
-                      <TextField
-                          value={endTime}
-                          sx={{minWidth: 20}}
-                          id="date"
-                          type="datetime-local"
-                          className={styles.textBox}
-                          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                              setEndTime(e.target.value);
-                          }}
-                      />
-                  </div>
-              </Stack>
-              <Stack
-                  spacing={2}
-                  direction="row"
-                  alignItems="center"
-                  justifyContent="center"
+                Start Date
+              </InputLabel>
+              <TextField
+                value={startTime}
+                id="date"
+                sx={{ minWidth: 20 }}
+                type="datetime-local"
+                className={styles.textBox}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                  setStartTime(e.target.value);
+                }}
+              />
+            </div>
+            <div>
+              <InputLabel
+                style={{
+                  color: "#3B54A0",
+                }}
+                id="demo-simple-select-label"
               >
-                  <Button
-                      style={{
-                          color: "#3B54A0",
-                          outlineColor: "#3B54A0",
-                          borderColor: "#3B54A0",
-                      }}
-                      variant="outlined"
-                      sx={{minWidth: 100}}
-                      onClick={clear}
-                  >
-                      Clear
-                  </Button>
-
-                  <Button
-                      style={{
-                          backgroundColor: "#3B54A0",
-                      }}
-                      variant="contained"
-                      sx={{minWidth: 100}}
-                      onClick={submit}
-                  >
-                      Submit
-                  </Button>
-              </Stack>
+                End Date
+              </InputLabel>
+              <TextField
+                value={endTime}
+                sx={{ minWidth: 20 }}
+                id="date"
+                type="datetime-local"
+                className={styles.textBox}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                  setEndTime(e.target.value);
+                }}
+              />
+            </div>
           </Stack>
+          <Stack
+            spacing={2}
+            direction="row"
+            alignItems="center"
+            justifyContent="center"
+          >
+            <Button
+              style={{
+                color: "#3B54A0",
+                outlineColor: "#3B54A0",
+                borderColor: "#3B54A0",
+              }}
+              variant="outlined"
+              sx={{ minWidth: 100 }}
+              onClick={clear}
+            >
+              Clear
+            </Button>
+
+            <Button
+              style={{
+                backgroundColor: "#3B54A0",
+              }}
+              variant="contained"
+              sx={{ minWidth: 100 }}
+              onClick={submit}
+            >
+              Submit
+            </Button>
+          </Stack>
+        </Stack>
       </Paper>
-        <br/>
-        <br/>
-        <br/>
+      <br />
+      <br />
+      <br />
     </Grid>
   );
 }
