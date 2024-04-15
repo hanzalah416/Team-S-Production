@@ -31,16 +31,6 @@ const Login: React.FC = () => {
 
   const handleLogin = async () => {
 
-      // await axios.get("/api/create-user").then((response) => {setLoginCreds(response.data);});
-      // console.log("successfully got data from get request");
-      // loginCreds.forEach((l) => {
-      //     if(l.userPassword == password && l.userName == username) {
-      //         navigate('/welcome');
-      //     } else {
-      //         navigate('/');
-      //     }
-      // });
-
  try {
      const response = await axios.get("/api/create-user");
      console.log("Sucessfully got data from get request");
@@ -49,11 +39,10 @@ const Login: React.FC = () => {
      for (let i=0; i<response.data.length; i++){
          if (response.data[i].userName === username && response.data[i].userPassword === password) {
              navigate('/welcome');
-         } else {
-             navigate('/');
          }
      }
- }catch (error) {
+ }
+ catch (error) {
      console.error("Error fetching data:", error);
  }
 

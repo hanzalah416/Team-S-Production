@@ -36,6 +36,7 @@ router.get("/", async function (req: Request, res: Response) {
       select: {
         userName: true,
         userPassword: true,
+        userEmail: true,
       },
     });
 
