@@ -8,13 +8,14 @@ import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Unstable_Grid2"; // Grid version 2
 import Paper from "@mui/material/Paper";
-import RadioGroup from "@mui/material/RadioGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Radio from "@mui/material/Radio";
+// import RadioGroup from "@mui/material/RadioGroup";
+// import FormControlLabel from "@mui/material/FormControlLabel";
+// import Radio from "@mui/material/Radio";
 import styles from "./RoomScheduling.module.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { SelectChangeEvent } from "@mui/material/Select";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
 
 //Interface for positions
 interface Position {
@@ -188,120 +189,52 @@ export default function RoomScheduling() {
               onChange={(event, value) => setLocation(value!.label)}
             />
           </div>
-          <Stack
-            spacing={10}
-            direction="row"
-            alignItems="center"
-            justifyContent=""
-          >
-            <div>
-              <InputLabel
-                style={{
-                  color: "#3B54A0",
-                }}
-                id="priority"
-              >
-                Priority
-              </InputLabel>
-              <RadioGroup
-                aria-labelledby="demo-controlled-radio-buttons-group"
-                name="controlled-radio-buttons-group"
-                value={priority}
-                onChange={handlePriorityChange}
-              >
-                <FormControlLabel
-                  style={{
-                    color: "#3D4A6B",
-                    font: "Jaldi",
-                  }}
-                  value="Emergency"
-                  control={<Radio />}
-                  label="Emergency"
-                />
-                <FormControlLabel
-                  style={{
-                    color: "#3D4A6B",
-                    font: "Jaldi",
-                  }}
-                  value="High"
-                  control={<Radio />}
-                  label="High"
-                />
-                <FormControlLabel
-                  style={{
-                    color: "#3D4A6B",
-                    font: "Jaldi",
-                  }}
-                  value="Medium"
-                  control={<Radio />}
-                  label="Medium"
-                />
-                <FormControlLabel
-                  style={{
-                    color: "#3D4A6B",
-                    font: "Jaldi",
-                  }}
-                  value="Low"
-                  control={<Radio />}
-                  label="Low"
-                />
-              </RadioGroup>
-            </div>
-
-            <div>
-              <InputLabel
-                style={{
-                  color: "#3B54A0",
-                }}
-                id="demo-simple-select-label"
-              >
-                Status
-              </InputLabel>
-              <RadioGroup
-                aria-labelledby="demo-controlled-radio-buttons-group"
-                name="controlled-radio-buttons-group"
-                value={status}
-                onChange={handleStatusChange}
-              >
-                <FormControlLabel
-                  style={{
-                    color: "#3D4A6B",
-                    font: "Jaldi",
-                  }}
-                  value="unassigned"
-                  control={<Radio />}
-                  label="Unassigned"
-                />
-                <FormControlLabel
-                  style={{
-                    color: "#3D4A6B",
-                    font: "Jaldi",
-                  }}
-                  value="assigned"
-                  control={<Radio />}
-                  label="Assigned"
-                />
-                <FormControlLabel
-                  style={{
-                    color: "#3D4A6B",
-                    font: "Jaldi",
-                  }}
-                  value="in_progress"
-                  control={<Radio />}
-                  label="In Progress"
-                />
-                <FormControlLabel
-                  style={{
-                    color: "#3D4A6B",
-                    font: "Jaldi",
-                  }}
-                  value="closed"
-                  control={<Radio />}
-                  label="Closed"
-                />
-              </RadioGroup>
-            </div>
-          </Stack>
+          <div>
+            <InputLabel
+              style={{
+                color: "#3B54A0",
+              }}
+              id="priority-dropdown"
+            >
+              Priority
+            </InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={priority}
+              label=""
+              onChange={handlePriorityChange}
+              sx={{ minWidth: 400, color: "#3B54A0" }}
+            >
+              <MenuItem value={"Low"}>Low</MenuItem>
+              <MenuItem value={"Medium"}>Medium</MenuItem>
+              <MenuItem value={"High"}>High</MenuItem>
+              <MenuItem value={"Emergency"}>Emergency</MenuItem>
+            </Select>
+          </div>
+          <div>
+            <InputLabel
+              style={{
+                color: "#3B54A0",
+              }}
+              id="demo-simple-select-label"
+            >
+              Status
+            </InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={status}
+              label=""
+              onChange={handleStatusChange}
+              sx={{ minWidth: 400 }}
+            >
+              <MenuItem value={"unassigned"}>Unassigned</MenuItem>
+              <MenuItem value={"assigned"}>Assigned</MenuItem>
+              <MenuItem value={"in_progress"}>In Progress</MenuItem>
+              <MenuItem value={"closed"}>Closed</MenuItem>
+            </Select>
+          </div>
 
           <Stack
             spacing={2}
@@ -321,7 +254,7 @@ export default function RoomScheduling() {
               <TextField
                 value={startTime}
                 id="date"
-                sx={{ Width: 20 }}
+                sx={{ minWidth: 20 }}
                 type="datetime-local"
                 className={styles.textBox}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
@@ -343,7 +276,7 @@ export default function RoomScheduling() {
                 sx={{ minWidth: 20 }}
                 id="date"
                 type="datetime-local"
-                className="border border-slate-300 rounded p-2 w-full"
+                className={styles.textBox}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                   setEndTime(e.target.value);
                 }}
