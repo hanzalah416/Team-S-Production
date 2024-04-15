@@ -31,6 +31,10 @@
   margin: 0;
 }
 
+.map_icon {
+  margin-right: 10px;
+}
+
 .navButtons {
   display: flex;
   flex-direction: row;
