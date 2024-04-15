@@ -73,7 +73,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 export default function MedicineDeliveryForm() {
   const [name, setName] = useState("");
   const [priority, setPriority] = useState("");
-  const [location, setLocation] = useState("");
+  const [location, setLocation] = useState<Position | null>(null);
   const [nameMedicine, setNameMedicine] = useState("");
   const [typeMedicine, setTypeMedicine] = useState("");
   const [status, setStatus] = useState("");
@@ -114,11 +114,15 @@ export default function MedicineDeliveryForm() {
     setStatus(event.target.value as string);
   };
 
+  const handleChangeLocation = (value: Position | null) => {
+    setLocation(value);
+  };
+
   async function submit() {
     const newEntry = {
       name: name,
       priority: priority,
-      location: location,
+      location: location?.label,
       typeMedicine: typeMedicine,
       nameMedicine: nameMedicine,
       status: status,
@@ -145,7 +149,7 @@ export default function MedicineDeliveryForm() {
   function clear() {
     setName("");
     setPriority("");
-    setLocation("");
+    setLocation(null);
     setTypeMedicine("");
     setNameMedicine("");
     setStatus("");
@@ -227,26 +231,27 @@ export default function MedicineDeliveryForm() {
               Location
             </InputLabel>
             <Autocomplete
-              options={locations}
-              getOptionLabel={(option) => option.label || "Unknown"}
-              isOptionEqualToValue={(option, value) => option.id === value.id}
-              renderInput={(params) => (
-                <TextField
-                  sx={{ minWidth: 400 }}
-                  {...params}
-                  label=""
-                  InputLabelProps={{
-                    style: {
-                      fontFamily: "Poppins",
-                      fontSize: 14,
-                      textAlign: "center",
-                    },
-                  }}
-                />
-              )}
-              onOpen={() => toggleScrolling(true)}
-              onClose={() => toggleScrolling(false)}
-              onChange={(event, value) => setLocation(value!.label)}
+                sx={{minWidth: 400, color: "#3B54A0"}}
+                options={locations}
+                getOptionLabel={(option) => option.label || "Unknown"}
+                isOptionEqualToValue={(option, value) => option.id === value.id}
+                value={location}
+                renderInput={(params) => (
+                    <TextField
+                        {...params}
+                        label=""
+                        InputLabelProps={{
+                          style: {
+                            fontFamily: "Poppins",
+                            fontSize: 14,
+                            textAlign: "center",
+                          },
+                        }}
+                    />
+                )}
+                onOpen={() => toggleScrolling(true)}
+                onClose={() => toggleScrolling(false)}
+                onChange={(event, value) => handleChangeLocation(value)}
             />
           </div>
 
@@ -277,6 +282,7 @@ export default function MedicineDeliveryForm() {
                 label="Over the Counter"
               />
               <FormControlLabel
+
                 style={{
                   color: "#3D4A6B",
                   font: "Jaldi",
@@ -326,9 +332,9 @@ export default function MedicineDeliveryForm() {
               labelId="demo-simple-select-label"
               id="demo-simple-select"
               value={status}
-              label="Status"
+              label=""
               onChange={handleStatusChange}
-              sx={{ minWidth: 300 }}
+              sx={{ minWidth: 400 }}
             >
               <MenuItem value={"unassigned"}>Unassigned</MenuItem>
               <MenuItem value={"assigned"}>Assigned</MenuItem>

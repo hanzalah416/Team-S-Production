@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 //import { useFormData } from "./useFormData";
 //import {Simulate} from "react-dom/test-utils";
 //import submit = Simulate.submit;
+// import { useNavigate } from "react-router-dom";
 import { securityform } from "../../common/securityform.ts";
 import {
   InputLabel,
@@ -10,9 +11,6 @@ import {
   TextField,
   Paper,
   SelectChangeEvent,
-  FormControlLabel,
-  RadioGroup,
-  Radio,
   Button,
   Table,
   TableBody,
@@ -47,11 +45,12 @@ interface Position {
 
 const SecurityRequest: React.FC = () => {
   const [staffName, setStaffName] = useState("");
-  const [location, setLocation] = useState("");
   const [requestPriority, setRequestPriority] = useState("");
   const [requestStatus, setRequestStatus] = useState("");
   const [securityType, setSecurityType] = useState("");
   const [threatType, setThreatType] = useState("");
+  const [location, setLocation] = useState<Position | null>(null);
+
 
   const [locations, setLocations] = useState<Position[]>([]);
   const [submittedRequests, setSubmittedRequests] = useState<securityform[]>(
@@ -71,13 +70,17 @@ const SecurityRequest: React.FC = () => {
     setRequestStatus(event.target.value as string);
   };
 
+  const handleChangeLocation = (value: Position | null) => {
+    setLocation(value);
+  };
+
   const handleChangeRequestPriority = (event: SelectChangeEvent) => {
     setRequestPriority(event.target.value as string);
   };
 
   async function submit() {
     if (staffName == ""
-      || location == ""
+      || location == null
       || requestPriority == ""
       || requestStatus == ""
       || threatType == ""
@@ -87,12 +90,13 @@ const SecurityRequest: React.FC = () => {
     }
     const securityRequestSent: securityform = {
       name: staffName,
-      location: location,
+      location: location.label,
       status: requestStatus,
       priority: requestPriority,
       threatType: threatType,
       securityType: securityType,
     };
+
 
     await axios
       .post("/api/security-request", securityRequestSent, {
@@ -102,7 +106,6 @@ const SecurityRequest: React.FC = () => {
       })
       .then(() => {
         console.log("Order sent successfully");
-        console.log(securityRequestSent);
       })
       .catch(() => {
         console.log("Order failed to send");
@@ -116,7 +119,7 @@ const SecurityRequest: React.FC = () => {
   function clear() {
     setStaffName("");
     setRequestPriority("");
-    setLocation("");
+    setLocation(null);
     setSecurityType("");
     setThreatType("");
     setRequestStatus("");
@@ -185,202 +188,108 @@ const SecurityRequest: React.FC = () => {
         <Stack alignItems="center" justifyContent="center" spacing={3} p={4}>
           <div>
             <InputLabel
-              style={{
-                color: "#3B54A0",
-              }}
+                style={{
+                  color: "#3B54A0",
+                }}
+                id="demo-simple-select-label"
             >
-              Staff Name
+              Name of Requester
             </InputLabel>
             <TextField
-              id="outlined-controlled"
-              label=""
-              value={staffName}
-              style={{
-                borderColor: "#3B54A0",
-                color: "#3B54A0",
-                accentColor: "#3B54A0",
-                borderBlockColor: "#3B54A0",
-              }}
-              onChange={(e) => setStaffName(e.target.value)}
-              sx={{ minWidth: 516 }}
+                style={{
+                  borderColor: "#3B54A0",
+                  color: "#3B54A0",
+                  accentColor: "#3B54A0",
+                  borderBlockColor: "#3B54A0",
+                }}
+                id="outlined-controlled"
+                label=""
+                value={staffName}
+                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                  setStaffName(event.target.value);
+                }}
+                sx={{minWidth: 400}}
             />
           </div>
           <div>
             <InputLabel
-              style={{
-                color: "#3B54A0",
-              }}
-              id="location-dropdown"
+                style={{
+                  color: "#3B54A0",
+                }}
+                id="priority-dropdown"
+            >
+              Priority
+            </InputLabel>
+            <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={requestPriority}
+                label=""
+                onChange={(e) => {
+                  handleChangeRequestPriority(e);
+                }}
+                sx={{minWidth: 400, color: "#3B54A0"}}
+            >
+              <MenuItem value={"Low"}>Low</MenuItem>
+              <MenuItem value={"Medium"}>Medium</MenuItem>
+              <MenuItem value={"High"}>High</MenuItem>
+              <MenuItem value={"Emergency"}>Emergency</MenuItem>
+            </Select>
+          </div>
+          <div>
+            <InputLabel
+                style={{
+                  color: "#3B54A0",
+                }}
+                id="location-dropdown"
             >
               Location
             </InputLabel>
             <Autocomplete
-              options={locations}
-              getOptionLabel={(option) => option.label || "Unknown"}
-              isOptionEqualToValue={(option, value) => option.id === value.id}
-              renderInput={(params) => (
-                <TextField
-                  sx={{ minWidth: 516 }}
-                  {...params}
-                  label=""
-                  InputLabelProps={{
-                    style: {
-                      fontFamily: "Poppins",
-                      fontSize: 14,
-                      textAlign: "center",
-                    },
-                  }}
-                />
-              )}
-              onOpen={() => toggleScrolling(true)}
-              onClose={() => toggleScrolling(false)}
-              onChange={(event, value, ) => setLocation(value!.label)}
-
+                sx={{minWidth: 400, color: "#3B54A0"}}
+                options={locations}
+                getOptionLabel={(option) => option.label || "Unknown"}
+                isOptionEqualToValue={(option, value) => option.id === value.id}
+                value={location}
+                renderInput={(params) => (
+                    <TextField
+                        {...params}
+                        label=""
+                        InputLabelProps={{
+                          style: {
+                            fontFamily: "Poppins",
+                            fontSize: 14,
+                            textAlign: "center",
+                          },
+                        }}
+                    />
+                )}
+                onOpen={() => toggleScrolling(true)}
+                onClose={() => toggleScrolling(false)}
+                onChange={(event, value) => handleChangeLocation(value)}
             />
           </div>
 
-          <Stack
-            spacing={10}
-            direction="row"
-            alignItems="center"
-            justifyContent=""
-          >
-            <div>
-              <InputLabel
-                style={{
-                  color: "#3B54A0",
-                }}
-                id="priority"
-              >
-                Priority
-              </InputLabel>
-              <RadioGroup
-                aria-labelledby="demo-controlled-radio-buttons-group"
-                name="controlled-radio-buttons-group"
-                value={requestPriority}
-                onChange={(e) => {
-                  handleChangeRequestPriority(e);
-                }}
-              >
-                <FormControlLabel
-                  style={{
-                    color: "#3D4A6B",
-                    font: "Jaldi",
-                  }}
-                  value="Emergency"
-                  control={<Radio />}
-                  label="Emergency"
-                />
-                <FormControlLabel
-                  style={{
-                    color: "#3D4A6B",
-                    font: "Jaldi",
-                  }}
-                  value="High"
-                  control={<Radio />}
-                  label="High"
-                />
-                <FormControlLabel
-                  style={{
-                    color: "#3D4A6B",
-                    font: "Jaldi",
-                  }}
-                  value="Medium"
-                  control={<Radio />}
-                  label="Medium"
-                />
-                <FormControlLabel
-                  style={{
-                    color: "#3D4A6B",
-                    font: "Jaldi",
-                  }}
-                  value="Low"
-                  control={<Radio />}
-                  label="Low"
-                />
-              </RadioGroup>
-            </div>
+
+
 
             <div>
               <InputLabel
-                style={{
-                  color: "#3B54A0",
-                }}
-                id="demo-simple-select-label"
-              >
-                Status
-              </InputLabel>
-              <RadioGroup
-                aria-labelledby="demo-controlled-radio-buttons-group"
-                name="controlled-radio-buttons-group"
-                value={requestStatus}
-                onChange={(e) => {
-                  handleChangeRequestStatus(e);
-                }}
-              >
-                <FormControlLabel
                   style={{
-                    color: "#3D4A6B",
-                    font: "Jaldi",
+                    color: "#3B54A0",
                   }}
-                  value="unassigned"
-                  control={<Radio />}
-                  label="Unassigned"
-                />
-                <FormControlLabel
-                  style={{
-                    color: "#3D4A6B",
-                    font: "Jaldi",
-                  }}
-                  value="assigned"
-                  control={<Radio />}
-                  label="Assigned"
-                />
-                <FormControlLabel
-                  style={{
-                    color: "#3D4A6B",
-                    font: "Jaldi",
-                  }}
-                  value="in_progress"
-                  control={<Radio />}
-                  label="In Progress"
-                />
-                <FormControlLabel
-                  style={{
-                    color: "#3D4A6B",
-                    font: "Jaldi",
-                  }}
-                  value="closed"
-                  control={<Radio />}
-                  label="Closed"
-                />
-              </RadioGroup>
-            </div>
-          </Stack>
-
-          <Stack
-            spacing={2}
-            direction="row"
-            alignItems="center"
-            justifyContent="center"
-          >
-            <div>
-              <InputLabel
-                style={{
-                  color: "#3B54A0",
-                }}
-                id="demo-simple-select-label"
+                  id="demo-simple-select-label"
               >
                 Threat Type
               </InputLabel>
               <Select
-                sx={{ minWidth: 250 }}
-                labelId="threat-type-label"
-                id="threat-type"
-                value={threatType}
-                onChange={handleChangeThreatType} /* add funtion here */
+                  sx={{minWidth: 400}}
+                  labelId="threat-type-label"
+                  id="threat-type"
+                  value={threatType}
+                  onChange={handleChangeThreatType} /* add funtion here */
               >
-                <MenuItem value="intrusion">Intrusion</MenuItem>
+                <MenuItem value="trespassing">Trespassing</MenuItem>
                 <MenuItem value="terrorism">Terrorism</MenuItem>
                 <MenuItem value="vandalism">Vandalism</MenuItem>
                 <MenuItem value="theft">Theft</MenuItem>
@@ -389,19 +298,19 @@ const SecurityRequest: React.FC = () => {
             </div>
             <div>
               <InputLabel
-                style={{
-                  color: "#3B54A0",
-                }}
-                id="demo-simple-select-label"
+                  style={{
+                    color: "#3B54A0",
+                  }}
+                  id="demo-simple-select-label"
               >
                 Security Type
               </InputLabel>
               <Select
-                sx={{ minWidth: 250 }}
-                labelId="location-label"
-                id="serviceLocation"
-                value={securityType}
-                onChange={handleChangeSecurityType} /* add funtion here */
+                  sx={{minWidth: 400}}
+                  labelId="location-label"
+                  id="serviceLocation"
+                  value={securityType}
+                  onChange={handleChangeSecurityType} /* add funtion here */
               >
                 <MenuItem value="bodyguard">Bodyguard</MenuItem>
                 <MenuItem value="escort">Escort</MenuItem>
@@ -409,13 +318,36 @@ const SecurityRequest: React.FC = () => {
                 <MenuItem value="other">Other</MenuItem>
               </Select>
             </div>
-          </Stack>
-
+          <div>
+            <InputLabel
+                style={{
+                  color: "#3B54A0",
+                }}
+                id="demo-simple-select-label"
+            >
+              Status
+            </InputLabel>
+            <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={requestStatus}
+                label=""
+                onChange={(e) => {
+                  handleChangeRequestStatus(e);
+                }}
+                sx={{minWidth: 400}}
+            >
+              <MenuItem value={"unassigned"}>Unassigned</MenuItem>
+              <MenuItem value={"assigned"}>Assigned</MenuItem>
+              <MenuItem value={"in_progress"}>In Progress</MenuItem>
+              <MenuItem value={"closed"}>Closed</MenuItem>
+            </Select>
+          </div>
           <Stack
-            spacing={2}
-            direction="row"
-            alignItems="center"
-            justifyContent="center"
+              spacing={2}
+              direction="row"
+              alignItems="center"
+              justifyContent="center"
           >
             <Button
                 style={{
@@ -424,19 +356,19 @@ const SecurityRequest: React.FC = () => {
                   borderColor: "#3B54A0",
                 }}
                 variant="outlined"
-                sx={{ minWidth: 100 }}
+                sx={{minWidth: 100}}
                 onClick={clear}
             >
               Clear
             </Button>
 
             <Button
-              style={{
-                backgroundColor: "#3B54A0",
-              }}
-              variant="contained"
-              sx={{ minWidth: 100 }}
-              onClick={submit}
+                style={{
+                  backgroundColor: "#3B54A0",
+                }}
+                variant="contained"
+                sx={{minWidth: 100}}
+                onClick={submit}
             >
               Submit
             </Button>
@@ -444,13 +376,13 @@ const SecurityRequest: React.FC = () => {
         </Stack>
       </Paper>
 
-      <br />
-      <br />
-      <br />
+      <br/>
+      <br/>
+      <br/>
       <Paper elevation={4}>
         <div className={"table"}>
           <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 700 }}>
+            <Table sx={{minWidth: 700}}>
               <TableHead>
                 <TableRow>
                   <StyledTableCell className={"border border-gray-800 p-2"}>
@@ -463,7 +395,7 @@ const SecurityRequest: React.FC = () => {
                     Priority
                   </StyledTableCell>
                   <StyledTableCell className={"border border-gray-800 p-2"}>
-                    Status
+                  Status
                   </StyledTableCell>
                   <StyledTableCell className={"border border-gray-800 p-2"}>
                     Threat Type

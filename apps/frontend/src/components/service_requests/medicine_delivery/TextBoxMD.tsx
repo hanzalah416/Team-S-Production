@@ -55,7 +55,8 @@ export default function FreeSoloCreateOptionDialog(
   return (
     <React.Fragment>
       <Autocomplete
-        value={value}
+
+          value={value}
         onChange={(event, newValue) => {
           if (typeof newValue === "string") {
             // timeout to avoid instant validation of the dialog's form.
@@ -107,7 +108,7 @@ export default function FreeSoloCreateOptionDialog(
         renderOption={(props, option) => (
           <li {...props}>{option.GenericName}</li>
         )}
-        sx={{ width: 300 }}
+        sx={{ width: 400 }}
         freeSolo
         renderInput={(params) => (
           <TextField {...params} label="Medicine Name" />
