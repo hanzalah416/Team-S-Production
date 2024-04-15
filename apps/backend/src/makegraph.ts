@@ -1,35 +1,6 @@
 import { Node } from "../../../packages/database";
 import { NodeEdge } from "../../../packages/database";
 import { PathToText } from "./textPath.ts";
-
-type Algorthim = (
-  graph: MakeGraph,
-  startNode: string,
-  endNode: string,
-) => string[];
-export const breadthFirst: Algorthim = (
-  graph: MakeGraph,
-  startNode: string,
-  endNode: string,
-) => {
-  return graph.BFS(startNode, endNode);
-};
-
-export const depthFirst: Algorthim = (
-  graph: MakeGraph,
-  startNode: string,
-  endNode: string,
-) => {
-  return graph.DFS(startNode, endNode);
-};
-
-export const selectSearchMethod = (
-  algorthim: Algorthim,
-  graph: MakeGraph,
-  startNode: string,
-  endNode: string,
-) => algorthim(graph, startNode, endNode);
-
 class MakeGraph {
   private nodeMap: Map<string, GraphNode> = new Map();
 
@@ -58,7 +29,7 @@ class MakeGraph {
 
   //main BFS ,to find a shortest path
   //If start or end is undefined return undefined
-  BFS(start: string, end: string): string[] {
+  BFS(start: string, end: string) {
     const startNode = this.nodeMap.get(start);
     const endNode = this.nodeMap.get(end);
 
@@ -129,7 +100,7 @@ class MakeGraph {
     }
     return this.backTracePath(arrivedFrom, pathFound, startNode, endNode);
   }
-  AStar(start: string, end: string): string[] {
+  AStar(start: string, end: string) {
     //Get start and end nodes from map
     const startNode = this.nodeMap.get(start);
     const endNode = this.nodeMap.get(end);
@@ -214,7 +185,7 @@ class MakeGraph {
     //Back trace path
     return this.backTracePath(arrivedFrom, pathFound, startNode, endNode);
   }
-  Dijsktra(start: string, end: string): string[] {
+  Dijsktra(start: string, end: string) {
     //Get start and end nodes from map
     const startNode = this.nodeMap.get(start);
     const endNode = this.nodeMap.get(end);
@@ -299,7 +270,7 @@ class MakeGraph {
     pathFound: boolean,
     startNode: GraphNode,
     endNode: GraphNode,
-  ): string[] {
+  ) {
     //If a path was not fund return an empty array
     if (!pathFound) {
       console.log("No path found");
@@ -315,11 +286,12 @@ class MakeGraph {
     }
     path.push(startNode);
 
-    // Convert the path of GraphNode objects to an array of node IDs
-    const pathIds = path.map((node) => node.id).reverse();
-    console.log(PathToText(path.reverse()));
+    path.reverse();
+
+    console.log(PathToText(path));
+
     //console.log("Path found:", pathIds);
-    return pathIds;
+    return path;
   }
 
   //Gets the euclidean distance between nodes
