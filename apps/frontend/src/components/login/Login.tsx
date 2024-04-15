@@ -14,8 +14,6 @@ import { Link, useNavigate } from "react-router-dom";
 // import FormControlLabel from "@mui/material/FormControlLabel";
 import axios from "axios";
 
-
-
 const Login: React.FC = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -30,22 +28,22 @@ const Login: React.FC = () => {
   }, []);
 
   const handleLogin = async () => {
+    try {
+      const response = await axios.get("/api/create-user");
+      console.log("Sucessfully got data from get request");
+      console.log(response.data);
 
- try {
-     const response = await axios.get("/api/create-user");
-     console.log("Sucessfully got data from get request");
-     console.log(response.data);
-
-     for (let i=0; i<response.data.length; i++){
-         if (response.data[i].userName === username && response.data[i].userPassword === password) {
-             navigate('/welcome');
-         }
-     }
- }
- catch (error) {
-     console.error("Error fetching data:", error);
- }
-
+      for (let i = 0; i < response.data.length; i++) {
+        if (
+          response.data[i].userName === username &&
+          response.data[i].userPassword === password
+        ) {
+          navigate("/welcome");
+        }
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
   };
 
   const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {

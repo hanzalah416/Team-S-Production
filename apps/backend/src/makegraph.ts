@@ -1,34 +1,6 @@
 import { Node } from "../../../packages/database";
 import { NodeEdge } from "../../../packages/database";
-
-type Algorthim = (
-  graph: MakeGraph,
-  startNode: string,
-  endNode: string,
-) => string[];
-export const breadthFirst: Algorthim = (
-  graph: MakeGraph,
-  startNode: string,
-  endNode: string,
-) => {
-  return graph.BFS(startNode, endNode);
-};
-
-export const depthFirst: Algorthim = (
-  graph: MakeGraph,
-  startNode: string,
-  endNode: string,
-) => {
-  return graph.DFS(startNode, endNode);
-};
-
-export const selectSearchMethod = (
-  algorthim: Algorthim,
-  graph: MakeGraph,
-  startNode: string,
-  endNode: string,
-) => algorthim(graph, startNode, endNode);
-
+import { PathToText } from "./textPath.ts";
 class MakeGraph {
   private nodeMap: Map<string, GraphNode> = new Map();
 
@@ -39,6 +11,7 @@ class MakeGraph {
       node.ycoord,
       node.nodeType,
       node.floor,
+      node.longName,
     );
     this.nodeMap.set(node.nodeID, temp);
   }
@@ -56,7 +29,7 @@ class MakeGraph {
 
   //main BFS ,to find a shortest path
   //If start or end is undefined return undefined
-  BFS(start: string, end: string): string[] {
+  BFS(start: string, end: string) {
     const startNode = this.nodeMap.get(start);
     const endNode = this.nodeMap.get(end);
 
@@ -127,7 +100,7 @@ class MakeGraph {
     }
     return this.backTracePath(arrivedFrom, pathFound, startNode, endNode);
   }
-  AStar(start: string, end: string): string[] {
+  AStar(start: string, end: string) {
     //Get start and end nodes from map
     const startNode = this.nodeMap.get(start);
     const endNode = this.nodeMap.get(end);
@@ -212,7 +185,7 @@ class MakeGraph {
     //Back trace path
     return this.backTracePath(arrivedFrom, pathFound, startNode, endNode);
   }
-  Dijsktra(start: string, end: string): string[] {
+  Dijsktra(start: string, end: string) {
     //Get start and end nodes from map
     const startNode = this.nodeMap.get(start);
     const endNode = this.nodeMap.get(end);
@@ -288,7 +261,6 @@ class MakeGraph {
         }
       });
     }
-
     //Back trace path
     return this.backTracePath(arrivedFrom, pathFound, startNode, endNode);
   }
@@ -298,7 +270,7 @@ class MakeGraph {
     pathFound: boolean,
     startNode: GraphNode,
     endNode: GraphNode,
-  ): string[] {
+  ) {
     //If a path was not fund return an empty array
     if (!pathFound) {
       console.log("No path found");
@@ -314,9 +286,9 @@ class MakeGraph {
     }
     path.push(startNode);
 
-    // Convert the path of GraphNode objects to an array of node IDs
     const pathIds = path.map((node) => node.id).reverse();
-    console.log("Path found:", pathIds);
+    console.log(PathToText(path));
+    //console.log("Path found:", pathIds);
     return pathIds;
   }
 
@@ -384,19 +356,21 @@ class MakeGraph {
 
 type NBMap = Map<GraphNode, GraphNode>;
 // creat class the node in the graph
-class GraphNode {
+export class GraphNode {
   id: string;
   neighbors: GraphNode[];
   xcoord: number;
   ycoord: number;
   nodeType: string;
   floor: string;
+  longName: string;
   constructor(
     id: string,
     xcoord: number,
     ycoord: number,
     nodeType: string,
     floor: string,
+    longName: string,
   ) {
     this.id = id;
     this.neighbors = [];
@@ -404,6 +378,7 @@ class GraphNode {
     this.ycoord = ycoord;
     this.nodeType = nodeType;
     this.floor = floor;
+    this.longName = longName;
   }
   //add neighbor
   addNB(node: GraphNode) {

@@ -37,7 +37,7 @@ interface Node {
 export default function SanitationForm() {
   const [name, setName] = useState("");
   const [priority, setPriority] = useState("");
-  const [location, setLocation] = useState("");
+  const [location, setLocation] = useState<Position | null>(null);
   const [sanitationType, setSanitationType] = useState("");
   const [permission, setPermission] = useState("");
   const [status, setStatus] = useState("");
@@ -70,6 +70,9 @@ export default function SanitationForm() {
     }
   };
 
+  const handleChangeLocation = (value: Position | null) => {
+    setLocation(value);
+  };
   const handlePriorityChange = (event: SelectChangeEvent) => {
     setPriority(event.target.value as string);
   };
@@ -81,7 +84,7 @@ export default function SanitationForm() {
     const newEntry = {
       name: name,
       priority: priority,
-      location: location,
+      location: location?.label,
       sanitationType: sanitationType,
       permission: permission,
       status: status,
@@ -108,7 +111,7 @@ export default function SanitationForm() {
   function clear() {
     setName("");
     setPriority("");
-    setLocation("");
+    setLocation(null);
     setSanitationType("");
     setPermission("");
     setStatus("");
@@ -191,26 +194,27 @@ export default function SanitationForm() {
               Location
             </InputLabel>
             <Autocomplete
-              options={locations}
-              getOptionLabel={(option) => option.label || "Unknown"}
-              isOptionEqualToValue={(option, value) => option.id === value.id}
-              renderInput={(params) => (
-                <TextField
-                  sx={{ minWidth: 400 }}
-                  {...params}
-                  label=""
-                  InputLabelProps={{
-                    style: {
-                      fontFamily: "Poppins",
-                      fontSize: 14,
-                      textAlign: "center",
-                    },
-                  }}
-                />
-              )}
-              onOpen={() => toggleScrolling(true)}
-              onClose={() => toggleScrolling(false)}
-              onChange={(event, value) => setLocation(value!.label)}
+                sx={{minWidth: 400, color: "#3B54A0"}}
+                options={locations}
+                getOptionLabel={(option) => option.label || "Unknown"}
+                isOptionEqualToValue={(option, value) => option.id === value.id}
+                value={location}
+                renderInput={(params) => (
+                    <TextField
+                        {...params}
+                        label=""
+                        InputLabelProps={{
+                          style: {
+                            fontFamily: "Poppins",
+                            fontSize: 14,
+                            textAlign: "center",
+                          },
+                        }}
+                    />
+                )}
+                onOpen={() => toggleScrolling(true)}
+                onClose={() => toggleScrolling(false)}
+                onChange={(event, value) => handleChangeLocation(value)}
             />
           </div>
 
@@ -324,7 +328,7 @@ export default function SanitationForm() {
               value={status}
               label=""
               onChange={handleStatusChange}
-              sx={{ minWidth: 300 }}
+              sx={{ minWidth: 400 }}
             >
               <MenuItem value={"unassigned"}>Unassigned</MenuItem>
               <MenuItem value={"assigned"}>Assigned</MenuItem>
