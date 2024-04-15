@@ -10,8 +10,8 @@ import { Link, useNavigate } from "react-router-dom";
 // import axios from "axios";
 
 // import Link from '@mui/material/Link';
-import Checkbox from "@mui/material/Checkbox";
-import FormControlLabel from "@mui/material/FormControlLabel";
+// import Checkbox from "@mui/material/Checkbox";
+// import FormControlLabel from "@mui/material/FormControlLabel";
 import axios from "axios";
 
 
@@ -87,11 +87,11 @@ const Login: React.FC = () => {
             </div>
 
             <div className={styles.extras}>
-              <FormControlLabel
-                control={<Checkbox />}
-                label="Remember Me"
-                style={{ color: "black" }}
-              />
+              {/*<FormControlLabel*/}
+              {/*  control={<Checkbox />}*/}
+              {/*  label="Remember Me"*/}
+              {/*  style={{ color: "black" }}*/}
+              {/*/>*/}
               {/*<p className={styles.forgotPassword}>*/}
               {/*  <a className={styles.forgotLink} href="url">*/}
               {/*    FORGOT PASSWORD?*/}
