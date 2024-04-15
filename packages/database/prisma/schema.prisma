@@ -82,6 +82,12 @@ model SanitationRequest {
   servreq        ServiceRequest @relation(fields: [orderNumber], references: [requestID])
 }
 
+model Medicine {
+  CAS         String @id
+  genericName String
+  synName     String
+}
+
 model Node {
   nodeID     String     @id
   xcoord     Int
