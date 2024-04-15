@@ -195,110 +195,111 @@ const StaticFloorMapDebug = () => {
   return (
     <div className={styles.container}>
       {selectedNodeDetails && <NodeDetailsPopup node={selectedNodeDetails} />}
-      <div className={styles.checkboxContainer}>
-        <FormControlLabel
-          control={
-            <Checkbox
-              checked={showEdges}
-              onChange={(e) => setShowEdges(e.target.checked)}
-            />
-          }
-          label={
-            <Typography
-              className={styles.checkboxLabel}
-              onClick={(e) => e.stopPropagation()}
-            >
-              Edges
-            </Typography>
-          }
-        />
-        <FormControlLabel
-          control={
-            <Checkbox
-              checked={showNodes}
-              onChange={(e) => setShowNodes(e.target.checked)}
-            />
-          }
-          label={
-            <Typography
-              className={styles.checkboxLabel}
-              onClick={(e) => e.stopPropagation()}
-            >
-              Nodes
-            </Typography>
-          }
-        />
-      </div>
+
       <div className={styles.mapContainer}>
         <FloorSwitcher />
 
-        <TransformWrapper
-          doubleClick={{
-            disabled: true,
-          }}
-        >
-          <TransformComponent>
-            <div className={styles.mapAndDots}>
-              <img
-                src={floorMaps[currentFloor as keyof typeof floorMaps]}
-                alt={`Floor ${currentFloor}`}
-                className={styles.mapImage}
-              />
-              <svg className={styles.overlay} viewBox="0 0 5000 3400">
-                {showEdges &&
-                  edges.map((edge) => {
-                    const startNode = nodes.find(
-                      (node) => node.id === edge.startNode,
-                    );
-                    const endNode = nodes.find(
-                      (node) => node.id === edge.endNode,
-                    );
-                    if (
-                      startNode &&
-                      endNode &&
-                      startNode.floor === currentFloor &&
-                      endNode.floor === currentFloor
-                    ) {
-                      const startPosition = getPositionById(startNode.id);
-                      const endPosition = getPositionById(endNode.id);
-                      return (
-                        <line
-                          key={`${edge.startNode}-${edge.endNode}`}
-                          x1={startPosition.x}
-                          y1={startPosition.y}
-                          x2={endPosition.x}
-                          y2={endPosition.y}
-                          stroke="blue"
-                          strokeWidth="5"
-                        />
-                      );
-                    }
-                    return null;
-                  })}
-                {showNodes &&
-                  nodes
-                    .filter((node) => node.floor === currentFloor)
-                    .map((node) => {
-                      const position = getPositionById(node.id);
-                      const isSelected = node === selectedNodeDetails;
-                      return (
-                        <circle
-                          key={node.id}
-                          cx={position.x}
-                          cy={position.y}
-                          r="9"
-                          fill="red"
-                          stroke={isSelected ? "black" : "none"}
-                          strokeWidth={isSelected ? "3" : "0"}
-                          onClick={() => handleNodeClick(node.id)}
-                          style={{ cursor: "pointer" }} // Makes it clear the node is clickable
-                        />
-                      );
-                    })}
-              </svg>
-            </div>
-          </TransformComponent>
-        </TransformWrapper>
+          <TransformWrapper
+              doubleClick={{
+                  disabled: true,
+              }}
+          >
+              <div className={styles.checkboxContainer}>
+                  <FormControlLabel
+                      control={
+                          <Checkbox
+                              checked={showEdges}
+                              onChange={(e) => setShowEdges(e.target.checked)}
+                          />
+                      }
+                      label={
+                          <Typography
+                              className={styles.checkboxLabel}
+                              onClick={(e) => e.stopPropagation()}
+                          >
+                              Edges
+                          </Typography>
+                      }
+                  />
+                  <FormControlLabel
+                      control={
+                          <Checkbox
+                              checked={showNodes}
+                              onChange={(e) => setShowNodes(e.target.checked)}
+                          />
+                      }
+                      label={
+                          <Typography
+                              className={styles.checkboxLabel}
+                              onClick={(e) => e.stopPropagation()}
+                          >
+                              Nodes
+                          </Typography>
+                      }
+                  />
+              </div>
+              <TransformComponent>
+                  <div className={styles.mapAndDots}>
+                      <img
+                          src={floorMaps[currentFloor as keyof typeof floorMaps]}
+                          alt={`Floor ${currentFloor}`}
+                          className={styles.mapImage}
+                      />
+                      <svg className={styles.overlay} viewBox="0 0 5000 3400">
+                          {showEdges &&
+                              edges.map((edge) => {
+                                  const startNode = nodes.find(
+                                      (node) => node.id === edge.startNode,
+                                  );
+                                  const endNode = nodes.find(
+                                      (node) => node.id === edge.endNode,
+                                  );
+                                  if (
+                                      startNode &&
+                                      endNode &&
+                                      startNode.floor === currentFloor &&
+                                      endNode.floor === currentFloor
+                                  ) {
+                                      const startPosition = getPositionById(startNode.id);
+                                      const endPosition = getPositionById(endNode.id);
+                                      return (
+                                          <line
+                                              key={`${edge.startNode}-${edge.endNode}`}
+                                              x1={startPosition.x}
+                                              y1={startPosition.y}
+                                              x2={endPosition.x}
+                                              y2={endPosition.y}
+                                              stroke="blue"
+                                              strokeWidth="5"
+                                          />
+                                      );
+                                  }
+                                  return null;
+                              })}
+                          {showNodes &&
+                              nodes
+                                  .filter((node) => node.floor === currentFloor)
+                                  .map((node) => {
+                                      const position = getPositionById(node.id);
+                                      const isSelected = node === selectedNodeDetails;
+                                      return (
+                                          <circle
+                                              key={node.id}
+                                              cx={position.x}
+                                              cy={position.y}
+                                              r="9"
+                                              fill="red"
+                                              stroke={isSelected ? "black" : "none"}
+                                              strokeWidth={isSelected ? "3" : "0"}
+                                              onClick={() => handleNodeClick(node.id)}
+                                              style={{cursor: "pointer"}} // Makes it clear the node is clickable
+                                          />
+                                      );
+                                  })}
+                      </svg>
+                  </div>
+              </TransformComponent>
+          </TransformWrapper>
       </div>
     </div>
   );

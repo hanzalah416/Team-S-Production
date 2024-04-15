@@ -47,9 +47,9 @@
   flex-direction: column; /* Align children vertically */
   align-items: flex-start; /* Align children to the left */
   z-index: 2;
-  margin-top: 90px; /* Ensure it appears above other content */
+  margin-top: 10px; /* Ensure it appears above other content */
   border: 1px solid black;
-  background-color: white;
+  background-color: rgba(241, 241, 241, 0.95) !important;
   border-radius: 15px;
   padding: 10px; /* Add padding to create space between contents and edge */
 }
@@ -75,9 +75,10 @@
 }
 
 .nodeDetailsPopup {
+    font-size: 16px !important;
   color: black;
   padding: 40px;
-  background: #f1f1f1;
+    background-color: rgba(241, 241, 241, 0.97);
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   z-index: 4;
