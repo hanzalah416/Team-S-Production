@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import List from "@mui/material/List";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
@@ -26,40 +26,43 @@ export default function PathToTextDisplay(props: {
   const [data, setData] = useState<Directions[]>([]);
   const [currentFloor] = useState<string[]>([]);
 
-  useEffect(() => {
-    // Fetch data from the backend when the component mounts
-    fetchData();
-  });
 
-  const fetchData = async () => {
-    try {
-      const response = await fetch("/api/pathToText", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          startNode: props.startNode,
-          endNode: props.endNode,
-          algorithm: props.algo,
-        }),
-      });
+    const fetchData = useCallback(async () => {
+        try {
+            const response = await fetch("/api/pathToText", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    startNode: props.startNode,
+                    endNode: props.endNode,
+                    algorithm: props.algo,
+                }),
+            });
 
-      if (!response.ok) {
-        throw new Error("Failed to fetch data");
-      }
+            if (!response.ok) {
+                throw new Error("Failed to fetch data");
+            }
 
-      const data = await response.json();
-      setData(data);
+            const data = await response.json();
+            setData(data);
+            setOpenLists(new Array(data.length).fill(false));
+        } catch (error) {
+            console.error("Failed to fetch data:", error);
+        }
+    }, [props.startNode, props.endNode, props.algo]); // Dependencies for useCallback
 
-      // Initialize the open state of each list
-      setOpenLists(new Array(data.length).fill(false));
-    } catch (error) {
-      console.error("Failed to fetch data:", error);
-    }
-  };
+    useEffect(() => {
+        fetchData();
+    }, [fetchData]);
 
-  // Function to split the directions into separate lists based on direction type
+    useEffect(() => {
+        fetchData();
+    }, [props.startNode, props.endNode, props.algo, fetchData]);
+
+
+    // Function to split the directions into separate lists based on direction type
   const splitDirections = () => {
     const lists: Directions[][] = [[]];
     let currentListIndex = 0;
