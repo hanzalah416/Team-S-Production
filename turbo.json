@@ -1,6 +1,11 @@
 {
   "$schema": "https://turbo.build/schema.json",
   "pipeline": {
+
+    "test": {
+        "outputs": []
+    },
+
     "dependencies": {
       "inputs": [],
       "outputs": []

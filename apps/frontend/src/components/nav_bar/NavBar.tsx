@@ -4,6 +4,7 @@ import * as React from "react";
 import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
+
 import bwhLogo from "../assets/bwh-logo-ICON-ONLY.svg";
 import mapIcon from "../assets/NavBarIcons/map_icon.svg";
 import patientListIcon from "../assets/NavBarIcons/patient_list.svg";
@@ -16,6 +17,13 @@ import roomSchedulingIcon from "../assets/NavBarIcons/schedule_icon.svg";
 import dropDownIcon from "../assets/NavBarIcons/drop_down.svg";
 import { createTheme, FormControl, ThemeProvider } from "@mui/material";
 import { useCallback, useEffect } from "react";
+import bwhLogo from "../assets/bwh-logo.svg";
+import mapIcon from "../assets/NavBarIcons/map_icon_nav.png";
+import arrowDropDown from "../assets/NavBarIcons/arrow_drop_down_nav.png";
+import profileIcon from "../assets/NavBarIcons/profile_icon_nav.png";
+import { LoginButton } from "../LoginButton.tsx";
+import { LogoutButton } from "../LogoutButton.tsx";
+import { useAuth0 } from "@auth0/auth0-react";
 
 declare module "@mui/material/styles" {
   interface Palette {
@@ -45,9 +53,12 @@ const theme = createTheme({
   },
 });
 
+
+
 function NavBar() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+  const { isAuthenticated } = useAuth0();
 
   const navigate = useNavigate();
 
@@ -245,6 +256,11 @@ function NavBar() {
                 <p className={"item"}>Room Scheduling Services</p>
               </MenuItem>
             </Link>
+            <Link to={"/language-request"} id={"order"}>
+              <MenuItem onClick={handleClose}>
+                <p className={"item"}>Language Services</p>
+              </MenuItem>
+            </Link>
             <Link to={"/map-debug"} id={"order"}>
               <MenuItem onClick={handleClose}>
                 <p className={"item"}>Map Editing Page</p>
@@ -252,6 +268,7 @@ function NavBar() {
             </Link>
           </Menu>
         </div>
+
       </div>
       <div className={"rightSide"}>
         <p className={"username"}>USERNAME</p>
@@ -267,6 +284,13 @@ function NavBar() {
             </Button>
           </ThemeProvider>
         </FormControl>
+
+        <div>
+          {!isAuthenticated && <LoginButton />}
+          {isAuthenticated && <LogoutButton />}
+        
+        </div>
+
       </div>
       <div className={"blueBar"} />
     </div>
