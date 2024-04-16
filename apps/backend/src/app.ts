@@ -15,6 +15,7 @@ import allEdgeRouter from "./routes/getAllEdgesData.ts";
 import medicineRouter from "./routes/MedicineRoute.ts";
 import allRequests from "./routes/allServiceRequests.ts";
 import securityRouter from "./routes/securityRequest.ts";
+import languageRouter from "./routes/languageRequest.ts";
 import sanitationRouter from "./routes/saniationRoute.ts";
 import roomSchedulingRouter from "./routes/roomScheduling.ts";
 import textPathRouter from "./routes/textPathRouter.ts";
@@ -61,6 +62,7 @@ app.use("/api/meds-autofill", MedsForAutofillRouter);
 // app.use("/api/all-node-data", allNodeRouter);
 // app.use("/api/all-edges-data", allEdgesRouter);
 app.use("/api/security-request", securityRouter);
+app.use("/api/language-request", languageRouter);
 app.use("/api/room-scheduling", roomSchedulingRouter);
 app.use("/api/pathToText", textPathRouter);
 

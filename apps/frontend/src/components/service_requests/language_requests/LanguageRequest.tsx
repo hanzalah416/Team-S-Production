@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { securityform } from "../../common/securityform.ts";
 import {
   InputLabel,
   Select,
@@ -30,26 +29,19 @@ interface Position {
   left: string;
 }
 
-const SecurityRequest: React.FC = () => {
+const LanguageRequest: React.FC = () => {
   const [staffName, setStaffName] = useState("");
   const [requestPriority, setRequestPriority] = useState("");
   const [requestStatus, setRequestStatus] = useState("");
-  const [securityType, setSecurityType] = useState("");
-  const [threatType, setThreatType] = useState("");
+  const [language, setLanguage] = useState("");
   const [location, setLocation] = useState<Position | null>(null);
 
   const navigate = useNavigate(); //Function to navigate to other pages
   const [locations, setLocations] = useState<Position[]>([]);
-  const [submittedRequests, setSubmittedRequests] = useState<securityform[]>(
-    [],
-  );
 
-  const handleChangeSecurityType = (event: SelectChangeEvent) => {
-    setSecurityType(event.target.value as string);
-  };
 
-  const handleChangeThreatType = (event: SelectChangeEvent) => {
-    setThreatType(event.target.value as string);
+  const handleChangeLanguage = (event: SelectChangeEvent) => {
+    setLanguage(event.target.value as string);
   };
 
   const handleChangeRequestStatus = (event: SelectChangeEvent) => {
@@ -70,47 +62,42 @@ const SecurityRequest: React.FC = () => {
       location == null ||
       requestPriority == "" ||
       requestStatus == "" ||
-      threatType == "" ||
-      securityType == ""
+      language == ""
     ) {
       alert("Please fill out all of the fields");
       return;
     }
-    const securityRequestSent: securityform = {
+    const languageRequestSent = {
       name: staffName,
       location: location.label,
       status: requestStatus,
       priority: requestPriority,
-      threatType: threatType,
-      securityType: securityType,
+      language: language,
     };
 
     await axios
-      .post("/api/security-request", securityRequestSent, {
+      .post("/api/language-request", languageRequestSent, {
         headers: {
           "Content-Type": "application/json",
         },
       })
       .then(() => {
         console.log("Order sent successfully");
-        console.log(securityRequestSent);
         navigate("/order-flowers-result");
       })
       .catch(() => {
         console.log("Order failed to send");
-        console.log(securityRequestSent);
+        console.log(languageRequestSent);
         alert("Order failed to send. Please try again later");
       });
 
-    setSubmittedRequests([...submittedRequests, securityRequestSent]);
   }
 
   function clear() {
     setStaffName("");
     setRequestPriority("");
     setLocation(null);
-    setSecurityType("");
-    setThreatType("");
+    setLanguage("");
     setRequestStatus("");
   }
 
@@ -152,8 +139,7 @@ const SecurityRequest: React.FC = () => {
       <br />
       <Paper elevation={4}>
         <br />
-        <p className={"title"}>Security Request Form</p>
-        <p className={"names"}>Ken Sebastian, Javier Moncada</p>
+        <p className={"title"}>Language Request Form</p>
         <Stack alignItems="center" justifyContent="center" spacing={3} p={4}>
           <div>
             <InputLabel
@@ -246,42 +232,21 @@ const SecurityRequest: React.FC = () => {
               }}
               id="demo-simple-select-label"
             >
-              Threat Type
-            </InputLabel>
-            <Select
-              sx={{ minWidth: 400 }}
-              labelId="threat-type-label"
-              id="threat-type"
-              value={threatType}
-              onChange={handleChangeThreatType} /* add funtion here */
-            >
-              <MenuItem value="trespassing">Trespassing</MenuItem>
-              <MenuItem value="terrorism">Terrorism</MenuItem>
-              <MenuItem value="vandalism">Vandalism</MenuItem>
-              <MenuItem value="theft">Theft</MenuItem>
-              <MenuItem value="other">Other</MenuItem>
-            </Select>
-          </div>
-          <div>
-            <InputLabel
-              style={{
-                color: "#3B54A0",
-              }}
-              id="demo-simple-select-label"
-            >
-              Security Type
+              Language
             </InputLabel>
             <Select
               sx={{ minWidth: 400 }}
               labelId="location-label"
               id="serviceLocation"
-              value={securityType}
-              onChange={handleChangeSecurityType} /* add funtion here */
+              value={language}
+              onChange={handleChangeLanguage} /* add funtion here */
             >
-              <MenuItem value="bodyguard">Bodyguard</MenuItem>
-              <MenuItem value="escort">Escort</MenuItem>
-              <MenuItem value="crowd_control">Crowd Control</MenuItem>
-              <MenuItem value="other">Other</MenuItem>
+              <MenuItem value="spanish">Spanish</MenuItem>
+              <MenuItem value="mandarin">Mandarin</MenuItem>
+              <MenuItem value="german">German</MenuItem>
+              <MenuItem value="french">French</MenuItem>
+              <MenuItem value="arabic">Arabic</MenuItem>
+              <MenuItem value="hindi">Hindi</MenuItem>
             </Select>
           </div>
           <div>
@@ -345,4 +310,4 @@ const SecurityRequest: React.FC = () => {
   );
 };
 
-export default SecurityRequest;
+export default LanguageRequest;

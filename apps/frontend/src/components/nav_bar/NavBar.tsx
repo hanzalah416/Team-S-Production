@@ -107,6 +107,11 @@ function NavBar() {
                 <p className={"item"}>Room Scheduling Services</p>
               </MenuItem>
             </Link>
+            <Link to={"/language-request"} id={"order"}>
+              <MenuItem onClick={handleClose}>
+                <p className={"item"}>Language Services</p>
+              </MenuItem>
+            </Link>
             <Link to={"/map-debug"} id={"order"}>
               <MenuItem onClick={handleClose}>
                 <p className={"item"}>Map Editing Page</p>
