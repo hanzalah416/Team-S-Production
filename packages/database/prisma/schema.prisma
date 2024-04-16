@@ -90,9 +90,9 @@ model SanitationRequest {
 }
 
 model Medicine {
-  medicineID  Int    @id @default(autoincrement())
+  medicineID  Int     @id @default(autoincrement())
   genericName String
-  synName     String
+  synName     String?
 }
 
 model Node {
