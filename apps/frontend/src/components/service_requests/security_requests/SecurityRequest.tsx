@@ -1,9 +1,4 @@
 import React, { useEffect, useState } from "react";
-// import styles from "./SecurityRequest.module.css";
-//import { useFormData } from "./useFormData";
-//import {Simulate} from "react-dom/test-utils";
-//import submit = Simulate.submit;
-// import { useNavigate } from "react-router-dom";
 import { securityform } from "../../common/securityform.ts";
 import {
   InputLabel,
@@ -12,20 +7,13 @@ import {
   Paper,
   SelectChangeEvent,
   Button,
-  Table,
-  TableBody,
-  styled,
-  TableRow,
-  tableCellClasses,
-  TableCell,
-  TableHead,
   Grid,
   Stack,
   Autocomplete,
 } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
-import TableContainer from "@mui/material/TableContainer";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 interface Node {
   xcoord: string;
@@ -50,6 +38,7 @@ const SecurityRequest: React.FC = () => {
   const [threatType, setThreatType] = useState("");
   const [location, setLocation] = useState<Position | null>(null);
 
+  const navigate = useNavigate(); //Function to navigate to other pages
   const [locations, setLocations] = useState<Position[]>([]);
   const [submittedRequests, setSubmittedRequests] = useState<securityform[]>(
     [],
@@ -104,6 +93,7 @@ const SecurityRequest: React.FC = () => {
       })
       .then(() => {
         console.log("Order sent successfully");
+        navigate("/order-flowers-result");
       })
       .catch(() => {
         console.log("Order failed to send");
@@ -147,26 +137,6 @@ const SecurityRequest: React.FC = () => {
       })
       .catch((error) => console.error("Failed to fetch node data:", error));
   }, []);
-
-  const StyledTableCell = styled(TableCell)(({ theme }) => ({
-    [`&.${tableCellClasses.head}`]: {
-      backgroundColor: theme.palette.common.black,
-      color: theme.palette.common.white,
-    },
-    [`&.${tableCellClasses.body}`]: {
-      fontSize: 14,
-    },
-  }));
-
-  const StyledTableRow = styled(TableRow)(({ theme }) => ({
-    "&:nth-of-type(odd)": {
-      backgroundColor: theme.palette.action.hover,
-    },
-    // hide last border
-    "&:last-child td, &:last-child th": {
-      border: 0,
-    },
-  }));
 
   return (
     <Grid
@@ -369,64 +339,6 @@ const SecurityRequest: React.FC = () => {
             </Button>
           </Stack>
         </Stack>
-      </Paper>
-
-      <br />
-      <br />
-      <br />
-      <Paper elevation={4}>
-        <div className={"table"}>
-          <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 700 }}>
-              <TableHead>
-                <TableRow>
-                  <StyledTableCell className={"border border-gray-800 p-2"}>
-                    Staff Name
-                  </StyledTableCell>
-                  <StyledTableCell className={"border border-gray-800 p-2"}>
-                    Location
-                  </StyledTableCell>
-                  <StyledTableCell className={"border border-gray-800 p-2"}>
-                    Priority
-                  </StyledTableCell>
-                  <StyledTableCell className={"border border-gray-800 p-2"}>
-                    Status
-                  </StyledTableCell>
-                  <StyledTableCell className={"border border-gray-800 p-2"}>
-                    Threat Type
-                  </StyledTableCell>
-                  <StyledTableCell className={"border border-gray-800 p-2"}>
-                    Security Type
-                  </StyledTableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {submittedRequests.map((row, key) => (
-                  <StyledTableRow key={key}>
-                    <StyledTableCell className={"border border-gray-800 p-2"}>
-                      {row.name}
-                    </StyledTableCell>
-                    <StyledTableCell className={"border border-gray-800 p-2"}>
-                      {row.location}
-                    </StyledTableCell>
-                    <StyledTableCell className={"border border-gray-800 p-2"}>
-                      {row.priority}
-                    </StyledTableCell>
-                    <StyledTableCell className={"border border-gray-800 p-2"}>
-                      {row.status}
-                    </StyledTableCell>
-                    <StyledTableCell className={"border border-gray-800 p-2"}>
-                      {row.threatType}
-                    </StyledTableCell>
-                    <StyledTableCell className={"border border-gray-800 p-2"}>
-                      {row.securityType}
-                    </StyledTableCell>
-                  </StyledTableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </div>
       </Paper>
     </Grid>
   );

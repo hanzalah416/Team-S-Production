@@ -11,6 +11,7 @@ function readCSVFile(fileName: string) {
       .split("\r\n")
 
       .slice(1, -1)
+      .map((line) => line.replace("\r", ""))
       .map((line) => line.split(","));
   } catch (error) {
     console.error(error);
