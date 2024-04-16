@@ -27,7 +27,6 @@ import MenuItem from "@mui/material/MenuItem";
 import TableContainer from "@mui/material/TableContainer";
 import axios from "axios";
 
-
 interface Node {
   xcoord: string;
   ycoord: string;
@@ -51,12 +50,10 @@ const SecurityRequest: React.FC = () => {
   const [threatType, setThreatType] = useState("");
   const [location, setLocation] = useState<Position | null>(null);
 
-
   const [locations, setLocations] = useState<Position[]>([]);
   const [submittedRequests, setSubmittedRequests] = useState<securityform[]>(
     [],
   );
-
 
   const handleChangeSecurityType = (event: SelectChangeEvent) => {
     setSecurityType(event.target.value as string);
@@ -79,12 +76,14 @@ const SecurityRequest: React.FC = () => {
   };
 
   async function submit() {
-    if (staffName == ""
-      || location == null
-      || requestPriority == ""
-      || requestStatus == ""
-      || threatType == ""
-      || securityType == "") {
+    if (
+      staffName == "" ||
+      location == null ||
+      requestPriority == "" ||
+      requestStatus == "" ||
+      threatType == "" ||
+      securityType == ""
+    ) {
       alert("Please fill out all of the fields");
       return;
     }
@@ -96,7 +95,6 @@ const SecurityRequest: React.FC = () => {
       threatType: threatType,
       securityType: securityType,
     };
-
 
     await axios
       .post("/api/security-request", securityRequestSent, {
@@ -136,18 +134,18 @@ const SecurityRequest: React.FC = () => {
   useEffect(() => {
     // Fetch node data from the backend
     fetch("/api/nodes")
-        .then((response) => response.json())
-        .then((nodes: Node[]) => {
-          const formattedLocations: Position[] = nodes.map((node) => ({
-            label: node.longName || "Unknown", // Use the correct property name
-            id: node.id,
-            top: `${node.ycoord}px`,
-            left: `${node.xcoord}px`,
-          }));
+      .then((response) => response.json())
+      .then((nodes: Node[]) => {
+        const formattedLocations: Position[] = nodes.map((node) => ({
+          label: node.longName || "Unknown", // Use the correct property name
+          id: node.id,
+          top: `${node.ycoord}px`,
+          left: `${node.xcoord}px`,
+        }));
 
-          setLocations(formattedLocations);
-        })
-        .catch((error) => console.error("Failed to fetch node data:", error));
+        setLocations(formattedLocations);
+      })
+      .catch((error) => console.error("Failed to fetch node data:", error));
   }, []);
 
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -188,47 +186,47 @@ const SecurityRequest: React.FC = () => {
         <Stack alignItems="center" justifyContent="center" spacing={3} p={4}>
           <div>
             <InputLabel
-                style={{
-                  color: "#3B54A0",
-                }}
-                id="demo-simple-select-label"
+              style={{
+                color: "#3B54A0",
+              }}
+              id="demo-simple-select-label"
             >
               Name of Requester
             </InputLabel>
             <TextField
-                style={{
-                  borderColor: "#3B54A0",
-                  color: "#3B54A0",
-                  accentColor: "#3B54A0",
-                  borderBlockColor: "#3B54A0",
-                }}
-                id="outlined-controlled"
-                label=""
-                value={staffName}
-                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                  setStaffName(event.target.value);
-                }}
-                sx={{minWidth: 400}}
+              style={{
+                borderColor: "#3B54A0",
+                color: "#3B54A0",
+                accentColor: "#3B54A0",
+                borderBlockColor: "#3B54A0",
+              }}
+              id="outlined-controlled"
+              label=""
+              value={staffName}
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                setStaffName(event.target.value);
+              }}
+              sx={{ minWidth: 400 }}
             />
           </div>
           <div>
             <InputLabel
-                style={{
-                  color: "#3B54A0",
-                }}
-                id="priority-dropdown"
+              style={{
+                color: "#3B54A0",
+              }}
+              id="priority-dropdown"
             >
               Priority
             </InputLabel>
             <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={requestPriority}
-                label=""
-                onChange={(e) => {
-                  handleChangeRequestPriority(e);
-                }}
-                sx={{minWidth: 400, color: "#3B54A0"}}
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={requestPriority}
+              label=""
+              onChange={(e) => {
+                handleChangeRequestPriority(e);
+              }}
+              sx={{ minWidth: 400, color: "#3B54A0" }}
             >
               <MenuItem value={"Low"}>Low</MenuItem>
               <MenuItem value={"Medium"}>Medium</MenuItem>
@@ -238,104 +236,101 @@ const SecurityRequest: React.FC = () => {
           </div>
           <div>
             <InputLabel
-                style={{
-                  color: "#3B54A0",
-                }}
-                id="location-dropdown"
+              style={{
+                color: "#3B54A0",
+              }}
+              id="location-dropdown"
             >
               Location
             </InputLabel>
             <Autocomplete
-                sx={{minWidth: 400, color: "#3B54A0"}}
-                options={locations}
-                getOptionLabel={(option) => option.label || "Unknown"}
-                isOptionEqualToValue={(option, value) => option.id === value.id}
-                value={location}
-                renderInput={(params) => (
-                    <TextField
-                        {...params}
-                        label=""
-                        InputLabelProps={{
-                          style: {
-                            fontFamily: "Poppins",
-                            fontSize: 14,
-                            textAlign: "center",
-                          },
-                        }}
-                    />
-                )}
-                onOpen={() => toggleScrolling(true)}
-                onClose={() => toggleScrolling(false)}
-                onChange={(event, value) => handleChangeLocation(value)}
+              sx={{ minWidth: 400, color: "#3B54A0" }}
+              options={locations}
+              getOptionLabel={(option) => option.label || "Unknown"}
+              isOptionEqualToValue={(option, value) => option.id === value.id}
+              value={location}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label=""
+                  InputLabelProps={{
+                    style: {
+                      fontFamily: "Poppins",
+                      fontSize: 14,
+                      textAlign: "center",
+                    },
+                  }}
+                />
+              )}
+              onOpen={() => toggleScrolling(true)}
+              onClose={() => toggleScrolling(false)}
+              onChange={(event, value) => handleChangeLocation(value)}
             />
           </div>
 
-
-
-
-            <div>
-              <InputLabel
-                  style={{
-                    color: "#3B54A0",
-                  }}
-                  id="demo-simple-select-label"
-              >
-                Threat Type
-              </InputLabel>
-              <Select
-                  sx={{minWidth: 400}}
-                  labelId="threat-type-label"
-                  id="threat-type"
-                  value={threatType}
-                  onChange={handleChangeThreatType} /* add funtion here */
-              >
-                <MenuItem value="trespassing">Trespassing</MenuItem>
-                <MenuItem value="terrorism">Terrorism</MenuItem>
-                <MenuItem value="vandalism">Vandalism</MenuItem>
-                <MenuItem value="theft">Theft</MenuItem>
-                <MenuItem value="other">Other</MenuItem>
-              </Select>
-            </div>
-            <div>
-              <InputLabel
-                  style={{
-                    color: "#3B54A0",
-                  }}
-                  id="demo-simple-select-label"
-              >
-                Security Type
-              </InputLabel>
-              <Select
-                  sx={{minWidth: 400}}
-                  labelId="location-label"
-                  id="serviceLocation"
-                  value={securityType}
-                  onChange={handleChangeSecurityType} /* add funtion here */
-              >
-                <MenuItem value="bodyguard">Bodyguard</MenuItem>
-                <MenuItem value="escort">Escort</MenuItem>
-                <MenuItem value="crowd_control">Crowd Control</MenuItem>
-                <MenuItem value="other">Other</MenuItem>
-              </Select>
-            </div>
           <div>
             <InputLabel
-                style={{
-                  color: "#3B54A0",
-                }}
-                id="demo-simple-select-label"
+              style={{
+                color: "#3B54A0",
+              }}
+              id="demo-simple-select-label"
+            >
+              Threat Type
+            </InputLabel>
+            <Select
+              sx={{ minWidth: 400 }}
+              labelId="threat-type-label"
+              id="threat-type"
+              value={threatType}
+              onChange={handleChangeThreatType} /* add funtion here */
+            >
+              <MenuItem value="trespassing">Trespassing</MenuItem>
+              <MenuItem value="terrorism">Terrorism</MenuItem>
+              <MenuItem value="vandalism">Vandalism</MenuItem>
+              <MenuItem value="theft">Theft</MenuItem>
+              <MenuItem value="other">Other</MenuItem>
+            </Select>
+          </div>
+          <div>
+            <InputLabel
+              style={{
+                color: "#3B54A0",
+              }}
+              id="demo-simple-select-label"
+            >
+              Security Type
+            </InputLabel>
+            <Select
+              sx={{ minWidth: 400 }}
+              labelId="location-label"
+              id="serviceLocation"
+              value={securityType}
+              onChange={handleChangeSecurityType} /* add funtion here */
+            >
+              <MenuItem value="bodyguard">Bodyguard</MenuItem>
+              <MenuItem value="escort">Escort</MenuItem>
+              <MenuItem value="crowd_control">Crowd Control</MenuItem>
+              <MenuItem value="other">Other</MenuItem>
+            </Select>
+          </div>
+          <div>
+            <InputLabel
+              style={{
+                color: "#3B54A0",
+              }}
+              id="demo-simple-select-label"
             >
               Status
             </InputLabel>
             <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={requestStatus}
-                label=""
-                onChange={(e) => {
-                  handleChangeRequestStatus(e);
-                }}
-                sx={{minWidth: 400}}
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={requestStatus}
+              label=""
+              onChange={(e) => {
+                handleChangeRequestStatus(e);
+              }}
+              sx={{ minWidth: 400 }}
             >
               <MenuItem value={"unassigned"}>Unassigned</MenuItem>
               <MenuItem value={"assigned"}>Assigned</MenuItem>
@@ -344,31 +339,31 @@ const SecurityRequest: React.FC = () => {
             </Select>
           </div>
           <Stack
-              spacing={2}
-              direction="row"
-              alignItems="center"
-              justifyContent="center"
+            spacing={2}
+            direction="row"
+            alignItems="center"
+            justifyContent="center"
           >
             <Button
-                style={{
-                  color: "#3B54A0",
-                  outlineColor: "#3B54A0",
-                  borderColor: "#3B54A0",
-                }}
-                variant="outlined"
-                sx={{minWidth: 100}}
-                onClick={clear}
+              style={{
+                color: "#3B54A0",
+                outlineColor: "#3B54A0",
+                borderColor: "#3B54A0",
+              }}
+              variant="outlined"
+              sx={{ minWidth: 100 }}
+              onClick={clear}
             >
               Clear
             </Button>
 
             <Button
-                style={{
-                  backgroundColor: "#3B54A0",
-                }}
-                variant="contained"
-                sx={{minWidth: 100}}
-                onClick={submit}
+              style={{
+                backgroundColor: "#3B54A0",
+              }}
+              variant="contained"
+              sx={{ minWidth: 100 }}
+              onClick={submit}
             >
               Submit
             </Button>
@@ -376,13 +371,13 @@ const SecurityRequest: React.FC = () => {
         </Stack>
       </Paper>
 
-      <br/>
-      <br/>
-      <br/>
+      <br />
+      <br />
+      <br />
       <Paper elevation={4}>
         <div className={"table"}>
           <TableContainer component={Paper}>
-            <Table sx={{minWidth: 700}}>
+            <Table sx={{ minWidth: 700 }}>
               <TableHead>
                 <TableRow>
                   <StyledTableCell className={"border border-gray-800 p-2"}>
@@ -395,7 +390,7 @@ const SecurityRequest: React.FC = () => {
                     Priority
                   </StyledTableCell>
                   <StyledTableCell className={"border border-gray-800 p-2"}>
-                  Status
+                    Status
                   </StyledTableCell>
                   <StyledTableCell className={"border border-gray-800 p-2"}>
                     Threat Type

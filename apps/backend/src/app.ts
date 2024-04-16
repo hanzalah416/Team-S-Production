@@ -17,6 +17,7 @@ import allRequests from "./routes/allServiceRequests.ts";
 import securityRouter from "./routes/securityRequest.ts";
 import sanitationRouter from "./routes/saniationRoute.ts";
 import roomSchedulingRouter from "./routes/roomScheduling.ts";
+import textPathRouter from "./routes/textPathRouter.ts";
 // import allEdgesRouter from "./routes/getAllEdgesData.ts";
 // import allNodeRouter from "./routes/getAllNodeData.ts";
 // Populate the database
@@ -58,6 +59,7 @@ app.use("/api/all-requests", allRequests);
 // app.use("/api/all-edges-data", allEdgesRouter);
 app.use("/api/security-request", securityRouter);
 app.use("/api/room-scheduling", roomSchedulingRouter);
+app.use("/api/pathToText", textPathRouter);
 
 app.use("/healthcheck", (req, res) => {
   res.status(200).send();
