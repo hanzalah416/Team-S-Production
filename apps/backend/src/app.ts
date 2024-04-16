@@ -17,6 +17,7 @@ import allRequests from "./routes/allServiceRequests.ts";
 import securityRouter from "./routes/securityRequest.ts";
 import sanitationRouter from "./routes/saniationRoute.ts";
 import roomSchedulingRouter from "./routes/roomScheduling.ts";
+import MedsForAutofillRouter from "./routes/MedsForAutofillRoutes.ts";
 // import allEdgesRouter from "./routes/getAllEdgesData.ts";
 // import allNodeRouter from "./routes/getAllNodeData.ts";
 // Populate the database
@@ -54,6 +55,7 @@ app.use("/api/nodes", nodeRouter);
 app.use("/api/edges", allEdgeRouter);
 app.use("/api/medicine-request", medicineRouter);
 app.use("/api/all-requests", allRequests);
+app.use("/api/meds-autofill", MedsForAutofillRouter);
 // app.use("/api/all-node-data", allNodeRouter);
 // app.use("/api/all-edges-data", allEdgesRouter);
 app.use("/api/security-request", securityRouter);
