@@ -8,10 +8,14 @@ import bwhLogo from "../assets/bwh-logo.svg";
 import mapIcon from "../assets/NavBarIcons/map_icon_nav.png";
 import arrowDropDown from "../assets/NavBarIcons/arrow_drop_down_nav.png";
 import profileIcon from "../assets/NavBarIcons/profile_icon_nav.png";
+import { LoginButton } from "../LoginButton.tsx";
+import { LogoutButton } from "../LogoutButton.tsx";
+import { useAuth0 } from "@auth0/auth0-react";
 
 function NavBar() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+  const { isAuthenticated } = useAuth0();
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -120,6 +124,8 @@ function NavBar() {
           </Menu>
         </div>
         <div>
+          {!isAuthenticated && <LoginButton />}
+          {isAuthenticated && <LogoutButton />}
           <Button
             id="my-profile-button"
             aria-controls={open ? "profile-menu" : undefined}
