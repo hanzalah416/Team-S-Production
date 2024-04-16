@@ -1,6 +1,6 @@
 import { Node } from "../../../packages/database";
 import { NodeEdge } from "../../../packages/database";
-import { PathToText } from "./textPath.ts";
+
 class MakeGraph {
   private nodeMap: Map<string, GraphNode> = new Map();
 
@@ -286,10 +286,8 @@ class MakeGraph {
     }
     path.push(startNode);
 
-    const pathIds = path.map((node) => node.id).reverse();
-    console.log(PathToText(path));
     //console.log("Path found:", pathIds);
-    return pathIds;
+    return path;
   }
 
   //Gets the euclidean distance between nodes

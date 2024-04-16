@@ -1,8 +1,9 @@
 import express, { Router, Request, Response } from "express";
-import MakeGraph from "../makegraph";
+import MakeGraph, { GraphNode } from "../makegraph";
 import client from "../bin/database-connection.ts";
 import { Node } from "../../../../packages/database";
 import { NodeEdge } from "../../../../packages/database";
+import { PathToText } from "../textPath.ts";
 
 const router: Router = express.Router();
 
@@ -32,7 +33,7 @@ router.post("/", async function (req: Request, res: Response) {
       algorithm,
     );
 
-    let path;
+    let path: GraphNode[] = [];
     switch (algorithm) {
       case "dijkstra":
         path = graph.Dijsktra(startNode, endNode);
@@ -49,16 +50,20 @@ router.post("/", async function (req: Request, res: Response) {
       default:
         console.error("Unsupported pathfinding algorithm");
     }
-    const pathIds = path!.map((node) => node.id).reverse();
 
-    if (!pathIds || pathIds.length === 0) {
+    const textDirectionsRaw = PathToText(path.reverse());
+    const textDirectionsFiltered = JSON.stringify(
+      textDirectionsRaw!.map((direction) => direction.toJson()),
+    );
+
+    if (!textDirectionsFiltered || textDirectionsFiltered.length === 0) {
       res.sendStatus(204); // No Content
     } else {
-      res.json({ id: pathIds }); // Send the path as response
+      res.json(textDirectionsFiltered); // Send the path as response
     }
   } catch (error) {
-    console.error("Error by pathfinding:", error);
-    res.status(400).send("Pathfinding failed");
+    console.error("Error by text to path:", error);
+    res.status(400).send("Text to path failed");
   }
 });
 

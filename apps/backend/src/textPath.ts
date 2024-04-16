@@ -69,6 +69,15 @@ export class Directions {
     this._startNode = startNode;
     this._endNode = endNode;
   }
+
+  toJson() {
+    return {
+      textDirection: this._textDirection,
+      directionType: this._directionType,
+      startNode: this._startNode.id,
+      endNode: this._endNode.id,
+    };
+  }
 }
 
 let facing: cardinalDirection = cardinalDirection.South; //Initally facing north
