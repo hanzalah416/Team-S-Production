@@ -477,12 +477,6 @@ function FloorMap() {
           )}
 
           <div className={styles.boldtag2}>
-            <PathToTextDisplay
-              startNode={"FHALL02901"}
-              endNode={"DINFO00102"}
-              algo={algorithm}
-            />
-
             <div className={styles.boldtag2}>Floors for the Current Path:</div>
             <br />
             <div
@@ -511,34 +505,41 @@ function FloorMap() {
                 }
 
                 return (
-                  <Button
-                    key={tag.tag}
-                    variant={
-                      currentFloor === tag.tag ? "contained" : "outlined"
-                    }
-                    onClick={() => {
-                      setCurrentFloor(tag.tag);
+                  <div>
+                    <PathToTextDisplay
+                      startNode={"FHALL02901"}
+                      endNode={"DINFO00102"}
+                      algo={algorithm}
+                    />
+                    <Button
+                      key={tag.tag}
+                      variant={
+                        currentFloor === tag.tag ? "contained" : "outlined"
+                      }
+                      onClick={() => {
+                        setCurrentFloor(tag.tag);
 
-                      // Filter the full path for the new floor
-                      const newFilteredQueueNodeIDs = fullPath.filter(
-                        (id) =>
-                          getFloorNumber(id) === tag.tag || id.length === 3,
-                      );
-                      setFilteredQueueNodeIDs(newFilteredQueueNodeIDs);
-                    }}
-                    style={{
-                      marginBottom: "5px",
-                      marginTop: "3px",
-                      color: currentFloor === tag.tag ? "white" : "black", // Text color
-                      backgroundColor:
-                        currentFloor === tag.tag ? "#003b9c" : "#f1f1f1", // Background color with transparency
-                      borderColor: "black", // Border color
-                      fontFamily: "Poppins",
-                      textAlign: "center",
-                    }}
-                  >
-                    {displayFloor}
-                  </Button>
+                        // Filter the full path for the new floor
+                        const newFilteredQueueNodeIDs = fullPath.filter(
+                          (id) =>
+                            getFloorNumber(id) === tag.tag || id.length === 3,
+                        );
+                        setFilteredQueueNodeIDs(newFilteredQueueNodeIDs);
+                      }}
+                      style={{
+                        marginBottom: "5px",
+                        marginTop: "3px",
+                        color: currentFloor === tag.tag ? "white" : "black", // Text color
+                        backgroundColor:
+                          currentFloor === tag.tag ? "#003b9c" : "#f1f1f1", // Background color with transparency
+                        borderColor: "black", // Border color
+                        fontFamily: "Poppins",
+                        textAlign: "center",
+                      }}
+                    >
+                      {displayFloor}
+                    </Button>
+                  </div>
                 );
               })}
             </div>

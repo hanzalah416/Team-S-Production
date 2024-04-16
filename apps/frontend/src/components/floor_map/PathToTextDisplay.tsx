@@ -9,14 +9,22 @@ import StarBorder from "@mui/icons-material/StarBorder";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import { Directions, directionType } from "../../../../backend/src/textPath.ts";
+import TurnLeftIcon from "@mui/icons-material/TurnLeft";
+import TurnRightIcon from "@mui/icons-material/TurnRight";
+import StraightIcon from "@mui/icons-material/Straight";
+import ImportExportIcon from "@mui/icons-material/ImportExport";
+import SyncIcon from "@mui/icons-material/Sync";
+import FmdGoodIcon from "@mui/icons-material/FmdGood";
 
 export default function PathToTextDisplay(props: {
   startNode: string;
   endNode: string;
   algo: string;
 }) {
+  //Keep track of which lists are open
   const [openLists, setOpenLists] = useState<boolean[]>([]);
   const [data, setData] = useState<Directions[]>([]);
+  const [currentFloor] = useState<string[]>([]);
 
   useEffect(() => {
     // Fetch data from the backend when the component mounts
@@ -60,10 +68,12 @@ export default function PathToTextDisplay(props: {
     data.forEach((direction) => {
       // If direction type is 5, start a new list
       if (direction.directionType === directionType.FloorSwitch) {
+        currentFloor[currentListIndex + 1] = direction.floorEnd;
         lists[currentListIndex].push(direction);
         lists.push([]);
         currentListIndex++;
       } else {
+        currentFloor[currentListIndex] = direction.floorStart;
         // Add direction to the current list
         lists[currentListIndex].push(direction);
       }
@@ -79,45 +89,74 @@ export default function PathToTextDisplay(props: {
     );
   };
 
+  // Function to determine the icon based on direction type
+  const getIconForDirectionType = (directionType: number) => {
+    switch (directionType) {
+      //Right
+      case 0:
+        return <TurnRightIcon />;
+      //Left
+      case 1:
+        return <TurnLeftIcon />;
+      //Forward
+      case 4:
+        return <StraightIcon />;
+      //Floor Switch
+      case 5:
+        return <ImportExportIcon />;
+      //Facing
+      case 6:
+        return <SyncIcon />;
+      //End
+      case 7:
+        return <FmdGoodIcon />;
+      // Add more cases as needed for other direction types
+      default:
+        return <StarBorder />; // Default icon if direction type is not recognized
+    }
+  };
+
   return (
-    <List
-      sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
-      component="nav"
-      aria-labelledby="nested-list-subheader"
-      subheader={
-        <ListSubheader component="div" id="nested-list-subheader">
-          Nested List Items
-        </ListSubheader>
-      }
-    >
-      {/* Map over the split lists of directions and render each list */}
-      {splitDirections().map((list, index) => (
-        <div key={index}>
-          {/* Render a subheader for each list */}
-          <ListItemButton onClick={() => toggleList(index)}>
-            <ListItemIcon>
-              <StarBorder />
-            </ListItemIcon>
-            <ListItemText primary={`List ${index + 1}`} />
-            {openLists[index] ? <ExpandLess /> : <ExpandMore />}
-          </ListItemButton>
-          {/* Nested Collapse component for each list */}
-          <Collapse in={openLists[index]} timeout="auto" unmountOnExit>
-            <List component="div" disablePadding>
-              {/* Render each direction in the list */}
-              {list.map((direction, idx) => (
-                <ListItemButton key={idx} sx={{ pl: 4 }}>
-                  <ListItemIcon>
-                    <StarBorder />
-                  </ListItemIcon>
-                  {/* Assuming textDirection is a property of Directions */}
-                  <ListItemText primary={direction.textDirection} />
-                </ListItemButton>
-              ))}
-            </List>
-          </Collapse>
-        </div>
-      ))}
-    </List>
+    <div style={{ height: "500px", overflow: "auto" }}>
+      <List
+        sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
+        component="nav"
+        aria-labelledby="nested-list-subheader"
+        subheader={
+          <ListSubheader component="div" id="nested-list-subheader">
+            Directions
+          </ListSubheader>
+        }
+      >
+        {/* Map over the split lists of directions and render each list */}
+        {splitDirections().map((list, index) => (
+          <div key={index}>
+            {/* Render a subheader for each list */}
+            <ListItemButton onClick={() => toggleList(index)}>
+              <ListItemIcon>
+                <StarBorder />
+              </ListItemIcon>
+              <ListItemText primary={`Floor ${currentFloor[index]}`} />
+              {openLists[index] ? <ExpandLess /> : <ExpandMore />}
+            </ListItemButton>
+            {/* Nested Collapse component for each list */}
+            <Collapse in={openLists[index]} timeout="auto" unmountOnExit>
+              <List component="div" disablePadding>
+                {/* Render each direction in the list */}
+                {list.map((direction, idx) => (
+                  <ListItemButton key={idx} sx={{ pl: 4 }}>
+                    <ListItemIcon>
+                      {getIconForDirectionType(direction.directionType)}
+                    </ListItemIcon>
+                    {/* Assuming textDirection is a property of Directions */}
+                    <ListItemText primary={direction.textDirection} />
+                  </ListItemButton>
+                ))}
+              </List>
+            </Collapse>
+          </div>
+        ))}
+      </List>
+    </div>
   );
 }
