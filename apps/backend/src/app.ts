@@ -16,6 +16,7 @@ import medicineRouter from "./routes/MedicineRoute.ts";
 import allRequests from "./routes/allServiceRequests.ts";
 import securityRouter from "./routes/securityRequest.ts";
 import sanitationRouter from "./routes/saniationRoute.ts";
+import { auth } from "express-oauth2-jwt-bearer";
 // import allEdgesRouter from "./routes/getAllEdgesData.ts";
 // import allNodeRouter from "./routes/getAllNodeData.ts";
 // Populate the database
@@ -60,6 +61,14 @@ app.use("/api/security-request", securityRouter);
 app.use("/healthcheck", (req, res) => {
   res.status(200).send();
 });
+
+app.use(
+  auth({
+    audience: "/api",
+    issuerBaseURL: "https://dev-q6nptoajn7kajoxf.us.auth0.com/",
+    tokenSigningAlg: "RS256",
+  }),
+);
 
 // main().then(() => {
 //     console.log('Data populated successfully!');

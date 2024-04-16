@@ -1,5 +1,10 @@
 import "./App.css";
-import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
+import {
+  createBrowserRouter,
+  RouterProvider,
+  Outlet,
+  useNavigate,
+} from "react-router-dom";
 import NavBar from "./components/nav_bar/NavBar.tsx";
 import OrderFlowers from "./components/flower_requests/OrderFlowers.tsx";
 import Login from "./components/login/Login.tsx";
@@ -17,6 +22,7 @@ import FloorMapDebug from "./components/floor_map/FloorMapDebug.tsx";
 import RoomScheduling from "./components/service_requests/Room_Scheduling/RoomScheduling.tsx";
 import MedicineDeliveryForm from "./components/service_requests/medicine_delivery/MedicineDeliveryForm.tsx";
 import SecurityRequest from "./components/service_requests/security_requests/SecurityRequest.tsx";
+import { AppState, Auth0Provider } from "@auth0/auth0-react";
 
 function App() {
   const router = createBrowserRouter([
@@ -26,7 +32,8 @@ function App() {
           path: "/",
           element: (
             <>
-              <Login />
+              <FloorMap />
+              <Layout />
             </>
           ),
         },
@@ -42,8 +49,7 @@ function App() {
           path: "/welcome",
           element: (
             <>
-              <FloorMap />
-              <Layout />
+              <Login />
             </>
           ),
         },
@@ -175,11 +181,27 @@ function App() {
 // }
 
 function Layout() {
+  const navigate = useNavigate();
   return (
-    <>
-      <NavBar />
-      <Outlet /> {/* Child routes will render here */}
-    </>
+    <Auth0Provider
+      useRefreshTokens
+      cacheLocation="localstorage"
+      domain="dev-q6nptoajn7kajoxf.us.auth0.com"
+      clientId="3UbU8v3PXSEQJsRMtwCJdvoKeWigw8eA"
+      onRedirectCallback={(appState: AppState | undefined): void => {
+        navigate(appState?.returnTo || window.location.pathname);
+      }}
+      authorizationParams={{
+        redirect_uri: window.location.origin,
+        audience: "/api",
+        scope: "openid profile email offline_access",
+      }}
+    >
+      <>
+        <NavBar />
+        <Outlet /> {/* Child routes will render here */}
+      </>
+    </Auth0Provider>
   );
 }
 
