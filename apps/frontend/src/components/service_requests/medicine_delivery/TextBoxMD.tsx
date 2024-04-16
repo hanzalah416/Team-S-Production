@@ -22,6 +22,8 @@ export default function FreeSoloCreateOptionDialog(
 ) {
   const [value, setValue] = React.useState<MedicineOptionType | null>(null);
   const [open, toggleOpen] = React.useState(false);
+  const [medicineData, setMedicineData] =
+    React.useState<MedicineOptionType[]>(medicineDataOriginal);
 
   const handleClose = () => {
     setDialogValue({
@@ -48,6 +50,10 @@ export default function FreeSoloCreateOptionDialog(
       // Make a POST request to your route with the medicine data
       await axios.post("/api/meds-autofill", createMedicineAttempt);
       console.log("Successfully saved medicine to autofill");
+
+      // Add the new medicine data to the array
+      setMedicineData((prevData) => [...prevData, createMedicineAttempt]);
+
       prop.setNameMedicine(dialogValue.synName + dialogValue.genericName);
       handleClose();
     } catch (error) {
@@ -180,7 +186,7 @@ interface MedicineOptionType {
 // https://rxtechexam.com/top-100-drugs/
 // This is a list of the top 100 used drugs in the world
 // In later iterations want to add a connection to backend so there can be more
-const medicineData: readonly MedicineOptionType[] = [
+const medicineDataOriginal: MedicineOptionType[] = [
   {
     genericName: "zolpidem",
     synName: "Ambien",
