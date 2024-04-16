@@ -29,13 +29,14 @@ router.get("/", async function (req: Request, res: Response) {
   try {
     const userName: string = req.query.userName as string;
 
-    const logIn = await PrismaClient.hospitalUser.findFirst({
+    const logIn = await PrismaClient.hospitalUser.findMany({
       where: {
         userName: userName,
       },
       select: {
         userName: true,
         userPassword: true,
+        userEmail: true,
       },
     });
 

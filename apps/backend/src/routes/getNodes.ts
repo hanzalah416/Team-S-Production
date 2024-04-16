@@ -1,8 +1,8 @@
 import express, { Router, Request, Response } from "express";
 import client from "../bin/database-connection.ts";
 import { Node, Prisma } from "../../../../packages/database/.prisma/client";
-import PrismaClient from "../bin/database-connection.ts";
-
+import prisma from "../bin/database-connection.ts";
+//this is /api/nodes
 const router: Router = express.Router();
 
 router.get("/", async function (req: Request, res: Response) {
@@ -14,7 +14,10 @@ router.get("/", async function (req: Request, res: Response) {
       xcoord: node.xcoord,
       ycoord: node.ycoord,
       longName: node.longName,
+      shortName: node.shortName,
       floor: node.floor,
+      nodeType: node.nodeType, // Include nodeType
+      building: node.building, // Include building
     }));
 
     formattedNodes.sort((a, b) => a.longName.localeCompare(b.longName));
@@ -31,7 +34,7 @@ router.post("/", async function (req: Request, res: Response) {
   // Attempt to save the high score
   try {
     // Attempt to create in the database
-    await PrismaClient.node.create({ data: nodeAttempt });
+    await prisma.node.create({ data: nodeAttempt });
     console.info("Successfully saved high score attempt"); // Log that it was successful
   } catch (error) {
     // Log any failures
@@ -41,6 +44,40 @@ router.post("/", async function (req: Request, res: Response) {
   }
 
   res.sendStatus(200); // Otherwise say it's fine
+});
+
+router.patch("/:id", async (req, res) => {
+  const { id } = req.params;
+  const { xcoord, ycoord, floor, longName, building, nodeType, shortName } =
+    req.body;
+
+  try {
+    const updatedNode = await prisma.node.update({
+      where: {
+        nodeID: id,
+      },
+      data: {
+        xcoord: parseInt(xcoord, 10),
+        ycoord: parseInt(ycoord, 10),
+        floor: floor,
+        shortName: shortName,
+        longName: longName,
+        building: building,
+        nodeType: nodeType,
+      },
+    });
+
+    if (!updatedNode) {
+      console.error("No node found with the given ID!");
+      res.sendStatus(204); // No Content, the node was not found
+    } else {
+      console.log("Updated node details:", updatedNode);
+      res.status(200).json(updatedNode); // Successfully updated the node
+    }
+  } catch (error) {
+    console.error(`Error updating node details: ${error}`);
+    res.sendStatus(500); // Internal Server Error
+  }
 });
 
 export default router;

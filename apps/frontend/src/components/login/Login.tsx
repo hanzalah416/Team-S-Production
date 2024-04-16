@@ -10,14 +10,13 @@ import { Link, useNavigate } from "react-router-dom";
 // import axios from "axios";
 
 // import Link from '@mui/material/Link';
-import Checkbox from "@mui/material/Checkbox";
-import FormControlLabel from "@mui/material/FormControlLabel";
-// import {loginform} from "./common/loginform.ts";
+// import Checkbox from "@mui/material/Checkbox";
+// import FormControlLabel from "@mui/material/FormControlLabel";
+import axios from "axios";
 
 const Login: React.FC = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-
   const navigate = useNavigate();
   const [backgroundImage, setBackgroundImage] = useState<string>(heroImage);
 
@@ -28,28 +27,29 @@ const Login: React.FC = () => {
     setBackgroundImage(`url(${randomImageUrl})`);
   }, []);
 
-  // const handleLogin = async () => {
-  //     navigate('welcome');
-  //
-  //     const [loginCreds, setLoginCreds] = useState<loginform[]>([]);
-  //
-  //     await axios.get("/api/create-user").then((response) => {setLoginCreds(response.data);});
-  //     console.log("successfully got data from get request");
-  //     loginCreds.forEach((loginform) => {
-  //         if(loginform.userPassword == password && loginform.userName == username) {
-  //             navigate('/welcome');
-  //         } else {
-  //             navigate('/');
-  //         }
-  //     });
-  //
-  // };
+  const handleLogin = async () => {
+    try {
+      const response = await axios.get("/api/create-user");
+      console.log("Sucessfully got data from get request");
+      console.log(response.data);
 
-  const handleLogin = () => {
-    if (username == "admin" && password == "admin") {
-      navigate("welcome");
-    } else {
-      throw new Error("Invalid login!");
+      for (let i = 0; i < response.data.length; i++) {
+        if (
+          response.data[i].userName === username &&
+          response.data[i].userPassword === password
+        ) {
+          navigate("/welcome");
+        }
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      // Trigger login function here
+      handleLogin();
     }
   };
 
@@ -68,6 +68,7 @@ const Login: React.FC = () => {
                 variant="standard"
                 className={styles.muiInput}
                 onChange={(e) => setUsername(e.target.value)}
+                onKeyPress={handleKeyPress}
               />
             </div>
 
@@ -79,15 +80,16 @@ const Login: React.FC = () => {
                 variant="standard"
                 className={styles.muiInput}
                 onChange={(e) => setPassword(e.target.value)}
+                onKeyPress={handleKeyPress}
               />
             </div>
 
             <div className={styles.extras}>
-              <FormControlLabel
-                control={<Checkbox />}
-                label="Remember Me"
-                style={{ color: "black" }}
-              />
+              {/*<FormControlLabel*/}
+              {/*  control={<Checkbox />}*/}
+              {/*  label="Remember Me"*/}
+              {/*  style={{ color: "black" }}*/}
+              {/*/>*/}
               {/*<p className={styles.forgotPassword}>*/}
               {/*  <a className={styles.forgotLink} href="url">*/}
               {/*    FORGOT PASSWORD?*/}

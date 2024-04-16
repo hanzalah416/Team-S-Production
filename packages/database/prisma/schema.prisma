@@ -47,11 +47,24 @@ model SecurityRequest {
   servreq        ServiceRequest @relation(fields: [orderNumberSec], references: [requestID])
 }
 
+model LanguageRequest {
+  orderNumber Int            @id
+  language    String
+  servreq     ServiceRequest @relation(fields: [orderNumber], references: [requestID])
+}
+
 enum RequestStatus {
   unassigned
   assigned
   in_progress
   closed
+}
+
+model RoomScheduling {
+  requestNumber Int            @id
+  startTime     String
+  endTime       String
+  servreq       ServiceRequest @relation(fields: [requestNumber], references: [requestID])
 }
 
 model ServiceRequest {
@@ -65,6 +78,8 @@ model ServiceRequest {
   SecurityRequests  SecurityRequest?
   MedicineRequests  MedicineRequests?
   SanitationRequest SanitationRequest?
+  RoomScheduling    RoomScheduling?
+  LanguageRequest   LanguageRequest?
 }
 
 model SanitationRequest {
@@ -72,6 +87,12 @@ model SanitationRequest {
   sanitationType String
   permission     String
   servreq        ServiceRequest @relation(fields: [orderNumber], references: [requestID])
+}
+
+model Medicine {
+  medicineID  Int     @id @default(autoincrement())
+  genericName String
+  synName     String?
 }
 
 model Node {

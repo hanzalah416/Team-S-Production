@@ -15,8 +15,14 @@ import allEdgeRouter from "./routes/getAllEdgesData.ts";
 import medicineRouter from "./routes/MedicineRoute.ts";
 import allRequests from "./routes/allServiceRequests.ts";
 import securityRouter from "./routes/securityRequest.ts";
+import languageRouter from "./routes/languageRequest.ts";
 import sanitationRouter from "./routes/saniationRoute.ts";
+import roomSchedulingRouter from "./routes/roomScheduling.ts";
+import textPathRouter from "./routes/textPathRouter.ts";
+import MedsForAutofillRouter from "./routes/MedsForAutofillRoutes.ts";
 import { auth } from "express-oauth2-jwt-bearer";
+
+
 // import allEdgesRouter from "./routes/getAllEdgesData.ts";
 // import allNodeRouter from "./routes/getAllNodeData.ts";
 // Populate the database
@@ -54,9 +60,13 @@ app.use("/api/nodes", nodeRouter);
 app.use("/api/edges", allEdgeRouter);
 app.use("/api/medicine-request", medicineRouter);
 app.use("/api/all-requests", allRequests);
+app.use("/api/meds-autofill", MedsForAutofillRouter);
 // app.use("/api/all-node-data", allNodeRouter);
 // app.use("/api/all-edges-data", allEdgesRouter);
 app.use("/api/security-request", securityRouter);
+app.use("/api/language-request", languageRouter);
+app.use("/api/room-scheduling", roomSchedulingRouter);
+app.use("/api/pathToText", textPathRouter);
 
 app.use("/healthcheck", (req, res) => {
   res.status(200).send();

@@ -13,14 +13,9 @@ import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Unstable_Grid2"; // Grid version 2
 import Paper from "@mui/material/Paper";
-import { styled } from "@mui/material/styles";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell, { tableCellClasses } from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
 import FreeSoloCreateOptionDialog from "./TextBoxMD.tsx";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 //Interface for positions
 interface Position {
@@ -39,45 +34,16 @@ interface Node {
   // Add other properties if needed
 }
 
-type entry = {
-  name: string;
-  priority: string;
-  location: string;
-  requestType: string;
-  medicineName: string;
-  status: string;
-};
-
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
-  [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
-  },
-  [`&.${tableCellClasses.body}`]: {
-    fontSize: 14,
-  },
-}));
-
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  "&:nth-of-type(odd)": {
-    backgroundColor: theme.palette.action.hover,
-  },
-  // hide last border
-  "&:last-child td, &:last-child th": {
-    border: 0,
-  },
-}));
-
 export default function MedicineDeliveryForm() {
   const [name, setName] = useState("");
   const [priority, setPriority] = useState("");
-  const [location, setLocation] = useState("");
-  const [medicineName, setMedicineName] = useState("");
-  const [requestType, setRequestType] = useState("");
+  const [location, setLocation] = useState<Position | null>(null);
+  const [nameMedicine, setNameMedicine] = useState("");
+  const [typeMedicine, setTypeMedicine] = useState("");
   const [status, setStatus] = useState("");
   const [locations, setLocations] = useState<Position[]>([]);
 
-  const [submittedEntries, setSubmittedEntries] = useState<entry[]>([]);
+  const navigate = useNavigate(); //Function to navigate to other pages
 
   useEffect(() => {
     // Fetch node data from the backend
@@ -111,25 +77,44 @@ export default function MedicineDeliveryForm() {
     setStatus(event.target.value as string);
   };
 
-  function submit() {
+  const handleChangeLocation = (value: Position | null) => {
+    setLocation(value);
+  };
+
+  async function submit() {
     const newEntry = {
       name: name,
       priority: priority,
-      location: location,
-      requestType: requestType, // this is my target currently
-      medicineName: medicineName,
+      location: location?.label,
+      typeMedicine: typeMedicine,
+      nameMedicine: nameMedicine,
       status: status,
     };
-    setSubmittedEntries((prevEntries) => [...prevEntries, newEntry]);
+
+    await axios
+      .post("/api/medicine-request", newEntry, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      .then(() => {
+        console.log("Sanitation request sent successfully");
+        navigate("/order-flowers-result");
+      })
+      .catch(() => {
+        console.log("Sanitation request  failed to send");
+        console.log(newEntry);
+        alert("Sanitation request failed to send. Please try again later");
+      });
     clear();
   }
 
   function clear() {
     setName("");
     setPriority("");
-    setLocation("");
-    setRequestType("");
-    setMedicineName("");
+    setLocation(null);
+    setTypeMedicine("");
+    setNameMedicine("");
     setStatus("");
   }
 
@@ -209,12 +194,13 @@ export default function MedicineDeliveryForm() {
               Location
             </InputLabel>
             <Autocomplete
+              sx={{ minWidth: 400, color: "#3B54A0" }}
               options={locations}
               getOptionLabel={(option) => option.label || "Unknown"}
               isOptionEqualToValue={(option, value) => option.id === value.id}
+              value={location}
               renderInput={(params) => (
                 <TextField
-                  sx={{ minWidth: 400 }}
                   {...params}
                   label=""
                   InputLabelProps={{
@@ -228,7 +214,7 @@ export default function MedicineDeliveryForm() {
               )}
               onOpen={() => toggleScrolling(true)}
               onClose={() => toggleScrolling(false)}
-              onChange={(event, value) => setLocation(value!.label)}
+              onChange={(event, value) => handleChangeLocation(value)}
             />
           </div>
 
@@ -244,9 +230,9 @@ export default function MedicineDeliveryForm() {
             <RadioGroup
               aria-labelledby="demo-controlled-radio-buttons-group"
               name="controlled-radio-buttons-group"
-              value={medicineName}
+              value={typeMedicine}
               onChange={(e) => {
-                setMedicineName(e.target.value);
+                setTypeMedicine(e.target.value);
               }}
             >
               <FormControlLabel
@@ -290,8 +276,8 @@ export default function MedicineDeliveryForm() {
             {/*  />*/}
             {/*</form>*/}
             <FreeSoloCreateOptionDialog
-              requestType={requestType}
-              setRequestType={setRequestType}
+              nameMedicine={nameMedicine}
+              setNameMedicine={setNameMedicine}
             />
           </div>
 
@@ -308,9 +294,9 @@ export default function MedicineDeliveryForm() {
               labelId="demo-simple-select-label"
               id="demo-simple-select"
               value={status}
-              label="Status"
+              label=""
               onChange={handleStatusChange}
-              sx={{ minWidth: 300 }}
+              sx={{ minWidth: 400 }}
             >
               <MenuItem value={"unassigned"}>Unassigned</MenuItem>
               <MenuItem value={"assigned"}>Assigned</MenuItem>
@@ -350,65 +336,6 @@ export default function MedicineDeliveryForm() {
             </Button>
           </Stack>
         </Stack>
-      </Paper>
-      <br />
-      <br />
-      <br />
-      <Paper elevation={4}>
-        <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 700 }}>
-            <TableHead>
-              <TableRow>
-                <StyledTableCell className={"border border-gray-800 p-2"}>
-                  Name
-                </StyledTableCell>
-                <StyledTableCell className={"border border-gray-800 p-2"}>
-                  Priority
-                </StyledTableCell>
-                <StyledTableCell className={"border border-gray-800 p-2"}>
-                  Location
-                </StyledTableCell>
-                <StyledTableCell className={"border border-gray-800 p-2"}>
-                  Request Type
-                </StyledTableCell>
-                <StyledTableCell className={"border border-gray-800 p-2"}>
-                  Medicine Name
-                </StyledTableCell>
-                <StyledTableCell className={"border border-gray-800 p-2"}>
-                  Status
-                </StyledTableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {submittedEntries.map((entry, index) => (
-                <StyledTableRow key={index}>
-                  <StyledTableCell
-                    component="th"
-                    scope="row"
-                    className={"border border-gray-800 p-2"}
-                  >
-                    {entry.name}
-                  </StyledTableCell>
-                  <StyledTableCell className={"border border-gray-800 p-2"}>
-                    {entry.priority}
-                  </StyledTableCell>
-                  <StyledTableCell className={"border border-gray-800 p-2"}>
-                    {entry.location}
-                  </StyledTableCell>
-                  <StyledTableCell className={"border border-gray-800 p-2"}>
-                    {entry.medicineName}
-                  </StyledTableCell>
-                  <StyledTableCell className={"border border-gray-800 p-2"}>
-                    {entry.requestType}
-                  </StyledTableCell>
-                  <StyledTableCell className={"border border-gray-800 p-2"}>
-                    {entry.status}
-                  </StyledTableCell>
-                </StyledTableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
       </Paper>
     </Grid>
   );

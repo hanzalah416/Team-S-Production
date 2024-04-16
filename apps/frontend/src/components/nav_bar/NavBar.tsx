@@ -20,6 +20,7 @@ function NavBar() {
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -48,8 +49,10 @@ function NavBar() {
       />
       <div className={"navButtons"}>
         <Link to={"/welcome"} className={"item"} id={"map"}>
-          <img src={mapIcon} className={"map_icon"} alt={"map_icon"} />
-          <p>Our Map</p>
+          <Button>
+            <img src={mapIcon} className={"map_icon"} alt={"map_icon"} />
+            <p className={"navNames"}> Our Map</p>
+          </Button>
         </Link>
         <div>
           <Button
@@ -78,51 +81,46 @@ function NavBar() {
               "aria-labelledby": "services-button",
             }}
           >
-            <MenuItem onClick={handleClose}>
-              <Link to={"/order-flowers"} className={"item"} id={"order"}>
-                Order Flowers
-              </Link>
-            </MenuItem>
-            <MenuItem onClick={handleClose}>
-              <Link
-                to={"/all-service-requests"}
-                className={"item"}
-                id={"order"}
-              >
-                All Service Requests
-              </Link>
-            </MenuItem>
-            <MenuItem onClick={handleClose}>
-              <Link
-                to={"/medicine-delivery-request"}
-                className={"item"}
-                id={"order"}
-              >
-                Medical Delivery
-              </Link>
-            </MenuItem>
-            <MenuItem onClick={handleClose}>
-              <Link to={"/sanitation-request"} className={"item"} id={"order"}>
-                Sanitation Services
-              </Link>
-            </MenuItem>
-            <MenuItem onClick={handleClose}>
-              <Link to={"/security-request"} className={"item"} id={"order"}>
-                Security Requests
-              </Link>
-            </MenuItem>
-
-            <MenuItem onClick={handleClose}>
-              <Link to={"/room-scheduling"} className={"item"} id={"order"}>
-                Room Scheduling Services
-              </Link>
-            </MenuItem>
-
-            <MenuItem onClick={handleClose}>
-              <Link to={"/map-debug"} className={"item"} id={"order"}>
-                Map Editing Page
-              </Link>
-            </MenuItem>
+            <Link to={"/order-flowers"} id={"order"}>
+              <MenuItem onClick={handleClose}>
+                <p className={"item"}>Order Flowers</p>
+              </MenuItem>
+            </Link>
+            <Link to={"/all-service-requests"} id={"order"}>
+              <MenuItem onClick={handleClose}>
+                <p className={"item"}>All Service Requests</p>
+              </MenuItem>
+            </Link>
+            <Link to={"/medicine-delivery-request"} id={"order"}>
+              <MenuItem onClick={handleClose}>
+                <p className={"item"}>Medical Delivery</p>
+              </MenuItem>
+            </Link>
+            <Link to={"/sanitation-request"} id={"order"}>
+              <MenuItem onClick={handleClose}>
+                <p className={"item"}>Sanitation Services</p>
+              </MenuItem>
+            </Link>
+            <Link to={"/security-request"} id={"order"}>
+              <MenuItem onClick={handleClose}>
+                <p className={"item"}>Security Requests</p>
+              </MenuItem>
+            </Link>
+            <Link to={"/room-scheduling"} id={"order"}>
+              <MenuItem onClick={handleClose}>
+                <p className={"item"}>Room Scheduling Services</p>
+              </MenuItem>
+            </Link>
+            <Link to={"/language-request"} id={"order"}>
+              <MenuItem onClick={handleClose}>
+                <p className={"item"}>Language Services</p>
+              </MenuItem>
+            </Link>
+            <Link to={"/map-debug"} id={"order"}>
+              <MenuItem onClick={handleClose}>
+                <p className={"item"}>Map Editing Page</p>
+              </MenuItem>
+            </Link>
           </Menu>
         </div>
         <div>
@@ -152,11 +150,11 @@ function NavBar() {
               "aria-labelledby": "my-profile-button",
             }}
           >
-            <MenuItem onClick={handleClose}>
-              <Link to={"/"} className={"item"} id={"log-out"}>
-                Log Out
-              </Link>
-            </MenuItem>
+            <Link to={"/"} id={"log-out"}>
+              <MenuItem onClick={handleClose}>
+                <p className={"item"}>Log Out</p>
+              </MenuItem>
+            </Link>
             <MenuItem onClick={handleClose} disabled={true}>
               <Link
                 to={"/change-password"}

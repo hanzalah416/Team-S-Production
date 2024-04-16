@@ -5,18 +5,16 @@ import PrismaClient from "../bin/database-connection.ts";
 const router: Router = express.Router();
 
 router.post("/", async function (req: Request, res: Response) {
-  const createUserAttempt: Prisma.hospitalUserCreateInput = req.body;
+  const createMedicineAttempt: Prisma.MedicineCreateInput = req.body;
   // Attempt to save the high score
   try {
     // Attempt to create in the database
-    await PrismaClient.hospitalUser.create({ data: createUserAttempt });
-    console.info("Successfully saved hospitalUser attempt"); // Log that it was successful
+    await PrismaClient.medicine.create({ data: createMedicineAttempt });
+    console.info("Successfully saved medicine to autofill"); // Log that it was successful
   } catch (error) {
     // Log any failures
-    console.error(
-      `Unable to save Hospital user login attempt ${createUserAttempt}: ${error}`,
-    );
-    res.sendStatus(400).send("Error with User data"); // Send error
+    console.error(`Unable to save medicine ${createMedicineAttempt}: ${error}`);
+    res.sendStatus(400).send("Error with medicine data"); // Send error
     return; // Don't try to send duplicate statuses
   }
 
@@ -27,20 +25,17 @@ router.post("/", async function (req: Request, res: Response) {
 // The only thing that should be getting is the Username ( I return the userID for now)
 router.get("/", async function (req: Request, res: Response) {
   try {
-    // const userID: string = req.query.userID as string;
-
-    const userName = await PrismaClient.hospitalUser.findMany({
+    const medicines = await PrismaClient.medicine.findMany({
       select: {
-        userName: true,
-        userEmail: true,
-        userPassword: true,
+        genericName: true,
+        synName: true,
       },
     });
 
-    if (userName.length > 0) {
-      res.json(userName[0]);
+    if (medicines.length > 0) {
+      res.json(medicines);
     } else {
-      console.error("Username not found");
+      console.error("medicine not found");
       res.sendStatus(204);
     }
   } catch (error) {

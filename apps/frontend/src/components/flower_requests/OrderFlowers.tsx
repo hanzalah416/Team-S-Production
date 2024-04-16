@@ -1,10 +1,6 @@
 // OrderFlowers.tsx
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-//import { useFormData } from "./useFormData";
-//import {Simulate} from "react-dom/test-utils";
-//import submit = Simulate.submit;
-// import { flowerform } from "../common/flowerform.ts";
 import axios from "axios";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
@@ -19,14 +15,6 @@ import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Unstable_Grid2"; // Grid version 2
 import Paper from "@mui/material/Paper";
-import { styled } from "@mui/material/styles";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell, { tableCellClasses } from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-
 interface Position {
   label: string;
   id: string;
@@ -43,46 +31,15 @@ interface Node {
   // Add other properties if needed
 }
 
-type entry = {
-  name: string;
-  priority: string;
-  location: string;
-  typeFlower: string;
-  customMessage: string;
-  status: string;
-};
-
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
-  [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
-  },
-  [`&.${tableCellClasses.body}`]: {
-    fontSize: 14,
-  },
-}));
-
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  "&:nth-of-type(odd)": {
-    backgroundColor: theme.palette.action.hover,
-  },
-  // hide last border
-  "&:last-child td, &:last-child th": {
-    border: 0,
-  },
-}));
-
 const OrderFlowers: React.FC = () => {
   const [nameRequester, setNameRequester] = useState("");
   const [priority, setPriority] = useState("");
-  const [location, setLocation] = useState("");
+  const [location, setLocation] = useState<Position | null>(null);
   const [typeFlower, setTypeFlower] = useState("");
   const [customMessage, setCustomMessage] = useState("");
   const [status, setStatus] = useState("");
 
   const [locations, setLocations] = useState<Position[]>([]);
-
-  const [submittedEntries, setSubmittedEntries] = useState<entry[]>([]);
 
   const navigate = useNavigate();
 
@@ -118,10 +75,14 @@ const OrderFlowers: React.FC = () => {
     setStatus(event.target.value as string);
   };
 
+  const handleChangeLocation = (value: Position | null) => {
+    setLocation(value);
+  };
+
   function clear() {
     setNameRequester("");
     setPriority("");
-    setLocation("");
+    setLocation(null);
     setTypeFlower("");
     setCustomMessage("");
     setStatus("");
@@ -131,7 +92,7 @@ const OrderFlowers: React.FC = () => {
     if (
       nameRequester == "" ||
       priority == "" ||
-      location == "" ||
+      location == null ||
       typeFlower == "" ||
       customMessage == "" ||
       status == ""
@@ -143,7 +104,7 @@ const OrderFlowers: React.FC = () => {
     const orderFlowerSent = {
       name: nameRequester,
       priority: priority,
-      location: location,
+      location: location.label,
       typeFlower: typeFlower,
       customMessage: customMessage,
       status: status,
@@ -166,7 +127,6 @@ const OrderFlowers: React.FC = () => {
         alert("Order failed to send. Please try again later");
       });
 
-    setSubmittedEntries((prevEntries) => [...prevEntries, orderFlowerSent]);
     clear();
   }
 
@@ -229,10 +189,10 @@ const OrderFlowers: React.FC = () => {
               onChange={handlePriorityChange}
               sx={{ minWidth: 400, color: "#3B54A0" }}
             >
-              <MenuItem value={"Low"}>Low</MenuItem>
-              <MenuItem value={"Medium"}>Medium</MenuItem>
-              <MenuItem value={"High"}>High</MenuItem>
-              <MenuItem value={"Emergency"}>Emergency</MenuItem>
+              <MenuItem value={"low"}>Low</MenuItem>
+              <MenuItem value={"medium"}>Medium</MenuItem>
+              <MenuItem value={"high"}>High</MenuItem>
+              <MenuItem value={"emergency"}>Emergency</MenuItem>
             </Select>
           </div>
 
@@ -246,12 +206,13 @@ const OrderFlowers: React.FC = () => {
               Location
             </InputLabel>
             <Autocomplete
+              sx={{ minWidth: 400, color: "#3B54A0" }}
               options={locations}
               getOptionLabel={(option) => option.label || "Unknown"}
               isOptionEqualToValue={(option, value) => option.id === value.id}
+              value={location}
               renderInput={(params) => (
                 <TextField
-                  sx={{ minWidth: 400 }}
                   {...params}
                   label=""
                   InputLabelProps={{
@@ -265,7 +226,7 @@ const OrderFlowers: React.FC = () => {
               )}
               onOpen={() => toggleScrolling(true)}
               onClose={() => toggleScrolling(false)}
-              onChange={(event, value) => setLocation(value!.label)}
+              onChange={(event, value) => handleChangeLocation(value)}
             />
           </div>
 
@@ -336,7 +297,6 @@ const OrderFlowers: React.FC = () => {
               Enter Custom Message
             </FormLabel>
             <form>
-              <label></label>
               <input
                 type="text"
                 style={{
@@ -368,7 +328,7 @@ const OrderFlowers: React.FC = () => {
               value={status}
               label=""
               onChange={handleStatusChange}
-              sx={{ minWidth: 300 }}
+              sx={{ minWidth: 400 }}
             >
               <MenuItem value={"unassigned"}>Unassigned</MenuItem>
               <MenuItem value={"assigned"}>Assigned</MenuItem>
@@ -408,65 +368,6 @@ const OrderFlowers: React.FC = () => {
             </Button>
           </Stack>
         </Stack>
-      </Paper>
-      <br />
-      <br />
-      <br />
-      <Paper elevation={4}>
-        <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 700 }}>
-            <TableHead>
-              <TableRow>
-                <StyledTableCell className={"border border-gray-800 p-2"}>
-                  Name
-                </StyledTableCell>
-                <StyledTableCell className={"border border-gray-800 p-2"}>
-                  Priority
-                </StyledTableCell>
-                <StyledTableCell className={"border border-gray-800 p-2"}>
-                  Location
-                </StyledTableCell>
-                <StyledTableCell className={"border border-gray-800 p-2"}>
-                  Type of Flowers
-                </StyledTableCell>
-                <StyledTableCell className={"border border-gray-800 p-2"}>
-                  Custom Message
-                </StyledTableCell>
-                <StyledTableCell className={"border border-gray-800 p-2"}>
-                  Status
-                </StyledTableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {submittedEntries.map((entry, index) => (
-                <StyledTableRow key={index}>
-                  <StyledTableCell
-                    component="th"
-                    scope="row"
-                    className={"border border-gray-800 p-2"}
-                  >
-                    {entry.name}
-                  </StyledTableCell>
-                  <StyledTableCell className={"border border-gray-800 p-2"}>
-                    {entry.priority}
-                  </StyledTableCell>
-                  <StyledTableCell className={"border border-gray-800 p-2"}>
-                    {entry.location}
-                  </StyledTableCell>
-                  <StyledTableCell className={"border border-gray-800 p-2"}>
-                    {entry.typeFlower}
-                  </StyledTableCell>
-                  <StyledTableCell className={"border border-gray-800 p-2"}>
-                    {entry.customMessage}
-                  </StyledTableCell>
-                  <StyledTableCell className={"border border-gray-800 p-2"}>
-                    {entry.status}
-                  </StyledTableCell>
-                </StyledTableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
       </Paper>
     </Grid>
   );
