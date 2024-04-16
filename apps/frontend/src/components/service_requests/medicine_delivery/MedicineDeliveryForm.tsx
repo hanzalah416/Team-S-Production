@@ -34,7 +34,6 @@ interface Node {
   // Add other properties if needed
 }
 
-
 export default function MedicineDeliveryForm() {
   const [name, setName] = useState("");
   const [priority, setPriority] = useState("");
@@ -195,27 +194,27 @@ export default function MedicineDeliveryForm() {
               Location
             </InputLabel>
             <Autocomplete
-                sx={{minWidth: 400, color: "#3B54A0"}}
-                options={locations}
-                getOptionLabel={(option) => option.label || "Unknown"}
-                isOptionEqualToValue={(option, value) => option.id === value.id}
-                value={location}
-                renderInput={(params) => (
-                    <TextField
-                        {...params}
-                        label=""
-                        InputLabelProps={{
-                          style: {
-                            fontFamily: "Poppins",
-                            fontSize: 14,
-                            textAlign: "center",
-                          },
-                        }}
-                    />
-                )}
-                onOpen={() => toggleScrolling(true)}
-                onClose={() => toggleScrolling(false)}
-                onChange={(event, value) => handleChangeLocation(value)}
+              sx={{ minWidth: 400, color: "#3B54A0" }}
+              options={locations}
+              getOptionLabel={(option) => option.label || "Unknown"}
+              isOptionEqualToValue={(option, value) => option.id === value.id}
+              value={location}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label=""
+                  InputLabelProps={{
+                    style: {
+                      fontFamily: "Poppins",
+                      fontSize: 14,
+                      textAlign: "center",
+                    },
+                  }}
+                />
+              )}
+              onOpen={() => toggleScrolling(true)}
+              onClose={() => toggleScrolling(false)}
+              onChange={(event, value) => handleChangeLocation(value)}
             />
           </div>
 
@@ -246,7 +245,6 @@ export default function MedicineDeliveryForm() {
                 label="Over the Counter"
               />
               <FormControlLabel
-
                 style={{
                   color: "#3D4A6B",
                   font: "Jaldi",
