@@ -1,14 +1,21 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import "./NavBar.css";
 import * as React from "react";
 import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import bwhLogo from "../assets/bwh-logo-ICON-ONLY.svg";
-import mapIcon from "../assets/NavBarIcons/map_icon_nav.png";
-import arrowDropDown from "../assets/NavBarIcons/arrow_drop_down_nav.png";
+import mapIcon from "../assets/NavBarIcons/map_icon.svg";
+import patientListIcon from "../assets/NavBarIcons/patient_list.svg";
+import homePinIcon from "../assets/NavBarIcons/home_pin.svg";
+import flowerIcon from "../assets/NavBarIcons/flowers_icon.svg";
+import medicineIcon from "../assets/NavBarIcons/medication_icon.svg";
+import securityIcon from "../assets/NavBarIcons/security_icon.svg";
+import sanitationIcon from "../assets/NavBarIcons/sanitation_icon.svg";
+import roomSchedulingIcon from "../assets/NavBarIcons/schedule_icon.svg";
+import dropDownIcon from "../assets/NavBarIcons/drop_down.svg";
 import { createTheme, FormControl, ThemeProvider } from "@mui/material";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 
 declare module "@mui/material/styles" {
   interface Palette {
@@ -42,21 +49,66 @@ function NavBar() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
+  const navigate = useNavigate();
+
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const today = new Date();
   const [timeOfDay, updateTimeOfDay] = React.useState("");
+
+  const location = useLocation();
+  const [currServIcon, setServIcon] = React.useState(homePinIcon);
+
+  const mapID = document.getElementById("mapID");
+  const requestsID = document.getElementById("requestsID");
+  const servicesID = document.getElementById("servicesID");
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
 
   const handleLogInOutButton = () => {
-    return <Link to={"/"} />;
+    navigate("/");
   };
 
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const setServicesID = useCallback(() => {
+    if (servicesID) {
+      servicesID.classList.add("currItem");
+    }
+    if (mapID) {
+      mapID.classList.remove("currItem");
+    }
+    if (requestsID) {
+      requestsID.classList.remove("currItem");
+    }
+  }, [servicesID, mapID, requestsID]);
+
+  const setMapID = useCallback(() => {
+    if (servicesID) {
+      servicesID.classList.remove("currItem");
+    }
+    if (mapID) {
+      mapID.classList.add("currItem");
+    }
+    if (requestsID) {
+      requestsID.classList.remove("currItem");
+    }
+  }, [servicesID, mapID, requestsID]);
+
+  const setRequestsID = useCallback(() => {
+    if (servicesID) {
+      servicesID.classList.remove("currItem");
+    }
+    if (mapID) {
+      mapID.classList.remove("currItem");
+    }
+    if (requestsID) {
+      requestsID.classList.add("currItem");
+    }
+  }, [servicesID, mapID, requestsID]);
 
   useEffect(() => {
     const hours = today.getHours();
@@ -70,6 +122,40 @@ function NavBar() {
     }
     updateTimeOfDay(timeOfDay);
   }, [today]);
+
+  useEffect(() => {
+    console.log(location.pathname);
+    switch (location.pathname) {
+      case "/order-flowers":
+        setServIcon(flowerIcon);
+        setServicesID();
+        break;
+      case "/medicine-delivery-request":
+        setServIcon(medicineIcon);
+        setServicesID();
+        break;
+      case "/security-request":
+        setServIcon(securityIcon);
+        setServicesID();
+        break;
+      case "/sanitation-request":
+        setServIcon(sanitationIcon);
+        setServicesID();
+        break;
+      case "/room-scheduling":
+        setServIcon(roomSchedulingIcon);
+        setServicesID();
+        break;
+      case "/all-service-requests":
+        setRequestsID();
+        break;
+      case "/welcome":
+        setMapID();
+        break;
+      default:
+        setServIcon(homePinIcon);
+    }
+  }, [location, setServicesID, setMapID, setRequestsID]);
 
   return (
     <div className="navbar">
@@ -86,13 +172,29 @@ function NavBar() {
         <p className={"time"}>{timeOfDay}</p>
       </div>
       <div className={"navButtons"}>
-        <div></div>
-        <Link to={"/welcome"} className={"item"} id={"map"}>
-          <Button>
-            <img src={mapIcon} className={"map_icon"} alt={"map_icon"} />
-            <p className={"navNames"}> Our Map</p>
+        <Link to={"/welcome"} id={"map"}>
+          <Button className={"alignIcons"}>
+            <img src={mapIcon} className={"iconHeight"} alt={"map_icon"} />
+            <p id={"mapID"} className={"itemNames"}>
+              {" "}
+              Our Map
+            </p>
           </Button>
         </Link>
+        <FormControl>
+          <Link to={"/all-service-requests"} id={"order"}>
+            <Button className={"alignIcons"}>
+              <img
+                src={patientListIcon}
+                className={"iconHeight"}
+                width={"38px"}
+              />
+              <p id={"requestsID"} className={"itemNames"}>
+                All Requests
+              </p>
+            </Button>
+          </Link>
+        </FormControl>
         <div>
           <Button
             id="services-button"
@@ -100,16 +202,14 @@ function NavBar() {
             aria-haspopup="true"
             aria-expanded={open ? "true" : undefined}
             onClick={handleClick}
-            className={"col_gap_5px"}
           >
-            <span>
-              <img
-                src={arrowDropDown}
-                className={"dropdown_arrow"}
-                alt={"Drop Down arrow"}
-              />
-            </span>
-            <p className={"navNames"}>Services</p>
+            <div className={"alignIcons"}>
+              <img src={currServIcon} className={"iconHeight"} width={"29px"} />
+              <p id={"servicesID"} className={"itemNames"}>
+                Services
+              </p>
+            </div>
+            <img src={dropDownIcon} />
           </Button>
           <Menu
             id="services-menu"
@@ -123,11 +223,6 @@ function NavBar() {
             <Link to={"/order-flowers"} id={"order"}>
               <MenuItem onClick={handleClose}>
                 <p className={"item"}>Order Flowers</p>
-              </MenuItem>
-            </Link>
-            <Link to={"/all-service-requests"} id={"order"}>
-              <MenuItem onClick={handleClose}>
-                <p className={"item"}>All Service Requests</p>
               </MenuItem>
             </Link>
             <Link to={"/medicine-delivery-request"} id={"order"}>
