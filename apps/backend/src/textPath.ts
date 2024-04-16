@@ -2,7 +2,7 @@
 import { GraphNode } from "./makegraph.ts";
 
 //Turn type enum
-enum directionType {
+export enum directionType {
   Right,
   Left,
   SRight,
