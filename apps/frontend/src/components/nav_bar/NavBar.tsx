@@ -4,46 +4,89 @@ import * as React from "react";
 import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import bwhLogo from "../assets/bwh-logo.svg";
+import bwhLogo from "../assets/bwh-logo-ICON-ONLY.svg";
 import mapIcon from "../assets/NavBarIcons/map_icon_nav.png";
 import arrowDropDown from "../assets/NavBarIcons/arrow_drop_down_nav.png";
-import profileIcon from "../assets/NavBarIcons/profile_icon_nav.png";
+import { createTheme, FormControl, ThemeProvider } from "@mui/material";
+import { useEffect } from "react";
+
+declare module "@mui/material/styles" {
+  interface Palette {
+    websiteBlue: Palette["primary"];
+  }
+
+  interface PaletteOptions {
+    websiteBlue?: PaletteOptions["primary"];
+  }
+}
+
+// Update the Button's color options to include an ochre option
+declare module "@mui/material/Button" {
+  interface ButtonPropsColorOverrides {
+    websiteBlue: true;
+  }
+}
+
+const theme = createTheme({
+  palette: {
+    websiteBlue: {
+      main: "#003B9C",
+      light: "#004ac4",
+      dark: "#002c75",
+      contrastText: "#00102b",
+    },
+  },
+});
 
 function NavBar() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const today = new Date();
+  const [timeOfDay, updateTimeOfDay] = React.useState("");
+
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
+  };
+
+  const handleLogInOutButton = () => {
+    return <Link to={"/"} />;
   };
 
   const handleClose = () => {
     setAnchorEl(null);
   };
 
-  const [anchorEl1, setAnchorEl1] = React.useState<null | HTMLElement>(null);
-  const open1 = Boolean(anchorEl1);
-
-  const handleClick1 = (event: React.MouseEvent<HTMLButtonElement>) => {
-    console.log(event.currentTarget);
-    setAnchorEl1(event.currentTarget);
-  };
-  const handleClose1 = () => {
-    setAnchorEl1(null);
-  };
+  useEffect(() => {
+    const hours = today.getHours();
+    let timeOfDay = "";
+    if (hours < 12) {
+      timeOfDay = "Good Morning";
+    } else if (hours < 17) {
+      timeOfDay = "Good Afternoon";
+    } else {
+      timeOfDay = "Good Evening";
+    }
+    updateTimeOfDay(timeOfDay);
+  }, [today]);
 
   return (
     <div className="navbar">
       {/* Navbar content */}
-      <img
-        src={bwhLogo}
-        className={"bwh-logo"}
-        alt={
-          "Brigham and Women's Hospital logo, reading " +
-          "'Founding member, Mass General Brigham'"
-        }
-      />
+      <div className={"leftSide"}>
+        <img
+          src={bwhLogo}
+          className={"bwh-logo"}
+          alt={
+            "Brigham and Women's Hospital logo, reading " +
+            "'Founding member, Mass General Brigham'"
+          }
+        />
+        <p className={"time"}>{timeOfDay}</p>
+      </div>
       <div className={"navButtons"}>
+        <div></div>
         <Link to={"/welcome"} className={"item"} id={"map"}>
           <Button>
             <img src={mapIcon} className={"map_icon"} alt={"map_icon"} />
@@ -114,47 +157,21 @@ function NavBar() {
             </Link>
           </Menu>
         </div>
-        <div>
-          <Button
-            id="my-profile-button"
-            aria-controls={open ? "profile-menu" : undefined}
-            aria-haspopup="true"
-            aria-expanded={open ? "true" : undefined}
-            onClick={handleClick1}
-            className={"col_gap_5px"}
-          >
-            <img
-              src={profileIcon}
-              className={"userIcon"}
-              alt={"Profile Button"}
-            />
-            <p className={"navNames"}>My Profile</p>
-          </Button>
-          <Menu
-            id="profile-menu"
-            anchorEl={anchorEl1}
-            open={open1}
-            onClose={handleClose1}
-            MenuListProps={{
-              "aria-labelledby": "my-profile-button",
-            }}
-          >
-            <Link to={"/"} id={"log-out"}>
-              <MenuItem onClick={handleClose}>
-                <p className={"item"}>Log Out</p>
-              </MenuItem>
-            </Link>
-            <MenuItem onClick={handleClose} disabled={true}>
-              <Link
-                to={"/change-password"}
-                className={"item"}
-                id={"change-password"}
-              >
-                Change Password
-              </Link>
-            </MenuItem>
-          </Menu>
-        </div>
+      </div>
+      <div className={"rightSide"}>
+        <p className={"username"}>USERNAME</p>
+        <FormControl>
+          <ThemeProvider theme={theme}>
+            <Button
+              id="login-out-button"
+              variant="contained"
+              color={"websiteBlue"}
+              onClick={handleLogInOutButton}
+            >
+              <p className={"logOutInText"}>Log Out</p>
+            </Button>
+          </ThemeProvider>
+        </FormControl>
       </div>
       <div className={"blueBar"} />
     </div>
