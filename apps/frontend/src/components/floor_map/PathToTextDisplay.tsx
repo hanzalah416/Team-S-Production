@@ -86,11 +86,11 @@ export default function PathToTextDisplay(props: {
   };
 
   // Toggle the open/closed state of a list
-  const toggleList = (index: number) => {
-    setOpenLists((prevState) =>
-      prevState.map((state, idx) => (idx === index ? !state : state)),
-    );
-  };
+    const toggleList = (index: number) => {
+        setOpenLists((prevState) =>
+            prevState.map((state, idx) => (idx === index ? !state : false)),
+        );
+    };
 
   // Function to determine the icon based on direction type
   const getIconForDirectionType = (directionType: number) => {

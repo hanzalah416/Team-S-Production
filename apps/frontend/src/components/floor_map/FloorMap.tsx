@@ -483,62 +483,64 @@ function FloorMap() {
               key={resetFloorsUIKey}
               className={styles.floorButtonsContainer}
             >
-              {getTagsFromPath(fullPath).map((tag) => {
+                { (startPosition && endPosition) && <PathToTextDisplay
+                    startNode={startPosition!.id}
+                    endNode={endPosition!.id}
+                    algo={algorithm}
+                />}
+
+              {getTagsFromPath(fullPath).map(() => {
                 // console.log("Full path:", fullPath);
                 // console.log("Current tag:", tag);
-                if (!tag) {
-                  throw new Error("Tag was undefined");
-                }
-                let displayFloor = tag.tag;
-                switch (tag.tag) {
-                  case "01":
-                    displayFloor = "1";
-                    break;
-                  case "02":
-                    displayFloor = "2";
-                    break;
-                  case "03":
-                    displayFloor = "3";
-                    break;
-                  default:
-                    break; // Keep "L1" and "L2" as is
-                }
+                // if (!tag) {
+                //   throw new Error("Tag was undefined");
+                // }
+                // let displayFloor = tag.tag;
+                // switch (tag.tag) {
+                //   case "01":
+                //     displayFloor = "1";
+                //     break;
+                //   case "02":
+                //     displayFloor = "2";
+                //     break;
+                //   case "03":
+                //     displayFloor = "3";
+                //     break;
+                //   default:
+                //     break; // Keep "L1" and "L2" as is
+                // }
 
                 return (
                   <div>
-                    <PathToTextDisplay
-                      startNode={"FHALL02901"}
-                      endNode={"DINFO00102"}
-                      algo={algorithm}
-                    />
-                    <Button
-                      key={tag.tag}
-                      variant={
-                        currentFloor === tag.tag ? "contained" : "outlined"
-                      }
-                      onClick={() => {
-                        setCurrentFloor(tag.tag);
 
-                        // Filter the full path for the new floor
-                        const newFilteredQueueNodeIDs = fullPath.filter(
-                          (id) =>
-                            getFloorNumber(id) === tag.tag || id.length === 3,
-                        );
-                        setFilteredQueueNodeIDs(newFilteredQueueNodeIDs);
-                      }}
-                      style={{
-                        marginBottom: "5px",
-                        marginTop: "3px",
-                        color: currentFloor === tag.tag ? "white" : "black", // Text color
-                        backgroundColor:
-                          currentFloor === tag.tag ? "#003b9c" : "#f1f1f1", // Background color with transparency
-                        borderColor: "black", // Border color
-                        fontFamily: "Poppins",
-                        textAlign: "center",
-                      }}
-                    >
-                      {displayFloor}
-                    </Button>
+                    {/*<Button*/}
+                    {/*  key={tag.tag}*/}
+                    {/*  variant={*/}
+                    {/*    currentFloor === tag.tag ? "contained" : "outlined"*/}
+                    {/*  }*/}
+                    {/*  onClick={() => {*/}
+                    {/*    setCurrentFloor(tag.tag);*/}
+
+                    {/*    // Filter the full path for the new floor*/}
+                    {/*    const newFilteredQueueNodeIDs = fullPath.filter(*/}
+                    {/*      (id) =>*/}
+                    {/*        getFloorNumber(id) === tag.tag || id.length === 3,*/}
+                    {/*    );*/}
+                    {/*    setFilteredQueueNodeIDs(newFilteredQueueNodeIDs);*/}
+                    {/*  }}*/}
+                    {/*  style={{*/}
+                    {/*    marginBottom: "5px",*/}
+                    {/*    marginTop: "3px",*/}
+                    {/*    color: currentFloor === tag.tag ? "white" : "black", // Text color*/}
+                    {/*    backgroundColor:*/}
+                    {/*      currentFloor === tag.tag ? "#003b9c" : "#f1f1f1", // Background color with transparency*/}
+                    {/*    borderColor: "black", // Border color*/}
+                    {/*    fontFamily: "Poppins",*/}
+                    {/*    textAlign: "center",*/}
+                    {/*  }}*/}
+                    {/*>*/}
+                    {/*  {displayFloor}*/}
+                    {/*</Button>*/}
                   </div>
                 );
               })}
