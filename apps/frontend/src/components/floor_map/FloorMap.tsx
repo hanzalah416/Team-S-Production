@@ -77,8 +77,6 @@ function FloorMap() {
   const [showNodes, setShowNodes] = useState(false);
   const [showMapKey, setShowMapKey] = useState(false);
 
-
-
   const handleNodeClick = (node: Position | null) => {
     console.log("Node clicked:", node);
     const formatFloor = (floor: string) => {
@@ -107,7 +105,7 @@ function FloorMap() {
   };
 
   const handleMapKeyVisibility = () => {
-      setShowMapKey(!showMapKey);
+    setShowMapKey(!showMapKey);
   };
 
   //{styles.mapDot}
@@ -626,29 +624,29 @@ function FloorMap() {
                 label="Toggle Nodes"
               />
             </div>
-              <div className={styles.mMapbox}>
-                  <FormControlLabel
-                      control={
-                          <Switch
-                              checked={showMapKey}
-                              onChange={handleMapKeyVisibility}
-                              sx={{
-                                  fontSize: 9,
-                                  "& .MuiSwitch-switchBase": {
-                                      // Thumb color when unchecked
-                                      "&.Mui-checked": {
-                                          color: "#003b9c", // Thumb color when checked
-                                      },
-                                      "&.Mui-checked + .MuiSwitch-track": {
-                                          backgroundColor: "#0251d4", // Track color when checked
-                                      },
-                                  },
-                              }}
-                          />
-                      }
-                      label="Show Key"
+            <div className={styles.mMapbox}>
+              <FormControlLabel
+                control={
+                  <Switch
+                    checked={showMapKey}
+                    onChange={handleMapKeyVisibility}
+                    sx={{
+                      fontSize: 9,
+                      "& .MuiSwitch-switchBase": {
+                        // Thumb color when unchecked
+                        "&.Mui-checked": {
+                          color: "#003b9c", // Thumb color when checked
+                        },
+                        "&.Mui-checked + .MuiSwitch-track": {
+                          backgroundColor: "#0251d4", // Track color when checked
+                        },
+                      },
+                    }}
                   />
-              </div>
+                }
+                label="Show Key"
+              />
+            </div>
             <Select
               value={algorithm}
               onChange={handleAlgorithmChange}
@@ -670,31 +668,30 @@ function FloorMap() {
             </Select>
           </div>
 
+          <TransformWrapper
+          // initialScale={1.3}
+          // initialPositionX={-200.4}
+          // initialPositionY={-100.83}
+          // centered
+          >
+            <TransformComponent>
+              {renderFloorNodes()}
+              <img
+                src={floorMaps[currentFloor as keyof typeof floorMaps]}
+                alt="map"
+                className={styles.hmapImage}
+              />
 
-            <TransformWrapper
-                // initialScale={1.3}
-                // initialPositionX={-200.4}
-                // initialPositionY={-100.83}
-                // centered
-            >
-                <TransformComponent>
-                    {renderFloorNodes()}
-                    <img
-                        src={floorMaps[currentFloor as keyof typeof floorMaps]}
-                        alt="map"
-                        className={styles.hmapImage}
-                    />
+              <div className={styles.dotsContainer}>
+                {filteredQueueNodeIDs.map((nodeID, index) => {
+                  if (nodeID.length === 3) {
+                    // Skip floor change markers
+                    return null;
+                  }
 
-                    <div className={styles.dotsContainer}>
-                        {filteredQueueNodeIDs.map((nodeID, index) => {
-                            if (nodeID.length === 3) {
-                                // Skip floor change markers
-                                return null;
-                            }
-
-                            const point = getPositionById(nodeID);
-                            if (point) {
-                                const isActualStartNode = fullPath[0] === nodeID;
+                  const point = getPositionById(nodeID);
+                  if (point) {
+                    const isActualStartNode = fullPath[0] === nodeID;
                     const isActualEndNode =
                       fullPath[fullPath.length - 1] === nodeID;
                     const isDisplayedStartNode = index === 0;
@@ -869,121 +866,86 @@ function FloorMap() {
             </Suspense>
           </div>
 
-            <div className={`${styles.MapKey} ${showMapKey ? styles.ShowMapKey : ""}`}>
-                <img
-                    src={ATMIcon}
-                    alt="ATM icon"
-                    className={styles.MapKeyIcon}
-                />
-                <div className={styles.MapKeyItem}>
-                    ATM
-                </div>
-                <img
-                    src={BusStopIcon}
-                    alt="Bus Stop icon"
-                    className={styles.MapKeyIcon}
-                />
-                <div className={styles.MapKeyItem}>
-                    Bus Stop
-                </div>
-                <img
-                    src={CafeIcon}
-                    alt="Cafe icon"
-                    className={styles.MapKeyIcon}
-                />
-                <div className={styles.MapKeyItem}>
-                    Cafe
-                </div>
-                <img
-                    src={DiningIcon}
-                    alt="Dining icon"
-                    className={styles.MapKeyIcon}
-                />
-                <div className={styles.MapKeyItem}>
-                    Food Service
-                </div>
-                <img
-                    src={ElevatorIcon}
-                    alt="Elevator icon"
-                    className={styles.MapKeyIcon}
-                />
-                <div className={styles.MapKeyItem}>
-                    Elevator
-                </div>
-                <img
-                    src={EmergencyIcon}
-                    alt="Emergency icon"
-                    className={styles.MapKeyIcon}
-                />
-                <div className={styles.MapKeyItem}>
-                    Emergency
-                </div>
-                <img
-                    src={EntranceIcon}
-                    alt="Entrance icon"
-                    className={styles.MapKeyIcon}
-                />
-                <div className={styles.MapKeyItem}>
-                    Entrance
-                </div>
-                <img
-                    src={EscalatorIcon}
-                    alt="Escalator icon"
-                    className={styles.MapKeyIcon}
-                />
-                <div className={styles.MapKeyItem}>
-                    Escalator
-                </div>
-                <img
-                    src={HandicapIcon}
-                    alt="Handicapped entrance icon"
-                    className={styles.MapKeyIcon}
-                />
-                <div className={styles.MapKeyItem}>
-                    Handicapped Entrance
-                </div>
-                <img
-                    src={ParkingIcon}
-                    alt="Parking icon"
-                    className={styles.MapKeyIcon}
-                />
-                <div className={styles.MapKeyItem}>
-                    Parking
-                </div>
-                <img
-                    src={RestroomIcon}
-                    alt="Restroom icon"
-                    className={styles.MapKeyIcon}
-                />
-                <div className={styles.MapKeyItem}>
-                    Restroom
-                </div>
-                <img
-                    src={ValetIcon}
-                    alt="Valet icon"
-                    className={styles.MapKeyIcon}
-                />
-                <div className={styles.MapKeyItem}>
-                    Valet
-                </div>
-                <img
-                    src={VendingIcon}
-                    alt="Vending icon"
-                    className={styles.MapKeyIcon}
-                />
-                <div className={styles.MapKeyItem}>
-                    Vending
-                </div>
-                <img
-                    src={WaitingIcon}
-                    alt="Waiting room icon"
-                    className={styles.MapKeyIcon}
-                />
-                <div className={styles.MapKeyItem}>
-                    Waiting
-                </div>
-            </div>
-
+          <div
+            className={`${styles.MapKey} ${showMapKey ? styles.ShowMapKey : ""}`}
+          >
+            <img src={ATMIcon} alt="ATM icon" className={styles.MapKeyIcon} />
+            <div className={styles.MapKeyItem}>ATM</div>
+            <img
+              src={BusStopIcon}
+              alt="Bus Stop icon"
+              className={styles.MapKeyIcon}
+            />
+            <div className={styles.MapKeyItem}>Bus Stop</div>
+            <img src={CafeIcon} alt="Cafe icon" className={styles.MapKeyIcon} />
+            <div className={styles.MapKeyItem}>Cafe</div>
+            <img
+              src={DiningIcon}
+              alt="Dining icon"
+              className={styles.MapKeyIcon}
+            />
+            <div className={styles.MapKeyItem}>Food Service</div>
+            <img
+              src={ElevatorIcon}
+              alt="Elevator icon"
+              className={styles.MapKeyIcon}
+            />
+            <div className={styles.MapKeyItem}>Elevator</div>
+            <img
+              src={EmergencyIcon}
+              alt="Emergency icon"
+              className={styles.MapKeyIcon}
+            />
+            <div className={styles.MapKeyItem}>Emergency</div>
+            <img
+              src={EntranceIcon}
+              alt="Entrance icon"
+              className={styles.MapKeyIcon}
+            />
+            <div className={styles.MapKeyItem}>Entrance</div>
+            <img
+              src={EscalatorIcon}
+              alt="Escalator icon"
+              className={styles.MapKeyIcon}
+            />
+            <div className={styles.MapKeyItem}>Escalator</div>
+            <img
+              src={HandicapIcon}
+              alt="Handicapped entrance icon"
+              className={styles.MapKeyIcon}
+            />
+            <div className={styles.MapKeyItem}>Handicapped Entrance</div>
+            <img
+              src={ParkingIcon}
+              alt="Parking icon"
+              className={styles.MapKeyIcon}
+            />
+            <div className={styles.MapKeyItem}>Parking</div>
+            <img
+              src={RestroomIcon}
+              alt="Restroom icon"
+              className={styles.MapKeyIcon}
+            />
+            <div className={styles.MapKeyItem}>Restroom</div>
+            <img
+              src={ValetIcon}
+              alt="Valet icon"
+              className={styles.MapKeyIcon}
+            />
+            <div className={styles.MapKeyItem}>Valet</div>
+            <img
+              src={VendingIcon}
+              alt="Vending icon"
+              className={styles.MapKeyIcon}
+            />
+            <div className={styles.MapKeyItem}>Vending</div>
+            <img
+              src={WaitingIcon}
+              alt="Waiting room icon"
+              className={styles.MapKeyIcon}
+            />
+            <div className={styles.MapKeyItem}>Waiting</div>
+          </div>
         </div>
       </div>
     </div>

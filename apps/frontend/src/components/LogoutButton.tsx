@@ -14,8 +14,11 @@ export const LogoutButton = () => {
   };
   //comment
   return (
-    <Button className="button__logout" onClick={handleLogout}
-        style={{textDecoration: "none",
+    <Button
+      className="button__logout"
+      onClick={handleLogout}
+      style={{
+        textDecoration: "none",
         textTransform: "none",
         paddingLeft: "10px",
         paddingRight: "10px",
@@ -23,7 +26,9 @@ export const LogoutButton = () => {
         fontWeight: 0,
         fontSize: "20px",
         color: "#ffffff",
-        backgroundColor: "#003b9c"}}>
+        backgroundColor: "#003b9c",
+      }}
+    >
       Log Out
     </Button>
   );

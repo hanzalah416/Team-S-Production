@@ -4,11 +4,11 @@ import checkMark from "../assets/checkmark.webp";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import { useNavigate } from "react-router-dom";
-
+import Button from "@mui/material/Button";
 export default function OrderConfirmation() {
   const navigate = useNavigate();
   const handleBack = () => {
-    navigate("/welcome");
+    navigate("/payment-info");
   };
 
   return (
@@ -34,13 +34,16 @@ export default function OrderConfirmation() {
           alt="Confirmation Checkmark"
         />
         <div className={styles.buttonReturn}>
-          <button
-            className={`${styles.button} ${styles.reviewButton}`}
-            type="button"
-            onClick={handleBack}
-          >
-            Go Back
-          </button>
+            <Button
+                style={{
+                    backgroundColor: "#3B54A0",
+                }}
+                variant="contained"
+                onClick={handleBack}
+                sx={{ minWidth: 300, minHeight: 50 }}
+            >
+                Back
+            </Button>
         </div>
       </Paper>
     </Box>
