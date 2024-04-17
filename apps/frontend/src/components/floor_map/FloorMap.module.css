@@ -202,9 +202,7 @@ body {
 }
 
 
-.floorButtonsContainer::-webkit-scrollbar-thumb {
-  border-radius: 4px;
-}
+
 
 .floorSwitcherContainer {
   position: absolute;

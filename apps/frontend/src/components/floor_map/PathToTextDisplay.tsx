@@ -56,9 +56,6 @@ export default function PathToTextDisplay(props: {
         }
     }, [props.startNode, props.endNode, props.algo]); // Dependencies for useCallback
 
-    useEffect(() => {
-        fetchData();
-    }, [fetchData]);
 
     useEffect(() => {
         fetchData();
@@ -96,20 +93,24 @@ export default function PathToTextDisplay(props: {
         // Map floor label "3" to "03", etc.
         const formattedFloorLabel = formatFloorLabel(floorLabel);
 
-        setOpenLists((prevState) =>
-            prevState.map((state, idx) => {
-                if (idx === index) {
-                    // If this list was previously closed and is now being opened
-                    if (!state) {
-                        // Set the current floor on opening the list
-                        props.onChangeFloor(formattedFloorLabel);
-                    }
-                    return !state; // Toggle the current state
-                }
-                return state;
-            })
-        );
+        setOpenLists((prevState) => {
+            // Create a new array where all values are set to false
+            const newState = prevState.map(() => false);
+
+            // Set the value at the current index to the opposite of its current state
+            // This ensures that only the list at the current index can be open at one time
+            newState[index] = !prevState[index];
+
+            // If the current list is now being opened
+            if (!prevState[index]) {
+                // Set the current floor on opening the list
+                props.onChangeFloor(formattedFloorLabel);
+            }
+
+            return newState;
+        });
     };
+
 
 // Helper function to format the floor label correctly
     const formatFloorLabel = (floorLabel: string) => {
@@ -150,7 +151,7 @@ export default function PathToTextDisplay(props: {
   return ( <div style={{ height: "400px", overflow: "auto" }}>
     <div style={{ height: "400px", overflow: "auto" }}>
       <List
-        sx={{ width: "380px", maxWidth: 380, bgcolor: "background.paper" }}
+        sx={{ width: "380px", maxWidth: 380, bgcolor: "#fbfbfb" }}
         component="nav"
         aria-labelledby="nested-list-subheader"
         subheader={
