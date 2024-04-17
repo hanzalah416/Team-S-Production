@@ -944,7 +944,7 @@ function FloorMap() {
               alt="Waiting room icon"
               className={styles.MapKeyIcon}
             />
-            <div className={styles.MapKeyItem}>Waiting</div>
+            <div className={styles.MapKeyItem}>Waiting Room</div>
           </div>
         </div>
       </div>

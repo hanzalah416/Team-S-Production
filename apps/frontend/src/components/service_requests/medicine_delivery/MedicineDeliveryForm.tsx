@@ -128,13 +128,14 @@ export default function MedicineDeliveryForm() {
       my={4}
     >
       <br />
+      <br />
 
-      <Paper elevation={4}>
+      <Paper elevation={4} sx={{ paddingLeft: 7, paddingRight: 7, paddingBottom: 4 }}>
         <br />
         <p className={"title"}>Medicine Delivery Request Form </p>
         <p className={"names"}>Kim Cummings & Riley Yu</p>
         <br />
-        <Stack alignItems="center" justifyContent="center" spacing={3} p={8}>
+        <Stack alignItems="center" justifyContent="center" spacing={3}>
           <div>
             <InputLabel
               style={{
