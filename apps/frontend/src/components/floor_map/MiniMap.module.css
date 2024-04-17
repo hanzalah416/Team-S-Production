@@ -26,7 +26,7 @@
   height: 100%;
   object-fit: contain;
   border-radius: 15px;
-  border: 1px solid #6fb49f;
+  border: 3px solid #6fb49f;
 }
 header:hover ~ .mmimg {
   box-shadow: 2px 2px 2px 2px #6fb49f;
