@@ -57,8 +57,8 @@ body {
 .floorButtonsContainer {
     width: calc(100% + 60px); /* Add twice the padding to stretch fully */
     margin-left: -30px; /* Offset the padding on the left */
-    margin-right: -30px; /* Offset the padding on the right */
-    /* Other styles remain the same */
+    margin-right: -30px;
+    max-height: 400px;
 }
 
 

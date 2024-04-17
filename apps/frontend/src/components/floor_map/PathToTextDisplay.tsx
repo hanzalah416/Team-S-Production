@@ -148,7 +148,7 @@ export default function PathToTextDisplay(props: {
   };
 
   return (
-    <div style={{ height: "500px", overflow: "auto" }}>
+    <div style={{ height: "400px", overflow: "auto" }}>
       <List
         sx={{ width: "380px", maxWidth: 380, bgcolor: "background.paper" }}
         component="nav"
