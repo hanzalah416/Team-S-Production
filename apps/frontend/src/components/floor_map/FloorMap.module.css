@@ -302,3 +302,6 @@ body {
   width: 100%; /* Full width of the container */
   justify-content: center; /* Center the select horizontally */
 }
+.floorDirectionsContainer {
+    max-height: 400px;
+}
