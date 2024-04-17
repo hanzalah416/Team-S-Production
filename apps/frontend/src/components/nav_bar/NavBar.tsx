@@ -249,6 +249,11 @@ function NavBar() {
                 <p className={"item"}>Map Editing Page</p>
               </MenuItem>
             </Link>
+            <Link to={"/language-request"} id={"order"}>
+              <MenuItem onClick={handleClose}>
+                <p className={"item"}>language-request</p>
+              </MenuItem>
+            </Link>
           </Menu>
         </div>
       </div>
