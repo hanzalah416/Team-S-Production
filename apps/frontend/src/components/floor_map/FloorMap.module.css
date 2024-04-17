@@ -283,38 +283,37 @@ body {
 }
 
 .MapKey {
-    position: absolute; /* Places it above the map */
-    bottom: -75%; /* Places it off screen for transformation */
-    left: 20px; /* Left aligned */
-    width: 265px; /* Can be altered for longer key items */
-    z-index: 4; /* Ensure it is above the TransformComponent */
-    display: grid; /* For keeping each key */
-    grid-template-columns: 30px 200px;
+  position: absolute; /* Places it above the map */
+  bottom: -75%; /* Places it off screen for transformation */
+  left: 20px; /* Left aligned */
+  width: 265px; /* Can be altered for longer key items */
+  z-index: 4; /* Ensure it is above the TransformComponent */
+  display: grid; /* For keeping each key */
+  grid-template-columns: 30px 200px;
 
-
-    padding: 15px; /* Adds some spacing around the controls */
-    background: rgb(255, 255, 255); /* Semi-transparent background */
-    border: 1px solid black; /* Black border */
-    border-radius: 5px; /* Rounded corners */
-    transition: bottom 0.3s ease; /* Transform effect to make it come from the bottom */
+  padding: 15px; /* Adds some spacing around the controls */
+  background: rgb(255, 255, 255); /* Semi-transparent background */
+  border: 1px solid black; /* Black border */
+  border-radius: 5px; /* Rounded corners */
+  transition: bottom 0.3s ease; /* Transform effect to make it come from the bottom */
 }
 
 .MapKeyItem {
-    color: #003b9c;
-    font-size: 21px;
-    text-align: start; /* Sets the text to all left-align */
-    margin-left: 10px; /* Gives the text some room on the left */
-    margin-bottom: 5px; /* Puts line spacing between each key entry */
-    font-family: Jaldi, sans-serif;
+  color: #003b9c;
+  font-size: 21px;
+  text-align: start; /* Sets the text to all left-align */
+  margin-left: 10px; /* Gives the text some room on the left */
+  margin-bottom: 5px; /* Puts line spacing between each key entry */
+  font-family: Jaldi, sans-serif;
 }
 
 .MapKeyIcon {
-    width: 25px;
-    height: 25px;
+  width: 25px;
+  height: 25px;
 }
 
 .ShowMapKey {
-    bottom: 20px; /* To be placed 20px from bottom once triggered */
+  bottom: 20px; /* To be placed 20px from bottom once triggered */
 }
 
 .Select {

@@ -68,7 +68,6 @@ function NavBar() {
     setAnchorEl(event.currentTarget);
   };
 
-
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -145,10 +144,10 @@ function NavBar() {
         setServIcon(roomSchedulingIcon);
         setServicesID();
         break;
-        case "/language-request":
-            setServIcon(languageIcon);
-            setServicesID();
-            break;
+      case "/language-request":
+        setServIcon(languageIcon);
+        setServicesID();
+        break;
       case "/all-service-requests":
         setRequestsID();
         break;
@@ -160,7 +159,7 @@ function NavBar() {
     }
   }, [location, setServicesID, setMapID, setRequestsID]);
 
-  const {isAuthenticated} = useAuth0();
+  const { isAuthenticated } = useAuth0();
   return (
     <div className="navbar">
       {/* Navbar content */}
@@ -249,26 +248,25 @@ function NavBar() {
                 <p className={"item"}>Room Scheduling</p>
               </MenuItem>
             </Link>
-              <Link to={"/language-request"} id={"order"}>
-                  <MenuItem onClick={handleClose}>
-                      <p className={"item"}>Language Request</p>
-                  </MenuItem>
-              </Link>
+            <Link to={"/language-request"} id={"order"}>
+              <MenuItem onClick={handleClose}>
+                <p className={"item"}>Language Request</p>
+              </MenuItem>
+            </Link>
             <Link to={"/map-debug"} id={"order"}>
               <MenuItem onClick={handleClose}>
                 <p className={"item"}>Map Editing Page</p>
               </MenuItem>
             </Link>
-
           </Menu>
         </div>
       </div>
       <div className={"rightSide"}>
-          {isAuthenticated && <p className={"username"}>USERNAME</p>}
+        {isAuthenticated && <p className={"username"}>USERNAME</p>}
         <FormControl>
           <ThemeProvider theme={theme}>
-              {!isAuthenticated && <LoginButton/>}
-              {isAuthenticated && <LogoutButton />}
+            {!isAuthenticated && <LoginButton />}
+            {isAuthenticated && <LogoutButton />}
           </ThemeProvider>
         </FormControl>
       </div>
