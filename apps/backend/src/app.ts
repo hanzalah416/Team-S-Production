@@ -20,6 +20,7 @@ import sanitationRouter from "./routes/saniationRoute.ts";
 import roomSchedulingRouter from "./routes/roomScheduling.ts";
 import textPathRouter from "./routes/textPathRouter.ts";
 import MedsForAutofillRouter from "./routes/MedsForAutofillRoutes.ts";
+import { auth } from "express-oauth2-jwt-bearer";
 
 // import allEdgesRouter from "./routes/getAllEdgesData.ts";
 // import allNodeRouter from "./routes/getAllNodeData.ts";
@@ -69,6 +70,15 @@ app.use("/api/language-request", languageRouter);
 app.use("/healthcheck", (req, res) => {
   res.status(200).send();
 });
+
+app.use(
+  //comment
+  auth({
+    audience: "/api",
+    issuerBaseURL: "https://dev-q6nptoajn7kajoxf.us.auth0.com/",
+    tokenSigningAlg: "RS256",
+  }),
+);
 
 // main().then(() => {
 //     console.log('Data populated successfully!');

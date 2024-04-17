@@ -1,4 +1,4 @@
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import "./NavBar.css";
 import * as React from "react";
 import Button from "@mui/material/Button";
@@ -15,8 +15,11 @@ import sanitationIcon from "../assets/NavBarIcons/sanitation_icon.svg";
 import roomSchedulingIcon from "../assets/NavBarIcons/schedule_icon.svg";
 import languageIcon from "../assets/NavBarIcons/language_icon.svg";
 import dropDownIcon from "../assets/NavBarIcons/drop_down.svg";
+import { LoginButton } from "../LoginButton.tsx";
+import { LogoutButton } from "../LogoutButton.tsx";
 import { createTheme, FormControl, ThemeProvider } from "@mui/material";
 import { useCallback, useEffect } from "react";
+import { useAuth0 } from "@auth0/auth0-react";
 
 declare module "@mui/material/styles" {
   interface Palette {
@@ -50,8 +53,6 @@ function NavBar() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
-  const navigate = useNavigate();
-
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const today = new Date();
   const [timeOfDay, updateTimeOfDay] = React.useState("");
@@ -67,9 +68,6 @@ function NavBar() {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleLogInOutButton = () => {
-    navigate("/");
-  };
 
   const handleClose = () => {
     setAnchorEl(null);
@@ -162,6 +160,7 @@ function NavBar() {
     }
   }, [location, setServicesID, setMapID, setRequestsID]);
 
+  const {isAuthenticated} = useAuth0();
   return (
     <div className="navbar">
       {/* Navbar content */}
@@ -265,17 +264,11 @@ function NavBar() {
         </div>
       </div>
       <div className={"rightSide"}>
-        <p className={"username"}>USERNAME</p>
+          {isAuthenticated && <p className={"username"}>USERNAME</p>}
         <FormControl>
           <ThemeProvider theme={theme}>
-            <Button
-              id="login-out-button"
-              variant="contained"
-              color={"websiteBlue"}
-              onClick={handleLogInOutButton}
-            >
-              <p className={"logOutInText"}>Log Out</p>
-            </Button>
+              {!isAuthenticated && <LoginButton/>}
+              {isAuthenticated && <LogoutButton />}
           </ThemeProvider>
         </FormControl>
       </div>
