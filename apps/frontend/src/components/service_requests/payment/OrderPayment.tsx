@@ -1,118 +1,161 @@
 // OrderPayment.tsx
-import React, { useState } from "react";
+// import React, { useState } from "react";
+// import { useNavigate } from "react-router-dom";
+// import styles from "./OrderPayment.module.css";
+// import { useFormData } from "../../common/useFormData.ts";
+import Paper from "@mui/material/Paper";
+import Stack from "@mui/material/Stack";
+import TextField from "@mui/material/TextField";
+import { Grid } from "@mui/material";
+import Button from "@mui/material/Button";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import styles from "./OrderPayment.module.css";
-import { useFormData } from "../../common/useFormData.ts";
 
 const OrderPayment: React.FC = () => {
   const [cardNumber, setCardNumber] = useState("");
   const [cvv, setCvv] = useState("");
   const [expirationDate, setExpirationDate] = useState("");
   const [nameOnCard, setNameOnCard] = useState("");
-
   const navigate = useNavigate();
-  const { formData, setFormData } = useFormData();
 
-  const handleContinue = () => {
-    setFormData({
-      ...formData,
-      orderPayment: {
-        cardNumber,
-        cvv,
-        expirationDate,
-        nameOnCard,
-      },
-    });
-    navigate("/order-flowers-result"); // Navigate to the display data page
-  };
+  // const { formData, setFormData } = useFormData();
 
-  const handleSubmit = (event: React.FormEvent) => {
-    event.preventDefault();
-    // Here you would handle the submission of the payment form
-    // Maybe sending the data to your server or processing the payment
-  };
+  async function submit() {
+    if (
+      cardNumber == "" ||
+      cvv == "" ||
+      expirationDate == "" ||
+      nameOnCard == ""
+    ) {
+      alert("Please fill out all information on the page");
+    } else if (!isValidNumber(cardNumber) || cardNumber.length != 16) {
+      alert("Please Enter a valid card number");
+    } else if (!isValidNumber(cvv) || cvv.length != 3) {
+      alert("Please Enter a valid CVV");
+    } else if (!isValidDate(expirationDate)) {
+      alert("Please Enter a valid expiration date");
+    } else if (expirationDate.length != 7) {
+      alert("Please Enter a valid expiration date");
+    } else {
+      navigate("/order-flowers-result");
+    }
+  }
+
+  function isValidNumber(input: string): boolean {
+    return input.trim() !== "" && !isNaN(Number(input));
+  }
+
+  function isValidDate(input: string): boolean {
+    if (input.charAt(2) !== "/") {
+      return false;
+    } else if (
+      !isValidNumber(input.substring(0, 2)) ||
+      !isValidNumber(input.substring(3, 6))
+    ) {
+      return false;
+    } else if (!(input.charAt(0) === "0" || input.charAt(0) === "1")) {
+      return false;
+    } else if (parseInt(input.substring(0, 2)) > 12) {
+      return false;
+    } else {
+      return true;
+    }
+  }
 
   const handleBack = () => {
-    // You may want to validate or process data here before navigating
     navigate("/order-flowers");
   };
 
   return (
-    <div className={styles.container}>
-      <h2 className={styles.title}>Payment Information</h2>
-      <form onSubmit={handleSubmit}>
-        {/* Card Number Input */}
-        <div className={`${styles.formGroup} ${styles.cardNumberGroup}`}>
-          <label className={styles.label}>Credit Card Number</label>
-          <input
-            className={styles.input}
-            type="number"
-            value={cardNumber}
-            onChange={(e) => setCardNumber(e.target.value)}
-            placeholder="0000 0000 0000 0000"
-            min="0"
-            max="9999999999999999"
-            step="1"
-          />
-        </div>
+    <Grid
+      container
+      spacing={5}
+      direction="column"
+      alignItems="center"
+      justifyContent="center"
+      my={4}
+    >
+      <br />
+      <br />
 
-        {/* CVV and Expiration Date Inputs Inline */}
-        <div className={styles.inputRow}>
-          {/* CVV Input */}
-          <div className={`${styles.formGroup} ${styles.cvvGroup}`}>
-            <label className={styles.label}>CVV</label>
-            <input
-              className={styles.input}
-              type="number"
-              value={cvv}
-              onChange={(e) => setCvv(e.target.value)}
-              placeholder="123"
+      <Paper elevation={4}>
+        <br />
+        <p className={"title"}>Payment Information </p>
+
+        <Stack alignItems="center" justifyContent="center" spacing={3} p={4}>
+          <div>
+            <TextField
+              label="Credit card number"
+              onChange={(e) => setCardNumber(e.target.value)}
+              sx={{ minWidth: 400 }}
             />
           </div>
-          {/* Expiration Date Input */}
-          <div className={`${styles.formGroup} ${styles.expirationDateGroup}`}>
-            <label className={styles.label}>Expiration Date</label>
-            <input
-              className={styles.input}
-              type="text"
-              value={expirationDate}
-              onChange={(e) => setExpirationDate(e.target.value)}
-              placeholder="MM/DD"
-            />
+          <div>
+            <Stack
+              spacing={1}
+              direction="row"
+              alignItems="center"
+              justifyContent="center"
+            >
+              <div>
+                <TextField
+                  value={expirationDate}
+                  onChange={(e) => setExpirationDate(e.target.value)}
+                  sx={{ minWidth: 250 }}
+                  label="Expiration Date (MM/YYYY)"
+                />
+              </div>
+              <div>
+                <TextField
+                  value={cvv}
+                  onChange={(e) => setCvv(e.target.value)}
+                  sx={{ maxWidth: 140 }}
+                  label="CVV"
+                />
+              </div>
+            </Stack>
           </div>
-        </div>
 
-        {/* Name on Card Input */}
-        <div className={`${styles.formGroup} ${styles.nameOnCardGroup}`}>
-          <label className={styles.label}>Name on Card</label>
-          <input
-            className={styles.input}
-            type="text"
+          <TextField
             value={nameOnCard}
             onChange={(e) => setNameOnCard(e.target.value)}
-            placeholder="John Doe"
+            sx={{ minWidth: 400 }}
+            label="Name on Card"
           />
-        </div>
 
-        {/* Button Group */}
-        <div className={styles.buttonGroup}>
-          <button
-            className={`${styles.button} ${styles.backButton}`}
-            type="button"
-            onClick={handleBack}
+          <Stack
+            spacing={2}
+            direction="row"
+            alignItems="center"
+            justifyContent="center"
           >
-            Back
-          </button>
-          <button
-            className={`${styles.button} ${styles.reviewButton}`}
-            type="button"
-            onClick={handleContinue}
-          >
-            Review Order
-          </button>
-        </div>
-      </form>
-    </div>
+            <Button
+              style={{
+                color: "#3B54A0",
+                outlineColor: "#3B54A0",
+                borderColor: "#3B54A0",
+              }}
+              variant="outlined"
+              sx={{ minWidth: 100 }}
+              onClick={handleBack}
+            >
+              Back
+            </Button>
+
+            <Button
+              style={{
+                backgroundColor: "#3B54A0",
+              }}
+              variant="contained"
+              sx={{ minWidth: 100 }}
+              onClick={submit}
+            >
+              Submit
+            </Button>
+          </Stack>
+        </Stack>
+      </Paper>
+    </Grid>
   );
 };
 

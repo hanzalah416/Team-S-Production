@@ -6,6 +6,7 @@ import flowerRequestRouter from "./routes/flowerRequest.ts";
 import PrismaClient from "./bin/database-connection.ts";
 import seed from "./seed.ts";
 import logInRouter from "./routes/newAccount.ts";
+import languageRouter from "./routes/languageRequest.ts";
 const app: Express = express(); // Setup the backend
 import pathfinderRouter from "./routes/getShortestPath.ts";
 import nodeRouter from "./routes/getNodes.ts";
@@ -19,6 +20,7 @@ import sanitationRouter from "./routes/saniationRoute.ts";
 import roomSchedulingRouter from "./routes/roomScheduling.ts";
 import textPathRouter from "./routes/textPathRouter.ts";
 import MedsForAutofillRouter from "./routes/MedsForAutofillRoutes.ts";
+import { auth } from "express-oauth2-jwt-bearer";
 
 // import allEdgesRouter from "./routes/getAllEdgesData.ts";
 // import allNodeRouter from "./routes/getAllNodeData.ts";
@@ -63,10 +65,20 @@ app.use("/api/meds-autofill", MedsForAutofillRouter);
 app.use("/api/security-request", securityRouter);
 app.use("/api/room-scheduling", roomSchedulingRouter);
 app.use("/api/pathToText", textPathRouter);
+app.use("/api/language-request", languageRouter);
 
 app.use("/healthcheck", (req, res) => {
   res.status(200).send();
 });
+
+app.use(
+  //comment
+  auth({
+    audience: "/api",
+    issuerBaseURL: "https://dev-q6nptoajn7kajoxf.us.auth0.com/",
+    tokenSigningAlg: "RS256",
+  }),
+);
 
 // main().then(() => {
 //     console.log('Data populated successfully!');
