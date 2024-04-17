@@ -17,10 +17,10 @@ body {
   background: #f1f1f1;
   position: fixed;
   padding: 0;
-  top: 180px;
+  top: 80px;
   left: 0;
   width: 100vw;
-  height: 100vh;
+  height: calc(100vh - 80px);
   min-height: 580px;
   min-width: 700px;
 }
@@ -53,9 +53,10 @@ body {
 }
 
 .mapArea {
-  height: calc(
-    100vh + 110px
-  ); /* Subtract the navbar height or any padding you may have */
+  height: 100%;
+  /*        calc(*/
+  /*  100vh + 110px*/
+  /*); !* Subtract the navbar height or any padding you may have *!*/
   width: 100vw;
   position: relative;
   overflow: hidden;
