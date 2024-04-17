@@ -1,9 +1,12 @@
 import "./App.css";
-import {createBrowserRouter, RouterProvider, Outlet, useNavigate} from "react-router-dom";
+import {
+  createBrowserRouter,
+  RouterProvider,
+  Outlet,
+  useNavigate,
+} from "react-router-dom";
 import NavBar from "./components/nav_bar/NavBar.tsx";
 import OrderFlowers from "./components/flower_requests/OrderFlowers.tsx";
-import Login from "./components/login/Login.tsx";
-import CreateAccount from "./components/login/create_account/CreateAccount.tsx";
 import OrderPayment from "./components/service_requests/payment/OrderPayment.tsx";
 import { FormDataProvider } from "./components/service_requests/FormDataContext.tsx";
 import FloorMap from "./components/floor_map/FloorMap.tsx";
@@ -19,29 +22,12 @@ import MedicineDeliveryForm from "./components/service_requests/medicine_deliver
 import SecurityRequest from "./components/service_requests/security_requests/SecurityRequest.tsx";
 import { AppState, Auth0Provider } from "@auth0/auth0-react";
 
-
 function App() {
   const router = createBrowserRouter([
     {
       children: [
         {
           path: "/",
-          element: (
-            <>
-              <Login />
-            </>
-          ),
-        },
-        {
-          path: "/create-account",
-          element: (
-            <>
-              <CreateAccount />
-            </>
-          ),
-        },
-        {
-          path: "/welcome",
           element: (
             <>
               <FloorMap />
@@ -83,15 +69,6 @@ function App() {
             <>
               <OrderConfirmation />
               <Layout />
-            </>
-          ),
-        },
-
-        {
-          path: "/forgot-password",
-          element: (
-            <>
-              <div />
             </>
           ),
         },
@@ -177,28 +154,28 @@ function App() {
 // }
 
 function Layout() {
-    const navigate = useNavigate();
-    return (
-        <Auth0Provider
-            useRefreshTokens
-            cacheLocation="localstorage"
-            domain="dev-q6nptoajn7kajoxf.us.auth0.com"
-            clientId="3UbU8v3PXSEQJsRMtwCJdvoKeWigw8eA"
-            onRedirectCallback={(appState: AppState | undefined): void => {
-                navigate(appState?.returnTo || window.location.pathname);
-            }}
-            authorizationParams={{
-                redirect_uri: window.location.origin,
-                audience: "/api",
-                scope: "openid profile email offline_access",
-            }}
-        >
-            <>
-                <NavBar />
-                <Outlet /> {/* Child routes will render here */}
-            </>
-        </Auth0Provider>
-    );
+  const navigate = useNavigate();
+  return (
+    <Auth0Provider
+      useRefreshTokens
+      cacheLocation="localstorage"
+      domain="dev-q6nptoajn7kajoxf.us.auth0.com"
+      clientId="3UbU8v3PXSEQJsRMtwCJdvoKeWigw8eA"
+      onRedirectCallback={(appState: AppState | undefined): void => {
+        navigate(appState?.returnTo || window.location.pathname);
+      }}
+      authorizationParams={{
+        redirect_uri: window.location.origin,
+        audience: "/api",
+        scope: "openid profile email offline_access",
+      }}
+    >
+      <>
+        <NavBar />
+        <Outlet /> {/* Child routes will render here */}
+      </>
+    </Auth0Provider>
+  );
 }
 
 export default App;
