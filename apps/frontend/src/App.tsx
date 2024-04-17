@@ -21,6 +21,8 @@ import RoomScheduling from "./components/service_requests/Room_Scheduling/RoomSc
 import MedicineDeliveryForm from "./components/service_requests/medicine_delivery/MedicineDeliveryForm.tsx";
 import SecurityRequest from "./components/service_requests/security_requests/SecurityRequest.tsx";
 import { AppState, Auth0Provider } from "@auth0/auth0-react";
+import LanguageRequest from "./components/service_requests/language_requests/LanguageRequest.tsx";
+
 
 function App() {
   const router = createBrowserRouter([
@@ -125,6 +127,15 @@ function App() {
           element: (
             <>
               <FloorMapDebug />
+              <Layout />
+            </>
+          ),
+        },
+        {
+          path: "/language-request",
+          element: (
+            <>
+              <LanguageRequest />
               <Layout />
             </>
           ),

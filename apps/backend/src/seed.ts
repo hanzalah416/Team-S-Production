@@ -6,7 +6,7 @@ import * as console from "console";
 async function seed() {
   const edges = readCSVFile("L1Edges.csv");
   const nodes = readCSVFile("L1Nodes.csv");
-  const medicines = readCSVFile("Medicine.csv");
+  const medicines = readCSVFile("medicine_data.csv");
   const dbNodeEdges = await PrismaClient.nodeEdge.findMany();
   const dbNodes = await PrismaClient.node.findMany();
   const medicineArray = await PrismaClient.medicine.findMany();
@@ -52,9 +52,9 @@ async function seed() {
             synName: medicine[1],
           },
         });
+        console.log("Medicines populated");
       } else {
-        console.log("Medicine Populated");
-        break;
+        console.log("No medicine data to populate.");
       }
     }
   }
