@@ -17,10 +17,10 @@ body {
   background: #f1f1f1;
   position: fixed;
   padding: 0;
-  top: 80px;
+  top: 180px;
   left: 0;
   width: 100vw;
-  height: calc(100vh - 80px);
+  height: 100vh;
   min-height: 580px;
   min-width: 700px;
 }
@@ -34,7 +34,7 @@ body {
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  height: calc(100vh - 80px);
+  height: calc(100% - 100px);
 }
 
 .signInForm {
@@ -48,12 +48,43 @@ body {
   background: #f1f1f1;
   position: relative;
   z-index: 300;
+  margin-top: -200px;
   margin-bottom: 10px;
   /* Adjust this value as needed to control the distance from the top */
 }
 
+.floorButtonsContainer {
+  /* hide scrollbar but allow scrolling */
+  /* Hide scrollbar in IE/Edge */
+  * {
+    -ms-overflow-style: none;
+  }
+
+  /* WebKit (Chrome, Safari, etc.) */
+  ::-webkit-scrollbar {
+    width: 10px; /* width of the scrollbar */
+  }
+
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1; /* color of the track */
+  }
+
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #003b9c; /* color of the thumb */
+  }
+
+  width: calc(100% + 60px); /* Add twice the padding to stretch fully */
+  margin-left: -30px; /* Offset the padding on the left */
+  margin-right: -30px;
+  max-height: 400px;
+}
+
 .mapArea {
-  height: 100%;
+  height: calc(
+    100vh + 110px
+  ); /* Subtract the navbar height or any padding you may have */
   width: 100vw;
   position: relative;
   overflow: hidden;
@@ -103,7 +134,6 @@ body {
   color: black;
 }
 .boldtag2 {
-  margin-top: 5px;
   margin-bottom: -20px;
   text-align: center;
   font-weight: bold;
@@ -189,21 +219,6 @@ body {
   color: black;
 }
 
-.floorButtonsContainer {
-  flex-grow: 1;
-  max-height: 260px;
-  min-height: 250px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  overflow: auto;
-  scrollbar-color: #003b9c transparent;
-}
-
-.floorButtonsContainer::-webkit-scrollbar-thumb {
-  border-radius: 4px;
-}
-
 .floorSwitcherContainer {
   position: absolute;
   top: 10px;
@@ -283,42 +298,46 @@ body {
 }
 
 .MapKey {
-    position: absolute; /* Places it above the map */
-    bottom: -75%; /* Places it off screen for transformation */
-    left: 20px; /* Left aligned */
-    width: 265px; /* Can be altered for longer key items */
-    z-index: 4; /* Ensure it is above the TransformComponent */
-    display: grid; /* For keeping each key */
-    grid-template-columns: 30px 200px;
+  position: absolute; /* Places it above the map */
+  bottom: -75%; /* Places it off screen for transformation */
+  left: 20px; /* Left aligned */
+  width: 265px; /* Can be altered for longer key items */
+  z-index: 4; /* Ensure it is above the TransformComponent */
+  display: grid; /* For keeping each key */
+  grid-template-columns: 30px 200px;
 
-
-    padding: 15px; /* Adds some spacing around the controls */
-    background: rgb(255, 255, 255); /* Semi-transparent background */
-    border: 1px solid black; /* Black border */
-    border-radius: 5px; /* Rounded corners */
-    transition: bottom 0.3s ease; /* Transform effect to make it come from the bottom */
+  padding: 15px; /* Adds some spacing around the controls */
+  background: rgb(255, 255, 255); /* Semi-transparent background */
+  border: 1px solid black; /* Black border */
+  border-radius: 5px; /* Rounded corners */
+  transition: bottom 0.3s ease; /* Transform effect to make it come from the bottom */
 }
 
 .MapKeyItem {
-    color: #003b9c;
-    font-size: 21px;
-    text-align: start; /* Sets the text to all left-align */
-    margin-left: 10px; /* Gives the text some room on the left */
-    margin-bottom: 5px; /* Puts line spacing between each key entry */
-    font-family: Jaldi, sans-serif;
+  color: #003b9c;
+  font-size: 21px;
+  text-align: start; /* Sets the text to all left-align */
+  margin-left: 10px; /* Gives the text some room on the left */
+  margin-bottom: 5px; /* Puts line spacing between each key entry */
+  font-family: Jaldi, sans-serif;
 }
 
 .MapKeyIcon {
-    width: 25px;
-    height: 25px;
+  width: 25px;
+  height: 25px;
 }
 
 .ShowMapKey {
-    bottom: 20px; /* To be placed 20px from bottom once triggered */
+  bottom: 20px; /* To be placed 20px from bottom once triggered */
 }
 
 .Select {
   display: flex;
   width: 100%; /* Full width of the container */
   justify-content: center; /* Center the select horizontally */
+}
+.floorDirectionsContainer {
+    max-height: 400px;
+    overflow-y: auto;
+    overflow-x: hidden;
 }

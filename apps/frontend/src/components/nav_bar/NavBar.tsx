@@ -189,6 +189,16 @@ function NavBar() {
       {isAuthenticated && (
         <div className={"navButtons"}>
           <Link to={"/"} id={"map"}>
+          <Button className={"alignIcons"}>
+            <img src={mapIcon} className={"iconHeight"} alt={"map_icon"} />
+            <p id={"mapID"} className={"itemNames"}>
+              {" "}
+              Our Map
+            </p>
+          </Button>
+        </Link>
+        <FormControl>
+          <Link to={"/all-service-requests"} id={"order"}>
             <Button className={"alignIcons"}>
               <img src={mapIcon} className={"iconHeight"} alt={"map_icon"} />
               <p id={"mapID"} className={"itemNames"}>
@@ -283,6 +293,7 @@ function NavBar() {
       )}
       <div className={"rightSide"}>
         {isAuthenticated && <p className={"username"}>{username}</p>}
+
         <FormControl>
           <ThemeProvider theme={theme}>
             {!isAuthenticated && <LoginButton />}

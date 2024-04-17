@@ -14,16 +14,21 @@ export const LoginButton = () => {
   };
   //comment
   return (
-    <Button className="button__login" onClick={handleLogin}
-        style={{textDecoration: "none",
-            textTransform: "none",
-            paddingLeft: "10px",
-            paddingRight: "10px",
-            fontFamily: "Poppins, sans-serif",
-            fontWeight: 0,
-            fontSize: "20px",
-            color: "#ffffff",
-            backgroundColor: "#003b9c"}}>
+    <Button
+      className="button__login"
+      onClick={handleLogin}
+      style={{
+        textDecoration: "none",
+        textTransform: "none",
+        paddingLeft: "10px",
+        paddingRight: "10px",
+        fontFamily: "Poppins, sans-serif",
+        fontWeight: 0,
+        fontSize: "20px",
+        color: "#ffffff",
+        backgroundColor: "#003b9c",
+      }}
+    >
       Log In
     </Button>
   );

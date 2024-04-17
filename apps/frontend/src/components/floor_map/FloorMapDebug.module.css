@@ -45,7 +45,7 @@
   left: 10px; /* Distance from the left of the parent container */
   display: flex; /* Using flexbox to stack items */
   flex-direction: column; /* Align children vertically */
-  align-items: flex-start; /* Align children to the left */
+  align-items: center; /* Align children to the left */
   z-index: 2;
   margin-top: 10px; /* Ensure it appears above other content */
   border: 1px solid black;

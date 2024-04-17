@@ -16,6 +16,7 @@ import l2Map from "../assets/HospitalMap/00_thelowerlevel2.png";
 import f1Map from "../assets/HospitalMap/01_thefirstfloor.png";
 import f2Map from "../assets/HospitalMap/02_thesecondfloor.png";
 import f3Map from "../assets/HospitalMap/03_thethirdfloor.png";
+import PathToTextDisplay from "./PathToTextDisplay.tsx";
 import ATMIcon from "../assets/MapKeyIcons/ATMIcon.png";
 import BusStopIcon from "../assets/MapKeyIcons/BusStopIcon.png";
 import CafeIcon from "../assets/MapKeyIcons/CafeIcon.png";
@@ -497,62 +498,73 @@ function FloorMap() {
           )}
 
           <div className={styles.boldtag2}>
-            <div className={styles.boldtag2}>Floors for the Current Path:</div>
-            <br />
+            {/*<div className={styles.boldtag2}>Floors for the Current Path:</div>*/}
+
             <div
               key={resetFloorsUIKey}
               className={styles.floorButtonsContainer}
             >
-              {getTagsFromPath(fullPath).map((tag) => {
+              {startPosition && endPosition && (
+                <PathToTextDisplay
+                  startNode={startPosition.id}
+                  endNode={endPosition.id}
+                  algo={algorithm}
+                  onChangeFloor={handleFloorChange} // Passing the method as a prop
+                />
+              )}
+
+              {getTagsFromPath(fullPath).map(() => {
                 // console.log("Full path:", fullPath);
                 // console.log("Current tag:", tag);
-                if (!tag) {
-                  throw new Error("Tag was undefined");
-                }
-                let displayFloor = tag.tag;
-                switch (tag.tag) {
-                  case "01":
-                    displayFloor = "1";
-                    break;
-                  case "02":
-                    displayFloor = "2";
-                    break;
-                  case "03":
-                    displayFloor = "3";
-                    break;
-                  default:
-                    break; // Keep "L1" and "L2" as is
-                }
+                // if (!tag) {
+                //   throw new Error("Tag was undefined");
+                // }
+                // let displayFloor = tag.tag;
+                // switch (tag.tag) {
+                //   case "01":
+                //     displayFloor = "1";
+                //     break;
+                //   case "02":
+                //     displayFloor = "2";
+                //     break;
+                //   case "03":
+                //     displayFloor = "3";
+                //     break;
+                //   default:
+                //     break; // Keep "L1" and "L2" as is
+                // }
 
                 return (
-                  <Button
-                    key={tag.tag}
-                    variant={
-                      currentFloor === tag.tag ? "contained" : "outlined"
-                    }
-                    onClick={() => {
-                      setCurrentFloor(tag.tag);
+                  <div>
+                    {/*<Button*/}
+                    {/*  key={tag.tag}*/}
+                    {/*  variant={*/}
+                    {/*    currentFloor === tag.tag ? "contained" : "outlined"*/}
+                    {/*  }*/}
+                    {/*  onClick={() => {*/}
+                    {/*    setCurrentFloor(tag.tag);*/}
 
-                      // Filter the full path for the new floor
-                      const newFilteredQueueNodeIDs = fullPath.filter(
-                        (id) =>
-                          getFloorNumber(id) === tag.tag || id.length === 3,
-                      );
-                      setFilteredQueueNodeIDs(newFilteredQueueNodeIDs);
-                    }}
-                    style={{
-                      marginBottom: "5px",
-                      marginTop: "3px",
-                      color: currentFloor === tag.tag ? "white" : "black", // Text color
-                      backgroundColor:
-                        currentFloor === tag.tag ? "#003b9c" : "#f1f1f1", // Background color with transparency
-                      borderColor: "black", // Border color
-                      fontFamily: "Poppins",
-                      textAlign: "center",
-                    }}
-                  >
-                    {displayFloor}
-                  </Button>
+                    {/*    // Filter the full path for the new floor*/}
+                    {/*    const newFilteredQueueNodeIDs = fullPath.filter(*/}
+                    {/*      (id) =>*/}
+                    {/*        getFloorNumber(id) === tag.tag || id.length === 3,*/}
+                    {/*    );*/}
+                    {/*    setFilteredQueueNodeIDs(newFilteredQueueNodeIDs);*/}
+                    {/*  }}*/}
+                    {/*  style={{*/}
+                    {/*    marginBottom: "5px",*/}
+                    {/*    marginTop: "3px",*/}
+                    {/*    color: currentFloor === tag.tag ? "white" : "black", // Text color*/}
+                    {/*    backgroundColor:*/}
+                    {/*      currentFloor === tag.tag ? "#003b9c" : "#f1f1f1", // Background color with transparency*/}
+                    {/*    borderColor: "black", // Border color*/}
+                    {/*    fontFamily: "Poppins",*/}
+                    {/*    textAlign: "center",*/}
+                    {/*  }}*/}
+                    {/*>*/}
+                    {/*  {displayFloor}*/}
+                    {/*</Button>*/}
+                  </div>
                 );
               })}
             </div>
@@ -560,19 +572,7 @@ function FloorMap() {
 
           <div className={styles.mbDiv}>
             <div style={{ display: "flex", flexDirection: "column" }}>
-              <Button
-                variant="contained"
-                href="/node-data"
-                className={styles.csvButton}
-                style={{
-                  backgroundColor: "#003b9c",
-                  fontFamily: "Poppins",
-                  fontSize: 14,
-                  textAlign: "center",
-                }}
-              >
-                Import/Export Nodes
-              </Button>
+
             </div>
           </div>
         </div>
@@ -670,31 +670,30 @@ function FloorMap() {
             </Select>
           </div>
 
+          <TransformWrapper
+          // initialScale={1.3}
+          // initialPositionX={-200.4}
+          // initialPositionY={-100.83}
+          // centered
+          >
+            <TransformComponent>
+              {renderFloorNodes()}
+              <img
+                src={floorMaps[currentFloor as keyof typeof floorMaps]}
+                alt="map"
+                className={styles.hmapImage}
+              />
 
-            <TransformWrapper
-                // initialScale={1.3}
-                // initialPositionX={-200.4}
-                // initialPositionY={-100.83}
-                // centered
-            >
-                <TransformComponent>
-                    {renderFloorNodes()}
-                    <img
-                        src={floorMaps[currentFloor as keyof typeof floorMaps]}
-                        alt="map"
-                        className={styles.hmapImage}
-                    />
+              <div className={styles.dotsContainer}>
+                {filteredQueueNodeIDs.map((nodeID, index) => {
+                  if (nodeID.length === 3) {
+                    // Skip floor change markers
+                    return null;
+                  }
 
-                    <div className={styles.dotsContainer}>
-                        {filteredQueueNodeIDs.map((nodeID, index) => {
-                            if (nodeID.length === 3) {
-                                // Skip floor change markers
-                                return null;
-                            }
-
-                            const point = getPositionById(nodeID);
-                            if (point) {
-                                const isActualStartNode = fullPath[0] === nodeID;
+                  const point = getPositionById(nodeID);
+                  if (point) {
+                    const isActualStartNode = fullPath[0] === nodeID;
                     const isActualEndNode =
                       fullPath[fullPath.length - 1] === nodeID;
                     const isDisplayedStartNode = index === 0;
