@@ -64,10 +64,13 @@ function NavBar() {
   const requestsID = document.getElementById("requestsID");
   const servicesID = document.getElementById("servicesID");
 
+  const [username, setUsername] = React.useState("USERNAME");
+
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
 
+  const { isAuthenticated, user } = useAuth0();
 
   const handleClose = () => {
     setAnchorEl(null);
@@ -145,10 +148,10 @@ function NavBar() {
         setServIcon(roomSchedulingIcon);
         setServicesID();
         break;
-        case "/language-request":
-            setServIcon(languageIcon);
-            setServicesID();
-            break;
+      case "/language-request":
+        setServIcon(languageIcon);
+        setServicesID();
+        break;
       case "/all-service-requests":
         setRequestsID();
         break;
@@ -160,7 +163,15 @@ function NavBar() {
     }
   }, [location, setServicesID, setMapID, setRequestsID]);
 
-  const {isAuthenticated} = useAuth0();
+  useEffect(() => {
+    if (user) {
+      if (user.name) {
+        const name = user.name.split("@");
+        setUsername(name[0]);
+      }
+    }
+  }, [user]);
+
   return (
     <div className="navbar">
       {/* Navbar content */}
@@ -175,100 +186,107 @@ function NavBar() {
         />
         <p className={"time"}>{timeOfDay}</p>
       </div>
-      <div className={"navButtons"}>
-        <Link to={"/welcome"} id={"map"}>
-          <Button className={"alignIcons"}>
-            <img src={mapIcon} className={"iconHeight"} alt={"map_icon"} />
-            <p id={"mapID"} className={"itemNames"}>
-              {" "}
-              Our Map
-            </p>
-          </Button>
-        </Link>
-        <FormControl>
-          <Link to={"/all-service-requests"} id={"order"}>
+      {isAuthenticated && (
+        <div className={"navButtons"}>
+          <Link to={"/"} id={"map"}>
             <Button className={"alignIcons"}>
-              <img
-                src={patientListIcon}
-                className={"iconHeight"}
-                width={"38px"}
-              />
-              <p id={"requestsID"} className={"itemNames"}>
-                All Requests
+              <img src={mapIcon} className={"iconHeight"} alt={"map_icon"} />
+              <p id={"mapID"} className={"itemNames"}>
+                {" "}
+                Our Map
               </p>
             </Button>
           </Link>
-        </FormControl>
-        <div>
-          <Button
-            id="services-button"
-            aria-controls={open ? "services-menu" : undefined}
-            aria-haspopup="true"
-            aria-expanded={open ? "true" : undefined}
-            onClick={handleClick}
-          >
-            <div className={"alignIcons"}>
-              <img src={currServIcon} className={"iconHeight"} width={"29px"} />
-              <p id={"servicesID"} className={"itemNames"}>
-                Services
-              </p>
-            </div>
-            <img src={dropDownIcon} />
-          </Button>
-          <Menu
-            id="services-menu"
-            anchorEl={anchorEl}
-            open={open}
-            onClose={handleClose}
-            MenuListProps={{
-              "aria-labelledby": "services-button",
-            }}
-          >
-            <Link to={"/order-flowers"} id={"order"}>
-              <MenuItem onClick={handleClose}>
-                <p className={"item"}>Order Flowers</p>
-              </MenuItem>
-            </Link>
-            <Link to={"/medicine-delivery-request"} id={"order"}>
-              <MenuItem onClick={handleClose}>
-                <p className={"item"}>Medical Delivery</p>
-              </MenuItem>
-            </Link>
-            <Link to={"/sanitation-request"} id={"order"}>
-              <MenuItem onClick={handleClose}>
-                <p className={"item"}>Sanitation Services</p>
-              </MenuItem>
-            </Link>
-            <Link to={"/security-request"} id={"order"}>
-              <MenuItem onClick={handleClose}>
-                <p className={"item"}>Security Requests</p>
-              </MenuItem>
-            </Link>
-            <Link to={"/room-scheduling"} id={"order"}>
-              <MenuItem onClick={handleClose}>
-                <p className={"item"}>Room Scheduling</p>
-              </MenuItem>
-            </Link>
-              <Link to={"/language-request"} id={"order"}>
-                  <MenuItem onClick={handleClose}>
-                      <p className={"item"}>Language Request</p>
-                  </MenuItem>
+          {username === "admind24x" && (
+            <FormControl>
+              <Link to={"/all-service-requests"} id={"order"}>
+                <Button className={"alignIcons"}>
+                  <img
+                    src={patientListIcon}
+                    className={"iconHeight"}
+                    width={"38px"}
+                  />
+                  <p id={"requestsID"} className={"itemNames"}>
+                    All Requests
+                  </p>
+                </Button>
               </Link>
-            <Link to={"/map-debug"} id={"order"}>
-              <MenuItem onClick={handleClose}>
-                <p className={"item"}>Map Editing Page</p>
-              </MenuItem>
-            </Link>
-
-          </Menu>
+            </FormControl>
+          )}
+          <div>
+            <Button
+              id="services-button"
+              aria-controls={open ? "services-menu" : undefined}
+              aria-haspopup="true"
+              aria-expanded={open ? "true" : undefined}
+              onClick={handleClick}
+            >
+              <div className={"alignIcons"}>
+                <img
+                  src={currServIcon}
+                  className={"iconHeight"}
+                  width={"29px"}
+                />
+                <p id={"servicesID"} className={"itemNames"}>
+                  Services
+                </p>
+              </div>
+              <img src={dropDownIcon} />
+            </Button>
+            <Menu
+              id="services-menu"
+              anchorEl={anchorEl}
+              open={open}
+              onClose={handleClose}
+              MenuListProps={{
+                "aria-labelledby": "services-button",
+              }}
+            >
+              <Link to={"/order-flowers"} id={"order"}>
+                <MenuItem onClick={handleClose}>
+                  <p className={"item"}>Order Flowers</p>
+                </MenuItem>
+              </Link>
+              <Link to={"/medicine-delivery-request"} id={"order"}>
+                <MenuItem onClick={handleClose}>
+                  <p className={"item"}>Medical Delivery</p>
+                </MenuItem>
+              </Link>
+              <Link to={"/sanitation-request"} id={"order"}>
+                <MenuItem onClick={handleClose}>
+                  <p className={"item"}>Sanitation Services</p>
+                </MenuItem>
+              </Link>
+              <Link to={"/security-request"} id={"order"}>
+                <MenuItem onClick={handleClose}>
+                  <p className={"item"}>Security Requests</p>
+                </MenuItem>
+              </Link>
+              <Link to={"/room-scheduling"} id={"order"}>
+                <MenuItem onClick={handleClose}>
+                  <p className={"item"}>Room Scheduling</p>
+                </MenuItem>
+              </Link>
+              <Link to={"/language-request"} id={"order"}>
+                <MenuItem onClick={handleClose}>
+                  <p className={"item"}>Language Request</p>
+                </MenuItem>
+              </Link>
+              <Link to={"/map-debug"} id={"order"}>
+                <MenuItem onClick={handleClose}>
+                  <p className={"item"}>Map Editing Page</p>
+                </MenuItem>
+              </Link>
+            </Menu>
+          </div>
         </div>
-      </div>
+      )}
       <div className={"rightSide"}>
-          {isAuthenticated && <p className={"username"}>USERNAME</p>}
+        {isAuthenticated && <p className={"username"}>{username}</p>}
         <FormControl>
           <ThemeProvider theme={theme}>
-              {!isAuthenticated && <LoginButton/>}
-              {isAuthenticated && <LogoutButton />}
+            {!isAuthenticated && <LoginButton />}
+            {isAuthenticated && <LogoutButton />}
           </ThemeProvider>
         </FormControl>
       </div>
