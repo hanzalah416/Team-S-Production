@@ -27,15 +27,15 @@ router.get("/", async function (req: Request, res: Response) {
   try {
     // const userID: string = req.query.userID as string;
 
-    const medicine = await PrismaClient.medicine.findMany({
+    const medicines = await PrismaClient.medicine.findMany({
       select: {
         genericName: true,
         synName: true,
       },
     });
 
-    if (medicine.length > 0) {
-      res.json(medicine[0]);
+    if (medicines.length > 0) {
+      res.json(medicines);
     } else {
       console.error("medicine not found");
       res.sendStatus(204);
