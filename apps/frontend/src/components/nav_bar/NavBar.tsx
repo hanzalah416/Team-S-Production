@@ -176,7 +176,7 @@ function NavBar() {
         <p className={"time"}>{timeOfDay}</p>
       </div>
       <div className={"navButtons"}>
-        <Link to={"/welcome"} id={"map"}>
+        <Link to={"/"} id={"map"}>
           <Button className={"alignIcons"}>
             <img src={mapIcon} className={"iconHeight"} alt={"map_icon"} />
             <p id={"mapID"} className={"itemNames"}>

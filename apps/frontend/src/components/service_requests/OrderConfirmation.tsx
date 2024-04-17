@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 export default function OrderConfirmation() {
   const navigate = useNavigate();
   const handleBack = () => {
-    navigate("/welcome");
+    navigate("/");
   };
 
   return (
