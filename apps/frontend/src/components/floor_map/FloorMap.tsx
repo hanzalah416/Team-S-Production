@@ -483,14 +483,14 @@ function FloorMap() {
               key={resetFloorsUIKey}
               className={styles.floorButtonsContainer}
             >
-                {
-                    (startPosition && endPosition) && <PathToTextDisplay
-                    startNode={startPosition.id}
-                    endNode={endPosition.id}
-                    algo={algorithm}
-                    onChangeFloor={handleFloorChange}  // Passing the method as a prop
+              {startPosition && endPosition && (
+                <PathToTextDisplay
+                  startNode={startPosition.id}
+                  endNode={endPosition.id}
+                  algo={algorithm}
+                  onChangeFloor={handleFloorChange} // Passing the method as a prop
                 />
-                }
+              )}
 
               {getTagsFromPath(fullPath).map(() => {
                 // console.log("Full path:", fullPath);
@@ -515,7 +515,6 @@ function FloorMap() {
 
                 return (
                   <div>
-
                     {/*<Button*/}
                     {/*  key={tag.tag}*/}
                     {/*  variant={*/}

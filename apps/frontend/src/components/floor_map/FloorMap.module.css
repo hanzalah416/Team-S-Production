@@ -55,11 +55,24 @@ body {
 
 .floorButtonsContainer {
   /* hide scrollbar but allow scrolling */
+  /* Hide scrollbar in IE/Edge */
   * {
     -ms-overflow-style: none;
   }
+
+  /* WebKit (Chrome, Safari, etc.) */
   ::-webkit-scrollbar {
-    display: none;
+    width: 10px; /* width of the scrollbar */
+  }
+
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1; /* color of the track */
+  }
+
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #003b9c; /* color of the thumb */
   }
 
   width: calc(100% + 60px); /* Add twice the padding to stretch fully */
