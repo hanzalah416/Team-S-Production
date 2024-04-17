@@ -868,120 +868,86 @@ function FloorMap() {
             </Suspense>
           </div>
 
-            <div className={`${styles.MapKey} ${showMapKey ? styles.ShowMapKey : ""}`}>
-                <img
-                    src={ATMIcon}
-                    alt="ATM icon"
-                    className={styles.MapKeyIcon}
-                />
-                <div className={styles.MapKeyItem}>
-                    ATM
-                </div>
-                <img
-                    src={BusStopIcon}
-                    alt="Bus Stop icon"
-                    className={styles.MapKeyIcon}
-                />
-                <div className={styles.MapKeyItem}>
-                    Bus Stop
-                </div>
-                <img
-                    src={CafeIcon}
-                    alt="Cafe icon"
-                    className={styles.MapKeyIcon}
-                />
-                <div className={styles.MapKeyItem}>
-                    Cafe
-                </div>
-                <img
-                    src={DiningIcon}
-                    alt="Dining icon"
-                    className={styles.MapKeyIcon}
-                />
-                <div className={styles.MapKeyItem}>
-                    Food Service
-                </div>
-                <img
-                    src={ElevatorIcon}
-                    alt="Elevator icon"
-                    className={styles.MapKeyIcon}
-                />
-                <div className={styles.MapKeyItem}>
-                    Elevator
-                </div>
-                <img
-                    src={EmergencyIcon}
-                    alt="Emergency icon"
-                    className={styles.MapKeyIcon}
-                />
-                <div className={styles.MapKeyItem}>
-                    Emergency
-                </div>
-                <img
-                    src={EntranceIcon}
-                    alt="Entrance icon"
-                    className={styles.MapKeyIcon}
-                />
-                <div className={styles.MapKeyItem}>
-                    Entrance
-                </div>
-                <img
-                    src={EscalatorIcon}
-                    alt="Escalator icon"
-                    className={styles.MapKeyIcon}
-                />
-                <div className={styles.MapKeyItem}>
-                    Escalator
-                </div>
-                <img
-                    src={HandicapIcon}
-                    alt="Handicapped entrance icon"
-                    className={styles.MapKeyIcon}
-                />
-                <div className={styles.MapKeyItem}>
-                    Handicapped Entrance
-                </div>
-                <img
-                    src={ParkingIcon}
-                    alt="Parking icon"
-                    className={styles.MapKeyIcon}
-                />
-                <div className={styles.MapKeyItem}>
-                    Parking
-                </div>
-                <img
-                    src={RestroomIcon}
-                    alt="Restroom icon"
-                    className={styles.MapKeyIcon}
-                />
-                <div className={styles.MapKeyItem}>
-                    Restroom
-                </div>
-                <img
-                    src={ValetIcon}
-                    alt="Valet icon"
-                    className={styles.MapKeyIcon}
-                />
-                <div className={styles.MapKeyItem}>
-                    Valet
-                </div>
-                <img
-                    src={VendingIcon}
-                    alt="Vending icon"
-                    className={styles.MapKeyIcon}
-                />
-                <div className={styles.MapKeyItem}>
-                    Vending
-                </div>
-                <img
-                    src={WaitingIcon}
-                    alt="Waiting room icon"
-                    className={styles.MapKeyIcon}
-                />
-                <div className={styles.MapKeyItem}>
-                    Waiting
-                </div>
-            </div>
+          <div
+            className={`${styles.MapKey} ${showMapKey ? styles.ShowMapKey : ""}`}
+          >
+            <img src={ATMIcon} alt="ATM icon" className={styles.MapKeyIcon} />
+            <div className={styles.MapKeyItem}>ATM</div>
+            <img
+              src={BusStopIcon}
+              alt="Bus Stop icon"
+              className={styles.MapKeyIcon}
+            />
+            <div className={styles.MapKeyItem}>Bus Stop</div>
+            <img src={CafeIcon} alt="Cafe icon" className={styles.MapKeyIcon} />
+            <div className={styles.MapKeyItem}>Cafe</div>
+            <img
+              src={DiningIcon}
+              alt="Dining icon"
+              className={styles.MapKeyIcon}
+            />
+            <div className={styles.MapKeyItem}>Food Service</div>
+            <img
+              src={ElevatorIcon}
+              alt="Elevator icon"
+              className={styles.MapKeyIcon}
+            />
+            <div className={styles.MapKeyItem}>Elevator</div>
+            <img
+              src={EmergencyIcon}
+              alt="Emergency icon"
+              className={styles.MapKeyIcon}
+            />
+            <div className={styles.MapKeyItem}>Emergency</div>
+            <img
+              src={EntranceIcon}
+              alt="Entrance icon"
+              className={styles.MapKeyIcon}
+            />
+            <div className={styles.MapKeyItem}>Entrance</div>
+            <img
+              src={EscalatorIcon}
+              alt="Escalator icon"
+              className={styles.MapKeyIcon}
+            />
+            <div className={styles.MapKeyItem}>Escalator</div>
+            <img
+              src={HandicapIcon}
+              alt="Handicapped entrance icon"
+              className={styles.MapKeyIcon}
+            />
+            <div className={styles.MapKeyItem}>Handicapped Entrance</div>
+            <img
+              src={ParkingIcon}
+              alt="Parking icon"
+              className={styles.MapKeyIcon}
+            />
+            <div className={styles.MapKeyItem}>Parking</div>
+            <img
+              src={RestroomIcon}
+              alt="Restroom icon"
+              className={styles.MapKeyIcon}
+            />
+            <div className={styles.MapKeyItem}>Restroom</div>
+            <img
+              src={ValetIcon}
+              alt="Valet icon"
+              className={styles.MapKeyIcon}
+            />
+            <div className={styles.MapKeyItem}>Valet</div>
+            <img
+              src={VendingIcon}
+              alt="Vending icon"
+              className={styles.MapKeyIcon}
+            />
+            <div className={styles.MapKeyItem}>Vending</div>
+            <img
+              src={WaitingIcon}
+              alt="Waiting room icon"
+              className={styles.MapKeyIcon}
+            />
+            <div className={styles.MapKeyItem}>Waiting Room</div>
+          </div>
 
         </div>
       </div>
