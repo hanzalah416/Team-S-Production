@@ -119,7 +119,7 @@ const OrderFlowers: React.FC = () => {
       })
       .then(() => {
         console.log("Order sent successfully");
-          navigate("/payment-info");
+        navigate("/payment-info");
       })
       .catch(() => {
         console.log("Order failed to send");
