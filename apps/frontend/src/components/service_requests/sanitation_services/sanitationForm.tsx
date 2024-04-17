@@ -17,6 +17,7 @@ import Button from "@mui/material/Button";
 import Grid from "@mui/material/Unstable_Grid2"; // Grid version 2
 import Paper from "@mui/material/Paper";
 import axios from "axios";
+import {useAuth0} from "@auth0/auth0-react";
 
 //Interface for positions
 interface Position {
@@ -44,6 +45,7 @@ export default function SanitationForm() {
   const [locations, setLocations] = useState<Position[]>([]);
 
   const navigate = useNavigate(); //Function to navigate to other pages
+    const {getAccessTokenSilently} = useAuth0();
 
   useEffect(() => {
     // Fetch node data from the backend
@@ -89,10 +91,11 @@ export default function SanitationForm() {
       permission: permission,
       status: status,
     };
-
+    const token = await getAccessTokenSilently();
     await axios
       .post("/api/sanitation-request", newEntry, {
         headers: {
+            Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
       })
