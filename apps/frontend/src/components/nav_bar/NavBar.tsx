@@ -1,59 +1,200 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import "./NavBar.css";
 import * as React from "react";
 import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import bwhLogo from "../assets/bwh-logo.svg";
-import mapIcon from "../assets/NavBarIcons/map_icon_nav.png";
-import arrowDropDown from "../assets/NavBarIcons/arrow_drop_down_nav.png";
-import profileIcon from "../assets/NavBarIcons/profile_icon_nav.png";
-import { LoginButton } from "../LoginButton.tsx";
-import { LogoutButton } from "../LogoutButton.tsx";
-import { useAuth0 } from "@auth0/auth0-react";
+import bwhLogo from "../assets/bwh-logo-ICON-ONLY.svg";
+import mapIcon from "../assets/NavBarIcons/map_icon.svg";
+import patientListIcon from "../assets/NavBarIcons/patient_list.svg";
+import homePinIcon from "../assets/NavBarIcons/home_pin.svg";
+import flowerIcon from "../assets/NavBarIcons/flowers_icon.svg";
+import medicineIcon from "../assets/NavBarIcons/medication_icon.svg";
+import securityIcon from "../assets/NavBarIcons/security_icon.svg";
+import sanitationIcon from "../assets/NavBarIcons/sanitation_icon.svg";
+import roomSchedulingIcon from "../assets/NavBarIcons/schedule_icon.svg";
+import dropDownIcon from "../assets/NavBarIcons/drop_down.svg";
+import { createTheme, FormControl, ThemeProvider } from "@mui/material";
+import { useCallback, useEffect } from "react";
+
+declare module "@mui/material/styles" {
+  interface Palette {
+    websiteBlue: Palette["primary"];
+  }
+
+  interface PaletteOptions {
+    websiteBlue?: PaletteOptions["primary"];
+  }
+}
+
+// Update the Button's color options to include an ochre option
+declare module "@mui/material/Button" {
+  interface ButtonPropsColorOverrides {
+    websiteBlue: true;
+  }
+}
+
+const theme = createTheme({
+  palette: {
+    websiteBlue: {
+      main: "#003B9C",
+      light: "#004ac4",
+      dark: "#002c75",
+      contrastText: "#00102b",
+    },
+  },
+});
 
 function NavBar() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
-  const { isAuthenticated } = useAuth0();
+
+  const navigate = useNavigate();
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const today = new Date();
+  const [timeOfDay, updateTimeOfDay] = React.useState("");
+
+  const location = useLocation();
+  const [currServIcon, setServIcon] = React.useState(homePinIcon);
+
+  const mapID = document.getElementById("mapID");
+  const requestsID = document.getElementById("requestsID");
+  const servicesID = document.getElementById("servicesID");
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
+  };
+
+  const handleLogInOutButton = () => {
+    navigate("/");
   };
 
   const handleClose = () => {
     setAnchorEl(null);
   };
 
-  const [anchorEl1, setAnchorEl1] = React.useState<null | HTMLElement>(null);
-  const open1 = Boolean(anchorEl1);
+  const setServicesID = useCallback(() => {
+    if (servicesID) {
+      servicesID.classList.add("currItem");
+    }
+    if (mapID) {
+      mapID.classList.remove("currItem");
+    }
+    if (requestsID) {
+      requestsID.classList.remove("currItem");
+    }
+  }, [servicesID, mapID, requestsID]);
 
-  const handleClick1 = (event: React.MouseEvent<HTMLButtonElement>) => {
-    console.log(event.currentTarget);
-    setAnchorEl1(event.currentTarget);
-  };
-  const handleClose1 = () => {
-    setAnchorEl1(null);
-  };
+  const setMapID = useCallback(() => {
+    if (servicesID) {
+      servicesID.classList.remove("currItem");
+    }
+    if (mapID) {
+      mapID.classList.add("currItem");
+    }
+    if (requestsID) {
+      requestsID.classList.remove("currItem");
+    }
+  }, [servicesID, mapID, requestsID]);
+
+  const setRequestsID = useCallback(() => {
+    if (servicesID) {
+      servicesID.classList.remove("currItem");
+    }
+    if (mapID) {
+      mapID.classList.remove("currItem");
+    }
+    if (requestsID) {
+      requestsID.classList.add("currItem");
+    }
+  }, [servicesID, mapID, requestsID]);
+
+  useEffect(() => {
+    const hours = today.getHours();
+    let timeOfDay = "";
+    if (hours < 12) {
+      timeOfDay = "Good Morning";
+    } else if (hours < 17) {
+      timeOfDay = "Good Afternoon";
+    } else {
+      timeOfDay = "Good Evening";
+    }
+    updateTimeOfDay(timeOfDay);
+  }, [today]);
+
+  useEffect(() => {
+    console.log(location.pathname);
+    switch (location.pathname) {
+      case "/order-flowers":
+        setServIcon(flowerIcon);
+        setServicesID();
+        break;
+      case "/medicine-delivery-request":
+        setServIcon(medicineIcon);
+        setServicesID();
+        break;
+      case "/security-request":
+        setServIcon(securityIcon);
+        setServicesID();
+        break;
+      case "/sanitation-request":
+        setServIcon(sanitationIcon);
+        setServicesID();
+        break;
+      case "/room-scheduling":
+        setServIcon(roomSchedulingIcon);
+        setServicesID();
+        break;
+      case "/all-service-requests":
+        setRequestsID();
+        break;
+      case "/welcome":
+        setMapID();
+        break;
+      default:
+        setServIcon(homePinIcon);
+    }
+  }, [location, setServicesID, setMapID, setRequestsID]);
 
   return (
     <div className="navbar">
       {/* Navbar content */}
-      <img
-        src={bwhLogo}
-        className={"bwh-logo"}
-        alt={
-          "Brigham and Women's Hospital logo, reading " +
-          "'Founding member, Mass General Brigham'"
-        }
-      />
+      <div className={"leftSide"}>
+        <img
+          src={bwhLogo}
+          className={"bwh-logo"}
+          alt={
+            "Brigham and Women's Hospital logo, reading " +
+            "'Founding member, Mass General Brigham'"
+          }
+        />
+        <p className={"time"}>{timeOfDay}</p>
+      </div>
       <div className={"navButtons"}>
-        <Link to={"/welcome"} className={"item"} id={"map"}>
-          <Button>
-            <img src={mapIcon} className={"map_icon"} alt={"map_icon"} />
-            <p className={"navNames"}> Our Map</p>
+        <Link to={"/welcome"} id={"map"}>
+          <Button className={"alignIcons"}>
+            <img src={mapIcon} className={"iconHeight"} alt={"map_icon"} />
+            <p id={"mapID"} className={"itemNames"}>
+              {" "}
+              Our Map
+            </p>
           </Button>
         </Link>
+        <FormControl>
+          <Link to={"/all-service-requests"} id={"order"}>
+            <Button className={"alignIcons"}>
+              <img
+                src={patientListIcon}
+                className={"iconHeight"}
+                width={"38px"}
+              />
+              <p id={"requestsID"} className={"itemNames"}>
+                All Requests
+              </p>
+            </Button>
+          </Link>
+        </FormControl>
         <div>
           <Button
             id="services-button"
@@ -61,16 +202,14 @@ function NavBar() {
             aria-haspopup="true"
             aria-expanded={open ? "true" : undefined}
             onClick={handleClick}
-            className={"col_gap_5px"}
           >
-            <span>
-              <img
-                src={arrowDropDown}
-                className={"dropdown_arrow"}
-                alt={"Drop Down arrow"}
-              />
-            </span>
-            <p className={"navNames"}>Services</p>
+            <div className={"alignIcons"}>
+              <img src={currServIcon} className={"iconHeight"} width={"29px"} />
+              <p id={"servicesID"} className={"itemNames"}>
+                Services
+              </p>
+            </div>
+            <img src={dropDownIcon} />
           </Button>
           <Menu
             id="services-menu"
@@ -84,11 +223,6 @@ function NavBar() {
             <Link to={"/order-flowers"} id={"order"}>
               <MenuItem onClick={handleClose}>
                 <p className={"item"}>Order Flowers</p>
-              </MenuItem>
-            </Link>
-            <Link to={"/all-service-requests"} id={"order"}>
-              <MenuItem onClick={handleClose}>
-                <p className={"item"}>All Service Requests</p>
               </MenuItem>
             </Link>
             <Link to={"/medicine-delivery-request"} id={"order"}>
@@ -111,11 +245,6 @@ function NavBar() {
                 <p className={"item"}>Room Scheduling Services</p>
               </MenuItem>
             </Link>
-            <Link to={"/language-request"} id={"order"}>
-              <MenuItem onClick={handleClose}>
-                <p className={"item"}>Language Services</p>
-              </MenuItem>
-            </Link>
             <Link to={"/map-debug"} id={"order"}>
               <MenuItem onClick={handleClose}>
                 <p className={"item"}>Map Editing Page</p>
@@ -123,49 +252,21 @@ function NavBar() {
             </Link>
           </Menu>
         </div>
-        <div>
-          {!isAuthenticated && <LoginButton />}
-          {isAuthenticated && <LogoutButton />}
-          <Button
-            id="my-profile-button"
-            aria-controls={open ? "profile-menu" : undefined}
-            aria-haspopup="true"
-            aria-expanded={open ? "true" : undefined}
-            onClick={handleClick1}
-            className={"col_gap_5px"}
-          >
-            <img
-              src={profileIcon}
-              className={"userIcon"}
-              alt={"Profile Button"}
-            />
-            <p className={"navNames"}>My Profile</p>
-          </Button>
-          <Menu
-            id="profile-menu"
-            anchorEl={anchorEl1}
-            open={open1}
-            onClose={handleClose1}
-            MenuListProps={{
-              "aria-labelledby": "my-profile-button",
-            }}
-          >
-            <Link to={"/"} id={"log-out"}>
-              <MenuItem onClick={handleClose}>
-                <p className={"item"}>Log Out</p>
-              </MenuItem>
-            </Link>
-            <MenuItem onClick={handleClose} disabled={true}>
-              <Link
-                to={"/change-password"}
-                className={"item"}
-                id={"change-password"}
-              >
-                Change Password
-              </Link>
-            </MenuItem>
-          </Menu>
-        </div>
+      </div>
+      <div className={"rightSide"}>
+        <p className={"username"}>USERNAME</p>
+        <FormControl>
+          <ThemeProvider theme={theme}>
+            <Button
+              id="login-out-button"
+              variant="contained"
+              color={"websiteBlue"}
+              onClick={handleLogInOutButton}
+            >
+              <p className={"logOutInText"}>Log Out</p>
+            </Button>
+          </ThemeProvider>
+        </FormControl>
       </div>
       <div className={"blueBar"} />
     </div>

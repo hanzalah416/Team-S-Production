@@ -93,7 +93,6 @@ const SecurityRequest: React.FC = () => {
       })
       .then(() => {
         console.log("Order sent successfully");
-        console.log(securityRequestSent);
         navigate("/order-flowers-result");
       })
       .catch(() => {

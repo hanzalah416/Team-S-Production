@@ -17,6 +17,22 @@
   max-width: 100vw;
 }
 
+.leftSide {
+  padding-left: 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  column-gap: 25px;
+}
+
+.rightSide {
+  padding-right: 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  column-gap: 25px;
+}
+
 .blueBar {
   position: fixed;
   top: 70px;
@@ -27,12 +43,17 @@
 }
 
 .bwh-logo {
+  height: 60px;
+
   padding-left: 1rem;
   margin: 0;
 }
 
-.map_icon {
-  margin-right: 10px;
+.time {
+  font-family: Poppins, sans-serif;
+  font-weight: 600;
+  font-size: 24px;
+  color: #003b9c;
 }
 
 .navButtons {
@@ -69,53 +90,47 @@
   color: #003b9c;
 }
 
-.col_gap_5px {
-  column-gap: 5px;
+.logOutInText {
+  text-decoration: none;
+  text-transform: none;
+  padding-left: 5px;
+  padding-right: 5px;
+  font-family: Poppins, sans-serif;
+  font-weight: 0;
+  font-size: 20px;
+  color: #ffffff;
 }
 
-.bold {
-  font-weight: bold;
-}
-
-.profile-button {
-  border: none;
-  cursor: pointer;
-  appearance: none;
-  background-color: inherit;
-  transition: transform 0.7s ease-in-out;
-}
-
-.dropdown {
-  position: relative;
-  display: inline-block;
-}
-
-.dropdown p {
+.itemNames {
+  text-decoration: none;
+  text-transform: none;
   font-family: Poppins, sans-serif;
   font-weight: 500;
+  font-size: 20px;
+  color: #003b9c;
+  line-height: 1.2;
+  transition-duration: 0.25s;
 }
 
-.dropdown-content {
-  display: none;
-  position: absolute;
-  right: 0px;
-  background-color: #f1f1f1;
-  min-width: 235px;
-  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-  z-index: 1;
+.username {
+  font-family: Poppins, sans-serif;
+  font-weight: 500;
+  font-size: 24px;
+  color: #003b9c;
 }
 
-/* Change color of dropdown links on hover */
-.dropdown-content Link:hover {
-  background-color: #d9d9d9;
-}
-
-/* Show the dropdown menu on hover */
-.dropdown:hover .dropdown-content {
+.alignIcons {
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  column-gap: -5px;
 }
 
-/* Change the background color of the dropdown button when the dropdown content is shown */
-.dropdown:hover .profile-button {
-  background-color: #6fb49f;
+.iconHeight {
+  height: 37px;
+}
+
+.currItem {
+  font-weight: 625;
+  text-decoration: underline;
 }

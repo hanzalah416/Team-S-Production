@@ -47,12 +47,6 @@ model SecurityRequest {
   servreq        ServiceRequest @relation(fields: [orderNumberSec], references: [requestID])
 }
 
-model LanguageRequest {
-  orderNumber Int            @id
-  language    String
-  servreq     ServiceRequest @relation(fields: [orderNumber], references: [requestID])
-}
-
 enum RequestStatus {
   unassigned
   assigned
@@ -79,7 +73,6 @@ model ServiceRequest {
   MedicineRequests  MedicineRequests?
   SanitationRequest SanitationRequest?
   RoomScheduling    RoomScheduling?
-  LanguageRequest   LanguageRequest?
 }
 
 model SanitationRequest {
@@ -90,9 +83,9 @@ model SanitationRequest {
 }
 
 model Medicine {
-  medicineID  Int     @id @default(autoincrement())
+  medicineID  Int    @id @default(autoincrement())
   genericName String
-  synName     String?
+  synName     String
 }
 
 model Node {
