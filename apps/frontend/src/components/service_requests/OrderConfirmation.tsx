@@ -34,16 +34,16 @@ export default function OrderConfirmation() {
           alt="Confirmation Checkmark"
         />
         <div className={styles.buttonReturn}>
-            <Button
-                style={{
-                    backgroundColor: "#3B54A0",
-                }}
-                variant="contained"
-                onClick={handleBack}
-                sx={{ minWidth: 300, minHeight: 50 }}
-            >
-                Back
-            </Button>
+          <Button
+            style={{
+              backgroundColor: "#3B54A0",
+            }}
+            variant="contained"
+            onClick={handleBack}
+            sx={{ minWidth: 300, minHeight: 50 }}
+          >
+            Back
+          </Button>
         </div>
       </Paper>
     </Box>
