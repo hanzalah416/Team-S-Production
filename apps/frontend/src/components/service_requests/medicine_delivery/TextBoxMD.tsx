@@ -8,7 +8,6 @@ import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
 import Autocomplete, { createFilterOptions } from "@mui/material/Autocomplete";
 import { useEffect } from "react";
-import axios from "axios";
 
 const filter = createFilterOptions<MedicineOptionType>();
 
@@ -22,48 +21,34 @@ export default function FreeSoloCreateOptionDialog(
 ) {
   const [value, setValue] = React.useState<MedicineOptionType | null>(null);
   const [open, toggleOpen] = React.useState(false);
-  const [medicineData, setMedicineData] =
-    React.useState<MedicineOptionType[]>(medicineDataOriginal);
 
   const handleClose = () => {
     setDialogValue({
-      genericName: "",
-      synName: "",
+      GenericName: "",
+      BrandName: "",
     });
     toggleOpen(false);
   };
 
   const [dialogValue, setDialogValue] = React.useState({
-    genericName: "",
-    synName: "",
+    GenericName: "",
+    BrandName: "",
   });
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
-    const createMedicineAttempt = {
-      genericName: dialogValue.genericName,
-      synName: dialogValue.synName,
-    };
-
-    try {
-      // Make a POST request to your route with the medicine data
-      await axios.post("/api/meds-autofill", createMedicineAttempt);
-      console.log("Successfully saved medicine to autofill");
-
-      // Add the new medicine data to the array
-      setMedicineData((prevData) => [...prevData, createMedicineAttempt]);
-
-      prop.setNameMedicine(dialogValue.synName + dialogValue.genericName);
-      handleClose();
-    } catch (error) {
-      console.error("Error saving medicine to autofill:", error);
-    }
+    setValue({
+      GenericName: dialogValue.GenericName,
+      BrandName: dialogValue.BrandName,
+    });
+    prop.setNameMedicine(dialogValue.BrandName + dialogValue.GenericName);
+    console.log(dialogValue.BrandName + dialogValue.GenericName);
+    handleClose();
   };
 
   useEffect(() => {
     if (value != null) {
-      prop.setNameMedicine(value.genericName);
+      prop.setNameMedicine(value.GenericName);
     }
   }, [value, prop, dialogValue]);
 
@@ -77,15 +62,15 @@ export default function FreeSoloCreateOptionDialog(
             setTimeout(() => {
               toggleOpen(true);
               setDialogValue({
-                genericName: newValue,
-                synName: "",
+                GenericName: newValue,
+                BrandName: "",
               });
             });
           } else if (newValue && newValue.inputValue) {
             toggleOpen(true);
             setDialogValue({
-              genericName: newValue.inputValue,
-              synName: "",
+              GenericName: newValue.inputValue,
+              BrandName: "",
             });
           } else {
             setValue(newValue);
@@ -96,9 +81,9 @@ export default function FreeSoloCreateOptionDialog(
 
           if (params.inputValue !== "") {
             filtered.push({
-              synName: "",
+              BrandName: "",
               inputValue: params.inputValue,
-              genericName: `Add "${params.inputValue}"`,
+              GenericName: `Add "${params.inputValue}"`,
             });
           }
 
@@ -114,13 +99,13 @@ export default function FreeSoloCreateOptionDialog(
           if (option.inputValue) {
             return option.inputValue;
           }
-          return option.genericName;
+          return option.GenericName;
         }}
         selectOnFocus
         clearOnBlur
         handleHomeEndKeys
         renderOption={(props, option) => (
-          <li {...props}>{option.genericName}</li>
+          <li {...props}>{option.GenericName}</li>
         )}
         sx={{ width: 400 }}
         freeSolo
@@ -139,11 +124,11 @@ export default function FreeSoloCreateOptionDialog(
               autoFocus
               margin="dense"
               id="name"
-              value={dialogValue.genericName}
+              value={dialogValue.GenericName}
               onChange={(event) =>
                 setDialogValue({
                   ...dialogValue,
-                  genericName: event.target.value,
+                  GenericName: event.target.value,
                 })
               }
               label="Generic Brand"
@@ -153,14 +138,14 @@ export default function FreeSoloCreateOptionDialog(
             <TextField
               margin="dense"
               id="name"
-              value={dialogValue.synName}
+              value={dialogValue.BrandName}
               onChange={(event) =>
                 setDialogValue({
                   ...dialogValue,
-                  synName: event.target.value,
+                  BrandName: event.target.value,
                 })
               }
-              label="Synomyn Name"
+              label="Brand Name"
               type="text"
               variant="standard"
             />
@@ -177,8 +162,8 @@ export default function FreeSoloCreateOptionDialog(
 
 interface MedicineOptionType {
   inputValue?: string;
-  genericName: string;
-  synName: string;
+  GenericName: string;
+  BrandName: string;
 }
 
 // export const GenericName = "Generic Name";
@@ -186,305 +171,305 @@ interface MedicineOptionType {
 // https://rxtechexam.com/top-100-drugs/
 // This is a list of the top 100 used drugs in the world
 // In later iterations want to add a connection to backend so there can be more
-const medicineDataOriginal: MedicineOptionType[] = [
+const medicineData: readonly MedicineOptionType[] = [
   {
-    genericName: "zolpidem",
-    synName: "Ambien",
+    GenericName: "zolpidem",
+    BrandName: "Ambien",
   },
   {
-    genericName: "Yaz (drospirenone and ethinyl estradiol)",
-    synName: "Yaz",
+    GenericName: "Yaz (drospirenone and ethinyl estradiol)",
+    BrandName: "Yaz",
   },
   {
-    genericName: "viagra (sildenafil HCl)",
-    synName: "Viagra",
+    GenericName: "viagra (sildenafil HCl)",
+    BrandName: "Viagra",
   },
   {
-    genericName: "verapamil SR",
-    synName: "Calan SR;Verelan PM",
+    GenericName: "verapamil SR",
+    BrandName: "Calan SR;Verelan PM",
   },
   {
-    genericName: "venlafaxine XR",
-    synName: "Effexor XR",
+    GenericName: "venlafaxine XR",
+    BrandName: "Effexor XR",
   },
   {
-    genericName: "valsartan",
-    synName: "Diovan",
+    GenericName: "valsartan",
+    BrandName: "Diovan",
   },
   {
-    genericName: "valaciclovir",
-    synName: "Valtrex",
+    GenericName: "valaciclovir",
+    BrandName: "Valtrex",
   },
   {
-    genericName: "triamterene and hydrochlorothiazide",
-    synName: "Dyazide;Maxzide",
+    GenericName: "triamterene and hydrochlorothiazide",
+    BrandName: "Dyazide;Maxzide",
   },
   {
-    genericName: "triamcinolone Ace topical",
-    synName: "Aristocort;Cinalog;Kenalog;Triderm",
+    GenericName: "triamcinolone Ace topical",
+    BrandName: "Aristocort;Cinalog;Kenalog;Triderm",
   },
   {
-    genericName: "trazodone HCl",
-    synName: "Desyrel",
+    GenericName: "trazodone HCl",
+    BrandName: "Desyrel",
   },
   {
-    genericName: "tramadol",
-    synName: "Ultram",
+    GenericName: "tramadol",
+    BrandName: "Ultram",
   },
   {
-    genericName: "topiramate",
-    synName: "Topamax",
+    GenericName: "topiramate",
+    BrandName: "Topamax",
   },
   {
-    genericName: "temezepam",
-    synName: "Restoril",
+    GenericName: "temezepam",
+    BrandName: "Restoril",
   },
   {
-    genericName: "tamsulosin",
-    synName: "Flomax",
+    GenericName: "tamsulosin",
+    BrandName: "Flomax",
   },
   {
-    genericName: "synthroid (levothyroxine sodium)",
-    synName: "Synthroid",
+    GenericName: "synthroid (levothyroxine sodium)",
+    BrandName: "Synthroid",
   },
   {
-    genericName: "sulfamethoxazole and trimethoprim DS",
-    synName: "Bactrim DS;Septra DS",
+    GenericName: "sulfamethoxazole and trimethoprim DS",
+    BrandName: "Bactrim DS;Septra DS",
   },
   {
-    genericName: "spironolactone",
-    synName: "Aldactone",
+    GenericName: "spironolactone",
+    BrandName: "Aldactone",
   },
   {
-    genericName: "simvastatin",
-    synName: "Zocor",
+    GenericName: "simvastatin",
+    BrandName: "Zocor",
   },
   {
-    genericName: "sertraline HCl",
-    synName: "Zoloft",
+    GenericName: "sertraline HCl",
+    BrandName: "Zoloft",
   },
   {
-    genericName: "rosuvastatin",
-    synName: "Crestor",
+    GenericName: "rosuvastatin",
+    BrandName: "Crestor",
   },
   {
-    genericName: "ranitidine",
-    synName: "Zantac",
+    GenericName: "ranitidine",
+    BrandName: "Zantac",
   },
   {
-    genericName: "quetiapine",
-    synName: "Seroquel",
+    GenericName: "quetiapine",
+    BrandName: "Seroquel",
   },
   {
-    genericName: "promethazine",
-    synName: "Phenergan",
+    GenericName: "promethazine",
+    BrandName: "Phenergan",
   },
   {
-    genericName: "Premarin (conjugated estrogens)",
-    synName: "Premarin",
+    GenericName: "Premarin (conjugated estrogens)",
+    BrandName: "Premarin",
   },
   {
-    genericName: "pregabalin",
-    synName: "Lyrica",
+    GenericName: "pregabalin",
+    BrandName: "Lyrica",
   },
   {
-    genericName: "prednisone",
-    synName: "Deltasone",
+    GenericName: "prednisone",
+    BrandName: "Deltasone",
   },
   {
-    genericName: "pravastatin",
-    synName: "Pravachol",
+    GenericName: "pravastatin",
+    BrandName: "Pravachol",
   },
   {
-    genericName: "potassium Chloride",
-    synName: "Klor-Con",
+    GenericName: "potassium Chloride",
+    BrandName: "Klor-Con",
   },
   {
-    genericName: "pioglitazone",
-    synName: "Actos",
+    GenericName: "pioglitazone",
+    BrandName: "Actos",
   },
   {
-    genericName: "paroxetine",
-    synName: "Paxil",
+    GenericName: "paroxetine",
+    BrandName: "Paxil",
   },
   {
-    genericName: "pantoprazole",
-    synName: "Protonix",
+    GenericName: "pantoprazole",
+    BrandName: "Protonix",
   },
   {
-    genericName: "oxycodone and acetaminophen",
-    synName: "Percocet;Tylox;Roxicet;Endocet",
+    GenericName: "oxycodone and acetaminophen",
+    BrandName: "Percocet;Tylox;Roxicet;Endocet",
   },
   {
-    genericName: "omeprazole",
-    synName: "Prilosec",
+    GenericName: "omeprazole",
+    BrandName: "Prilosec",
   },
   {
-    genericName: "naproxen",
-    synName: "Naprosyn",
+    GenericName: "naproxen",
+    BrandName: "Naprosyn",
   },
   {
-    genericName: "montelukast",
-    synName: "Singulair",
+    GenericName: "montelukast",
+    BrandName: "Singulair",
   },
   {
-    genericName: "mometasone",
-    synName: "Nasonex",
+    GenericName: "mometasone",
+    BrandName: "Nasonex",
   },
   {
-    genericName: "metoprolol tartrate",
-    synName: "Lopressor",
+    GenericName: "metoprolol tartrate",
+    BrandName: "Lopressor",
   },
   {
-    genericName: "metoprolol succinate XL",
-    synName: "Toprol",
+    GenericName: "metoprolol succinate XL",
+    BrandName: "Toprol",
   },
   {
-    genericName: "methylprednisone",
-    synName: "Medrol",
+    GenericName: "methylprednisone",
+    BrandName: "Medrol",
   },
   {
-    genericName: "metformin HCl",
-    synName: "Glucophage",
+    GenericName: "metformin HCl",
+    BrandName: "Glucophage",
   },
   {
-    genericName: "meloxicam",
-    synName: "Mobic",
+    GenericName: "meloxicam",
+    BrandName: "Mobic",
   },
   {
-    genericName: "lovastatin",
-    synName: "Mevacor",
+    GenericName: "lovastatin",
+    BrandName: "Mevacor",
   },
   {
-    genericName: "losartan",
-    synName: "Cozaar",
+    GenericName: "losartan",
+    BrandName: "Cozaar",
   },
   {
-    genericName: "lorazepam",
-    synName: "Ativan",
+    GenericName: "lorazepam",
+    BrandName: "Ativan",
   },
   {
-    genericName: "lisinopril and hydrochlorothiazide",
-    synName: "Prinizide;Zestoretic",
+    GenericName: "lisinopril and hydrochlorothiazide",
+    BrandName: "Prinizide;Zestoretic",
   },
   {
-    genericName: "lisinopril",
-    synName: "Prinivil;Zestril",
+    GenericName: "lisinopril",
+    BrandName: "Prinivil;Zestril",
   },
   {
-    genericName: "levothyroxine sodium",
-    synName: "Synthroid;Levoxl",
+    GenericName: "levothyroxine sodium",
+    BrandName: "Synthroid;Levoxl",
   },
   {
-    genericName: "levofloxacin",
-    synName: "Levaquin",
+    GenericName: "levofloxacin",
+    BrandName: "Levaquin",
   },
   {
-    genericName: "lantus (insulin glargine)",
-    synName: "Lantus",
+    GenericName: "lantus (insulin glargine)",
+    BrandName: "Lantus",
   },
   {
-    genericName: "lansoprazole",
-    synName: "Prevacid",
+    GenericName: "lansoprazole",
+    BrandName: "Prevacid",
   },
   {
-    genericName: "isosorbide mononitrate",
-    synName: "Imdur",
+    GenericName: "isosorbide mononitrate",
+    BrandName: "Imdur",
   },
   {
-    genericName: "ibuprophen",
-    synName: "Motrin",
+    GenericName: "ibuprophen",
+    BrandName: "Motrin",
   },
   {
-    genericName: "hydrocodone and acetaminophen",
-    synName: "Lortab;Lorcet;Norco;Vicodin",
+    GenericName: "hydrocodone and acetaminophen",
+    BrandName: "Lortab;Lorcet;Norco;Vicodin",
   },
   {
-    genericName: "hydrochlorothiazide",
-    synName: "Microzide",
+    GenericName: "hydrochlorothiazide",
+    BrandName: "Microzide",
   },
   {
-    genericName: "glyburide",
-    synName: "Diabeta",
+    GenericName: "glyburide",
+    BrandName: "Diabeta",
   },
   {
-    genericName: "glipizide",
-    synName: "Glucotrol",
+    GenericName: "glipizide",
+    BrandName: "Glucotrol",
   },
   {
-    genericName: "glimepiride",
-    synName: "Amaryl",
+    GenericName: "glimepiride",
+    BrandName: "Amaryl",
   },
   {
-    genericName: "gabapentin",
-    synName: "Neurontin",
+    GenericName: "gabapentin",
+    BrandName: "Neurontin",
   },
   {
-    genericName: "furosemide",
-    synName: "Lasix",
+    GenericName: "furosemide",
+    BrandName: "Lasix",
   },
   {
-    genericName: "folic acid",
-    synName: "Folic Acid",
+    GenericName: "folic acid",
+    BrandName: "Folic Acid",
   },
   {
-    genericName: "fluticasone nasal spray",
-    synName: "Flonase",
+    GenericName: "fluticasone nasal spray",
+    BrandName: "Flonase",
   },
   {
-    genericName: "fluticasone and salmeterol inhaler",
-    synName: "Advair",
+    GenericName: "fluticasone and salmeterol inhaler",
+    BrandName: "Advair",
   },
   {
-    genericName: "fluoxetine HCl",
-    synName: "Prozac",
+    GenericName: "fluoxetine HCl",
+    BrandName: "Prozac",
   },
   {
-    genericName: "fluconozole",
-    synName: "Diflucan",
+    GenericName: "fluconozole",
+    BrandName: "Diflucan",
   },
   {
-    genericName: "fexofenadine",
-    synName: "Allegra",
+    GenericName: "fexofenadine",
+    BrandName: "Allegra",
   },
   {
-    genericName: "fenofibrate",
-    synName: "Tricor",
+    GenericName: "fenofibrate",
+    BrandName: "Tricor",
   },
   {
-    genericName: "ezetimibe",
-    synName: "Zetia",
+    GenericName: "ezetimibe",
+    BrandName: "Zetia",
   },
   {
-    genericName: "esomeprazole",
-    synName: "Nexium",
+    GenericName: "esomeprazole",
+    BrandName: "Nexium",
   },
   {
-    genericName: "escitalopram",
-    synName: "Lexapro",
+    GenericName: "escitalopram",
+    BrandName: "Lexapro",
   },
   {
-    genericName: "enalapril",
-    synName: "Vasotec",
+    GenericName: "enalapril",
+    BrandName: "Vasotec",
   },
   {
-    genericName: "Duloxetine",
-    synName: "Cymbalta",
+    GenericName: "Duloxetine",
+    BrandName: "Cymbalta",
   },
   {
-    genericName: "doxycycline hyclate",
-    synName: "Vibramycin",
+    GenericName: "doxycycline hyclate",
+    BrandName: "Vibramycin",
   },
   {
-    genericName: "diclofenac sodium",
-    synName: "Voltaren",
+    GenericName: "diclofenac sodium",
+    BrandName: "Voltaren",
   },
   {
-    genericName: "diazepam",
-    synName: "Valium",
+    GenericName: "diazepam",
+    BrandName: "Valium",
   },
   {
-    genericName: "cyclobenzaprine",
-    synName: "Flexeril",
+    GenericName: "cyclobenzaprine",
+    BrandName: "Flexeril",
   },
 ];
