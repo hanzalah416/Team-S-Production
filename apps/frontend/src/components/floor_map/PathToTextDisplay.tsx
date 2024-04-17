@@ -147,10 +147,10 @@ export default function PathToTextDisplay(props: {
     }
   };
 
-  return (
+  return ( <div style={{ height: "400px", overflow: "auto" }}>
     <div style={{ height: "400px", overflow: "auto" }}>
       <List
-        sx={{ width: "380px", maxWidth: 380, bgcolor: "background.paper" }}
+        sx={{ width: "380px", maxWidth: 380, backgroundcolor: "#fbfbfb" }}
         component="nav"
         aria-labelledby="nested-list-subheader"
         subheader={
@@ -188,5 +188,6 @@ export default function PathToTextDisplay(props: {
         ))}
       </List>
     </div>
+      </div>
   );
 }
