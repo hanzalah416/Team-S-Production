@@ -53,6 +53,16 @@ body {
   /* Adjust this value as needed to control the distance from the top */
 }
 
+
+.floorButtonsContainer {
+    width: calc(100% + 60px); /* Add twice the padding to stretch fully */
+    margin-left: -30px; /* Offset the padding on the left */
+    margin-right: -30px; /* Offset the padding on the right */
+    /* Other styles remain the same */
+}
+
+
+
 .mapArea {
   height: calc(
     100vh + 110px
@@ -106,7 +116,6 @@ body {
   color: black;
 }
 .boldtag2 {
-  margin-top: 5px;
   margin-bottom: -20px;
   text-align: center;
   font-weight: bold;
@@ -192,16 +201,6 @@ body {
   color: black;
 }
 
-.floorButtonsContainer {
-  flex-grow: 1;
-
-  min-height: 700px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  overflow: auto;
-  scrollbar-color: #003b9c transparent;
-}
 
 .floorButtonsContainer::-webkit-scrollbar-thumb {
   border-radius: 4px;

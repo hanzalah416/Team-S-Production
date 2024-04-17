@@ -15,12 +15,14 @@ import StraightIcon from "@mui/icons-material/Straight";
 import ImportExportIcon from "@mui/icons-material/ImportExport";
 import SyncIcon from "@mui/icons-material/Sync";
 import FmdGoodIcon from "@mui/icons-material/FmdGood";
-import styles from "./FloorMap.module.css";
+
+
 
 export default function PathToTextDisplay(props: {
   startNode: string;
   endNode: string;
   algo: string;
+  onChangeFloor: (floor: string) => void;
 }) {
   //Keep track of which lists are open
   const [openLists, setOpenLists] = useState<boolean[]>([]);
@@ -88,12 +90,37 @@ export default function PathToTextDisplay(props: {
 
   // Toggle the open/closed state of a list
     const toggleList = (index: number) => {
+        const floorLabel = currentFloor[index];
+        console.log(`Toggling list for floor: ${floorLabel}`);
+
+        // Map floor label "3" to "03", etc.
+        const formattedFloorLabel = formatFloorLabel(floorLabel);
+
         setOpenLists((prevState) =>
-            prevState.map((state, idx) => (idx === index ? !state : false)),
+            prevState.map((state, idx) => {
+                if (idx === index) {
+                    // If this list was previously closed and is now being opened
+                    if (!state) {
+                        // Set the current floor on opening the list
+                        props.onChangeFloor(formattedFloorLabel);
+                    }
+                    return !state; // Toggle the current state
+                }
+                return state;
+            })
         );
     };
 
-  // Function to determine the icon based on direction type
+// Helper function to format the floor label correctly
+    const formatFloorLabel = (floorLabel: string) => {
+        // Check if the label needs to be prefixed with "0"
+        if (floorLabel.length === 1 && !isNaN(parseInt(floorLabel))) {
+            return `0${floorLabel}`;
+        }
+        return floorLabel;
+    };
+
+    // Function to determine the icon based on direction type
   const getIconForDirectionType = (directionType: number) => {
     switch (directionType) {
       //Right
@@ -123,12 +150,11 @@ export default function PathToTextDisplay(props: {
   return (
     <div style={{ height: "500px", overflow: "auto" }}>
       <List
-        sx={{ width: "300px", maxWidth: 360, bgcolor: "background.paper" }}
+        sx={{ width: "380px", maxWidth: 380, bgcolor: "background.paper" }}
         component="nav"
         aria-labelledby="nested-list-subheader"
         subheader={
           <ListSubheader component="div" id="nested-list-subheader"  >
-              <div className={styles.boldtag}>Directions</div>
           </ListSubheader>
         }
       >
