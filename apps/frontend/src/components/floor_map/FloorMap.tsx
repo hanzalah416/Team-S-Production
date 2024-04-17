@@ -477,7 +477,7 @@ function FloorMap() {
           )}
 
           <div className={styles.boldtag2}>
-            <div className={styles.boldtag2}>Floors for the Current Path:</div>
+            {/*<div className={styles.boldtag2}>Floors for the Current Path:</div>*/}
             <br />
             <div
               key={resetFloorsUIKey}

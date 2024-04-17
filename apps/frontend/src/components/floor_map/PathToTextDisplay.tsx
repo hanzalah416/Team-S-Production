@@ -15,6 +15,7 @@ import StraightIcon from "@mui/icons-material/Straight";
 import ImportExportIcon from "@mui/icons-material/ImportExport";
 import SyncIcon from "@mui/icons-material/Sync";
 import FmdGoodIcon from "@mui/icons-material/FmdGood";
+import styles from "./FloorMap.module.css";
 
 export default function PathToTextDisplay(props: {
   startNode: string;
@@ -122,12 +123,12 @@ export default function PathToTextDisplay(props: {
   return (
     <div style={{ height: "500px", overflow: "auto" }}>
       <List
-        sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
+        sx={{ width: "300px", maxWidth: 360, bgcolor: "background.paper" }}
         component="nav"
         aria-labelledby="nested-list-subheader"
         subheader={
-          <ListSubheader component="div" id="nested-list-subheader">
-            Directions
+          <ListSubheader component="div" id="nested-list-subheader"  >
+              <div className={styles.boldtag}>Directions</div>
           </ListSubheader>
         }
       >
