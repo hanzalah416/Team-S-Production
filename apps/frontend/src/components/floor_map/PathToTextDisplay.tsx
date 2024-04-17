@@ -15,7 +15,7 @@ import StraightIcon from "@mui/icons-material/Straight";
 import ImportExportIcon from "@mui/icons-material/ImportExport";
 import SyncIcon from "@mui/icons-material/Sync";
 import FmdGoodIcon from "@mui/icons-material/FmdGood";
-// import styles from "./FloorMap.module.css";
+import styles from "./FloorMap.module.css";
 
 export default function PathToTextDisplay(props: {
   startNode: string;
@@ -145,7 +145,7 @@ export default function PathToTextDisplay(props: {
 
   return (
 
-
+<div className={styles.floorDirectionsContainer}>
         <List
           sx={{ width: "380px", maxWidth: 380, bgcolor: "#fbfbfb" }}
           component="nav"
@@ -188,6 +188,7 @@ export default function PathToTextDisplay(props: {
             </div>
           ))}
         </List>
+</div>
 
   );
 }

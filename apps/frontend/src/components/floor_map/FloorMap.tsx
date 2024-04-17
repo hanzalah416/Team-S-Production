@@ -823,6 +823,7 @@ function FloorMap() {
               <MiniMap onChangeFloor={handleFloorChange} />
             </Suspense>
           </div>
+
         </div>
       </div>
     </div>
