@@ -53,15 +53,20 @@ body {
   /* Adjust this value as needed to control the distance from the top */
 }
 
-
 .floorButtonsContainer {
-    width: calc(100% + 60px); /* Add twice the padding to stretch fully */
-    margin-left: -30px; /* Offset the padding on the left */
-    margin-right: -30px;
-    max-height: 400px;
+  /* hide scrollbar but allow scrolling */
+  * {
+    -ms-overflow-style: none;
+  }
+  ::-webkit-scrollbar {
+    display: none;
+  }
+
+  width: calc(100% + 60px); /* Add twice the padding to stretch fully */
+  margin-left: -30px; /* Offset the padding on the left */
+  margin-right: -30px;
+  max-height: 400px;
 }
-
-
 
 .mapArea {
   height: calc(
@@ -200,9 +205,6 @@ body {
   font-size: 7.5px;
   color: black;
 }
-
-
-
 
 .floorSwitcherContainer {
   position: absolute;
