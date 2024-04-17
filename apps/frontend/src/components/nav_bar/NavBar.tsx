@@ -13,6 +13,7 @@ import medicineIcon from "../assets/NavBarIcons/medication_icon.svg";
 import securityIcon from "../assets/NavBarIcons/security_icon.svg";
 import sanitationIcon from "../assets/NavBarIcons/sanitation_icon.svg";
 import roomSchedulingIcon from "../assets/NavBarIcons/schedule_icon.svg";
+import languageIcon from "../assets/NavBarIcons/language_icon.svg";
 import dropDownIcon from "../assets/NavBarIcons/drop_down.svg";
 import { createTheme, FormControl, ThemeProvider } from "@mui/material";
 import { useCallback, useEffect } from "react";
@@ -146,6 +147,10 @@ function NavBar() {
         setServIcon(roomSchedulingIcon);
         setServicesID();
         break;
+        case "/language-request":
+            setServIcon(languageIcon);
+            setServicesID();
+            break;
       case "/all-service-requests":
         setRequestsID();
         break;
@@ -242,19 +247,20 @@ function NavBar() {
             </Link>
             <Link to={"/room-scheduling"} id={"order"}>
               <MenuItem onClick={handleClose}>
-                <p className={"item"}>Room Scheduling Services</p>
+                <p className={"item"}>Room Scheduling</p>
               </MenuItem>
             </Link>
+              <Link to={"/language-request"} id={"order"}>
+                  <MenuItem onClick={handleClose}>
+                      <p className={"item"}>Language Request</p>
+                  </MenuItem>
+              </Link>
             <Link to={"/map-debug"} id={"order"}>
               <MenuItem onClick={handleClose}>
                 <p className={"item"}>Map Editing Page</p>
               </MenuItem>
             </Link>
-            <Link to={"/language-request"} id={"order"}>
-              <MenuItem onClick={handleClose}>
-                <p className={"item"}>language-request</p>
-              </MenuItem>
-            </Link>
+
           </Menu>
         </div>
       </div>
