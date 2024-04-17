@@ -78,8 +78,6 @@ function FloorMap() {
   const [showNodes, setShowNodes] = useState(false);
   const [showMapKey, setShowMapKey] = useState(false);
 
-
-
   const handleNodeClick = (node: Position | null) => {
     console.log("Node clicked:", node);
     const formatFloor = (floor: string) => {
@@ -108,7 +106,7 @@ function FloorMap() {
   };
 
   const handleMapKeyVisibility = () => {
-      setShowMapKey(!showMapKey);
+    setShowMapKey(!showMapKey);
   };
 
   //{styles.mapDot}
@@ -571,9 +569,7 @@ function FloorMap() {
           </div>
 
           <div className={styles.mbDiv}>
-            <div style={{ display: "flex", flexDirection: "column" }}>
-
-            </div>
+            <div style={{ display: "flex", flexDirection: "column" }}></div>
           </div>
         </div>
 
@@ -626,29 +622,29 @@ function FloorMap() {
                 label="Toggle Nodes"
               />
             </div>
-              <div className={styles.mMapbox}>
-                  <FormControlLabel
-                      control={
-                          <Switch
-                              checked={showMapKey}
-                              onChange={handleMapKeyVisibility}
-                              sx={{
-                                  fontSize: 9,
-                                  "& .MuiSwitch-switchBase": {
-                                      // Thumb color when unchecked
-                                      "&.Mui-checked": {
-                                          color: "#003b9c", // Thumb color when checked
-                                      },
-                                      "&.Mui-checked + .MuiSwitch-track": {
-                                          backgroundColor: "#0251d4", // Track color when checked
-                                      },
-                                  },
-                              }}
-                          />
-                      }
-                      label="Show Key"
+            <div className={styles.mMapbox}>
+              <FormControlLabel
+                control={
+                  <Switch
+                    checked={showMapKey}
+                    onChange={handleMapKeyVisibility}
+                    sx={{
+                      fontSize: 9,
+                      "& .MuiSwitch-switchBase": {
+                        // Thumb color when unchecked
+                        "&.Mui-checked": {
+                          color: "#003b9c", // Thumb color when checked
+                        },
+                        "&.Mui-checked + .MuiSwitch-track": {
+                          backgroundColor: "#0251d4", // Track color when checked
+                        },
+                      },
+                    }}
                   />
-              </div>
+                }
+                label="Show Key"
+              />
+            </div>
             <Select
               value={algorithm}
               onChange={handleAlgorithmChange}
@@ -948,7 +944,6 @@ function FloorMap() {
             />
             <div className={styles.MapKeyItem}>Waiting Room</div>
           </div>
-
         </div>
       </div>
     </div>

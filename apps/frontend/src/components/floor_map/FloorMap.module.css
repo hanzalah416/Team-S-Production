@@ -337,7 +337,7 @@ body {
   justify-content: center; /* Center the select horizontally */
 }
 .floorDirectionsContainer {
-    max-height: 400px;
-    overflow-y: auto;
-    overflow-x: hidden;
+  max-height: 400px;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
