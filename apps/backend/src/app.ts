@@ -6,6 +6,7 @@ import flowerRequestRouter from "./routes/flowerRequest.ts";
 import PrismaClient from "./bin/database-connection.ts";
 import seed from "./seed.ts";
 import logInRouter from "./routes/newAccount.ts";
+import languageRouter from "./routes/languageRequest.ts";
 const app: Express = express(); // Setup the backend
 import pathfinderRouter from "./routes/getShortestPath.ts";
 import nodeRouter from "./routes/getNodes.ts";
@@ -63,6 +64,7 @@ app.use("/api/meds-autofill", MedsForAutofillRouter);
 app.use("/api/security-request", securityRouter);
 app.use("/api/room-scheduling", roomSchedulingRouter);
 app.use("/api/pathToText", textPathRouter);
+app.use("/api/language-request", languageRouter);
 
 app.use("/healthcheck", (req, res) => {
   res.status(200).send();
