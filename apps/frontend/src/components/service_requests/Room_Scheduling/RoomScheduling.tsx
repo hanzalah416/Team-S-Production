@@ -131,7 +131,7 @@ export default function RoomScheduling() {
 
       <Paper elevation={4}>
         <br />
-        <p className={"title"}>Room Scheduling Form </p>
+        <p className={"title"}>Room Scheduling Request Form </p>
         <p className={"names"}>Jeffrey Li and Nate Schneider</p>
 
         <Stack alignItems="center" justifyContent="center" spacing={3} p={4}>
