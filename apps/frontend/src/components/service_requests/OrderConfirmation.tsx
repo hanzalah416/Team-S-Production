@@ -8,7 +8,7 @@ import Button from "@mui/material/Button";
 export default function OrderConfirmation() {
   const navigate = useNavigate();
   const handleBack = () => {
-    navigate("/payment-info");
+    navigate("/");
   };
 
   return (
