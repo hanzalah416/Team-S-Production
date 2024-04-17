@@ -17,6 +17,20 @@ import f1Map from "../assets/HospitalMap/01_thefirstfloor.png";
 import f2Map from "../assets/HospitalMap/02_thesecondfloor.png";
 import f3Map from "../assets/HospitalMap/03_thethirdfloor.png";
 import PathToTextDisplay from "./PathToTextDisplay.tsx";
+import ATMIcon from "../assets/MapKeyIcons/ATMIcon.png";
+import BusStopIcon from "../assets/MapKeyIcons/BusStopIcon.png";
+import CafeIcon from "../assets/MapKeyIcons/CafeIcon.png";
+import DiningIcon from "../assets/MapKeyIcons/DiningIcon.png";
+import ElevatorIcon from "../assets/MapKeyIcons/ElevatorIcon.png";
+import EmergencyIcon from "../assets/MapKeyIcons/EmergencyIcon.png";
+import EntranceIcon from "../assets/MapKeyIcons/EntranceIcon.png";
+import EscalatorIcon from "../assets/MapKeyIcons/EscalatorIcon.png";
+import HandicapIcon from "../assets/MapKeyIcons/HandicapIcon.png";
+import ParkingIcon from "../assets/MapKeyIcons/ParkingIcon.png";
+import RestroomIcon from "../assets/MapKeyIcons/RestroomIcon.png";
+import ValetIcon from "../assets/MapKeyIcons/ValetIcon.png";
+import VendingIcon from "../assets/MapKeyIcons/VendingIcon.png";
+import WaitingIcon from "../assets/MapKeyIcons/WaitingIcon.png";
 
 const MiniMap = lazy(() => import("./MiniMap.tsx"));
 
@@ -62,6 +76,9 @@ function FloorMap() {
   );
   const [fullPath, setFullPath] = useState<string[]>([]);
   const [showNodes, setShowNodes] = useState(false);
+  const [showMapKey, setShowMapKey] = useState(false);
+
+
 
   const handleNodeClick = (node: Position | null) => {
     console.log("Node clicked:", node);
@@ -88,6 +105,10 @@ function FloorMap() {
   const toggleNodesVisibility = () => {
     clearInputs();
     setShowNodes(!showNodes);
+  };
+
+  const handleMapKeyVisibility = () => {
+      setShowMapKey(!showMapKey);
   };
 
   //{styles.mapDot}
@@ -605,6 +626,29 @@ function FloorMap() {
                 label="Toggle Nodes"
               />
             </div>
+              <div className={styles.mMapbox}>
+                  <FormControlLabel
+                      control={
+                          <Switch
+                              checked={showMapKey}
+                              onChange={handleMapKeyVisibility}
+                              sx={{
+                                  fontSize: 9,
+                                  "& .MuiSwitch-switchBase": {
+                                      // Thumb color when unchecked
+                                      "&.Mui-checked": {
+                                          color: "#003b9c", // Thumb color when checked
+                                      },
+                                      "&.Mui-checked + .MuiSwitch-track": {
+                                          backgroundColor: "#0251d4", // Track color when checked
+                                      },
+                                  },
+                              }}
+                          />
+                      }
+                      label="Show Key"
+                  />
+              </div>
             <Select
               value={algorithm}
               onChange={handleAlgorithmChange}
@@ -823,6 +867,121 @@ function FloorMap() {
               <MiniMap onChangeFloor={handleFloorChange} />
             </Suspense>
           </div>
+
+            <div className={`${styles.MapKey} ${showMapKey ? styles.ShowMapKey : ""}`}>
+                <img
+                    src={ATMIcon}
+                    alt="ATM icon"
+                    className={styles.MapKeyIcon}
+                />
+                <div className={styles.MapKeyItem}>
+                    ATM
+                </div>
+                <img
+                    src={BusStopIcon}
+                    alt="Bus Stop icon"
+                    className={styles.MapKeyIcon}
+                />
+                <div className={styles.MapKeyItem}>
+                    Bus Stop
+                </div>
+                <img
+                    src={CafeIcon}
+                    alt="Cafe icon"
+                    className={styles.MapKeyIcon}
+                />
+                <div className={styles.MapKeyItem}>
+                    Cafe
+                </div>
+                <img
+                    src={DiningIcon}
+                    alt="Dining icon"
+                    className={styles.MapKeyIcon}
+                />
+                <div className={styles.MapKeyItem}>
+                    Food Service
+                </div>
+                <img
+                    src={ElevatorIcon}
+                    alt="Elevator icon"
+                    className={styles.MapKeyIcon}
+                />
+                <div className={styles.MapKeyItem}>
+                    Elevator
+                </div>
+                <img
+                    src={EmergencyIcon}
+                    alt="Emergency icon"
+                    className={styles.MapKeyIcon}
+                />
+                <div className={styles.MapKeyItem}>
+                    Emergency
+                </div>
+                <img
+                    src={EntranceIcon}
+                    alt="Entrance icon"
+                    className={styles.MapKeyIcon}
+                />
+                <div className={styles.MapKeyItem}>
+                    Entrance
+                </div>
+                <img
+                    src={EscalatorIcon}
+                    alt="Escalator icon"
+                    className={styles.MapKeyIcon}
+                />
+                <div className={styles.MapKeyItem}>
+                    Escalator
+                </div>
+                <img
+                    src={HandicapIcon}
+                    alt="Handicapped entrance icon"
+                    className={styles.MapKeyIcon}
+                />
+                <div className={styles.MapKeyItem}>
+                    Handicapped Entrance
+                </div>
+                <img
+                    src={ParkingIcon}
+                    alt="Parking icon"
+                    className={styles.MapKeyIcon}
+                />
+                <div className={styles.MapKeyItem}>
+                    Parking
+                </div>
+                <img
+                    src={RestroomIcon}
+                    alt="Restroom icon"
+                    className={styles.MapKeyIcon}
+                />
+                <div className={styles.MapKeyItem}>
+                    Restroom
+                </div>
+                <img
+                    src={ValetIcon}
+                    alt="Valet icon"
+                    className={styles.MapKeyIcon}
+                />
+                <div className={styles.MapKeyItem}>
+                    Valet
+                </div>
+                <img
+                    src={VendingIcon}
+                    alt="Vending icon"
+                    className={styles.MapKeyIcon}
+                />
+                <div className={styles.MapKeyItem}>
+                    Vending
+                </div>
+                <img
+                    src={WaitingIcon}
+                    alt="Waiting room icon"
+                    className={styles.MapKeyIcon}
+                />
+                <div className={styles.MapKeyItem}>
+                    Waiting
+                </div>
+            </div>
 
         </div>
       </div>
