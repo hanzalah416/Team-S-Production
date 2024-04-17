@@ -52,9 +52,10 @@ router.post("/", async function (req: Request, res: Response) {
     }
 
     const textDirectionsRaw = PathToText(path.reverse());
-    const textDirectionsFiltered = JSON.stringify(
-      textDirectionsRaw!.map((direction) => direction.toJson()),
+    const textDirectionsFilteredJSON = JSON.stringify(
+      textDirectionsRaw.map((direction) => direction.toJson()),
     );
+    const textDirectionsFiltered = JSON.parse(textDirectionsFilteredJSON);
 
     if (!textDirectionsFiltered || textDirectionsFiltered.length === 0) {
       res.sendStatus(204); // No Content

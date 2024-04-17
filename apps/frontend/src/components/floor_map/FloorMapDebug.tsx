@@ -373,6 +373,19 @@ const StaticFloorMapDebug = () => {
           }}
         >
           <div className={styles.checkboxContainer}>
+              <Button
+                  variant="contained"
+                  href="/node-data"
+                  className={styles.csvButton}
+                  style={{
+                      backgroundColor: "#003b9c",
+                      fontFamily: "Poppins",
+                      fontSize: 14,
+                      textAlign: "center",
+                  }}
+              >
+                  Import/Export Nodes
+              </Button>
             <FormControlLabel
               control={
                 <Checkbox

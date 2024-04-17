@@ -2,7 +2,7 @@
 import { GraphNode } from "./makegraph.ts";
 
 //Turn type enum
-enum directionType {
+export enum directionType {
   Right,
   Left,
   SRight,
@@ -26,6 +26,23 @@ export class Directions {
   private _directionType: directionType;
   private _startNode: GraphNode;
   private _endNode: GraphNode;
+  private _floorStart: string;
+  private _floorEnd: string;
+  get floorStart(): string {
+    return this._floorStart;
+  }
+
+  set floorStart(value: string) {
+    this._floorStart = value;
+  }
+
+  get floorEnd(): string {
+    return this._floorEnd;
+  }
+
+  set floorEnd(value: string) {
+    this._floorEnd = value;
+  }
   get startNode(): GraphNode {
     return this._startNode;
   }
@@ -63,11 +80,15 @@ export class Directions {
     directionType: directionType,
     startNode: GraphNode,
     endNode: GraphNode,
+    floorStart: string,
+    floorEnd: string,
   ) {
     this._textDirection = textDirection;
     this._directionType = directionType;
     this._startNode = startNode;
     this._endNode = endNode;
+    this._floorStart = floorStart;
+    this._floorEnd = floorEnd;
   }
 
   toJson() {
@@ -76,6 +97,8 @@ export class Directions {
       directionType: this._directionType,
       startNode: this._startNode.id,
       endNode: this._endNode.id,
+      floorStart: this._floorStart,
+      floorEnd: this._floorEnd,
     };
   }
 }
@@ -95,6 +118,8 @@ export function PathToText(path: GraphNode[]): Directions[] {
     directionType.Face,
     path[0],
     path[1],
+    path[0].floor,
+    path[1].floor,
   );
 
   numDirections++;
@@ -110,6 +135,8 @@ export function PathToText(path: GraphNode[]): Directions[] {
         directionType.FloorSwitch,
         path[i],
         path[i + 1],
+        path[i].floor,
+        path[i + 1].floor,
       );
       numDirections++;
       //Adjust where the navigator is after it switches floor facing
@@ -122,6 +149,8 @@ export function PathToText(path: GraphNode[]): Directions[] {
           directionType.Face,
           path[i],
           path[i + 1],
+          path[i].floor,
+          path[i + 1].floor,
         );
         numDirections++;
       }
@@ -149,6 +178,8 @@ export function PathToText(path: GraphNode[]): Directions[] {
         turnType,
         path[i],
         path[i + 1],
+        path[i].floor,
+        path[i + 1].floor,
       );
       numDirections++;
     }
@@ -160,6 +191,8 @@ export function PathToText(path: GraphNode[]): Directions[] {
     directionType.Ending,
     path[path.length - 1],
     path[path.length - 1],
+    path[path.length - 1].floor,
+    path[path.length - 1].floor,
   );
   return textDirections;
 }
