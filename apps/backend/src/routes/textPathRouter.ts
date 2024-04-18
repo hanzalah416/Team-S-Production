@@ -1,8 +1,8 @@
 import express, { Router, Request, Response } from "express";
 import MakeGraph, { GraphNode } from "../makegraph";
 import client from "../bin/database-connection.ts";
-import { Node } from "../../../../packages/database";
-import { NodeEdge } from "../../../../packages/database";
+import { Node } from "database";
+import { NodeEdge } from "database";
 import { PathToText } from "../textPath.ts";
 
 const router: Router = express.Router();

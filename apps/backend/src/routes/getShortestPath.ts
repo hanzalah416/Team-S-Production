@@ -1,8 +1,8 @@
+import client from "../bin/database-connection.ts";
 import express, { Router, Request, Response } from "express";
 import MakeGraph from "../makegraph";
-import client from "../bin/database-connection.ts";
-import { Node } from "../../../../packages/database";
-import { NodeEdge } from "../../../../packages/database";
+
+import { Node, NodeEdge } from "database";
 
 const router: Router = express.Router();
 

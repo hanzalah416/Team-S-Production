@@ -1,14 +1,10 @@
 import express, { Router, Request, Response } from "express";
-//import { Prisma } from "database";
 import prisma from "../bin/database-connection.ts";
-//import {flower_requests} from "../../../../packages/database/prisma/client";
-
 const router: Router = express.Router();
 
 // HTTP protocol
 
 router.post("/", async function (req: Request, res: Response) {
-  //const FlowerRequestAttempt: Prisma.FlowerRequestsCreateInput = req.body;
   // Attempt to save the high score
   try {
     const { name, priority, location, status, customMessage, typeFlower } =
@@ -74,14 +70,9 @@ router.get("/", async function (req: Request, res: Response) {
     res.status(500).send("Internal Server Error"); // Send 500 status with error message
   }
 });
-// router.patch("/:orderNumber", (req, res) => {
-//   res.send("PATCH route is working");
-// });
 
 router.patch("/:orderNumber", async (req: Request, res: Response) => {
   const { orderNumber } = req.params;
-  // const { status } = req.body;
-
   try {
     const updatedFlowerRequest = await prisma.flowerRequests.update({
       where: {
