@@ -6,7 +6,6 @@ const securityRouter: Router = express.Router();
 // HTTP protocol
 
 securityRouter.post("/", async function (req: Request, res: Response) {
-  //const SecurityRequestAttempt: Prisma.SecurityRequestsCreateInput = req.body;
   // Attempt to save the high score
   try {
     const { name, priority, location, status, securityType, threatType } =
