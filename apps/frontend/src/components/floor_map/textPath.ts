@@ -1,32 +1,32 @@
 //Imports
 class GraphNode {
-    id: string;
-    neighbors: GraphNode[];
-    xcoord: number;
-    ycoord: number;
-    nodeType: string;
-    floor: string;
-    longName: string;
-    constructor(
-        id: string,
-        xcoord: number,
-        ycoord: number,
-        nodeType: string,
-        floor: string,
-        longName: string,
-    ) {
-        this.id = id;
-        this.neighbors = [];
-        this.xcoord = xcoord;
-        this.ycoord = ycoord;
-        this.nodeType = nodeType;
-        this.floor = floor;
-        this.longName = longName;
-    }
-    //add neighbor
-    addNB(node: GraphNode) {
-        this.neighbors.push(node);
-    }
+  id: string;
+  neighbors: GraphNode[];
+  xcoord: number;
+  ycoord: number;
+  nodeType: string;
+  floor: string;
+  longName: string;
+  constructor(
+    id: string,
+    xcoord: number,
+    ycoord: number,
+    nodeType: string,
+    floor: string,
+    longName: string,
+  ) {
+    this.id = id;
+    this.neighbors = [];
+    this.xcoord = xcoord;
+    this.ycoord = ycoord;
+    this.nodeType = nodeType;
+    this.floor = floor;
+    this.longName = longName;
+  }
+  //add neighbor
+  addNB(node: GraphNode) {
+    this.neighbors.push(node);
+  }
 }
 //Turn type enum
 export enum directionType {
