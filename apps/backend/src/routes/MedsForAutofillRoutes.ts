@@ -1,6 +1,7 @@
 import express, { Router, Request, Response } from "express";
-import { Prisma } from "database";
 import PrismaClient from "../bin/database-connection.ts";
+
+import { Prisma } from "database";
 
 const router: Router = express.Router();
 
@@ -25,8 +26,6 @@ router.post("/", async function (req: Request, res: Response) {
 // The only thing that should be getting is the Username ( I return the userID for now)
 router.get("/", async function (req: Request, res: Response) {
   try {
-    // const userID: string = req.query.userID as string;
-
     const medicine = await PrismaClient.medicine.findMany({
       select: {
         genericName: true,
