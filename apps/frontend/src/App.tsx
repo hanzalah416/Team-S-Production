@@ -173,8 +173,8 @@ function Layout() {
       domain="dev-q6nptoajn7kajoxf.us.auth0.com"
       clientId="3UbU8v3PXSEQJsRMtwCJdvoKeWigw8eA"
       onRedirectCallback={(appState: AppState | undefined): void => {
-        // navigate(appState?.returnTo || window.location.pathname);
-          navigate("/floor-map");
+        navigate(appState?.returnTo || window.location.pathname);
+
 
       }}
       authorizationParams={{
