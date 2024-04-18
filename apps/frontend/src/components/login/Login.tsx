@@ -1,23 +1,13 @@
 import React, { useState, useEffect } from "react";
 import styles from "./Login.module.css";
-import TextField from "@mui/material/TextField";
 import heroImage from "../assets/HeroPhotos/Temp1.png";
 import heroImage2 from "../assets/HeroPhotos/nurse6.jpg";
 import heroImage3 from "../assets/HeroPhotos/Temp3.png";
 import bwhLogo from "../assets/bwh-logo.svg";
-
-import { Link, useNavigate } from "react-router-dom";
-// import axios from "axios";
-
-// import Link from '@mui/material/Link';
-// import Checkbox from "@mui/material/Checkbox";
-// import FormControlLabel from "@mui/material/FormControlLabel";
-import axios from "axios";
-
+import { useNavigate } from "react-router-dom";
 const Login: React.FC = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const navigate = useNavigate();
+    const navigate = useNavigate();
+    // const navigate = useNavigate();
   const [backgroundImage, setBackgroundImage] = useState<string>(heroImage);
 
   useEffect(() => {
@@ -27,90 +17,22 @@ const Login: React.FC = () => {
     setBackgroundImage(`url(${randomImageUrl})`);
   }, []);
 
-  const handleLogin = async () => {
-    try {
-      const response = await axios.get("/api/create-user");
-      console.log("Sucessfully got data from get request");
-      console.log(response.data);
-
-      for (let i = 0; i < response.data.length; i++) {
-        if (
-          response.data[i].userName === username &&
-          response.data[i].userPassword === password
-        ) {
-          navigate("/welcome");
-        }
-      }
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
-
-  const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === "Enter") {
-      // Trigger login function here
-      handleLogin();
-    }
-  };
+  const navigateHome = () => {
+      navigate('/floor-map');
+    };
 
   return (
-    <div>
-      <div className={styles.wholePage}>
+
+    <div >
+      <div className={styles.wholePage} onClick={navigateHome} >
         <div className={styles.container}>
           <form className={styles.signInForm}>
             <img src={bwhLogo} className={styles.logo} alt={"BWH logo"} />
-            <h2 className={styles.title}>Sign in</h2>
-
-            <div className={styles.formGroup}>
-              <TextField
-                id="standard-basic"
-                label="Username"
-                variant="standard"
-                className={styles.muiInput}
-                onChange={(e) => setUsername(e.target.value)}
-                onKeyPress={handleKeyPress}
-              />
-            </div>
-
-            <div className={styles.formGroup}>
-              <TextField
-                type="password"
-                id="standard-basic"
-                label="Password"
-                variant="standard"
-                className={styles.muiInput}
-                onChange={(e) => setPassword(e.target.value)}
-                onKeyPress={handleKeyPress}
-              />
-            </div>
-
-            <div className={styles.extras}>
-              {/*<FormControlLabel*/}
-              {/*  control={<Checkbox />}*/}
-              {/*  label="Remember Me"*/}
-              {/*  style={{ color: "black" }}*/}
-              {/*/>*/}
-              {/*<p className={styles.forgotPassword}>*/}
-              {/*  <a className={styles.forgotLink} href="url">*/}
-              {/*    FORGOT PASSWORD?*/}
-              {/*  </a>*/}
-              {/*</p>*/}
-            </div>
-
             <div className={styles.buttonGroup}>
               <div className={styles.buttonGroup}>
-                <button
-                  className={`${styles.button} ${styles.loginButton}`}
-                  type="button"
-                  onClick={handleLogin}
-                >
-                  Login
-                </button>
+                <h1 className={styles.text}>Click anywhere to begin</h1>
+
               </div>
-              <p className={styles.signUp}>
-                Don't have an account?{" "}
-                <Link to={"/create-account"}> Sign Up</Link>
-              </p>
             </div>
           </form>
           <div
@@ -122,6 +44,9 @@ const Login: React.FC = () => {
         </div>
       </div>
     </div>
+
+
+
   );
 };
 

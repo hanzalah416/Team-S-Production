@@ -154,6 +154,10 @@ input[type="checkbox"]:checked {
   margin-top: 5px;
 }
 
+.text {
+    color: black;
+}
+
 .loginButton {
   padding: 8px 18px;
   min-width: 234px;

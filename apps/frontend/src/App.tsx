@@ -10,6 +10,7 @@ import OrderFlowers from "./components/flower_requests/OrderFlowers.tsx";
 import OrderPayment from "./components/service_requests/payment/OrderPayment.tsx";
 import { FormDataProvider } from "./components/service_requests/FormDataContext.tsx";
 import FloorMap from "./components/floor_map/FloorMap.tsx";
+import HeroPage from "./components/login/Login.tsx";
 import NodeDataPage from "./components/nodes/NodeDataPage.tsx";
 import { ServiceRequestGetter } from "./components/service_requests/all_requests/AllServiceRequestsGetter.tsx";
 import OutlinedAlerts from "./components/service_requests/ServiceNotice.tsx";
@@ -31,11 +32,19 @@ function App() {
           path: "/",
           element: (
             <>
-              <FloorMap />
-              <Layout />
+              <HeroPage />
             </>
           ),
         },
+          {
+              path: "/floor-map",
+              element: (
+                  <>
+                      <FloorMap />
+                      <Layout />
+                  </>
+              ),
+          },
         {
           path: "/order-flowers",
           element: (
@@ -155,14 +164,6 @@ function App() {
   );
 }
 
-// function Welcome() {
-//   return (
-//     <div className="welcome">
-//       <h1>Welcome to your starter code.</h1>
-//     </div>
-//   );
-// }
-
 function Layout() {
   const navigate = useNavigate();
   return (
@@ -172,7 +173,9 @@ function Layout() {
       domain="dev-q6nptoajn7kajoxf.us.auth0.com"
       clientId="3UbU8v3PXSEQJsRMtwCJdvoKeWigw8eA"
       onRedirectCallback={(appState: AppState | undefined): void => {
-        navigate(appState?.returnTo || window.location.pathname);
+        // navigate(appState?.returnTo || window.location.pathname);
+          navigate("/floor-map");
+
       }}
       authorizationParams={{
         redirect_uri: window.location.origin,
