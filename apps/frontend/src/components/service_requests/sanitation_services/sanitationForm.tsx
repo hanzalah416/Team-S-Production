@@ -17,6 +17,7 @@ import Button from "@mui/material/Button";
 import Grid from "@mui/material/Unstable_Grid2"; // Grid version 2
 import Paper from "@mui/material/Paper";
 import axios from "axios";
+import BackgroundImg from "./blue-background.jpg";
 // import {useAuth0} from "@auth0/auth0-react";
 
 //Interface for positions
@@ -120,6 +121,9 @@ export default function SanitationForm() {
   }
 
   return (
+      <div style={{backgroundImage: `url(${BackgroundImg})`, height: "100vh", width: "100vw",
+      backgroundSize: "cover", backgroundRepeat: "no-repeat", minHeight: "100%",
+          backgroundPosition: "center center", overflowX: "hidden", margin: "0px"}}>
     <Grid
       container
       spacing={5}
@@ -372,5 +376,6 @@ export default function SanitationForm() {
         </Stack>
       </Paper>
     </Grid>
+      </div>
   );
 }
