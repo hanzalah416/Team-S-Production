@@ -1,6 +1,10 @@
-import React, { lazy, Suspense, useCallback, useEffect, useState } from "react";
+import React, { lazy, Suspense, useCallback, useEffect, useState, useRef } from "react";
 import styles from "./FloorMap.module.css";
-import { TransformComponent, TransformWrapper } from "react-zoom-pan-pinch";
+import {
+    TransformWrapper,
+    TransformComponent,
+} from 'react-zoom-pan-pinch';
+
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import {
@@ -64,6 +68,7 @@ function FloorMap() {
   const [algorithm, setAlgorithm] = useState("astar");
   const [locations, setLocations] = useState<Position[]>([]);
   const [currentFloor, setCurrentFloor] = useState("01");
+
   const sortedLocations = [...locations]
     .filter((location) => !location.label.includes("Hall")) // Change startsWith to includes
     .sort((a, b) => a.label.localeCompare(b.label));
@@ -77,8 +82,12 @@ function FloorMap() {
   const [fullPath, setFullPath] = useState<string[]>([]);
   const [showNodes, setShowNodes] = useState(false);
   const [showMapKey, setShowMapKey] = useState(false);
+    const transformRef = useRef(null);
 
-  const handleNodeClick = (node: Position | null) => {
+
+
+
+    const handleNodeClick = (node: Position | null) => {
     console.log("Node clicked:", node);
     const formatFloor = (floor: string) => {
       // Prepend '0' if the floor is '1', '2', or '3'
@@ -181,44 +190,26 @@ function FloorMap() {
     }
   };
 
+
+
   const handleFloorChange = (floor: string) => {
     setCurrentFloor(floor);
-    const newFilteredQueueNodeIDs = fullPath.filter(
+
+
+      const newFilteredQueueNodeIDs = fullPath.filter(
       (id) => getFloorNumber(id) === floor || id.length === 3,
     );
     setFilteredQueueNodeIDs(newFilteredQueueNodeIDs);
   };
 
-  const getTagsFromPath = (path: string[]) => {
-    const floorOrder = ["L1", "L2", "01", "02", "03"];
-
-    // Starting with the start floor if it exists
-    const startFloor = path[0] ? getFloorNumber(path[0]) : null;
-    let tags = startFloor
-      ? [{ tag: startFloor, index: floorOrder.indexOf(startFloor) }]
-      : [];
-
-    // Continue with the rest of the path, focusing on floor change markers
-    const additionalTags = path
-      .filter((nodeID) => nodeID.length === 3) // Ensure only floor change markers are processed
-      .map((nodeID) => {
-        const tag = getFloorNumber(nodeID);
-        return {
-          tag: tag,
-          index: floorOrder.indexOf(tag),
-        };
-      });
-
-    // Combine the starting floor with the rest of the tags
-    tags = tags.concat(additionalTags);
-
-    // Mapping for display, removing leading zeros
-    return tags.map(({ tag, index }) => ({
-      tag: tag,
-      display: tag.replace(/^0/, ""), // Removing leading zeros for display
-      index,
-    }));
-  };
+    useEffect(() => {
+        if (transformRef.current) {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
+            //this is the easiest fix trust
+            transformRef.current.resetTransform(); // Reset zoom and pan settings
+        }
+    }, [currentFloor]);
 
   const getFloorNumber = (nodeID: string) => {
     // Get the last two characters
@@ -510,61 +501,6 @@ function FloorMap() {
                   onChangeFloor={handleFloorChange} // Passing the method as a prop
                 />
               )}
-
-              {getTagsFromPath(fullPath).map(() => {
-                // console.log("Full path:", fullPath);
-                // console.log("Current tag:", tag);
-                // if (!tag) {
-                //   throw new Error("Tag was undefined");
-                // }
-                // let displayFloor = tag.tag;
-                // switch (tag.tag) {
-                //   case "01":
-                //     displayFloor = "1";
-                //     break;
-                //   case "02":
-                //     displayFloor = "2";
-                //     break;
-                //   case "03":
-                //     displayFloor = "3";
-                //     break;
-                //   default:
-                //     break; // Keep "L1" and "L2" as is
-                // }
-
-                return (
-                  <div>
-                    {/*<Button*/}
-                    {/*  key={tag.tag}*/}
-                    {/*  variant={*/}
-                    {/*    currentFloor === tag.tag ? "contained" : "outlined"*/}
-                    {/*  }*/}
-                    {/*  onClick={() => {*/}
-                    {/*    setCurrentFloor(tag.tag);*/}
-
-                    {/*    // Filter the full path for the new floor*/}
-                    {/*    const newFilteredQueueNodeIDs = fullPath.filter(*/}
-                    {/*      (id) =>*/}
-                    {/*        getFloorNumber(id) === tag.tag || id.length === 3,*/}
-                    {/*    );*/}
-                    {/*    setFilteredQueueNodeIDs(newFilteredQueueNodeIDs);*/}
-                    {/*  }}*/}
-                    {/*  style={{*/}
-                    {/*    marginBottom: "5px",*/}
-                    {/*    marginTop: "3px",*/}
-                    {/*    color: currentFloor === tag.tag ? "white" : "black", // Text color*/}
-                    {/*    backgroundColor:*/}
-                    {/*      currentFloor === tag.tag ? "#003b9c" : "#f1f1f1", // Background color with transparency*/}
-                    {/*    borderColor: "black", // Border color*/}
-                    {/*    fontFamily: "Poppins",*/}
-                    {/*    textAlign: "center",*/}
-                    {/*  }}*/}
-                    {/*>*/}
-                    {/*  {displayFloor}*/}
-                    {/*</Button>*/}
-                  </div>
-                );
-              })}
             </div>
           </div>
 
@@ -666,12 +602,15 @@ function FloorMap() {
             </Select>
           </div>
 
-          <TransformWrapper
-          // initialScale={1.3}
-          // initialPositionX={-200.4}
-          // initialPositionY={-100.83}
-          // centered
-          >
+            <TransformWrapper
+                ref={transformRef} // Set the ref to access the instance
+                initialScale={1}
+                initialPositionX={0}
+                initialPositionY={0}
+            >
+                {() => (
+                    <>
+
             <TransformComponent>
               {renderFloorNodes()}
               <img
@@ -854,6 +793,8 @@ function FloorMap() {
                   })}
               </svg>
             </TransformComponent>
+                    </>
+                )}
           </TransformWrapper>
 
           <div
