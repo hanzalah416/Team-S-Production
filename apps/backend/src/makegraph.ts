@@ -111,7 +111,7 @@ class MakeGraph {
 
     //Calculate distance between floors
     const floorDif = Math.abs(
-      this.getFloorNum(node.floor) - this.getFloorNum(goal.floor),
+      getFloorNum(node.floor) - getFloorNum(goal.floor),
     );
     let floorCost = 0;
 
@@ -134,26 +134,27 @@ class MakeGraph {
 
     return distance + floorCost;
   }
-  getFloorNum(floor: string) {
-    switch (floor) {
-      case "L1":
-        return 1;
-        break;
-      case "L2":
-        return 2;
-        break;
-      case "1":
-        return 3;
-        break;
-      case "2":
-        return 4;
-        break;
-      case "3":
-        return 5;
-        break;
-      default:
-        return 0;
-    }
+}
+
+export function getFloorNum(floor: string) {
+  switch (floor) {
+    case "L1":
+      return 1;
+      break;
+    case "L2":
+      return 2;
+      break;
+    case "1":
+      return 3;
+      break;
+    case "2":
+      return 4;
+      break;
+    case "3":
+      return 5;
+      break;
+    default:
+      return 0;
   }
 }
 

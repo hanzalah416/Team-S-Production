@@ -175,7 +175,7 @@ export default function PathToTextDisplay(props: {
                 style={{ maxHeight: "200px", overflow: "auto" }}
               >
                 {/* Render each direction in the list */}
-                {list.map((direction, idx) => (
+                {list.map((direction: Directions, idx) => (
                   <ListItemButton key={idx} sx={{ pl: 4 }}>
                     <ListItemIcon>
                       {getIconForDirectionType(direction.directionType)}

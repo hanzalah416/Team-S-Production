@@ -1,5 +1,6 @@
 //Imports
 import { GraphNode } from "./makegraph.ts";
+import { CalculatePathDistance } from "./PathDistanceCalculater.ts";
 
 //Turn type enum
 export enum directionType {
@@ -28,6 +29,16 @@ export class Directions {
   private _endNode: GraphNode;
   private _floorStart: string;
   private _floorEnd: string;
+  private _distance: number;
+
+  get distance(): number {
+    return this._distance;
+  }
+
+  set distance(value: number) {
+    this._distance = value;
+  }
+
   get floorStart(): string {
     return this._floorStart;
   }
@@ -82,6 +93,7 @@ export class Directions {
     endNode: GraphNode,
     floorStart: string,
     floorEnd: string,
+    distance: number,
   ) {
     this._textDirection = textDirection;
     this._directionType = directionType;
@@ -89,6 +101,7 @@ export class Directions {
     this._endNode = endNode;
     this._floorStart = floorStart;
     this._floorEnd = floorEnd;
+    this._distance = distance;
   }
 
   toJson() {
@@ -99,6 +112,7 @@ export class Directions {
       endNode: this._endNode.id,
       floorStart: this._floorStart,
       floorEnd: this._floorEnd,
+      distance: this._distance,
     };
   }
 }
@@ -120,6 +134,7 @@ export function PathToText(path: GraphNode[]): Directions[] {
     path[1],
     path[0].floor,
     path[1].floor,
+    0,
   );
 
   numDirections++;
@@ -137,6 +152,7 @@ export function PathToText(path: GraphNode[]): Directions[] {
         path[i + 1],
         path[i].floor,
         path[i + 1].floor,
+        CalculatePathDistance(path[i], path[i + 1]),
       );
       numDirections++;
       //Adjust where the navigator is after it switches floor facing
@@ -151,6 +167,7 @@ export function PathToText(path: GraphNode[]): Directions[] {
           path[i + 1],
           path[i].floor,
           path[i + 1].floor,
+          0,
         );
         numDirections++;
       }
@@ -166,6 +183,10 @@ export function PathToText(path: GraphNode[]): Directions[] {
       turnType === directionType.Forward
     ) {
       textDirections[numDirections - 1].endNode = path[i + 1];
+      textDirections[numDirections - 1].distance = CalculatePathDistance(
+        textDirections[numDirections - 1].startNode,
+        path[i + 1],
+      );
       textDirections[numDirections - 1].textDirection = MakePathText(
         textDirections[numDirections - 1].startNode,
         path[i + 1],
@@ -180,6 +201,7 @@ export function PathToText(path: GraphNode[]): Directions[] {
         path[i + 1],
         path[i].floor,
         path[i + 1].floor,
+        CalculatePathDistance(path[i], path[i + 1]),
       );
       numDirections++;
     }
@@ -193,6 +215,7 @@ export function PathToText(path: GraphNode[]): Directions[] {
     path[path.length - 1],
     path[path.length - 1].floor,
     path[path.length - 1].floor,
+    0,
   );
   return textDirections;
 }
