@@ -15,6 +15,7 @@ import sanitationIcon from "../assets/NavBarIcons/sanitation_icon.svg";
 import roomSchedulingIcon from "../assets/NavBarIcons/schedule_icon.svg";
 import languageIcon from "../assets/NavBarIcons/language_icon.svg";
 import dropDownIcon from "../assets/NavBarIcons/drop_down.svg";
+import creditIcon from "../assets/NavBarIcons/credit_menu.svg";
 import { LoginButton } from "../LoginButton.tsx";
 import { LogoutButton } from "../LogoutButton.tsx";
 import { createTheme, FormControl, ThemeProvider } from "@mui/material";
@@ -311,9 +312,9 @@ function NavBar() {
           </div>
         )}
 
-        <Link to={"/about"} id={"order"}>
+        <Link to={"/credit-page"} id={"order"}>
           <Button className={"alignIcons"}>
-            <img />
+            <img src={creditIcon} className={"iconHeight"} width={"38px"} />
             <p id={"creditsID"} className={"itemNames"}>
               Credits
             </p>

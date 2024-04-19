@@ -10,7 +10,6 @@ function createCsvFile(data: CsvData, path: string) {
     path: path,
     header: data.headers,
   });
-
   csvWriter.writeRecords(data.data);
   console.log(`CSV file written to ${path}`);
 }
