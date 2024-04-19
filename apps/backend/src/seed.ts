@@ -52,11 +52,11 @@ async function seed() {
             synName: medicine[1],
           },
         });
-        console.log("Medicines populated");
       } else {
         console.log("No medicine data to populate.");
       }
     }
+    console.log("Medicine populated");
   }
 
   const temp = await PrismaClient.hospitalUser.findMany({
