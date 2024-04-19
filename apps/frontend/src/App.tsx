@@ -33,6 +33,7 @@ function App() {
           element: (
             <>
               <HeroPage />
+                <Layout />
             </>
           ),
         },

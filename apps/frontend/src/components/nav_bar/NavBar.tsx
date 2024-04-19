@@ -188,7 +188,7 @@ function NavBar() {
       </div>
       {isAuthenticated && (
         <div className={"navButtons"}>
-          <Link to={"/"} id={"map"}>
+          <Link to={"/floor-map"} id={"map"}>
             <Button className={"alignIcons"}>
               <img src={mapIcon} className={"iconHeight"} alt={"map_icon"} />
               <p id={"mapID"} className={"itemNames"}>

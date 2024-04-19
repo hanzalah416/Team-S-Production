@@ -8,7 +8,7 @@ export const LoginButton = () => {
   const handleLogin = async () => {
     await loginWithRedirect({
       appState: {
-        returnTo: "http://localhost:3000/floor-map",
+        returnTo: "/floor-map",
       },
 
     });

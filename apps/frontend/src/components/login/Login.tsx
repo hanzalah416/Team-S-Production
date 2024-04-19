@@ -4,9 +4,8 @@ import heroImage from "../assets/HeroPhotos/Temp1.png";
 import heroImage2 from "../assets/HeroPhotos/nurse6.jpg";
 import heroImage3 from "../assets/HeroPhotos/Temp3.png";
 import bwhLogo from "../assets/bwh-logo.svg";
-import { useNavigate } from "react-router-dom";
 const Login: React.FC = () => {
-    const navigate = useNavigate();
+
     // const navigate = useNavigate();
   const [backgroundImage, setBackgroundImage] = useState<string>(heroImage);
 
@@ -17,20 +16,17 @@ const Login: React.FC = () => {
     setBackgroundImage(`url(${randomImageUrl})`);
   }, []);
 
-  const navigateHome = () => {
-      navigate('/floor-map');
-    };
 
   return (
 
     <div >
-      <div className={styles.wholePage} onClick={navigateHome} >
+      <div className={styles.wholePage}>
         <div className={styles.container}>
           <form className={styles.signInForm}>
             <img src={bwhLogo} className={styles.logo} alt={"BWH logo"} />
             <div className={styles.buttonGroup}>
               <div className={styles.buttonGroup}>
-                <h1 className={styles.text}>Click anywhere to begin</h1>
+
 
               </div>
             </div>
