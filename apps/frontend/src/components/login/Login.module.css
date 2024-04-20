@@ -64,7 +64,7 @@ padding: 10px;
 }
 
 .disclaimer {
-    transform: translate(0px, 300px); /* Fix typo */
+    transform: translate(-300px, -350px); /* Fix typo */
     font-weight: bold;
     width: 100%;
 }
