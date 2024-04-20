@@ -30,7 +30,7 @@ const Login: React.FC = () => {
                 <br/>
                 <br/>
 
-                <p className={styles.heading2}>Helping our patients and their families get back to what matter most</p>
+                <p className={styles.heading2}>Helping our patients and their families get back to what matters most</p>
                 <br/>
                 <br/>
                 <br/>
