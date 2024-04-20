@@ -56,9 +56,9 @@ async function seed() {
         console.log("No medicine data to populate.");
       }
     }
-    console.log("Medicine populated");
+    console.log("Medicines populated");
   }
-
+  console.log("Medicines populated");
   const temp = await PrismaClient.hospitalUser.findMany({
     where: {
       userName: "admin",
