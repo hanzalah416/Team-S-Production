@@ -72,7 +72,6 @@ function FloorMap() {
   const sortedLocations = [...locations]
     .filter((location) => !location.label.includes("Hall")) // Change startsWith to includes
     .sort((a, b) => a.label.localeCompare(b.label));
-  console.log(sortedLocations);
   const [startPosition, setStartPosition] = useState<Position | null>(null);
   const [endPosition, setEndPosition] = useState<Position | null>(null);
   const [pathFound, setPathFound] = useState(true);
