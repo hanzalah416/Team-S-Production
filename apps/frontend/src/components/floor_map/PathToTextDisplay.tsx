@@ -16,6 +16,7 @@ import ImportExportIcon from "@mui/icons-material/ImportExport";
 import SyncIcon from "@mui/icons-material/Sync";
 import FmdGoodIcon from "@mui/icons-material/FmdGood";
 import styles from "./FloorMap.module.css";
+import { GetEstimatedTime } from "../../../../backend/src/PathDistanceCalculater.ts";
 
 export default function PathToTextDisplay(props: {
   startNode: string;
@@ -27,6 +28,7 @@ export default function PathToTextDisplay(props: {
   const [openLists, setOpenLists] = useState<boolean[]>([]);
   const [data, setData] = useState<Directions[]>([]);
   const [currentFloor] = useState<string[]>([]);
+  const [estimatedTime, setEstimatedTime] = useState(0);
 
   const fetchData = useCallback(async () => {
     try {
@@ -48,6 +50,7 @@ export default function PathToTextDisplay(props: {
 
       const data = await response.json();
       setData(data);
+      setEstimatedTime(GetEstimatedTime(data));
       setOpenLists(new Array(data.length).fill(false));
     } catch (error) {
       console.error("Failed to fetch data:", error);
@@ -153,7 +156,10 @@ export default function PathToTextDisplay(props: {
           <ListSubheader
             component="div"
             id="nested-list-subheader"
-          ></ListSubheader>
+            style={{ color: "black" }}
+          >
+            Estimated time {estimatedTime} minutes
+          </ListSubheader>
         }
       >
         {/* Map over the split lists of directions and render each list */}
@@ -175,13 +181,21 @@ export default function PathToTextDisplay(props: {
                 style={{ maxHeight: "200px", overflow: "auto" }}
               >
                 {/* Render each direction in the list */}
-                {list.map((direction, idx) => (
+                {list.map((direction: Directions, idx) => (
                   <ListItemButton key={idx} sx={{ pl: 4 }}>
                     <ListItemIcon>
                       {getIconForDirectionType(direction.directionType)}
                     </ListItemIcon>
                     {/* Assuming textDirection is a property of Directions */}
-                    <ListItemText primary={direction.textDirection} />
+                    <ListItemText
+                      primary={
+                        direction.textDirection +
+                        " (" +
+                        direction.distance +
+                        " Feet" +
+                        ")"
+                      }
+                    />
                   </ListItemButton>
                 ))}
               </List>

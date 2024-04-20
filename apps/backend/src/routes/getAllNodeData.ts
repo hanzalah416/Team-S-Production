@@ -1,9 +1,9 @@
 import express, { Router, Request, Response } from "express";
 import client from "../bin/database-connection.ts";
-import { Node, Prisma } from "../../../../packages/database/.prisma/client";
 import PrismaClient from "../bin/database-connection.ts";
-
 const router: Router = express.Router();
+
+import { Node, Prisma } from "database";
 
 router.get("/", async function (req: Request, res: Response) {
   try {

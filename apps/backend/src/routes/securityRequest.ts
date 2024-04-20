@@ -6,7 +6,6 @@ const securityRouter: Router = express.Router();
 // HTTP protocol
 
 securityRouter.post("/", async function (req: Request, res: Response) {
-  //const SecurityRequestAttempt: Prisma.SecurityRequestsCreateInput = req.body;
   // Attempt to save the high score
   try {
     const { name, priority, location, status, securityType, threatType } =
@@ -75,9 +74,6 @@ securityRouter.get("/", async function (req: Request, res: Response) {
     res.status(500).send("Internal Server Error"); // Send 500 status with error message
   }
 });
-// router.patch("/:orderNumber", (req, res) => {
-//   res.send("PATCH route is working");
-// });
 
 securityRouter.patch("/:orderNumber", async (req: Request, res: Response) => {
   const { orderNumber } = req.params;
