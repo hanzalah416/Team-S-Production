@@ -57,7 +57,6 @@ async function seed() {
       }
     }
     console.log("Medicines populated");
-
   }
   console.log("Medicines populated");
   const temp = await PrismaClient.hospitalUser.findMany({
