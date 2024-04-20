@@ -279,10 +279,9 @@ function DetermineInitialFacing(startNode: GraphNode, endNode: GraphNode) {
   if (angle < 0) {
     angle += 2 * Math.PI;
   }
-  const degree = angle * (180 / Math.PI);
-
-  console.log(angle);
-  console.log(degree);
+  //const degree = angle * (180 / Math.PI);
+  //console.log(angle);
+  //console.log(degree);
 
   if (angle <= (3 * Math.PI) / 4 && angle > Math.PI / 4) {
     facing = cardinalDirection.North;
