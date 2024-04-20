@@ -1,0 +1,38 @@
+.creditsContainer {
+    width: 80%;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #f4f4f9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    color: black;
+    align-content: start;
+    align-items: start;
+    justify-items: start;
+    justify-content: start;
+}
+
+h1 {
+    color: black;
+    text-align: start;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    color: black;
+    align-items: start;
+    text-align: start;
+}
+
+.contributor {
+    margin: 10px 0;
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.contributor strong {
+    color: #2a2a2a;
+}
