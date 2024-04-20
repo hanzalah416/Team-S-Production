@@ -21,6 +21,7 @@ import roomSchedulingRouter from "./routes/roomScheduling.ts";
 import textPathRouter from "./routes/textPathRouter.ts";
 import MedsForAutofillRouter from "./routes/MedsForAutofillRoutes.ts";
 import { auth } from "express-oauth2-jwt-bearer";
+import allStaffRouter from "./routes/getAllStaff.ts";
 
 // import allEdgesRouter from "./routes/getAllEdgesData.ts";
 // import allNodeRouter from "./routes/getAllNodeData.ts";
@@ -66,6 +67,7 @@ app.use("/api/security-request", securityRouter);
 app.use("/api/room-scheduling", roomSchedulingRouter);
 app.use("/api/pathToText", textPathRouter);
 app.use("/api/language-request", languageRouter);
+app.use("/api/all-staff", allStaffRouter);
 
 app.use("/healthcheck", (req, res) => {
   res.status(200).send();
