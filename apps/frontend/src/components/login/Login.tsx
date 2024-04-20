@@ -31,7 +31,7 @@ const Login: React.FC = () => {
 
                 <br/>
 
-                <p className={styles.heading2}>Helping our patients and their families get back to what matters most</p>
+                <p className={styles.heading2}>Helping our patients and their families get back to what matters most.</p>
                 <br/>
                 <br/>
 
