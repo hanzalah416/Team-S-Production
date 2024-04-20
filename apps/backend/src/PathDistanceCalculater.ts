@@ -1,4 +1,5 @@
 import { getFloorNum, GraphNode } from "./makegraph.ts";
+import { Directions } from "./textPath.ts";
 
 //Calculates the euclidean distance between 2 nodes into feet
 export function CalculatePathDistance(node1: GraphNode, node2: GraphNode) {
@@ -12,23 +13,25 @@ export function CalculatePathDistance(node1: GraphNode, node2: GraphNode) {
 
     //Convert to feet(1 foot = 3 xy)
     return distance / 3;
-  } else if (node1.nodeType == "ELEV") {
-    return 0.5;
   } else {
     const floorDif = Math.abs(
       getFloorNum(node2.floor) - getFloorNum(node1.floor),
     );
 
-    return floorDif * 10;
+    return floorDif * 15;
   }
 }
 
-export function CalculateTotalPathDist(path: GraphNode[]) {
+export function TotalDirectionDist(path: Directions[]) {
   let totalDist: number = 0;
 
-  for (let i = 0; i < path.length - 1; i++) {
-    totalDist += CalculatePathDistance(path[i], path[i + 2]);
-  }
+  path.forEach((direction: Directions) => {
+    totalDist += direction.distance;
+  });
 
   return totalDist;
+}
+
+export function GetEstimatedTime(path: Directions[]) {
+  return Math.round(TotalDirectionDist(path) / 273);
 }

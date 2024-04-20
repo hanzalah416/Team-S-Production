@@ -139,10 +139,10 @@ class MakeGraph {
 export function getFloorNum(floor: string) {
   switch (floor) {
     case "L1":
-      return 1;
+      return 2;
       break;
     case "L2":
-      return 2;
+      return 1;
       break;
     case "1":
       return 3;

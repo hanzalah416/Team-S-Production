@@ -36,7 +36,7 @@ export class Directions {
   }
 
   set distance(value: number) {
-    this._distance = value;
+    this._distance = Math.round(value);
   }
 
   get floorStart(): string {
@@ -101,7 +101,7 @@ export class Directions {
     this._endNode = endNode;
     this._floorStart = floorStart;
     this._floorEnd = floorEnd;
-    this._distance = distance;
+    this._distance = Math.round(distance);
   }
 
   toJson() {
@@ -231,10 +231,10 @@ function DetermineTurnType(
   if (angle < 0) {
     angle += 2 * Math.PI;
   }
-  const degree = angle * (180 / Math.PI);
+  //const degree = angle * (180 / Math.PI);
 
-  console.log(angle);
-  console.log(degree);
+  //console.log(angle);
+  //console.log(degree);
 
   //Determine turn type based on direction and signs of dx and dy
   //Change current facing direction based on turn
