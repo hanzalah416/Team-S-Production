@@ -5,9 +5,6 @@ import mapImage from "../assets/mapImage.png";
 import Button from "@mui/material/Button";
 // import bwhLogo from "../assets/bwh-logo.svg";
 import {useNavigate} from "react-router-dom";
-import {Interests} from "@mui/icons-material";
-
-
 
 
 const Login: React.FC = () => {
@@ -31,7 +28,7 @@ const Login: React.FC = () => {
             <div className={styles.textContainer}>
                 <h1 className={styles.heading}>Brigham and Women's Hospital</h1>
                 <br/>
-            <br/>
+                <br/>
                 <br/>
                 <p className={styles.heading2}>Helping our patients and their families get back to what matter most</p>
                 <br/>
@@ -39,7 +36,7 @@ const Login: React.FC = () => {
                 <br/>
                 <br/>
 
-                <Button className={styles.position} onClick={navigateMap} color="primary" style={{
+                <Button onClick={navigateMap} color="primary" style={{
                     backgroundImage: `url(${mapImage})`,
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
@@ -48,12 +45,12 @@ const Login: React.FC = () => {
 
                 }}
                 >
-                <span style={{color: 'black', fontSize: '18px', fontStyle: Interests, marginTop: '150px'}}>
+                <span style={{color: 'black', fontSize: '18px', marginTop: '150px'}}>
                 View Map</span>
                 </Button>
             </div>
         </div>
-);
+    );
 };
 
 
