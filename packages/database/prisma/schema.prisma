@@ -69,6 +69,7 @@ model RoomScheduling {
 
 model TransportRequest {
   requestNumber      Int            @id
+  patientName        String
   transportationType String
   startLocation      String
   endLocation        String

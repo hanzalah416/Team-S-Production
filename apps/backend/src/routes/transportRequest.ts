@@ -12,6 +12,7 @@ router.post("/", async function (req: Request, res: Response) {
       priority,
       location,
       status,
+      patientName,
       endLocation,
       transportationType,
     } = req.body;
@@ -30,6 +31,7 @@ router.post("/", async function (req: Request, res: Response) {
 
     await prisma.transportRequest.create({
       data: {
+          patientName: patientName,
         startLocation: location,
         endLocation: endLocation,
         transportationType: transportationType,
@@ -58,6 +60,7 @@ router.get("/", async function (req: Request, res: Response) {
       include: {
         TransportRequest: {
           select: {
+              patientName: true,
             startLocation: true,
             endLocation: true,
             transportationType: true,
