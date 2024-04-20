@@ -26,12 +26,12 @@ const Login: React.FC = () => {
                 </div>
             </div>
             <div className={styles.textContainer}>
+                <br/><br/>
                 <h1 className={styles.heading}>Brigham and Women's Hospital</h1>
-                <br/>
+
                 <br/>
 
                 <p className={styles.heading2}>Helping our patients and their families get back to what matters most</p>
-                <br/>
                 <br/>
                 <br/>
 
