@@ -3,13 +3,14 @@ import express, { Router, Request, Response } from "express";
 import MakeGraph from "../makegraph";
 
 import { Node, NodeEdge } from "database";
+import { ReturnClosestNode } from "../algorithms/ReturnClosestNode.ts";
 
 const router: Router = express.Router();
 
 router.post("/", async function (req: Request, res: Response) {
   try {
     // Extract startNode, endNode, and algorithm from the request body
-    const { startNode, endNode, algorithm } = req.body;
+    const { startNode, endNodes, algorithm } = req.body;
 
     const graph = new MakeGraph(algorithm);
 
@@ -26,16 +27,16 @@ router.post("/", async function (req: Request, res: Response) {
     });
 
     /*
-    console.log(
-      "Received start and end nodes:",
-      startNode,
-      endNode,
-      "using algorithm:",
-      algorithm,
-    );
-     */
+        console.log(
+          "Received start and end nodes:",
+          startNode,
+          endNode,
+          "using algorithm:",
+          algorithm,
+        );
+         */
 
-    const path = graph.findPath(startNode, endNode);
+    const path = ReturnClosestNode(startNode, endNodes, graph);
 
     const pathIds = path!.map((node) => node.id).reverse();
 
