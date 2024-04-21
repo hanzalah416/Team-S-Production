@@ -20,7 +20,6 @@ interface Node {
   ycoord: string;
   id: string;
   longName: string;
-  // Add other properties if needed
 }
 
 interface Position {
@@ -30,8 +29,12 @@ interface Position {
   left: string;
 }
 
+interface Staff {
+  employeeName: string;
+}
+
 const SecurityRequest: React.FC = () => {
-  const [staffName, setStaffName] = useState("");
+  const [staffName, setStaffName] = useState<Staff | null>(null);
   const [requestPriority, setRequestPriority] = useState("");
   const [requestStatus, setRequestStatus] = useState("");
   const [securityType, setSecurityType] = useState("");
@@ -40,9 +43,14 @@ const SecurityRequest: React.FC = () => {
 
   const navigate = useNavigate(); //Function to navigate to other pages
   const [locations, setLocations] = useState<Position[]>([]);
+  const [staffNames, setStaffNames] = useState<Staff[]>([]);
   const [submittedRequests, setSubmittedRequests] = useState<securityform[]>(
     [],
   );
+
+  const handleChangeName = (value: Staff | null) => {
+    setStaffName(value);
+  };
 
   const handleChangeSecurityType = (event: SelectChangeEvent) => {
     setSecurityType(event.target.value as string);
@@ -66,7 +74,7 @@ const SecurityRequest: React.FC = () => {
 
   async function submit() {
     if (
-      staffName == "" ||
+      staffName == null ||
       location == null ||
       requestPriority == "" ||
       requestStatus == "" ||
@@ -77,7 +85,7 @@ const SecurityRequest: React.FC = () => {
       return;
     }
     const securityRequestSent: securityform = {
-      name: staffName,
+      name: staffName.employeeName,
       location: location.label,
       status: requestStatus,
       priority: requestPriority,
@@ -105,7 +113,7 @@ const SecurityRequest: React.FC = () => {
   }
 
   function clear() {
-    setStaffName("");
+    setStaffName(null);
     setRequestPriority("");
     setLocation(null);
     setSecurityType("");
@@ -138,6 +146,19 @@ const SecurityRequest: React.FC = () => {
       .catch((error) => console.error("Failed to fetch node data:", error));
   }, []);
 
+  useEffect(() => {
+    // Fetch node data from the backend
+    fetch("/api/all-staff")
+      .then((response) => response.json())
+      .then((staffInfo: Staff[]) => {
+        const formattedStaff: Staff[] = staffInfo.map((staff) => ({
+          employeeName: staff.employeeName || "unknown",
+        }));
+        setStaffNames(formattedStaff);
+      })
+      .catch((error) => console.error("Failed to fetch staff data:", error));
+  }, []);
+
   return (
     <Grid
       container
@@ -159,26 +180,35 @@ const SecurityRequest: React.FC = () => {
               style={{
                 color: "#3B54A0",
               }}
-              id="demo-simple-select-label"
+              id="staffName-dropdown"
             >
               Name of Requester
             </InputLabel>
-            <TextField
-              style={{
-                borderColor: "#3B54A0",
-                color: "#3B54A0",
-                accentColor: "#3B54A0",
-                borderBlockColor: "#3B54A0",
-              }}
-              id="outlined-controlled"
-              label=""
+            <Autocomplete
+              sx={{ minWidth: 400, color: "#3B54A0" }}
+              options={staffNames}
+              getOptionLabel={(option) => option.employeeName || "Unknown"}
+              //isOptionEqualToValue={(option, value) => option.id === value.id}
               value={staffName}
-              onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                setStaffName(event.target.value);
-              }}
-              sx={{ minWidth: 400 }}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label=""
+                  InputLabelProps={{
+                    style: {
+                      fontFamily: "Poppins",
+                      fontSize: 14,
+                      textAlign: "center",
+                    },
+                  }}
+                />
+              )}
+              onOpen={() => toggleScrolling(true)}
+              onClose={() => toggleScrolling(false)}
+              onChange={(event, value) => handleChangeName(value)}
             />
           </div>
+
           <div>
             <InputLabel
               style={{
