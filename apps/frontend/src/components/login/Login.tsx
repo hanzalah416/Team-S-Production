@@ -1,128 +1,76 @@
-import React, { useState, useEffect } from "react";
+// import React, { useState} from "react";
 import styles from "./Login.module.css";
-import TextField from "@mui/material/TextField";
-import heroImage from "../assets/HeroPhotos/Temp1.png";
-import heroImage2 from "../assets/HeroPhotos/nurse6.jpg";
-import heroImage3 from "../assets/HeroPhotos/Temp3.png";
-import bwhLogo from "../assets/bwh-logo.svg";
+import heroImage from "../assets/HeroPhotos/heroImage.png";
+import mapImage from "../assets/HeroPhotos/mapImage.png";
+import Button from "@mui/material/Button";
+// import bwhLogo from "../assets/bwh-logo.svg";
+import {useNavigate} from "react-router-dom";
 
-import { Link, useNavigate } from "react-router-dom";
-// import axios from "axios";
-
-// import Link from '@mui/material/Link';
-// import Checkbox from "@mui/material/Checkbox";
-// import FormControlLabel from "@mui/material/FormControlLabel";
-import axios from "axios";
 
 const Login: React.FC = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const navigate = useNavigate();
-  const [backgroundImage, setBackgroundImage] = useState<string>(heroImage);
+    const navigate = useNavigate();
+    const navigateMap = () => {
+        navigate("/floor-map");
+    };
 
-  useEffect(() => {
-    const imageUrls = [heroImage, heroImage2, heroImage3];
-    const randomImageUrl =
-      imageUrls[Math.floor(imageUrls.length * Math.random())];
-    setBackgroundImage(`url(${randomImageUrl})`);
-  }, []);
-
-  const handleLogin = async () => {
-    try {
-      const response = await axios.get("/api/create-user");
-      console.log("Sucessfully got data from get request");
-      console.log(response.data);
-
-      for (let i = 0; i < response.data.length; i++) {
-        if (
-          response.data[i].userName === username &&
-          response.data[i].userPassword === password
-        ) {
-          navigate("/welcome");
-        }
-      }
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
-
-  const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === "Enter") {
-      // Trigger login function here
-      handleLogin();
-    }
-  };
-
-  return (
-    <div>
-      <div className={styles.wholePage}>
+    return (
+<div>
         <div className={styles.container}>
-          <form className={styles.signInForm}>
-            <img src={bwhLogo} className={styles.logo} alt={"BWH logo"} />
-            <h2 className={styles.title}>Sign in</h2>
+            <div className={styles.imageContainer}>
+                <img src={heroImage} alt="Covering 3/4 page" className={styles.coverImage}/>
+                <div className = {styles.backBottom}>
+<br/>
+                    <br/>
+                    <br/>
 
-            <div className={styles.formGroup}>
-              <TextField
-                id="standard-basic"
-                label="Username"
-                variant="standard"
-                className={styles.muiInput}
-                onChange={(e) => setUsername(e.target.value)}
-                onKeyPress={handleKeyPress}
-              />
+                </div>
+
+                <div className={styles.textOverlay}>
+                    <p className={styles.disclaimer}>This website is a term project exercise for WPI CS 3733 Software
+                        Engineering (Prof. Wong) and is not to be confused with the actual Brigham & Women’s
+                        Hospital website</p>
+
+                </div>
             </div>
+            <div className={styles.textContainer}>
+            <br/><br/>
+                <h1 className={styles.heading}>Brigham and Women's Hospital</h1>
 
-            <div className={styles.formGroup}>
-              <TextField
-                type="password"
-                id="standard-basic"
-                label="Password"
-                variant="standard"
-                className={styles.muiInput}
-                onChange={(e) => setPassword(e.target.value)}
-                onKeyPress={handleKeyPress}
-              />
-            </div>
+                <br/>
 
-            <div className={styles.extras}>
-              {/*<FormControlLabel*/}
-              {/*  control={<Checkbox />}*/}
-              {/*  label="Remember Me"*/}
-              {/*  style={{ color: "black" }}*/}
-              {/*/>*/}
-              {/*<p className={styles.forgotPassword}>*/}
-              {/*  <a className={styles.forgotLink} href="url">*/}
-              {/*    FORGOT PASSWORD?*/}
-              {/*  </a>*/}
-              {/*</p>*/}
-            </div>
+                <p className={styles.heading2}>Helping our patients and their families get back to what matters most.</p>
+                <br/>
+                <br/>
 
-            <div className={styles.buttonGroup}>
-              <div className={styles.buttonGroup}>
-                <button
-                  className={`${styles.button} ${styles.loginButton}`}
-                  type="button"
-                  onClick={handleLogin}
+
+                <Button onClick={navigateMap} color="primary" style={{
+                    backgroundImage: `url(${mapImage})`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                    width: '200px', // Adjust button width as needed
+                    height: '200px', // Adjust button height as needed
+                    marginLeft: '100px',
+                    marginRight: '100px',
+                }}
                 >
-                  Login
-                </button>
-              </div>
-              <p className={styles.signUp}>
-                Don't have an account?{" "}
-                <Link to={"/create-account"}> Sign Up</Link>
-              </p>
+                <span style={{color: 'black', fontSize: '18px', marginTop: '150px'}}>
+                View Map</span>
+                </Button>
             </div>
-          </form>
-          <div
-            className={styles.slideShow}
-            style={{ backgroundImage: backgroundImage }}
-          >
-            {/*<img src="./src/components/assets/HeroPhotos/Temp1.png" className={"heroImage"} alt={"map"}/>*/}
-          </div>
         </div>
-      </div>
+
+
+
+
+
+
     </div>
-  );
+
+
+
+
+    );
 };
+
 
 export default Login;
