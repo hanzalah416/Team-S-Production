@@ -20,6 +20,7 @@ import TabPanel from "@mui/lab/TabPanel";
 import axios from "axios";
 import { Node } from "../../../../../packages/database";
 import { NodeEdge } from "../../../../../packages/database";
+import { Employees } from "../../../../../packages/database";
 import { parse } from "papaparse";
 //import { nodes } from "./common/nodes.ts"; // Import papaparse for CSV parsing
 
@@ -98,7 +99,7 @@ async function PostData(type: Type) {
 enum Type {
   node = "node",
   edge = "edge",
-  staff = "staff",
+  employee = "employee",
 }
 interface StringStringKVP {
   [key: string]: string;
@@ -106,7 +107,7 @@ interface StringStringKVP {
 const apiURL: StringStringKVP = {
   [Type.node]: "csv",
   [Type.edge]: "nodeEdge",
-  [Type.staff]: "", //TBD
+  [Type.employee]: "employee-csv", //TBD
 };
 
 const handleFileUpload = (
@@ -133,7 +134,7 @@ const handleFileUpload = (
                 return value !== undefined ? String(value) : ""; // Ensure edgeID is parsed as a string
               }
               return value;
-            } else if (type == "staff") {
+            } else if (type == "employee") {
               if (header === "employeeID") {
                 return value !== undefined ? String(value) : ""; // Ensure nodeID is parsed as a string
               }
@@ -161,6 +162,7 @@ const handleFileUpload = (
 const NodeDataPage: React.FC = () => {
   const [nodeRows, setNodeRows] = useState<Node[]>([]);
   const [edgeRows, setEdgeRows] = useState<NodeEdge[]>([]);
+  const [employeeRows, setEmployeeRows] = useState<Employees[]>([]);
 
   useEffect(() => {
     async function fetchData(type: Type) {
@@ -174,8 +176,8 @@ const NodeDataPage: React.FC = () => {
           setEdgeRows(filteredEdge);
         } else if (type == Type.node) {
           setNodeRows(res.data);
-        } else if (type == Type.staff) {
-          //set staff rows here
+        } else if (type == Type.employee) {
+          setEmployeeRows(res.data);
         }
       } catch (error) {
         console.error("Error fetching Edge data", error);
@@ -183,7 +185,9 @@ const NodeDataPage: React.FC = () => {
     }
 
     fetchData(Type.node).then(() => {
-      fetchData(Type.edge).then();
+      fetchData(Type.edge).then(() => {
+        fetchData(Type.employee).then();
+      });
     });
     const storedValue = localStorage.getItem(storageKey);
     if (storedValue) {
@@ -207,6 +211,7 @@ const NodeDataPage: React.FC = () => {
             >
               <Tab label="Nodes" value="1" />
               <Tab label="Edges" value="2" />
+              <Tab label="Employees" value="3" />
             </TabList>
           </Box>
           <TabPanel value="1" style={{ padding: 0 }}>
@@ -338,13 +343,71 @@ const NodeDataPage: React.FC = () => {
                 </TableHead>
                 <TableBody>
                   {edgeRows.map((row) => (
-                    <TableRow
-                    /*key={row.startnode}*/
-                    /* sx={{ "&:last-child td, &:last-child th": { border: 0 } }}*/
-                    >
+                    <TableRow>
                       <TableCell align="center">{row.edgeID}</TableCell>
                       <TableCell align="center">{row.startNode}</TableCell>
                       <TableCell align="center">{row.endNode}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </TabPanel>
+          <TabPanel value="3" style={{ padding: 0 }}>
+            <div className={styles.nodeCSV}>
+              <Button
+                className={styles.ufileButton}
+                component="label"
+                role={undefined}
+                variant="contained"
+                tabIndex={-1}
+                startIcon={<CloudUploadIcon />}
+                style={{
+                  marginRight: "5px",
+                  backgroundColor: "#003b9c",
+                  fontFamily: "Poppins",
+                  fontSize: 14,
+                  textAlign: "center",
+                }}
+              >
+                Upload Employees
+                <VisuallyHiddenInput
+                  type="file"
+                  onChange={(e) => handleFileUpload(e, Type.employee)}
+                />
+              </Button>
+              <Button
+                className={styles.dfileButton}
+                component="label"
+                role={undefined}
+                variant="contained"
+                tabIndex={-1}
+                startIcon={<CloudDownloadIcon />}
+                style={{
+                  marginLeft: "5px",
+                  backgroundColor: "#003b9c",
+                  fontFamily: "Poppins",
+                  fontSize: 14,
+                  textAlign: "center",
+                }}
+                onClick={() => GetDataFromClick(Type.employee)}
+              >
+                Download Employees
+              </Button>
+            </div>
+            <TableContainer component={Paper} style={{ marginTop: "25px" }}>
+              <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                <TableHead>
+                  <TableRow>
+                    <TableCell align="center">employeeID</TableCell>
+                    <TableCell align="center">employeeName</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {employeeRows.map((row) => (
+                    <TableRow>
+                      <TableCell align="center">{row.employeeID}</TableCell>
+                      <TableCell align="center">{row.employeeName}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>

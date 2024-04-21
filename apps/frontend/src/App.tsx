@@ -34,19 +34,19 @@ function App() {
           element: (
             <>
               <HeroPage />
-                <Layout />
+              <Layout />
             </>
           ),
         },
-          {
-              path: "/floor-map",
-              element: (
-                  <>
-                      <FloorMap />
-                      <Layout />
-                  </>
-              ),
-          },
+        {
+          path: "/floor-map",
+          element: (
+            <>
+              <FloorMap />
+              <Layout />
+            </>
+          ),
+        },
         {
           path: "/order-flowers",
           element: (
@@ -184,8 +184,6 @@ function Layout() {
       clientId="3UbU8v3PXSEQJsRMtwCJdvoKeWigw8eA"
       onRedirectCallback={(appState: AppState | undefined): void => {
         navigate(appState?.returnTo || window.location.pathname);
-
-
       }}
       authorizationParams={{
         redirect_uri: window.location.origin,
