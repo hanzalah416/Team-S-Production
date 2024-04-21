@@ -33,14 +33,13 @@ const Login: React.FC = () => {
                 </div>
             </div>
             <div className={styles.textContainer}>
-            <br/><br/>
+            <br/><br/><br/>
                 <h1 className={styles.heading}>Brigham and Women's Hospital</h1>
 
-                <br/>
+
 
                 <p className={styles.heading2}>Helping our patients and their families get back to what matters most.</p>
-                <br/>
-                <br/>
+
 
 
                 <Button onClick={navigateMap} color="primary" style={{
@@ -49,8 +48,6 @@ const Login: React.FC = () => {
                     backgroundPosition: 'center',
                     width: '200px', // Adjust button width as needed
                     height: '200px', // Adjust button height as needed
-                    marginLeft: '100px',
-                    marginRight: '100px',
                 }}
                 >
                 <span style={{color: 'black', fontSize: '18px', marginTop: '150px'}}>
