@@ -23,6 +23,8 @@ import { NodeEdge } from "../../../../../packages/database";
 import { parse } from "papaparse";
 //import { nodes } from "./common/nodes.ts"; // Import papaparse for CSV parsing
 
+const storageKey = "SelectedTab";
+
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
   clipPath: "inset(50%)",
@@ -36,15 +38,13 @@ const VisuallyHiddenInput = styled("input")({
 });
 
 function convertToCSV(
-  nodes: Array<{ [key: string]: number | string }>,
+  csvRow: Array<{ [key: string]: number | string }>,
 ): string {
-  if (nodes.length === 0) {
+  if (csvRow.length === 0) {
     return "";
   }
-
-  const headers = Object.keys(nodes[0]).join(",") + "\n";
-
-  const rows = nodes
+  const headers = Object.keys(csvRow[0]).join(",") + "\n";
+  const rows = csvRow
     .map((node) =>
       Object.values(node)
         .map((value) => {
@@ -57,15 +57,15 @@ function convertToCSV(
         .join(","),
     )
     .join("\n");
-
   return headers + rows;
 }
 
-async function GetNodeDataFromClick() {
+async function GetDataFromClick(type: Type) {
   try {
-    const res = await axios.get("/api/csv");
+    console.log(`Trying to get data from "/api/${apiURL[type]}"`);
+    const res = await axios.get(`/api/${apiURL[type]}`);
     console.log(res.data);
-    console.log("successfully got data from get request");
+    console.log(`successfully got ${type} data from get request`);
 
     const csvString = convertToCSV(res.data); // Assuming res.data is of the type Array<{ [key: string]: number | string } you might need to change this>
     const blob = new Blob([csvString], { type: "text/csv;charset=utf-8;" });
@@ -73,35 +73,13 @@ async function GetNodeDataFromClick() {
 
     const a = document.createElement("a");
     a.href = downloadUrl;
-    a.download = "Nodes.csv";
+    a.download = `${type}.csv`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(downloadUrl);
   } catch (error) {
-    console.error("Error fetching or downloading CSV", error);
-  }
-}
-
-async function GetEdgeDataFromClick() {
-  try {
-    const res = await axios.get("/api/nodeEdge");
-    console.log(res.data);
-    console.log("successfully got data from get request");
-
-    const csvString = convertToCSV(res.data); // Assuming res.data is of the type Array<{ [key: string]: number | string } you might need to change this>
-    const blob = new Blob([csvString], { type: "text/csv;charset=utf-8;" });
-    const downloadUrl = URL.createObjectURL(blob);
-
-    const a = document.createElement("a");
-    a.href = downloadUrl;
-    a.download = "Edge.csv";
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(downloadUrl);
-  } catch (error) {
-    console.error("Error fetching or downloading CSV", error);
+    console.error(`Error fetching or downloading ${type} CSV`, error);
   }
 }
 
@@ -109,15 +87,8 @@ let csvData: string[][];
 
 async function PostData(type: Type) {
   try {
-    let url: string = "";
-    if (type == Type.node) {
-      url = "csv";
-    } else if (type == Type.edge) {
-      url = "nodeEdge";
-    } else if (type == Type.staff) {
-      url = ""; //TBD
-    }
-    await axios.post(`/api/${url}`, csvData);
+    //const url: string = apiURL.type;
+    await axios.post(`/api/${apiURL[type]}`, csvData);
     console.log(`${type} data sent`);
   } catch (error) {
     console.log(`error with sending ${type} data`);
@@ -129,6 +100,15 @@ enum Type {
   edge = "edge",
   staff = "staff",
 }
+interface StringStringKVP {
+  [key: string]: string;
+}
+const apiURL: StringStringKVP = {
+  [Type.node]: "csv",
+  [Type.edge]: "nodeEdge",
+  [Type.staff]: "", //TBD
+};
+
 const handleFileUpload = (
   event: React.ChangeEvent<HTMLInputElement>,
   type: Type,
@@ -175,6 +155,7 @@ const handleFileUpload = (
     };
     reader.readAsText(file);
   }
+  window.location.reload();
 };
 
 const NodeDataPage: React.FC = () => {
@@ -209,10 +190,15 @@ const NodeDataPage: React.FC = () => {
     fetchNodeData().then(() => {
       fetchEdgeData().then();
     });
+    const storedValue = localStorage.getItem(storageKey);
+    if (storedValue) {
+      setValue(storedValue);
+    }
   }, []);
   const [value, setValue] = React.useState("1");
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
+    localStorage.setItem(storageKey, newValue);
   };
   return (
     <div className={styles.outerDiv}>
@@ -265,7 +251,7 @@ const NodeDataPage: React.FC = () => {
                   fontSize: 14,
                   textAlign: "center",
                 }}
-                onClick={GetNodeDataFromClick}
+                onClick={() => GetDataFromClick(Type.node)}
               >
                 Download Nodes
               </Button>
@@ -341,7 +327,7 @@ const NodeDataPage: React.FC = () => {
                   fontSize: 14,
                   textAlign: "center",
                 }}
-                onClick={GetEdgeDataFromClick}
+                onClick={() => GetDataFromClick(Type.edge)}
               >
                 Download Edges
               </Button>
