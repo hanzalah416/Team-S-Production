@@ -5,7 +5,6 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import ListSubheader from "@mui/material/ListSubheader";
 import Collapse from "@mui/material/Collapse";
-import StarBorder from "@mui/icons-material/StarBorder";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import { Directions, directionType } from "../../../../backend/src/textPath.ts";
@@ -17,6 +16,7 @@ import SyncIcon from "@mui/icons-material/Sync";
 import FmdGoodIcon from "@mui/icons-material/FmdGood";
 import styles from "./FloorMap.module.css";
 import { GetEstimatedTime } from "../../../../backend/src/PathDistanceCalculater.ts";
+import DirectionsWalkIcon from '@mui/icons-material/DirectionsWalk';
 
 export default function PathToTextDisplay(props: {
   startNode: string;
@@ -142,7 +142,7 @@ export default function PathToTextDisplay(props: {
         return <FmdGoodIcon />;
       // Add more cases as needed for other direction types
       default:
-        return <StarBorder />; // Default icon if direction type is not recognized
+        return <DirectionsWalkIcon />; // Default icon if direction type is not recognized
     }
   };
 
@@ -174,13 +174,18 @@ export default function PathToTextDisplay(props: {
         component="nav"
         aria-labelledby="nested-list-subheader"
         subheader={
-          <ListSubheader
-            component="div"
-            id="nested-list-subheader"
-            style={{ color: "black" }}
-          >
-            Estimated time {estimatedTime} minutes
-          </ListSubheader>
+            <ListSubheader
+                component="div"
+                id="nested-list-subheader"
+                style={{ color: "black", fontWeight: "bold" }}  // Label is bold
+            >
+                Estimated Time: <span
+                style={{ fontWeight: "normal" }}  // Time value is normal weight
+            >
+        {estimatedTime} min
+    </span>
+            </ListSubheader>
+
         }
       >
         {/* Map over the split lists of directions and render each list */}
@@ -189,7 +194,7 @@ export default function PathToTextDisplay(props: {
             {/* Render a subheader for each list */}
             <ListItemButton onClick={() => toggleList(index)}>
               <ListItemIcon>
-                <StarBorder />
+                <DirectionsWalkIcon />
               </ListItemIcon>
               <ListItemText primary={`Floor ${currentFloor[index]}`} />
               {openLists[index] ? <ExpandLess /> : <ExpandMore />}
