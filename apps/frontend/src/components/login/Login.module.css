@@ -2,80 +2,73 @@
 @import url("https://fonts.googleapis.com/css2?family=Jaldi:wght@400;700&display=swap");
 
 .heading {
-    color: black;
-    text-align: center;
-    font-family: "Inter", sans-serif;
-    font-size: 60px;
-    font-weight: bold;
-padding: 8px;
+  color: black;
+  text-align: center;
+  font-family: "Inter", sans-serif;
+  font-size: 60px;
+  font-weight: bold;
+  padding: 8px;
 }
 
 .heading2 {
-    color: black;
-    text-align: center;
-    font-size: 20px;
-    padding: 20px;
-    font-weight: lighter;
-    font-family: "Inter", sans-serif;
+  color: black;
+  text-align: center;
+  font-size: 20px;
+  padding: 20px;
+  font-weight: lighter;
+  font-family: "Inter", sans-serif;
 }
 
 .textContainer {
-    flex: 1; /* Adjust flex value as needed */
-    padding: 10px;
-    background-color: #f0f0f0;
-    min-width: 200px; /* Set a minimum width */
-
+  flex: 1; /* Adjust flex value as needed */
+  padding: 10px;
+  background-color: #f0f0f0;
+  min-width: 200px; /* Set a minimum width */
 }
 
-
 .container {
-    position: absolute;
-    left: 0;
-    top: 80px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: flex-start;
-    width: 100%; /* Adjust width as needed */
-    height: 75vh;
+  position: absolute;
+  left: 0;
+  top: 80px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%; /* Adjust width as needed */
+  height: 75vh;
 }
 
 .imageContainer {
-    flex: 3; /* Adjust flex value as needed */
-    position: relative;
-    object-fit: cover;
-    min-width: 200px; /* Set a minimum width */
+  flex: 3; /* Adjust flex value as needed */
+  position: relative;
+  object-fit: cover;
+  min-width: 200px; /* Set a minimum width */
 }
 
 .coverImage {
-    width: 200vh;
-    height: 92vh;
-    position: relative;
-    object-fit: cover;
+  width: 200vh;
+  height: 92vh;
+  position: relative;
+  object-fit: cover;
 }
 
 .arrowImage {
-
-    position: relative;
-    object-fit: cover;
-    Translate: 300px 300px
+  position: relative;
+  object-fit: cover;
+  translate: 300px 300px;
 }
 
-
-
 .textOverlay {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
-    color: white; /* Adjust text color to your preference */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: white; /* Adjust text color to your preference */
 }
 
 .disclaimer {
-    transform: translate(-250px, -350px); /* Fix typo */
-    font-weight: 800;
-    width: 100%;
+  transform: translate(-250px, -350px); /* Fix typo */
+  font-weight: 800;
+  width: 100%;
 }
-
-
