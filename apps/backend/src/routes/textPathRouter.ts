@@ -26,6 +26,7 @@ router.post("/", async function (req: Request, res: Response) {
       graph.addEdge(edge);
     });
 
+    /*
     console.log(
       "Received start and end nodes:",
       startNode,
@@ -34,7 +35,9 @@ router.post("/", async function (req: Request, res: Response) {
       algorithm,
     );
 
-    const path = graph.findPath(graph, startNode, endNode);
+     */
+
+    const path = graph.findPath(startNode, endNode);
 
     const textDirectionsRaw = PathToText(path.reverse());
     const textDirectionsFilteredJSON = JSON.stringify(

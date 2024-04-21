@@ -4,7 +4,6 @@ import { AStarAlgo } from "./algorithms/AStarAlgo.ts";
 import { BFSAlgo } from "./algorithms/BFSAlgo.ts";
 import { DijkstraAlgo } from "./algorithms/DijkstraAlgo.ts";
 import { DFSAlgo } from "./algorithms/DFSAlgo.ts";
-
 export interface Pathfinding {
   findPath(graph: MakeGraph, startNode: string, endNode: string): GraphNode[];
 }
@@ -30,6 +29,8 @@ class MakeGraph {
     //Ensure algorithm is lowercase
     algo.toLowerCase();
 
+    //Fill graph
+    //FillGraph(this);
     //Decide the algorithm
     switch (algo) {
       case "astar":
@@ -46,8 +47,8 @@ class MakeGraph {
         break;
     }
   }
-  findPath(graph: MakeGraph, start: string, end: string) {
-    return this._pathFinding!.findPath(graph, start, end);
+  findPath(start: string, end: string) {
+    return this._pathFinding!.findPath(this, start, end);
   }
 
   addNode(node: Node): void {
@@ -135,6 +136,27 @@ class MakeGraph {
     return distance + floorCost;
   }
 }
+
+/*
+async function FillGraph(graph: MakeGraph) {
+  try {
+    // Get data from the database to for node and edge variables
+    const nodes = await client.node.findMany();
+    const edges = await client.nodeEdge.findMany();
+
+    // Add nodes and edges to the graph
+    nodes.forEach((node: Node) => {
+      graph.addNode(node);
+    });
+    edges.forEach((edge: NodeEdge) => {
+      graph.addEdge(edge);
+    });
+  } catch (error) {
+    console.log("ERROR FILLING GRAPH");
+  }
+}
+
+ */
 
 export function getFloorNum(floor: string) {
   switch (floor) {
