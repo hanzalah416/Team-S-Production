@@ -17,6 +17,8 @@ import Button from "@mui/material/Button";
 import Grid from "@mui/material/Unstable_Grid2"; // Grid version 2
 import Paper from "@mui/material/Paper";
 import axios from "axios";
+// import BackgroundImg from "./blue-background.jpg";
+import BackgroundImg2 from "../../assets/blue-background2.jpg";
 // import {useAuth0} from "@auth0/auth0-react";
 
 //Interface for positions
@@ -27,7 +29,7 @@ interface Position {
   left: string;
 }
 
-//Interace for nodes
+//Interface for nodes
 interface Node {
   xcoord: string;
   ycoord: string;
@@ -120,6 +122,9 @@ export default function SanitationForm() {
   }
 
   return (
+    <div style={{backgroundImage: `url(${BackgroundImg2})`, height: "100vh", width: "100vw",
+      backgroundSize: "cover", backgroundRepeat: "no-repeat", minHeight: "100%",
+          backgroundPosition: "center center", overflowX: "hidden"}}>
     <Grid
       container
       spacing={5}
@@ -137,66 +142,74 @@ export default function SanitationForm() {
         <p className={"names"}>Jacob Antepli & Dorothy Alexander</p>
 
         <Stack alignItems="center" justifyContent="center" spacing={3} p={4}>
+            <div className={"breakline"}></div>
+            <br/>
+          <Stack
+            spacing={2}
+            direction="row"
+            alignItems="center"
+            justifyContent="center"
+          >
+            <div>
+              <InputLabel
+                style={{
+                  color: "#3B54A0", fontStyle: "italic"
+                }}
+                id="demo-simple-select-label"
+              >
+                Name of Requester
+              </InputLabel>
+              <TextField
+                style={{
+                  borderColor: "#3B54A0",
+                  color: "#3B54A0",
+                  accentColor: "#3B54A0",
+                  borderBlockColor: "#3B54A0",
+                }}
+                id="outlined-controlled"
+                label=""
+                value={name}
+                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                  setName(event.target.value);
+                }}
+                sx={{ minWidth: 250 }}
+              />
+            </div>
+            <div>
+              <InputLabel
+                style={{
+                  color: "#3B54A0", fontStyle: "italic"
+                }}
+                id="priority-dropdown"
+              >
+                Priority
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={priority}
+                label=""
+                onChange={handlePriorityChange}
+                sx={{ minWidth: 250, color: "#3B54A0" }}
+              >
+                <MenuItem value={"Low"}>Low</MenuItem>
+                <MenuItem value={"Medium"}>Medium</MenuItem>
+                <MenuItem value={"High"}>High</MenuItem>
+                <MenuItem value={"Emergency"}>Emergency</MenuItem>
+              </Select>
+            </div>
+          </Stack>
           <div>
             <InputLabel
               style={{
-                color: "#3B54A0",
-              }}
-              id="demo-simple-select-label"
-            >
-              Name of Requester
-            </InputLabel>
-            <TextField
-              style={{
-                borderColor: "#3B54A0",
-                color: "#3B54A0",
-                accentColor: "#3B54A0",
-                borderBlockColor: "#3B54A0",
-              }}
-              id="outlined-controlled"
-              label=""
-              value={name}
-              onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                setName(event.target.value);
-              }}
-              sx={{ minWidth: 400 }}
-            />
-          </div>
-          <div>
-            <InputLabel
-              style={{
-                color: "#3B54A0",
-              }}
-              id="priority-dropdown"
-            >
-              Priority
-            </InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={priority}
-              label=""
-              onChange={handlePriorityChange}
-              sx={{ minWidth: 400, color: "#3B54A0" }}
-            >
-              <MenuItem value={"Low"}>Low</MenuItem>
-              <MenuItem value={"Medium"}>Medium</MenuItem>
-              <MenuItem value={"High"}>High</MenuItem>
-              <MenuItem value={"Emergency"}>Emergency</MenuItem>
-            </Select>
-          </div>
-
-          <div>
-            <InputLabel
-              style={{
-                color: "#3B54A0",
+                color: "#3B54A0", fontStyle: "italic"
               }}
               id="location-dropdown"
             >
               Location
             </InputLabel>
             <Autocomplete
-              sx={{ minWidth: 400, color: "#3B54A0" }}
+              sx={{ minWidth: 518, color: "#3B54A0" }}
               options={locations}
               getOptionLabel={(option) => option.label || "Unknown"}
               isOptionEqualToValue={(option, value) => option.id === value.id}
@@ -223,7 +236,7 @@ export default function SanitationForm() {
           <div>
             <InputLabel
               style={{
-                color: "#3B54A0",
+                color: "#3B54A0", fontStyle: "italic"
               }}
               id="demo-simple-select-label"
             >
@@ -280,7 +293,7 @@ export default function SanitationForm() {
           <div>
             <FormLabel
               style={{
-                color: "#3B54A0",
+                color: "#3B54A0", fontStyle: "italic"
               }}
               id="demo-controlled-radio-buttons-group"
             >
@@ -318,7 +331,7 @@ export default function SanitationForm() {
           <div>
             <InputLabel
               style={{
-                color: "#3B54A0",
+                color: "#3B54A0", fontStyle: "italic"
               }}
               id="demo-simple-select-label"
             >
@@ -330,7 +343,7 @@ export default function SanitationForm() {
               value={status}
               label=""
               onChange={handleStatusChange}
-              sx={{ minWidth: 400 }}
+              sx={{ minWidth: 518 }}
             >
               <MenuItem value={"unassigned"}>Unassigned</MenuItem>
               <MenuItem value={"assigned"}>Assigned</MenuItem>
@@ -339,8 +352,9 @@ export default function SanitationForm() {
             </Select>
           </div>
 
+          <br/>
           <Stack
-            spacing={2}
+            spacing={3}
             direction="row"
             alignItems="center"
             justifyContent="center"
@@ -352,7 +366,7 @@ export default function SanitationForm() {
                 borderColor: "#3B54A0",
               }}
               variant="outlined"
-              sx={{ minWidth: 100 }}
+              sx={{ minWidth: 150, fontFamily: "Jaldi", fontSize: 20 }}
               onClick={clear}
             >
               Clear
@@ -363,7 +377,7 @@ export default function SanitationForm() {
                 backgroundColor: "#3B54A0",
               }}
               variant="contained"
-              sx={{ minWidth: 100 }}
+              sx={{ minWidth: 150, fontFamily: "Jaldi", fontSize: 20 }}
               onClick={submit}
             >
               Submit
@@ -372,5 +386,6 @@ export default function SanitationForm() {
         </Stack>
       </Paper>
     </Grid>
+    </div>
   );
 }

@@ -122,10 +122,10 @@ export default function FreeSoloCreateOptionDialog(
         renderOption={(props, option) => (
           <li {...props}>{option.genericName}</li>
         )}
-        sx={{ width: 300 }}
+        sx={{ width: 518 }}
         freeSolo
         renderInput={(params) => (
-          <TextField {...params} label="Medicine Name" />
+          <TextField {...params} label="" />
         )}
       />
       <Dialog open={open} onClose={handleClose}>
