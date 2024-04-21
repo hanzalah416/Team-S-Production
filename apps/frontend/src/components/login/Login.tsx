@@ -15,7 +15,7 @@ const Login: React.FC = () => {
 
 
     return (
-
+<div>
         <div className={styles.container}>
             <div className={styles.imageContainer}>
                 <img src={heroImage} alt="Covering 3/4 page" className={styles.coverImage}/>
@@ -50,6 +50,66 @@ const Login: React.FC = () => {
                 </Button>
             </div>
         </div>
+
+    <div className = {styles.bottomHalf}>
+        <div className = {styles.firstHalfBottom}>
+        <br/>
+        <Button onClick={navigateMap} color="primary" style={{
+            backgroundImage: `url(${mapImage})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            width: '345px', // Adjust button width as needed
+            height: '345px', // Adjust button height as needed
+
+        }}
+        >
+
+                <span style={{color: 'black', fontSize: '18px', marginTop: '150px'}}>
+                View Map</span>
+        </Button>
+        <Button onClick={navigateMap} color="primary" style={{
+            backgroundImage: `url(${mapImage})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            width: '345px', // Adjust button width as needed
+            height: '345px', // Adjust button height as needed
+
+        }}
+        >
+                <span style={{color: 'black', fontSize: '18px', marginTop: '150px'}}>
+                View Map</span>
+        </Button>
+        <Button onClick={navigateMap} color="primary" style={{
+            backgroundImage: `url(${mapImage})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            width: '345px', // Adjust button width as needed
+            height: '345px', // Adjust button height as needed
+        }}
+        >
+                <span style={{color: 'black', fontSize: '18px', marginTop: '150px'}}>
+                View Map</span>
+        </Button>
+        </div>
+
+        <div className = {styles.secondHalfBottom}>
+
+
+
+        </div>
+
+
+
+
+
+
+    </div>
+
+
+
+
+
+</div>
     );
 };
 

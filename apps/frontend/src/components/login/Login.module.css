@@ -48,7 +48,7 @@ padding: 8px;
 }
 
 .coverImage {
-    width: 900vh;
+    width: 200vh;
     height: 92.5vh;
     position: relative;
     object-fit: cover;
@@ -70,4 +70,17 @@ padding: 8px;
     width: 100%;
 }
 
+.bottomHalf {
+    height: 200vh;
+}
 
+.firstHalfBottom {
+    flex-direction: row;
+translate: -200px 1000px;
+    margin-right: 20px;
+}
+
+
+.secondHalfBottom {
+    flex-direction: row;
+}
