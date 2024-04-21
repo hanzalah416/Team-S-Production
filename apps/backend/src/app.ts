@@ -21,6 +21,7 @@ import roomSchedulingRouter from "./routes/roomScheduling.ts";
 import textPathRouter from "./routes/textPathRouter.ts";
 import MedsForAutofillRouter from "./routes/MedsForAutofillRoutes.ts";
 import ReturnClosestRouter from "./routes/ReturnClosestRouter.ts";
+import ElevatorIdRouter from "./routes/elevatorRoutes.ts";
 import { auth } from "express-oauth2-jwt-bearer";
 
 // import allEdgesRouter from "./routes/getAllEdgesData.ts";
@@ -68,6 +69,7 @@ app.use("/api/room-scheduling", roomSchedulingRouter);
 app.use("/api/pathToText", textPathRouter);
 app.use("/api/language-request", languageRouter);
 app.use("/api/returnClosest", ReturnClosestRouter);
+app.use("/api/elevatorNodes", ElevatorIdRouter);
 
 app.use("/healthcheck", (req, res) => {
   res.status(200).send();

@@ -865,11 +865,11 @@ function FloorMap() {
             </Suspense>
           </div>
 
-          <div
-            className={`${styles.MapKey} ${showMapKey ? styles.ShowMapKey : ""}`}
-          >
-            <KeySelection />
-          </div>
+
+              <KeySelection
+                startNode={startPosition?.id}
+                showMapKey = {showMapKey}/>
+
         </div>
       </div>
     </div>
