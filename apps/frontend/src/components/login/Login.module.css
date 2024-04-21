@@ -41,7 +41,7 @@ padding: 8px;
 }
 
 .imageContainer {
-    flex: 4; /* Adjust flex value as needed */
+    flex: 3; /* Adjust flex value as needed */
     position: relative;
     object-fit: cover;
     min-width: 200px; /* Set a minimum width */
@@ -49,10 +49,18 @@ padding: 8px;
 
 .coverImage {
     width: 200vh;
-    height: 92.5vh;
+    height: 92vh;
     position: relative;
     object-fit: cover;
 }
+
+.arrowImage {
+
+    position: relative;
+    object-fit: cover;
+    Translate: 300px 300px
+}
+
 
 
 .textOverlay {
@@ -65,22 +73,9 @@ padding: 8px;
 }
 
 .disclaimer {
-    transform: translate(-300px, -350px); /* Fix typo */
+    transform: translate(-250px, -350px); /* Fix typo */
     font-weight: 800;
     width: 100%;
 }
 
-.bottomHalf {
-    height: 200vh;
-}
 
-.firstHalfBottom {
-    flex-direction: row;
-translate: -200px 1000px;
-    margin-right: 20px;
-}
-
-
-.secondHalfBottom {
-    flex-direction: row;
-}
