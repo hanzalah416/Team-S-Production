@@ -17,7 +17,15 @@ import FreeSoloCreateOptionDialog from "./TextBoxMD.tsx";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import BackgroundImg2 from "../../assets/blue-background2.jpg";
+import Tooltip from '../../ToolTip';
 
+const tips = `
+Name of Requester: Enter the full name of the person requiring language assistance.
+Priority: Click on the dropdown menu to indicate the urgency of the request. The options may include urgent, high, medium, or low.
+Location: Use the dropdown to select the location where the language services are needed. This might refer to a specific department, office, or event location.
+Language: Choose the language for which assistance is required from the dropdown menu. This might list languages such as Spanish, French, Mandarin, etc.
+Status: If the form allows for setting a status, select the current status of the request, like 'new', 'pending', 'approved', or 'completed'.
+`;
 //Interface for positions
 interface Position {
   label: string;
@@ -148,7 +156,10 @@ export default function MedicineDeliveryForm() {
           sx={{ paddingLeft: 7, paddingRight: 7, paddingBottom: 4 }}
         >
           <br />
-          <p className={"title"}>Medicine Delivery Request Form </p>
+          <p className={"title"} style={{ position:"relative"}}>
+            Medicine Delivery Request Form
+            <Tooltip style={{ position:"absolute", right: '-20px', top:0 }} tips={tips} />
+          </p>
           <p className={"names"}>Kim Cummings & Riley Yu</p>
           <br />
           <Stack alignItems="center" justifyContent="center" spacing={3}>
