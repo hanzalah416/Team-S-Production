@@ -260,6 +260,7 @@ function FloorMap() {
   };
 
   const toggleNodesVisibility = () => {
+      setShouldAutoZoom(true);
     clearInputs();
     setShowNodes(!showNodes);
   };
@@ -374,6 +375,7 @@ function FloorMap() {
     setPathFound(true);
     setResetKey((prevKey) => prevKey + 1); // Increment the reset key
       setShouldAutoZoom(true);
+      console.log(shouldAutoZoom);
     setResetFloorsUIKey((prevKey) => prevKey + 1);
       if (transformRef.current) {
           // This assumes resetTransform is available and correctly set up in the TransformWrapper
