@@ -66,6 +66,8 @@ function NavBar() {
   const servicesID = document.getElementById("servicesID");
   const creditsID = document.getElementById("creditsID");
 
+  const [backdropVisible, setBackdropVisible] = React.useState(false);
+
   const [username, setUsername] = React.useState("USERNAME");
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -201,6 +203,22 @@ function NavBar() {
     }
   }, [user]);
 
+  const onBackDropClick = () => {
+    if (!backdropVisible) {
+      document.documentElement.style.setProperty(
+        `--${"backdropwidth"}`,
+        0 + "vw",
+      );
+      setBackdropVisible(true);
+    } else if (backdropVisible) {
+      document.documentElement.style.setProperty(
+        `--${"backdropwidth"}`,
+        100 + "vw",
+      );
+      setBackdropVisible(false);
+    }
+  };
+
   return (
     <div className="navbar">
       {/* Navbar content */}
@@ -330,6 +348,12 @@ function NavBar() {
           </ThemeProvider>
         </FormControl>
       </div>
+      <Button onClick={onBackDropClick}>
+        <div className={"navDrop"}>
+          <img src={creditIcon} className={"iconHeight"} width={"38px"} />
+        </div>
+      </Button>
+      <div id={"backDropID"} className={"dropDownBackDrop"} />
       <div className={"blueBar"} />
     </div>
   );
