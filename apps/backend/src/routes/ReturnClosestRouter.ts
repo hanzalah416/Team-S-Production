@@ -36,14 +36,12 @@ router.post("/", async function (req: Request, res: Response) {
         );
          */
 
-    const path = ReturnClosestNode(startNode, endNodes, graph);
+    const closestId = ReturnClosestNode(startNode, endNodes, graph);
 
-    const pathIds = path!.map((node) => node.id).reverse();
-
-    if (!pathIds || pathIds.length === 0) {
+    if (!closestId) {
       res.sendStatus(204); // No Content
     } else {
-      res.json({ id: pathIds }); // Send the path as response
+      res.json(closestId); // Send the path as response
     }
   } catch (error) {
     console.error("Error by pathfinding:", error);

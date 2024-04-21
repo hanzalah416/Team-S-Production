@@ -341,3 +341,8 @@ body {
   overflow-y: auto;
   overflow-x: hidden;
 }
+
+.keyButton {
+  all: unset;
+  cursor: pointer;
+}
