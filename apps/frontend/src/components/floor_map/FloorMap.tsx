@@ -2,7 +2,7 @@ import React, { lazy, Suspense, useCallback, useEffect, useState, useRef } from 
 import styles from "./FloorMap.module.css";
 import {
     TransformWrapper,
-    TransformComponent,
+    TransformComponent, ReactZoomPanPinchContentRef,
 } from 'react-zoom-pan-pinch';
 
 import Autocomplete from "@mui/material/Autocomplete";
@@ -54,6 +54,9 @@ interface Node {
   floor: string;
 }
 
+
+
+
 // interface FloorSwitcherProps {
 //   onChange: (floor: string) => void;
 // }
@@ -81,9 +84,82 @@ function FloorMap() {
   const [fullPath, setFullPath] = useState<string[]>([]);
   const [showNodes, setShowNodes] = useState(false);
   const [showMapKey, setShowMapKey] = useState(false);
-    const transformRef = useRef(null);
+    const transformRef = useRef<ReactZoomPanPinchContentRef>(null);
 
 
+    const calculateAndZoom = () => {
+        console.log("Attempting to calculate and zoom...");
+
+        const dotContainer = document.querySelector('._dotsContainer_jx70r_120');
+        if (!dotContainer) {
+            console.log("No dot container element found.");
+            return;
+        }
+
+        const dots = dotContainer.querySelectorAll('._mapDot_jx70r_111');
+        if (dots.length === 0) {
+            console.log("No dot elements found.");
+            return;
+        }
+
+        let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+
+        dots.forEach((dot: Element) => {
+            const style = (dot as HTMLElement).style;
+            const top = parseFloat(style.top);
+            const left = parseFloat(style.left);
+
+            const containerWidth = dotContainer.clientWidth;
+            const containerHeight = dotContainer.clientHeight;
+
+            const actualTop = top / 100 * containerHeight;
+            const actualLeft = left / 100 * containerWidth;
+
+            minX = Math.min(minX, actualLeft);
+            maxX = Math.max(maxX, actualLeft);
+            minY = Math.min(minY, actualTop);
+            maxY = Math.max(maxY, actualTop);
+        });
+
+        console.log(`Bounds calculated: minX=${minX}, maxX=${maxX}, minY=${minY}, maxY=${maxY}`);
+
+        if (transformRef.current?.instance.wrapperComponent) {
+            const wrapperWidth = transformRef.current.instance.wrapperComponent.clientWidth;
+            const wrapperHeight = transformRef.current.instance.wrapperComponent.clientHeight;
+
+            const widthRatio = wrapperWidth / (maxX - minX);
+            const heightRatio = wrapperHeight / (maxY - minY);
+            // Compute the scale and ensure it does not exceed 8
+            const calculatedScale = Math.min(widthRatio, heightRatio) * 0.85;
+            const scale = Math.min(calculatedScale, 8); // Ensuring scale never goes over 8
+
+            const centerX = (minX + maxX) / 2;
+            const centerY = (minY + maxY) / 2;
+
+            console.log(`Setting transform: CenterX=${centerX}, CenterY=${centerY}, Scale=${scale}`);
+            transformRef.current.setTransform(
+                wrapperWidth / 2 - centerX * scale,
+                wrapperHeight / 2 - centerY * scale,
+                scale
+            );
+        } else {
+            console.log("TransformWrapper's instance or wrapperComponent is undefined.");
+        }
+    };
+
+
+    useEffect(() => {
+        console.log("TransformWrapper ref:", transformRef.current);
+    }, []);
+
+    useEffect(() => {
+        // This timeout is to ensure that DOM updates have been flushed and rendered.
+        const timer = setTimeout(() => {
+            calculateAndZoom();
+        }, 100); // A short delay to ensure DOM elements are rendered
+
+        return () => clearTimeout(timer); // Cleanup the timeout if the component unmounts
+    }, [filteredQueueNodeIDs]);
 
 
     const handleNodeClick = (node: Position | null) => {
@@ -203,8 +279,7 @@ function FloorMap() {
 
     useEffect(() => {
         if (transformRef.current) {
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-expect-error
+
             //this is the easiest fix trust
             transformRef.current.resetTransform(); // Reset zoom and pan settings
         }
@@ -223,6 +298,10 @@ function FloorMap() {
     setPathFound(true);
     setResetKey((prevKey) => prevKey + 1); // Increment the reset key
     setResetFloorsUIKey((prevKey) => prevKey + 1);
+      if (transformRef.current) {
+          // This assumes resetTransform is available and correctly set up in the TransformWrapper
+          transformRef.current.resetTransform();
+      }
   };
   const [resetKey, setResetKey] = useState(0);
 
