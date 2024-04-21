@@ -163,32 +163,27 @@ const NodeDataPage: React.FC = () => {
   const [edgeRows, setEdgeRows] = useState<NodeEdge[]>([]);
 
   useEffect(() => {
-    async function fetchNodeData() {
+    async function fetchData(type: Type) {
       try {
-        const nodeRes = await axios.get("/api/csv");
-        console.log("successfully got node data from get request:");
-        console.log(nodeRes.data);
-        setNodeRows(nodeRes.data);
-        //figure out how to handle setRows for Edge data
-      } catch (error) {
-        console.error("Error fetching node data", error);
-      }
-    }
-    async function fetchEdgeData() {
-      try {
-        const edgeRes = await axios.get("/api/nodeEdge");
-        console.log("successfully got Edge data from get request:");
-        console.log(edgeRes.data);
-        const edgeData: NodeEdge[] = edgeRes.data;
-        const filteredEdge = edgeData.filter((x) => x.startNode != null);
-        setEdgeRows(filteredEdge);
-        //figure out how to handle setRows for Edge data
+        const res = await axios.get(`/api/${apiURL[type]}`);
+        console.log(`successfully got ${type} data from get request:`);
+        console.log(res.data);
+        if (type == Type.edge) {
+          const edgeData: NodeEdge[] = res.data;
+          const filteredEdge = edgeData.filter((x) => x.startNode != null);
+          setEdgeRows(filteredEdge);
+        } else if (type == Type.node) {
+          setNodeRows(res.data);
+        } else if (type == Type.staff) {
+          //set staff rows here
+        }
       } catch (error) {
         console.error("Error fetching Edge data", error);
       }
     }
-    fetchNodeData().then(() => {
-      fetchEdgeData().then();
+
+    fetchData(Type.node).then(() => {
+      fetchData(Type.edge).then();
     });
     const storedValue = localStorage.getItem(storageKey);
     if (storedValue) {
