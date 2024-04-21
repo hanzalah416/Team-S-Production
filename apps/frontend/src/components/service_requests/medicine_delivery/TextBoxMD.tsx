@@ -124,9 +124,7 @@ export default function FreeSoloCreateOptionDialog(
         )}
         sx={{ width: 518 }}
         freeSolo
-        renderInput={(params) => (
-          <TextField {...params} label="" />
-        )}
+        renderInput={(params) => <TextField {...params} label="" />}
       />
       <Dialog open={open} onClose={handleClose}>
         <form onSubmit={handleSubmit}>
