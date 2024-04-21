@@ -72,6 +72,36 @@ const SecurityRequest: React.FC = () => {
     setRequestPriority(event.target.value as string);
   };
 
+  useEffect(() => {
+    // Fetch node data from the backend
+    fetch("/api/nodes")
+      .then((response) => response.json())
+      .then((nodes: Node[]) => {
+        const formattedLocations: Position[] = nodes.map((node) => ({
+          label: node.longName || "Unknown", // Use the correct property name
+          id: node.id,
+          top: `${node.ycoord}px`,
+          left: `${node.xcoord}px`,
+        }));
+
+        setLocations(formattedLocations);
+      })
+      .catch((error) => console.error("Failed to fetch node data:", error));
+  }, []);
+
+  useEffect(() => {
+    // Fetch staff data from the backend
+    fetch("/api/all-staff")
+      .then((response) => response.json())
+      .then((staffInfo: Staff[]) => {
+        const formattedStaff: Staff[] = staffInfo.map((staff) => ({
+          employeeName: staff.employeeName || "unknown",
+        }));
+        setStaffNames(formattedStaff);
+      })
+      .catch((error) => console.error("Failed to fetch staff data:", error));
+  }, []);
+
   async function submit() {
     if (
       staffName == null ||
@@ -128,36 +158,6 @@ const SecurityRequest: React.FC = () => {
       document.body.style.overflow = "";
     }
   };
-
-  useEffect(() => {
-    // Fetch node data from the backend
-    fetch("/api/nodes")
-      .then((response) => response.json())
-      .then((nodes: Node[]) => {
-        const formattedLocations: Position[] = nodes.map((node) => ({
-          label: node.longName || "Unknown", // Use the correct property name
-          id: node.id,
-          top: `${node.ycoord}px`,
-          left: `${node.xcoord}px`,
-        }));
-
-        setLocations(formattedLocations);
-      })
-      .catch((error) => console.error("Failed to fetch node data:", error));
-  }, []);
-
-  useEffect(() => {
-    // Fetch node data from the backend
-    fetch("/api/all-staff")
-      .then((response) => response.json())
-      .then((staffInfo: Staff[]) => {
-        const formattedStaff: Staff[] = staffInfo.map((staff) => ({
-          employeeName: staff.employeeName || "unknown",
-        }));
-        setStaffNames(formattedStaff);
-      })
-      .catch((error) => console.error("Failed to fetch staff data:", error));
-  }, []);
 
   return (
     <Grid
