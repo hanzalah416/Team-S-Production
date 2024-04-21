@@ -3,7 +3,7 @@ import Popover from '@mui/material/Popover';
 import Typography from '@mui/material/Typography';
 import ErrorOutlineOutlinedIcon from '@mui/icons-material/ErrorOutlineOutlined';
 
-export default function ToolTip({className,tips}) {
+export default function ToolTip({className,style,tips}) {
     const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 
     const handlePopoverOpen = (event: React.MouseEvent<HTMLElement>) => {
@@ -17,7 +17,7 @@ export default function ToolTip({className,tips}) {
     const open = Boolean(anchorEl);
 
     return (
-        <div className={className}>
+        <div className={className} style={style}>
             <ErrorOutlineOutlinedIcon
                 onMouseEnter={handlePopoverOpen}
                 onMouseLeave={handlePopoverClose}
