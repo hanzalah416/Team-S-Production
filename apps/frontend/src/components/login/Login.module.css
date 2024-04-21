@@ -31,13 +31,12 @@ padding: 8px;
 .container {
     position: absolute;
     left: 0;
-    top: 80px;
+    top: 10px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: flex-start;
     width: 100%; /* Adjust width as needed */
-    height: 75vh;
 }
 
 .imageContainer {
@@ -49,18 +48,11 @@ padding: 8px;
 
 .coverImage {
     width: 200vh;
-    height: 92vh;
+    height: 90vh;
     position: relative;
     object-fit: cover;
+    translate: 0px 70px
 }
-
-.arrowImage {
-
-    position: relative;
-    object-fit: cover;
-    Translate: 300px 300px
-}
-
 
 
 .textOverlay {
@@ -73,7 +65,7 @@ padding: 8px;
 }
 
 .disclaimer {
-    transform: translate(-250px, -350px); /* Fix typo */
+    transform: translate(-150px, -250px); /* Fix typo */
     font-weight: 800;
     width: 100%;
 }
