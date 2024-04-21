@@ -54,18 +54,6 @@ interface Node {
   floor: string;
 }
 
-
-
-
-// interface FloorSwitcherProps {
-//   onChange: (floor: string) => void;
-// }
-
-// interface Tag {
-//   tag: string;
-//   index: number;
-// }
-
 function FloorMap() {
   const [resetFloorsUIKey, setResetFloorsUIKey] = useState(0);
   const [algorithm, setAlgorithm] = useState("astar");
@@ -85,10 +73,83 @@ function FloorMap() {
   const [showNodes, setShowNodes] = useState(false);
   const [showMapKey, setShowMapKey] = useState(false);
     const transformRef = useRef<ReactZoomPanPinchContentRef>(null);
+    const [shouldAutoZoom, setShouldAutoZoom] = useState(true);
+
+
+
+    const zoomToPathSegment = useCallback((segmentIndex: number) => {
+        setShouldAutoZoom(false);
+
+        // Adjust the logic to handle floor change markers correctly
+        let currentSegment = 0;
+        let startIndex = 0;
+        let endIndex = fullPath.length;
+
+        for (let i = 0; i < fullPath.length; i++) {
+            if (fullPath[i].length === 3) { // Floor change markers
+                if (currentSegment === segmentIndex) {
+                    endIndex = i;
+                    break;
+                }
+                currentSegment++;
+                startIndex = i + 1;
+            }
+        }
+
+        const startNode = locations.find(loc => loc.id === fullPath[startIndex]);
+        const endNode = locations.find(loc => loc.id === fullPath[Math.max(endIndex - 1, startIndex)]);
+
+        if (!startNode || !endNode) {
+            console.log("Start or end node not found, unable to zoom.");
+            return;
+        }
+
+
+        const mapWidth = 5000;  // Full width of the map in pixels
+        const mapHeight = 3400; // Full height of the map in pixels
+
+        // Convert pixel values to percentages of the full map dimensions
+        const minXPercent = Math.min(parseInt(startNode.left) / mapWidth * 100, parseInt(endNode.left) / mapWidth * 100);
+        const maxXPercent = Math.max(parseInt(startNode.left) / mapWidth * 100, parseInt(endNode.left) / mapWidth * 100);
+        const minYPercent = Math.min(parseInt(startNode.top) / mapHeight * 100, parseInt(endNode.top) / mapHeight * 100);
+        const maxYPercent = Math.max(parseInt(startNode.top) / mapHeight * 100, parseInt(endNode.top) / mapHeight * 100);
+
+
+        setTimeout(() => {
+        if (transformRef.current?.instance.wrapperComponent) {
+            const wrapperWidth = transformRef.current.instance.wrapperComponent.clientWidth;
+            const wrapperHeight = transformRef.current.instance.wrapperComponent.clientHeight;
+
+            // Calculate the actual pixel values from percentages for the viewport
+            const minX = minXPercent / 100 * wrapperWidth;
+            const maxX = maxXPercent / 100 * wrapperWidth;
+            const minY = minYPercent / 100 * wrapperHeight;
+            const maxY = maxYPercent / 100 * wrapperHeight;
+
+            const widthRatio = wrapperWidth / (maxX - minX);
+            const heightRatio = wrapperHeight / (maxY - minY);
+            const scale = Math.min(widthRatio, heightRatio, 8) * 0.85; // Limiting scale to a maximum of 8
+
+            const centerX = (minX + maxX) / 2;
+            const centerY = (minY + maxY) / 2;
+
+            transformRef.current.setTransform(
+                wrapperWidth / 2 - centerX * scale,
+                wrapperHeight / 2 - centerY * scale,
+                scale
+            );
+
+        } else {
+            console.log("TransformWrapper's instance or wrapperComponent is undefined.");
+        }
+
+
+        }, 100);
+
+    }, [fullPath, locations, transformRef, setShouldAutoZoom]);
 
 
     const calculateAndZoom = () => {
-
         const dotContainer = document.querySelector('[class^="_dotsContainer"]');
         if (!dotContainer) {
             console.log("No dot container element found.");
@@ -114,7 +175,6 @@ function FloorMap() {
             console.log("No non-transparent dot elements found.");
             return;
         }
-console.log(dots.length);
 
 
 
@@ -130,6 +190,7 @@ console.log(dots.length);
 
             const actualTop = top / 100 * containerHeight;
             const actualLeft = left / 100 * containerWidth;
+
 
             minX = Math.min(minX, actualLeft);
             maxX = Math.max(maxX, actualLeft);
@@ -156,6 +217,7 @@ console.log(dots.length);
                 wrapperHeight / 2 - centerY * scale,
                 scale
             );
+
         } else {
             console.log("TransformWrapper's instance or wrapperComponent is undefined.");
         }
@@ -165,13 +227,14 @@ console.log(dots.length);
 
 
     useEffect(() => {
-        // This timeout is to ensure that DOM updates have been flushed and rendered.
-        const timer = setTimeout(() => {
-            calculateAndZoom();
-        }, 100); // A short delay to ensure DOM elements are rendered
+        if (shouldAutoZoom) {
+            const timer = setTimeout(() => {
+                calculateAndZoom();
+            }, 100); // A short delay to ensure DOM elements are rendered
 
-        return () => clearTimeout(timer); // Cleanup the timeout if the component unmounts
-    }, [filteredQueueNodeIDs]);
+            return () => clearTimeout(timer); // Cleanup the timeout if the component unmounts
+        }
+    }, [filteredQueueNodeIDs, shouldAutoZoom]);
 
 
     const handleNodeClick = (node: Position | null) => {
@@ -280,6 +343,7 @@ console.log(dots.length);
 
 
   const handleFloorChange = (floor: string) => {
+      setShouldAutoZoom(true);
     setCurrentFloor(floor);
 
 
@@ -309,6 +373,7 @@ console.log(dots.length);
     setFullPath([]); // Clear the full path
     setPathFound(true);
     setResetKey((prevKey) => prevKey + 1); // Increment the reset key
+      setShouldAutoZoom(true);
     setResetFloorsUIKey((prevKey) => prevKey + 1);
       if (transformRef.current) {
           // This assumes resetTransform is available and correctly set up in the TransformWrapper
@@ -354,6 +419,7 @@ console.log(dots.length);
   };
 
   const handleSelection = (value: Position | null, type: "start" | "end") => {
+      setShouldAutoZoom(true);
     if (type === "start") {
       setStartPosition(value);
       if (value) {
@@ -589,6 +655,7 @@ console.log(dots.length);
                   endNode={endPosition.id}
                   algo={algorithm}
                   onChangeFloor={handleFloorChange} // Passing the method as a prop
+                  zoomToSegment={zoomToPathSegment}
                 />
               )}
             </div>

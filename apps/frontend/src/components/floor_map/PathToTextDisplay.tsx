@@ -23,6 +23,7 @@ export default function PathToTextDisplay(props: {
   endNode: string;
   algo: string;
   onChangeFloor: (floor: string) => void;
+    zoomToSegment: (segmentIndex: number) => void;
 }) {
   //Keep track of which lists are open
   const [openLists, setOpenLists] = useState<boolean[]>([]);
@@ -85,30 +86,31 @@ export default function PathToTextDisplay(props: {
   };
 
   // Toggle the open/closed state of a list
-  const toggleList = (index: number) => {
-    const floorLabel = currentFloor[index];
-    console.log(`Toggling list for floor: ${floorLabel}`);
+    const toggleList = (index: number) => {
+        const isOpen = openLists[index]; // Check if the current list is open
+        const floorLabel = currentFloor[index];
+        console.log(`Toggling list for floor: ${floorLabel}`);
 
-    // Map floor label "3" to "03", etc.
-    const formattedFloorLabel = formatFloorLabel(floorLabel);
+        // Map floor label "3" to "03", etc.
+        const formattedFloorLabel = formatFloorLabel(floorLabel);
 
-    setOpenLists((prevState) => {
-      // Create a new array where all values are set to false
-      const newState = prevState.map(() => false);
+        setOpenLists((prevState) => {
+            // Create a new array where all values are set to false to close all other lists
+            const newState = prevState.map(() => false);
 
-      // Set the value at the current index to the opposite of its current state
-      // This ensures that only the list at the current index can be open at one time
-      newState[index] = !prevState[index];
+            // Toggle the current list state
+            newState[index] = !prevState[index];
 
-      // If the current list is now being opened
-      if (!prevState[index]) {
-        // Set the current floor on opening the list
-        props.onChangeFloor(formattedFloorLabel);
-      }
+            // If the current list is being opened and was previously closed
+            if (!isOpen) {
+                // Set the current floor on opening the list
+                props.onChangeFloor(formattedFloorLabel);
+                props.zoomToSegment(index); // Zoom to the segment when the list is opened
+            }
 
-      return newState;
-    });
-  };
+            return newState;
+        });
+    };
 
   // Helper function to format the floor label correctly
   const formatFloorLabel = (floorLabel: string) => {
@@ -191,8 +193,13 @@ export default function PathToTextDisplay(props: {
         {/* Map over the split lists of directions and render each list */}
         {splitDirections().map((list, index) => (
           <div key={index}>
+
             {/* Render a subheader for each list */}
-            <ListItemButton onClick={() => toggleList(index)}>
+            <ListItemButton onClick={() => {
+                toggleList(index);  // Using the passed function
+            }}
+            >
+
               <ListItemIcon>
                 <DirectionsWalkIcon />
               </ListItemIcon>
@@ -208,11 +215,13 @@ export default function PathToTextDisplay(props: {
               >
                 {/* Render each direction in the list */}
                 {list.map((direction: Directions, idx) => (
-                  <ListItemButton
-                    key={idx}
-                    sx={{ pl: 4 }}
-                    onClick={() => speakDirections(direction)}
-                  >
+                    <ListItemButton
+                        key={idx}
+                        sx={{ pl: 4 }}
+                        onClick={() => {
+                            speakDirections(direction);
+                        }}
+                    >
                     <ListItemIcon>
                       {getIconForDirectionType(direction.directionType)}
                     </ListItemIcon>
