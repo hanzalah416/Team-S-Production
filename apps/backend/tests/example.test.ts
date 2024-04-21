@@ -4,9 +4,13 @@ function sum(a: number, b: number) {
 }
 
 // Use the `test` function to run a test
+/*
 test("test something", () => {
-  expect(1).toBe(1);
+  const endNodes = ["GSERV02301", "FSERV00101"];
+  console.log(ReturnClosestNode("FHALL02901", endNodes, "astar"));
 });
+
+ */
 
 // Use the `describe` function to group related tests
 describe("sum", () => {
