@@ -88,19 +88,35 @@ function FloorMap() {
 
 
     const calculateAndZoom = () => {
-        console.log("Attempting to calculate and zoom...");
 
-        const dotContainer = document.querySelector('._dotsContainer_jx70r_120');
+        const dotContainer = document.querySelector('[class^="_dotsContainer"]');
         if (!dotContainer) {
             console.log("No dot container element found.");
             return;
         }
 
-        const dots = dotContainer.querySelectorAll('._mapDot_jx70r_111');
-        if (dots.length === 0) {
+        // Use attribute selector to find all elements where class starts with "_mapDot"
+
+        // Use attribute selector to find all elements where class starts with "_mapDot"
+        const allDots = dotContainer.querySelectorAll('[class^="_mapDot"]');
+        if (allDots.length === 0) {
             console.log("No dot elements found.");
             return;
         }
+
+        // Filter dots to include only those that are not transparent
+        const dots = Array.from(allDots).filter(dot => {
+            const style = (dot as HTMLElement).style;
+            return style.backgroundColor !== 'transparent' && style.backgroundColor !== 'rgba(0, 0, 0, 0)';
+        });
+
+        if (dots.length === 0) {
+            console.log("No non-transparent dot elements found.");
+            return;
+        }
+console.log(dots.length);
+
+
 
         let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
 
@@ -121,7 +137,6 @@ function FloorMap() {
             maxY = Math.max(maxY, actualTop);
         });
 
-        console.log(`Bounds calculated: minX=${minX}, maxX=${maxX}, minY=${minY}, maxY=${maxY}`);
 
         if (transformRef.current?.instance.wrapperComponent) {
             const wrapperWidth = transformRef.current.instance.wrapperComponent.clientWidth;
@@ -136,7 +151,6 @@ function FloorMap() {
             const centerX = (minX + maxX) / 2;
             const centerY = (minY + maxY) / 2;
 
-            console.log(`Setting transform: CenterX=${centerX}, CenterY=${centerY}, Scale=${scale}`);
             transformRef.current.setTransform(
                 wrapperWidth / 2 - centerX * scale,
                 wrapperHeight / 2 - centerY * scale,
@@ -148,9 +162,7 @@ function FloorMap() {
     };
 
 
-    useEffect(() => {
-        console.log("TransformWrapper ref:", transformRef.current);
-    }, []);
+
 
     useEffect(() => {
         // This timeout is to ensure that DOM updates have been flushed and rendered.
@@ -163,7 +175,7 @@ function FloorMap() {
 
 
     const handleNodeClick = (node: Position | null) => {
-    console.log("Node clicked:", node);
+
     const formatFloor = (floor: string) => {
       // Prepend '0' if the floor is '1', '2', or '3'
       return ["1", "2", "3"].includes(floor) ? `0${floor}` : floor;
