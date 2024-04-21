@@ -22,6 +22,16 @@ export function CalculatePathDistance(node1: GraphNode, node2: GraphNode) {
   }
 }
 
+//Calculates the total distance using
+export function TotalDistanceGraph(path: GraphNode[]) {
+  let totalDist = 0;
+  for (let i = 0; i < path.length - 1; i++) {
+    totalDist += CalculatePathDistance(path[i], path[i + 1]);
+  }
+
+  return totalDist;
+}
+
 export function TotalDirectionDist(path: Directions[]) {
   let totalDist: number = 0;
 
@@ -34,4 +44,8 @@ export function TotalDirectionDist(path: Directions[]) {
 
 export function GetEstimatedTime(path: Directions[]) {
   return Math.round(TotalDirectionDist(path) / 273);
+}
+
+export function GetEstimatedTimeGraph(path: GraphNode[]) {
+  return Math.round(TotalDistanceGraph(path) / 273);
 }

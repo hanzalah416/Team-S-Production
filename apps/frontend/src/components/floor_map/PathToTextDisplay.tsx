@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import List from "@mui/material/List";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
@@ -146,6 +146,27 @@ export default function PathToTextDisplay(props: {
     }
   };
 
+  function speakDirections(direction: Directions) {
+    let text: SpeechSynthesisUtterance;
+
+    if (
+      direction.directionType != directionType.Face &&
+      direction.directionType != directionType.Ending
+    ) {
+      text = new SpeechSynthesisUtterance(
+        direction.textDirection + " For " + direction.distance + " Feet",
+      );
+    } else {
+      text = new SpeechSynthesisUtterance(direction.textDirection);
+    }
+
+    const voices = speechSynthesis.getVoices();
+
+    text.voice = voices[1];
+
+    speechSynthesis.speak(text);
+  }
+
   return (
     <div className={styles.floorDirectionsContainer}>
       <List
@@ -182,7 +203,11 @@ export default function PathToTextDisplay(props: {
               >
                 {/* Render each direction in the list */}
                 {list.map((direction: Directions, idx) => (
-                  <ListItemButton key={idx} sx={{ pl: 4 }}>
+                  <ListItemButton
+                    key={idx}
+                    sx={{ pl: 4 }}
+                    onClick={() => speakDirections(direction)}
+                  >
                     <ListItemIcon>
                       {getIconForDirectionType(direction.directionType)}
                     </ListItemIcon>
