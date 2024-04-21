@@ -105,30 +105,33 @@ async function GetEdgeDataFromClick() {
   }
 }
 
-//const [csvData, setCsvData] = useState<string[][]>([]);
 let csvData: string[][];
-//const [csvData, setCsvData] = useState<String[][]>([]);
 
-async function PostNodeData() {
+async function PostData(type: Type) {
   try {
-    await axios.post("/api/csv", csvData);
-    console.log("data sent");
+    let url: string = "";
+    if (type == Type.node) {
+      url = "csv";
+    } else if (type == Type.edge) {
+      url = "nodeEdge";
+    } else if (type == Type.staff) {
+      url = ""; //TBD
+    }
+    await axios.post(`/api/${url}`, csvData);
+    console.log(`${type} data sent`);
   } catch (error) {
-    console.log("error with sending data");
+    console.log(`error with sending ${type} data`);
   }
 }
 
-async function PostEdgeData() {
-  try {
-    await axios.post("/api/nodeEdge", csvData);
-    console.log("data sent");
-  } catch (error) {
-    console.log("error with sending data");
-  }
+enum Type {
+  node = "node",
+  edge = "edge",
+  staff = "staff",
 }
-
-const handleFileUploadNode = (
+const handleFileUpload = (
   event: React.ChangeEvent<HTMLInputElement>,
+  type: Type,
 ): void => {
   const file = event.target.files?.[0];
   if (file) {
@@ -140,10 +143,22 @@ const handleFileUploadNode = (
           header: true,
           dynamicTyping: true,
           transform: (value, header) => {
-            if (header === "nodeID") {
-              return value !== undefined ? String(value) : ""; // Ensure nodeID is parsed as a string
+            if (type == "node") {
+              if (header === "nodeID") {
+                return value !== undefined ? String(value) : ""; // Ensure nodeID is parsed as a string
+              }
+              return value;
+            } else if (type == "edge") {
+              if (header === "edgeID") {
+                return value !== undefined ? String(value) : ""; // Ensure edgeID is parsed as a string
+              }
+              return value;
+            } else if (type == "staff") {
+              if (header === "employeeID") {
+                return value !== undefined ? String(value) : ""; // Ensure nodeID is parsed as a string
+              }
+              return value;
             }
-            return value;
           },
         });
         if (result.data) {
@@ -154,42 +169,7 @@ const handleFileUploadNode = (
           console.log("csvData:");
           console.log(csvData);
           //console.log(convertCSVtoStringArrays(csvData));
-          PostNodeData().then();
-        }
-      }
-    };
-    reader.readAsText(file);
-  }
-};
-
-const handleFileUploadEdge = (
-  event: React.ChangeEvent<HTMLInputElement>,
-): void => {
-  const file = event.target.files?.[0];
-  if (file) {
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      if (e.target) {
-        const text = e.target.result as string;
-        const result = parse(text, {
-          header: true,
-          dynamicTyping: true,
-          transform: (value, header) => {
-            if (header === "nodeID") {
-              return value !== undefined ? String(value) : ""; // Ensure nodeID is parsed as a string
-            }
-            return value;
-          },
-        });
-        if (result.data) {
-          // Log the parsed CSV data
-          csvData = result.data as string[][];
-          console.log("result.data:");
-          console.log(result.data);
-          console.log("csvData:");
-          console.log(csvData);
-          //console.log(convertCSVtoStringArrays(csvData));
-          PostEdgeData().then();
+          PostData(type).then();
         }
       }
     };
@@ -268,7 +248,7 @@ const NodeDataPage: React.FC = () => {
                 Upload Nodes
                 <VisuallyHiddenInput
                   type="file"
-                  onChange={handleFileUploadNode}
+                  onChange={(e) => handleFileUpload(e, Type.node)}
                 />
               </Button>
               <Button
@@ -344,7 +324,7 @@ const NodeDataPage: React.FC = () => {
                 Upload Edges
                 <VisuallyHiddenInput
                   type="file"
-                  onChange={handleFileUploadEdge}
+                  onChange={(e) => handleFileUpload(e, Type.edge)}
                 />
               </Button>
               <Button
