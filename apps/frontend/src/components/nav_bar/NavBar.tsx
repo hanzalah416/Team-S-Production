@@ -15,6 +15,7 @@ import sanitationIcon from "../assets/NavBarIcons/sanitation_icon.svg";
 import roomSchedulingIcon from "../assets/NavBarIcons/schedule_icon.svg";
 import languageIcon from "../assets/NavBarIcons/language_icon.svg";
 import dropDownIcon from "../assets/NavBarIcons/drop_down.svg";
+import creditIcon from "../assets/NavBarIcons/credit_menu.svg";
 import { LoginButton } from "../LoginButton.tsx";
 import { LogoutButton } from "../LogoutButton.tsx";
 import { createTheme, FormControl, ThemeProvider } from "@mui/material";
@@ -63,6 +64,7 @@ function NavBar() {
   const mapID = document.getElementById("mapID");
   const requestsID = document.getElementById("requestsID");
   const servicesID = document.getElementById("servicesID");
+  const creditsID = document.getElementById("creditsID");
 
   const [username, setUsername] = React.useState("USERNAME");
 
@@ -83,10 +85,13 @@ function NavBar() {
     if (mapID) {
       mapID.classList.remove("currItem");
     }
+    if (creditsID) {
+      creditsID.classList.remove("currItem");
+    }
     if (requestsID) {
       requestsID.classList.remove("currItem");
     }
-  }, [servicesID, mapID, requestsID]);
+  }, [servicesID, mapID, requestsID, creditsID]);
 
   const setMapID = useCallback(() => {
     if (servicesID) {
@@ -95,10 +100,13 @@ function NavBar() {
     if (mapID) {
       mapID.classList.add("currItem");
     }
+    if (creditsID) {
+      creditsID.classList.remove("currItem");
+    }
     if (requestsID) {
       requestsID.classList.remove("currItem");
     }
-  }, [servicesID, mapID, requestsID]);
+  }, [servicesID, mapID, requestsID, creditsID]);
 
   const setRequestsID = useCallback(() => {
     if (servicesID) {
@@ -107,10 +115,28 @@ function NavBar() {
     if (mapID) {
       mapID.classList.remove("currItem");
     }
+    if (creditsID) {
+      creditsID.classList.remove("currItem");
+    }
     if (requestsID) {
       requestsID.classList.add("currItem");
     }
-  }, [servicesID, mapID, requestsID]);
+  }, [servicesID, mapID, requestsID, creditsID]);
+
+  const setCreditsID = useCallback(() => {
+    if (servicesID) {
+      servicesID.classList.remove("currItem");
+    }
+    if (mapID) {
+      mapID.classList.remove("currItem");
+    }
+    if (requestsID) {
+      requestsID.classList.remove("currItem");
+    }
+    if (creditsID) {
+      creditsID.classList.add("currItem");
+    }
+  }, [servicesID, mapID, requestsID, creditsID]);
 
   useEffect(() => {
     const hours = today.getHours();
@@ -158,10 +184,13 @@ function NavBar() {
       case "/welcome":
         setMapID();
         break;
+      case "/about":
+        setCreditsID();
+        break;
       default:
         setServIcon(homePinIcon);
     }
-  }, [location, setServicesID, setMapID, setRequestsID]);
+  }, [location, setServicesID, setMapID, setRequestsID, setCreditsID]);
 
   useEffect(() => {
     if (user) {
@@ -186,8 +215,8 @@ function NavBar() {
         />
         <p className={"time"}>{timeOfDay}</p>
       </div>
-      {isAuthenticated && (
-        <div className={"navButtons"}>
+      <div className={"navButtons"}>
+        {isAuthenticated && (
           <Link to={"/"} id={"map"}>
             <Button className={"alignIcons"}>
               <img src={mapIcon} className={"iconHeight"} alt={"map_icon"} />
@@ -197,22 +226,24 @@ function NavBar() {
               </p>
             </Button>
           </Link>
-          {username === "admind24x" && (
-            <FormControl>
-              <Link to={"/all-service-requests"} id={"order"}>
-                <Button className={"alignIcons"}>
-                  <img
-                    src={patientListIcon}
-                    className={"iconHeight"}
-                    width={"38px"}
-                  />
-                  <p id={"requestsID"} className={"itemNames"}>
-                    All Requests
-                  </p>
-                </Button>
-              </Link>
-            </FormControl>
-          )}
+        )}
+        {username === "admind24x" && (
+          <FormControl>
+            <Link to={"/all-service-requests"} id={"order"}>
+              <Button className={"alignIcons"}>
+                <img
+                  src={patientListIcon}
+                  className={"iconHeight"}
+                  width={"38px"}
+                />
+                <p id={"requestsID"} className={"itemNames"}>
+                  All Requests
+                </p>
+              </Button>
+            </Link>
+          </FormControl>
+        )}
+        {isAuthenticated && (
           <div>
             <Button
               id="services-button"
@@ -279,8 +310,17 @@ function NavBar() {
               </Link>
             </Menu>
           </div>
-        </div>
-      )}
+        )}
+
+        <Link to={"/credit-page"} id={"order"}>
+          <Button className={"alignIcons"}>
+            <img src={creditIcon} className={"iconHeight"} width={"38px"} />
+            <p id={"creditsID"} className={"itemNames"}>
+              Credits
+            </p>
+          </Button>
+        </Link>
+      </div>
       <div className={"rightSide"}>
         {isAuthenticated && <p className={"username"}>{username}</p>}
         <FormControl>
