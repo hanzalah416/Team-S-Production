@@ -351,8 +351,8 @@ body {
 }
 
 .keyButtonText {
-    all: unset;
-    cursor: pointer;
-    height: 30px;
-    padding: -1px;
+  all: unset;
+  cursor: pointer;
+  height: 30px;
+  padding: -1px;
 }

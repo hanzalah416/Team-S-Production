@@ -865,11 +865,7 @@ function FloorMap() {
             </Suspense>
           </div>
 
-
-              <KeySelection
-                startNode={startPosition?.id}
-                showMapKey = {showMapKey}/>
-
+          <KeySelection startNode={startPosition?.id} showMapKey={showMapKey} />
         </div>
       </div>
     </div>
