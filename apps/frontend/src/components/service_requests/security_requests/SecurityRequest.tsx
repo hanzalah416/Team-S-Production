@@ -15,14 +15,19 @@ import MenuItem from "@mui/material/MenuItem";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import BackgroundImg2 from "../../assets/blue-background2.jpg";
-import Tooltip from '../../ToolTip';
+import Tooltip from "../../ToolTip";
 
 const tips = `
 Name of Requester: Enter the full name of the person making the request.
+
 Priority: Click on the dropdown menu to select how urgent the request is. The options typically range from normal to high.
+
 Location: Use the dropdown to select the specific location where security assistance is needed.
+
 Threat Type: From the dropdown, select the type of threat or incident. This could be anything from a suspicious person, theft, unauthorized access, etc.
+
 Security Type: Here, choose the type of security response you require, which could be anything from a security patrol, locked down area, increased surveillance, etc.
+
 Status: If the form allows setting a status, select the appropriate one from the dropdown menu. This could reflect whether it’s a new request, in progress, or completed.
 `;
 interface Node {
@@ -173,9 +178,12 @@ const SecurityRequest: React.FC = () => {
         <br />
         <Paper elevation={4} style={{ padding: 10 }}>
           <br />
-          <p className={"title"} style={{ position:"relative"}}>
+          <p className={"title"} style={{ position: "relative" }}>
             Security Request Form
-            <Tooltip style={{ position:"absolute", right: '40px', top:0 }} tips={tips} />
+            <Tooltip
+              style={{ position: "absolute", right: "40px", top: 0 }}
+              tips={tips}
+            />
           </p>
           <p className={"names"}>Ken Sebastian, Javier Moncada</p>
           <Stack alignItems="center" justifyContent="center" spacing={3} p={4}>

@@ -17,15 +17,21 @@ import { useNavigate } from "react-router-dom";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import BackgroundImg2 from "../../assets/blue-background2.jpg";
-import Tooltip from '../../ToolTip';
+import Tooltip from "../../ToolTip";
 
 const tips = `
 Name of Requester: Type in the full name of the individual requesting the room reservation.
+
 Room: Select the room you wish to schedule from the dropdown menu. The dropdown should list available rooms or spaces.
+
 Priority: If required, choose the priority of your booking (e.g., high, medium, low). This may influence how the room scheduling is handled if there are conflicting requests.
+
 Status: This dropdown might be used to select the current status of the request, such as 'pending,' 'confirmed,' or 'cancelled.' If you’re just filling out the form for the first time, there may be a default setting or you may need to select 'pending.'
+
 Start Date: Click on the field to open a calendar view and select the date when you need the room. Ensure you enter the correct format if typing directly (mm/dd/yyyy).
+
 End Date: Similarly, select or enter the date when the reservation will end
+
 `;
 //Interface for positions
 interface Position {
@@ -153,9 +159,12 @@ export default function RoomScheduling() {
 
         <Paper elevation={4} style={{ padding: 20 }}>
           <br />
-          <p className={"title"} style={{ position:"relative"}}>
+          <p className={"title"} style={{ position: "relative" }}>
             Room Scheduling Request Form
-            <Tooltip style={{ position:"absolute", right: '20px', top:0 }} tips={tips} />
+            <Tooltip
+              style={{ position: "absolute", right: "20px", top: 0 }}
+              tips={tips}
+            />
           </p>
           <p className={"names"}>Jeffrey Li and Nate Schneider</p>
 
