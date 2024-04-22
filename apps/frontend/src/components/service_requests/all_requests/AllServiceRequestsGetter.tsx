@@ -13,8 +13,10 @@ import Paper from "@mui/material/Paper";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
+    backgroundColor: theme.palette.common.white,
+    color: theme.palette.common.black,
+    fontWeight: "bold",
+    textAlign: "center",
   },
   [`&.${tableCellClasses.body}`]: {
     fontSize: 14,
@@ -62,6 +64,7 @@ export function ServiceRequestGetter() {
 
   return (
     <div className="flex flex-col gap-5">
+      <header>Service Request Data</header>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 700 }} aria-label="customized table">
           <TableHead>
