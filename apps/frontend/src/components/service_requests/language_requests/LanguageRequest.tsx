@@ -194,7 +194,7 @@ const LanguageRequest: React.FC = () => {
                   Name of Requester
                 </InputLabel>
                 <Autocomplete
-                  sx={{ minWidth: 400, color: "#3B54A0" }}
+                  sx={{ minWidth: 250, color: "#3B54A0" }}
                   options={staffNames}
                   getOptionLabel={(option) => option.employeeName || "Unknown"}
                   //isOptionEqualToValue={(option, value) => option.id === value.id}
@@ -220,7 +220,7 @@ const LanguageRequest: React.FC = () => {
               <div>
                 <InputLabel
                   style={{
-                    color: "#3B54A0",
+                    color: "#3B54A0", fontStyle: "italic"
                   }}
                   id="priority-dropdown"
                 >
@@ -234,7 +234,7 @@ const LanguageRequest: React.FC = () => {
                   onChange={(e) => {
                     handleChangeRequestPriority(e);
                   }}
-                  sx={{ minWidth: 400, color: "#3B54A0" }}
+                  sx={{ minWidth: 250, color: "#3B54A0" }}
                 >
                   <MenuItem value={"Low"}>Low</MenuItem>
                   <MenuItem value={"Medium"}>Medium</MenuItem>
@@ -260,7 +260,7 @@ const LanguageRequest: React.FC = () => {
                   Location
                 </InputLabel>
                 <Autocomplete
-                  sx={{ minWidth: 400, color: "#3B54A0" }}
+                  sx={{ minWidth: 250, color: "#3B54A0" }}
                   options={locations}
                   getOptionLabel={(option) => option.label || "Unknown"}
                   isOptionEqualToValue={(option, value) =>

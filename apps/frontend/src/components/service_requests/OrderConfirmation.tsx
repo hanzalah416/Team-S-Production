@@ -5,6 +5,7 @@ import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import { useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
+import BackgroundImg2 from "../assets/blue-background2.jpg";
 export default function OrderConfirmation() {
   const navigate = useNavigate();
   const handleBack = () => {
@@ -12,6 +13,22 @@ export default function OrderConfirmation() {
   };
 
   return (
+    <div
+      style={{
+        backgroundImage: `url(${BackgroundImg2})`,
+        height: "100vh",
+        width: "100vw",
+        backgroundSize: "cover",
+        backgroundRepeat: "no-repeat",
+        minHeight: "100%",
+        backgroundPosition: "center center",
+        overflowX: "hidden",
+        display: "flex",
+        flexWrap: "wrap",
+          alignItems: "center",
+          justifyContent: "center"
+      }}
+    >
     <Box
       sx={{
         display: "flex",
@@ -24,7 +41,9 @@ export default function OrderConfirmation() {
       }}
     >
       <Paper elevation={3}>
-        <h2 className={styles.title}>Service Request</h2>
+        <br/>
+        <br/>
+        <h2 className={styles.title}>Request Confirmation</h2>
         <p className={styles.result}>
           Request placed! Awaiting staff assignment.
         </p>
@@ -40,12 +59,13 @@ export default function OrderConfirmation() {
             }}
             variant="contained"
             onClick={handleBack}
-            sx={{ minWidth: 300, minHeight: 50 }}
+            sx={{ minWidth: 300, minHeight: 50, fontSize:18 }}
           >
             Back
           </Button>
         </div>
       </Paper>
     </Box>
+  </div>
   );
 }

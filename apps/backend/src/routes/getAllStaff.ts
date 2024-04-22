@@ -14,7 +14,6 @@ router.get("/", async function (req: Request, res: Response) {
     } else {
       console.log("Return staff:", returnStaff);
       res.status(200).json(returnStaff);
-
     }
   } catch (error) {
     console.error("Error fetching service requests:", error);
