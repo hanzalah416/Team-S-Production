@@ -10,7 +10,6 @@ export const LoginButton = () => {
       appState: {
         returnTo: "/floor-map",
       },
-
     });
   };
   //comment
