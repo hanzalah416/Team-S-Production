@@ -14,20 +14,7 @@ import {
 import MenuItem from "@mui/material/MenuItem";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import Tooltip from "../../ToolTip";
 
-const tips = `
-Name of Requester: Enter the full name of the person requiring language assistance.
-
-Priority: Click on the dropdown menu to indicate the urgency of the request. The options may include urgent, high, medium, or low.
-
-Location: Use the dropdown to select the location where the language services are needed. This might refer to a specific department, office, or event location.
-
-Language: Choose the language for which assistance is required from the dropdown menu. This might list languages such as Spanish, French, Mandarin, etc.
-
-Status: If the form allows for setting a status, select the current status of the request, like 'new', 'pending', 'approved', or 'completed'.
-
-`;
 interface Node {
   xcoord: string;
   ycoord: string;
@@ -43,36 +30,44 @@ interface Position {
   left: string;
 }
 
-// Interface for Staff
 interface Staff {
   employeeName: string;
 }
 
-const LanguageRequest: React.FC = () => {
+const TransportRequest: React.FC = () => {
   const [staffName, setStaffName] = useState<Staff | null>(null);
   const [requestPriority, setRequestPriority] = useState("");
   const [requestStatus, setRequestStatus] = useState("");
-  const [language, setLanguage] = useState("");
-  const [location, setLocation] = useState<Position | null>(null);
+  const [patientName, setPatientName] = useState("");
+  const [transportationType, setTransportationType] = useState("");
+  const [pickupLocation, setPickupLocation] = useState<Position | null>(null);
+  const [dropOffLocation, setDropOffLocation] = useState<Position | null>(null);
 
   const navigate = useNavigate(); //Function to navigate to other pages
   const [locations, setLocations] = useState<Position[]>([]);
   const [staffNames, setStaffNames] = useState<Staff[]>([]);
-
-  const handleChangeName = (value: Staff | null) => {
-    setStaffName(value);
-  };
-
-  const handleChangeLanguage = (event: SelectChangeEvent) => {
-    setLanguage(event.target.value as string);
-  };
+  // const handleChangeLanguage = (event: SelectChangeEvent) => {
+  //   setPatientName(event.target.value as string);
+  // };
 
   const handleChangeRequestStatus = (event: SelectChangeEvent) => {
     setRequestStatus(event.target.value as string);
   };
 
-  const handleChangeLocation = (value: Position | null) => {
-    setLocation(value);
+  const handleChangeName = (value: Staff | null) => {
+    setStaffName(value);
+  };
+
+  const handleChangeTransportationType = (event: SelectChangeEvent) => {
+    setTransportationType(event.target.value as string);
+  };
+
+  const handleChangePickupLocation = (value: Position | null) => {
+    setPickupLocation(value);
+  };
+
+  const handleChangeDropOffLocation = (value: Position | null) => {
+    setDropOffLocation(value);
   };
 
   const handleChangeRequestPriority = (event: SelectChangeEvent) => {
@@ -82,24 +77,27 @@ const LanguageRequest: React.FC = () => {
   async function submit() {
     if (
       staffName == null ||
-      location == null ||
+      pickupLocation == null ||
       requestPriority == "" ||
       requestStatus == "" ||
-      language == ""
+      dropOffLocation == null ||
+      patientName == ""
     ) {
       alert("Please fill out all of the fields");
       return;
     }
-    const languageRequestSent = {
+    const TransportRequestSent = {
       name: staffName.employeeName,
-      location: location.label,
-      status: requestStatus,
       priority: requestPriority,
-      language: language,
+      patientName: patientName,
+      transportationType: transportationType,
+      startLocation: pickupLocation.label,
+      endLocation: dropOffLocation.label,
+      status: requestStatus,
     };
 
     await axios
-      .post("/api/language-request", languageRequestSent, {
+      .post("/api/transport-request", TransportRequestSent, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -110,7 +108,7 @@ const LanguageRequest: React.FC = () => {
       })
       .catch(() => {
         console.log("Order failed to send");
-        console.log(languageRequestSent);
+        console.log(TransportRequestSent);
         alert("Order failed to send. Please try again later");
       });
   }
@@ -118,8 +116,10 @@ const LanguageRequest: React.FC = () => {
   function clear() {
     setStaffName(null);
     setRequestPriority("");
-    setLocation(null);
-    setLanguage("");
+    setTransportationType("");
+    setPickupLocation(null);
+    setDropOffLocation(null);
+    setPatientName("");
     setRequestStatus("");
   }
 
@@ -186,13 +186,7 @@ const LanguageRequest: React.FC = () => {
         <br />
         <Paper elevation={4} style={{ padding: 20 }}>
           <br />
-          <p className={"title"} style={{ position: "relative" }}>
-            Language Request Form
-            <Tooltip
-              style={{ position: "absolute", right: "40px", top: 0 }}
-              tips={tips}
-            />
-          </p>
+          <p className={"title"}>Internal Transportation Request Form</p>
           <Stack alignItems="center" justifyContent="center" spacing={3} p={4}>
             <div className={"breakline"}></div>
             <br />
@@ -236,6 +230,158 @@ const LanguageRequest: React.FC = () => {
                   onChange={(event, value) => handleChangeName(value)}
                 />
               </div>
+
+              <div>
+                <InputLabel
+                  style={{
+                    color: "#3B54A0",
+                    fontStyle: "italic",
+                  }}
+                  id="set  patient name"
+                >
+                  Name of Patient
+                </InputLabel>
+                <TextField
+                  style={{
+                    borderColor: "#3B54A0",
+                    color: "#3B54A0",
+                    accentColor: "#3B54A0",
+                    borderBlockColor: "#3B54A0",
+                  }}
+                  id="outlined-controlled"
+                  label=""
+                  value={patientName}
+                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                    setPatientName(event.target.value);
+                  }}
+                  sx={{ minWidth: 250 }}
+                />
+              </div>
+            </Stack>
+            <Stack
+              spacing={2}
+              direction="row"
+              alignItems="center"
+              justifyContent="center"
+            >
+              <div>
+                <InputLabel
+                  style={{
+                    color: "#3B54A0",
+                    fontStyle: "italic",
+                  }}
+                  id="location-dropdown"
+                >
+                  Pickup Location
+                </InputLabel>
+                <Autocomplete
+                  sx={{ minWidth: 250, color: "#3B54A0" }}
+                  options={locations}
+                  getOptionLabel={(option) => option.label || "Unknown"}
+                  isOptionEqualToValue={(option, value) =>
+                    option.id === value.id
+                  }
+                  value={pickupLocation}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label=""
+                      InputLabelProps={{
+                        style: {
+                          fontFamily: "Poppins",
+                          fontSize: 14,
+                          textAlign: "center",
+                        },
+                      }}
+                    />
+                  )}
+                  onOpen={() => toggleScrolling(true)}
+                  onClose={() => toggleScrolling(false)}
+                  onChange={(event, value) => handleChangePickupLocation(value)}
+                />
+              </div>
+
+              <div>
+                <InputLabel
+                  style={{
+                    color: "#3B54A0",
+                    fontStyle: "italic",
+                  }}
+                  id="location-dropdown"
+                >
+                  Drop off Location
+                </InputLabel>
+                <Autocomplete
+                  sx={{ minWidth: 250, color: "#3B54A0" }}
+                  options={locations}
+                  getOptionLabel={(option) => option.label || "Unknown"}
+                  isOptionEqualToValue={(option, value) =>
+                    option.id === value.id
+                  }
+                  value={dropOffLocation}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label=""
+                      InputLabelProps={{
+                        style: {
+                          fontFamily: "Poppins",
+                          fontSize: 14,
+                          textAlign: "center",
+                        },
+                      }}
+                    />
+                  )}
+                  onOpen={() => toggleScrolling(true)}
+                  onClose={() => toggleScrolling(false)}
+                  onChange={(event, value) =>
+                    handleChangeDropOffLocation(value)
+                  }
+                />
+              </div>
+            </Stack>
+            <Stack
+              spacing={2}
+              direction="row"
+              alignItems="center"
+              justifyContent="center"
+            >
+              <div>
+                <InputLabel
+                  style={{
+                    color: "#3B54A0",
+                    fontStyle: "italic",
+                  }}
+                  id="demo-simple-select-label"
+                >
+                  Transportation Type
+                </InputLabel>
+                <Select
+                  sx={{ minWidth: 500 }}
+                  labelId="location-label"
+                  id="serviceLocation"
+                  value={transportationType}
+                  onChange={
+                    handleChangeTransportationType
+                  } /* add funtion here */
+                >
+                  <MenuItem value="wheelchair(Patient provided)">
+                    Wheelchair(Patient provided)
+                  </MenuItem>
+                  <MenuItem value="wheelchair(requested)">
+                    Wheelchair(requested)
+                  </MenuItem>
+                  <MenuItem value="Stretcher">Stretcher</MenuItem>
+                  <MenuItem value="deceased">Deceased</MenuItem>
+                </Select>
+              </div>
+            </Stack>
+            <Stack
+              spacing={2}
+              direction="row"
+              alignItems="center"
+              justifyContent="center"
+            >
               <div>
                 <InputLabel
                   style={{
@@ -262,50 +408,6 @@ const LanguageRequest: React.FC = () => {
                   <MenuItem value={"Emergency"}>Emergency</MenuItem>
                 </Select>
               </div>
-            </Stack>
-            <Stack
-              spacing={2}
-              direction="row"
-              alignItems="center"
-              justifyContent="center"
-            >
-              <div>
-                <InputLabel
-                  style={{
-                    color: "#3B54A0",
-                    fontStyle: "italic",
-                  }}
-                  id="location-dropdown"
-                >
-                  Location
-                </InputLabel>
-                <Autocomplete
-                  sx={{ minWidth: 250, color: "#3B54A0" }}
-                  options={locations}
-                  getOptionLabel={(option) => option.label || "Unknown"}
-                  isOptionEqualToValue={(option, value) =>
-                    option.id === value.id
-                  }
-                  value={location}
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      label=""
-                      InputLabelProps={{
-                        style: {
-                          fontFamily: "Poppins",
-                          fontSize: 14,
-                          textAlign: "center",
-                        },
-                      }}
-                    />
-                  )}
-                  onOpen={() => toggleScrolling(true)}
-                  onClose={() => toggleScrolling(false)}
-                  onChange={(event, value) => handleChangeLocation(value)}
-                />
-              </div>
-
               <div>
                 <InputLabel
                   style={{
@@ -314,51 +416,26 @@ const LanguageRequest: React.FC = () => {
                   }}
                   id="demo-simple-select-label"
                 >
-                  Language
+                  Status
                 </InputLabel>
                 <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={requestStatus}
+                  label=""
+                  onChange={(e) => {
+                    handleChangeRequestStatus(e);
+                  }}
                   sx={{ minWidth: 250 }}
-                  labelId="location-label"
-                  id="serviceLocation"
-                  value={language}
-                  onChange={handleChangeLanguage} /* add funtion here */
                 >
-                  <MenuItem value="spanish">Spanish</MenuItem>
-                  <MenuItem value="mandarin">Mandarin</MenuItem>
-                  <MenuItem value="german">German</MenuItem>
-                  <MenuItem value="french">French</MenuItem>
-                  <MenuItem value="arabic">Arabic</MenuItem>
-                  <MenuItem value="hindi">Hindi</MenuItem>
+                  <MenuItem value={"unassigned"}>Unassigned</MenuItem>
+                  <MenuItem value={"assigned"}>Assigned</MenuItem>
+                  <MenuItem value={"in_progress"}>In Progress</MenuItem>
+                  <MenuItem value={"closed"}>Closed</MenuItem>
                 </Select>
               </div>
+              <br />
             </Stack>
-            <div>
-              <InputLabel
-                style={{
-                  color: "#3B54A0",
-                  fontStyle: "italic",
-                }}
-                id="demo-simple-select-label"
-              >
-                Status
-              </InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={requestStatus}
-                label=""
-                onChange={(e) => {
-                  handleChangeRequestStatus(e);
-                }}
-                sx={{ minWidth: 518 }}
-              >
-                <MenuItem value={"unassigned"}>Unassigned</MenuItem>
-                <MenuItem value={"assigned"}>Assigned</MenuItem>
-                <MenuItem value={"in_progress"}>In Progress</MenuItem>
-                <MenuItem value={"closed"}>Closed</MenuItem>
-              </Select>
-            </div>
-            <br />
 
             <Stack
               spacing={3}
@@ -397,4 +474,4 @@ const LanguageRequest: React.FC = () => {
   );
 };
 
-export default LanguageRequest;
+export default TransportRequest;

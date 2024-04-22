@@ -59,19 +59,45 @@ interface Node {
   ycoord: string;
   id: string;
   longName: string;
-  // Add other properties if needed
+}
+
+// Interface for Staff
+interface Staff {
+  employeeName: string;
 }
 export default function SanitationForm() {
-  const [name, setName] = useState("");
+  const [staffName, setStaffName] = useState<Staff | null>(null);
   const [priority, setPriority] = useState("");
   const [location, setLocation] = useState<Position | null>(null);
   const [sanitationType, setSanitationType] = useState("");
   const [permission, setPermission] = useState("");
   const [status, setStatus] = useState("");
   const [locations, setLocations] = useState<Position[]>([]);
-
+  const [staffNames, setStaffNames] = useState<Staff[]>([]);
   const navigate = useNavigate(); //Function to navigate to other pages
   // const {getAccessTokenSilently} = useAuth0();
+
+  const toggleScrolling = (disableScroll: boolean) => {
+    if (disableScroll) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+  };
+
+  const handleChangeName = (value: Staff | null) => {
+    setStaffName(value);
+  };
+
+  const handleChangeLocation = (value: Position | null) => {
+    setLocation(value);
+  };
+  const handlePriorityChange = (event: SelectChangeEvent) => {
+    setPriority(event.target.value as string);
+  };
+  const handleStatusChange = (event: SelectChangeEvent) => {
+    setStatus(event.target.value as string);
+  };
 
   useEffect(() => {
     // Fetch node data from the backend
@@ -90,27 +116,22 @@ export default function SanitationForm() {
       .catch((error) => console.error("Failed to fetch node data:", error));
   }, []);
 
-  const toggleScrolling = (disableScroll: boolean) => {
-    if (disableScroll) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
-  };
-
-  const handleChangeLocation = (value: Position | null) => {
-    setLocation(value);
-  };
-  const handlePriorityChange = (event: SelectChangeEvent) => {
-    setPriority(event.target.value as string);
-  };
-  const handleStatusChange = (event: SelectChangeEvent) => {
-    setStatus(event.target.value as string);
-  };
+  useEffect(() => {
+    // Fetch staff data from backend
+    fetch("/api/all-staff")
+      .then((response) => response.json())
+      .then((staffInfo: Staff[]) => {
+        const formattedStaff: Staff[] = staffInfo.map((staff) => ({
+          employeeName: staff.employeeName || "unknown",
+        }));
+        setStaffNames(formattedStaff);
+      })
+      .catch((error) => console.error("Failed to fetch staff data:", error));
+  }, []);
 
   async function submit() {
     const newEntry = {
-      name: name,
+      name: staffName?.employeeName,
       priority: priority,
       location: location?.label,
       sanitationType: sanitationType,
@@ -137,7 +158,7 @@ export default function SanitationForm() {
   }
 
   function clear() {
-    setName("");
+    setStaffName(null);
     setPriority("");
     setLocation(null);
     setSanitationType("");
@@ -199,20 +220,28 @@ export default function SanitationForm() {
                 >
                   Name of Requester
                 </InputLabel>
-                <TextField
-                  style={{
-                    borderColor: "#3B54A0",
-                    color: "#3B54A0",
-                    accentColor: "#3B54A0",
-                    borderBlockColor: "#3B54A0",
-                  }}
-                  id="outlined-controlled"
-                  label=""
-                  value={name}
-                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                    setName(event.target.value);
-                  }}
-                  sx={{ minWidth: 250 }}
+                <Autocomplete
+                  sx={{ minWidth: 250, color: "#3B54A0" }}
+                  options={staffNames}
+                  getOptionLabel={(option) => option.employeeName || "Unknown"}
+                  //isOptionEqualToValue={(option, value) => option.id === value.id}
+                  value={staffName}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label=""
+                      InputLabelProps={{
+                        style: {
+                          fontFamily: "Poppins",
+                          fontSize: 14,
+                          textAlign: "center",
+                        },
+                      }}
+                    />
+                  )}
+                  onOpen={() => toggleScrolling(true)}
+                  onClose={() => toggleScrolling(false)}
+                  onChange={(event, value) => handleChangeName(value)}
                 />
               </div>
               <div>
@@ -240,6 +269,7 @@ export default function SanitationForm() {
                 </Select>
               </div>
             </Stack>
+
             <div>
               <InputLabel
                 style={{

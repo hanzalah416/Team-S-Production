@@ -24,6 +24,7 @@ import SecurityRequest from "./components/service_requests/security_requests/Sec
 import { AppState, Auth0Provider } from "@auth0/auth0-react";
 import LanguageRequest from "./components/service_requests/language_requests/LanguageRequest.tsx";
 import CreditPage from "./components/credit_page/CreditPage.tsx";
+import TransportRequest from "./components/service_requests/internalTransportation/TransportRequest.tsx";
 
 function App() {
   const router = createBrowserRouter([
@@ -34,19 +35,19 @@ function App() {
           element: (
             <>
               <HeroPage />
-                <Layout />
+              <Layout />
             </>
           ),
         },
-          {
-              path: "/floor-map",
-              element: (
-                  <>
-                      <FloorMap />
-                      <Layout />
-                  </>
-              ),
-          },
+        {
+          path: "/floor-map",
+          element: (
+            <>
+              <FloorMap />
+              <Layout />
+            </>
+          ),
+        },
         {
           path: "/order-flowers",
           element: (
@@ -151,6 +152,15 @@ function App() {
           ),
         },
         {
+          path: "/transport-request",
+          element: (
+            <>
+              <TransportRequest />
+              <Layout />
+            </>
+          ),
+        },
+        {
           path: "/credit-page",
           element: (
             <>
@@ -184,8 +194,6 @@ function Layout() {
       clientId="3UbU8v3PXSEQJsRMtwCJdvoKeWigw8eA"
       onRedirectCallback={(appState: AppState | undefined): void => {
         navigate(appState?.returnTo || window.location.pathname);
-
-
       }}
       authorizationParams={{
         redirect_uri: window.location.origin,

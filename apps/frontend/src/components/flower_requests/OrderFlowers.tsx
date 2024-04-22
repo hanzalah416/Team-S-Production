@@ -13,6 +13,9 @@ import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import FormLabel from "@mui/material/FormLabel";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
+import poppies from "../assets/FlowerPhotos/poppies.png";
+import tulips from "../assets/FlowerPhotos/tulips.png";
+import roses from "../assets/FlowerPhotos/rose.png";
 import Grid from "@mui/material/Unstable_Grid2"; // Grid version 2
 import Paper from "@mui/material/Paper";
 import BackgroundImg2 from "../assets/blue-background2.jpg";
@@ -38,6 +41,7 @@ Enter Custom Message: If you’d like to include a message with the flowers or h
 Status: If applicable, select the current status of the request. This might be intended for the administrators to update, rather than the requester.
 `;
 
+
 interface Position {
   label: string;
   id: string;
@@ -51,11 +55,15 @@ interface Node {
   ycoord: string;
   id: string;
   longName: string;
-  // Add other properties if needed
+}
+
+// Interface for Staff
+interface Staff {
+  employeeName: string;
 }
 
 const OrderFlowers: React.FC = () => {
-  const [nameRequester, setNameRequester] = useState("");
+  const [staffName, setStaffName] = useState<Staff | null>(null);
   const [priority, setPriority] = useState("");
   const [location, setLocation] = useState<Position | null>(null);
   const [typeFlower, setTypeFlower] = useState("");
@@ -63,25 +71,13 @@ const OrderFlowers: React.FC = () => {
   const [status, setStatus] = useState("");
 
   const [locations, setLocations] = useState<Position[]>([]);
+  const [staffNames, setStaffNames] = useState<Staff[]>([]);
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    // Fetch node data from the backend
-    fetch("/api/nodes")
-      .then((response) => response.json())
-      .then((nodes: Node[]) => {
-        const formattedLocations: Position[] = nodes.map((node) => ({
-          label: node.longName || "Unknown", // Use the correct property name
-          id: node.id,
-          top: `${node.ycoord}px`,
-          left: `${node.xcoord}px`,
-        }));
-
-        setLocations(formattedLocations);
-      })
-      .catch((error) => console.error("Failed to fetch node data:", error));
-  }, []);
+  const handleChangeName = (value: Staff | null) => {
+    setStaffName(value);
+  };
 
   const toggleScrolling = (disableScroll: boolean) => {
     if (disableScroll) {
@@ -102,8 +98,38 @@ const OrderFlowers: React.FC = () => {
     setLocation(value);
   };
 
+  useEffect(() => {
+    // Fetch node data from the backend
+    fetch("/api/nodes")
+      .then((response) => response.json())
+      .then((nodes: Node[]) => {
+        const formattedLocations: Position[] = nodes.map((node) => ({
+          label: node.longName || "Unknown", // Use the correct property name
+          id: node.id,
+          top: `${node.ycoord}px`,
+          left: `${node.xcoord}px`,
+        }));
+
+        setLocations(formattedLocations);
+      })
+      .catch((error) => console.error("Failed to fetch node data:", error));
+  }, []);
+
+  useEffect(() => {
+    // Fetch staff data from backend
+    fetch("/api/all-staff")
+      .then((response) => response.json())
+      .then((staffInfo: Staff[]) => {
+        const formattedStaff: Staff[] = staffInfo.map((staff) => ({
+          employeeName: staff.employeeName || "unknown",
+        }));
+        setStaffNames(formattedStaff);
+      })
+      .catch((error) => console.error("Failed to fetch staff data:", error));
+  }, []);
+
   function clear() {
-    setNameRequester("");
+    setStaffName(null);
     setPriority("");
     setLocation(null);
     setTypeFlower("");
@@ -113,7 +139,7 @@ const OrderFlowers: React.FC = () => {
 
   async function submit() {
     if (
-      nameRequester == "" ||
+      staffName == null ||
       priority == "" ||
       location == null ||
       typeFlower == "" ||
@@ -125,7 +151,7 @@ const OrderFlowers: React.FC = () => {
     }
 
     const orderFlowerSent = {
-      name: nameRequester,
+      name: staffName.employeeName,
       priority: priority,
       location: location.label,
       typeFlower: typeFlower,
@@ -206,20 +232,28 @@ const OrderFlowers: React.FC = () => {
                 >
                   Name of Requester
                 </InputLabel>
-                <TextField
-                  style={{
-                    borderColor: "#3B54A0",
-                    color: "#3B54A0",
-                    accentColor: "#3B54A0",
-                    borderBlockColor: "#3B54A0",
-                  }}
-                  id="outlined-controlled"
-                  label=""
-                  value={nameRequester}
-                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                    setNameRequester(event.target.value);
-                  }}
-                  sx={{ minWidth: 250 }}
+                <Autocomplete
+                  sx={{ minWidth: 250, color: "#3B54A0" }}
+                  options={staffNames}
+                  getOptionLabel={(option) => option.employeeName || "Unknown"}
+                  //isOptionEqualToValue={(option, value) => option.id === value.id}
+                  value={staffName}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label=""
+                      InputLabelProps={{
+                        style: {
+                          fontFamily: "Poppins",
+                          fontSize: 14,
+                          textAlign: "center",
+                        },
+                      }}
+                    />
+                  )}
+                  onOpen={() => toggleScrolling(true)}
+                  onClose={() => toggleScrolling(false)}
+                  onChange={(event, value) => handleChangeName(value)}
                 />
               </div>
               <div>
@@ -291,8 +325,30 @@ const OrderFlowers: React.FC = () => {
                 }}
                 id="demo-simple-select-label"
               >
-                Request Type
+                Flower Type
               </InputLabel>
+              <br />
+              <div style={{ display: "flex" }}>
+                <img
+                  src={poppies}
+                  alt="Covering 3/4 page"
+                  className={styles.poppies}
+                  style={{ width: "200px", height: "auto" }}
+                />
+
+                <img
+                  src={roses}
+                  alt="Covering 3/4 page"
+                  className={styles.roses}
+                  style={{ width: "200px", height: "auto" }}
+                />
+                <img
+                  src={tulips}
+                  alt="Covering 3/4 page"
+                  className={styles.tulips}
+                  style={{ width: "200px", height: "auto" }}
+                />
+              </div>
               <ToggleButtonGroup
                 color="primary"
                 value={typeFlower} // Use the state value here
@@ -306,13 +362,14 @@ const OrderFlowers: React.FC = () => {
                   }
                 }}
                 aria-label="Sanitation Type Buttons"
-                sx={{ minWidth: 120 }}
+                sx={{ minWidth: 140 }}
               >
                 <ToggleButton
                   style={{
                     color: "#10778c",
                     outlineColor: "#949DB5",
                     borderColor: "#949DB5",
+                    width: 200,
                   }}
                   value="Poppies"
                 >
@@ -323,6 +380,7 @@ const OrderFlowers: React.FC = () => {
                     color: "#10778c",
                     outlineColor: "#949DB5",
                     borderColor: "#949DB5",
+                    width: 200,
                   }}
                   value="Roses"
                 >
@@ -333,6 +391,7 @@ const OrderFlowers: React.FC = () => {
                     color: "#10778c",
                     outlineColor: "#949DB5",
                     borderColor: "#949DB5",
+                    width: 200,
                   }}
                   value="Tulips"
                 >

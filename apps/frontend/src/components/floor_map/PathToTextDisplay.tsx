@@ -5,7 +5,6 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import ListSubheader from "@mui/material/ListSubheader";
 import Collapse from "@mui/material/Collapse";
-import StarBorder from "@mui/icons-material/StarBorder";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import { Directions, directionType } from "../../../../backend/src/textPath.ts";
@@ -17,12 +16,14 @@ import SyncIcon from "@mui/icons-material/Sync";
 import FmdGoodIcon from "@mui/icons-material/FmdGood";
 import styles from "./FloorMap.module.css";
 import { GetEstimatedTime } from "../../../../backend/src/PathDistanceCalculater.ts";
+import DirectionsWalkIcon from "@mui/icons-material/DirectionsWalk";
 
 export default function PathToTextDisplay(props: {
   startNode: string;
   endNode: string;
   algo: string;
   onChangeFloor: (floor: string) => void;
+  zoomToSegment: (segmentIndex: number) => void;
 }) {
   //Keep track of which lists are open
   const [openLists, setOpenLists] = useState<boolean[]>([]);
@@ -86,24 +87,24 @@ export default function PathToTextDisplay(props: {
 
   // Toggle the open/closed state of a list
   const toggleList = (index: number) => {
+    const isOpen = openLists[index]; // Check if the current list is open
     const floorLabel = currentFloor[index];
-    console.log(`Toggling list for floor: ${floorLabel}`);
 
     // Map floor label "3" to "03", etc.
     const formattedFloorLabel = formatFloorLabel(floorLabel);
 
     setOpenLists((prevState) => {
-      // Create a new array where all values are set to false
+      // Create a new array where all values are set to false to close all other lists
       const newState = prevState.map(() => false);
 
-      // Set the value at the current index to the opposite of its current state
-      // This ensures that only the list at the current index can be open at one time
+      // Toggle the current list state
       newState[index] = !prevState[index];
 
-      // If the current list is now being opened
-      if (!prevState[index]) {
+      // If the current list is being opened and was previously closed
+      if (!isOpen) {
         // Set the current floor on opening the list
         props.onChangeFloor(formattedFloorLabel);
+        props.zoomToSegment(index); // Zoom to the segment when the list is opened
       }
 
       return newState;
@@ -142,7 +143,7 @@ export default function PathToTextDisplay(props: {
         return <FmdGoodIcon />;
       // Add more cases as needed for other direction types
       default:
-        return <StarBorder />; // Default icon if direction type is not recognized
+        return <DirectionsWalkIcon />; // Default icon if direction type is not recognized
     }
   };
 
@@ -177,9 +178,14 @@ export default function PathToTextDisplay(props: {
           <ListSubheader
             component="div"
             id="nested-list-subheader"
-            style={{ color: "black" }}
+            style={{ color: "black", fontWeight: "bold", fontSize: "16px" }} // Label is bold
           >
-            Estimated time {estimatedTime} minutes
+            Estimated Time:{" "}
+            <span
+              style={{ fontWeight: "normal", fontSize: "14px" }} // Time value is normal weight
+            >
+              {estimatedTime} min
+            </span>
           </ListSubheader>
         }
       >
@@ -187,9 +193,13 @@ export default function PathToTextDisplay(props: {
         {splitDirections().map((list, index) => (
           <div key={index}>
             {/* Render a subheader for each list */}
-            <ListItemButton onClick={() => toggleList(index)}>
+            <ListItemButton
+              onClick={() => {
+                toggleList(index); // Using the passed function
+              }}
+            >
               <ListItemIcon>
-                <StarBorder />
+                <DirectionsWalkIcon />
               </ListItemIcon>
               <ListItemText primary={`Floor ${currentFloor[index]}`} />
               {openLists[index] ? <ExpandLess /> : <ExpandMore />}
@@ -206,7 +216,9 @@ export default function PathToTextDisplay(props: {
                   <ListItemButton
                     key={idx}
                     sx={{ pl: 4 }}
-                    onClick={() => speakDirections(direction)}
+                    onClick={() => {
+                      speakDirections(direction);
+                    }}
                   >
                     <ListItemIcon>
                       {getIconForDirectionType(direction.directionType)}
