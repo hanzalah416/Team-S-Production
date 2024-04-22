@@ -78,6 +78,9 @@ function NavBar() {
 
   const handleClose = () => {
     setAnchorEl(null);
+    if (backdropVisible) {
+      onBackDropItemClick();
+    }
   };
 
   const setServicesID = useCallback(() => {
@@ -136,6 +139,7 @@ function NavBar() {
       requestsID.classList.remove("currItem");
     }
     if (creditsID) {
+      console.log("make bold");
       creditsID.classList.add("currItem");
     }
   }, [servicesID, mapID, requestsID, creditsID]);
@@ -183,10 +187,11 @@ function NavBar() {
       case "/all-service-requests":
         setRequestsID();
         break;
-      case "/welcome":
+      case "/":
         setMapID();
         break;
-      case "/about":
+      case "/credit-page":
+        console.log("credit page");
         setCreditsID();
         break;
       default:
@@ -217,6 +222,14 @@ function NavBar() {
       );
       setBackdropVisible(false);
     }
+  };
+
+  const onBackDropItemClick = () => {
+    document.documentElement.style.setProperty(
+      `--${"backdropwidth"}`,
+      100 + "vw",
+    );
+    setBackdropVisible(false);
   };
 
   return (
@@ -331,7 +344,7 @@ function NavBar() {
         )}
 
         <Link to={"/credit-page"} id={"order"}>
-          <Button className={"alignIcons"}>
+          <Button className={"alignIcons"} onClick={onBackDropItemClick}>
             <img src={creditIcon} className={"iconHeight"} width={"38px"} />
             <p id={"creditsID"} className={"itemNames"}>
               Credits
@@ -348,11 +361,82 @@ function NavBar() {
           </ThemeProvider>
         </FormControl>
       </div>
-      <Button onClick={onBackDropClick}>
-        <div className={"navDrop"}>
-          <img src={creditIcon} className={"iconHeight"} width={"38px"} />
+      <div className={"dropDownButton"}>
+        <Button onClick={onBackDropClick}>
+          <div className={"navDrop"}>
+            <img src={creditIcon} className={"iconHeight"} width={"38px"} />
+          </div>
+        </Button>
+      </div>
+      <div className={"buttonsInDropDown"}>
+        <div className={"itemDropDown"}>
+          <Link to={"/"} id={"map"}>
+            <Button
+              className={"alignIconsDropDown"}
+              onClick={onBackDropItemClick}
+            >
+              <p id={"mapID"} className={"itemNames"}>
+                Our Map
+              </p>
+              <img src={mapIcon} className={"iconHeight"} alt={"map_icon"} />
+            </Button>
+          </Link>
         </div>
-      </Button>
+        <div className={"itemDropDown"}>
+          <Link to={"/all-service-requests"} id={"order"}>
+            <Button
+              className={"alignIconsDropDown"}
+              onClick={onBackDropItemClick}
+            >
+              <p id={"requestsID"} className={"itemNames"}>
+                All Requests
+              </p>
+              <img
+                src={patientListIcon}
+                className={"iconHeight"}
+                width={"38px"}
+              />
+            </Button>
+          </Link>
+        </div>
+        <div className={"itemDropDown"}>
+          <Button
+            id="services-button"
+            aria-controls={open ? "services-menu" : undefined}
+            aria-haspopup="true"
+            aria-expanded={open ? "true" : undefined}
+            className={"alignIconsDropDown"}
+            onClick={handleClick}
+          >
+            <img src={dropDownIcon} />
+            <div className={"alignIconsDropDown"}>
+              <p id={"servicesID"} className={"itemNames"}>
+                Services
+              </p>
+              <img src={currServIcon} className={"iconHeight"} width={"29px"} />
+            </div>
+          </Button>
+        </div>
+        <div className={"itemDropDown"}>
+          <Link to={"/credit-page"} id={"order"}>
+            <Button
+              className={"alignIconsDropDown"}
+              onClick={onBackDropItemClick}
+            >
+              <p id={"creditsID"} className={"itemNames"}>
+                Credits
+              </p>
+              <img src={creditIcon} className={"iconHeight"} width={"38px"} />
+            </Button>
+          </Link>
+        </div>
+        <div className={"itemDropDown"}>
+          <ThemeProvider theme={theme}>
+            {!isAuthenticated && <LoginButton />}
+            {isAuthenticated && <LogoutButton />}
+          </ThemeProvider>
+        </div>
+      </div>
       <div id={"backDropID"} className={"dropDownBackDrop"} />
       <div className={"blueBar"} />
     </div>
