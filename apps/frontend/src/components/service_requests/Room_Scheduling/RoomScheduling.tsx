@@ -26,24 +26,52 @@ interface Position {
   left: string;
 }
 
-//Interace for nodes
+//Interface for nodes
 interface Node {
   xcoord: string;
   ycoord: string;
   id: string;
   longName: string;
-  // Add other properties if needed
+}
+
+// Interface for Staff
+interface Staff {
+  employeeName: string;
 }
 
 export default function RoomScheduling() {
-  const [name, setName] = useState("");
+  const [staffName, setStaffName] = useState<Staff | null>(null);
   const [priority, setPriority] = useState("");
   const [location, setLocation] = useState<Position | null>(null);
   const [status, setStatus] = useState("");
   const [locations, setLocations] = useState<Position[]>([]);
+  const [staffNames, setStaffNames] = useState<Staff[]>([]);
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
   const navigate = useNavigate();
+
+  const toggleScrolling = (disableScroll: boolean) => {
+    if (disableScroll) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+  };
+
+  const handleChangeName = (value: Staff | null) => {
+    setStaffName(value);
+  };
+
+  const handlePriorityChange = (event: SelectChangeEvent) => {
+    setPriority(event.target.value as string);
+  };
+  const handleStatusChange = (event: SelectChangeEvent) => {
+    setStatus(event.target.value as string);
+  };
+
+  const handleChangeLocation = (value: Position | null) => {
+    setLocation(value);
+  };
 
   useEffect(() => {
     // Fetch node data from the backend
@@ -62,27 +90,21 @@ export default function RoomScheduling() {
       .catch((error) => console.error("Failed to fetch node data:", error));
   }, []);
 
-  const toggleScrolling = (disableScroll: boolean) => {
-    if (disableScroll) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
-  };
-
-  const handlePriorityChange = (event: SelectChangeEvent) => {
-    setPriority(event.target.value as string);
-  };
-  const handleStatusChange = (event: SelectChangeEvent) => {
-    setStatus(event.target.value as string);
-  };
-
-  const handleChangeLocation = (value: Position | null) => {
-    setLocation(value);
-  };
+  useEffect(() => {
+    // Fetch staff data from backend
+    fetch("/api/all-staff")
+      .then((response) => response.json())
+      .then((staffInfo: Staff[]) => {
+        const formattedStaff: Staff[] = staffInfo.map((staff) => ({
+          employeeName: staff.employeeName || "unknown",
+        }));
+        setStaffNames(formattedStaff);
+      })
+      .catch((error) => console.error("Failed to fetch staff data:", error));
+  }, []);
 
   function clear() {
-    setName("");
+    setStaffName(null);
     setPriority("");
     setLocation(null);
     setStatus("");
@@ -92,7 +114,7 @@ export default function RoomScheduling() {
 
   async function submit() {
     const roomRequestSent = {
-      name: name,
+      name: staffName?.employeeName,
       priority: priority,
       location: location?.label,
       status: status,
@@ -166,20 +188,28 @@ export default function RoomScheduling() {
                 >
                   Name of Requester
                 </InputLabel>
-                <TextField
-                  style={{
-                    borderColor: "#3B54A0",
-                    color: "#3B54A0",
-                    accentColor: "#3B54A0",
-                    borderBlockColor: "#3B54A0",
-                  }}
-                  id="outlined-controlled"
-                  label=""
-                  value={name}
-                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                    setName(event.target.value);
-                  }}
-                  sx={{ minWidth: 250 }}
+                <Autocomplete
+                  sx={{ minWidth: 400, color: "#3B54A0" }}
+                  options={staffNames}
+                  getOptionLabel={(option) => option.employeeName || "Unknown"}
+                  //isOptionEqualToValue={(option, value) => option.id === value.id}
+                  value={staffName}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label=""
+                      InputLabelProps={{
+                        style: {
+                          fontFamily: "Poppins",
+                          fontSize: 14,
+                          textAlign: "center",
+                        },
+                      }}
+                    />
+                  )}
+                  onOpen={() => toggleScrolling(true)}
+                  onClose={() => toggleScrolling(false)}
+                  onChange={(event, value) => handleChangeName(value)}
                 />
               </div>
 

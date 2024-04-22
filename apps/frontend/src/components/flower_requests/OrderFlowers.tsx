@@ -34,11 +34,15 @@ interface Node {
   ycoord: string;
   id: string;
   longName: string;
-  // Add other properties if needed
+}
+
+// Interface for Staff
+interface Staff {
+  employeeName: string;
 }
 
 const OrderFlowers: React.FC = () => {
-  const [nameRequester, setNameRequester] = useState("");
+  const [staffName, setStaffName] = useState<Staff | null>(null);
   const [priority, setPriority] = useState("");
   const [location, setLocation] = useState<Position | null>(null);
   const [typeFlower, setTypeFlower] = useState("");
@@ -46,25 +50,13 @@ const OrderFlowers: React.FC = () => {
   const [status, setStatus] = useState("");
 
   const [locations, setLocations] = useState<Position[]>([]);
+  const [staffNames, setStaffNames] = useState<Staff[]>([]);
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    // Fetch node data from the backend
-    fetch("/api/nodes")
-      .then((response) => response.json())
-      .then((nodes: Node[]) => {
-        const formattedLocations: Position[] = nodes.map((node) => ({
-          label: node.longName || "Unknown", // Use the correct property name
-          id: node.id,
-          top: `${node.ycoord}px`,
-          left: `${node.xcoord}px`,
-        }));
-
-        setLocations(formattedLocations);
-      })
-      .catch((error) => console.error("Failed to fetch node data:", error));
-  }, []);
+  const handleChangeName = (value: Staff | null) => {
+    setStaffName(value);
+  };
 
   const toggleScrolling = (disableScroll: boolean) => {
     if (disableScroll) {
@@ -85,8 +77,38 @@ const OrderFlowers: React.FC = () => {
     setLocation(value);
   };
 
+  useEffect(() => {
+    // Fetch node data from the backend
+    fetch("/api/nodes")
+      .then((response) => response.json())
+      .then((nodes: Node[]) => {
+        const formattedLocations: Position[] = nodes.map((node) => ({
+          label: node.longName || "Unknown", // Use the correct property name
+          id: node.id,
+          top: `${node.ycoord}px`,
+          left: `${node.xcoord}px`,
+        }));
+
+        setLocations(formattedLocations);
+      })
+      .catch((error) => console.error("Failed to fetch node data:", error));
+  }, []);
+
+  useEffect(() => {
+    // Fetch staff data from backend
+    fetch("/api/all-staff")
+      .then((response) => response.json())
+      .then((staffInfo: Staff[]) => {
+        const formattedStaff: Staff[] = staffInfo.map((staff) => ({
+          employeeName: staff.employeeName || "unknown",
+        }));
+        setStaffNames(formattedStaff);
+      })
+      .catch((error) => console.error("Failed to fetch staff data:", error));
+  }, []);
+
   function clear() {
-    setNameRequester("");
+    setStaffName(null);
     setPriority("");
     setLocation(null);
     setTypeFlower("");
@@ -96,7 +118,7 @@ const OrderFlowers: React.FC = () => {
 
   async function submit() {
     if (
-      nameRequester == "" ||
+      staffName == null ||
       priority == "" ||
       location == null ||
       typeFlower == "" ||
@@ -108,7 +130,7 @@ const OrderFlowers: React.FC = () => {
     }
 
     const orderFlowerSent = {
-      name: nameRequester,
+      name: staffName.employeeName,
       priority: priority,
       location: location.label,
       typeFlower: typeFlower,
@@ -183,20 +205,28 @@ const OrderFlowers: React.FC = () => {
                 >
                   Name of Requester
                 </InputLabel>
-                <TextField
-                  style={{
-                    borderColor: "#3B54A0",
-                    color: "#3B54A0",
-                    accentColor: "#3B54A0",
-                    borderBlockColor: "#3B54A0",
-                  }}
-                  id="outlined-controlled"
-                  label=""
-                  value={nameRequester}
-                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                    setNameRequester(event.target.value);
-                  }}
-                  sx={{ minWidth: 250 }}
+                <Autocomplete
+                  sx={{ minWidth: 400, color: "#3B54A0" }}
+                  options={staffNames}
+                  getOptionLabel={(option) => option.employeeName || "Unknown"}
+                  //isOptionEqualToValue={(option, value) => option.id === value.id}
+                  value={staffName}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label=""
+                      InputLabelProps={{
+                        style: {
+                          fontFamily: "Poppins",
+                          fontSize: 14,
+                          textAlign: "center",
+                        },
+                      }}
+                    />
+                  )}
+                  onOpen={() => toggleScrolling(true)}
+                  onClose={() => toggleScrolling(false)}
+                  onChange={(event, value) => handleChangeName(value)}
                 />
               </div>
               <div>
@@ -215,7 +245,7 @@ const OrderFlowers: React.FC = () => {
                   value={priority}
                   label=""
                   onChange={handlePriorityChange}
-                  sx={{ minWidth: 250, color: "#3B54A0" }}
+                  sx={{ minWidth: 400, color: "#3B54A0" }}
                 >
                   <MenuItem value={"low"}>Low</MenuItem>
                   <MenuItem value={"medium"}>Medium</MenuItem>
