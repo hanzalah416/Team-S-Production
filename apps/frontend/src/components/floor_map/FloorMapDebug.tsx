@@ -44,56 +44,60 @@ const StaticFloorMapDebug = () => {
   const [selectedNodeDetails, setSelectedNodeDetails] = useState<Node | null>(
     null,
   );
-    const [dragging, setDragging] = useState<boolean>(false);
-    const [draggedNode, setDraggedNode] = useState<Node | null>(null);
+  const [dragging, setDragging] = useState<boolean>(false);
+  const [draggedNode, setDraggedNode] = useState<Node | null>(null);
 
+  const updateNodePosition = (id: string, newX: number, newY: number) => {
+    setNodes((prevNodes) =>
+      prevNodes.map((node) =>
+        node.id === id
+          ? {
+              ...node,
+              xcoord: Math.round(newX).toString(),
+              ycoord: Math.round(newY).toString(),
+            }
+          : node,
+      ),
+    );
+  };
 
-    const updateNodePosition = (id: string, newX: number, newY: number) => {
-        setNodes(prevNodes =>
-            prevNodes.map(node =>
-                node.id === id ? {
-                    ...node,
-                    xcoord: Math.round(newX).toString(),
-                    ycoord: Math.round(newY).toString()
-                } : node
-            )
-        );
-    };
+  const handleMouseDown = (
+    node: Node,
+    event: React.MouseEvent<SVGCircleElement, MouseEvent>,
+  ) => {
+    setDragging(true);
+    setDraggedNode(node);
+    event.stopPropagation();
+  };
 
+  const handleMouseMove = (
+    event: React.MouseEvent<SVGSVGElement, MouseEvent>,
+  ) => {
+    if (!dragging || !draggedNode) return;
 
-    const handleMouseDown = (node: Node, event: React.MouseEvent<SVGCircleElement, MouseEvent>) => {
-        setDragging(true);
-        setDraggedNode(node);
-        event.stopPropagation();
-    };
+    const svgElement = event.currentTarget as SVGSVGElement;
+    const pt = svgElement.createSVGPoint();
+    pt.x = event.clientX;
+    pt.y = event.clientY;
 
-    const handleMouseMove = (event: React.MouseEvent<SVGSVGElement, MouseEvent>) => {
-        if (!dragging || !draggedNode) return;
+    const screenCTM = svgElement.getScreenCTM();
+    if (!screenCTM) {
+      console.error("Failed to get the screen CTM.");
+      return; // If screenCTM is null, log an error and exit the function early.
+    }
 
-        const svgElement = event.currentTarget as SVGSVGElement;
-        const pt = svgElement.createSVGPoint();
-        pt.x = event.clientX;
-        pt.y = event.clientY;
+    const transformedPt = pt.matrixTransform(screenCTM.inverse());
+    updateNodePosition(draggedNode.id, transformedPt.x, transformedPt.y);
+  };
 
-        const screenCTM = svgElement.getScreenCTM();
-        if (!screenCTM) {
-            console.error("Failed to get the screen CTM.");
-            return; // If screenCTM is null, log an error and exit the function early.
-        }
+  const handleMouseUp = () => {
+    if (!dragging) return;
+    setDragging(false);
+    setDraggedNode(null);
+    // Optional: persist the node position change to a backend here
+  };
 
-        const transformedPt = pt.matrixTransform(screenCTM.inverse());
-        updateNodePosition(draggedNode.id, transformedPt.x, transformedPt.y);
-    };
-
-    const handleMouseUp = () => {
-        if (!dragging) return;
-        setDragging(false);
-        setDraggedNode(null);
-        // Optional: persist the node position change to a backend here
-    };
-
-
-    const handleUpdateNode = (updatedNode: Node) => {
+  const handleUpdateNode = (updatedNode: Node) => {
     setNodes((prevNodes) =>
       prevNodes.map((node) =>
         node.id === updatedNode.id ? updatedNode : node,
@@ -475,9 +479,12 @@ const StaticFloorMapDebug = () => {
                 alt={`Floor ${currentFloor}`}
                 className={styles.mapImage}
               />
-              <svg className={styles.overlay} viewBox="0 0 5000 3400"
-                   onMouseMove={handleMouseMove}
-                   onMouseUp={handleMouseUp}>
+              <svg
+                className={styles.overlay}
+                viewBox="0 0 5000 3400"
+                onMouseMove={handleMouseMove}
+                onMouseUp={handleMouseUp}
+              >
                 {showEdges &&
                   edges.map((edge) => {
                     const startNode = nodes.find(

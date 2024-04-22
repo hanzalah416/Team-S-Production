@@ -179,11 +179,11 @@ export default function PathToTextDisplay(props: {
           <ListSubheader
             component="div"
             id="nested-list-subheader"
-            style={{ color: "black", fontWeight: "bold", fontSize: "16px"}} // Label is bold
+            style={{ color: "black", fontWeight: "bold", fontSize: "16px" }} // Label is bold
           >
             Estimated Time:{" "}
             <span
-              style={{ fontWeight: "normal" , fontSize: "14px"}} // Time value is normal weight
+              style={{ fontWeight: "normal", fontSize: "14px" }} // Time value is normal weight
             >
               {estimatedTime} min
             </span>
