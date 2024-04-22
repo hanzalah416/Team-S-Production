@@ -26,7 +26,6 @@ import allStaffRouter from "./routes/getAllStaff.ts";
 
 import employeeCSVRouter from "./routes/csvEmployees.ts";
 
-
 // import allEdgesRouter from "./routes/getAllEdgesData.ts";
 // import allNodeRouter from "./routes/getAllNodeData.ts";
 // Populate the database
