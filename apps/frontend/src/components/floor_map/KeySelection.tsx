@@ -17,13 +17,29 @@ import styles from "./FloorMap.module.css";
 import axios from "axios";
 import { useCallback, useEffect, useState } from "react";
 
-export default function KeySelection(props: {
-  showMapKey: boolean;
+export interface Position {
+  label: string;
+  id: string;
+  top: string;
+  left: string;
+  floor: string;
+}
+
+interface floorMapFunctions {
+  handleNodeClick: (value: Position | null, type: "end") => void;
+  getPositionById: (id: string) => Position;
   startNode: string | undefined;
-}) {
+  showMapKey: boolean;
+}
+
+const KeySelection: React.FC<floorMapFunctions> = ({
+  startNode,
+  showMapKey,
+  handleNodeClick,
+  getPositionById,
+}) => {
   const [endNodes, setEndNodes] = useState<string[]>([""]);
 
-  const startNode = props.startNode;
   const algo = "astar";
   const fetchData = useCallback(async () => {
     try {
@@ -43,18 +59,19 @@ export default function KeySelection(props: {
         throw new Error("Failed to fetch data");
       }
 
-      const data = await response.json();
+      const data = String(await response.json());
       console.log(data);
-      return data;
+      handleNodeClick(getPositionById(data), "end");
     } catch (error) {
       console.error("Failed to fetch data:", error);
       return null;
     }
-  }, [startNode, endNodes, algo]); // Dependencies for useCallback
+  }, [startNode, endNodes, algo, getPositionById, handleNodeClick]); // Dependencies for useCallback
 
   useEffect(() => {
     fetchData();
-  }, [startNode, endNodes, algo, fetchData]);
+  }),
+    [startNode, endNodes, algo, fetchData];
 
   async function getClosestNode(type: string) {
     let idArray: string[] = [];
@@ -190,9 +207,7 @@ export default function KeySelection(props: {
   }
 
   return (
-    <div
-      className={`${styles.MapKey} ${props.showMapKey ? styles.ShowMapKey : ""}`}
-    >
+    <div className={`${styles.MapKey} ${showMapKey ? styles.ShowMapKey : ""}`}>
       <button
         type="button"
         className={styles.keyButton}
@@ -444,7 +459,7 @@ export default function KeySelection(props: {
       </button>
     </div>
   );
-}
+};
 
 /*
 function GetClosestType(startNode: string, endNodes: string[], algo: string){
@@ -482,12 +497,16 @@ function GetClosestType(startNode: string, endNodes: string[], algo: string){
 
  */
 
+interface NodeId {
+  nodeID: string;
+}
+
 async function getElevatorIds() {
   try {
-    const response = await axios.get("/api/elevatorNodes");
-    const elevIds = response.data;
+    const response = await axios.get<NodeId[]>("/api/elevatorNodes");
+    const elevIds = response.data.map((elevator) => elevator.nodeID.toString());
 
-    //console.log(elevIds);
+    console.log(elevIds);
 
     return elevIds; // Return if needed
   } catch (error) {
@@ -495,3 +514,5 @@ async function getElevatorIds() {
     throw error; // Throw error for handling elsewhere
   }
 }
+
+export default KeySelection;

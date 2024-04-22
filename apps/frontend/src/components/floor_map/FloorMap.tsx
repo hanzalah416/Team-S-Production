@@ -35,7 +35,7 @@ import KeySelection from "./KeySelection.tsx";
 
 const MiniMap = lazy(() => import("./MiniMap.tsx"));
 
-interface Position {
+export interface Position {
   label: string;
   id: string;
   top: string;
@@ -865,7 +865,12 @@ function FloorMap() {
             </Suspense>
           </div>
 
-          <KeySelection startNode={startPosition?.id} showMapKey={showMapKey} />
+          <KeySelection
+            startNode={startPosition?.id}
+            showMapKey={showMapKey}
+            getPositionById={getPositionById}
+            handleNodeClick={handleNodeClick}
+          />
         </div>
       </div>
     </div>
