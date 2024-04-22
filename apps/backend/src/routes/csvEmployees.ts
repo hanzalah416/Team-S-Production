@@ -21,27 +21,23 @@ router.get("/", async function (req: Request, res: Response) {
 });
 
 router.post("/", async function (req, res) {
-  const employeeAttempt: Employees[] = req.body;
-  employeeAttempt.forEach((employee, index) => {
-    employeeAttempt[index].employeeID = employee.employeeID.toString();
-  });
+  const employeeAttempt: Employees[] = req.body.map((employee: any) => ({
+    employeeName: employee.employeeName,
+  }));
+
   try {
-    const filteredEmployees = employeeAttempt.filter(
-      (x) => x.employeeID !== null,
-    );
     console.log("starting try");
     await PrismaClient.employees.deleteMany();
     console.log("deleted old employees");
     // Attempt to create in the database
     await PrismaClient.employees.createMany({
-      data: filteredEmployees,
-      skipDuplicates: true, // Consider using skipDuplicates to avoid errors on duplicate keys
+      data: employeeAttempt,
     });
-    console.info("Successfully saved employee attempt"); // Log that it was successful
-    res.sendStatus(200); // Respond with success status
+    console.info("Successfully saved employee attempt");
+    res.sendStatus(200);
   } catch (error) {
-    console.error(`Unable to save employee attempt: ${error}`); // Log failures, making sure to use template literals for variables
-    res.sendStatus(400); // Send a failure status
+    console.error(`Unable to save employee attempt: ${error}`);
+    res.sendStatus(400);
   }
 });
 
