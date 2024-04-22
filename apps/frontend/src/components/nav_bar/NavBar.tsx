@@ -308,6 +308,11 @@ function NavBar() {
                   <p className={"item"}>Map Editing Page</p>
                 </MenuItem>
               </Link>
+              <Link to={"/node-data"} id={"order"}>
+                <MenuItem onClick={handleClose}>
+                  <p className={"item"}>Manage Database</p>
+                </MenuItem>
+              </Link>
             </Menu>
           </div>
         )}

@@ -21,11 +21,11 @@ const Login: React.FC = () => {
             alt="Covering 3/4 page"
             className={styles.coverImage}
           />
-          <div className={styles.backBottom}>
-            <br />
-            <br />
-            <br />
-          </div>
+          {/*<div className={styles.backBottom}>*/}
+          {/*  <br />*/}
+          {/*  <br />*/}
+          {/*  <br />*/}
+          {/*</div>*/}
 
           <div className={styles.textOverlay}>
             <p className={styles.disclaimer}>
