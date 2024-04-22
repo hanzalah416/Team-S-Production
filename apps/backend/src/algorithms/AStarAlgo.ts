@@ -1,3 +1,3 @@
-import{ Pathfinder} from "./AlgoPath.ts";
+import { Pathfinder } from "./AlgoPath.ts";
 
-export class AStarAlgo extends Pathfinder{}
+export class AStarAlgo extends Pathfinder {}
