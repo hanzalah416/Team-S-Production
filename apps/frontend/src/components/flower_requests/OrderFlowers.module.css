@@ -232,26 +232,21 @@ body {
   }
 }
 
-.tulips{
-    width: 20px;
-    height: 20px;
-
+.tulips {
+  width: 20px;
+  height: 20px;
 }
 
-
-.roses{
-    width: 2px;
-
+.roses {
+  width: 2px;
 }
 
-
-.poppies{
-    width: 2px;
-
+.poppies {
+  width: 2px;
 }
 
 .imageContainer {
-    display: grid; /* Use CSS grid */
-    grid-template-columns: repeat(3, 1fr); /* Create three equal-width columns */
-    gap: 10px; /* Adjust gap between images */
+  display: grid; /* Use CSS grid */
+  grid-template-columns: repeat(3, 1fr); /* Create three equal-width columns */
+  gap: 10px; /* Adjust gap between images */
 }

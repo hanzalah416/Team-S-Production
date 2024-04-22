@@ -260,88 +260,99 @@ const OrderFlowers: React.FC = () => {
               />
             </div>
 
-              <div>
+            <div>
+              <InputLabel
+                style={{
+                  color: "#3B54A0",
+                  fontStyle: "italic",
+                }}
+                id="demo-simple-select-label"
+              >
+                Flower Type
+              </InputLabel>
+              <br />
+              <div style={{ display: "flex" }}>
+                <img
+                  src={poppies}
+                  alt="Covering 3/4 page"
+                  className={styles.poppies}
+                  style={{ width: "200px", height: "auto" }}
+                />
 
-                  <InputLabel
-                      style={{
-                          color: "#3B54A0",
-                          fontStyle: "italic",
-                      }}
-                      id="demo-simple-select-label"
-                  >
-                      Flower Type
-                  </InputLabel>
-                  <br/>
-                  <div style={{display: 'flex'}}>
-                      <img src={poppies} alt="Covering 3/4 page" className={styles.poppies}
-                           style={{width: '200px', height: 'auto'}}/>
-
-                      <img src={roses} alt="Covering 3/4 page" className={styles.roses}
-                           style={{width: '200px', height: 'auto'}}/>
-                      <img src={tulips} alt="Covering 3/4 page" className={styles.tulips}
-                           style={{width: '200px', height: 'auto'}}/>
-                  </div>
-                  <ToggleButtonGroup
-                      color="primary"
-                      value={typeFlower} // Use the state value here
-                      exclusive
-                      onChange={(
-                          _event: React.MouseEvent<HTMLElement>,
-                          newValue: string | null,
-                      ) => {
-                          if (newValue !== null) {
-                              setTypeFlower(newValue); // Update state on change
-                          }
-                      }}
-                      aria-label="Sanitation Type Buttons"
-                      sx={{minWidth: 140}}
-                  >
-                      <ToggleButton
-                          style={{
-                              color: "#10778c",
-                              outlineColor: "#949DB5",
-                              borderColor: "#949DB5",
-                              width: 200
-                          }}
-                          value="Poppies"
-                      >
-                          Poppies
-                      </ToggleButton>
-                      <ToggleButton
-                          style={{
-                              color: "#10778c",
-                              outlineColor: "#949DB5",
-                              borderColor: "#949DB5",
-                              width: 200
-                          }}
-                          value="Roses"
-                      >
-                          Roses
-                      </ToggleButton>
-                      <ToggleButton
-                          style={{
-                              color: "#10778c",
-                              outlineColor: "#949DB5",
-                              borderColor: "#949DB5",
-                              width: 200
-                          }}
-                          value="Tulips"
-                      >
-                          Tulips
-                      </ToggleButton>
-                  </ToggleButtonGroup>
+                <img
+                  src={roses}
+                  alt="Covering 3/4 page"
+                  className={styles.roses}
+                  style={{ width: "200px", height: "auto" }}
+                />
+                <img
+                  src={tulips}
+                  alt="Covering 3/4 page"
+                  className={styles.tulips}
+                  style={{ width: "200px", height: "auto" }}
+                />
               </div>
+              <ToggleButtonGroup
+                color="primary"
+                value={typeFlower} // Use the state value here
+                exclusive
+                onChange={(
+                  _event: React.MouseEvent<HTMLElement>,
+                  newValue: string | null,
+                ) => {
+                  if (newValue !== null) {
+                    setTypeFlower(newValue); // Update state on change
+                  }
+                }}
+                aria-label="Sanitation Type Buttons"
+                sx={{ minWidth: 140 }}
+              >
+                <ToggleButton
+                  style={{
+                    color: "#10778c",
+                    outlineColor: "#949DB5",
+                    borderColor: "#949DB5",
+                    width: 200,
+                  }}
+                  value="Poppies"
+                >
+                  Poppies
+                </ToggleButton>
+                <ToggleButton
+                  style={{
+                    color: "#10778c",
+                    outlineColor: "#949DB5",
+                    borderColor: "#949DB5",
+                    width: 200,
+                  }}
+                  value="Roses"
+                >
+                  Roses
+                </ToggleButton>
+                <ToggleButton
+                  style={{
+                    color: "#10778c",
+                    outlineColor: "#949DB5",
+                    borderColor: "#949DB5",
+                    width: 200,
+                  }}
+                  value="Tulips"
+                >
+                  Tulips
+                </ToggleButton>
+              </ToggleButtonGroup>
+            </div>
 
-              <div>
-                  <FormLabel
-                      style={{
-                          color: "#3B54A0",
-                          fontStyle: "italic",
-                      }}
-                      id="demo-controlled-radio-buttons-group"
-                  >
-                      Enter Custom Message
-                  </FormLabel>
+            <div>
+              <FormLabel
+                style={{
+                  color: "#3B54A0",
+                  fontStyle: "italic",
+                }}
+                id="demo-controlled-radio-buttons-group"
+              >
+                Enter Custom Message
+              </FormLabel>
               <form>
                 <input
                   type="text"
