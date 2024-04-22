@@ -328,7 +328,7 @@ body {
 }
 
 .ShowMapKey {
-  bottom: 20px; /* To be placed 20px from bottom once triggered */
+  bottom: 200px; /* To be placed 200px from bottom once triggered */
 }
 
 .Select {

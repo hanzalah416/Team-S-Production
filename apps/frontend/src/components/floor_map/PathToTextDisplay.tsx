@@ -1,14 +1,13 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import List from "@mui/material/List";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import ListSubheader from "@mui/material/ListSubheader";
 import Collapse from "@mui/material/Collapse";
-import StarBorder from "@mui/icons-material/StarBorder";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
-import { Directions, directionType } from "./textPath.ts";
+import { Directions, directionType } from "../../../../backend/src/textPath.ts";
 import TurnLeftIcon from "@mui/icons-material/TurnLeft";
 import TurnRightIcon from "@mui/icons-material/TurnRight";
 import StraightIcon from "@mui/icons-material/Straight";
@@ -16,17 +15,21 @@ import ImportExportIcon from "@mui/icons-material/ImportExport";
 import SyncIcon from "@mui/icons-material/Sync";
 import FmdGoodIcon from "@mui/icons-material/FmdGood";
 import styles from "./FloorMap.module.css";
+import { GetEstimatedTime } from "../../../../backend/src/PathDistanceCalculater.ts";
+import DirectionsWalkIcon from "@mui/icons-material/DirectionsWalk";
 
 export default function PathToTextDisplay(props: {
   startNode: string;
   endNode: string;
   algo: string;
   onChangeFloor: (floor: string) => void;
+  zoomToSegment: (segmentIndex: number) => void;
 }) {
   //Keep track of which lists are open
   const [openLists, setOpenLists] = useState<boolean[]>([]);
   const [data, setData] = useState<Directions[]>([]);
   const [currentFloor] = useState<string[]>([]);
+  const [estimatedTime, setEstimatedTime] = useState(0);
 
   const fetchData = useCallback(async () => {
     try {
@@ -48,6 +51,7 @@ export default function PathToTextDisplay(props: {
 
       const data = await response.json();
       setData(data);
+      setEstimatedTime(GetEstimatedTime(data));
       setOpenLists(new Array(data.length).fill(false));
     } catch (error) {
       console.error("Failed to fetch data:", error);
@@ -83,6 +87,7 @@ export default function PathToTextDisplay(props: {
 
   // Toggle the open/closed state of a list
   const toggleList = (index: number) => {
+    const isOpen = openLists[index]; // Check if the current list is open
     const floorLabel = currentFloor[index];
     console.log(`Toggling list for floor: ${floorLabel}`);
 
@@ -90,17 +95,17 @@ export default function PathToTextDisplay(props: {
     const formattedFloorLabel = formatFloorLabel(floorLabel);
 
     setOpenLists((prevState) => {
-      // Create a new array where all values are set to false
+      // Create a new array where all values are set to false to close all other lists
       const newState = prevState.map(() => false);
 
-      // Set the value at the current index to the opposite of its current state
-      // This ensures that only the list at the current index can be open at one time
+      // Toggle the current list state
       newState[index] = !prevState[index];
 
-      // If the current list is now being opened
-      if (!prevState[index]) {
+      // If the current list is being opened and was previously closed
+      if (!isOpen) {
         // Set the current floor on opening the list
         props.onChangeFloor(formattedFloorLabel);
+        props.zoomToSegment(index); // Zoom to the segment when the list is opened
       }
 
       return newState;
@@ -139,9 +144,30 @@ export default function PathToTextDisplay(props: {
         return <FmdGoodIcon />;
       // Add more cases as needed for other direction types
       default:
-        return <StarBorder />; // Default icon if direction type is not recognized
+        return <DirectionsWalkIcon />; // Default icon if direction type is not recognized
     }
   };
+
+  function speakDirections(direction: Directions) {
+    let text: SpeechSynthesisUtterance;
+
+    if (
+      direction.directionType != directionType.Face &&
+      direction.directionType != directionType.Ending
+    ) {
+      text = new SpeechSynthesisUtterance(
+        direction.textDirection + " For " + direction.distance + " Feet",
+      );
+    } else {
+      text = new SpeechSynthesisUtterance(direction.textDirection);
+    }
+
+    const voices = speechSynthesis.getVoices();
+
+    text.voice = voices[1];
+
+    speechSynthesis.speak(text);
+  }
 
   return (
     <div className={styles.floorDirectionsContainer}>
@@ -153,16 +179,28 @@ export default function PathToTextDisplay(props: {
           <ListSubheader
             component="div"
             id="nested-list-subheader"
-          ></ListSubheader>
+            style={{ color: "black", fontWeight: "bold" }} // Label is bold
+          >
+            Estimated Time:{" "}
+            <span
+              style={{ fontWeight: "normal" }} // Time value is normal weight
+            >
+              {estimatedTime} min
+            </span>
+          </ListSubheader>
         }
       >
         {/* Map over the split lists of directions and render each list */}
         {splitDirections().map((list, index) => (
           <div key={index}>
             {/* Render a subheader for each list */}
-            <ListItemButton onClick={() => toggleList(index)}>
+            <ListItemButton
+              onClick={() => {
+                toggleList(index); // Using the passed function
+              }}
+            >
               <ListItemIcon>
-                <StarBorder />
+                <DirectionsWalkIcon />
               </ListItemIcon>
               <ListItemText primary={`Floor ${currentFloor[index]}`} />
               {openLists[index] ? <ExpandLess /> : <ExpandMore />}
@@ -175,13 +213,27 @@ export default function PathToTextDisplay(props: {
                 style={{ maxHeight: "200px", overflow: "auto" }}
               >
                 {/* Render each direction in the list */}
-                {list.map((direction, idx) => (
-                  <ListItemButton key={idx} sx={{ pl: 4 }}>
+                {list.map((direction: Directions, idx) => (
+                  <ListItemButton
+                    key={idx}
+                    sx={{ pl: 4 }}
+                    onClick={() => {
+                      speakDirections(direction);
+                    }}
+                  >
                     <ListItemIcon>
                       {getIconForDirectionType(direction.directionType)}
                     </ListItemIcon>
                     {/* Assuming textDirection is a property of Directions */}
-                    <ListItemText primary={direction.textDirection} />
+                    <ListItemText
+                      primary={
+                        direction.textDirection +
+                        " (" +
+                        direction.distance +
+                        " Feet" +
+                        ")"
+                      }
+                    />
                   </ListItemButton>
                 ))}
               </List>
