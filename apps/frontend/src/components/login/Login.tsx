@@ -38,16 +38,13 @@ const Login: React.FC = () => {
         <div className={styles.textContainer}>
           <br />
           <br />
-          <h1 className={styles.heading}>Brigham and Women's Hospital</h1>
-
           <br />
+          <h1 className={styles.heading}>Brigham and Women's Hospital</h1>
 
           <p className={styles.heading2}>
             Helping our patients and their families get back to what matters
             most.
           </p>
-          <br />
-          <br />
 
           <Button
             onClick={navigateMap}
@@ -58,8 +55,6 @@ const Login: React.FC = () => {
               backgroundPosition: "center",
               width: "200px", // Adjust button width as needed
               height: "200px", // Adjust button height as needed
-              marginLeft: "100px",
-              marginRight: "100px",
             }}
           >
             <span

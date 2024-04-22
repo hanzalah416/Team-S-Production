@@ -29,13 +29,12 @@
 .container {
   position: absolute;
   left: 0;
-  top: 80px;
+  top: 10px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: flex-start;
   width: 100%; /* Adjust width as needed */
-  height: 75vh;
 }
 
 .imageContainer {
