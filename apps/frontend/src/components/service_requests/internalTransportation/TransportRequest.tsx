@@ -230,31 +230,32 @@ const TransportRequest: React.FC = () => {
                   onChange={(event, value) => handleChangeName(value)}
                 />
               </div>
+
               <div>
                 <InputLabel
                   style={{
                     color: "#3B54A0",
                     fontStyle: "italic",
                   }}
-                  id="priority-dropdown"
+                  id="set  patient name"
                 >
-                  Priority
+                  Name of Patient
                 </InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  value={requestPriority}
-                  label=""
-                  onChange={(e) => {
-                    handleChangeRequestPriority(e);
+                <TextField
+                  style={{
+                    borderColor: "#3B54A0",
+                    color: "#3B54A0",
+                    accentColor: "#3B54A0",
+                    borderBlockColor: "#3B54A0",
                   }}
-                  sx={{ minWidth: 250, color: "#3B54A0" }}
-                >
-                  <MenuItem value={"Low"}>Low</MenuItem>
-                  <MenuItem value={"Medium"}>Medium</MenuItem>
-                  <MenuItem value={"High"}>High</MenuItem>
-                  <MenuItem value={"Emergency"}>Emergency</MenuItem>
-                </Select>
+                  id="outlined-controlled"
+                  label=""
+                  value={patientName}
+                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                    setPatientName(event.target.value);
+                  }}
+                  sx={{ minWidth: 250 }}
+                />
               </div>
             </Stack>
             <Stack
@@ -263,36 +264,6 @@ const TransportRequest: React.FC = () => {
               alignItems="center"
               justifyContent="center"
             >
-              <div>
-                <InputLabel
-                  style={{
-                    color: "#3B54A0",
-                    fontStyle: "italic",
-                  }}
-                  id="demo-simple-select-label"
-                >
-                  Transportation Type
-                </InputLabel>
-                <Select
-                  sx={{ minWidth: 250 }}
-                  labelId="location-label"
-                  id="serviceLocation"
-                  value={transportationType}
-                  onChange={
-                    handleChangeTransportationType
-                  } /* add funtion here */
-                >
-                  <MenuItem value="wheelchair(Patient provided)">
-                    Wheelchair(Patient provided)
-                  </MenuItem>
-                  <MenuItem value="wheelchair(requested)">
-                    Wheelchair(requested)
-                  </MenuItem>
-                  <MenuItem value="Stretcher">Stretcher</MenuItem>
-                  <MenuItem value="deceased">Deceased</MenuItem>
-                </Select>
-              </div>
-
               <div>
                 <InputLabel
                   style={{
@@ -368,61 +339,103 @@ const TransportRequest: React.FC = () => {
                   }
                 />
               </div>
-
+            </Stack>
+            <Stack
+              spacing={2}
+              direction="row"
+              alignItems="center"
+              justifyContent="center"
+            >
               <div>
                 <InputLabel
                   style={{
                     color: "#3B54A0",
                     fontStyle: "italic",
                   }}
-                  id="set  patient name"
+                  id="demo-simple-select-label"
                 >
-                  Name of Patient
+                  Transportation Type
                 </InputLabel>
-                <TextField
-                  style={{
-                    borderColor: "#3B54A0",
-                    color: "#3B54A0",
-                    accentColor: "#3B54A0",
-                    borderBlockColor: "#3B54A0",
-                  }}
-                  id="outlined-controlled"
-                  label=""
-                  value={patientName}
-                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                    setPatientName(event.target.value);
-                  }}
-                  sx={{ minWidth: 250 }}
-                />
+                <Select
+                  sx={{ minWidth: 500 }}
+                  labelId="location-label"
+                  id="serviceLocation"
+                  value={transportationType}
+                  onChange={
+                    handleChangeTransportationType
+                  } /* add funtion here */
+                >
+                  <MenuItem value="wheelchair(Patient provided)">
+                    Wheelchair(Patient provided)
+                  </MenuItem>
+                  <MenuItem value="wheelchair(requested)">
+                    Wheelchair(requested)
+                  </MenuItem>
+                  <MenuItem value="Stretcher">Stretcher</MenuItem>
+                  <MenuItem value="deceased">Deceased</MenuItem>
+                </Select>
               </div>
             </Stack>
-            <div>
-              <InputLabel
-                style={{
-                  color: "#3B54A0",
-                  fontStyle: "italic",
-                }}
-                id="demo-simple-select-label"
-              >
-                Status
-              </InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={requestStatus}
-                label=""
-                onChange={(e) => {
-                  handleChangeRequestStatus(e);
-                }}
-                sx={{ minWidth: 518 }}
-              >
-                <MenuItem value={"unassigned"}>Unassigned</MenuItem>
-                <MenuItem value={"assigned"}>Assigned</MenuItem>
-                <MenuItem value={"in_progress"}>In Progress</MenuItem>
-                <MenuItem value={"closed"}>Closed</MenuItem>
-              </Select>
-            </div>
-            <br />
+            <Stack
+              spacing={2}
+              direction="row"
+              alignItems="center"
+              justifyContent="center"
+            >
+              <div>
+                <InputLabel
+                  style={{
+                    color: "#3B54A0",
+                    fontStyle: "italic",
+                  }}
+                  id="priority-dropdown"
+                >
+                  Priority
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={requestPriority}
+                  label=""
+                  onChange={(e) => {
+                    handleChangeRequestPriority(e);
+                  }}
+                  sx={{ minWidth: 250, color: "#3B54A0" }}
+                >
+                  <MenuItem value={"Low"}>Low</MenuItem>
+                  <MenuItem value={"Medium"}>Medium</MenuItem>
+                  <MenuItem value={"High"}>High</MenuItem>
+                  <MenuItem value={"Emergency"}>Emergency</MenuItem>
+                </Select>
+              </div>
+              <div>
+                <InputLabel
+                  style={{
+                    color: "#3B54A0",
+                    fontStyle: "italic",
+                  }}
+                  id="demo-simple-select-label"
+                >
+                  Status
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={requestStatus}
+                  label=""
+                  onChange={(e) => {
+                    handleChangeRequestStatus(e);
+                  }}
+                  sx={{ minWidth: 250 }}
+                >
+                  <MenuItem value={"unassigned"}>Unassigned</MenuItem>
+                  <MenuItem value={"assigned"}>Assigned</MenuItem>
+                  <MenuItem value={"in_progress"}>In Progress</MenuItem>
+                  <MenuItem value={"closed"}>Closed</MenuItem>
+                </Select>
+              </div>
+              <br />
+            </Stack>
 
             <Stack
               spacing={3}
