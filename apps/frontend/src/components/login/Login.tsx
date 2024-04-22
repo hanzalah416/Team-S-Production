@@ -12,25 +12,26 @@ import {useEffect, useState} from "react";
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
-    const [currentImage, setCurrentImage] = useState(0);
+    const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const navigateMap = () => {
     navigate("/floor-map");
   };
-
     const images = [
         heroImage,
         heroImage1,
-        heroImage2, heroImage3
+        heroImage2,
+        heroImage3,
     ];
 
-    useEffect(() => {
-        const intervalId = setInterval(() => {
-            // Rotate to the next image
-            setCurrentImage((prevImage) => (prevImage + 1) % images.length);
-        }, 3000); // Change the duration (in milliseconds) to adjust the speed
 
-        return () => clearInterval(intervalId); // Cleanup on unmount
-    }, [images.length]);
+    useEffect(() => {
+        const interval = setInterval(() => {
+            // Update the index to display the next image
+            setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
+        }, 3000); // Change the duration here (in milliseconds)
+
+        return () => clearInterval(interval); // Cleanup the interval on component unmount
+    }, [images.length]); // Empty dependency array to run this effect only once on component mount
 
 
 
@@ -40,22 +41,19 @@ const Login: React.FC = () => {
       <div className={styles.container}>
           <div className={styles.imageContainer}>
 
-              <div className={styles.slideshowContainer}>
-                  {images.map((imageUrl, index) => (
+              <div className={styles.slideshow}>
+                  {images.map((image, index) => (
                       <img
                           key={index}
-                          src={imageUrl}
-                          alt={`Slide ${index + 1}`}
-                          className={index === currentImage ? 'active' : ''}
+                          src={image}
+                          alt={`Slide ${index}`}
+                          className = {styles.coverImage}
+                          style={{display: index === currentImageIndex ? 'block' : 'none',
+                              transition: 'opacity 2s ease-in'}}
                       />
                   ))}
               </div>
 
-              {/*<img*/}
-              {/*    src={heroImage}*/}
-              {/*    alt="Covering 3/4 page"*/}
-              {/*    className={styles.coverImage}*/}
-              {/*/>*/}
               <div className={styles.textOverlay}>
                   <p className={styles.disclaimer}>
                       This website is a term project exercise for WPI CS 3733 Software
