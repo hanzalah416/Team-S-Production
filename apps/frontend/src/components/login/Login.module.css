@@ -5,7 +5,7 @@
   color: black;
   text-align: center;
   font-family: "Inter", sans-serif;
-  font-size: 60px;
+  font-size: 40px;
   font-weight: bold;
   padding: 8px;
 }
@@ -20,21 +20,23 @@
 }
 
 .textContainer {
-  flex: 1; /* Adjust flex value as needed */
+  flex: 1.5; /* Adjust flex value as needed */
   padding: 10px;
   background-color: #f0f0f0;
   min-width: 200px; /* Set a minimum width */
+  height: calc(100vh - 75px);
 }
 
 .container {
   position: absolute;
   left: 0;
-  top: 10px;
+  top: 75px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: flex-start;
   width: 100%; /* Adjust width as needed */
+  height: calc(100vh - 75px);
 }
 
 .imageContainer {
@@ -42,11 +44,12 @@
   position: relative;
   object-fit: cover;
   min-width: 200px; /* Set a minimum width */
+  height: calc(100vh - 75px);
 }
 
 .coverImage {
   width: 200vh;
-  height: 92vh;
+  height: calc(100vh - 75px);
   position: relative;
   object-fit: cover;
 }
@@ -54,20 +57,20 @@
 .arrowImage {
   position: relative;
   object-fit: cover;
-  translate: 300px 300px;
+  /*translate: 300px 300px;*/
 }
 
 .textOverlay {
+  background: white;
   position: absolute;
-  top: 50%;
+  top: 0%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, 20%);
   text-align: center;
-  color: white; /* Adjust text color to your preference */
+  color: black; /* Adjust text color to your preference */
 }
 
 .disclaimer {
-  transform: translate(-250px, -350px); /* Fix typo */
   font-weight: 800;
   width: 100%;
 }
