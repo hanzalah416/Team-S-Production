@@ -10,6 +10,7 @@ import { Grid } from "@mui/material";
 import Button from "@mui/material/Button";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import BackgroundImg2 from "../../assets/blue-background2.jpg";
 
 const OrderPayment: React.FC = () => {
   const [cardNumber, setCardNumber] = useState("");
@@ -67,6 +68,18 @@ const OrderPayment: React.FC = () => {
   };
 
   return (
+    <div
+      style={{
+        backgroundImage: `url(${BackgroundImg2})`,
+        height: "100vh",
+        width: "100vw",
+        backgroundSize: "cover",
+        backgroundRepeat: "no-repeat",
+        minHeight: "100%",
+        backgroundPosition: "center center",
+        overflowX: "hidden",
+      }}
+    >
     <Grid
       container
       spacing={5}
@@ -156,6 +169,7 @@ const OrderPayment: React.FC = () => {
         </Stack>
       </Paper>
     </Grid>
+  </div>
   );
 };
 
