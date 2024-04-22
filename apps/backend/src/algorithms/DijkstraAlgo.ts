@@ -1,3 +1,3 @@
-import{ Pathfinder} from "./AlgoPath.ts";
+import { Pathfinder } from "./AlgoPath.ts";
 
-export class DijkstraAlgo extends Pathfinder{}
+export class DijkstraAlgo extends Pathfinder {}
