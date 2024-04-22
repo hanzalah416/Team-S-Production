@@ -10,6 +10,7 @@ import OrderFlowers from "./components/flower_requests/OrderFlowers.tsx";
 import OrderPayment from "./components/service_requests/payment/OrderPayment.tsx";
 import { FormDataProvider } from "./components/service_requests/FormDataContext.tsx";
 import FloorMap from "./components/floor_map/FloorMap.tsx";
+import HeroPage from "./components/login/Login.tsx";
 import NodeDataPage from "./components/nodes/NodeDataPage.tsx";
 import { ServiceRequestGetter } from "./components/service_requests/all_requests/AllServiceRequestsGetter.tsx";
 import OutlinedAlerts from "./components/service_requests/ServiceNotice.tsx";
@@ -22,6 +23,7 @@ import MedicineDeliveryForm from "./components/service_requests/medicine_deliver
 import SecurityRequest from "./components/service_requests/security_requests/SecurityRequest.tsx";
 import { AppState, Auth0Provider } from "@auth0/auth0-react";
 import LanguageRequest from "./components/service_requests/language_requests/LanguageRequest.tsx";
+import CreditPage from "./components/credit_page/CreditPage.tsx";
 
 function App() {
   const router = createBrowserRouter([
@@ -29,6 +31,15 @@ function App() {
       children: [
         {
           path: "/",
+          element: (
+            <>
+              <HeroPage />
+              <Layout />
+            </>
+          ),
+        },
+        {
+          path: "/floor-map",
           element: (
             <>
               <FloorMap />
@@ -139,7 +150,15 @@ function App() {
             </>
           ),
         },
-
+        {
+          path: "/credit-page",
+          element: (
+            <>
+              <CreditPage />
+              <Layout />
+            </>
+          ),
+        },
         // ... other routes
       ],
     },
@@ -154,14 +173,6 @@ function App() {
     </FormDataProvider>
   );
 }
-
-// function Welcome() {
-//   return (
-//     <div className="welcome">
-//       <h1>Welcome to your starter code.</h1>
-//     </div>
-//   );
-// }
 
 function Layout() {
   const navigate = useNavigate();

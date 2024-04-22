@@ -54,6 +54,11 @@ enum RequestStatus {
   closed
 }
 
+model Employees {
+  employeeID   String @id @default(uuid())
+  employeeName String
+}
+
 model LanguageRequest {
   orderNumber Int            @id
   language    String

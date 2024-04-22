@@ -20,8 +20,11 @@ import sanitationRouter from "./routes/saniationRoute.ts";
 import roomSchedulingRouter from "./routes/roomScheduling.ts";
 import textPathRouter from "./routes/textPathRouter.ts";
 import MedsForAutofillRouter from "./routes/MedsForAutofillRoutes.ts";
+import ReturnClosestRouter from "./routes/ReturnClosestRouter.ts";
 import transportRequestRouter from "./routes/transportRequest.ts";
 import { auth } from "express-oauth2-jwt-bearer";
+import allStaffRouter from "./routes/getAllStaff.ts";
+import employeeCSVRouter from "./routes/csvEmployees.ts";
 
 // import allEdgesRouter from "./routes/getAllEdgesData.ts";
 // import allNodeRouter from "./routes/getAllNodeData.ts";
@@ -62,12 +65,15 @@ app.use("/api/medicine-request", medicineRouter);
 app.use("/api/all-requests", allRequests);
 app.use("/api/meds-autofill", MedsForAutofillRouter);
 app.use("/api/transport-reuqest", transportRequestRouter);
+app.use("/api/employee-csv", employeeCSVRouter);
 // app.use("/api/all-node-data", allNodeRouter);
 // app.use("/api/all-edges-data", allEdgesRouter);
 app.use("/api/security-request", securityRouter);
 app.use("/api/room-scheduling", roomSchedulingRouter);
 app.use("/api/pathToText", textPathRouter);
 app.use("/api/language-request", languageRouter);
+app.use("/api/all-staff", allStaffRouter);
+app.use("/api/returnClosest", ReturnClosestRouter);
 
 app.use("/healthcheck", (req, res) => {
   res.status(200).send();
