@@ -306,46 +306,91 @@ function NavBar() {
             >
               <Link to={"/order-flowers"} id={"order"}>
                 <MenuItem onClick={handleClose}>
+                  <img
+                    src={flowerIcon}
+                    className={"iconHeight"}
+                    width={"38px"}
+                  />
                   <p className={"item"}>Order Flowers</p>
                 </MenuItem>
               </Link>
               <Link to={"/medicine-delivery-request"} id={"order"}>
                 <MenuItem onClick={handleClose}>
+                  <img
+                    src={medicineIcon}
+                    className={"iconHeight"}
+                    width={"38px"}
+                  />
                   <p className={"item"}>Medical Delivery</p>
                 </MenuItem>
               </Link>
               <Link to={"/sanitation-request"} id={"order"}>
                 <MenuItem onClick={handleClose}>
+                  <img
+                    src={sanitationIcon}
+                    className={"iconHeight"}
+                    width={"38px"}
+                  />
                   <p className={"item"}>Sanitation Services</p>
                 </MenuItem>
               </Link>
               <Link to={"/security-request"} id={"order"}>
                 <MenuItem onClick={handleClose}>
+                  <img
+                    src={securityIcon}
+                    className={"iconHeight"}
+                    width={"38px"}
+                  />
                   <p className={"item"}>Security Requests</p>
                 </MenuItem>
               </Link>
               <Link to={"/room-scheduling"} id={"order"}>
                 <MenuItem onClick={handleClose}>
+                  <img
+                    src={roomSchedulingIcon}
+                    className={"iconHeight"}
+                    width={"38px"}
+                  />
                   <p className={"item"}>Room Scheduling</p>
                 </MenuItem>
               </Link>
               <Link to={"/language-request"} id={"order"}>
                 <MenuItem onClick={handleClose}>
+                  <img
+                    src={languageIcon}
+                    className={"iconHeight"}
+                    width={"38px"}
+                  />
                   <p className={"item"}>Language Request</p>
                 </MenuItem>
               </Link>
               <Link to={"/transport-request"} id={"order"}>
                 <MenuItem onClick={handleClose}>
+                  <img
+                    src={creditIcon}
+                    className={"iconHeight"}
+                    width={"38px"}
+                  />
                   <p className={"item"}>Transportation Request</p>
                 </MenuItem>
               </Link>
               <Link to={"/map-debug"} id={"order"}>
                 <MenuItem onClick={handleClose}>
+                  <img
+                    src={creditIcon}
+                    className={"iconHeight"}
+                    width={"38px"}
+                  />
                   <p className={"item"}>Map Editing Page</p>
                 </MenuItem>
               </Link>
               <Link to={"/node-data"} id={"order"}>
                 <MenuItem onClick={handleClose}>
+                  <img
+                    src={creditIcon}
+                    className={"iconHeight"}
+                    width={"38px"}
+                  />
                   <p className={"item"}>Manage Database</p>
                 </MenuItem>
               </Link>
