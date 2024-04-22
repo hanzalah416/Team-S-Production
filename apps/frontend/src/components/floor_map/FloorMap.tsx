@@ -184,7 +184,6 @@ function FloorMap() {
     // Use attribute selector to find all elements where class starts with "_mapDot"
     const allDots = dotContainer.querySelectorAll('[class^="_mapDot"]');
     if (allDots.length === 0) {
-      console.log("No dot elements found.");
       return;
     }
 
@@ -394,7 +393,6 @@ function FloorMap() {
     setPathFound(true);
     setResetKey((prevKey) => prevKey + 1); // Increment the reset key
     setShouldAutoZoom(true);
-    console.log(shouldAutoZoom);
     setResetFloorsUIKey((prevKey) => prevKey + 1);
     if (transformRef.current) {
       // This assumes resetTransform is available and correctly set up in the TransformWrapper

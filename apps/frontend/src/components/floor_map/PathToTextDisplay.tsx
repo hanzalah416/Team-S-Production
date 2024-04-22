@@ -89,7 +89,6 @@ export default function PathToTextDisplay(props: {
   const toggleList = (index: number) => {
     const isOpen = openLists[index]; // Check if the current list is open
     const floorLabel = currentFloor[index];
-    console.log(`Toggling list for floor: ${floorLabel}`);
 
     // Map floor label "3" to "03", etc.
     const formattedFloorLabel = formatFloorLabel(floorLabel);
