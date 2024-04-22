@@ -10,7 +10,7 @@ router.post("/", async function (req: Request, res: Response) {
     const {
       name,
       priority,
-      location,
+      startLocation,
       status,
       patientName,
       endLocation,
@@ -20,19 +20,19 @@ router.post("/", async function (req: Request, res: Response) {
     const serviceRequest = await prisma.serviceRequest.create({
       data: {
         name: name,
-        priority,
-        location,
+        priority: priority,
+        location: startLocation,
         requestType: "Transport",
-        status,
+        status: status,
       },
     });
 
-    // Connect servreq to the newly created flower request
+    // Connect servreq to the newly created Transport request
 
     await prisma.transportRequest.create({
       data: {
         patientName: patientName,
-        startLocation: location,
+        startLocation: startLocation,
         endLocation: endLocation,
         transportationType: transportationType,
         servreq: {
@@ -68,7 +68,7 @@ router.get("/", async function (req: Request, res: Response) {
         },
       },
     });
-    // No flower requests exist in the database
+    // No transport requests exist in the database
     if (serviceRequests.length === 0) {
       console.error("No transport requests have been made!");
       res.sendStatus(204); // Send 204 status if there is no data
@@ -94,9 +94,9 @@ router.patch("/:orderNumber", async (req: Request, res: Response) => {
       },
     });
 
-    res.json(updatedTransportRequest); // Send the updated flower request object back to the client
+    res.json(updatedTransportRequest); // Send the updated transport request object back to the client
   } catch (error) {
-    console.error(`Error updating flower request status: ${error}`);
+    console.error(`Error updating Transport request status: ${error}`);
     res.sendStatus(500);
   }
 });

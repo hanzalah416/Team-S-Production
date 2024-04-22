@@ -80,96 +80,96 @@ const OrderPayment: React.FC = () => {
         overflowX: "hidden",
       }}
     >
-    <Grid
-      container
-      spacing={5}
-      direction="column"
-      alignItems="center"
-      justifyContent="center"
-      my={4}
-    >
-      <br />
-      <br />
-
-      <Paper elevation={4}>
+      <Grid
+        container
+        spacing={5}
+        direction="column"
+        alignItems="center"
+        justifyContent="center"
+        my={4}
+      >
         <br />
-        <p className={"title"}>Payment Information </p>
+        <br />
 
-        <Stack alignItems="center" justifyContent="center" spacing={3} p={4}>
-          <div>
+        <Paper elevation={4}>
+          <br />
+          <p className={"title"}>Payment Information </p>
+
+          <Stack alignItems="center" justifyContent="center" spacing={3} p={4}>
+            <div>
+              <TextField
+                label="Credit card number"
+                onChange={(e) => setCardNumber(e.target.value)}
+                sx={{ minWidth: 400 }}
+              />
+            </div>
+            <div>
+              <Stack
+                spacing={1}
+                direction="row"
+                alignItems="center"
+                justifyContent="center"
+              >
+                <div>
+                  <TextField
+                    value={expirationDate}
+                    onChange={(e) => setExpirationDate(e.target.value)}
+                    sx={{ minWidth: 250 }}
+                    label="Expiration Date (MM/YYYY)"
+                  />
+                </div>
+                <div>
+                  <TextField
+                    value={cvv}
+                    onChange={(e) => setCvv(e.target.value)}
+                    sx={{ maxWidth: 140 }}
+                    label="CVV"
+                  />
+                </div>
+              </Stack>
+            </div>
+
             <TextField
-              label="Credit card number"
-              onChange={(e) => setCardNumber(e.target.value)}
+              value={nameOnCard}
+              onChange={(e) => setNameOnCard(e.target.value)}
               sx={{ minWidth: 400 }}
+              label="Name on Card"
             />
-          </div>
-          <div>
+
             <Stack
-              spacing={1}
+              spacing={2}
               direction="row"
               alignItems="center"
               justifyContent="center"
             >
-              <div>
-                <TextField
-                  value={expirationDate}
-                  onChange={(e) => setExpirationDate(e.target.value)}
-                  sx={{ minWidth: 250 }}
-                  label="Expiration Date (MM/YYYY)"
-                />
-              </div>
-              <div>
-                <TextField
-                  value={cvv}
-                  onChange={(e) => setCvv(e.target.value)}
-                  sx={{ maxWidth: 140 }}
-                  label="CVV"
-                />
-              </div>
+              <Button
+                style={{
+                  color: "#3B54A0",
+                  outlineColor: "#3B54A0",
+                  borderColor: "#3B54A0",
+                }}
+                variant="outlined"
+                sx={{ minWidth: 100 }}
+                onClick={handleBack}
+              >
+                Back
+              </Button>
+
+              <Button
+                style={{
+                  backgroundColor: "#3B54A0",
+                }}
+                variant="contained"
+                sx={{ minWidth: 100 }}
+                onClick={submit}
+              >
+                Submit
+              </Button>
             </Stack>
-          </div>
-
-          <TextField
-            value={nameOnCard}
-            onChange={(e) => setNameOnCard(e.target.value)}
-            sx={{ minWidth: 400 }}
-            label="Name on Card"
-          />
-
-          <Stack
-            spacing={2}
-            direction="row"
-            alignItems="center"
-            justifyContent="center"
-          >
-            <Button
-              style={{
-                color: "#3B54A0",
-                outlineColor: "#3B54A0",
-                borderColor: "#3B54A0",
-              }}
-              variant="outlined"
-              sx={{ minWidth: 100 }}
-              onClick={handleBack}
-            >
-              Back
-            </Button>
-
-            <Button
-              style={{
-                backgroundColor: "#3B54A0",
-              }}
-              variant="contained"
-              sx={{ minWidth: 100 }}
-              onClick={submit}
-            >
-              Submit
-            </Button>
           </Stack>
-        </Stack>
-      </Paper>
-    </Grid>
-  </div>
+        </Paper>
+      </Grid>
+    </div>
   );
 };
 

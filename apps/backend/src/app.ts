@@ -65,7 +65,7 @@ app.use("/api/edges", allEdgeRouter);
 app.use("/api/medicine-request", medicineRouter);
 app.use("/api/all-requests", allRequests);
 app.use("/api/meds-autofill", MedsForAutofillRouter);
-app.use("/api/transport-reuqest", transportRequestRouter);
+app.use("/api/transport-request", transportRequestRouter);
 app.use("/api/employee-csv", employeeCSVRouter);
 // app.use("/api/all-node-data", allNodeRouter);
 // app.use("/api/all-edges-data", allEdgesRouter);

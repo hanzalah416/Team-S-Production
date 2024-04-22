@@ -220,7 +220,8 @@ const LanguageRequest: React.FC = () => {
               <div>
                 <InputLabel
                   style={{
-                    color: "#3B54A0", fontStyle: "italic"
+                    color: "#3B54A0",
+                    fontStyle: "italic",
                   }}
                   id="priority-dropdown"
                 >
