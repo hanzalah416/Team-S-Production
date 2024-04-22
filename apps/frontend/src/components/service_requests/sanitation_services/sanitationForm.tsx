@@ -191,7 +191,7 @@ export default function SanitationForm() {
                   Name of Requester
                 </InputLabel>
                 <Autocomplete
-                  sx={{ minWidth: 400, color: "#3B54A0" }}
+                  sx={{ minWidth: 250, color: "#3B54A0" }}
                   options={staffNames}
                   getOptionLabel={(option) => option.employeeName || "Unknown"}
                   //isOptionEqualToValue={(option, value) => option.id === value.id}
@@ -217,7 +217,7 @@ export default function SanitationForm() {
               <div>
                 <InputLabel
                   style={{
-                    color: "#3B54A0",
+                    color: "#3B54A0", fontStyle: "italic"
                   }}
                   id="priority-dropdown"
                 >
@@ -229,7 +229,7 @@ export default function SanitationForm() {
                   value={priority}
                   label=""
                   onChange={handlePriorityChange}
-                  sx={{ minWidth: 400, color: "#3B54A0" }}
+                  sx={{ minWidth: 250, color: "#3B54A0" }}
                 >
                   <MenuItem value={"Low"}>Low</MenuItem>
                   <MenuItem value={"Medium"}>Medium</MenuItem>
@@ -242,14 +242,14 @@ export default function SanitationForm() {
             <div>
               <InputLabel
                 style={{
-                  color: "#3B54A0",
+                  color: "#3B54A0", fontStyle: "italic",
                 }}
                 id="location-dropdown"
               >
                 Location
               </InputLabel>
               <Autocomplete
-                sx={{ minWidth: 400, color: "#3B54A0" }}
+                sx={{ minWidth: 518, color: "#3B54A0" }}
                 options={locations}
                 getOptionLabel={(option) => option.label || "Unknown"}
                 isOptionEqualToValue={(option, value) => option.id === value.id}
