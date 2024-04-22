@@ -25,47 +25,47 @@ export default function OrderConfirmation() {
         overflowX: "hidden",
         display: "flex",
         flexWrap: "wrap",
-          alignItems: "center",
-          justifyContent: "center"
+        alignItems: "center",
+        justifyContent: "center",
       }}
     >
-    <Box
-      sx={{
-        display: "flex",
-        flexWrap: "wrap",
-        "& > :not(style)": {
-          m: 10,
-          width: 700,
-          height: 760,
-        },
-      }}
-    >
-      <Paper elevation={3}>
-        <br/>
-        <br/>
-        <h2 className={styles.title}>Request Confirmation</h2>
-        <p className={styles.result}>
-          Request placed! Awaiting staff assignment.
-        </p>
-        <img
-          className={styles.check}
-          src={checkMark}
-          alt="Confirmation Checkmark"
-        />
-        <div className={styles.buttonReturn}>
-          <Button
-            style={{
-              backgroundColor: "#3B54A0",
-            }}
-            variant="contained"
-            onClick={handleBack}
-            sx={{ minWidth: 300, minHeight: 50, fontSize:18 }}
-          >
-            Back
-          </Button>
-        </div>
-      </Paper>
-    </Box>
-  </div>
+      <Box
+        sx={{
+          display: "flex",
+          flexWrap: "wrap",
+          "& > :not(style)": {
+            m: 10,
+            width: 700,
+            height: 760,
+          },
+        }}
+      >
+        <Paper elevation={3}>
+          <br />
+          <br />
+          <h2 className={styles.title}>Request Confirmation</h2>
+          <p className={styles.result}>
+            Request placed! Awaiting staff assignment.
+          </p>
+          <img
+            className={styles.check}
+            src={checkMark}
+            alt="Confirmation Checkmark"
+          />
+          <div className={styles.buttonReturn}>
+            <Button
+              style={{
+                backgroundColor: "#3B54A0",
+              }}
+              variant="contained"
+              onClick={handleBack}
+              sx={{ minWidth: 300, minHeight: 50, fontSize: 18 }}
+            >
+              Back
+            </Button>
+          </div>
+        </Paper>
+      </Box>
+    </div>
   );
 }
