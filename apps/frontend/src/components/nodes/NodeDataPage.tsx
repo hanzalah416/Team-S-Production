@@ -145,6 +145,9 @@ const handleFileUpload = (
         if (result.data) {
           // Log the parsed CSV data
           csvData = result.data as string[][];
+          csvData.forEach((row, index) => {
+            console.log(`${row} at ${index}`);
+          });
           console.log("result.data:");
           console.log(result.data);
           console.log("csvData:");
@@ -156,7 +159,7 @@ const handleFileUpload = (
     };
     reader.readAsText(file);
   }
-  window.location.reload();
+  // window.location.reload();
 };
 
 const NodeDataPage: React.FC = () => {

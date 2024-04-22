@@ -26,12 +26,15 @@ router.post("/", async function (req, res) {
   }));
 
   try {
+    const filteredEmployees = employeeAttempt.filter(
+      (x) => x.employeeID !== null,
+    );
     console.log("starting try");
     await PrismaClient.employees.deleteMany();
     console.log("deleted old employees");
     // Attempt to create in the database
     await PrismaClient.employees.createMany({
-      data: employeeAttempt,
+      data: filteredEmployees,
     });
     console.info("Successfully saved employee attempt");
     res.sendStatus(200);
