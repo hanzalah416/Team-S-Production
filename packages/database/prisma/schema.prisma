@@ -72,6 +72,15 @@ model RoomScheduling {
   servreq       ServiceRequest @relation(fields: [requestNumber], references: [requestID])
 }
 
+model TransportRequest {
+  requestNumber      Int            @id
+  patientName        String
+  transportationType String
+  startLocation      String
+  endLocation        String
+  servreq            ServiceRequest @relation(fields: [requestNumber], references: [requestID])
+}
+
 model ServiceRequest {
   requestID         Int                @id @default(autoincrement())
   name              String
@@ -85,6 +94,7 @@ model ServiceRequest {
   SanitationRequest SanitationRequest?
   RoomScheduling    RoomScheduling?
   LanguageRequest   LanguageRequest?
+  TransportRequest  TransportRequest?
 }
 
 model SanitationRequest {

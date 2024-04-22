@@ -24,6 +24,7 @@ import SecurityRequest from "./components/service_requests/security_requests/Sec
 import { AppState, Auth0Provider } from "@auth0/auth0-react";
 import LanguageRequest from "./components/service_requests/language_requests/LanguageRequest.tsx";
 import CreditPage from "./components/credit_page/CreditPage.tsx";
+import TransportRequest from "./components/service_requests/internalTransportation/TransportRequest.tsx";
 
 function App() {
   const router = createBrowserRouter([
@@ -146,6 +147,15 @@ function App() {
           element: (
             <>
               <LanguageRequest />
+              <Layout />
+            </>
+          ),
+        },
+        {
+          path: "/transport-request",
+          element: (
+            <>
+              <TransportRequest />
               <Layout />
             </>
           ),

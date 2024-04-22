@@ -21,6 +21,7 @@ import roomSchedulingRouter from "./routes/roomScheduling.ts";
 import textPathRouter from "./routes/textPathRouter.ts";
 import MedsForAutofillRouter from "./routes/MedsForAutofillRoutes.ts";
 import ReturnClosestRouter from "./routes/ReturnClosestRouter.ts";
+import transportRequestRouter from "./routes/transportRequest.ts";
 import { auth } from "express-oauth2-jwt-bearer";
 import allStaffRouter from "./routes/getAllStaff.ts";
 
@@ -64,6 +65,7 @@ app.use("/api/edges", allEdgeRouter);
 app.use("/api/medicine-request", medicineRouter);
 app.use("/api/all-requests", allRequests);
 app.use("/api/meds-autofill", MedsForAutofillRouter);
+app.use("/api/transport-request", transportRequestRouter);
 app.use("/api/employee-csv", employeeCSVRouter);
 // app.use("/api/all-node-data", allNodeRouter);
 // app.use("/api/all-edges-data", allEdgesRouter);
