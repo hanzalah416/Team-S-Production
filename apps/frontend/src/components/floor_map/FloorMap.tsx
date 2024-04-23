@@ -113,172 +113,144 @@ function FloorMap() {
   const transformRef = useRef<ReactZoomPanPinchContentRef>(null);
   const [shouldAutoZoom, setShouldAutoZoom] = useState(true);
 
-  const zoomToPathSegment = useCallback(
-    (segmentIndex: number) => {
-      setShouldAutoZoom(false);
+    const zoomToPathSegment = useCallback(
+        (segmentIndex: number) => {
+            setShouldAutoZoom(false);
 
-      // Adjust the logic to handle floor change markers correctly
-      let currentSegment = 0;
-      let startIndex = 0;
-      let endIndex = fullPath.length;
+            // Adjust the logic to handle floor change markers correctly
+            let currentSegment = 0;
+            let startIndex = 0;
+            let endIndex = fullPath.length;
 
-      for (let i = 0; i < fullPath.length; i++) {
-        if (fullPath[i].length === 3) {
-          // Floor change markers
-          if (currentSegment === segmentIndex) {
-            endIndex = i;
-            break;
-          }
-          currentSegment++;
-          startIndex = i + 1;
+            for (let i = 0; i < fullPath.length; i++) {
+                if (fullPath[i].length === 3) { // Floor change markers
+                    if (currentSegment === segmentIndex) {
+                        endIndex = i;
+                        break;
+                    }
+                    currentSegment++;
+                    startIndex = i + 1;
+                }
+            }
+
+            // Fetch all nodes within the segment
+            const segmentNodes = fullPath.slice(startIndex, endIndex).map(id => locations.find(loc => loc.id === id)).filter(loc => loc);
+
+            if (segmentNodes.length === 0) {
+                console.log("No nodes found in the segment, unable to zoom.");
+                return;
+            }
+
+            const mapWidth = 5000; // Full width of the map in pixels
+            const mapHeight = 3400; // Full height of the map in pixels
+
+            // Calculate bounding box of all nodes
+            let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+
+            segmentNodes.forEach(node => {
+                if (node) { // Check if node is not undefined
+                    const x = parseInt(node.left);
+                    const y = parseInt(node.top);
+                    if (!isNaN(x) && !isNaN(y)) { // Also check if the parsed values are valid numbers
+                        minX = Math.min(minX, x);
+                        maxX = Math.max(maxX, x);
+                        minY = Math.min(minY, y);
+                        maxY = Math.max(maxY, y);
+                    }
+                }
+            });
+
+            const minXPercent = (minX / mapWidth) * 100;
+            const maxXPercent = (maxX / mapWidth) * 100;
+            const minYPercent = (minY / mapHeight) * 100;
+            const maxYPercent = (maxY / mapHeight) * 100;
+
+            setTimeout(() => {
+                if (transformRef.current?.instance.wrapperComponent) {
+                    const wrapperWidth = transformRef.current.instance.wrapperComponent.clientWidth;
+                    const wrapperHeight = transformRef.current.instance.wrapperComponent.clientHeight;
+
+                    // Calculate the actual pixel values from percentages for the viewport
+                    const minX = (minXPercent / 100) * wrapperWidth;
+                    const maxX = (maxXPercent / 100) * wrapperWidth;
+                    const minY = (minYPercent / 100) * wrapperHeight;
+                    const maxY = (maxYPercent / 100) * wrapperHeight;
+
+                    const widthRatio = wrapperWidth / (maxX - minX);
+                    const heightRatio = wrapperHeight / (maxY - minY);
+                    const scale = Math.min(widthRatio, heightRatio, 8) * 0.85; // Limiting scale to a maximum of 8
+
+                    const centerX = (minX + maxX) / 2;
+                    const centerY = (minY + maxY) / 2;
+
+                    transformRef.current.setTransform(
+                        wrapperWidth / 2 - centerX * scale,
+                        wrapperHeight / 2 - centerY * scale,
+                        scale,
+                    );
+                } else {
+                    console.log("TransformWrapper's instance or wrapperComponent is undefined.");
+                }
+            }, 100);
+        },
+        [fullPath, locations, transformRef, setShouldAutoZoom],
+    );
+
+    const calculateAndZoom = () => {
+        const dotContainer = document.querySelector('[class^="_dotsContainer"]');
+        if (!dotContainer) {
+            console.log("No dot container element found.");
+            return;
         }
-      }
 
-      const startNode = locations.find(
-        (loc) => loc.id === fullPath[startIndex],
-      );
-      const endNode = locations.find(
-        (loc) => loc.id === fullPath[Math.max(endIndex - 1, startIndex)],
-      );
+        // Use attribute selector to find all elements where class starts with "_mapDot"
+        const allDots = dotContainer.querySelectorAll('[class^="_mapDot"]');
+        if (allDots.length === 0) {
+            console.log("No dot elements found.");
+            return;
+        }
 
-      if (!startNode || !endNode) {
-        console.log("Start or end node not found, unable to zoom.");
-        return;
-      }
+        let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
 
-      const mapWidth = 5000; // Full width of the map in pixels
-      const mapHeight = 3400; // Full height of the map in pixels
+        allDots.forEach((dot: Element) => {
+            const style = (dot as HTMLElement).style;
+            const top = parseFloat(style.top);
+            const left = parseFloat(style.left);
 
-      // Convert pixel values to percentages of the full map dimensions
-      const minXPercent = Math.min(
-        (parseInt(startNode.left) / mapWidth) * 100,
-        (parseInt(endNode.left) / mapWidth) * 100,
-      );
-      const maxXPercent = Math.max(
-        (parseInt(startNode.left) / mapWidth) * 100,
-        (parseInt(endNode.left) / mapWidth) * 100,
-      );
-      const minYPercent = Math.min(
-        (parseInt(startNode.top) / mapHeight) * 100,
-        (parseInt(endNode.top) / mapHeight) * 100,
-      );
-      const maxYPercent = Math.max(
-        (parseInt(startNode.top) / mapHeight) * 100,
-        (parseInt(endNode.top) / mapHeight) * 100,
-      );
+            const containerWidth = dotContainer.clientWidth;
+            const containerHeight = dotContainer.clientHeight;
 
-      setTimeout(() => {
+            const actualTop = (top / 100) * containerHeight;
+            const actualLeft = (left / 100) * containerWidth;
+
+            minX = Math.min(minX, actualLeft);
+            maxX = Math.max(maxX, actualLeft);
+            minY = Math.min(minY, actualTop);
+            maxY = Math.max(maxY, actualTop);
+        });
+
         if (transformRef.current?.instance.wrapperComponent) {
-          const wrapperWidth =
-            transformRef.current.instance.wrapperComponent.clientWidth;
-          const wrapperHeight =
-            transformRef.current.instance.wrapperComponent.clientHeight;
+            const wrapperWidth = transformRef.current.instance.wrapperComponent.clientWidth;
+            const wrapperHeight = transformRef.current.instance.wrapperComponent.clientHeight;
 
-          // Calculate the actual pixel values from percentages for the viewport
-          const minX = (minXPercent / 100) * wrapperWidth;
-          const maxX = (maxXPercent / 100) * wrapperWidth;
-          const minY = (minYPercent / 100) * wrapperHeight;
-          const maxY = (maxYPercent / 100) * wrapperHeight;
+            const widthRatio = wrapperWidth / (maxX - minX);
+            const heightRatio = wrapperHeight / (maxY - minY);
+            // Compute the scale and ensure it does not exceed 8
+            const calculatedScale = Math.min(widthRatio, heightRatio) * 0.85;
+            const scale = Math.min(calculatedScale, 8); // Ensuring scale never goes over 8
 
-          const widthRatio = wrapperWidth / (maxX - minX);
-          const heightRatio = wrapperHeight / (maxY - minY);
-          const scale = Math.min(widthRatio, heightRatio, 8) * 0.85; // Limiting scale to a maximum of 8
+            const centerX = (minX + maxX) / 2;
+            const centerY = (minY + maxY) / 2;
 
-          const centerX = (minX + maxX) / 2;
-          const centerY = (minY + maxY) / 2;
-
-          transformRef.current.setTransform(
-            wrapperWidth / 2 - centerX * scale,
-            wrapperHeight / 2 - centerY * scale,
-            scale,
-          );
+            transformRef.current.setTransform(
+                wrapperWidth / 2 - centerX * scale,
+                wrapperHeight / 2 - centerY * scale,
+                scale,
+            );
         } else {
-          console.log(
-            "TransformWrapper's instance or wrapperComponent is undefined.",
-          );
+            console.log("TransformWrapper's instance or wrapperComponent is undefined.");
         }
-      }, 100);
-    },
-    [fullPath, locations, transformRef, setShouldAutoZoom],
-  );
-
-  const calculateAndZoom = () => {
-    const dotContainer = document.querySelector('[class^="_dotsContainer"]');
-    if (!dotContainer) {
-      console.log("No dot container element found.");
-      return;
-    }
-
-    // Use attribute selector to find all elements where class starts with "_mapDot"
-
-    // Use attribute selector to find all elements where class starts with "_mapDot"
-    const allDots = dotContainer.querySelectorAll('[class^="_mapDot"]');
-    if (allDots.length === 0) {
-      return;
-    }
-
-    // Filter dots to include only those that are not transparent
-    const dots = Array.from(allDots).filter((dot) => {
-      const style = (dot as HTMLElement).style;
-      return (
-        style.backgroundColor !== "transparent" &&
-        style.backgroundColor !== "rgba(0, 0, 0, 0)"
-      );
-    });
-
-    if (dots.length === 0) {
-      console.log("No non-transparent dot elements found.");
-      return;
-    }
-
-    let minX = Infinity,
-      maxX = -Infinity,
-      minY = Infinity,
-      maxY = -Infinity;
-
-    dots.forEach((dot: Element) => {
-      const style = (dot as HTMLElement).style;
-      const top = parseFloat(style.top);
-      const left = parseFloat(style.left);
-
-      const containerWidth = dotContainer.clientWidth;
-      const containerHeight = dotContainer.clientHeight;
-
-      const actualTop = (top / 100) * containerHeight;
-      const actualLeft = (left / 100) * containerWidth;
-
-      minX = Math.min(minX, actualLeft);
-      maxX = Math.max(maxX, actualLeft);
-      minY = Math.min(minY, actualTop);
-      maxY = Math.max(maxY, actualTop);
-    });
-
-    if (transformRef.current?.instance.wrapperComponent) {
-      const wrapperWidth =
-        transformRef.current.instance.wrapperComponent.clientWidth;
-      const wrapperHeight =
-        transformRef.current.instance.wrapperComponent.clientHeight;
-
-      const widthRatio = wrapperWidth / (maxX - minX);
-      const heightRatio = wrapperHeight / (maxY - minY);
-      // Compute the scale and ensure it does not exceed 8
-      const calculatedScale = Math.min(widthRatio, heightRatio) * 0.85;
-      const scale = Math.min(calculatedScale, 8); // Ensuring scale never goes over 8
-
-      const centerX = (minX + maxX) / 2;
-      const centerY = (minY + maxY) / 2;
-
-      transformRef.current.setTransform(
-        wrapperWidth / 2 - centerX * scale,
-        wrapperHeight / 2 - centerY * scale,
-        scale,
-      );
-    } else {
-      console.log(
-        "TransformWrapper's instance or wrapperComponent is undefined.",
-      );
-    }
-  };
+    };
 
   useEffect(() => {
     if (shouldAutoZoom) {
