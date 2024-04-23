@@ -239,12 +239,12 @@ const LanguageRequest: React.FC = () => {
               value={language}
               onChange={handleChangeLanguage} /* add funtion here */
             >
-              <MenuItem value="spanish">Spanish</MenuItem>
-              <MenuItem value="mandarin">Mandarin</MenuItem>
-              <MenuItem value="german">German</MenuItem>
-              <MenuItem value="french">French</MenuItem>
-              <MenuItem value="arabic">Arabic</MenuItem>
-              <MenuItem value="hindi">Hindi</MenuItem>
+              <MenuItem value="Spanish">Spanish</MenuItem>
+              <MenuItem value="Mandarin">Mandarin</MenuItem>
+              <MenuItem value="German">German</MenuItem>
+              <MenuItem value="French">French</MenuItem>
+              <MenuItem value="Arabic">Arabic</MenuItem>
+              <MenuItem value="Hindi">Hindi</MenuItem>
             </Select>
           </div>
           <div>

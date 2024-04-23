@@ -9,7 +9,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { ServiceRequestDisplay } from "../all_requests/AllServiceRequestsTable.tsx";
+import { LangRequestDisplay } from "./LanguageRequestTable.tsx";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -65,27 +65,24 @@ export function LanguageRequestGetter() {
   );
 
   return (
-    <div className="flex flex-col gap-5">
-      <header>Service Request Data</header>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 700 }} aria-label="customized table">
           <TableHead>
             <TableRow>
-              <StyledTableCell>Requester ID</StyledTableCell>
-              <StyledTableCell align="right">Requester's Name</StyledTableCell>
-              <StyledTableCell align="right">Priority</StyledTableCell>
-              <StyledTableCell align="right">Location</StyledTableCell>
-              <StyledTableCell align="right">Type of Request</StyledTableCell>
-              <StyledTableCell align="right">Status</StyledTableCell>
+              <StyledTableCell align="center">Request ID</StyledTableCell>
+              <StyledTableCell align="center">Requester's Name</StyledTableCell>
+              <StyledTableCell align="center">Priority</StyledTableCell>
+              <StyledTableCell align="center">Location</StyledTableCell>
+              <StyledTableCell align="center">Status</StyledTableCell>
               {/*<StyledTableCell align="right">Order Number</StyledTableCell>*/}
-              <StyledTableCell align="right">Language</StyledTableCell>
+              <StyledTableCell align="center">Language</StyledTableCell>
             </TableRow>{/*asdf*/}
           </TableHead>
           <TableBody>
             {sortedLanguageRequestData.map((LanguageRequestForm) => (
-              <ServiceRequestDisplay
+              <LangRequestDisplay
                 key={LanguageRequestForm.requestID}
-                allRequestForm={LanguageRequestForm}
+                langRequestForm={LanguageRequestForm}
                 onUpdateStatus={(newStatus) =>
                   updateLanguageRequestStatus(
                     LanguageRequestForm.requestID,
@@ -97,6 +94,5 @@ export function LanguageRequestGetter() {
           </TableBody>
         </Table>
       </TableContainer>
-    </div>
   );
 }

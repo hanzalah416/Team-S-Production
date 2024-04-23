@@ -63,18 +63,16 @@ export function ServiceRequestGetter() {
   );
 
   return (
-    <div className="flex flex-col gap-5">
-      <header>Service Request Data</header>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 700 }} aria-label="customized table">
           <TableHead>
             <TableRow>
-              <StyledTableCell>Requester ID</StyledTableCell>
-              <StyledTableCell align="right">Requester's Name</StyledTableCell>
-              <StyledTableCell align="right">Priority</StyledTableCell>
-              <StyledTableCell align="right">Location</StyledTableCell>
-              <StyledTableCell align="right">Type of Request</StyledTableCell>
-              <StyledTableCell align="right">Status</StyledTableCell>
+              <StyledTableCell>Request ID</StyledTableCell>
+              <StyledTableCell align="center">Requester's Name</StyledTableCell>
+              <StyledTableCell align="center">Priority</StyledTableCell>
+              <StyledTableCell align="center">Location</StyledTableCell>
+              <StyledTableCell align="center">Type of Request</StyledTableCell>
+              <StyledTableCell align="center">Status</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -90,6 +88,5 @@ export function ServiceRequestGetter() {
           </TableBody>
         </Table>
       </TableContainer>
-    </div>
   );
 }

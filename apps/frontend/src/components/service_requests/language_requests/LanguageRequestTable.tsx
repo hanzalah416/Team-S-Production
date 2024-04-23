@@ -15,7 +15,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   },
 }));
 
-export function ServiceRequestDisplay(props: {
+export function LangRequestDisplay(props: {
   langRequestForm: {
     requestID: number;
     name: string;
@@ -36,18 +36,15 @@ export function ServiceRequestDisplay(props: {
 
   return (
     <TableRow>
-      <StyledTableCell>{props.langRequestForm.requestID}</StyledTableCell>
-      <StyledTableCell>{props.langRequestForm.name}</StyledTableCell>
-      <StyledTableCell align="right">
+      <StyledTableCell align="center">{props.langRequestForm.requestID}</StyledTableCell>
+      <StyledTableCell align="center">{props.langRequestForm.name}</StyledTableCell>
+      <StyledTableCell align="center">
         {props.langRequestForm.priority}
       </StyledTableCell>
-      <StyledTableCell align="right">
+      <StyledTableCell align="center">
         {props.langRequestForm.location}
       </StyledTableCell>
-      <StyledTableCell align="right">
-        {props.langRequestForm.requestType}
-      </StyledTableCell>
-      <StyledTableCell align="right">
+      <StyledTableCell align="center">
         <Select
           value={props.langRequestForm.status}
           onChange={handleStatusChange}
@@ -65,7 +62,7 @@ export function ServiceRequestDisplay(props: {
       {/*<StyledTableCell align="right">*/}
       {/*  {props.langRequestForm.LanguageRequest.orderNumber}*/}
       {/*</StyledTableCell>*/}
-      <StyledTableCell align="right">
+      <StyledTableCell align="center">
         {props.langRequestForm.LanguageRequest.language}
       </StyledTableCell>
     </TableRow>

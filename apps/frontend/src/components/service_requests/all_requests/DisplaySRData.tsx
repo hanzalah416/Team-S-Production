@@ -6,7 +6,7 @@ import { LanguageRequestGetter } from "../language_requests/LanguageRequestTable
 
 export default function DisplaySRData() {
   const tabNames = [
-    "All Service Requests",
+    "All Requests",
     "Order Flowers",
     "Medical Delivery",
     "Sanitation Services",
