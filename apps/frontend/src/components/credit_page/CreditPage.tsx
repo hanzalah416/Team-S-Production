@@ -1,5 +1,5 @@
 import React from "react";
-import "./CreditPage.module.css"; // Importing the CSS file
+import styles from "./CreditPage.module.css"; // Importing the CSS file
 
 const Credits = () => {
   const softwareTools = [
@@ -170,11 +170,11 @@ const Credits = () => {
   ];
 
   return (
-    <div className="creditsContainer">
+    <div className={styles.creditsContainer}>
       <h1>Software Tools</h1>
       <ul>
         {softwareTools.map((tool, index) => (
-          <li key={index} className="contributor">
+          <li key={index} className={styles.contributor}>
             <strong><a href={tool.link}>{tool.name}</a></strong> - {tool.role}
           </li>
         ))}
@@ -182,7 +182,7 @@ const Credits = () => {
       <h1>Software Libraries</h1>
       <ul>
         {softwareLibraries.map((library, index) => (
-          <li key={index} className="contributor">
+          <li key={index} className={styles.contributor}>
               <strong><a href={library.link}>{library.name}</a></strong> - {library.role}
           </li>
         ))}
@@ -190,7 +190,7 @@ const Credits = () => {
       <h1>Frameworks</h1>
       <ul>
         {frameworks.map((framework, index) => (
-          <li key={index} className="contributor">
+          <li key={index} className={styles.contributor}>
             <strong><a href={framework.link}>{framework.name}</a></strong> - {framework.role}
           </li>
         ))}
