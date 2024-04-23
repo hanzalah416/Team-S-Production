@@ -5,9 +5,10 @@
   color: black;
   text-align: center;
   font-family: "Inter", sans-serif;
-  font-size: 40px;
-  font-weight: bold;
+  font-size: 50px;
+
   padding: 8px;
+  animation: slideIn 5s ease forwards;
 }
 
 .heading2 {
@@ -17,14 +18,16 @@
   padding: 20px;
   font-weight: lighter;
   font-family: "Inter", sans-serif;
+  animation: slideIn 5s ease forwards;
 }
 
 .textContainer {
-  flex: 1.5; /* Adjust flex value as needed */
+  flex: 1; /* Adjust flex value as needed */
   padding: 10px;
   background-color: #f0f0f0;
   min-width: 200px; /* Set a minimum width */
   height: calc(100vh - 75px);
+  animation: slideIn 5s ease forwards;
 }
 
 .container {
@@ -35,16 +38,17 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: flex-start;
-  width: 100%; /* Adjust width as needed */
+  width: 100%;
   height: calc(100vh - 75px);
 }
 
 .imageContainer {
-  flex: 3; /* Adjust flex value as needed */
+  flex: 3;
   position: relative;
   object-fit: cover;
-  min-width: 200px; /* Set a minimum width */
+  min-width: 200px;
   height: calc(100vh - 75px);
+  animation: slideIn 5s ease forwards;
 }
 
 .coverImage {
@@ -57,20 +61,33 @@
 .arrowImage {
   position: relative;
   object-fit: cover;
-  /*translate: 300px 300px;*/
 }
 
 .textOverlay {
-  background: white;
   position: absolute;
   top: 0%;
   left: 50%;
-  transform: translate(-50%, 20%);
+  transform: translate(-50%, 950%);
   text-align: center;
-  color: black; /* Adjust text color to your preference */
+  color: white;
 }
 
 .disclaimer {
   font-weight: 800;
   width: 100%;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(0);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 2;
+  }
+}
+
+.slideshow {
+  animation: slideIn 5s ease forwards;
 }

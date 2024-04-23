@@ -16,6 +16,9 @@ import roomSchedulingIcon from "../assets/NavBarIcons/schedule_icon.svg";
 import languageIcon from "../assets/NavBarIcons/language_icon.svg";
 import dropDownIcon from "../assets/NavBarIcons/drop_down.svg";
 import creditIcon from "../assets/NavBarIcons/credit_menu.svg";
+import transportIcon from "../assets/NavBarIcons/InternalTransportIcon.svg";
+import mapEditingIcon from "../assets/NavBarIcons/MapEditingIcon.svg";
+import dbIcon from "../assets/NavBarIcons/dbIcon.svg";
 import { LoginButton } from "../LoginButton.tsx";
 import { LogoutButton } from "../LogoutButton.tsx";
 import { createTheme, FormControl, ThemeProvider } from "@mui/material";
@@ -184,6 +187,18 @@ function NavBar() {
         setServIcon(languageIcon);
         setServicesID();
         break;
+      case "/transport-request":
+        setServIcon(transportIcon);
+        setServicesID();
+        break;
+      case "/map-debug":
+        setServIcon(mapEditingIcon);
+        setServicesID();
+        break;
+      case "/node-data":
+        setServIcon(dbIcon);
+        setServicesID();
+        break;
       case "/all-service-requests":
         setRequestsID();
         break;
@@ -266,6 +281,7 @@ function NavBar() {
                   src={patientListIcon}
                   className={"iconHeight"}
                   width={"38px"}
+                  alt={"PatientListIcon"}
                 />
                 <p id={"requestsID"} className={"itemNames"}>
                   All Requests
@@ -288,12 +304,13 @@ function NavBar() {
                   src={currServIcon}
                   className={"iconHeight"}
                   width={"29px"}
+                  alt={"currServIcon"}
                 />
                 <p id={"servicesID"} className={"itemNames"}>
                   Services
                 </p>
               </div>
-              <img src={dropDownIcon} />
+              <img src={dropDownIcon} alt={"dropDownIcon"} />
             </Button>
             <Menu
               id="services-menu"
@@ -306,41 +323,100 @@ function NavBar() {
             >
               <Link to={"/order-flowers"} id={"order"}>
                 <MenuItem onClick={handleClose}>
+                  <img
+                    src={flowerIcon}
+                    className={"iconHeight"}
+                    width={"38px"}
+                    alt={"Flower Icon"}
+                  />
                   <p className={"item"}>Order Flowers</p>
                 </MenuItem>
               </Link>
               <Link to={"/medicine-delivery-request"} id={"order"}>
                 <MenuItem onClick={handleClose}>
+                  <img
+                    src={medicineIcon}
+                    className={"iconHeight"}
+                    width={"38px"}
+                    alt={"Medicine Icon"}
+                  />
                   <p className={"item"}>Medical Delivery</p>
                 </MenuItem>
               </Link>
               <Link to={"/sanitation-request"} id={"order"}>
                 <MenuItem onClick={handleClose}>
+                  <img
+                    src={sanitationIcon}
+                    className={"iconHeight"}
+                    width={"38px"}
+                    alt={"Sanitation Icon"}
+                  />
                   <p className={"item"}>Sanitation Services</p>
                 </MenuItem>
               </Link>
               <Link to={"/security-request"} id={"order"}>
                 <MenuItem onClick={handleClose}>
+                  <img
+                    src={securityIcon}
+                    className={"iconHeight"}
+                    width={"38px"}
+                    alt={"Security Icon"}
+                  />
                   <p className={"item"}>Security Requests</p>
                 </MenuItem>
               </Link>
               <Link to={"/room-scheduling"} id={"order"}>
                 <MenuItem onClick={handleClose}>
+                  <img
+                    src={roomSchedulingIcon}
+                    className={"iconHeight"}
+                    width={"38px"}
+                    alt={"Room Scheduling Icon"}
+                  />
                   <p className={"item"}>Room Scheduling</p>
                 </MenuItem>
               </Link>
               <Link to={"/language-request"} id={"order"}>
                 <MenuItem onClick={handleClose}>
+                  <img
+                    src={languageIcon}
+                    className={"iconHeight"}
+                    width={"38px"}
+                    alt={"Language Icon"}
+                  />
                   <p className={"item"}>Language Request</p>
+                </MenuItem>
+              </Link>
+              <Link to={"/transport-request"} id={"order"}>
+                <MenuItem onClick={handleClose}>
+                  <img
+                    src={transportIcon}
+                    className={"iconHeight"}
+                    width={"38px"}
+                    alt={"Transport Icon"}
+                  />
+                  <p className={"item"}>Transportation Request</p>
                 </MenuItem>
               </Link>
               <Link to={"/map-debug"} id={"order"}>
                 <MenuItem onClick={handleClose}>
+                  <img
+                    src={mapEditingIcon}
+                    className={"iconHeight"}
+                    width={"38px"}
+                    alt={"Map Editing Icon"}
+                  />
                   <p className={"item"}>Map Editing Page</p>
                 </MenuItem>
               </Link>
               <Link to={"/node-data"} id={"order"}>
                 <MenuItem onClick={handleClose}>
+                  <img
+                    src={dbIcon}
+                    className={"iconHeight"}
+                    width={"38px"}
+                    alt={"DB Icon"}
+                  />
                   <p className={"item"}>Manage Database</p>
                 </MenuItem>
               </Link>
@@ -350,7 +426,12 @@ function NavBar() {
 
         <Link to={"/credit-page"} id={"order"}>
           <Button className={"alignIcons"} onClick={onBackDropItemClick}>
-            <img src={creditIcon} className={"iconHeight"} width={"38px"} />
+            <img
+              src={creditIcon}
+              className={"iconHeight"}
+              width={"38px"}
+              alt={"Credit Icon"}
+            />
             <p id={"creditsID"} className={"itemNames"}>
               Credits
             </p>
@@ -400,6 +481,7 @@ function NavBar() {
                 src={patientListIcon}
                 className={"iconHeight"}
                 width={"38px"}
+                alt={"Patient List Icon"}
               />
             </Button>
           </Link>
@@ -413,12 +495,17 @@ function NavBar() {
             className={"alignIconsDropDown"}
             onClick={handleClick}
           >
-            <img src={dropDownIcon} />
+            <img src={dropDownIcon} alt={"drop down icon"} />
             <div className={"alignIconsDropDown"}>
               <p id={"servicesID"} className={"itemNames"}>
                 Services
               </p>
-              <img src={currServIcon} className={"iconHeight"} width={"29px"} />
+              <img
+                src={currServIcon}
+                className={"iconHeight"}
+                width={"29px"}
+                alt={"curr serv icon"}
+              />
             </div>
           </Button>
         </div>
@@ -431,7 +518,12 @@ function NavBar() {
               <p id={"creditsID"} className={"itemNames"}>
                 Credits
               </p>
-              <img src={creditIcon} className={"iconHeight"} width={"38px"} />
+              <img
+                src={creditIcon}
+                className={"iconHeight"}
+                width={"38px"}
+                alt={"credit icon"}
+              />
             </Button>
           </Link>
         </div>
