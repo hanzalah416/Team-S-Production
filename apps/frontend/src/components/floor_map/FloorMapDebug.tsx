@@ -177,6 +177,9 @@ const StaticFloorMapDebug = () => {
   }, []);
 
   const handleNodeClick = (nodeId: string) => {
+    if (!node){
+      return;
+    }
     const node = nodes.find((node) => node.id === nodeId);
     if (node !== undefined) {
       setSelectedNodeDetails(node);
@@ -186,6 +189,9 @@ const StaticFloorMapDebug = () => {
   };
 
   const handleEdgeClick = (startnode: string, endNode: string) => {
+    if (!edge){
+      return;
+    }
     const edge = edges.find(
         (edge) => startnode === edge.startNode && endNode === edge.endNode,
     );
