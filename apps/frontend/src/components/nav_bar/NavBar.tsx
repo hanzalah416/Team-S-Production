@@ -273,7 +273,7 @@ function NavBar() {
             </Button>
           </Link>
         )}
-        {username === "admind24x" && (
+        {username === "admind24s" && (
           <FormControl>
             <Link to={"/all-service-requests"} id={"order"}>
               <Button className={"alignIcons"}>
