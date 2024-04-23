@@ -150,6 +150,10 @@ const StaticFloorMapDebug = () => {
     edges.push(newEdge);
   };
 
+  const resetNodesAndEdges = async () => {
+    return;
+  };
+
   const fetchNodes = async () => {
     try {
       const response = await axios.get("/api/nodes");
@@ -177,11 +181,9 @@ const StaticFloorMapDebug = () => {
     if (!node) {
       return;
     }
-    if (node !== undefined) {
-      setSelectedNodeDetails(node);
-    } else {
-      setSelectedNodeDetails(null); // Explicitly set to null if no node is found
-    }
+
+    setSelectedNodeDetails(node);
+
   };
 
   const handleEdgeClick = (startnode: string, endNode: string) => {
@@ -191,11 +193,7 @@ const StaticFloorMapDebug = () => {
     if (!edge) {
       return;
     }
-    if (edge !== undefined) {
-      setSelectedEdgeDetails(edge);
-    } else {
-      setSelectedEdgeDetails(null); // Explicitly set to null if no node is found
-    }
+    setSelectedEdgeDetails(edge);
   };
 
   const NodeDetailsPopup: React.FC<NodeDetailsPopupProps> = ({
@@ -265,10 +263,9 @@ const StaticFloorMapDebug = () => {
       }
     };
 
-    const handleDelete = async () => {
-      if (!node) {
-        return;
-      }
+
+    const handleDeleteNode = async () => {
+      if(!node) return;
       const url = `/api/nodes/${node.id}`;
       console.log(url);
       await axios
@@ -411,21 +408,16 @@ const StaticFloorMapDebug = () => {
                   />
                 </td>
               </tr>
-            </tbody>
-          </table>
-          <div className={styles.buttonGroup}>
-            <button onClick={handleSave} className={styles.customButton}>
-              Save
-            </button>
-            <button onClick={handleClose} className={styles.customButton}>
-              Close
-            </button>
-            {!newNodeDetails && (
-              <button
-                id="delete"
-                onClick={handleDelete}
-                className={styles.customButton}
-              >
+              </tbody>
+            </table>
+            <div className={styles.buttonGroup}>
+              <button onClick={handleSave} className={styles.customButton}>
+                Save
+              </button>
+              <button onClick={handleClose} className={styles.customButton}>
+                Close
+              </button>
+              {!newNodeDetails && (<button id="delete" onClick={handleDeleteNode} className={styles.customButton}>
                 Delete Node
               </button>
             )}
@@ -471,19 +463,26 @@ const StaticFloorMapDebug = () => {
           endNode: editableEdge.endNode,
         });
         console.log(response);
-
         onSave(response.data); // Update local state with the response
-        handleClose(); // Close the popup
-        await fetchEdges(); // Fetch all nodes again to reflect the update
       } catch (error) {
         console.error("Error updating edge details:", error);
       }
+
+      if(!edge) return;
+      const del = url + "/" + edge.startNode + "_" + edge.endNode;
+      console.log(del);
+      try {
+        await axios.delete(del);
+        handleClose(); // Close the popup
+        await fetchEdges(); // Fetch all nodes again to reflect the update
+      } catch (error) {
+        console.error("Error deleting old edge", error);
+      }
     };
 
-    const handleDelete = async () => {
-      if (!edge) {
-        return;
-      }
+
+    const handleDeleteEdge = async () => {
+      if(!edge) return;
       const url = `/api/edges/${edge.startNode + "_" + edge.endNode}`;
       console.log(url);
       await axios
@@ -553,21 +552,16 @@ const StaticFloorMapDebug = () => {
                   />
                 </td>
               </tr>
-            </tbody>
-          </table>
-          <div className={styles.buttonGroup}>
-            <button onClick={handleSave} className={styles.customButton}>
-              Save
-            </button>
-            <button onClick={handleClose} className={styles.customButton}>
-              Close
-            </button>
-            {!newEdgeDetails && (
-              <button
-                id="delete"
-                onClick={handleDelete}
-                className={styles.customButton}
-              >
+              </tbody>
+            </table>
+            <div className={styles.buttonGroup}>
+              <button onClick={handleSave} className={styles.customButton}>
+                Save
+              </button>
+              <button onClick={handleClose} className={styles.customButton}>
+                Close
+              </button>
+              {!newEdgeDetails && (<button id="delete" onClick={handleDeleteEdge} className={styles.customButton}>
                 Delete Edge
               </button>
             )}
@@ -779,19 +773,33 @@ const StaticFloorMapDebug = () => {
             >
               Add Edge
             </Button>
+            <br/>
+            <Button
+                variant="contained"
+                className={styles.csvButton}
+                style={{
+                  backgroundColor: "#003b9c",
+                  fontFamily: "Poppins",
+                  fontSize: 14,
+                  textAlign: "center",
+                }}
+                onClick={() => resetNodesAndEdges()}
+            >
+              Reset Nodes and Edges
+            </Button>
           </div>
           <TransformComponent>
             <div className={styles.mapAndDots}>
               <img
-                src={floorMaps[currentFloor as keyof typeof floorMaps]}
-                alt={`Floor ${currentFloor}`}
-                className={styles.mapImage}
+                  src={floorMaps[currentFloor as keyof typeof floorMaps]}
+                  alt={`Floor ${currentFloor}`}
+                  className={styles.mapImage}
               />
               <svg
-                className={styles.overlay}
-                viewBox="0 0 5000 3400"
-                onMouseMove={handleMouseMove}
-                onMouseUp={handleMouseUp}
+                  className={styles.overlay}
+                  viewBox="0 0 5000 3400"
+                  onMouseMove={handleMouseMove}
+                  onMouseUp={handleMouseUp}
               >
                 {showEdges &&
                   edges.map((edge) => {
