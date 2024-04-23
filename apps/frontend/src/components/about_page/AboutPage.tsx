@@ -15,56 +15,56 @@ import Card from './Card';
 const Project = [
     {
 
-        description: "Documentation Analyst, Full Stack" ,
+        description: "Christopher Hunt:Documentation Analyst, Full Stack" ,
         imgUrl: chris,
     },
     {
 
-        description: "Project Manager, Full Stack",
+        description: "Jacob Antepli:Project Manager, Full Stack",
         imgUrl: jacob,
     },
     {
 
-        description: "Full Stack",
+        description: "Hanzalah Qamar:Full Stack",
         imgUrl: hanz,
     },
     {
 
-        description: "Full Stack, Product Owner",
+        description: "Javier Moncada:Full Stack, Product Owner",
         imgUrl: jav,
     },
     {
 
-        description: "Full Stack",
+        description: "Wentao Yu:Full Stack",
         imgUrl: went,
     },
     {
 
-        description: "Assistant Lead Software Engineers, Full Stack",
+        description: "Kim Cummings:Assistant Lead Software Engineers, Full Stack",
         imgUrl: kim,
     },
     {
 
-        description: "Lead Software Engineer, Full Stack",
+        description: "Matt Crane:Lead Software Engineer, Full Stack",
         imgUrl: matt,
     },
     {
 
-        description: "Assistant Lead Software Engineers, Full stack",
+        description: "Nathaniel Schneider:Assistant Lead Software Engineers, Full stack",
         imgUrl: nate,
     },
     {
 
-        description: "Full Stack",
+        description: "Ken Sebastian:Full Stack",
         imgUrl: ken,
     },
     {
 
-        description: "Full Stack",
+        description: "Dorothy Alexander:Full Stack",
         imgUrl: dor,
     },
     {
-        description: "Full Stack, Scrum Master",
+        description: "Jeffrey Li:Full Stack, Scrum Master",
         imgUrl: li,
     },
 ];
