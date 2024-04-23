@@ -20,7 +20,31 @@ import axios from "axios";
 // import BackgroundImg from "./blue-background.jpg";
 import BackgroundImg2 from "../../assets/blue-background2.jpg";
 // import {useAuth0} from "@auth0/auth0-react";
+import Tooltip from "../../ToolTip";
 
+const tips = `
+Name of Requester: Enter your full name here.
+
+Priority: Click on the dropdown menu to select the urgency of your request. Options might range from low to high priority.
+
+Location: Click on the dropdown menu to select the location where the service is needed.
+
+Request Type: Choose one or more types of service required:
+
+GARBAGE PICKUP: Select this if you need regular waste to be collected.
+
+RECYCLING PICKUP: Choose this option if you have recyclable materials that need to be picked up.
+
+HAZARDOUS WASTE DISPOSAL: Select this for waste that is considered hazardous and requires special handling.
+
+Permission:
+
+Select Only enter with supervision if the sanitation team needs to be accompanied by someone when they enter the area.
+
+Select Can enter without supervision if it is okay for the team to enter the area without any accompaniment.
+
+Status: If the form allows you to set a status, click on the dropdown menu to choose the current status of the request. This might be applicable if the form is used for tracking ongoing requests.
+`;
 //Interface for positions
 interface Position {
   label: string;
@@ -168,7 +192,13 @@ export default function SanitationForm() {
 
         <Paper elevation={4}>
           <br />
-          <p className={"title"}>Sanitation Request Form </p>
+          <p className={"title"} style={{ position: "relative" }}>
+            Sanitation Request Form
+            <Tooltip
+              style={{ position: "absolute", right: "40px", top: 0 }}
+              tips={tips}
+            />
+          </p>
           <p className={"names"}>Jacob Antepli & Dorothy Alexander</p>
 
           <Stack alignItems="center" justifyContent="center" spacing={3} p={4}>

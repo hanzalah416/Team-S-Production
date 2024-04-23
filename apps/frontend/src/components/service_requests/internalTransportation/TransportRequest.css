@@ -1,16 +1,8 @@
-/* OrderFlowers.module.css */
+/* LanguageRequest.module.css */
 @import url("https://fonts.googleapis.com/css2?family=Jaldi:wght@400;700&display=swap");
 
-.wholePage {
-  position: relative;
-  top: -50px;
-  left: auto;
-  justify-self: center;
-  align-self: center;
-  display: flex;
-  flex-direction: column;
-  align-content: center;
-  justify-content: center;
+body {
+  background-color: #5c99b3;
 }
 
 .container {
@@ -23,7 +15,7 @@
   ); /* Adjust horizontal centering with transform */
   width: 50%; /* 53.4% of the parent element's width */
   height: 80%;
-  border-radius: 43px;
+  background: #ffffff;
 
   box-sizing: border-box;
   display: flex;
@@ -32,31 +24,39 @@
   justify-content: flex-start;
 
   min-width: 300px; /* This is the typical smallest screen size you would design for */
-  min-height: 50vh; /* Minimum height set to 50% of the viewport height */
-  max-height: 550px;
+  min-height: 50vh;
+  max-height: 550px; /* Minimum height set to 50% of the viewport height */
   /* Allows vertical scrolling if the content is taller than the container */
   overflow-y: auto;
   padding: 1.25rem 2rem;
+  border: 2px solid #b9b9b9;
 }
 
 .title {
-  font-family: "Inter", sans-serif;
-  font-weight: 600;
+  font-family: Poppins, sans-serif;
+  font-weight: 700;
   font-size: 60px;
   line-height: 73px;
-  color: black;
-  margin-bottom: 20px;
-  margin-top: 0px; /* Space between title and form */
+  color: #000000;
+  margin-bottom: 10px;
+  margin-top: 30px;
 }
 
-.header {
-  font-family: "Poppins", sans-serif;
-  font-weight: 600;
-  font-size: 18px;
-  line-height: 73px;
-  color: black;
-  margin-bottom: -10px;
-  margin-top: -20px; /* Space between title and form */
+.result {
+  box-sizing: border-box;
+  color: #000000;
+  padding: 15px 22px;
+  font-size: 30px;
+  display: flex;
+
+  /*width: calc(
+        100% - 2rem
+      );
+      min-width: 0;*/
+}
+
+.boldLabel {
+  font-weight: bold;
 }
 
 .inputRow {
@@ -68,15 +68,14 @@
 
 .input,
 .textarea {
-  font-family: "Inter", sans-serif;
+  font-family: Poppins, sans-serif;
   box-sizing: border-box;
   color: #000000;
-  padding: 12px 22px;
+  padding: 15px 22px;
   background: #fbfbfb;
   border: 1px solid #b9b9b9;
   box-shadow: 4px 4px 9.4px rgba(0, 0, 0, 0.25);
   border-radius: 16px;
-
   display: flex;
   width: calc(
     100% - 2rem
@@ -85,11 +84,11 @@
 }
 
 .input {
-  width: 500px; /* Adjust width for gap */
+  width: 225px; /* Adjust width for gap */
 }
 
 .largeTextarea {
-  width: 540px;
+  width: 526px;
   height: 142px; /* Larger height for text area */
   /* Space below the inputs */
   resize: none;
@@ -98,31 +97,26 @@
 .formGroup {
   display: flex;
   flex-direction: column; /* Stack elements vertically */
-  align-items: center; /* Align items to the start (left) */
-  margin-bottom: 10px; /* Add space below this form group */
+  align-items: flex-start; /* Align items to the start (left) */
+  margin-bottom: 20px; /* Add space below this form group */
+  width: 100%; /* Set width to 100% of its parent to avoid overflow */
+  max-width: 100%;
 }
 
 .label {
-  font-family: "Jaldi", sans-serif;
+  font-family: Poppins, sans-serif;
   font-size: 20px;
   line-height: 41px;
   color: #000000;
+  margin-bottom: 5px; /* Add some space between label and input */
 }
 
-.cardNumberGroup .input,
-.nameOnCardGroup .input {
-  width: 100%; /* Full width */
-  margin-bottom: 10px;
-}
-
-.cvvGroup .input {
-  flex-basis: 10%; /* Adjust the percentage as necessary for the CVV input */
-  /* Add any other styles that are specific to this input */
-}
-
-.expirationDateGroup .input {
-  flex-basis: 70%; /* Adjust the percentage as necessary for the expiration date input */
-  /* Add any other styles that are specific to this input */
+.radioLabel {
+  font-family: Poppins, sans-serif;
+  font-size: 15px;
+  line-height: 41px;
+  color: #000000;
+  display: inline;
 }
 
 /* Existing styles... */
@@ -130,9 +124,9 @@
 .buttonGroup {
   display: flex;
   justify-content: space-between; /* Place the children at the start and end of the container */
+  width: 100%; /* Take up full width of the parent container */
   /* Remove gap if you want the buttons to align exactly at the ends */
   flex-wrap: wrap;
-  margin-top: 40px;
 }
 
 .button,
@@ -158,22 +152,20 @@
   text-transform: uppercase;
   color: #ffffff;
   margin-right: 5px; /* Spacing between buttons, adjust if needed */
+
   flex: 1 1 auto; /* Allow the button to grow and shrink, but not to exceed the container's width */
   max-width: calc(50% - 1rem);
 }
 
 .backButton {
   background: #f3f3f3;
-  position: page;
   color: #000000;
   margin-right: 10px; /* Ensure this is the same as the left margin of the reviewButton */
 }
 
 .reviewButton {
-  background: linear-gradient(180deg, #5c99b3 0%, #f2f2f3 10%, #289ba5 100%)
-    fixed;
+  background: #289ba5;
   color: white;
-  position: page;
   margin-left: 10px; /* Same as the right margin of the backButton to ensure symmetry */
 }
 
@@ -181,7 +173,6 @@
 .button:last-child {
   margin-right: 0;
 }
-
 .button:first-child {
   margin-left: 0;
 }
@@ -192,14 +183,14 @@
     /* ... other styles for smaller screens ... */
   }
 
-  .title {
-    overflow-wrap: break-word;
-    font-size: 40px;
-  }
-
   .inputRow {
     flex-direction: column;
     align-items: center; /* Center-align flex children vertically within the flex container */
+  }
+
+  .title {
+    overflow-wrap: break-word;
+    font-size: 40px;
   }
 
   .input,
@@ -219,10 +210,16 @@
   .reviewButton {
     margin: 0.5rem auto; /* Center buttons horizontally and add some vertical space */
   }
-}
 
-.muiInput {
-  display: flex;
-  align-self: center;
-  width: 350px;
+  .fill {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+  }
+  .fill img {
+    flex-shrink: 0;
+    min-width: 100%;
+    min-height: 100%;
+  }
 }

@@ -5452,6 +5452,7 @@ const RAW_RUNTIME_STATE =
           ["eslint-plugin-react-refresh", "virtual:d3996bc66f5a97675d735c6457b44af0f25df32a5e5981f61ff7f22e93004839ccc5d56298eff651f971a908820429de35800a3f2669be95e1c0f6bb82e8a700#npm:0.4.5"],\
           ["framer-motion", "virtual:d3996bc66f5a97675d735c6457b44af0f25df32a5e5981f61ff7f22e93004839ccc5d56298eff651f971a908820429de35800a3f2669be95e1c0f6bb82e8a700#npm:11.0.25"],\
           ["localforage", "npm:1.10.0"],\
+          ["marked", "npm:12.0.2"],\
           ["match-sorter", "npm:6.3.3"],\
           ["papaparse", "npm:5.4.1"],\
           ["postcss", "npm:8.4.35"],\
@@ -6458,6 +6459,15 @@ const RAW_RUNTIME_STATE =
           ["negotiator", "npm:0.6.3"],\
           ["promise-retry", "npm:2.0.1"],\
           ["ssri", "npm:10.0.5"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["marked", [\
+      ["npm:12.0.2", {\
+        "packageLocation": "./.yarn/cache/marked-npm-12.0.2-ceac515c22-24d4fc58d3.zip/node_modules/marked/",\
+        "packageDependencies": [\
+          ["marked", "npm:12.0.2"]\
         ],\
         "linkType": "HARD"\
       }]\

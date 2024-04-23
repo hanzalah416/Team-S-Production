@@ -19,7 +19,28 @@ import roses from "../assets/FlowerPhotos/rose.png";
 import Grid from "@mui/material/Unstable_Grid2"; // Grid version 2
 import Paper from "@mui/material/Paper";
 import BackgroundImg2 from "../assets/blue-background2.jpg";
+import Tooltip from "../ToolTip";
 import styles from "../login/Login.module.css";
+
+const tips = `
+Name of Requester: Enter the name of the person requesting the flowers.
+
+Priority: Use the dropdown to choose the urgency of your request (e.g., standard, priority, urgent).
+
+Location: Select from the dropdown where the flowers should be delivered or where they are needed.
+
+Request Type: Choose the type of flowers you are requesting. If you need more than one type, you might be able to select multiple options, or if you can only select one, choose the primary type and specify further in the custom message.
+
+POPPIES
+
+ROSES
+
+TULIPS
+
+Enter Custom Message: If you’d like to include a message with the flowers or have specific instructions for the arrangement, enter that information here.
+
+Status: If applicable, select the current status of the request. This might be intended for the administrators to update, rather than the requester.
+`;
 
 interface Position {
   label: string;
@@ -184,7 +205,13 @@ const OrderFlowers: React.FC = () => {
 
         <Paper elevation={4} style={{ padding: 10 }}>
           <br />
-          <p className={"title"}>Flower Request Form </p>
+          <p className={"title"} style={{ position: "relative" }}>
+            Flower Request Form
+            <Tooltip
+              style={{ position: "absolute", right: "20px", top: 0 }}
+              tips={tips}
+            />
+          </p>
           <br />
           <div className={"breakline"}></div>
 

@@ -29,21 +29,38 @@ import f1Map from "../assets/HospitalMap/01_thefirstfloor.png";
 import f2Map from "../assets/HospitalMap/02_thesecondfloor.png";
 import f3Map from "../assets/HospitalMap/03_thethirdfloor.png";
 import PathToTextDisplay from "./PathToTextDisplay.tsx";
-// import ATMIcon from "../assets/MapKeyIcons/ATMIcon.png";
-// import BusStopIcon from "../assets/MapKeyIcons/BusStopIcon.png";
-// import CafeIcon from "../assets/MapKeyIcons/CafeIcon.png";
-// import DiningIcon from "../assets/MapKeyIcons/DiningIcon.png";
-// import ElevatorIcon from "../assets/MapKeyIcons/ElevatorIcon.png";
-// import EmergencyIcon from "../assets/MapKeyIcons/EmergencyIcon.png";
-// import EntranceIcon from "../assets/MapKeyIcons/EntranceIcon.png";
-// import EscalatorIcon from "../assets/MapKeyIcons/EscalatorIcon.png";
-// import HandicapIcon from "../assets/MapKeyIcons/HandicapIcon.png";
-// import ParkingIcon from "../assets/MapKeyIcons/ParkingIcon.png";
-// import RestroomIcon from "../assets/MapKeyIcons/RestroomIcon.png";
-// import ValetIcon from "../assets/MapKeyIcons/ValetIcon.png";
-// import VendingIcon from "../assets/MapKeyIcons/VendingIcon.png";
-// import WaitingIcon from "../assets/MapKeyIcons/WaitingIcon.png";
+
 import KeySelection from "./KeySelection.tsx";
+import Tooltip from "../ToolTip";
+
+const tips = `
+1.Enter Starting Point:
+
+Click on the dropdown menu under “Enter Starting Point”.
+
+Select the building or specific entrance you are currently located at from the list provided.
+
+1.Enter Destination:
+
+Click on the dropdown menu under “Enter Destination”.
+
+Choose the building or specific area you want to go to from the list.
+
+Directions:
+
+After selecting both your starting point and destination, the map should display a highlighted path indicating the best route to take.
+
+If the map supports multiple levels, you can use the "Level Select" toggle to view different floors and find the path through each level as needed.
+
+1.Additional Features:
+
+“Toggle Nodes” can be used to show or hide points of interest or decision points like elevators, stairs, and restrooms.
+
+“Show Key” may provide you with a legend to decipher different symbols or colors used on the map.
+
+“A\\* Search” might be an option to find the shortest path if the map includes a pathfinding algorithm; you can select it to optimize your route.
+
+`;
 
 const MiniMap = lazy(() => import("./MiniMap.tsx"));
 
@@ -592,6 +609,7 @@ function FloorMap() {
     <div className={styles.wholePage}>
       <div className={styles.container}>
         <div className={styles.signInForm}>
+          <Tooltip className={styles.tips} tips={tips} />
           <div className={styles.boldtag}>Enter Starting Point</div>
           <Autocomplete
             key={`start-position-${resetKey}`}
