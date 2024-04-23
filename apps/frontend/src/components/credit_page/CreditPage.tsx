@@ -1,5 +1,6 @@
 import React from "react";
 import styles from "./CreditPage.module.css"; // Importing the CSS file
+import BackgroundImg2 from "../assets/blue-background2.jpg";
 
 const Credits = () => {
   const softwareTools = [
@@ -170,6 +171,22 @@ const Credits = () => {
   ];
 
   return (
+      <div
+          style={{
+              backgroundImage: `url(${BackgroundImg2})`,
+              height: "100vh",
+              width: "100vw",
+              backgroundSize: "cover",
+              backgroundRepeat: "no-repeat",
+              minHeight: "100%",
+              backgroundPosition: "center center",
+              overflowX: "hidden",
+              display: "flex",
+              flexWrap: "wrap",
+              alignItems: "center",
+              justifyContent: "center",
+          }}
+      >
     <div className={styles.creditsContainer}>
       <h1>Software Tools</h1>
       <ul>
@@ -196,6 +213,7 @@ const Credits = () => {
         ))}
       </ul>
     </div>
+      </div>
   );
 };
 
