@@ -171,7 +171,7 @@ function App() {
           ),
         },
          {
-              path: "/AboutPage",
+              path: "/about-page",
               element: (
                   <>
                       <AboutPage />

@@ -262,7 +262,6 @@ const StaticFloorMapDebug = () => {
       }
     };
 
-
     const handleDeleteNode = async () => {
       if (!node) return;
       const url = `/api/nodes/${node.id}`;
@@ -483,7 +482,6 @@ const StaticFloorMapDebug = () => {
         console.error("Error deleting old edge", error);
       }
     };
-
 
     const handleDeleteEdge = async () => {
       if (!edge) return;
