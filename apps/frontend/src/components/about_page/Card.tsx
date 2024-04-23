@@ -6,8 +6,7 @@ const ProjectCard = ({description, imgUrl, label}) => {
         <div style={{display: 'flex', flexDirection: 'column',width: '29%'}}>
             <Tooltip title={description}>
                 <img src={imgUrl} style={{
-                    width: '800px',
-                   height: '400px'
+                    width: '100vh',
                 }}/>
 
             </Tooltip>
