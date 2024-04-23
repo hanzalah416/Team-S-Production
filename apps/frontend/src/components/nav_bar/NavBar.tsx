@@ -19,6 +19,7 @@ import creditIcon from "../assets/NavBarIcons/credit_menu.svg";
 import transportIcon from "../assets/NavBarIcons/InternalTransportIcon.svg";
 import mapEditingIcon from "../assets/NavBarIcons/MapEditingIcon.svg";
 import dbIcon from "../assets/NavBarIcons/dbIcon.svg";
+import aboutIcon from "../assets/NavBarIcons/about.svg";
 import { LoginButton } from "../LoginButton.tsx";
 import { LogoutButton } from "../LogoutButton.tsx";
 import { createTheme, FormControl, ThemeProvider } from "@mui/material";
@@ -437,6 +438,19 @@ function NavBar() {
             </p>
           </Button>
         </Link>
+          <Link to={"/about-page"} id={"order"}>
+              <Button className={"alignIcons"} onClick={onBackDropItemClick}>
+                  <img
+                      src={aboutIcon}
+                      className={"iconHeight"}
+                      width={"38px"}
+                      alt={"Credit Icon"}
+                  />
+                  <p id={"creditsID"} className={"itemNames"}>
+                      About
+                  </p>
+              </Button>
+          </Link>
       </div>
       <div className={"rightSide"}>
         {isAuthenticated && <p className={"username"}>{username}</p>}
@@ -526,6 +540,22 @@ function NavBar() {
               />
             </Button>
           </Link>
+            <Link to={"/about-page"} id={"order"}>
+                <Button
+                    className={"alignIconsDropDown"}
+                    onClick={onBackDropItemClick}
+                >
+                    <p id={"creditsID"} className={"itemNames"}>
+                       About
+                    </p>
+                    <img
+                        src={creditIcon}
+                        className={"iconHeight"}
+                        width={"38px"}
+                        alt={"credit icon"}
+                    />
+                </Button>
+            </Link>
         </div>
         <div className={"itemDropDown"}>
           <ThemeProvider theme={theme}>
