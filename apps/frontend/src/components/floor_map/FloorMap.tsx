@@ -869,7 +869,7 @@ function FloorMap() {
             startNode={startPosition?.id}
             showMapKey={showMapKey}
             getPositionById={getPositionById}
-            handleNodeClick={handleNodeClick}
+            handleSelection={handleSelection}
           />
         </div>
       </div>

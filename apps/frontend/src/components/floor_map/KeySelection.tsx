@@ -15,7 +15,7 @@ import VendingIcon from "../assets/MapKeyIcons/VendingIcon.png";
 import WaitingIcon from "../assets/MapKeyIcons/WaitingIcon.png";
 import styles from "./FloorMap.module.css";
 import axios from "axios";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 
 export interface Position {
   label: string;
@@ -26,52 +26,51 @@ export interface Position {
 }
 
 interface floorMapFunctions {
-  handleNodeClick: (value: Position | null, type: "end") => void;
-  getPositionById: (id: string) => Position;
-  startNode: string | undefined;
-  showMapKey: boolean;
+    handleSelection: (value: Position | null, type: "start" | "end") => void;
+    getPositionById: (id: string) => Position;
+    startNode: string | undefined;
+    showMapKey: boolean;
 }
+
 
 const KeySelection: React.FC<floorMapFunctions> = ({
   startNode,
   showMapKey,
-  handleNodeClick,
+   handleSelection,
   getPositionById,
 }) => {
   const [endNodes, setEndNodes] = useState<string[]>([""]);
 
   const algo = "astar";
-  const fetchData = useCallback(async () => {
-    try {
-      const response = await fetch("/api/returnClosest", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          startNode: startNode,
-          endNodes: endNodes,
-          algorithm: algo,
-        }),
-      });
+    const fetchData = useCallback(async () => {
+        try {
+            const response = await fetch("/api/returnClosest", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    startNode: startNode,
+                    endNodes: endNodes,
+                    algorithm: algo,
+                }),
+            });
 
-      if (!response.ok) {
-        throw new Error("Failed to fetch data");
-      }
+            if (!response.ok) {
+                throw new Error("Failed to fetch data");
+            }
 
-      const data = String(await response.json());
-      console.log(data);
-      handleNodeClick(getPositionById(data), "end");
-    } catch (error) {
-      console.error("Failed to fetch data:", error);
-      return null;
-    }
-  }, [startNode, endNodes, algo, getPositionById, handleNodeClick]); // Dependencies for useCallback
+            const data = String(await response.json());
+            console.log(data);
+            const position = getPositionById(data);
+            handleSelection(position, "end");
+        } catch (error) {
+            console.error("Failed to fetch data:", error);
+        }
+    }, [startNode, endNodes, algo, getPositionById, handleSelection]);
 
-  useEffect(() => {
-    fetchData();
-  }),
-    [startNode, endNodes, algo, fetchData];
+
+
 
   async function getClosestNode(type: string) {
     let idArray: string[] = [];
@@ -204,6 +203,7 @@ const KeySelection: React.FC<floorMapFunctions> = ({
     }
 
     setEndNodes(idArray);
+      fetchData();
   }
 
   return (
