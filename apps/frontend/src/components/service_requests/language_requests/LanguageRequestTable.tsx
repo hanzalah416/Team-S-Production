@@ -1,92 +1,73 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-import { LanguageRequestForm } from "../../common/LanguageRequestForm.ts";
+import React from "react";
 import { styled } from "@mui/material/styles";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
 import TableCell, { tableCellClasses } from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 
-
-
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
-    [`&.${tableCellClasses.head}`]: {
-        backgroundColor: theme.palette.common.white,
-        color: theme.palette.common.black,
-        fontWeight: 'bold',
-        textAlign: 'center',
-    },
-    [`&.${tableCellClasses.body}`]: {
-        fontSize: 14,
-    },
+  [`&.${tableCellClasses.head}`]: {
+    backgroundColor: theme.palette.common.white,
+    color: theme.palette.common.black,
+  },
+  [`&.${tableCellClasses.body}`]: {
+    fontSize: 14,
+  },
 }));
 
-export function LanguageRequestGetter() {
-    const [LanguageRequestData, setLanguageRequestData] = useState<LanguageRequestForm[]>([]);
-
-    useEffect(() => {
-        async function fetchData() {
-            const res = await axios.get("/api/all-requests");
-            setLanguageRequestData(res.data);
-            console.log(res.data);
-            console.log("successfully got data from get request");
-        }
-        fetchData().then();
-    }, []);
-
-    // Function to update the status of all requests
-    const updateLanguageRequestStatus = async (
-        requestID: number,
-        newStatus: string,
-    ) => {
-        try {
-            await axios.patch(`/api/all-requests/${requestID}`, {
-                status: newStatus,
-            });
-            setLanguageRequestData((prevData) =>
-                prevData.map((request) =>
-                    request.requestID === requestID
-                        ? { ...request, status: newStatus }
-                        : request,
-                ),
-            );
-        } catch (error) {
-            console.error("Error updating all request status:", error);
-        }
+export function ServiceRequestDisplay(props: {
+  langRequestForm: {
+    requestID: number;
+    name: string;
+    priority: string;
+    location: string;
+    requestType: string;
+    status: string;
+    LanguageRequest: {
+      orderNumber: number;
+      language: string;
     };
+  };
+  onUpdateStatus: (newStatus: string) => void;
+}) {
+  const handleStatusChange = (event: SelectChangeEvent<string>) => {
+    props.onUpdateStatus(event.target.value);
+  };
 
-    // Sort the data by orderNumber before rendering
-    const sortedLanguageRequestData = [...LanguageRequestData].sort(
-        (a, b) => a.requestID - b.requestID,
-    );
-
-    return (
-        <div className="flex flex-col gap-5">
-            <header>Service Request Data</header>
-            <TableContainer component={Paper}>
-                <Table sx={{ minWidth: 700 }} aria-label="customized table">
-                    <TableHead>
-                        <TableRow>
-                            <StyledTableCell>Requester ID</StyledTableCell>
-                            <StyledTableCell align="right">Requester's Name</StyledTableCell>
-                            <StyledTableCell align="right">Priority</StyledTableCell>
-                            <StyledTableCell align="right">Location</StyledTableCell>
-                            <StyledTableCell align="right">Type of Request</StyledTableCell>
-                            <StyledTableCell align="right">Status</StyledTableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {sortedLanguageRequestData.map((LanguageRequestForm) => (
-
-                        ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
-        </div>
-    );
+  return (
+    <TableRow>
+      <StyledTableCell>{props.langRequestForm.requestID}</StyledTableCell>
+      <StyledTableCell>{props.langRequestForm.name}</StyledTableCell>
+      <StyledTableCell align="right">
+        {props.langRequestForm.priority}
+      </StyledTableCell>
+      <StyledTableCell align="right">
+        {props.langRequestForm.location}
+      </StyledTableCell>
+      <StyledTableCell align="right">
+        {props.langRequestForm.requestType}
+      </StyledTableCell>
+      <StyledTableCell align="right">
+        <Select
+          value={props.langRequestForm.status}
+          onChange={handleStatusChange}
+          displayEmpty
+          inputProps={{ "aria-label": "Without label" }}
+          size="small"
+          sx={{ m: 1, minWidth: 120 }}
+        >
+          <MenuItem value={"unassigned"}>Unassigned</MenuItem>
+          <MenuItem value={"assigned"}>Assigned</MenuItem>
+          <MenuItem value={"in_progress"}>In Progress</MenuItem>
+          <MenuItem value={"closed"}>Closed</MenuItem>
+        </Select>
+      </StyledTableCell>
+      {/*<StyledTableCell align="right">*/}
+      {/*  {props.langRequestForm.LanguageRequest.orderNumber}*/}
+      {/*</StyledTableCell>*/}
+      <StyledTableCell align="right">
+        {props.langRequestForm.LanguageRequest.language}
+      </StyledTableCell>
+    </TableRow>
+  );
 }
