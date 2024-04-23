@@ -12,7 +12,7 @@ import li from "../assets/abtPage/li.png";
 import Card from './Card';
 import styles from "./AboutPage.module.css";
 const Project = [
-    {
+     {
 
         description: "Full Stack",
         imgUrl: dor,
@@ -83,7 +83,6 @@ const Project = [
         imgUrl: went,
         label: "Wentao Yu",
     },
-
 
 ];
 
