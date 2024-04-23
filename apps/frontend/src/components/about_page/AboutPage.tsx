@@ -14,7 +14,7 @@ import styles from "./AboutPage.module.css";
 const Project = [
      {
 
-        description: "Full Stack",
+        description: "Full Stack Developer",
         imgUrl: dor,
         label: "Dorothy Alexander",
     },
@@ -28,14 +28,14 @@ const Project = [
 
         description: "Lead Software Engineer, Full Stack Developer",
         imgUrl: matt,
-        label: "Matthew Crane",
+        label: "Matt Crane",
 
     },
     {
 
         description: "Assistant Lead Software Engineers, Full Stack Developer",
         imgUrl: kim,
-        label: "Kimberly Cummings",
+        label: "Kim Cummings",
     },
     {
         description: "Documentation Analyst, Full Stack Developer" ,
@@ -45,7 +45,7 @@ const Project = [
     },
     {
 
-        description: "Full Stack, Scrum Master",
+        description: "Full Stack Developer, Scrum Master",
         imgUrl: li,
         label: "Jeffrey Li",
     },
@@ -73,7 +73,7 @@ const Project = [
     },
     {
 
-        description: "Full Stack",
+        description: "Full Stack Developer",
         imgUrl: ken,
         label: "Ken Sebastian",
     },
