@@ -69,7 +69,7 @@ const Project = [
 
         description: "Assistant Lead Software Engineers, Full Stack Developer",
         imgUrl: nate,
-        label: "Nathaniel Scheneider",
+        label: "Nathaniel Schneider",
     },
     {
 
