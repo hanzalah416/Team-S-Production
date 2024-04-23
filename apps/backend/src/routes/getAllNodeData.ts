@@ -5,7 +5,7 @@ const router: Router = express.Router();
 
 import { Node, Prisma } from "database";
 
-router.get("/", async function (req: Request, res: Response) {
+router.get("/", async function (res: Response) {
   try {
     const nodes: Node[] = await client.node.findMany();
 

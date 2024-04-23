@@ -5,7 +5,7 @@ const router: Router = express.Router();
 import { NodeEdge, Prisma } from "database";
 import prisma from "../bin/database-connection.ts";
 
-router.get("/", async function (req: Request, res: Response) {
+router.get("/", async function (res: Response) {
   try {
     const edges: NodeEdge[] = await PrismaClient.nodeEdge.findMany();
     const formattedEdges = edges.map((edge) => ({
