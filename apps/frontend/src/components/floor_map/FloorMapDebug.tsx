@@ -266,9 +266,9 @@ const StaticFloorMapDebug = () => {
     };
 
     const handleDelete = async () => {
-        if (!node){
-            return;
-        }
+      if (!node) {
+        return;
+      }
       const url = `/api/nodes/${node.id}`;
       console.log(url);
       await axios
@@ -481,9 +481,9 @@ const StaticFloorMapDebug = () => {
     };
 
     const handleDelete = async () => {
-        if (!edge){
-            return;
-        }
+      if (!edge) {
+        return;
+      }
       const url = `/api/edges/${edge.startNode + "_" + edge.endNode}`;
       console.log(url);
       await axios
