@@ -50,16 +50,12 @@ const StaticFloorMapDebug = () => {
   const [showEdges, setShowEdges] = useState(true);
 
   const [selectedNodeDetails, setSelectedNodeDetails] = useState<Node | null>(
-      null,
+    null,
   );
-  const [newNodeDetails, setNewNodeDetails] = useState<Node | null>(
-      null,
-  );
+  const [newNodeDetails, setNewNodeDetails] = useState<Node | null>(null);
   const [selectedEdgeDetails, setSelectedEdgeDetails] =
-      useState<NodeEdge | null>(null);
-  const [newEdgeDetails, setNewEdgeDetails] = useState<NodeEdge | null>(
-      null,
-  );
+    useState<NodeEdge | null>(null);
+  const [newEdgeDetails, setNewEdgeDetails] = useState<NodeEdge | null>(null);
   const [dragging, setDragging] = useState<boolean>(false);
   const [draggedNode, setDraggedNode] = useState<Node | null>(null);
 
@@ -140,9 +136,9 @@ const StaticFloorMapDebug = () => {
 
   const handleUpdateEdge = (updatedEdge: NodeEdge) => {
     setEdges((prevEdges) =>
-        prevEdges.map((edge) =>
-            edge.edgeID === updatedEdge.edgeID ? updatedEdge : edge,
-        ),
+      prevEdges.map((edge) =>
+        edge.edgeID === updatedEdge.edgeID ? updatedEdge : edge,
+      ),
     );
   };
 
@@ -181,9 +177,8 @@ const StaticFloorMapDebug = () => {
   }, []);
 
   const handleNodeClick = (nodeId: string) => {
-
     const node = nodes.find((node) => node.id === nodeId);
-    if (!node){
+    if (!node) {
       return;
     }
 
@@ -192,11 +187,10 @@ const StaticFloorMapDebug = () => {
   };
 
   const handleEdgeClick = (startnode: string, endNode: string) => {
-
     const edge = edges.find(
-        (edge) => startnode === edge.startNode && endNode === edge.endNode,
+      (edge) => startnode === edge.startNode && endNode === edge.endNode,
     );
-    if (!edge){
+    if (!edge) {
       return;
     }
     setSelectedEdgeDetails(edge);
@@ -274,13 +268,13 @@ const StaticFloorMapDebug = () => {
       const url = `/api/nodes/${node.id}`;
       console.log(url);
       await axios
-          .delete(url)
-          .then((response) => {
-            console.log(`Deleted node from url ${url}. response: ${response}`);
-          })
-          .catch((error) => {
-            console.error(error);
-          });
+        .delete(url)
+        .then((response) => {
+          console.log(`Deleted node from url ${url}. response: ${response}`);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
       handleClose(); // Close the popup
       await fetchNodes(); // Fetch all nodes again to reflect the update
     };
@@ -308,23 +302,23 @@ const StaticFloorMapDebug = () => {
     if (!editableNode) return null;
 
     return (
-        <div className={styles.nodeDetailsPopupContainer} onClick={handleClose}>
-          <div
-              className={styles.nodeDetailsPopup}
-              ref={popupRef}
-              onClick={(e) => e.stopPropagation()}
-          >
-            <table className={styles.detailsTable}>
-              <tbody>
+      <div className={styles.nodeDetailsPopupContainer} onClick={handleClose}>
+        <div
+          className={styles.nodeDetailsPopup}
+          ref={popupRef}
+          onClick={(e) => e.stopPropagation()}
+        >
+          <table className={styles.detailsTable}>
+            <tbody>
               <tr>
                 <td className={styles.label}>ID:</td>
                 <td>
                   <input
-                      type="text"
-                      name="id"
-                      value={editableNode.id}
-                      onChange={handleInputChange}
-                      className={styles.inputField}
+                    type="text"
+                    name="id"
+                    value={editableNode.id}
+                    onChange={handleInputChange}
+                    className={styles.inputField}
                   />
                 </td>
               </tr>
@@ -332,11 +326,11 @@ const StaticFloorMapDebug = () => {
                 <td className={styles.label}>Name:</td>
                 <td>
                   <input
-                      type="text"
-                      name="longName"
-                      value={editableNode.longName}
-                      onChange={handleInputChange}
-                      className={styles.inputField}
+                    type="text"
+                    name="longName"
+                    value={editableNode.longName}
+                    onChange={handleInputChange}
+                    className={styles.inputField}
                   />
                 </td>
               </tr>
@@ -344,11 +338,11 @@ const StaticFloorMapDebug = () => {
                 <td className={styles.label}>Floor:</td>
                 <td>
                   <input
-                      type="text"
-                      name="floor"
-                      value={editableNode.floor}
-                      onChange={handleInputChange}
-                      className={styles.inputField}
+                    type="text"
+                    name="floor"
+                    value={editableNode.floor}
+                    onChange={handleInputChange}
+                    className={styles.inputField}
                   />
                 </td>
               </tr>
@@ -356,11 +350,11 @@ const StaticFloorMapDebug = () => {
                 <td className={styles.label}>X Coordinate:</td>
                 <td>
                   <input
-                      type="text"
-                      name="xcoord"
-                      value={editableNode.xcoord}
-                      onChange={handleInputChange}
-                      className={styles.inputField}
+                    type="text"
+                    name="xcoord"
+                    value={editableNode.xcoord}
+                    onChange={handleInputChange}
+                    className={styles.inputField}
                   />
                 </td>
               </tr>
@@ -368,11 +362,11 @@ const StaticFloorMapDebug = () => {
                 <td className={styles.label}>Y Coordinate:</td>
                 <td>
                   <input
-                      type="text"
-                      name="ycoord"
-                      value={editableNode.ycoord}
-                      onChange={handleInputChange}
-                      className={styles.inputField}
+                    type="text"
+                    name="ycoord"
+                    value={editableNode.ycoord}
+                    onChange={handleInputChange}
+                    className={styles.inputField}
                   />
                 </td>
               </tr>
@@ -380,11 +374,11 @@ const StaticFloorMapDebug = () => {
                 <td className={styles.label}>Node Type:</td>
                 <td>
                   <input
-                      type="text"
-                      name="nodeType"
-                      value={editableNode.nodeType}
-                      onChange={handleInputChange}
-                      className={styles.inputField}
+                    type="text"
+                    name="nodeType"
+                    value={editableNode.nodeType}
+                    onChange={handleInputChange}
+                    className={styles.inputField}
                   />
                 </td>
               </tr>
@@ -392,11 +386,11 @@ const StaticFloorMapDebug = () => {
                 <td className={styles.label}>Building:</td>
                 <td>
                   <input
-                      type="text"
-                      name="building"
-                      value={editableNode.building}
-                      onChange={handleInputChange}
-                      className={styles.inputField}
+                    type="text"
+                    name="building"
+                    value={editableNode.building}
+                    onChange={handleInputChange}
+                    className={styles.inputField}
                   />
                 </td>
               </tr>
@@ -405,11 +399,11 @@ const StaticFloorMapDebug = () => {
                 <td className={styles.label}>Short Name:</td>
                 <td>
                   <input
-                      type="text"
-                      name="shortName"
-                      value={editableNode.shortName}
-                      onChange={handleInputChange}
-                      className={styles.inputField}
+                    type="text"
+                    name="shortName"
+                    value={editableNode.shortName}
+                    onChange={handleInputChange}
+                    className={styles.inputField}
                   />
                 </td>
               </tr>
@@ -424,17 +418,18 @@ const StaticFloorMapDebug = () => {
               </button>
               {!newNodeDetails && (<button id="delete" onClick={handleDeleteNode} className={styles.customButton}>
                 Delete Node
-              </button>)}
-            </div>
+              </button>
+            )}
           </div>
         </div>
+      </div>
     );
   };
 
   const EdgeDetailsPopup: React.FC<EdgeDetailsPopupProps> = ({
-                                                               edge,
-                                                               onSave,
-                                                             }) => {
+    edge,
+    onSave,
+  }) => {
     const popupRef = useRef<HTMLDivElement>(null);
     const defaultEdge: NodeEdge = {
       edgeID: "",
@@ -489,28 +484,28 @@ const StaticFloorMapDebug = () => {
       const url = `/api/edges/${edge.startNode + "_" + edge.endNode}`;
       console.log(url);
       await axios
-          .delete(url)
-          .then((response) => {
-            console.log(`Deleted edge from url ${url}. response: ${response}`);
-          })
-          .catch((error) => {
-            console.error(error);
-          });
+        .delete(url)
+        .then((response) => {
+          console.log(`Deleted edge from url ${url}. response: ${response}`);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
       handleClose(); // Close the popup
       await fetchEdges(); // Fetch all nodes again to reflect the update
     };
 
     const handleClickOutside = useCallback(
-        (event: MouseEvent) => {
-          if (
-              popupRef.current &&
-              event.target instanceof Node &&
-              !popupRef.current.contains(event.target)
-          ) {
-            handleClose();
-          }
-        },
-        [handleClose],
+      (event: MouseEvent) => {
+        if (
+          popupRef.current &&
+          event.target instanceof Node &&
+          !popupRef.current.contains(event.target)
+        ) {
+          handleClose();
+        }
+      },
+      [handleClose],
     );
 
     useEffect(() => {
@@ -522,25 +517,24 @@ const StaticFloorMapDebug = () => {
 
     if (!editableEdge) return null;
 
-
     return (
-        <div className={styles.nodeDetailsPopupContainer} onClick={handleClose}>
-          <div
-              className={styles.nodeDetailsPopup}
-              ref={popupRef}
-              onClick={(e) => e.stopPropagation()}
-          >
-            <table className={styles.detailsTable}>
-              <tbody>
+      <div className={styles.nodeDetailsPopupContainer} onClick={handleClose}>
+        <div
+          className={styles.nodeDetailsPopup}
+          ref={popupRef}
+          onClick={(e) => e.stopPropagation()}
+        >
+          <table className={styles.detailsTable}>
+            <tbody>
               <tr>
                 <td className={styles.label}>Start Node:</td>
                 <td>
                   <input
-                      type="text"
-                      name="startNode"
-                      value={editableEdge.startNode}
-                      onChange={handleInputChange}
-                      className={styles.inputField}
+                    type="text"
+                    name="startNode"
+                    value={editableEdge.startNode}
+                    onChange={handleInputChange}
+                    className={styles.inputField}
                   />
                 </td>
               </tr>
@@ -548,11 +542,11 @@ const StaticFloorMapDebug = () => {
                 <td className={styles.label}>End Node:</td>
                 <td>
                   <input
-                      type="text"
-                      name="endNode"
-                      value={editableEdge.endNode}
-                      onChange={handleInputChange}
-                      className={styles.inputField}
+                    type="text"
+                    name="endNode"
+                    value={editableEdge.endNode}
+                    onChange={handleInputChange}
+                    className={styles.inputField}
                   />
                 </td>
               </tr>
@@ -567,10 +561,11 @@ const StaticFloorMapDebug = () => {
               </button>
               {!newEdgeDetails && (<button id="delete" onClick={handleDeleteEdge} className={styles.customButton}>
                 Delete Edge
-              </button>)}
-            </div>
+              </button>
+            )}
           </div>
         </div>
+      </div>
     );
   };
 
@@ -662,37 +657,36 @@ const StaticFloorMapDebug = () => {
   return (
     <div className={styles.container}>
       {selectedNodeDetails && (
-          <NodeDetailsPopup
-              node={selectedNodeDetails}
-              onSave={handleUpdateNode}
-              fetchNodes={fetchNodes}
-          />
+        <NodeDetailsPopup
+          node={selectedNodeDetails}
+          onSave={handleUpdateNode}
+          fetchNodes={fetchNodes}
+        />
       )}
 
       {newNodeDetails && (
-          <NodeDetailsPopup
-              node={newNodeDetails}
-              onSave={handleAddNode}
-              fetchNodes={fetchNodes}
-          />
+        <NodeDetailsPopup
+          node={newNodeDetails}
+          onSave={handleAddNode}
+          fetchNodes={fetchNodes}
+        />
       )}
 
       {selectedEdgeDetails && (
-          <EdgeDetailsPopup
-              edge={selectedEdgeDetails}
-              onSave={handleUpdateEdge}
-              fetchEdges={fetchEdges}
-          />
+        <EdgeDetailsPopup
+          edge={selectedEdgeDetails}
+          onSave={handleUpdateEdge}
+          fetchEdges={fetchEdges}
+        />
       )}
 
       {newEdgeDetails && (
-          <EdgeDetailsPopup
-              edge={newEdgeDetails}
-              onSave={handleAddEdge}
-              fetchEdges={fetchEdges}
-          />
+        <EdgeDetailsPopup
+          edge={newEdgeDetails}
+          onSave={handleAddEdge}
+          fetchEdges={fetchEdges}
+        />
       )}
-
 
       <div className={styles.mapContainer}>
         <FloorSwitcher />
@@ -704,76 +698,76 @@ const StaticFloorMapDebug = () => {
         >
           <div className={styles.checkboxContainer}>
             <Button
-                variant="contained"
-                href="/node-data"
-                className={styles.csvButton}
-                style={{
-                  backgroundColor: "#003b9c",
-                  fontFamily: "Poppins",
-                  fontSize: 14,
-                  textAlign: "center",
-                }}
+              variant="contained"
+              href="/node-data"
+              className={styles.csvButton}
+              style={{
+                backgroundColor: "#003b9c",
+                fontFamily: "Poppins",
+                fontSize: 14,
+                textAlign: "center",
+              }}
             >
               Import/Export Nodes
             </Button>
             <FormControlLabel
-                control={
-                  <Checkbox
-                      checked={showEdges}
-                      onChange={(e) => setShowEdges(e.target.checked)}
-                  />
-                }
-                label={
-                  <Typography
-                      className={styles.checkboxLabel}
-                      onClick={(e) => e.stopPropagation()}
-                  >
-                    Edges
-                  </Typography>
-                }
+              control={
+                <Checkbox
+                  checked={showEdges}
+                  onChange={(e) => setShowEdges(e.target.checked)}
+                />
+              }
+              label={
+                <Typography
+                  className={styles.checkboxLabel}
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  Edges
+                </Typography>
+              }
             />
 
             <FormControlLabel
-                control={
-                  <Checkbox
-                      checked={showNodes}
-                      onChange={(e) => setShowNodes(e.target.checked)}
-                  />
-                }
-                label={
-                  <Typography
-                      className={styles.checkboxLabel}
-                      onClick={(e) => e.stopPropagation()}
-                  >
-                    Nodes
-                  </Typography>
-                }
+              control={
+                <Checkbox
+                  checked={showNodes}
+                  onChange={(e) => setShowNodes(e.target.checked)}
+                />
+              }
+              label={
+                <Typography
+                  className={styles.checkboxLabel}
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  Nodes
+                </Typography>
+              }
             />
-            <br/>
+            <br />
             <Button
-                variant="contained"
-                className={styles.csvButton}
-                style={{
-                  backgroundColor: "#003b9c",
-                  fontFamily: "Poppins",
-                  fontSize: 14,
-                  textAlign: "center",
-                }}
-                onClick={() => setNewNodeDetails(emptyNode)}
+              variant="contained"
+              className={styles.csvButton}
+              style={{
+                backgroundColor: "#003b9c",
+                fontFamily: "Poppins",
+                fontSize: 14,
+                textAlign: "center",
+              }}
+              onClick={() => setNewNodeDetails(emptyNode)}
             >
               Add Node
             </Button>
-            <br/>
+            <br />
             <Button
-                variant="contained"
-                className={styles.csvButton}
-                style={{
-                  backgroundColor: "#003b9c",
-                  fontFamily: "Poppins",
-                  fontSize: 14,
-                  textAlign: "center",
-                }}
-                onClick={() => setNewEdgeDetails(emptyEdge)}
+              variant="contained"
+              className={styles.csvButton}
+              style={{
+                backgroundColor: "#003b9c",
+                fontFamily: "Poppins",
+                fontSize: 14,
+                textAlign: "center",
+              }}
+              onClick={() => setNewEdgeDetails(emptyEdge)}
             >
               Add Edge
             </Button>
@@ -831,7 +825,7 @@ const StaticFloorMapDebug = () => {
                           stroke="blue"
                           strokeWidth="5"
                           onClick={() =>
-                              handleEdgeClick(edge.startNode, edge.endNode)
+                            handleEdgeClick(edge.startNode, edge.endNode)
                           }
                           style={{ cursor: "pointer" }}
                         />
