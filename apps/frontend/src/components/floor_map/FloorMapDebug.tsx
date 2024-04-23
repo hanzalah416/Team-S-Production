@@ -415,9 +415,9 @@ const StaticFloorMapDebug = () => {
               <button onClick={handleClose} className={styles.customButton}>
                 Close
               </button>
-              <button onClick={handleDelete} className={styles.customButton}>
+              {!newNodeDetails && (<button id="delete" onClick={handleDelete} className={styles.customButton}>
                 Delete Node
-              </button>
+              </button>)}
             </div>
           </div>
         </div>
@@ -549,9 +549,9 @@ const StaticFloorMapDebug = () => {
               <button onClick={handleClose} className={styles.customButton}>
                 Close
               </button>
-              <button id="delete" onClick={handleDelete} className={styles.customButton}>
+              {!newEdgeDetails && (<button id="delete" onClick={handleDelete} className={styles.customButton}>
                 Delete Edge
-              </button>
+              </button>)}
             </div>
           </div>
         </div>
