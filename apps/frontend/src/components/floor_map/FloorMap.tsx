@@ -32,6 +32,7 @@ import PathToTextDisplay from "./PathToTextDisplay.tsx";
 
 import KeySelection from "./KeySelection.tsx";
 import Tooltip from "../ToolTip";
+import { TextToVoiceSelector } from "./TextToVoiceSelector.tsx";
 
 const tips = `
 1.Enter Starting Point:
@@ -100,6 +101,10 @@ function FloorMap() {
   const [showMapKey, setShowMapKey] = useState(false);
   const transformRef = useRef<ReactZoomPanPinchContentRef>(null);
   const [shouldAutoZoom, setShouldAutoZoom] = useState(true);
+
+  const [speechVolume, setSpeechVolume] = useState(1);
+  const [speechPitch, setSpeechPitch] = useState(1);
+  const [speechRate, setSpeechRate] = useState(1);
 
   const zoomToPathSegment = useCallback(
     (segmentIndex: number) => {
@@ -675,6 +680,31 @@ function FloorMap() {
           >
             Clear Path
           </Button>
+          <TextToVoiceSelector
+            options={[
+              {
+                name: "Volume",
+                setValue: setSpeechVolume,
+                max: 1,
+                min: 0,
+                value: speechVolume,
+              },
+              {
+                name: "Rate",
+                setValue: setSpeechRate,
+                max: 10,
+                min: 0.1,
+                value: speechRate,
+              },
+              {
+                name: "Pitch",
+                setValue: setSpeechPitch,
+                max: 2,
+                min: 0.1,
+                value: speechPitch,
+              },
+            ]}
+          />
           <Box className={styles.directionsBox}>Directions</Box>
           {!pathFound && (
             <Box className={styles.pathNotFoundBox}>Path not found</Box>

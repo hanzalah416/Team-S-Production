@@ -183,7 +183,6 @@ const StaticFloorMapDebug = () => {
     }
 
     setSelectedNodeDetails(node);
-
   };
 
   const handleEdgeClick = (startnode: string, endNode: string) => {
@@ -264,7 +263,7 @@ const StaticFloorMapDebug = () => {
     };
 
     const handleDeleteNode = async () => {
-      if(!node) return;
+      if (!node) return;
       const url = `/api/nodes/${node.id}`;
       console.log(url);
       await axios
@@ -407,16 +406,21 @@ const StaticFloorMapDebug = () => {
                   />
                 </td>
               </tr>
-              </tbody>
-            </table>
-            <div className={styles.buttonGroup}>
-              <button onClick={handleSave} className={styles.customButton}>
-                Save
-              </button>
-              <button onClick={handleClose} className={styles.customButton}>
-                Close
-              </button>
-              {!newNodeDetails && (<button id="delete" onClick={handleDeleteNode} className={styles.customButton}>
+            </tbody>
+          </table>
+          <div className={styles.buttonGroup}>
+            <button onClick={handleSave} className={styles.customButton}>
+              Save
+            </button>
+            <button onClick={handleClose} className={styles.customButton}>
+              Close
+            </button>
+            {!newNodeDetails && (
+              <button
+                id="delete"
+                onClick={handleDeleteNode}
+                className={styles.customButton}
+              >
                 Delete Node
               </button>
             )}
@@ -467,7 +471,7 @@ const StaticFloorMapDebug = () => {
         console.error("Error updating edge details:", error);
       }
 
-      if(!edge) return;
+      if (!edge) return;
       const del = url + "/" + edge.startNode + "_" + edge.endNode;
       console.log(del);
       try {
@@ -480,7 +484,7 @@ const StaticFloorMapDebug = () => {
     };
 
     const handleDeleteEdge = async () => {
-      if(!edge) return;
+      if (!edge) return;
       const url = `/api/edges/${edge.startNode + "_" + edge.endNode}`;
       console.log(url);
       await axios
@@ -550,16 +554,21 @@ const StaticFloorMapDebug = () => {
                   />
                 </td>
               </tr>
-              </tbody>
-            </table>
-            <div className={styles.buttonGroup}>
-              <button onClick={handleSave} className={styles.customButton}>
-                Save
-              </button>
-              <button onClick={handleClose} className={styles.customButton}>
-                Close
-              </button>
-              {!newEdgeDetails && (<button id="delete" onClick={handleDeleteEdge} className={styles.customButton}>
+            </tbody>
+          </table>
+          <div className={styles.buttonGroup}>
+            <button onClick={handleSave} className={styles.customButton}>
+              Save
+            </button>
+            <button onClick={handleClose} className={styles.customButton}>
+              Close
+            </button>
+            {!newEdgeDetails && (
+              <button
+                id="delete"
+                onClick={handleDeleteEdge}
+                className={styles.customButton}
+              >
                 Delete Edge
               </button>
             )}
@@ -771,17 +780,17 @@ const StaticFloorMapDebug = () => {
             >
               Add Edge
             </Button>
-            <br/>
+            <br />
             <Button
-                variant="contained"
-                className={styles.csvButton}
-                style={{
-                  backgroundColor: "#003b9c",
-                  fontFamily: "Poppins",
-                  fontSize: 14,
-                  textAlign: "center",
-                }}
-                onClick={() => resetNodesAndEdges()}
+              variant="contained"
+              className={styles.csvButton}
+              style={{
+                backgroundColor: "#003b9c",
+                fontFamily: "Poppins",
+                fontSize: 14,
+                textAlign: "center",
+              }}
+              onClick={() => resetNodesAndEdges()}
             >
               Reset Nodes and Edges
             </Button>
@@ -789,15 +798,15 @@ const StaticFloorMapDebug = () => {
           <TransformComponent>
             <div className={styles.mapAndDots}>
               <img
-                  src={floorMaps[currentFloor as keyof typeof floorMaps]}
-                  alt={`Floor ${currentFloor}`}
-                  className={styles.mapImage}
+                src={floorMaps[currentFloor as keyof typeof floorMaps]}
+                alt={`Floor ${currentFloor}`}
+                className={styles.mapImage}
               />
               <svg
-                  className={styles.overlay}
-                  viewBox="0 0 5000 3400"
-                  onMouseMove={handleMouseMove}
-                  onMouseUp={handleMouseUp}
+                className={styles.overlay}
+                viewBox="0 0 5000 3400"
+                onMouseMove={handleMouseMove}
+                onMouseUp={handleMouseUp}
               >
                 {showEdges &&
                   edges.map((edge) => {
