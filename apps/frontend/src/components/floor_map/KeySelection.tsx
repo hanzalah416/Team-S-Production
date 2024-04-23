@@ -100,6 +100,7 @@ const KeySelection: React.FC<floorMapFunctions> = ({
           "HRETL00102",
           "DRETL00102",
           "BHALL02602",
+            "FRETL00201",
         ];
         break;
       case "elevator":
