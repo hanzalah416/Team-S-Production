@@ -76,7 +76,7 @@ export function ServiceRequestGetter() {
   return (
     <div className="flex flex-col gap-5">
       <TextField
-        label="Search by Name"
+        label="Filter by Name"
         value={searchValue}
         onChange={handleSearchChange}
         placeholder="Enter name..."
@@ -94,7 +94,7 @@ export function ServiceRequestGetter() {
           <TableHead>
             <TableRow>
               <StyledTableCell>Requester ID</StyledTableCell>
-              <StyledTableCell align="right">Requester's Name</StyledTableCell>
+              <StyledTableCell align="right">Employee</StyledTableCell>
               <StyledTableCell align="right">Priority</StyledTableCell>
               <StyledTableCell align="right">Location</StyledTableCell>
               <StyledTableCell align="right">Type of Request</StyledTableCell>
