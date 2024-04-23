@@ -53,10 +53,10 @@ body {
   /* Adjust this value as needed to control the distance from the top */
 }
 
-.tips{
+.tips {
   position: absolute;
-  right:14px;
-  top:14px;
+  right: 14px;
+  top: 14px;
   color: #1a1a1a;
 }
 

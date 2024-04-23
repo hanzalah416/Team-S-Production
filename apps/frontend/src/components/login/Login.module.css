@@ -8,7 +8,7 @@
   font-size: 50px;
 
   padding: 8px;
-    animation: slideIn 5s ease forwards;
+  animation: slideIn 5s ease forwards;
 }
 
 .heading2 {
@@ -18,7 +18,7 @@
   padding: 20px;
   font-weight: lighter;
   font-family: "Inter", sans-serif;
-    animation: slideIn 5s ease forwards;
+  animation: slideIn 5s ease forwards;
 }
 
 .textContainer {
@@ -27,7 +27,7 @@
   background-color: #f0f0f0;
   min-width: 200px; /* Set a minimum width */
   height: calc(100vh - 75px);
-    animation: slideIn 5s ease forwards;
+  animation: slideIn 5s ease forwards;
 }
 
 .container {
@@ -40,7 +40,6 @@
   align-items: flex-start;
   width: 100%;
   height: calc(100vh - 75px);
-
 }
 
 .imageContainer {
@@ -49,7 +48,7 @@
   object-fit: cover;
   min-width: 200px;
   height: calc(100vh - 75px);
-    animation: slideIn 5s ease forwards;
+  animation: slideIn 5s ease forwards;
 }
 
 .coverImage {
@@ -57,7 +56,6 @@
   height: calc(100vh - 75px);
   position: relative;
   object-fit: cover;
-
 }
 
 .arrowImage {
@@ -72,7 +70,6 @@
   transform: translate(-50%, 950%);
   text-align: center;
   color: white;
-
 }
 
 .disclaimer {
@@ -81,20 +78,16 @@
 }
 
 @keyframes slideIn {
-    from {
-        transform: translateX(0);
-        opacity: 0;
-    }
-    to {
-        transform: translateY(0);
-        opacity: 2;
-    }
+  from {
+    transform: translateX(0);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 2;
+  }
 }
 
-
-
-
-.slideshow{
-    animation: slideIn 5s ease forwards;
+.slideshow {
+  animation: slideIn 5s ease forwards;
 }
-

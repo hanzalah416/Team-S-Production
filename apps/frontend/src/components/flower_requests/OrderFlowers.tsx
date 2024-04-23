@@ -20,6 +20,7 @@ import Grid from "@mui/material/Unstable_Grid2"; // Grid version 2
 import Paper from "@mui/material/Paper";
 import BackgroundImg2 from "../assets/blue-background2.jpg";
 import Tooltip from "../ToolTip";
+import styles from "./OrderFlowers.module.css";
 
 const tips = `
 Name of Requester: Enter the name of the person requesting the flowers.
@@ -40,7 +41,6 @@ Enter Custom Message: If you’d like to include a message with the flowers or h
 
 Status: If applicable, select the current status of the request. This might be intended for the administrators to update, rather than the requester.
 `;
-
 
 interface Position {
   label: string;

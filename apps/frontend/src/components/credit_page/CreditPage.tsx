@@ -2,7 +2,12 @@ import React from "react";
 import "./CreditPage.module.css"; // Importing the CSS file
 
 const Credits = () => {
-  const softwareTools = [{ name: "Temp Tool", role: "Temp Desc" }];
+  const softwareTools = [
+    {
+      name: "AWS",
+      role: "Cloud service that allows deployment of our resources for public view rather than development view. https://aws.amazon.com/",
+    },
+  ];
   const softwareLibraries = [{ name: "Temp Library", role: "Temp Desc" }];
   const frameworks = [{ name: "Temp Framework", role: "Temp Desc" }];
 
