@@ -19,7 +19,10 @@ import Paper from "@mui/material/Paper";
 import axios from "axios";
 // import BackgroundImg from "./blue-background.jpg";
 import BackgroundImg2 from "../../assets/blue-background2.jpg";
-// import {useAuth0} from "@auth0/auth0-react";
+import styles from "../../login/Login.module.css";
+import teddybear from "../../assets/GiftPhotos/teddybeargift.png";
+import coloringbook from "../../assets/GiftPhotos/coloringbook.webp";
+import fruit from "../../assets/GiftPhotos/fruitgift.png";
 
 //Interface for positions
 interface Position {
@@ -45,7 +48,7 @@ export default function GiftForm() {
   const [staffName, setStaffName] = useState<Staff | null>(null);
   const [priority, setPriority] = useState("");
   const [location, setLocation] = useState<Position | null>(null);
-  const [sanitationType, setSanitationType] = useState("");
+  const [giftType, setGiftType] = useState("");
   const [customMessage, setCustomMessage] = useState("");
   const [status, setStatus] = useState("");
   const [locations, setLocations] = useState<Position[]>([]);
@@ -110,7 +113,7 @@ export default function GiftForm() {
       name: staffName?.employeeName,
       priority: priority,
       location: location?.label,
-      sanitationType: sanitationType,
+      giftType: giftType,
       customMessage: customMessage,
       status: status,
     };
@@ -137,7 +140,7 @@ export default function GiftForm() {
     setStaffName(null);
     setPriority("");
     setLocation(null);
-    setSanitationType("");
+    setGiftType("");
     setCustomMessage("");
     setStatus("");
   }
@@ -275,6 +278,7 @@ export default function GiftForm() {
                     />
                 </div>
 
+
                 <div>
                     <InputLabel
                         style={{
@@ -283,21 +287,42 @@ export default function GiftForm() {
                         }}
                         id="demo-simple-select-label"
                     >
-                        Request Type
+                        Gift Type
                     </InputLabel>
+                    <div style={{display: "flex"}}>
+                        <img
+                            src={coloringbook}
+                            alt="Covering 3/4 page"
+                            className={styles.poppies}
+                            style={{width: "200px", height: "auto"}}
+                        />
+
+                        <img
+                            src={fruit}
+                            alt="Covering 3/4 page"
+                            className={styles.roses}
+                            style={{width: "200px", height: "auto"}}
+                        />
+                        <img
+                            src={teddybear}
+                            alt="Covering 3/4 page"
+                            className={styles.tulips}
+                            style={{width: "200px", height: "auto"}}
+                        />
+                    </div>
                     <ToggleButtonGroup
                         color="primary"
-                        value={sanitationType} // Use the state value here
+                        value={giftType} // Use the state value here
                         exclusive
                         onChange={(
                             _event: React.MouseEvent<HTMLElement>,
                             newValue: string | null,
                         ) => {
                             if (newValue !== null) {
-                                setSanitationType(newValue); // Update state on change
+                                setGiftType(newValue); // Update state on change
                             }
                         }}
-                        aria-label="Sanitation Type Buttons"
+                        aria-label="Gift Type Buttons"
                         sx={{minWidth: 120}}
                     >
                         <ToggleButton
@@ -306,9 +331,9 @@ export default function GiftForm() {
                                 outlineColor: "#949DB5",
                                 borderColor: "#949DB5",
                             }}
-                            value="Garbage Pickup"
+                            value="Coloring Book"
                         >
-                            Garbage Pickup
+                            Coloring Book
                         </ToggleButton>
                         <ToggleButton
                             style={{
@@ -316,9 +341,9 @@ export default function GiftForm() {
                                 outlineColor: "#949DB5",
                                 borderColor: "#949DB5",
                             }}
-                            value="Recycling Pickup"
+                            value="Chocolate Strawberries"
                         >
-                            Recycling Pickup
+                            Chocolate Strawberries
                         </ToggleButton>
                         <ToggleButton
                             style={{
@@ -326,9 +351,9 @@ export default function GiftForm() {
                                 outlineColor: "#949DB5",
                                 borderColor: "#949DB5",
                             }}
-                            value="Hazardous Waste Disposal"
+                            value="Teddy Bear"
                         >
-                            Hazardous Waste Disposal
+                            Teddy Bear
                         </ToggleButton>
                     </ToggleButtonGroup>
                 </div>
