@@ -15,7 +15,7 @@ import VendingIcon from "../assets/MapKeyIcons/VendingIcon.png";
 import WaitingIcon from "../assets/MapKeyIcons/WaitingIcon.png";
 import styles from "./FloorMap.module.css";
 import axios from "axios";
-import { useCallback, useState } from "react";
+import {useCallback,  useState} from "react";
 
 export interface Position {
   label: string;
@@ -39,10 +39,14 @@ const KeySelection: React.FC<floorMapFunctions> = ({
    handleSelection,
   getPositionById,
 }) => {
-  const [endNodes, setEndNodes] = useState<string[]>([""]);
+  const [, setEndNodes] = useState<string[]>([""]);
 
   const algo = "astar";
-    const fetchData = useCallback(async () => {
+    const fetchData = useCallback(async (currentEndNodes: string[]) => {
+        if (!startNode || currentEndNodes.length === 0) {
+            console.log('No start node or end nodes specified.');
+            return; // Exit if no startNode or end nodes specified
+        }
         try {
             const response = await fetch("/api/returnClosest", {
                 method: "POST",
@@ -51,7 +55,7 @@ const KeySelection: React.FC<floorMapFunctions> = ({
                 },
                 body: JSON.stringify({
                     startNode: startNode,
-                    endNodes: endNodes,
+                    endNodes: currentEndNodes,
                     algorithm: algo,
                 }),
             });
@@ -67,9 +71,7 @@ const KeySelection: React.FC<floorMapFunctions> = ({
         } catch (error) {
             console.error("Failed to fetch data:", error);
         }
-    }, [startNode, endNodes, algo, getPositionById, handleSelection]);
-
-
+    }, [startNode, algo, getPositionById, handleSelection]);
 
 
   async function getClosestNode(type: string) {
@@ -201,17 +203,20 @@ const KeySelection: React.FC<floorMapFunctions> = ({
         ];
         break;
     }
+      setEndNodes(idArray); // This still updates the state for other potential uses.
+      fetchData(idArray);
 
-    setEndNodes(idArray);
-      fetchData();
   }
 
-  return (
+
+
+    return (
     <div className={`${styles.MapKey} ${showMapKey ? styles.ShowMapKey : ""}`}>
       <button
         type="button"
         className={styles.keyButton}
         onClick={() => getClosestNode("atm")}
+
       >
         <img src={ATMIcon} alt="ATM icon" className={styles.MapKeyIcon} />
       </button>
@@ -461,41 +466,6 @@ const KeySelection: React.FC<floorMapFunctions> = ({
   );
 };
 
-/*
-function GetClosestType(startNode: string, endNodes: string[], algo: string){
-    const fetchData = useCallback(async () => {
-        try {
-            const response = await fetch("/api/returnClosest", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    startNode: startNode,
-                    endNodes: endNodes,
-                    algorithm: algo,
-                }),
-            });
-
-            if (!response.ok) {
-                throw new Error("Failed to fetch data");
-            }
-
-            const data = await response.json();
-            console.log(data);
-            return data;
-        } catch (error) {
-            console.error("Failed to fetch data:", error);
-            return null;
-        }
-    }, [startNode, endNodes, algo]); // Dependencies for useCallback
-
-    useEffect(() => {
-        fetchData();
-    }, [startNode, endNodes, algo, fetchData]);
-}
-
- */
 
 interface NodeId {
   nodeID: string;
