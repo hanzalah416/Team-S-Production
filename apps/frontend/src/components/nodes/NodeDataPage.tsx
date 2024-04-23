@@ -145,6 +145,26 @@ const handleFileUpload = (
         if (result.data) {
           // Log the parsed CSV data
           csvData = result.data as string[][];
+          let val: string;
+          result.data.forEach((row, index) => {
+            console.log(`${row} at ${index}`);
+            if (type == Type.employee) {
+              const thisRow = result.data[index] as Employees;
+              console.log(thisRow.employeeID);
+              val = thisRow.employeeID;
+            } else if (type == Type.node) {
+              const thisRow = result.data[index] as Node;
+              console.log(thisRow.nodeID);
+              val = thisRow.nodeID;
+            } else if (type == Type.edge) {
+              const thisRow = result.data[index] as NodeEdge;
+              console.log(thisRow.edgeID);
+              val = thisRow.edgeID;
+            }
+            if (val == null) {
+              csvData.splice(index, 1);
+            }
+          });
           console.log("result.data:");
           console.log(result.data);
           console.log("csvData:");
