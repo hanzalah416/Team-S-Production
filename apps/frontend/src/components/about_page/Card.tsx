@@ -1,5 +1,6 @@
 import Tooltip from "@mui/material/Tooltip";
 
+
 interface ProjectCardProps {
     description: string;
     imgUrl: string;
@@ -22,5 +23,6 @@ const ProjectCard: React.FC<ProjectCardProps> = ({description, imgUrl, label}) =
         </div>
 
     );
+
 };
 export default ProjectCard;

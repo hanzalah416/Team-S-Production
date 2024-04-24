@@ -9,84 +9,69 @@ import matt from "../assets/abtPage/matt.png";
 import nate from "../assets/abtPage/nate.png";
 import ken from "../assets/abtPage/ken.png";
 import li from "../assets/abtPage/li.png";
-import Card from './Card';
+import Card from "./Card";
 import styles from "./AboutPage.module.css";
 const Project = [
-     {
+  {
+    description: "Full Stack Developer",
+    imgUrl: dor,
+    label: "Dorothy Alexander",
+  },
+  {
+    description: "Project Manager, Full Stack Developer",
+    imgUrl: jacob,
+    label: "Jacob Antepli",
+  },
+  {
+    description: "Lead Software Engineer, Full Stack Developer",
+    imgUrl: matt,
+    label: "Matt Crane",
+  },
+  {
+    description: "Assistant Lead Software Engineers, Full Stack Developer",
+    imgUrl: kim,
+    label: "Kim Cummings",
+  },
+  {
+    description: "Documentation Analyst, Full Stack Developer",
+    imgUrl: chris,
+    label: "Christopher Hunt",
+  },
+  {
+    description: "Full Stack Developer, Scrum Master",
+    imgUrl: li,
+    label: "Jeffrey Li",
+  },
+  {
+    description: "Full Stack Developer, Product Owner",
+    imgUrl: jav,
+    label: "Javier Moncada",
+  },
+  {
+    description: "Full Stack Developer",
+    imgUrl: hanz,
+    label: "Hanzalah Qamar",
+  },
 
-        description: "Full Stack Developer",
-        imgUrl: dor,
-        label: "Dorothy Alexander",
-    },
-    {
-
-        description: "Project Manager, Full Stack Developer",
-        imgUrl: jacob,
-        label: "Jacob Antepli",
-    },
-    {
-
-        description: "Lead Software Engineer, Full Stack Developer",
-        imgUrl: matt,
-        label: "Matt Crane",
-
-    },
-    {
-
-        description: "Assistant Lead Software Engineers, Full Stack Developer",
-        imgUrl: kim,
-        label: "Kim Cummings",
-    },
-    {
-        description: "Documentation Analyst, Full Stack Developer" ,
-        imgUrl: chris,
-        label: "Christopher Hunt",
-
-    },
-    {
-
-        description: "Full Stack Developer, Scrum Master",
-        imgUrl: li,
-        label: "Jeffrey Li",
-    },
-    {
-
-        description: "Full Stack Developer, Product Owner",
-        imgUrl: jav,
-        label: "Javier Moncada",
-    },
-    {
-
-        description: "Full Stack Developer",
-        imgUrl: hanz,
-        label: "Hanzalah Qamar",
-    },
-
-
-
-
-    {
-
-        description: "Assistant Lead Software Engineers, Full Stack Developer",
-        imgUrl: nate,
-        label: "Nathaniel Schneider",
-    },
-    {
-
-        description: "Full Stack Developer",
-        imgUrl: ken,
-        label: "Ken Sebastian",
-    },
-    {
-
-        description: "Full Stack Developer",
-        imgUrl: went,
-        label: "Wentao Yu",
-    },
-
+  {
+    description: "Assistant Lead Software Engineers, Full Stack Developer",
+    imgUrl: nate,
+    label: "Nathaniel Schneider",
+  },
+  {
+    description: "Full Stack Developer",
+    imgUrl: ken,
+    label: "Ken Sebastian",
+  },
+  {
+    description: "Full Stack Developer",
+    imgUrl: went,
+    label: "Wentao Yu",
+  },
 ];
 
 export const AboutPage = () => {
+
     return (
 
         <section style={{
@@ -133,4 +118,5 @@ export const AboutPage = () => {
             </div>
         </section>
     );
+
 };
