@@ -1,15 +1,15 @@
 .creditsContainer {
-  width: 80%;
-  margin: 50px auto;
-  padding: 20px;
-  background-color: #f4f4f9;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
-  color: black;
-  align-content: start;
-  align-items: start;
-  justify-items: start;
-  justify-content: start;
+    width: 80%;
+    margin: 60px auto 50px;  /* Adjusted top margin */
+    padding: 20px;
+    background-color: #f4f4f9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    color: black;
+    align-content: start;
+    align-items: start;
+    justify-items: start;
+    justify-content: start;
 }
 
 h1 {
