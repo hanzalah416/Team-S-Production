@@ -3,6 +3,7 @@ import express, { Express, NextFunction, Request, Response } from "express";
 import cookieParser from "cookie-parser";
 import logger from "morgan";
 import flowerRequestRouter from "./routes/flowerRequest.ts";
+import giftRequestRouter from "./routes/giftRequest.ts";
 import PrismaClient from "./bin/database-connection.ts";
 import seed from "./seed.ts";
 import logInRouter from "./routes/newAccount.ts";
@@ -55,6 +56,7 @@ app.use(cookieParser()); // Cookie parser
 // Setup routers. ALL ROUTERS MUST use /api as a start point, or they
 // won't be reached by the default proxy and prod setup
 app.use("/api/flower-request", flowerRequestRouter);
+app.use("/api/gift-request", giftRequestRouter);
 app.use("/api/sanitation-request", sanitationRouter);
 // app.use("/api/log-in", logInRouter);
 app.use("/api/nodeEdge", nodeEdgeRouter);
