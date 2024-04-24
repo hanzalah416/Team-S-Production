@@ -157,7 +157,7 @@ function NavBar() {
     }
       if (aboutID) {
           console.log("make bold");
-         aboutID.classList.add("currItem");
+         aboutID.classList.remove("currItem");
       }
 
   }, [servicesID, mapID, requestsID, creditsID, aboutID]);
@@ -174,7 +174,7 @@ function NavBar() {
         }
         if (creditsID) {
             console.log("make bold");
-            creditsID.classList.add("currItem");
+            creditsID.classList.remove("currItem");
         }
         if (aboutID) {
             console.log("make bold");
@@ -238,7 +238,7 @@ function NavBar() {
       case "/all-service-requests":
         setRequestsID();
         break;
-      case "/":
+      case "/floor-map":
         setMapID();
         break;
       case "/credit-page":
@@ -300,21 +300,24 @@ function NavBar() {
           }
         />
         <p className={"time"}>{timeOfDay}</p>
+
+      </div>
+
+      <div className={"navButtons"}>
           <Link to={"/about-page"} id={"order"}>
               <Button className={"alignIcons"} onClick={onBackDropItemClick}>
                   <img
                       src={aboutIcon}
                       className={"iconHeight"}
                       width={"38px"}
-                      alt={"Credit Icon"}
+                      alt={"About Icon"}
+
                   />
                   <p id={"aboutID"} className={"itemNames"}>
                       About
                   </p>
               </Button>
           </Link>
-      </div>
-      <div className={"navButtons"}>
         {isAuthenticated && (
           <Link to={"/floor-map"} id={"map"}>
             <Button className={"alignIcons"}>
@@ -524,7 +527,7 @@ function NavBar() {
                         src={aboutIcon}
                         className={"iconHeight"}
                         width={"38px"}
-                        alt={"about icon"}
+                        alt={"About icon"}
                     />
                 </Button>
             </Link>

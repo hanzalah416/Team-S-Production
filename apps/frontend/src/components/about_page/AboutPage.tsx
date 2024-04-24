@@ -98,12 +98,17 @@ export const AboutPage = () => {
             paddingTop: '120px',
             paddingBottom: '40px',
         }}>
-            <h1 className={styles.heading}>Our Team</h1>
+            <div style={{
 
-            <h1 className={styles.secondary}>Organization: WPI Computer Science Department</h1>
-            <h1 className={styles.secondary}>Course: CS3733-D24 Software Engineering</h1>
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '30px',
 
-          <p className={styles.iaintreadinallat}>We would first like to extend our gratitute towards Professor Wilson Wong for his guidance and direction throughout the entirety of this project and for being extremely understanding when circumstances arose that were outside of our control. We also like to extend our appreciation to our team coach, Youssef Benchikhi for being extremely helpful in our development process as well as for consistently being present at our meetings. Finally, we would like to thank Brigham and Women's Hospital and Andrew Shinn for providing us with this opportunity to develop this application.</p>
+            }}>
+                <h1 className={styles.heading}>Our Team</h1>
+
+
+            </div>
 
 
             <div style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '35px'}}>
@@ -112,10 +117,20 @@ export const AboutPage = () => {
 
                 }
             </div>
+            <div>
+            <h1 className={styles.secondary}>WPI Computer Science Department</h1>
+
+            <h1 className={styles.secondary}>Professor Wilson Wong</h1>
+
+            <h1 className={styles.secondary}>Team Coach: Youssef Benchikhi </h1>
+
+            <p className={styles.iaintreadinallat}>We would like to thank Brigham and Women's Hospital and their
+                representative Andrew Shinn</p>
             <p className={styles.text}>
                 *The Brigham & Women’s Hospital maps and data used in
                 this application are copyrighted and provided for the sole use of educational purposes.
             </p>
+            </div>
         </section>
     );
 };
