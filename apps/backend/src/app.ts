@@ -11,6 +11,7 @@ import languageRouter from "./routes/languageRequest.ts";
 const app: Express = express(); // Setup the backend
 import pathfinderRouter from "./routes/getShortestPath.ts";
 import nodeRouter from "./routes/getNodes.ts";
+import resetNodesRouter from "./routes/resetNodes.ts";
 import csvRouter from "./routes/csvRouter.ts";
 import nodeEdgeRouter from "./routes/nodeEdge.ts";
 import allEdgeRouter from "./routes/getAllEdgesData.ts";
@@ -60,6 +61,7 @@ app.use("/api/gift-request", giftRequestRouter);
 app.use("/api/sanitation-request", sanitationRouter);
 // app.use("/api/log-in", logInRouter);
 app.use("/api/nodeEdge", nodeEdgeRouter);
+app.use("/api/reset-nodes", resetNodesRouter);
 app.use("/api/csv", csvRouter);
 app.use("/api/create-user", logInRouter);
 app.use("/api/pathfind", pathfinderRouter);
