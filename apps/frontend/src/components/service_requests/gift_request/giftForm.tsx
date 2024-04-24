@@ -126,7 +126,7 @@ export default function GiftForm() {
       })
       .then(() => {
         console.log("Gift request sent successfully");
-        navigate("/order-flowers-result");
+        navigate("/payment-info");
       })
       .catch(() => {
         console.log("Gift request failed to send");
