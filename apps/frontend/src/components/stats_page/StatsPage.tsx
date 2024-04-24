@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styles from "./StatsPage.module.css"; // Importing the CSS file
 import BackgroundImg2 from "../assets/blue-background2.jpg";
 import { PieChart } from "@mui/x-charts/PieChart";
-import Button from "@mui/material/Button";
+//import Button from "@mui/material/Button";
 import axios from "axios";
 
 type PieData = {
@@ -14,17 +14,19 @@ type PieData = {
   securityRequest: number;
   transportRequest: number;
 };
-type Employee = {
-    employeeID: string,
-    employeeName: string,
+type AssignBarData = {
+  requestType: string;
+  notAssigned: number;
+  assigned: number;
+  inProgess: number;
+  closed: number;
 };
-type Requests = {
-    requestID: number,
-    name: string,
-    priority: string,
-    location: string,
-    requestType: string,
-    status: string,
+type PriorityBarData = {
+    requestType: string;
+    low: number;
+    medium: number;
+    high: number;
+    emergency: number;
 };
 const Stats = () => {
   const [pieData, setPieData] = useState<PieData>({
@@ -36,8 +38,8 @@ const Stats = () => {
     securityRequest: 0,
       transportRequest: 0,
   });
-  const [employeeData, setEmployeeData] = useState<Employee[]>([]);
-  const [requestData, setRequestData] = useState<Requests[]>([]);
+  const [assignBar, setAssignBar] = useState<AssignBarData[]>([]);
+  const [priorityBar, setPriorityBar] = useState<PriorityBarData[]>([]);
 
   useEffect(() => {
     async function fetchData() {
@@ -45,14 +47,14 @@ const Stats = () => {
       setPieData(pie.data);
       console.log(pie.data);
       console.log("Successfully got data from get request");
-      const emp = await axios.get("/api/employee-csv");
-      setEmployeeData(emp.data);
-      console.log(emp.data);
-      console.log("Successfully got employee data from get request");
-      const req = await axios.get("/api/all-requests");
-      setRequestData(req.data);
-      console.log(req.data);
-      console.log("Successfully got request data from get request");
+      const assign = await axios.get("/api/assign-data");
+        setAssignBar(assign.data);
+        console.log(assign.data);
+        console.log("Successfully got data from get request");
+        const priority = await axios.get("/api/priority-data");
+        setPriorityBar(priority.data);
+        console.log(priority.data);
+        console.log("Successfully got data from get request");
     }
     fetchData().then();
   }, []);
@@ -108,13 +110,18 @@ const Stats = () => {
                   value: pieData.securityRequest,
                   label: "Security Requests",
                 },
+                  {
+                      id: 6,
+                      value: pieData.transportRequest,
+                      label: "Transport Requests",
+                  }
               ],
             },
           ]}
           width={400}
           height={200}
         />
-          <Button onClick={useEffect}></Button>
+          {/*<Button onClick={useEffect}></Button>*/}
       </div>
     </div>
   );

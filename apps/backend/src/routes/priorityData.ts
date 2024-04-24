@@ -31,45 +31,52 @@ const asyncHandler =
       handleErrorResponse(error, "Unexpected error occurred", req, res, next);
     }
   };
-
+const serviceTypes = [
+  "Flower",
+  "Language",
+  "Medicine",
+  "Scheduling",
+  "Sanitation",
+  "Security",
+  "Transport",
+];
 router.get(
   "/",
   asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
     const serviceRequests = await prisma.serviceRequest.findMany({
       select: {
+        priority: true,
         requestType: true,
       },
     });
-    const pieData = {
-      flowerRequest: serviceRequests.filter(
-        (request) => request.requestType === "Flower",
-      ).length,
-      languageRequest: serviceRequests.filter(
-        (request) => request.requestType === "Language",
-      ).length,
-      medicineRequest: serviceRequests.filter(
-        (request) => request.requestType === "Medicine",
-      ).length,
-      schedulingRequest: serviceRequests.filter(
-        (request) => request.requestType === "Scheduling",
-      ).length,
-      sanitationRequest: serviceRequests.filter(
-        (request) => request.requestType === "Sanitation",
-      ).length,
-      securityRequest: serviceRequests.filter(
-        (request) => request.requestType === "Security",
-      ).length,
-      transportRequest: serviceRequests.filter(
-        (request) => request.requestType === "Transport",
-      ).length,
-    };
+    const priority = [];
+    for (const type in serviceTypes) {
+      priority.push({
+        requestType: type,
+        low: serviceRequests.filter(
+          (request) => request.requestType == type && request.priority == "Low",
+        ).length,
+        medium: serviceRequests.filter(
+          (request) =>
+            request.requestType == type && request.priority == "Medium",
+        ).length,
+        high: serviceRequests.filter(
+          (request) =>
+            request.requestType == type && request.priority == "High",
+        ).length,
+        emergency: serviceRequests.filter(
+          (request) =>
+            request.requestType == type && request.priority == "Emergency",
+        ).length,
+      });
+    }
 
     if (serviceRequests.length === 0) {
       console.error("No requests have been made!");
       res.sendStatus(204);
     } else {
-      console.log("Pie Data:", pieData);
-      res.status(200).json(pieData);
+      console.log("Pie Data:", priority);
+      res.status(200).json(priority);
     }
     next();
   }),
