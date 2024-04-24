@@ -150,6 +150,10 @@ const StaticFloorMapDebug = () => {
     edges.push(newEdge);
   };
 
+  const resetNodesAndEdges = async () => {
+    return;
+  };
+
   const fetchNodes = async () => {
     try {
       const response = await axios.get("/api/nodes");
@@ -177,11 +181,8 @@ const StaticFloorMapDebug = () => {
     if (!node) {
       return;
     }
-    if (node !== undefined) {
-      setSelectedNodeDetails(node);
-    } else {
-      setSelectedNodeDetails(null); // Explicitly set to null if no node is found
-    }
+
+    setSelectedNodeDetails(node);
   };
 
   const handleEdgeClick = (startnode: string, endNode: string) => {
@@ -191,11 +192,7 @@ const StaticFloorMapDebug = () => {
     if (!edge) {
       return;
     }
-    if (edge !== undefined) {
-      setSelectedEdgeDetails(edge);
-    } else {
-      setSelectedEdgeDetails(null); // Explicitly set to null if no node is found
-    }
+    setSelectedEdgeDetails(edge);
   };
 
   const NodeDetailsPopup: React.FC<NodeDetailsPopupProps> = ({
@@ -265,10 +262,8 @@ const StaticFloorMapDebug = () => {
       }
     };
 
-    const handleDelete = async () => {
-      if (!node) {
-        return;
-      }
+    const handleDeleteNode = async () => {
+      if (!node) return;
       const url = `/api/nodes/${node.id}`;
       console.log(url);
       await axios
@@ -423,7 +418,7 @@ const StaticFloorMapDebug = () => {
             {!newNodeDetails && (
               <button
                 id="delete"
-                onClick={handleDelete}
+                onClick={handleDeleteNode}
                 className={styles.customButton}
               >
                 Delete Node
@@ -471,19 +466,25 @@ const StaticFloorMapDebug = () => {
           endNode: editableEdge.endNode,
         });
         console.log(response);
-
         onSave(response.data); // Update local state with the response
-        handleClose(); // Close the popup
-        await fetchEdges(); // Fetch all nodes again to reflect the update
       } catch (error) {
         console.error("Error updating edge details:", error);
       }
+
+      if (!edge) return;
+      const del = url + "/" + edge.startNode + "_" + edge.endNode;
+      console.log(del);
+      try {
+        await axios.delete(del);
+        handleClose(); // Close the popup
+        await fetchEdges(); // Fetch all nodes again to reflect the update
+      } catch (error) {
+        console.error("Error deleting old edge", error);
+      }
     };
 
-    const handleDelete = async () => {
-      if (!edge) {
-        return;
-      }
+    const handleDeleteEdge = async () => {
+      if (!edge) return;
       const url = `/api/edges/${edge.startNode + "_" + edge.endNode}`;
       console.log(url);
       await axios
@@ -565,7 +566,7 @@ const StaticFloorMapDebug = () => {
             {!newEdgeDetails && (
               <button
                 id="delete"
-                onClick={handleDelete}
+                onClick={handleDeleteEdge}
                 className={styles.customButton}
               >
                 Delete Edge
@@ -614,14 +615,14 @@ const StaticFloorMapDebug = () => {
 
   const floorMaps = {
     L2: l2Map,
-    L1: l1Map,
+      L1: l1Map,
     "1": f1Map,
     "2": f2Map,
     "3": f3Map,
   };
 
   const FloorSwitcher = () => {
-    const floorOrder = ["L2", "L1", "1", "2", "3"];
+    const floorOrder = [ "L2", "L1", "1", "2", "3"];
     const sortedFloors = Object.keys(floorMaps).sort(
       (a, b) => floorOrder.indexOf(a) - floorOrder.indexOf(b),
     );
@@ -778,6 +779,20 @@ const StaticFloorMapDebug = () => {
               onClick={() => setNewEdgeDetails(emptyEdge)}
             >
               Add Edge
+            </Button>
+            <br />
+            <Button
+              variant="contained"
+              className={styles.csvButton}
+              style={{
+                backgroundColor: "#003b9c",
+                fontFamily: "Poppins",
+                fontSize: 14,
+                textAlign: "center",
+              }}
+              onClick={() => resetNodesAndEdges()}
+            >
+              Reset Nodes and Edges
             </Button>
           </div>
           <TransformComponent>
