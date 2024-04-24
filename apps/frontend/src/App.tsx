@@ -28,7 +28,6 @@ import TransportRequest from "./components/service_requests/internalTransportati
 import GiftForm from "./components/service_requests/gift_request/giftForm.tsx";
 import { AboutPage } from "./components/about_page/AboutPage.tsx";
 
-
 function App() {
   const router = createBrowserRouter([
     {
@@ -181,7 +180,7 @@ function App() {
             </>
           ),
         },
-        
+
         {
           path: "/about-page",
           element: (
@@ -191,7 +190,7 @@ function App() {
             </>
           ),
         },
-          
+
         // ... other routes
       ],
     },
