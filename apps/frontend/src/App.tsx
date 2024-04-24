@@ -26,6 +26,7 @@ import LanguageRequest from "./components/service_requests/language_requests/Lan
 import CreditPage from "./components/credit_page/CreditPage.tsx";
 import TransportRequest from "./components/service_requests/internalTransportation/TransportRequest.tsx";
 import { AboutPage } from "./components/about_page/AboutPage.tsx";
+import StatsPage from "./components/stats_page/StatsPage.tsx";
 
 function App() {
   const router = createBrowserRouter([
@@ -58,7 +59,6 @@ function App() {
             </>
           ),
         },
-
         {
           path: "/security-request",
           element: (
@@ -170,15 +170,24 @@ function App() {
             </>
           ),
         },
-         {
-              path: "/about-page",
-              element: (
-                  <>
-                      <AboutPage />
-                      <Layout />
-                  </>
-              ),
-         },
+        {
+          path: "/about-page",
+          element: (
+            <>
+              <AboutPage />
+              <Layout />
+            </>
+          ),
+        },
+        {
+          path: "/stats-page",
+          element: (
+            <>
+              <StatsPage />
+              <Layout />
+            </>
+          ),
+        },
         // ... other routes
       ],
     },

@@ -20,6 +20,7 @@ import transportIcon from "../assets/NavBarIcons/InternalTransportIcon.svg";
 import mapEditingIcon from "../assets/NavBarIcons/MapEditingIcon.svg";
 import dbIcon from "../assets/NavBarIcons/dbIcon.svg";
 import aboutIcon from "../assets/NavBarIcons/about.svg";
+import statsIcon from "../assets/NavBarIcons/stats_icon.svg";
 import { LoginButton } from "../LoginButton.tsx";
 import { LogoutButton } from "../LogoutButton.tsx";
 import { createTheme, FormControl, ThemeProvider } from "@mui/material";
@@ -69,6 +70,7 @@ function NavBar() {
   const requestsID = document.getElementById("requestsID");
   const servicesID = document.getElementById("servicesID");
   const creditsID = document.getElementById("creditsID");
+  const statsID = document.getElementById("statsID");
 
   const [backdropVisible, setBackdropVisible] = React.useState(false);
 
@@ -97,10 +99,13 @@ function NavBar() {
     if (creditsID) {
       creditsID.classList.remove("currItem");
     }
+    if (statsID) {
+      statsID.classList.remove("currItem");
+    }
     if (requestsID) {
       requestsID.classList.remove("currItem");
     }
-  }, [servicesID, mapID, requestsID, creditsID]);
+  }, [servicesID, mapID, requestsID, creditsID, statsID]);
 
   const setMapID = useCallback(() => {
     if (servicesID) {
@@ -112,10 +117,13 @@ function NavBar() {
     if (creditsID) {
       creditsID.classList.remove("currItem");
     }
+    if (statsID) {
+      statsID.classList.remove("currItem");
+    }
     if (requestsID) {
       requestsID.classList.remove("currItem");
     }
-  }, [servicesID, mapID, requestsID, creditsID]);
+  }, [servicesID, mapID, requestsID, creditsID, statsID]);
 
   const setRequestsID = useCallback(() => {
     if (servicesID) {
@@ -127,10 +135,13 @@ function NavBar() {
     if (creditsID) {
       creditsID.classList.remove("currItem");
     }
+    if (statsID) {
+      statsID.classList.remove("currItem");
+    }
     if (requestsID) {
       requestsID.classList.add("currItem");
     }
-  }, [servicesID, mapID, requestsID, creditsID]);
+  }, [servicesID, mapID, requestsID, creditsID, statsID]);
 
   const setCreditsID = useCallback(() => {
     if (servicesID) {
@@ -142,11 +153,32 @@ function NavBar() {
     if (requestsID) {
       requestsID.classList.remove("currItem");
     }
+    if (statsID) {
+      statsID.classList.remove("currItem");
+    }
     if (creditsID) {
       console.log("make bold");
       creditsID.classList.add("currItem");
     }
-  }, [servicesID, mapID, requestsID, creditsID]);
+  }, [servicesID, mapID, requestsID, creditsID, statsID]);
+  const setStatsID = useCallback(() => {
+    if (servicesID) {
+      servicesID.classList.remove("currItem");
+    }
+    if (mapID) {
+      mapID.classList.remove("currItem");
+    }
+    if (requestsID) {
+      requestsID.classList.remove("currItem");
+    }
+    if (statsID) {
+      statsID.classList.add("currItem");
+    }
+    if (creditsID) {
+      console.log("make bold");
+      creditsID.classList.remove("currItem");
+    }
+  }, [servicesID, mapID, requestsID, creditsID, statsID]);
 
   useEffect(() => {
     const hours = today.getHours();
@@ -210,10 +242,20 @@ function NavBar() {
         console.log("credit page");
         setCreditsID();
         break;
+      case "/stats-page":
+        setStatsID();
+        break;
       default:
         setServIcon(homePinIcon);
     }
-  }, [location, setServicesID, setMapID, setRequestsID, setCreditsID]);
+  }, [
+    location,
+    setServicesID,
+    setMapID,
+    setRequestsID,
+    setCreditsID,
+    setStatsID,
+  ]);
 
   useEffect(() => {
     if (user) {
@@ -286,6 +328,19 @@ function NavBar() {
                 />
                 <p id={"requestsID"} className={"itemNames"}>
                   All Requests
+                </p>
+              </Button>
+            </Link>
+            <Link to={"/stats-page"} id={"order"}>
+              <Button className={"alignIcons"} onClick={onBackDropItemClick}>
+                <img
+                  src={statsIcon}
+                  className={"iconHeight"}
+                  width={"38px"}
+                  alt={"Stats Icon"}
+                />
+                <p id={"statsID"} className={"itemNames"}>
+                  Statistics
                 </p>
               </Button>
             </Link>
@@ -438,19 +493,19 @@ function NavBar() {
             </p>
           </Button>
         </Link>
-          <Link to={"/about-page"} id={"order"}>
-              <Button className={"alignIcons"} onClick={onBackDropItemClick}>
-                  <img
-                      src={aboutIcon}
-                      className={"iconHeight"}
-                      width={"38px"}
-                      alt={"Credit Icon"}
-                  />
-                  <p id={"creditsID"} className={"itemNames"}>
-                      About
-                  </p>
-              </Button>
-          </Link>
+        <Link to={"/about-page"} id={"order"}>
+          <Button className={"alignIcons"} onClick={onBackDropItemClick}>
+            <img
+              src={aboutIcon}
+              className={"iconHeight"}
+              width={"38px"}
+              alt={"Credit Icon"}
+            />
+            <p id={"creditsID"} className={"itemNames"}>
+              About
+            </p>
+          </Button>
+        </Link>
       </div>
       <div className={"rightSide"}>
         {isAuthenticated && <p className={"username"}>{username}</p>}
@@ -540,22 +595,22 @@ function NavBar() {
               />
             </Button>
           </Link>
-            <Link to={"/about-page"} id={"order"}>
-                <Button
-                    className={"alignIconsDropDown"}
-                    onClick={onBackDropItemClick}
-                >
-                    <p id={"creditsID"} className={"itemNames"}>
-                       About
-                    </p>
-                    <img
-                        src={creditIcon}
-                        className={"iconHeight"}
-                        width={"38px"}
-                        alt={"credit icon"}
-                    />
-                </Button>
-            </Link>
+          <Link to={"/about-page"} id={"order"}>
+            <Button
+              className={"alignIconsDropDown"}
+              onClick={onBackDropItemClick}
+            >
+              <p id={"creditsID"} className={"itemNames"}>
+                About
+              </p>
+              <img
+                src={creditIcon}
+                className={"iconHeight"}
+                width={"38px"}
+                alt={"credit icon"}
+              />
+            </Button>
+          </Link>
         </div>
         <div className={"itemDropDown"}>
           <ThemeProvider theme={theme}>
