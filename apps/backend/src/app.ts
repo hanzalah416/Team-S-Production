@@ -26,6 +26,7 @@ import ElevatorIdRouter from "./routes/elevatorRoutes.ts";
 import transportRequestRouter from "./routes/transportRequest.ts";
 import { auth } from "express-oauth2-jwt-bearer";
 import allStaffRouter from "./routes/getAllStaff.ts";
+import awsRouter from "./routes/awsRouter.ts";
 
 import employeeCSVRouter from "./routes/csvEmployees.ts";
 
@@ -79,6 +80,7 @@ app.use("/api/language-request", languageRouter);
 app.use("/api/all-staff", allStaffRouter);
 app.use("/api/returnClosest", ReturnClosestRouter);
 app.use("/api/elevatorNodes", ElevatorIdRouter);
+app.use("/api/subscribe-email", awsRouter);
 
 app.use("/healthcheck", (req, res) => {
   res.status(200).send();
