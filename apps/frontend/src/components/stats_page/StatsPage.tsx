@@ -1,9 +1,22 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./StatsPage.module.css"; // Importing the CSS file
 import BackgroundImg2 from "../assets/blue-background2.jpg";
 import { PieChart } from "@mui/x-charts/PieChart";
+import axios from "axios";
+import {allRequestForm} from "../common/allRequestForm.ts";
 
 const Stats = () => {
+    const [pieData, setPieData] = useState<allRequestForm[]>([]);
+
+    useEffect(() => {
+        async function fetchData() {
+            const res = await axios.get("/api/get-pie-data");
+            setPieData(res.data);
+            console.log(res.data);
+            console.log("successfully got data from get request");
+        }
+        fetchData().then();
+    }, []);
   return (
     <div
       style={{

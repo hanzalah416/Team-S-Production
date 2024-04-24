@@ -25,6 +25,7 @@ import ElevatorIdRouter from "./routes/elevatorRoutes.ts";
 import transportRequestRouter from "./routes/transportRequest.ts";
 import { auth } from "express-oauth2-jwt-bearer";
 import allStaffRouter from "./routes/getAllStaff.ts";
+import pieDataRouter from "./routes/pieData.ts";
 
 import employeeCSVRouter from "./routes/csvEmployees.ts";
 
@@ -61,6 +62,7 @@ app.use("/api/nodeEdge", nodeEdgeRouter);
 app.use("/api/csv", csvRouter);
 app.use("/api/create-user", logInRouter);
 app.use("/api/pathfind", pathfinderRouter);
+app.use("/api/get-pie-data", pieDataRouter);
 app.use("/api/nodes", nodeRouter);
 app.use("/api/edges", allEdgeRouter);
 app.use("/api/medicine-request", medicineRouter);
