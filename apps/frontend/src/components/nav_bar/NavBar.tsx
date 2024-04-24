@@ -19,6 +19,7 @@ import creditIcon from "../assets/NavBarIcons/credit_menu.svg";
 import transportIcon from "../assets/NavBarIcons/InternalTransportIcon.svg";
 import mapEditingIcon from "../assets/NavBarIcons/MapEditingIcon.svg";
 import dbIcon from "../assets/NavBarIcons/dbIcon.svg";
+import giftIcon from "../assets/NavBarIcons/gift_icon.svg";
 import aboutIcon from "../assets/NavBarIcons/about.svg";
 import { LoginButton } from "../LoginButton.tsx";
 import { LogoutButton } from "../LogoutButton.tsx";
@@ -389,6 +390,18 @@ function NavBar() {
                     alt={"Flower Icon"}
                   />
                   <p className={"item"}>Order Flowers</p>
+                </MenuItem>
+              </Link>
+
+              <Link to={"/gift-request"} id={"order"}>
+                <MenuItem onClick={handleClose}>
+                  <img
+                    src={giftIcon}
+                    className={"iconHeight"}
+                    width={"38px"}
+                    alt={"Gift Icon"}
+                  />
+                  <p className={"item"}>Gift Requests</p>
                 </MenuItem>
               </Link>
               <Link to={"/medicine-delivery-request"} id={"order"}>
