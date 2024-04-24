@@ -47,7 +47,7 @@ const Login: React.FC = () => {
                 className={styles.coverImage}
                 style={{
                   display: index === currentImageIndex ? "block" : "none",
-                  transition: "opacity 5s ease-out",
+                  transition: "opacity 2s ease-in",
                 }}
               />
             ))}
@@ -123,6 +123,7 @@ const Login: React.FC = () => {
             Engineering (Prof. Wong) and is not to be confused with the actual
             Brigham & Women’s Hospital website
           </p>
+
         </div>
       </div>
     </div>
