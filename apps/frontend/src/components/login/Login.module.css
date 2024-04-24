@@ -58,7 +58,7 @@
   height: calc(100vh - 75px);
   position: relative;
   object-fit: cover;
-    animation: slideIn 5s ease forwards;
+  animation: slideIn 5s ease forwards;
 }
 
 .arrowImage {
@@ -80,7 +80,11 @@
   font-weight: 800;
   font-style: italic;
   width: 100%;
-  text-shadow: -1px -1px 0 #eff3fc, 1px -1px 0 #eff3fc, -1px 1px 0 #eff3fc, 1px 1px 0 #eff3fc; /* Creates an outline */
+  text-shadow:
+    -1px -1px 0 #eff3fc,
+    1px -1px 0 #eff3fc,
+    -1px 1px 0 #eff3fc,
+    1px 1px 0 #eff3fc; /* Creates an outline */
 }
 
 @keyframes slideIn {
@@ -117,8 +121,8 @@
 }
 
 .arrowImage {
-    max-height: 200px;
-    max-width: 200px;
+  max-height: 200px;
+  max-width: 200px;
 }
 
 .down {
