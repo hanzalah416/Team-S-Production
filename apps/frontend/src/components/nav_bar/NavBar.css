@@ -132,6 +132,8 @@
 }
 
 .iconHeight {
+  filter: invert(11%) sepia(83%) saturate(3723%) hue-rotate(215deg)
+    brightness(103%) contrast(92%);
   height: 37px;
 }
 
