@@ -67,9 +67,9 @@ export function MedicineDeliveryDisplay(props: {
       <StyledTableCell align="center">
         {props.MedicineDeliveryForm.MedicineRequests.nameMedicine}
       </StyledTableCell>
-        <StyledTableCell align="center">
+      <StyledTableCell align="center">
         {props.MedicineDeliveryForm.MedicineRequests.typeMedicine}
-    </StyledTableCell>
+      </StyledTableCell>
     </TableRow>
   );
 }

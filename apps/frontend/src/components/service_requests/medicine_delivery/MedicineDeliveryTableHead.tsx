@@ -77,7 +77,6 @@ export default function MedicineRequestGetter() {
             {/*<StyledTableCell align="right">Order Number</StyledTableCell>*/}
             <StyledTableCell align="center">Medicine Name</StyledTableCell>
             <StyledTableCell align="center">Medicine Type</StyledTableCell>
-
           </TableRow>
           {/*asdf*/}
         </TableHead>
