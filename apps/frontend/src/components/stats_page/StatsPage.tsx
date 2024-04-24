@@ -12,7 +12,19 @@ type PieData = {
   schedulingRequest: number;
   sanitationRequest: number;
   securityRequest: number;
-    transportRequest: number;
+  transportRequest: number;
+};
+type Employee = {
+    employeeID: string,
+    employeeName: string,
+};
+type Requests = {
+    requestID: number,
+    name: string,
+    priority: string,
+    location: string,
+    requestType: string,
+    status: string,
 };
 const Stats = () => {
   const [pieData, setPieData] = useState<PieData>({
@@ -24,13 +36,23 @@ const Stats = () => {
     securityRequest: 0,
       transportRequest: 0,
   });
+  const [employeeData, setEmployeeData] = useState<Employee[]>([]);
+  const [requestData, setRequestData] = useState<Requests[]>([]);
 
   useEffect(() => {
     async function fetchData() {
-      const res = await axios.get("/api/get-pie-data");
-      setPieData(res.data);
-      console.log(res.data);
-      console.log("successfully got data from get request");
+      const pie = await axios.get("/api/get-pie-data");
+      setPieData(pie.data);
+      console.log(pie.data);
+      console.log("Successfully got data from get request");
+      const emp = await axios.get("/api/employee-csv");
+      setEmployeeData(emp.data);
+      console.log(emp.data);
+      console.log("Successfully got employee data from get request");
+      const req = await axios.get("/api/all-requests");
+      setRequestData(req.data);
+      console.log(req.data);
+      console.log("Successfully got request data from get request");
     }
     fetchData().then();
   }, []);
