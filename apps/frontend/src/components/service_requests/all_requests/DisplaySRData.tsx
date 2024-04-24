@@ -3,6 +3,7 @@ import Tabs from "../../TabComponent.tsx";
 import OutlinedAlerts from "../ServiceNotice.tsx";
 import { ServiceRequestGetter } from "./AllServiceRequestsGetter.tsx";
 import { LanguageRequestGetter } from "../language_requests/LanguageRequestTableHead.tsx";
+import MedicineRequestGetter from "../medicine_delivery/MedicineDeliveryTable.tsx";
 
 export default function DisplaySRData() {
   const tabNames = [
@@ -18,7 +19,7 @@ export default function DisplaySRData() {
   const tabContent = [
     <ServiceRequestGetter />,
     <p>order flowers</p>,
-    <p>medical delivery</p>,
+    <MedicineRequestGetter />,
     <p>Sanitation Services</p>,
     <p>Security</p>,
     <p>room schedling</p>,
