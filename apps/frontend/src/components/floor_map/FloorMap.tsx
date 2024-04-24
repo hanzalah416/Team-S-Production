@@ -1,6 +1,18 @@
-import React, { lazy, Suspense, useCallback, useEffect, useState } from "react";
+import React, {
+  lazy,
+  Suspense,
+  useCallback,
+  useEffect,
+  useState,
+  useRef,
+} from "react";
 import styles from "./FloorMap.module.css";
-import { TransformComponent, TransformWrapper } from "react-zoom-pan-pinch";
+import {
+  TransformWrapper,
+  TransformComponent,
+  ReactZoomPanPinchContentRef,
+} from "react-zoom-pan-pinch";
+
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import {
@@ -17,24 +29,43 @@ import f1Map from "../assets/HospitalMap/01_thefirstfloor.png";
 import f2Map from "../assets/HospitalMap/02_thesecondfloor.png";
 import f3Map from "../assets/HospitalMap/03_thethirdfloor.png";
 import PathToTextDisplay from "./PathToTextDisplay.tsx";
-import ATMIcon from "../assets/MapKeyIcons/ATMIcon.png";
-import BusStopIcon from "../assets/MapKeyIcons/BusStopIcon.png";
-import CafeIcon from "../assets/MapKeyIcons/CafeIcon.png";
-import DiningIcon from "../assets/MapKeyIcons/DiningIcon.png";
-import ElevatorIcon from "../assets/MapKeyIcons/ElevatorIcon.png";
-import EmergencyIcon from "../assets/MapKeyIcons/EmergencyIcon.png";
-import EntranceIcon from "../assets/MapKeyIcons/EntranceIcon.png";
-import EscalatorIcon from "../assets/MapKeyIcons/EscalatorIcon.png";
-import HandicapIcon from "../assets/MapKeyIcons/HandicapIcon.png";
-import ParkingIcon from "../assets/MapKeyIcons/ParkingIcon.png";
-import RestroomIcon from "../assets/MapKeyIcons/RestroomIcon.png";
-import ValetIcon from "../assets/MapKeyIcons/ValetIcon.png";
-import VendingIcon from "../assets/MapKeyIcons/VendingIcon.png";
-import WaitingIcon from "../assets/MapKeyIcons/WaitingIcon.png";
+
+import KeySelection from "./KeySelection.tsx";
+import Tooltip from "../ToolTip";
+import { TextToVoiceSelector } from "./TextToVoiceSelector.tsx";
+
+const tips = `
+1.Enter Starting Point:
+
+Click on the dropdown menu under “Enter Starting Point”.
+
+Select the building or specific entrance you are currently located at from the list provided.
+
+1.Enter Destination:
+
+Click on the dropdown menu under “Enter Destination”.
+
+Choose the building or specific area you want to go to from the list.
+
+Directions:
+
+After selecting both your starting point and destination, the map should display a highlighted path indicating the best route to take.
+
+If the map supports multiple levels, you can use the "Level Select" toggle to view different floors and find the path through each level as needed.
+
+1.Additional Features:
+
+“Toggle Nodes” can be used to show or hide points of interest or decision points like elevators, stairs, and restrooms.
+
+“Show Key” may provide you with a legend to decipher different symbols or colors used on the map.
+
+“A\\* Search” might be an option to find the shortest path if the map includes a pathfinding algorithm; you can select it to optimize your route.
+
+`;
 
 const MiniMap = lazy(() => import("./MiniMap.tsx"));
 
-interface Position {
+export interface Position {
   label: string;
   id: string;
   top: string;
@@ -50,24 +81,15 @@ interface Node {
   floor: string;
 }
 
-// interface FloorSwitcherProps {
-//   onChange: (floor: string) => void;
-// }
-
-// interface Tag {
-//   tag: string;
-//   index: number;
-// }
-
 function FloorMap() {
   const [resetFloorsUIKey, setResetFloorsUIKey] = useState(0);
   const [algorithm, setAlgorithm] = useState("astar");
   const [locations, setLocations] = useState<Position[]>([]);
   const [currentFloor, setCurrentFloor] = useState("01");
+
   const sortedLocations = [...locations]
     .filter((location) => !location.label.includes("Hall")) // Change startsWith to includes
     .sort((a, b) => a.label.localeCompare(b.label));
-  console.log(sortedLocations);
   const [startPosition, setStartPosition] = useState<Position | null>(null);
   const [endPosition, setEndPosition] = useState<Position | null>(null);
   const [pathFound, setPathFound] = useState(true);
@@ -77,9 +99,184 @@ function FloorMap() {
   const [fullPath, setFullPath] = useState<string[]>([]);
   const [showNodes, setShowNodes] = useState(false);
   const [showMapKey, setShowMapKey] = useState(false);
+  const transformRef = useRef<ReactZoomPanPinchContentRef>(null);
+  const [shouldAutoZoom, setShouldAutoZoom] = useState(true);
+
+  const [speechVolume, setSpeechVolume] = useState(1);
+  const [speechPitch, setSpeechPitch] = useState(1);
+  const [speechRate, setSpeechRate] = useState(1);
+  const [speechVoice, setSpeechVoice] = useState(4);
+
+  const zoomToPathSegment = useCallback(
+    (segmentIndex: number) => {
+      setShouldAutoZoom(false);
+
+      // Adjust the logic to handle floor change markers correctly
+      let currentSegment = 0;
+      let startIndex = 0;
+      let endIndex = fullPath.length;
+
+      for (let i = 0; i < fullPath.length; i++) {
+        if (fullPath[i].length === 3) {
+          // Floor change markers
+          if (currentSegment === segmentIndex) {
+            endIndex = i;
+            break;
+          }
+          currentSegment++;
+          startIndex = i + 1;
+        }
+      }
+
+      // Fetch all nodes within the segment
+      const segmentNodes = fullPath
+        .slice(startIndex, endIndex)
+        .map((id) => locations.find((loc) => loc.id === id))
+        .filter((loc) => loc);
+
+      if (segmentNodes.length === 0) {
+        console.log("No nodes found in the segment, unable to zoom.");
+        return;
+      }
+
+      const mapWidth = 5000; // Full width of the map in pixels
+      const mapHeight = 3400; // Full height of the map in pixels
+
+      // Calculate bounding box of all nodes
+      let minX = Infinity,
+        maxX = -Infinity,
+        minY = Infinity,
+        maxY = -Infinity;
+
+      segmentNodes.forEach((node) => {
+        if (node) {
+          // Check if node is not undefined
+          const x = parseInt(node.left);
+          const y = parseInt(node.top);
+          if (!isNaN(x) && !isNaN(y)) {
+            // Also check if the parsed values are valid numbers
+            minX = Math.min(minX, x);
+            maxX = Math.max(maxX, x);
+            minY = Math.min(minY, y);
+            maxY = Math.max(maxY, y);
+          }
+        }
+      });
+
+      const minXPercent = (minX / mapWidth) * 100;
+      const maxXPercent = (maxX / mapWidth) * 100;
+      const minYPercent = (minY / mapHeight) * 100;
+      const maxYPercent = (maxY / mapHeight) * 100;
+
+      setTimeout(() => {
+        if (transformRef.current?.instance.wrapperComponent) {
+          const wrapperWidth =
+            transformRef.current.instance.wrapperComponent.clientWidth;
+          const wrapperHeight =
+            transformRef.current.instance.wrapperComponent.clientHeight;
+
+          // Calculate the actual pixel values from percentages for the viewport
+          const minX = (minXPercent / 100) * wrapperWidth;
+          const maxX = (maxXPercent / 100) * wrapperWidth;
+          const minY = (minYPercent / 100) * wrapperHeight;
+          const maxY = (maxYPercent / 100) * wrapperHeight;
+
+          const widthRatio = wrapperWidth / (maxX - minX);
+          const heightRatio = wrapperHeight / (maxY - minY);
+          const scale = Math.min(widthRatio, heightRatio, 8) * 0.85; // Limiting scale to a maximum of 8
+
+          const centerX = (minX + maxX) / 2;
+          const centerY = (minY + maxY) / 2;
+
+          transformRef.current.setTransform(
+            wrapperWidth / 2 - centerX * scale,
+            wrapperHeight / 2 - centerY * scale,
+            scale,
+          );
+        } else {
+          console.log(
+            "TransformWrapper's instance or wrapperComponent is undefined.",
+          );
+        }
+      }, 100);
+    },
+    [fullPath, locations, transformRef, setShouldAutoZoom],
+  );
+
+  const calculateAndZoom = () => {
+    const dotContainer = document.querySelector('[class^="_dotsContainer"]');
+    if (!dotContainer) {
+      console.log("No dot container element found.");
+      return;
+    }
+
+    // Use attribute selector to find all elements where class starts with "_mapDot"
+    const allDots = dotContainer.querySelectorAll('[class^="_mapDot"]');
+    if (allDots.length === 0) {
+      console.log("No dot elements found.");
+      return;
+    }
+
+    let minX = Infinity,
+      maxX = -Infinity,
+      minY = Infinity,
+      maxY = -Infinity;
+
+    allDots.forEach((dot: Element) => {
+      const style = (dot as HTMLElement).style;
+      const top = parseFloat(style.top);
+      const left = parseFloat(style.left);
+
+      const containerWidth = dotContainer.clientWidth;
+      const containerHeight = dotContainer.clientHeight;
+
+      const actualTop = (top / 100) * containerHeight;
+      const actualLeft = (left / 100) * containerWidth;
+
+      minX = Math.min(minX, actualLeft);
+      maxX = Math.max(maxX, actualLeft);
+      minY = Math.min(minY, actualTop);
+      maxY = Math.max(maxY, actualTop);
+    });
+
+    if (transformRef.current?.instance.wrapperComponent) {
+      const wrapperWidth =
+        transformRef.current.instance.wrapperComponent.clientWidth;
+      const wrapperHeight =
+        transformRef.current.instance.wrapperComponent.clientHeight;
+
+      const widthRatio = wrapperWidth / (maxX - minX);
+      const heightRatio = wrapperHeight / (maxY - minY);
+      // Compute the scale and ensure it does not exceed 8
+      const calculatedScale = Math.min(widthRatio, heightRatio) * 0.85;
+      const scale = Math.min(calculatedScale, 8); // Ensuring scale never goes over 8
+
+      const centerX = (minX + maxX) / 2;
+      const centerY = (minY + maxY) / 2;
+
+      transformRef.current.setTransform(
+        wrapperWidth / 2 - centerX * scale,
+        wrapperHeight / 2 - centerY * scale,
+        scale,
+      );
+    } else {
+      console.log(
+        "TransformWrapper's instance or wrapperComponent is undefined.",
+      );
+    }
+  };
+
+  useEffect(() => {
+    if (shouldAutoZoom) {
+      const timer = setTimeout(() => {
+        calculateAndZoom();
+      }, 100); // A short delay to ensure DOM elements are rendered
+
+      return () => clearTimeout(timer); // Cleanup the timeout if the component unmounts
+    }
+  }, [filteredQueueNodeIDs, shouldAutoZoom]);
 
   const handleNodeClick = (node: Position | null) => {
-    console.log("Node clicked:", node);
     const formatFloor = (floor: string) => {
       // Prepend '0' if the floor is '1', '2', or '3'
       return ["1", "2", "3"].includes(floor) ? `0${floor}` : floor;
@@ -101,6 +298,7 @@ function FloorMap() {
   };
 
   const toggleNodesVisibility = () => {
+    setShouldAutoZoom(true);
     clearInputs();
     setShowNodes(!showNodes);
   };
@@ -182,43 +380,21 @@ function FloorMap() {
   };
 
   const handleFloorChange = (floor: string) => {
+    setShouldAutoZoom(true);
     setCurrentFloor(floor);
+
     const newFilteredQueueNodeIDs = fullPath.filter(
       (id) => getFloorNumber(id) === floor || id.length === 3,
     );
     setFilteredQueueNodeIDs(newFilteredQueueNodeIDs);
   };
 
-  const getTagsFromPath = (path: string[]) => {
-    const floorOrder = ["L1", "L2", "01", "02", "03"];
-
-    // Starting with the start floor if it exists
-    const startFloor = path[0] ? getFloorNumber(path[0]) : null;
-    let tags = startFloor
-      ? [{ tag: startFloor, index: floorOrder.indexOf(startFloor) }]
-      : [];
-
-    // Continue with the rest of the path, focusing on floor change markers
-    const additionalTags = path
-      .filter((nodeID) => nodeID.length === 3) // Ensure only floor change markers are processed
-      .map((nodeID) => {
-        const tag = getFloorNumber(nodeID);
-        return {
-          tag: tag,
-          index: floorOrder.indexOf(tag),
-        };
-      });
-
-    // Combine the starting floor with the rest of the tags
-    tags = tags.concat(additionalTags);
-
-    // Mapping for display, removing leading zeros
-    return tags.map(({ tag, index }) => ({
-      tag: tag,
-      display: tag.replace(/^0/, ""), // Removing leading zeros for display
-      index,
-    }));
-  };
+  useEffect(() => {
+    if (transformRef.current) {
+      //this is the easiest fix trust
+      transformRef.current.resetTransform(); // Reset zoom and pan settings
+    }
+  }, [currentFloor]);
 
   const getFloorNumber = (nodeID: string) => {
     // Get the last two characters
@@ -232,7 +408,12 @@ function FloorMap() {
     setFullPath([]); // Clear the full path
     setPathFound(true);
     setResetKey((prevKey) => prevKey + 1); // Increment the reset key
+    setShouldAutoZoom(true);
     setResetFloorsUIKey((prevKey) => prevKey + 1);
+    if (transformRef.current) {
+      // This assumes resetTransform is available and correctly set up in the TransformWrapper
+      transformRef.current.resetTransform();
+    }
   };
   const [resetKey, setResetKey] = useState(0);
 
@@ -273,6 +454,7 @@ function FloorMap() {
   };
 
   const handleSelection = (value: Position | null, type: "start" | "end") => {
+    setShouldAutoZoom(true);
     if (type === "start") {
       setStartPosition(value);
       if (value) {
@@ -369,8 +551,8 @@ function FloorMap() {
   };
 
   const floorMaps = {
-    L1: l1Map,
     L2: l2Map,
+    L1: l1Map,
     "01": f1Map,
     "02": f2Map,
     "03": f3Map,
@@ -425,6 +607,7 @@ function FloorMap() {
     <div className={styles.wholePage}>
       <div className={styles.container}>
         <div className={styles.signInForm}>
+          <Tooltip className={styles.tips} tips={tips} />
           <div className={styles.boldtag}>Enter Starting Point</div>
           <Autocomplete
             key={`start-position-${resetKey}`}
@@ -490,6 +673,35 @@ function FloorMap() {
           >
             Clear Path
           </Button>
+          <TextToVoiceSelector
+            options={[
+              {
+                name: "Volume",
+                setValue: setSpeechVolume,
+                max: 1,
+                min: 0,
+                value: speechVolume,
+              },
+              {
+                name: "Rate",
+                setValue: setSpeechRate,
+                max: 10,
+                min: 0.1,
+                value: speechRate,
+              },
+              {
+                name: "Pitch",
+                setValue: setSpeechPitch,
+                max: 2,
+                min: 0.1,
+                value: speechPitch,
+              },
+            ]}
+            voiceOption={{
+              setValue: setSpeechVoice,
+              value: speechVoice,
+            }}
+          />
           <Box className={styles.directionsBox}>Directions</Box>
           {!pathFound && (
             <Box className={styles.pathNotFoundBox}>Path not found</Box>
@@ -508,63 +720,13 @@ function FloorMap() {
                   endNode={endPosition.id}
                   algo={algorithm}
                   onChangeFloor={handleFloorChange} // Passing the method as a prop
+                  zoomToSegment={zoomToPathSegment}
+                  voice={speechVoice}
+                  volume={speechVolume}
+                  pitch={speechPitch}
+                  rate={speechRate}
                 />
               )}
-
-              {getTagsFromPath(fullPath).map(() => {
-                // console.log("Full path:", fullPath);
-                // console.log("Current tag:", tag);
-                // if (!tag) {
-                //   throw new Error("Tag was undefined");
-                // }
-                // let displayFloor = tag.tag;
-                // switch (tag.tag) {
-                //   case "01":
-                //     displayFloor = "1";
-                //     break;
-                //   case "02":
-                //     displayFloor = "2";
-                //     break;
-                //   case "03":
-                //     displayFloor = "3";
-                //     break;
-                //   default:
-                //     break; // Keep "L1" and "L2" as is
-                // }
-
-                return (
-                  <div>
-                    {/*<Button*/}
-                    {/*  key={tag.tag}*/}
-                    {/*  variant={*/}
-                    {/*    currentFloor === tag.tag ? "contained" : "outlined"*/}
-                    {/*  }*/}
-                    {/*  onClick={() => {*/}
-                    {/*    setCurrentFloor(tag.tag);*/}
-
-                    {/*    // Filter the full path for the new floor*/}
-                    {/*    const newFilteredQueueNodeIDs = fullPath.filter(*/}
-                    {/*      (id) =>*/}
-                    {/*        getFloorNumber(id) === tag.tag || id.length === 3,*/}
-                    {/*    );*/}
-                    {/*    setFilteredQueueNodeIDs(newFilteredQueueNodeIDs);*/}
-                    {/*  }}*/}
-                    {/*  style={{*/}
-                    {/*    marginBottom: "5px",*/}
-                    {/*    marginTop: "3px",*/}
-                    {/*    color: currentFloor === tag.tag ? "white" : "black", // Text color*/}
-                    {/*    backgroundColor:*/}
-                    {/*      currentFloor === tag.tag ? "#003b9c" : "#f1f1f1", // Background color with transparency*/}
-                    {/*    borderColor: "black", // Border color*/}
-                    {/*    fontFamily: "Poppins",*/}
-                    {/*    textAlign: "center",*/}
-                    {/*  }}*/}
-                    {/*>*/}
-                    {/*  {displayFloor}*/}
-                    {/*</Button>*/}
-                  </div>
-                );
-              })}
             </div>
           </div>
 
@@ -667,193 +829,205 @@ function FloorMap() {
           </div>
 
           <TransformWrapper
-          // initialScale={1.3}
-          // initialPositionX={-200.4}
-          // initialPositionY={-100.83}
-          // centered
+            ref={transformRef} // Set the ref to access the instance
+            initialScale={1}
+            initialPositionX={0}
+            initialPositionY={0}
           >
-            <TransformComponent>
-              {renderFloorNodes()}
-              <img
-                src={floorMaps[currentFloor as keyof typeof floorMaps]}
-                alt="map"
-                className={styles.hmapImage}
-              />
+            {() => (
+              <>
+                <TransformComponent>
+                  {renderFloorNodes()}
+                  <img
+                    src={floorMaps[currentFloor as keyof typeof floorMaps]}
+                    alt="map"
+                    className={styles.hmapImage}
+                  />
 
-              <div className={styles.dotsContainer}>
-                {filteredQueueNodeIDs.map((nodeID, index) => {
-                  if (nodeID.length === 3) {
-                    // Skip floor change markers
-                    return null;
-                  }
-
-                  const point = getPositionById(nodeID);
-                  if (point) {
-                    const isActualStartNode = fullPath[0] === nodeID;
-                    const isActualEndNode =
-                      fullPath[fullPath.length - 1] === nodeID;
-                    const isDisplayedStartNode = index === 0;
-
-                    const isDisplayedEndNode =
-                      index === filteredQueueNodeIDs.length - 1;
-                    const isMultifloorEndNode =
-                      !isDisplayedStartNode &&
-                      !isDisplayedEndNode &&
-                      fullPath.includes(nodeID) &&
-                      (getFloorNumber(nodeID) !==
-                        getFloorNumber(filteredQueueNodeIDs[index - 1]) ||
-                        getFloorNumber(nodeID) !==
-                          getFloorNumber(filteredQueueNodeIDs[index + 1]));
-
-                    const isMultifloorStartNode =
-                      index > 0 &&
-                      filteredQueueNodeIDs[index - 1].length === 3 &&
-                      !isActualEndNode;
-
-                    let nodeColor,
-                      lastFloorLabel = "";
-                    if (isMultifloorStartNode) {
-                      nodeColor = "MediumOrchid"; // Set color to purple for intermediary start nodes
-                      const fullPathIndex = fullPath.indexOf(nodeID);
-                      if (fullPathIndex !== -1 && fullPathIndex > 1) {
-                        const targetNodeID = fullPath[fullPathIndex - 2];
-                        lastFloorLabel = targetNodeID.slice(-2);
-                        switch (lastFloorLabel) {
-                          case "01":
-                            lastFloorLabel = "1";
-                            break;
-                          case "02":
-                            lastFloorLabel = "2";
-                            break;
-                          case "03":
-                            lastFloorLabel = "3";
-                            break;
-                        }
-                        // Extract the last two characters
-                        // console.log(lastFloorLabel);
+                  <div className={styles.dotsContainer}>
+                    {filteredQueueNodeIDs.map((nodeID, index) => {
+                      if (nodeID.length === 3) {
+                        // Skip floor change markers
+                        return null;
                       }
-                    } else if (isActualStartNode) {
-                      nodeColor = "#19a300"; // Green for the actual start node
-                    } else if (isActualEndNode) {
-                      nodeColor = "red"; // Red for the actual end node
-                      // Print the nodes around the actual end node if it's not near the start of the array
-                      const fullPathIndex = fullPath.indexOf(nodeID);
-                      if (fullPathIndex !== -1 && fullPathIndex > 1) {
-                        // Additional logic to check the length of the node before the end node
-                        if (fullPath[fullPathIndex - 1].length === 3) {
-                          // Check if the preceding node is a floor change marker
-                          // Log the node before the marker
-                        }
-                      }
-                    } else if (isMultifloorEndNode) {
-                      nodeColor = "#fcec08"; // Yellow for multifloor nodes
-                    } else {
-                      nodeColor = "transparent"; // Transparent for other nodes
-                    }
 
-                    let nextFloorLabel = "";
-                    if (isMultifloorEndNode) {
-                      const nextNodeID = filteredQueueNodeIDs[index + 1];
-                      const nextFloor = getFloorNumber(nextNodeID);
-                      switch (nextFloor) {
-                        case "01":
-                          nextFloorLabel = "1";
-                          break;
-                        case "02":
-                          nextFloorLabel = "2";
-                          break;
-                        case "03":
-                          nextFloorLabel = "3";
-                          break;
-                        default:
-                          if (!nextFloor) {
-                            throw new Error("Next floor was null");
+                      const point = getPositionById(nodeID);
+                      if (point) {
+                        const isActualStartNode = fullPath[0] === nodeID;
+                        const isActualEndNode =
+                          fullPath[fullPath.length - 1] === nodeID;
+                        const isDisplayedStartNode = index === 0;
+
+                        const isDisplayedEndNode =
+                          index === filteredQueueNodeIDs.length - 1;
+                        const isMultifloorEndNode =
+                          !isDisplayedStartNode &&
+                          !isDisplayedEndNode &&
+                          fullPath.includes(nodeID) &&
+                          (getFloorNumber(nodeID) !==
+                            getFloorNumber(filteredQueueNodeIDs[index - 1]) ||
+                            getFloorNumber(nodeID) !==
+                              getFloorNumber(filteredQueueNodeIDs[index + 1]));
+
+                        const isMultifloorStartNode =
+                          index > 0 &&
+                          filteredQueueNodeIDs[index - 1].length === 3 &&
+                          !isActualEndNode;
+
+                        let nodeColor,
+                          lastFloorLabel = "";
+                        if (isMultifloorStartNode) {
+                          nodeColor = "MediumOrchid"; // Set color to purple for intermediary start nodes
+                          const fullPathIndex = fullPath.indexOf(nodeID);
+                          if (fullPathIndex !== -1 && fullPathIndex > 1) {
+                            const targetNodeID = fullPath[fullPathIndex - 2];
+                            lastFloorLabel = targetNodeID.slice(-2);
+                            switch (lastFloorLabel) {
+                              case "01":
+                                lastFloorLabel = "1";
+                                break;
+                              case "02":
+                                lastFloorLabel = "2";
+                                break;
+                              case "03":
+                                lastFloorLabel = "3";
+                                break;
+                            }
+                            // Extract the last two characters
+                            // console.log(lastFloorLabel);
                           }
-                          nextFloorLabel = nextFloor.slice(-2); // Extract floor from ID
-                          break;
-                      }
-                    }
+                        } else if (isActualStartNode) {
+                          nodeColor = "#19a300"; // Green for the actual start node
+                        } else if (isActualEndNode) {
+                          nodeColor = "red"; // Red for the actual end node
+                          // Print the nodes around the actual end node if it's not near the start of the array
+                          const fullPathIndex = fullPath.indexOf(nodeID);
+                          if (fullPathIndex !== -1 && fullPathIndex > 1) {
+                            // Additional logic to check the length of the node before the end node
+                            if (fullPath[fullPathIndex - 1].length === 3) {
+                              // Check if the preceding node is a floor change marker
+                              // Log the node before the marker
+                            }
+                          }
+                        } else if (isMultifloorEndNode) {
+                          nodeColor = "#fcec08"; // Yellow for multifloor nodes
+                        } else {
+                          nodeColor = "transparent"; // Transparent for other nodes
+                        }
 
-                    return (
-                      <div
-                        key={nodeID}
-                        className={`${styles.mapDot} ${
-                          isDisplayedStartNode || isDisplayedEndNode
-                            ? styles.endNodeAnimation
-                            : ""
-                        } ${isDisplayedStartNode ? styles.startNode : ""} ${
-                          isDisplayedEndNode ? styles.endNode : ""
-                        } ${
-                          isMultifloorEndNode || isMultifloorStartNode
-                            ? styles.multifloorNode
-                            : ""
-                        }`}
-                        style={{
-                          top: point.top,
-                          left: point.left,
-                          backgroundColor: nodeColor,
-                          display: "block",
-                        }}
-                      >
-                        {(isMultifloorEndNode || isMultifloorStartNode) && (
-                          <div className={styles.floorSwitchText}>
-                            {isMultifloorStartNode
-                              ? lastFloorLabel
-                              : nextFloorLabel
-                                ? nextFloorLabel
-                                : ""}
-                          </div>
-                        )}
-                      </div>
-                    );
-                  }
-                  return null;
-                })}
-              </div>
-              <svg
-                className={styles.pathSvg}
-                style={{
-                  position: "absolute",
-                  top: 0,
-                  left: 0,
-                  width: "100%",
-                  height: "100%",
-                }}
-              >
-                {filteredQueueNodeIDs
-                  .slice(0, -1) // Exclude the last node ID as it's used as the end node for the last segment
-                  .map((startNodeID, index) => {
-                    const endNodeID = filteredQueueNodeIDs[index + 1];
-
-                    // Only get segments for non-floor-change nodes
-                    if (startNodeID.length !== 3 && endNodeID.length !== 3) {
-                      const segments = getLineSegments(startNodeID, endNodeID);
-
-                      return segments.map((segment, segmentIndex) => {
-                        const startPoint = getPositionById(segment.startNodeID);
-                        const endPoint = getPositionById(segment.endNodeID);
-                        const lineColor = getLineColor(segment.floor!);
+                        let nextFloorLabel = "";
+                        if (isMultifloorEndNode) {
+                          const nextNodeID = filteredQueueNodeIDs[index + 1];
+                          const nextFloor = getFloorNumber(nextNodeID);
+                          switch (nextFloor) {
+                            case "01":
+                              nextFloorLabel = "1";
+                              break;
+                            case "02":
+                              nextFloorLabel = "2";
+                              break;
+                            case "03":
+                              nextFloorLabel = "3";
+                              break;
+                            default:
+                              if (!nextFloor) {
+                                throw new Error("Next floor was null");
+                              }
+                              nextFloorLabel = nextFloor.slice(-2); // Extract floor from ID
+                              break;
+                          }
+                        }
 
                         return (
-                          <line
-                            key={`${segment.startNodeID}-${segment.endNodeID}-${segmentIndex}`}
-                            className={styles.line}
-                            x1={`${parseFloat(startPoint.left)}%`}
-                            y1={`${parseFloat(startPoint.top)}%`}
-                            x2={`${parseFloat(endPoint.left)}%`}
-                            y2={`${parseFloat(endPoint.top)}%`}
-                            strokeLinecap="round"
-                            stroke={lineColor}
-                            strokeWidth="2"
-                          />
+                          <div
+                            key={nodeID}
+                            className={`${styles.mapDot} ${
+                              isDisplayedStartNode || isDisplayedEndNode
+                                ? styles.endNodeAnimation
+                                : ""
+                            } ${isDisplayedStartNode ? styles.startNode : ""} ${
+                              isDisplayedEndNode ? styles.endNode : ""
+                            } ${
+                              isMultifloorEndNode || isMultifloorStartNode
+                                ? styles.multifloorNode
+                                : ""
+                            }`}
+                            style={{
+                              top: point.top,
+                              left: point.left,
+                              backgroundColor: nodeColor,
+                              display: "block",
+                            }}
+                          >
+                            {(isMultifloorEndNode || isMultifloorStartNode) && (
+                              <div className={styles.floorSwitchText}>
+                                {isMultifloorStartNode
+                                  ? lastFloorLabel
+                                  : nextFloorLabel
+                                    ? nextFloorLabel
+                                    : ""}
+                              </div>
+                            )}
+                          </div>
                         );
-                      });
-                    }
+                      }
+                      return null;
+                    })}
+                  </div>
+                  <svg
+                    className={styles.pathSvg}
+                    style={{
+                      position: "absolute",
+                      top: 0,
+                      left: 0,
+                      width: "100%",
+                      height: "100%",
+                    }}
+                  >
+                    {filteredQueueNodeIDs
+                      .slice(0, -1) // Exclude the last node ID as it's used as the end node for the last segment
+                      .map((startNodeID, index) => {
+                        const endNodeID = filteredQueueNodeIDs[index + 1];
 
-                    return null;
-                  })}
-              </svg>
-            </TransformComponent>
+                        // Only get segments for non-floor-change nodes
+                        if (
+                          startNodeID.length !== 3 &&
+                          endNodeID.length !== 3
+                        ) {
+                          const segments = getLineSegments(
+                            startNodeID,
+                            endNodeID,
+                          );
+
+                          return segments.map((segment, segmentIndex) => {
+                            const startPoint = getPositionById(
+                              segment.startNodeID,
+                            );
+                            const endPoint = getPositionById(segment.endNodeID);
+                            const lineColor = getLineColor(segment.floor!);
+
+                            return (
+                              <line
+                                key={`${segment.startNodeID}-${segment.endNodeID}-${segmentIndex}`}
+                                className={styles.line}
+                                x1={`${parseFloat(startPoint.left)}%`}
+                                y1={`${parseFloat(startPoint.top)}%`}
+                                x2={`${parseFloat(endPoint.left)}%`}
+                                y2={`${parseFloat(endPoint.top)}%`}
+                                strokeLinecap="round"
+                                stroke={lineColor}
+                                strokeWidth="2"
+                              />
+                            );
+                          });
+                        }
+
+                        return null;
+                      })}
+                  </svg>
+                </TransformComponent>
+              </>
+            )}
           </TransformWrapper>
 
           <div
@@ -864,86 +1038,12 @@ function FloorMap() {
             </Suspense>
           </div>
 
-          <div
-            className={`${styles.MapKey} ${showMapKey ? styles.ShowMapKey : ""}`}
-          >
-            <img src={ATMIcon} alt="ATM icon" className={styles.MapKeyIcon} />
-            <div className={styles.MapKeyItem}>ATM</div>
-            <img
-              src={BusStopIcon}
-              alt="Bus Stop icon"
-              className={styles.MapKeyIcon}
-            />
-            <div className={styles.MapKeyItem}>Bus Stop</div>
-            <img src={CafeIcon} alt="Cafe icon" className={styles.MapKeyIcon} />
-            <div className={styles.MapKeyItem}>Cafe</div>
-            <img
-              src={DiningIcon}
-              alt="Dining icon"
-              className={styles.MapKeyIcon}
-            />
-            <div className={styles.MapKeyItem}>Food Service</div>
-            <img
-              src={ElevatorIcon}
-              alt="Elevator icon"
-              className={styles.MapKeyIcon}
-            />
-            <div className={styles.MapKeyItem}>Elevator</div>
-            <img
-              src={EmergencyIcon}
-              alt="Emergency icon"
-              className={styles.MapKeyIcon}
-            />
-            <div className={styles.MapKeyItem}>Emergency</div>
-            <img
-              src={EntranceIcon}
-              alt="Entrance icon"
-              className={styles.MapKeyIcon}
-            />
-            <div className={styles.MapKeyItem}>Entrance</div>
-            <img
-              src={EscalatorIcon}
-              alt="Escalator icon"
-              className={styles.MapKeyIcon}
-            />
-            <div className={styles.MapKeyItem}>Escalator</div>
-            <img
-              src={HandicapIcon}
-              alt="Handicapped entrance icon"
-              className={styles.MapKeyIcon}
-            />
-            <div className={styles.MapKeyItem}>Handicapped Entrance</div>
-            <img
-              src={ParkingIcon}
-              alt="Parking icon"
-              className={styles.MapKeyIcon}
-            />
-            <div className={styles.MapKeyItem}>Parking</div>
-            <img
-              src={RestroomIcon}
-              alt="Restroom icon"
-              className={styles.MapKeyIcon}
-            />
-            <div className={styles.MapKeyItem}>Restroom</div>
-            <img
-              src={ValetIcon}
-              alt="Valet icon"
-              className={styles.MapKeyIcon}
-            />
-            <div className={styles.MapKeyItem}>Valet</div>
-            <img
-              src={VendingIcon}
-              alt="Vending icon"
-              className={styles.MapKeyIcon}
-            />
-            <div className={styles.MapKeyItem}>Vending</div>
-            <img
-              src={WaitingIcon}
-              alt="Waiting room icon"
-              className={styles.MapKeyIcon}
-            />
-            <div className={styles.MapKeyItem}>Waiting Room</div>
-          </div>
+          <KeySelection
+            startNode={startPosition?.id}
+            showMapKey={showMapKey}
+            getPositionById={getPositionById}
+            handleSelection={handleSelection}
+          />
         </div>
       </div>
     </div>

@@ -3,6 +3,7 @@ import styles from "./FloorMapDebug.module.css";
 import { Button, FormControlLabel, Checkbox, Typography } from "@mui/material";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import axios from "axios";
+import { NodeEdge } from "database";
 
 // Importing map images
 import l1Map from "../assets/HospitalMap/00_thelowerlevel1.png";
@@ -10,6 +11,8 @@ import l2Map from "../assets/HospitalMap/00_thelowerlevel2.png";
 import f1Map from "../assets/HospitalMap/01_thefirstfloor.png";
 import f2Map from "../assets/HospitalMap/02_thesecondfloor.png";
 import f3Map from "../assets/HospitalMap/03_thethirdfloor.png";
+// import fs from "fs";
+// import readCSVFile from "../../../../backend/src/Readcsv.ts";
 
 // Interfaces
 interface Node {
@@ -24,6 +27,7 @@ interface Node {
 }
 
 interface Edge {
+  edgeID: string;
   startNode: string;
   endNode: string;
 }
@@ -32,6 +36,12 @@ interface NodeDetailsPopupProps {
   node: Node | null;
   onSave: (node: Node) => void;
   fetchNodes: () => void; // Add this line
+}
+
+interface EdgeDetailsPopupProps {
+  edge: NodeEdge | null;
+  onSave: (edge: NodeEdge) => void;
+  fetchEdges: () => void; // Add this line
 }
 
 const StaticFloorMapDebug = () => {
@@ -44,6 +54,79 @@ const StaticFloorMapDebug = () => {
   const [selectedNodeDetails, setSelectedNodeDetails] = useState<Node | null>(
     null,
   );
+  const [newNodeDetails, setNewNodeDetails] = useState<Node | null>(null);
+  const [selectedEdgeDetails, setSelectedEdgeDetails] =
+    useState<NodeEdge | null>(null);
+  const [newEdgeDetails, setNewEdgeDetails] = useState<NodeEdge | null>(null);
+  const [dragging, setDragging] = useState<boolean>(false);
+  const [draggedNode, setDraggedNode] = useState<Node | null>(null);
+
+  const emptyNode: Node = {
+    xcoord: "",
+    ycoord: "",
+    id: "",
+    longName: "",
+    floor: "",
+    building: "",
+    nodeType: "",
+    shortName: "",
+  };
+
+  const emptyEdge: NodeEdge = {
+    edgeID: "",
+    startNode: "",
+    endNode: "",
+  };
+
+  const updateNodePosition = (id: string, newX: number, newY: number) => {
+    setNodes((prevNodes) =>
+      prevNodes.map((node) =>
+        node.id === id
+          ? {
+              ...node,
+              xcoord: Math.round(newX).toString(),
+              ycoord: Math.round(newY).toString(),
+            }
+          : node,
+      ),
+    );
+  };
+
+  const handleMouseDown = (
+    node: Node,
+    event: React.MouseEvent<SVGCircleElement, MouseEvent>,
+  ) => {
+    setDragging(true);
+    setDraggedNode(node);
+    event.stopPropagation();
+  };
+
+  const handleMouseMove = (
+    event: React.MouseEvent<SVGSVGElement, MouseEvent>,
+  ) => {
+    if (!dragging || !draggedNode) return;
+
+    const svgElement = event.currentTarget as SVGSVGElement;
+    const pt = svgElement.createSVGPoint();
+    pt.x = event.clientX;
+    pt.y = event.clientY;
+
+    const screenCTM = svgElement.getScreenCTM();
+    if (!screenCTM) {
+      console.error("Failed to get the screen CTM.");
+      return; // If screenCTM is null, log an error and exit the function early.
+    }
+
+    const transformedPt = pt.matrixTransform(screenCTM.inverse());
+    updateNodePosition(draggedNode.id, transformedPt.x, transformedPt.y);
+  };
+
+  const handleMouseUp = () => {
+    if (!dragging) return;
+    setDragging(false);
+    setDraggedNode(null);
+    // Optional: persist the node position change to a backend here
+  };
 
   const handleUpdateNode = (updatedNode: Node) => {
     setNodes((prevNodes) =>
@@ -52,6 +135,27 @@ const StaticFloorMapDebug = () => {
       ),
     );
   };
+
+  const handleUpdateEdge = (updatedEdge: NodeEdge) => {
+    setEdges((prevEdges) =>
+      prevEdges.map((edge) =>
+        edge.edgeID === updatedEdge.edgeID ? updatedEdge : edge,
+      ),
+    );
+  };
+
+  const handleAddNode = (newNode: Node) => {
+    nodes.push(newNode);
+  };
+
+  const handleAddEdge = (newEdge: NodeEdge) => {
+    edges.push(newEdge);
+  };
+
+  // const resetNodesAndEdges = async () => {
+  //   let csv_nodes: string[][] = readCSVFile("L1Nodes.csv");
+  //   console.log(csv_nodes);
+  // };
 
   const fetchNodes = async () => {
     try {
@@ -62,17 +166,36 @@ const StaticFloorMapDebug = () => {
     }
   };
 
+  const fetchEdges = async () => {
+    try {
+      const response = await axios.get("/api/edges");
+      setEdges(response.data);
+    } catch (error) {
+      console.error("Failed to fetch edges:", error);
+    }
+  };
+
   useEffect(() => {
     fetchNodes(); // Call this function on component mount to load nodes initially
   }, []);
 
   const handleNodeClick = (nodeId: string) => {
     const node = nodes.find((node) => node.id === nodeId);
-    if (node !== undefined) {
-      setSelectedNodeDetails(node);
-    } else {
-      setSelectedNodeDetails(null); // Explicitly set to null if no node is found
+    if (!node) {
+      return;
     }
+
+    setSelectedNodeDetails(node);
+  };
+
+  const handleEdgeClick = (startnode: string, endNode: string) => {
+    const edge = edges.find(
+      (edge) => startnode === edge.startNode && endNode === edge.endNode,
+    );
+    if (!edge) {
+      return;
+    }
+    setSelectedEdgeDetails(edge);
   };
 
   const NodeDetailsPopup: React.FC<NodeDetailsPopupProps> = ({
@@ -80,24 +203,16 @@ const StaticFloorMapDebug = () => {
     onSave,
   }) => {
     const popupRef = useRef<HTMLDivElement>(null);
-    const defaultNode: Node = {
-      xcoord: "",
-      ycoord: "",
-      id: "",
-      longName: "",
-      floor: "",
-      building: "",
-      nodeType: "",
-      shortName: "",
-    };
 
     const [editableNode, setEditableNode] = useState<Node>({
-      ...defaultNode,
+      ...emptyNode,
       ...node,
     });
 
     const handleClose = useCallback(() => {
       setSelectedNodeDetails(null);
+      setNewNodeDetails(null);
+      fetchNodes();
     }, []);
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -105,25 +220,73 @@ const StaticFloorMapDebug = () => {
       setEditableNode((prev) => ({ ...prev, [name]: value }));
     };
 
-    const handleSave = async () => {
-      const url = `/api/nodes/${editableNode.id}`;
-      try {
-        const response = await axios.patch(url, {
-          xcoord: editableNode.xcoord,
-          ycoord: editableNode.ycoord,
-          floor: editableNode.floor,
-          longName: editableNode.longName,
-          nodeType: editableNode.nodeType,
-          building: editableNode.building,
-          shortName: editableNode.shortName,
-        });
+    const handleInputChangeID = (
+      event: React.ChangeEvent<HTMLInputElement>,
+    ) => {
+      const { name, value } = event.target;
+      if (selectedNodeDetails) return;
+      setEditableNode((prev) => ({ ...prev, [name]: value }));
+    };
 
-        onSave(response.data); // Update local state with the response
-        handleClose(); // Close the popup
-        await fetchNodes(); // Fetch all nodes again to reflect the update
-      } catch (error) {
-        console.error("Error updating node details:", error);
+    const handleSave = async () => {
+      if (selectedNodeDetails) {
+        const url = `/api/nodes/${editableNode.id}`;
+        try {
+          const response = await axios.patch(url, {
+            xcoord: editableNode.xcoord,
+            ycoord: editableNode.ycoord,
+            floor: editableNode.floor,
+            longName: editableNode.longName,
+            nodeType: editableNode.nodeType,
+            building: editableNode.building,
+            shortName: editableNode.shortName,
+          });
+
+          onSave(response.data); // Update local state with the response
+          handleClose(); // Close the popup
+          await fetchNodes(); // Fetch all nodes again to reflect the update
+        } catch (error) {
+          console.error("Error updating node details:", error);
+        }
       }
+
+      if (newNodeDetails) {
+        const url = `/api/nodes`;
+        try {
+          const response = await axios.post(url, {
+            nodeID: editableNode.id,
+            xcoord: Number(editableNode.xcoord),
+            ycoord: Number(editableNode.ycoord),
+            floor: editableNode.floor,
+            longName: editableNode.longName,
+            nodeType: editableNode.nodeType,
+            building: editableNode.building,
+            shortName: editableNode.shortName,
+          });
+
+          onSave(response.data); // Update local state with the response
+          handleClose(); // Close the popup
+          await fetchNodes(); // Fetch all nodes again to reflect the update
+        } catch (error) {
+          console.error("Error adding node:", error);
+        }
+      }
+    };
+
+    const handleDeleteNode = async () => {
+      if (!node) return;
+      const url = `/api/nodes/${node.id}`;
+      // console.log(url);
+      await axios
+        .delete(url)
+        .then(() => {
+          // console.log(`Deleted node from url ${url}. response: ${response}`);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+      handleClose(); // Close the popup
+      await fetchNodes(); // Fetch all nodes again to reflect the update
     };
 
     const handleClickOutside = useCallback(
@@ -146,8 +309,6 @@ const StaticFloorMapDebug = () => {
       };
     }, [handleClickOutside]);
 
-    if (!editableNode) return null;
-
     return (
       <div className={styles.nodeDetailsPopupContainer} onClick={handleClose}>
         <div
@@ -164,7 +325,7 @@ const StaticFloorMapDebug = () => {
                     type="text"
                     name="id"
                     value={editableNode.id}
-                    onChange={handleInputChange}
+                    onChange={handleInputChangeID}
                     className={styles.inputField}
                   />
                 </td>
@@ -263,6 +424,162 @@ const StaticFloorMapDebug = () => {
             <button onClick={handleClose} className={styles.customButton}>
               Close
             </button>
+            {!newNodeDetails && (
+              <button
+                id="delete"
+                onClick={handleDeleteNode}
+                className={styles.customButton}
+              >
+                Delete Node
+              </button>
+            )}
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  const EdgeDetailsPopup: React.FC<EdgeDetailsPopupProps> = ({
+    edge,
+    onSave,
+  }) => {
+    const popupRef = useRef<HTMLDivElement>(null);
+    const defaultEdge: NodeEdge = {
+      edgeID: "",
+      startNode: "",
+      endNode: "",
+    };
+
+    const [editableEdge, setEditableEdge] = useState<NodeEdge>({
+      ...defaultEdge,
+      ...edge,
+    });
+
+    const handleClose = useCallback(() => {
+      setSelectedEdgeDetails(null);
+      setNewEdgeDetails(null);
+    }, []);
+
+    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+      const { name, value } = event.target;
+      setEditableEdge((prev) => ({ ...prev, [name]: value }));
+    };
+
+    const handleSave = async () => {
+      const url = `/api/edges`;
+      console.log(url);
+      try {
+        const response = await axios.post(url, {
+          edgeID: editableEdge.startNode + "_" + editableEdge.endNode,
+          startNode: editableEdge.startNode,
+          endNode: editableEdge.endNode,
+        });
+        console.log(response);
+        onSave(response.data); // Update local state with the response
+        await fetchEdges(); // Fetch all nodes again to reflect the update
+      } catch (error) {
+        console.error("Error updating edge details:", error);
+        alert("Edge edit failed: try again");
+        return;
+      }
+
+      if (!edge) return;
+      if (selectedEdgeDetails) {
+        const del = url + "/" + edge.startNode + "_" + edge.endNode;
+        console.log(del);
+        try {
+          await axios.delete(del);
+          handleClose(); // Close the popup
+          await fetchEdges(); // Fetch all nodes again to reflect the update
+        } catch (error) {
+          console.error("Error deleting old edge", error);
+        }
+      }
+    };
+
+    const handleDeleteEdge = async () => {
+      if (!edge) return;
+      const url = `/api/edges/${edge.startNode + "_" + edge.endNode}`;
+      await axios.delete(url).catch((error) => {
+        console.error(error);
+      });
+      handleClose(); // Close the popup
+      await fetchEdges(); // Fetch all nodes again to reflect the update
+    };
+
+    const handleClickOutside = useCallback(
+      (event: MouseEvent) => {
+        if (
+          popupRef.current &&
+          event.target instanceof Node &&
+          !popupRef.current.contains(event.target)
+        ) {
+          handleClose();
+        }
+      },
+      [handleClose],
+    );
+
+    useEffect(() => {
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => {
+        document.removeEventListener("mousedown", handleClickOutside);
+      };
+    }, [handleClickOutside]);
+
+    if (!editableEdge) return null;
+
+    return (
+      <div className={styles.nodeDetailsPopupContainer} onClick={handleClose}>
+        <div
+          className={styles.nodeDetailsPopup}
+          ref={popupRef}
+          onClick={(e) => e.stopPropagation()}
+        >
+          <table className={styles.detailsTable}>
+            <tbody>
+              <tr>
+                <td className={styles.label}>Start Node:</td>
+                <td>
+                  <input
+                    type="text"
+                    name="startNode"
+                    value={editableEdge.startNode}
+                    onChange={handleInputChange}
+                    className={styles.inputField}
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td className={styles.label}>End Node:</td>
+                <td>
+                  <input
+                    type="text"
+                    name="endNode"
+                    value={editableEdge.endNode}
+                    onChange={handleInputChange}
+                    className={styles.inputField}
+                  />
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div className={styles.buttonGroup}>
+            <button onClick={handleSave} className={styles.customButton}>
+              Save
+            </button>
+            <button onClick={handleClose} className={styles.customButton}>
+              Close
+            </button>
+            {!newEdgeDetails && (
+              <button
+                id="delete"
+                onClick={handleDeleteEdge}
+                className={styles.customButton}
+              >
+                Delete Edge
+              </button>
+            )}
           </div>
         </div>
       </div>
@@ -364,6 +681,30 @@ const StaticFloorMapDebug = () => {
         />
       )}
 
+      {newNodeDetails && (
+        <NodeDetailsPopup
+          node={newNodeDetails}
+          onSave={handleAddNode}
+          fetchNodes={fetchNodes}
+        />
+      )}
+
+      {selectedEdgeDetails && (
+        <EdgeDetailsPopup
+          edge={selectedEdgeDetails}
+          onSave={handleUpdateEdge}
+          fetchEdges={fetchEdges}
+        />
+      )}
+
+      {newEdgeDetails && (
+        <EdgeDetailsPopup
+          edge={newEdgeDetails}
+          onSave={handleAddEdge}
+          fetchEdges={fetchEdges}
+        />
+      )}
+
       <div className={styles.mapContainer}>
         <FloorSwitcher />
 
@@ -398,10 +739,11 @@ const StaticFloorMapDebug = () => {
                   className={styles.checkboxLabel}
                   onClick={(e) => e.stopPropagation()}
                 >
-                  Edges
+                  Display Edges
                 </Typography>
               }
             />
+
             <FormControlLabel
               control={
                 <Checkbox
@@ -414,10 +756,52 @@ const StaticFloorMapDebug = () => {
                   className={styles.checkboxLabel}
                   onClick={(e) => e.stopPropagation()}
                 >
-                  Nodes
+                  Display Nodes
                 </Typography>
               }
             />
+            <br />
+            <Button
+              variant="contained"
+              className={styles.csvButton}
+              style={{
+                backgroundColor: "#003b9c",
+                fontFamily: "Poppins",
+                fontSize: 14,
+                textAlign: "center",
+              }}
+              onClick={() => setNewNodeDetails(emptyNode)}
+            >
+              Add Node
+            </Button>
+            <br />
+            <Button
+              variant="contained"
+              className={styles.csvButton}
+              style={{
+                backgroundColor: "#003b9c",
+                fontFamily: "Poppins",
+                fontSize: 14,
+                textAlign: "center",
+              }}
+              onClick={() => setNewEdgeDetails(emptyEdge)}
+            >
+              Add Edge
+            </Button>
+            <br />
+            <Button
+              variant="contained"
+              className={styles.csvButton}
+              style={{
+                backgroundColor: "#003b9c",
+                fontFamily: "Poppins",
+                fontSize: 14,
+                textAlign: "center",
+              }}
+              // onClick={() => resetNodesAndEdges()}
+            >
+              Reset Nodes and Edges
+            </Button>
           </div>
           <TransformComponent>
             <div className={styles.mapAndDots}>
@@ -426,7 +810,12 @@ const StaticFloorMapDebug = () => {
                 alt={`Floor ${currentFloor}`}
                 className={styles.mapImage}
               />
-              <svg className={styles.overlay} viewBox="0 0 5000 3400">
+              <svg
+                className={styles.overlay}
+                viewBox="0 0 5000 3400"
+                onMouseMove={handleMouseMove}
+                onMouseUp={handleMouseUp}
+              >
                 {showEdges &&
                   edges.map((edge) => {
                     const startNode = nodes.find(
@@ -452,6 +841,10 @@ const StaticFloorMapDebug = () => {
                           y2={endPosition.y}
                           stroke="blue"
                           strokeWidth="5"
+                          onClick={() =>
+                            handleEdgeClick(edge.startNode, edge.endNode)
+                          }
+                          style={{ cursor: "pointer" }}
                         />
                       );
                     }
@@ -473,6 +866,7 @@ const StaticFloorMapDebug = () => {
                           stroke={isSelected ? "black" : "none"}
                           strokeWidth={isSelected ? "3" : "0"}
                           onClick={() => handleNodeClick(node.id)}
+                          onMouseDown={(e) => handleMouseDown(node, e)}
                           style={{ cursor: "pointer" }} // Makes it clear the node is clickable
                         />
                       );

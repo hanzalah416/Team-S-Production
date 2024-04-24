@@ -10,6 +10,7 @@ import OrderFlowers from "./components/flower_requests/OrderFlowers.tsx";
 import OrderPayment from "./components/service_requests/payment/OrderPayment.tsx";
 import { FormDataProvider } from "./components/service_requests/FormDataContext.tsx";
 import FloorMap from "./components/floor_map/FloorMap.tsx";
+import HeroPage from "./components/login/Login.tsx";
 import NodeDataPage from "./components/nodes/NodeDataPage.tsx";
 // import { ServiceRequestGetter } from "./components/service_requests/all_requests/AllServiceRequestsGetter.tsx";
 import DisplaySRData from "./components/service_requests/all_requests/DisplaySRData.tsx";
@@ -21,6 +22,11 @@ import MedicineDeliveryForm from "./components/service_requests/medicine_deliver
 import SecurityRequest from "./components/service_requests/security_requests/SecurityRequest.tsx";
 import { AppState, Auth0Provider } from "@auth0/auth0-react";
 import LanguageRequest from "./components/service_requests/language_requests/LanguageRequest.tsx";
+import CreditPage from "./components/credit_page/CreditPage.tsx";
+import TransportRequest from "./components/service_requests/internalTransportation/TransportRequest.tsx";
+import EmailForm from "./components/EmailConnection/EmailForm.tsx";
+import GiftForm from "./components/service_requests/gift_request/giftForm.tsx";
+import { AboutPage } from "./components/about_page/AboutPage.tsx";
 
 function App() {
   const router = createBrowserRouter([
@@ -28,6 +34,15 @@ function App() {
       children: [
         {
           path: "/",
+          element: (
+            <>
+              <HeroPage />
+              <Layout />
+            </>
+          ),
+        },
+        {
+          path: "/floor-map",
           element: (
             <>
               <FloorMap />
@@ -109,6 +124,15 @@ function App() {
           ),
         },
         {
+          path: "/sign-up-email",
+          element: (
+            <>
+              <EmailForm topicArn="arn:aws:sns:us-east-2:851725475476:Appointment_Confirmation" />
+              <Layout />
+            </>
+          ),
+        },
+        {
           path: "/room-scheduling",
           element: (
             <>
@@ -135,6 +159,43 @@ function App() {
             </>
           ),
         },
+        {
+          path: "/transport-request",
+          element: (
+            <>
+              <TransportRequest />
+              <Layout />
+            </>
+          ),
+        },
+        {
+          path: "/credit-page",
+          element: (
+            <>
+              <CreditPage />
+              <Layout />
+            </>
+          ),
+        },
+        {
+          path: "/gift-request",
+          element: (
+            <>
+              <GiftForm />
+              <Layout />
+            </>
+          ),
+        },
+
+        {
+          path: "/about-page",
+          element: (
+            <>
+              <AboutPage />
+              <Layout />
+            </>
+          ),
+        },
 
         // ... other routes
       ],
@@ -150,14 +211,6 @@ function App() {
     </FormDataProvider>
   );
 }
-
-// function Welcome() {
-//   return (
-//     <div className="welcome">
-//       <h1>Welcome to your starter code.</h1>
-//     </div>
-//   );
-// }
 
 function Layout() {
   const navigate = useNavigate();

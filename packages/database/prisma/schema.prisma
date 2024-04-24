@@ -33,6 +33,13 @@ model FlowerRequests {
   servreq       ServiceRequest @relation(fields: [orderNumber], references: [requestID])
 }
 
+model GiftRequests {
+  orderNumber   Int            @id
+  typeGift      String
+  customMessage String
+  servreq       ServiceRequest @relation(fields: [orderNumber], references: [requestID])
+}
+
 model MedicineRequests {
   medicineNumber Int            @id
   typeMedicine   String
@@ -54,6 +61,11 @@ enum RequestStatus {
   closed
 }
 
+model Employees {
+  employeeID   String @id @default(uuid())
+  employeeName String
+}
+
 model LanguageRequest {
   orderNumber Int            @id
   language    String
@@ -67,6 +79,15 @@ model RoomScheduling {
   servreq       ServiceRequest @relation(fields: [requestNumber], references: [requestID])
 }
 
+model TransportRequest {
+  requestNumber      Int            @id
+  patientName        String
+  transportationType String
+  startLocation      String
+  endLocation        String
+  servreq            ServiceRequest @relation(fields: [requestNumber], references: [requestID])
+}
+
 model ServiceRequest {
   requestID         Int                @id @default(autoincrement())
   name              String
@@ -75,11 +96,13 @@ model ServiceRequest {
   requestType       String
   status            RequestStatus      @default(unassigned)
   FlowerRequests    FlowerRequests?
+  GiftRequests      GiftRequests?
   SecurityRequests  SecurityRequest?
   MedicineRequests  MedicineRequests?
   SanitationRequest SanitationRequest?
   RoomScheduling    RoomScheduling?
   LanguageRequest   LanguageRequest?
+  TransportRequest  TransportRequest?
 }
 
 model SanitationRequest {

@@ -13,8 +13,35 @@ import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import FormLabel from "@mui/material/FormLabel";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
+import poppies from "../assets/FlowerPhotos/poppies.png";
+import tulips from "../assets/FlowerPhotos/tulips.png";
+import roses from "../assets/FlowerPhotos/rose.png";
 import Grid from "@mui/material/Unstable_Grid2"; // Grid version 2
 import Paper from "@mui/material/Paper";
+import BackgroundImg2 from "../assets/blue-background2.jpg";
+import Tooltip from "../ToolTip";
+import styles from "../login/Login.module.css";
+
+const tips = `
+Name of Requester: Enter the name of the person requesting the flowers.
+
+Priority: Use the dropdown to choose the urgency of your request (e.g., standard, priority, urgent).
+
+Location: Select from the dropdown where the flowers should be delivered or where they are needed.
+
+Request Type: Choose the type of flowers you are requesting. If you need more than one type, you might be able to select multiple options, or if you can only select one, choose the primary type and specify further in the custom message.
+
+POPPIES
+
+ROSES
+
+TULIPS
+
+Enter Custom Message: If you’d like to include a message with the flowers or have specific instructions for the arrangement, enter that information here.
+
+Status: If applicable, select the current status of the request. This might be intended for the administrators to update, rather than the requester.
+`;
+
 interface Position {
   label: string;
   id: string;
@@ -28,11 +55,15 @@ interface Node {
   ycoord: string;
   id: string;
   longName: string;
-  // Add other properties if needed
+}
+
+// Interface for Staff
+interface Staff {
+  employeeName: string;
 }
 
 const OrderFlowers: React.FC = () => {
-  const [nameRequester, setNameRequester] = useState("");
+  const [staffName, setStaffName] = useState<Staff | null>(null);
   const [priority, setPriority] = useState("");
   const [location, setLocation] = useState<Position | null>(null);
   const [typeFlower, setTypeFlower] = useState("");
@@ -40,25 +71,13 @@ const OrderFlowers: React.FC = () => {
   const [status, setStatus] = useState("");
 
   const [locations, setLocations] = useState<Position[]>([]);
+  const [staffNames, setStaffNames] = useState<Staff[]>([]);
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    // Fetch node data from the backend
-    fetch("/api/nodes")
-      .then((response) => response.json())
-      .then((nodes: Node[]) => {
-        const formattedLocations: Position[] = nodes.map((node) => ({
-          label: node.longName || "Unknown", // Use the correct property name
-          id: node.id,
-          top: `${node.ycoord}px`,
-          left: `${node.xcoord}px`,
-        }));
-
-        setLocations(formattedLocations);
-      })
-      .catch((error) => console.error("Failed to fetch node data:", error));
-  }, []);
+  const handleChangeName = (value: Staff | null) => {
+    setStaffName(value);
+  };
 
   const toggleScrolling = (disableScroll: boolean) => {
     if (disableScroll) {
@@ -79,8 +98,38 @@ const OrderFlowers: React.FC = () => {
     setLocation(value);
   };
 
+  useEffect(() => {
+    // Fetch node data from the backend
+    fetch("/api/nodes")
+      .then((response) => response.json())
+      .then((nodes: Node[]) => {
+        const formattedLocations: Position[] = nodes.map((node) => ({
+          label: node.longName || "Unknown", // Use the correct property name
+          id: node.id,
+          top: `${node.ycoord}px`,
+          left: `${node.xcoord}px`,
+        }));
+
+        setLocations(formattedLocations);
+      })
+      .catch((error) => console.error("Failed to fetch node data:", error));
+  }, []);
+
+  useEffect(() => {
+    // Fetch staff data from backend
+    fetch("/api/all-staff")
+      .then((response) => response.json())
+      .then((staffInfo: Staff[]) => {
+        const formattedStaff: Staff[] = staffInfo.map((staff) => ({
+          employeeName: staff.employeeName || "unknown",
+        }));
+        setStaffNames(formattedStaff);
+      })
+      .catch((error) => console.error("Failed to fetch staff data:", error));
+  }, []);
+
   function clear() {
-    setNameRequester("");
+    setStaffName(null);
     setPriority("");
     setLocation(null);
     setTypeFlower("");
@@ -90,7 +139,7 @@ const OrderFlowers: React.FC = () => {
 
   async function submit() {
     if (
-      nameRequester == "" ||
+      staffName == null ||
       priority == "" ||
       location == null ||
       typeFlower == "" ||
@@ -102,7 +151,7 @@ const OrderFlowers: React.FC = () => {
     }
 
     const orderFlowerSent = {
-      name: nameRequester,
+      name: staffName.employeeName,
       priority: priority,
       location: location.label,
       typeFlower: typeFlower,
@@ -131,245 +180,313 @@ const OrderFlowers: React.FC = () => {
   }
 
   return (
-    <Grid
-      container
-      spacing={5}
-      direction="column"
-      alignItems="center"
-      justifyContent="center"
-      my={4}
+    <div
+      style={{
+        backgroundImage: `url(${BackgroundImg2})`,
+        height: "100vh",
+        width: "100vw",
+        backgroundSize: "cover",
+        backgroundRepeat: "no-repeat",
+        minHeight: "100%",
+        backgroundPosition: "center center",
+        overflowX: "hidden",
+      }}
     >
-      <br />
-      <br />
-
-      <Paper elevation={4}>
+      <Grid
+        container
+        spacing={5}
+        direction="column"
+        alignItems="center"
+        justifyContent="center"
+        my={4}
+      >
         <br />
-        <p className={"title"}>Flower Request Form </p>
+        <br />
 
-        <Stack alignItems="center" justifyContent="center" spacing={3} p={4}>
-          <div>
-            <InputLabel
-              style={{
-                color: "#3B54A0",
-              }}
-              id="demo-simple-select-label"
-            >
-              Name of Requester
-            </InputLabel>
-            <TextField
-              style={{
-                borderColor: "#3B54A0",
-                color: "#3B54A0",
-                accentColor: "#3B54A0",
-                borderBlockColor: "#3B54A0",
-              }}
-              id="outlined-controlled"
-              label=""
-              value={nameRequester}
-              onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                setNameRequester(event.target.value);
-              }}
-              sx={{ minWidth: 400 }}
+        <Paper elevation={4} style={{ padding: 10 }}>
+          <br />
+          <p className={"title"} style={{ position: "relative" }}>
+            Flower Request Form
+            <Tooltip
+              style={{ position: "absolute", right: "20px", top: 0 }}
+              tips={tips}
             />
-          </div>
-          <div>
-            <InputLabel
-              style={{
-                color: "#3B54A0",
-              }}
-              id="priority-dropdown"
-            >
-              Priority
-            </InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={priority}
-              label=""
-              onChange={handlePriorityChange}
-              sx={{ minWidth: 400, color: "#3B54A0" }}
-            >
-              <MenuItem value={"low"}>Low</MenuItem>
-              <MenuItem value={"medium"}>Medium</MenuItem>
-              <MenuItem value={"high"}>High</MenuItem>
-              <MenuItem value={"emergency"}>Emergency</MenuItem>
-            </Select>
-          </div>
+          </p>
+          <br />
+          <div className={"breakline"}></div>
 
-          <div>
-            <InputLabel
-              style={{
-                color: "#3B54A0",
-              }}
-              id="location-dropdown"
+          <Stack alignItems="center" justifyContent="center" spacing={3} p={4}>
+            <Stack
+              spacing={2}
+              direction="row"
+              alignItems="center"
+              justifyContent="center"
             >
-              Location
-            </InputLabel>
-            <Autocomplete
-              sx={{ minWidth: 400, color: "#3B54A0" }}
-              options={locations}
-              getOptionLabel={(option) => option.label || "Unknown"}
-              isOptionEqualToValue={(option, value) => option.id === value.id}
-              value={location}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label=""
-                  InputLabelProps={{
-                    style: {
-                      fontFamily: "Poppins",
-                      fontSize: 14,
-                      textAlign: "center",
-                    },
+              <div>
+                <InputLabel
+                  style={{
+                    color: "#3B54A0",
+                    fontStyle: "italic",
                   }}
+                  id="demo-simple-select-label"
+                >
+                  Name of Requester
+                </InputLabel>
+                <Autocomplete
+                  sx={{ minWidth: 250, color: "#3B54A0" }}
+                  options={staffNames}
+                  getOptionLabel={(option) => option.employeeName || "Unknown"}
+                  //isOptionEqualToValue={(option, value) => option.id === value.id}
+                  value={staffName}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label=""
+                      InputLabelProps={{
+                        style: {
+                          fontFamily: "Poppins",
+                          fontSize: 14,
+                          textAlign: "center",
+                        },
+                      }}
+                    />
+                  )}
+                  onOpen={() => toggleScrolling(true)}
+                  onClose={() => toggleScrolling(false)}
+                  onChange={(event, value) => handleChangeName(value)}
                 />
-              )}
-              onOpen={() => toggleScrolling(true)}
-              onClose={() => toggleScrolling(false)}
-              onChange={(event, value) => handleChangeLocation(value)}
-            />
-          </div>
+              </div>
+              <div>
+                <InputLabel
+                  style={{
+                    color: "#3B54A0",
+                    fontStyle: "italic",
+                  }}
+                  id="priority-dropdown"
+                >
+                  Priority
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={priority}
+                  label=""
+                  onChange={handlePriorityChange}
+                  sx={{ minWidth: 250, color: "#3B54A0" }}
+                >
+                  <MenuItem value={"low"}>Low</MenuItem>
+                  <MenuItem value={"medium"}>Medium</MenuItem>
+                  <MenuItem value={"high"}>High</MenuItem>
+                  <MenuItem value={"emergency"}>Emergency</MenuItem>
+                </Select>
+              </div>
+            </Stack>
 
-          <div>
-            <InputLabel
-              style={{
-                color: "#3B54A0",
-              }}
-              id="demo-simple-select-label"
-            >
-              Request Type
-            </InputLabel>
-            <ToggleButtonGroup
-              color="primary"
-              value={typeFlower} // Use the state value here
-              exclusive
-              onChange={(
-                _event: React.MouseEvent<HTMLElement>,
-                newValue: string | null,
-              ) => {
-                if (newValue !== null) {
-                  setTypeFlower(newValue); // Update state on change
-                }
-              }}
-              aria-label="Sanitation Type Buttons"
-              sx={{ minWidth: 120 }}
-            >
-              <ToggleButton
+            <div>
+              <InputLabel
                 style={{
-                  color: "#10778c",
-                  outlineColor: "#949DB5",
-                  borderColor: "#949DB5",
+                  color: "#3B54A0",
+                  fontStyle: "italic",
                 }}
-                value="Poppies"
+                id="location-dropdown"
               >
-                Poppies
-              </ToggleButton>
-              <ToggleButton
-                style={{
-                  color: "#10778c",
-                  outlineColor: "#949DB5",
-                  borderColor: "#949DB5",
-                }}
-                value="Roses"
-              >
-                Roses
-              </ToggleButton>
-              <ToggleButton
-                style={{
-                  color: "#10778c",
-                  outlineColor: "#949DB5",
-                  borderColor: "#949DB5",
-                }}
-                value="Tulips"
-              >
-                Tulips
-              </ToggleButton>
-            </ToggleButtonGroup>
-          </div>
-
-          <div>
-            <FormLabel
-              style={{
-                color: "#3B54A0",
-              }}
-              id="demo-controlled-radio-buttons-group"
-            >
-              Enter Custom Message
-            </FormLabel>
-            <form>
-              <input
-                type="text"
-                style={{
-                  width: "400px", // Set the width to make it larger
-                  height: "30px", // Set the height to make it taller
-                  backgroundColor: "white", // Set the background color to white
-                  border: "1px solid #ccc", // Add a border for better visibility
-                  borderRadius: "5px", // Optional: Add rounded corners for aesthetics
-                  padding: "5px", // Optional: Add padding for better spacing
-                }}
-                value={customMessage}
-                onChange={(e) => setCustomMessage(e.target.value)}
+                Location
+              </InputLabel>
+              <Autocomplete
+                sx={{ minWidth: 518, color: "#3B54A0" }}
+                options={locations}
+                getOptionLabel={(option) => option.label || "Unknown"}
+                isOptionEqualToValue={(option, value) => option.id === value.id}
+                value={location}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label=""
+                    InputLabelProps={{
+                      style: {
+                        fontFamily: "Poppins",
+                        fontSize: 14,
+                        textAlign: "center",
+                      },
+                    }}
+                  />
+                )}
+                onOpen={() => toggleScrolling(true)}
+                onClose={() => toggleScrolling(false)}
+                onChange={(event, value) => handleChangeLocation(value)}
               />
-            </form>
-          </div>
+            </div>
 
-          <div>
-            <InputLabel
-              style={{
-                color: "#3B54A0",
-              }}
-              id="demo-simple-select-label"
-            >
-              Status
-            </InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={status}
-              label=""
-              onChange={handleStatusChange}
-              sx={{ minWidth: 400 }}
-            >
-              <MenuItem value={"unassigned"}>Unassigned</MenuItem>
-              <MenuItem value={"assigned"}>Assigned</MenuItem>
-              <MenuItem value={"in_progress"}>In Progress</MenuItem>
-              <MenuItem value={"closed"}>Closed</MenuItem>
-            </Select>
-          </div>
+            <div>
+              <InputLabel
+                style={{
+                  color: "#3B54A0",
+                  fontStyle: "italic",
+                }}
+                id="demo-simple-select-label"
+              >
+                Flower Type
+              </InputLabel>
+              <br />
+              <div style={{ display: "flex" }}>
+                <img
+                  src={poppies}
+                  alt="Covering 3/4 page"
+                  className={styles.poppies}
+                  style={{ width: "200px", height: "auto" }}
+                />
 
-          <Stack
-            spacing={2}
-            direction="row"
-            alignItems="center"
-            justifyContent="center"
-          >
-            <Button
-              style={{
-                color: "#3B54A0",
-                outlineColor: "#3B54A0",
-                borderColor: "#3B54A0",
-              }}
-              variant="outlined"
-              sx={{ minWidth: 100 }}
-              onClick={clear}
-            >
-              Clear
-            </Button>
+                <img
+                  src={roses}
+                  alt="Covering 3/4 page"
+                  className={styles.roses}
+                  style={{ width: "200px", height: "auto" }}
+                />
+                <img
+                  src={tulips}
+                  alt="Covering 3/4 page"
+                  className={styles.tulips}
+                  style={{ width: "200px", height: "auto" }}
+                />
+              </div>
+              <ToggleButtonGroup
+                color="primary"
+                value={typeFlower} // Use the state value here
+                exclusive
+                onChange={(
+                  _event: React.MouseEvent<HTMLElement>,
+                  newValue: string | null,
+                ) => {
+                  if (newValue !== null) {
+                    setTypeFlower(newValue); // Update state on change
+                  }
+                }}
+                aria-label="Sanitation Type Buttons"
+                sx={{ minWidth: 140 }}
+              >
+                <ToggleButton
+                  style={{
+                    color: "#10778c",
+                    outlineColor: "#949DB5",
+                    borderColor: "#949DB5",
+                    width: 200,
+                  }}
+                  value="Poppies"
+                >
+                  Poppies
+                </ToggleButton>
+                <ToggleButton
+                  style={{
+                    color: "#10778c",
+                    outlineColor: "#949DB5",
+                    borderColor: "#949DB5",
+                    width: 200,
+                  }}
+                  value="Roses"
+                >
+                  Roses
+                </ToggleButton>
+                <ToggleButton
+                  style={{
+                    color: "#10778c",
+                    outlineColor: "#949DB5",
+                    borderColor: "#949DB5",
+                    width: 200,
+                  }}
+                  value="Tulips"
+                >
+                  Tulips
+                </ToggleButton>
+              </ToggleButtonGroup>
+            </div>
 
-            <Button
-              style={{
-                backgroundColor: "#3B54A0",
-              }}
-              variant="contained"
-              sx={{ minWidth: 100 }}
-              onClick={submit}
+            <div>
+              <FormLabel
+                style={{
+                  color: "#3B54A0",
+                  fontStyle: "italic",
+                }}
+                id="demo-controlled-radio-buttons-group"
+              >
+                Enter Custom Message
+              </FormLabel>
+              <form>
+                <input
+                  type="text"
+                  style={{
+                    width: "518px", // Set the width to make it larger
+                    height: "60px", // Set the height to make it taller
+                    backgroundColor: "white", // Set the background color to white
+                    border: "1px solid #ccc", // Add a border for better visibility
+                    borderRadius: "5px", // Optional: Add rounded corners for aesthetics
+                    padding: "5px", // Optional: Add padding for better spacing
+                  }}
+                  value={customMessage}
+                  onChange={(e) => setCustomMessage(e.target.value)}
+                />
+              </form>
+            </div>
+
+            <div>
+              <InputLabel
+                style={{
+                  color: "#3B54A0",
+                  fontStyle: "italic",
+                }}
+                id="demo-simple-select-label"
+              >
+                Status
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={status}
+                label=""
+                onChange={handleStatusChange}
+                sx={{ minWidth: 518 }}
+              >
+                <MenuItem value={"unassigned"}>Unassigned</MenuItem>
+                <MenuItem value={"assigned"}>Assigned</MenuItem>
+                <MenuItem value={"in_progress"}>In Progress</MenuItem>
+                <MenuItem value={"closed"}>Closed</MenuItem>
+              </Select>
+            </div>
+            <br />
+
+            <Stack
+              spacing={3}
+              direction="row"
+              alignItems="center"
+              justifyContent="center"
             >
-              Submit
-            </Button>
+              <Button
+                style={{
+                  color: "#3B54A0",
+                  outlineColor: "#3B54A0",
+                  borderColor: "#3B54A0",
+                }}
+                variant="outlined"
+                sx={{ minWidth: 150, fontFamily: "Jaldi", fontSize: 20 }}
+                onClick={clear}
+              >
+                Clear
+              </Button>
+
+              <Button
+                style={{
+                  backgroundColor: "#3B54A0",
+                }}
+                variant="contained"
+                sx={{ minWidth: 150, fontFamily: "Jaldi", fontSize: 20 }}
+                onClick={submit}
+              >
+                Submit
+              </Button>
+            </Stack>
           </Stack>
-        </Stack>
-      </Paper>
-    </Grid>
+        </Paper>
+      </Grid>
+    </div>
   );
 };
 

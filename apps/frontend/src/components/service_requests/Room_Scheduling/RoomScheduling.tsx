@@ -16,7 +16,23 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
+import BackgroundImg2 from "../../assets/blue-background2.jpg";
+import Tooltip from "../../ToolTip";
 
+const tips = `
+Name of Requester: Type in the full name of the individual requesting the room reservation.
+
+Room: Select the room you wish to schedule from the dropdown menu. The dropdown should list available rooms or spaces.
+
+Priority: If required, choose the priority of your booking (e.g., high, medium, low). This may influence how the room scheduling is handled if there are conflicting requests.
+
+Status: This dropdown might be used to select the current status of the request, such as 'pending,' 'confirmed,' or 'cancelled.' If you’re just filling out the form for the first time, there may be a default setting or you may need to select 'pending.'
+
+Start Date: Click on the field to open a calendar view and select the date when you need the room. Ensure you enter the correct format if typing directly (mm/dd/yyyy).
+
+End Date: Similarly, select or enter the date when the reservation will end
+
+`;
 //Interface for positions
 interface Position {
   label: string;
@@ -25,24 +41,52 @@ interface Position {
   left: string;
 }
 
-//Interace for nodes
+//Interface for nodes
 interface Node {
   xcoord: string;
   ycoord: string;
   id: string;
   longName: string;
-  // Add other properties if needed
+}
+
+// Interface for Staff
+interface Staff {
+  employeeName: string;
 }
 
 export default function RoomScheduling() {
-  const [name, setName] = useState("");
+  const [staffName, setStaffName] = useState<Staff | null>(null);
   const [priority, setPriority] = useState("");
   const [location, setLocation] = useState<Position | null>(null);
   const [status, setStatus] = useState("");
   const [locations, setLocations] = useState<Position[]>([]);
+  const [staffNames, setStaffNames] = useState<Staff[]>([]);
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
   const navigate = useNavigate();
+
+  const toggleScrolling = (disableScroll: boolean) => {
+    if (disableScroll) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+  };
+
+  const handleChangeName = (value: Staff | null) => {
+    setStaffName(value);
+  };
+
+  const handlePriorityChange = (event: SelectChangeEvent) => {
+    setPriority(event.target.value as string);
+  };
+  const handleStatusChange = (event: SelectChangeEvent) => {
+    setStatus(event.target.value as string);
+  };
+
+  const handleChangeLocation = (value: Position | null) => {
+    setLocation(value);
+  };
 
   useEffect(() => {
     // Fetch node data from the backend
@@ -61,27 +105,21 @@ export default function RoomScheduling() {
       .catch((error) => console.error("Failed to fetch node data:", error));
   }, []);
 
-  const toggleScrolling = (disableScroll: boolean) => {
-    if (disableScroll) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
-  };
-
-  const handlePriorityChange = (event: SelectChangeEvent) => {
-    setPriority(event.target.value as string);
-  };
-  const handleStatusChange = (event: SelectChangeEvent) => {
-    setStatus(event.target.value as string);
-  };
-
-  const handleChangeLocation = (value: Position | null) => {
-    setLocation(value);
-  };
+  useEffect(() => {
+    // Fetch staff data from backend
+    fetch("/api/all-staff")
+      .then((response) => response.json())
+      .then((staffInfo: Staff[]) => {
+        const formattedStaff: Staff[] = staffInfo.map((staff) => ({
+          employeeName: staff.employeeName || "unknown",
+        }));
+        setStaffNames(formattedStaff);
+      })
+      .catch((error) => console.error("Failed to fetch staff data:", error));
+  }, []);
 
   function clear() {
-    setName("");
+    setStaffName(null);
     setPriority("");
     setLocation(null);
     setStatus("");
@@ -91,7 +129,7 @@ export default function RoomScheduling() {
 
   async function submit() {
     const roomRequestSent = {
-      name: name,
+      name: staffName?.employeeName,
       priority: priority,
       location: location?.label,
       status: status,
@@ -118,211 +156,258 @@ export default function RoomScheduling() {
   }
 
   return (
-    <Grid
-      container
-      spacing={5}
-      direction="column"
-      alignItems="center"
-      justifyContent="center"
-      my={4}
+    <div
+      style={{
+        backgroundImage: `url(${BackgroundImg2})`,
+        height: "100vh",
+        width: "100vw",
+        backgroundSize: "cover",
+        backgroundRepeat: "no-repeat",
+        minHeight: "100%",
+        backgroundPosition: "center center",
+        overflowX: "hidden",
+      }}
     >
-      <br />
-      <br />
-
-      <Paper elevation={4}>
+      <Grid
+        container
+        spacing={5}
+        direction="column"
+        alignItems="center"
+        justifyContent="center"
+        my={4}
+      >
         <br />
-        <p className={"title"}>Room Scheduling Request Form </p>
-        <p className={"names"}>Jeffrey Li and Nate Schneider</p>
+        <br />
 
-        <Stack alignItems="center" justifyContent="center" spacing={3} p={4}>
-          <div>
-            <InputLabel
-              style={{
-                color: "#3B54A0",
-              }}
-              id="demo-simple-select-label"
-            >
-              Name of Requester
-            </InputLabel>
-            <TextField
-              style={{
-                borderColor: "#3B54A0",
-                color: "#3B54A0",
-                accentColor: "#3B54A0",
-                borderBlockColor: "#3B54A0",
-              }}
-              id="outlined-controlled"
-              label=""
-              value={name}
-              onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                setName(event.target.value);
-              }}
-              sx={{ minWidth: 400 }}
+        <Paper elevation={4} style={{ padding: 20 }}>
+          <br />
+          <p className={"title"} style={{ position: "relative" }}>
+            Room Scheduling Request Form
+            <Tooltip
+              style={{ position: "absolute", right: "20px", top: 0 }}
+              tips={tips}
             />
-          </div>
+          </p>
+          <p className={"names"}>Jeffrey Li and Nate Schneider</p>
 
-          <div>
-            <InputLabel
-              style={{
-                color: "#3B54A0",
-              }}
-              id="location-dropdown"
+          <Stack alignItems="center" justifyContent="center" spacing={3} p={4}>
+            <div className={"breakline"}></div>
+            <br />
+            <Stack
+              spacing={2}
+              direction="row"
+              alignItems="center"
+              justifyContent="center"
             >
-              Room
-            </InputLabel>
-            <Autocomplete
-              sx={{ minWidth: 400, color: "#3B54A0" }}
-              options={locations}
-              getOptionLabel={(option) => option.label || "Unknown"}
-              isOptionEqualToValue={(option, value) => option.id === value.id}
-              value={location}
-              renderInput={(params) => (
+              <div>
+                <InputLabel
+                  style={{
+                    color: "#3B54A0",
+                    fontStyle: "italic",
+                  }}
+                  id="demo-simple-select-label"
+                >
+                  Name of Requester
+                </InputLabel>
+                <Autocomplete
+                  sx={{ minWidth: 250, color: "#3B54A0" }}
+                  options={staffNames}
+                  getOptionLabel={(option) => option.employeeName || "Unknown"}
+                  //isOptionEqualToValue={(option, value) => option.id === value.id}
+                  value={staffName}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label=""
+                      InputLabelProps={{
+                        style: {
+                          fontFamily: "Poppins",
+                          fontSize: 14,
+                          textAlign: "center",
+                        },
+                      }}
+                    />
+                  )}
+                  onOpen={() => toggleScrolling(true)}
+                  onClose={() => toggleScrolling(false)}
+                  onChange={(event, value) => handleChangeName(value)}
+                />
+              </div>
+
+              <div>
+                <InputLabel
+                  style={{
+                    color: "#3B54A0",
+                    fontStyle: "italic",
+                  }}
+                  id="location-dropdown"
+                >
+                  Room
+                </InputLabel>
+                <Autocomplete
+                  sx={{ minWidth: 250, color: "#3B54A0" }}
+                  options={locations}
+                  getOptionLabel={(option) => option.label || "Unknown"}
+                  isOptionEqualToValue={(option, value) =>
+                    option.id === value.id
+                  }
+                  value={location}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label=""
+                      InputLabelProps={{
+                        style: {
+                          fontFamily: "Poppins",
+                          fontSize: 14,
+                          textAlign: "center",
+                        },
+                      }}
+                    />
+                  )}
+                  onOpen={() => toggleScrolling(true)}
+                  onClose={() => toggleScrolling(false)}
+                  onChange={(event, value) => handleChangeLocation(value)}
+                />
+              </div>
+            </Stack>
+
+            <div>
+              <InputLabel
+                style={{
+                  color: "#3B54A0",
+                  fontStyle: "italic",
+                }}
+                id="priority-dropdown"
+              >
+                Priority
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={priority}
+                label=""
+                onChange={handlePriorityChange}
+                sx={{ minWidth: 518, color: "#3B54A0" }}
+              >
+                <MenuItem value={"Low"}>Low</MenuItem>
+                <MenuItem value={"Medium"}>Medium</MenuItem>
+                <MenuItem value={"High"}>High</MenuItem>
+                <MenuItem value={"Emergency"}>Emergency</MenuItem>
+              </Select>
+            </div>
+            <div>
+              <InputLabel
+                style={{
+                  color: "#3B54A0",
+                  fontStyle: "italic",
+                }}
+                id="demo-simple-select-label"
+              >
+                Status
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={status}
+                label=""
+                onChange={handleStatusChange}
+                sx={{ minWidth: 518 }}
+              >
+                <MenuItem value={"unassigned"}>Unassigned</MenuItem>
+                <MenuItem value={"assigned"}>Assigned</MenuItem>
+                <MenuItem value={"in_progress"}>In Progress</MenuItem>
+                <MenuItem value={"closed"}>Closed</MenuItem>
+              </Select>
+            </div>
+
+            <Stack
+              spacing={2}
+              direction="row"
+              alignItems="center"
+              justifyContent="center"
+            >
+              <div>
+                <InputLabel
+                  style={{
+                    color: "#3B54A0",
+                    fontStyle: "italic",
+                  }}
+                  id="demo-simple-select-label"
+                >
+                  Start Date
+                </InputLabel>
                 <TextField
-                  {...params}
-                  label=""
-                  InputLabelProps={{
-                    style: {
-                      fontFamily: "Poppins",
-                      fontSize: 14,
-                      textAlign: "center",
-                    },
+                  value={startTime}
+                  id="date"
+                  sx={{ minWidth: 20 }}
+                  type="datetime-local"
+                  className={styles.textBox}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                    setStartTime(e.target.value);
                   }}
                 />
-              )}
-              onOpen={() => toggleScrolling(true)}
-              onClose={() => toggleScrolling(false)}
-              onChange={(event, value) => handleChangeLocation(value)}
-            />
-          </div>
-          <div>
-            <InputLabel
-              style={{
-                color: "#3B54A0",
-              }}
-              id="priority-dropdown"
-            >
-              Priority
-            </InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={priority}
-              label=""
-              onChange={handlePriorityChange}
-              sx={{ minWidth: 400, color: "#3B54A0" }}
-            >
-              <MenuItem value={"Low"}>Low</MenuItem>
-              <MenuItem value={"Medium"}>Medium</MenuItem>
-              <MenuItem value={"High"}>High</MenuItem>
-              <MenuItem value={"Emergency"}>Emergency</MenuItem>
-            </Select>
-          </div>
-          <div>
-            <InputLabel
-              style={{
-                color: "#3B54A0",
-              }}
-              id="demo-simple-select-label"
-            >
-              Status
-            </InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={status}
-              label=""
-              onChange={handleStatusChange}
-              sx={{ minWidth: 400 }}
-            >
-              <MenuItem value={"unassigned"}>Unassigned</MenuItem>
-              <MenuItem value={"assigned"}>Assigned</MenuItem>
-              <MenuItem value={"in_progress"}>In Progress</MenuItem>
-              <MenuItem value={"closed"}>Closed</MenuItem>
-            </Select>
-          </div>
+              </div>
+              <div>
+                <InputLabel
+                  style={{
+                    color: "#3B54A0",
+                    fontStyle: "italic",
+                  }}
+                  id="demo-simple-select-label"
+                >
+                  End Date
+                </InputLabel>
+                <TextField
+                  value={endTime}
+                  sx={{ minWidth: 20 }}
+                  id="date"
+                  type="datetime-local"
+                  className={styles.textBox}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                    setEndTime(e.target.value);
+                  }}
+                />
+              </div>
+            </Stack>
 
-          <Stack
-            spacing={2}
-            direction="row"
-            alignItems="center"
-            justifyContent="center"
-          >
-            <div>
-              <InputLabel
+            <br />
+            <Stack
+              spacing={3}
+              direction="row"
+              alignItems="center"
+              justifyContent="center"
+            >
+              <Button
                 style={{
                   color: "#3B54A0",
+                  outlineColor: "#3B54A0",
+                  borderColor: "#3B54A0",
                 }}
-                id="demo-simple-select-label"
+                variant="outlined"
+                sx={{ minWidth: 150, fontFamily: "Jaldi", fontSize: 20 }}
+                onClick={clear}
               >
-                Start Date
-              </InputLabel>
-              <TextField
-                value={startTime}
-                id="date"
-                sx={{ minWidth: 20 }}
-                type="datetime-local"
-                className={styles.textBox}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                  setStartTime(e.target.value);
-                }}
-              />
-            </div>
-            <div>
-              <InputLabel
-                style={{
-                  color: "#3B54A0",
-                }}
-                id="demo-simple-select-label"
-              >
-                End Date
-              </InputLabel>
-              <TextField
-                value={endTime}
-                sx={{ minWidth: 20 }}
-                id="date"
-                type="datetime-local"
-                className={styles.textBox}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                  setEndTime(e.target.value);
-                }}
-              />
-            </div>
-          </Stack>
-          <Stack
-            spacing={2}
-            direction="row"
-            alignItems="center"
-            justifyContent="center"
-          >
-            <Button
-              style={{
-                color: "#3B54A0",
-                outlineColor: "#3B54A0",
-                borderColor: "#3B54A0",
-              }}
-              variant="outlined"
-              sx={{ minWidth: 100 }}
-              onClick={clear}
-            >
-              Clear
-            </Button>
+                Clear
+              </Button>
 
-            <Button
-              style={{
-                backgroundColor: "#3B54A0",
-              }}
-              variant="contained"
-              sx={{ minWidth: 100 }}
-              onClick={submit}
-            >
-              Submit
-            </Button>
+              <Button
+                style={{
+                  backgroundColor: "#3B54A0",
+                }}
+                variant="contained"
+                sx={{ minWidth: 150, fontFamily: "Jaldi", fontSize: 20 }}
+                onClick={submit}
+              >
+                Submit
+              </Button>
+            </Stack>
           </Stack>
-        </Stack>
-      </Paper>
-      <br />
-      <br />
-      <br />
-    </Grid>
+        </Paper>
+        <br />
+        <br />
+        <br />
+      </Grid>
+    </div>
   );
 }

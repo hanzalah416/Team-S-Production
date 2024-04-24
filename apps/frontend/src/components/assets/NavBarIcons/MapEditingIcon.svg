@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 1080 1080">
+    <g transform="matrix(1 0 0 1 381.81 484.32)"  >
+        <path style="stroke: rgb(0,0,0); stroke-width: 0; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1;" vector-effect="non-scaling-stroke"  transform=" translate(-480, 480)" d="M 600 -120 L 360 -204 L 174 -132 Q 154 -124 137 -136.5 Q 120 -149 120 -170 L 120 -730 Q 120 -743 127.5 -753 Q 135 -763 148 -768 L 360 -840 L 600 -756 L 786 -828 Q 806 -836 823 -823.5 Q 840 -811 840 -790 L 840 -230 Q 840 -217 832.5 -207 Q 825 -197 812 -192 L 600 -120 Z M 560 -218 L 560 -686 L 400 -742 L 400 -274 L 560 -218 Z M 640 -218 L 760 -258 L 760 -732 L 640 -686 L 640 -218 Z M 200 -228 L 320 -274 L 320 -742 L 200 -702 L 200 -228 Z M 640 -686 L 640 -218 L 640 -686 Z M 320 -742 L 320 -274 L 320 -742 Z" stroke-linecap="round" />
+    </g>
+    <g transform="matrix(0.63 0 0 0.63 831.39 813.99)"  >
+        <path style="stroke: rgb(0,0,0); stroke-width: 0; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1;" vector-effect="non-scaling-stroke"  transform=" translate(-480, 480)" d="M 200 -200 L 257 -200 L 648 -591 L 591 -648 L 200 -257 L 200 -200 Z M 120 -120 L 120 -290 L 648 -817 Q 660 -828 674.5 -834 Q 689 -840 705 -840 Q 721 -840 736 -834 Q 751 -828 762 -816 L 817 -760 Q 829 -749 834.5 -734 Q 840 -719 840 -704 Q 840 -688 834.5 -673.5 Q 829 -659 817 -647 L 290 -120 L 120 -120 Z M 760 -704 L 704 -760 L 760 -704 Z M 619 -619 L 591 -648 L 648 -591 L 619 -619 Z" stroke-linecap="round" />
+    </g>
+</svg>

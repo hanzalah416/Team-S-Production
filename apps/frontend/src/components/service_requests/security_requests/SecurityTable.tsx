@@ -30,7 +30,7 @@ export function SecurityDisplay(props: {
     };
   };
   onUpdateStatus: (newStatus: string) => void;
-})   {
+}) {
   const handleStatusChange = (event: SelectChangeEvent<string>) => {
     props.onUpdateStatus(event.target.value);
   };

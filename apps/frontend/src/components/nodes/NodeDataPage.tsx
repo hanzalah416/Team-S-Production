@@ -20,8 +20,11 @@ import TabPanel from "@mui/lab/TabPanel";
 import axios from "axios";
 import { Node } from "../../../../../packages/database";
 import { NodeEdge } from "../../../../../packages/database";
+import { Employees } from "../../../../../packages/database";
 import { parse } from "papaparse";
 //import { nodes } from "./common/nodes.ts"; // Import papaparse for CSV parsing
+
+const storageKey = "SelectedTab";
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -36,15 +39,13 @@ const VisuallyHiddenInput = styled("input")({
 });
 
 function convertToCSV(
-  nodes: Array<{ [key: string]: number | string }>,
+  csvRow: Array<{ [key: string]: number | string }>,
 ): string {
-  if (nodes.length === 0) {
+  if (csvRow.length === 0) {
     return "";
   }
-
-  const headers = Object.keys(nodes[0]).join(",") + "\n";
-
-  const rows = nodes
+  const headers = Object.keys(csvRow[0]).join(",") + "\n";
+  const rows = csvRow
     .map((node) =>
       Object.values(node)
         .map((value) => {
@@ -57,15 +58,15 @@ function convertToCSV(
         .join(","),
     )
     .join("\n");
-
   return headers + rows;
 }
 
-async function GetNodeDataFromClick() {
+async function GetDataFromClick(type: Type) {
   try {
-    const res = await axios.get("/api/csv");
+    console.log(`Trying to get data from "/api/${apiURL[type]}"`);
+    const res = await axios.get(`/api/${apiURL[type]}`);
     console.log(res.data);
-    console.log("successfully got data from get request");
+    console.log(`successfully got ${type} data from get request`);
 
     const csvString = convertToCSV(res.data); // Assuming res.data is of the type Array<{ [key: string]: number | string } you might need to change this>
     const blob = new Blob([csvString], { type: "text/csv;charset=utf-8;" });
@@ -73,97 +74,45 @@ async function GetNodeDataFromClick() {
 
     const a = document.createElement("a");
     a.href = downloadUrl;
-    a.download = "Nodes.csv";
+    a.download = `${type}.csv`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(downloadUrl);
   } catch (error) {
-    console.error("Error fetching or downloading CSV", error);
+    console.error(`Error fetching or downloading ${type} CSV`, error);
   }
 }
 
-async function GetEdgeDataFromClick() {
-  try {
-    const res = await axios.get("/api/nodeEdge");
-    console.log(res.data);
-    console.log("successfully got data from get request");
-
-    const csvString = convertToCSV(res.data); // Assuming res.data is of the type Array<{ [key: string]: number | string } you might need to change this>
-    const blob = new Blob([csvString], { type: "text/csv;charset=utf-8;" });
-    const downloadUrl = URL.createObjectURL(blob);
-
-    const a = document.createElement("a");
-    a.href = downloadUrl;
-    a.download = "Edge.csv";
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(downloadUrl);
-  } catch (error) {
-    console.error("Error fetching or downloading CSV", error);
-  }
-}
-
-//const [csvData, setCsvData] = useState<string[][]>([]);
 let csvData: string[][];
-//const [csvData, setCsvData] = useState<String[][]>([]);
 
-async function PostNodeData() {
+async function PostData(type: Type) {
   try {
-    await axios.post("/api/csv", csvData);
-    console.log("data sent");
+    //const url: string = apiURL.type;
+    await axios.post(`/api/${apiURL[type]}`, csvData);
+    console.log(`${type} data sent`);
   } catch (error) {
-    console.log("error with sending data");
+    console.log(`error with sending ${type} data`);
   }
 }
 
-async function PostEdgeData() {
-  try {
-    await axios.post("/api/nodeEdge", csvData);
-    console.log("data sent");
-  } catch (error) {
-    console.log("error with sending data");
-  }
+enum Type {
+  node = "node",
+  edge = "edge",
+  employee = "employee",
 }
-
-const handleFileUploadNode = (
-  event: React.ChangeEvent<HTMLInputElement>,
-): void => {
-  const file = event.target.files?.[0];
-  if (file) {
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      if (e.target) {
-        const text = e.target.result as string;
-        const result = parse(text, {
-          header: true,
-          dynamicTyping: true,
-          transform: (value, header) => {
-            if (header === "nodeID") {
-              return value !== undefined ? String(value) : ""; // Ensure nodeID is parsed as a string
-            }
-            return value;
-          },
-        });
-        if (result.data) {
-          // Log the parsed CSV data
-          csvData = result.data as string[][];
-          console.log("result.data:");
-          console.log(result.data);
-          console.log("csvData:");
-          console.log(csvData);
-          //console.log(convertCSVtoStringArrays(csvData));
-          PostNodeData().then();
-        }
-      }
-    };
-    reader.readAsText(file);
-  }
+interface StringStringKVP {
+  [key: string]: string;
+}
+const apiURL: StringStringKVP = {
+  [Type.node]: "csv",
+  [Type.edge]: "nodeEdge",
+  [Type.employee]: "employee-csv", //TBD
 };
 
-const handleFileUploadEdge = (
+const handleFileUpload = (
   event: React.ChangeEvent<HTMLInputElement>,
+  type: Type,
 ): void => {
   const file = event.target.files?.[0];
   if (file) {
@@ -175,64 +124,100 @@ const handleFileUploadEdge = (
           header: true,
           dynamicTyping: true,
           transform: (value, header) => {
-            if (header === "nodeID") {
-              return value !== undefined ? String(value) : ""; // Ensure nodeID is parsed as a string
+            if (type == "node") {
+              if (header === "nodeID") {
+                return value !== undefined ? String(value) : ""; // Ensure nodeID is parsed as a string
+              }
+              return value;
+            } else if (type == "edge") {
+              if (header === "edgeID") {
+                return value !== undefined ? String(value) : ""; // Ensure edgeID is parsed as a string
+              }
+              return value;
+            } else if (type == "employee") {
+              if (header === "employeeID") {
+                return value !== undefined ? String(value) : ""; // Ensure nodeID is parsed as a string
+              }
+              return value;
             }
-            return value;
           },
         });
         if (result.data) {
           // Log the parsed CSV data
           csvData = result.data as string[][];
+          let val: string;
+          result.data.forEach((row, index) => {
+            console.log(`${row} at ${index}`);
+            if (type == Type.employee) {
+              const thisRow = result.data[index] as Employees;
+              console.log(thisRow.employeeID);
+              val = thisRow.employeeID;
+            } else if (type == Type.node) {
+              const thisRow = result.data[index] as Node;
+              console.log(thisRow.nodeID);
+              val = thisRow.nodeID;
+            } else if (type == Type.edge) {
+              const thisRow = result.data[index] as NodeEdge;
+              console.log(thisRow.edgeID);
+              val = thisRow.edgeID;
+            }
+            if (val == null) {
+              csvData.splice(index, 1);
+            }
+          });
           console.log("result.data:");
           console.log(result.data);
           console.log("csvData:");
           console.log(csvData);
           //console.log(convertCSVtoStringArrays(csvData));
-          PostEdgeData().then();
+          PostData(type).then();
         }
       }
     };
     reader.readAsText(file);
   }
+  window.location.reload();
 };
 
 const NodeDataPage: React.FC = () => {
   const [nodeRows, setNodeRows] = useState<Node[]>([]);
   const [edgeRows, setEdgeRows] = useState<NodeEdge[]>([]);
+  const [employeeRows, setEmployeeRows] = useState<Employees[]>([]);
 
   useEffect(() => {
-    async function fetchNodeData() {
+    async function fetchData(type: Type) {
       try {
-        const nodeRes = await axios.get("/api/csv");
-        console.log("successfully got node data from get request:");
-        console.log(nodeRes.data);
-        setNodeRows(nodeRes.data);
-        //figure out how to handle setRows for Edge data
-      } catch (error) {
-        console.error("Error fetching node data", error);
-      }
-    }
-    async function fetchEdgeData() {
-      try {
-        const edgeRes = await axios.get("/api/nodeEdge");
-        console.log("successfully got Edge data from get request:");
-        console.log(edgeRes.data);
-        const edgeData: NodeEdge[] = edgeRes.data;
-        const filteredEdge = edgeData.filter((x) => x.startNode != null);
-        setEdgeRows(filteredEdge);
-        //figure out how to handle setRows for Edge data
+        const res = await axios.get(`/api/${apiURL[type]}`);
+        console.log(`successfully got ${type} data from get request:`);
+        console.log(res.data);
+        if (type == Type.edge) {
+          const edgeData: NodeEdge[] = res.data;
+          const filteredEdge = edgeData.filter((x) => x.startNode != null);
+          setEdgeRows(filteredEdge);
+        } else if (type == Type.node) {
+          setNodeRows(res.data);
+        } else if (type == Type.employee) {
+          setEmployeeRows(res.data);
+        }
       } catch (error) {
         console.error("Error fetching Edge data", error);
       }
     }
-    fetchNodeData().then(() => {
-      fetchEdgeData().then();
+
+    fetchData(Type.node).then(() => {
+      fetchData(Type.edge).then(() => {
+        fetchData(Type.employee).then();
+      });
     });
+    const storedValue = localStorage.getItem(storageKey);
+    if (storedValue) {
+      setValue(storedValue);
+    }
   }, []);
   const [value, setValue] = React.useState("1");
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
+    localStorage.setItem(storageKey, newValue);
   };
   return (
     <div className={styles.outerDiv}>
@@ -246,6 +231,7 @@ const NodeDataPage: React.FC = () => {
             >
               <Tab label="Nodes" value="1" />
               <Tab label="Edges" value="2" />
+              <Tab label="Employees" value="3" />
             </TabList>
           </Box>
           <TabPanel value="1" style={{ padding: 0 }}>
@@ -268,7 +254,7 @@ const NodeDataPage: React.FC = () => {
                 Upload Nodes
                 <VisuallyHiddenInput
                   type="file"
-                  onChange={handleFileUploadNode}
+                  onChange={(e) => handleFileUpload(e, Type.node)}
                 />
               </Button>
               <Button
@@ -285,7 +271,7 @@ const NodeDataPage: React.FC = () => {
                   fontSize: 14,
                   textAlign: "center",
                 }}
-                onClick={GetNodeDataFromClick}
+                onClick={() => GetDataFromClick(Type.node)}
               >
                 Download Nodes
               </Button>
@@ -344,7 +330,7 @@ const NodeDataPage: React.FC = () => {
                 Upload Edges
                 <VisuallyHiddenInput
                   type="file"
-                  onChange={handleFileUploadEdge}
+                  onChange={(e) => handleFileUpload(e, Type.edge)}
                 />
               </Button>
               <Button
@@ -361,7 +347,7 @@ const NodeDataPage: React.FC = () => {
                   fontSize: 14,
                   textAlign: "center",
                 }}
-                onClick={GetEdgeDataFromClick}
+                onClick={() => GetDataFromClick(Type.edge)}
               >
                 Download Edges
               </Button>
@@ -377,13 +363,71 @@ const NodeDataPage: React.FC = () => {
                 </TableHead>
                 <TableBody>
                   {edgeRows.map((row) => (
-                    <TableRow
-                    /*key={row.startnode}*/
-                    /* sx={{ "&:last-child td, &:last-child th": { border: 0 } }}*/
-                    >
+                    <TableRow>
                       <TableCell align="center">{row.edgeID}</TableCell>
                       <TableCell align="center">{row.startNode}</TableCell>
                       <TableCell align="center">{row.endNode}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </TabPanel>
+          <TabPanel value="3" style={{ padding: 0 }}>
+            <div className={styles.nodeCSV}>
+              <Button
+                className={styles.ufileButton}
+                component="label"
+                role={undefined}
+                variant="contained"
+                tabIndex={-1}
+                startIcon={<CloudUploadIcon />}
+                style={{
+                  marginRight: "5px",
+                  backgroundColor: "#003b9c",
+                  fontFamily: "Poppins",
+                  fontSize: 14,
+                  textAlign: "center",
+                }}
+              >
+                Upload Employees
+                <VisuallyHiddenInput
+                  type="file"
+                  onChange={(e) => handleFileUpload(e, Type.employee)}
+                />
+              </Button>
+              <Button
+                className={styles.dfileButton}
+                component="label"
+                role={undefined}
+                variant="contained"
+                tabIndex={-1}
+                startIcon={<CloudDownloadIcon />}
+                style={{
+                  marginLeft: "5px",
+                  backgroundColor: "#003b9c",
+                  fontFamily: "Poppins",
+                  fontSize: 14,
+                  textAlign: "center",
+                }}
+                onClick={() => GetDataFromClick(Type.employee)}
+              >
+                Download Employees
+              </Button>
+            </div>
+            <TableContainer component={Paper} style={{ marginTop: "25px" }}>
+              <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                <TableHead>
+                  <TableRow>
+                    <TableCell align="center">employeeID</TableCell>
+                    <TableCell align="center">employeeName</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {employeeRows.map((row) => (
+                    <TableRow>
+                      <TableCell align="center">{row.employeeID}</TableCell>
+                      <TableCell align="center">{row.employeeName}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>

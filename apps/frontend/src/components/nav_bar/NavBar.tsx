@@ -15,6 +15,13 @@ import sanitationIcon from "../assets/NavBarIcons/sanitation_icon.svg";
 import roomSchedulingIcon from "../assets/NavBarIcons/schedule_icon.svg";
 import languageIcon from "../assets/NavBarIcons/language_icon.svg";
 import dropDownIcon from "../assets/NavBarIcons/drop_down.svg";
+import creditIcon from "../assets/NavBarIcons/credit_menu.svg";
+import transportIcon from "../assets/NavBarIcons/InternalTransportIcon.svg";
+import mapEditingIcon from "../assets/NavBarIcons/MapEditingIcon.svg";
+import dbIcon from "../assets/NavBarIcons/dbIcon.svg";
+import giftIcon from "../assets/NavBarIcons/gift_icon.svg";
+import aboutIcon from "../assets/NavBarIcons/about.svg";
+import { useNavigate } from "react-router-dom";
 import { LoginButton } from "../LoginButton.tsx";
 import { LogoutButton } from "../LogoutButton.tsx";
 import { createTheme, FormControl, ThemeProvider } from "@mui/material";
@@ -63,6 +70,9 @@ function NavBar() {
   const mapID = document.getElementById("mapID");
   const requestsID = document.getElementById("requestsID");
   const servicesID = document.getElementById("servicesID");
+  const creditsID = document.getElementById("creditsID");
+  const aboutID = document.getElementById("aboutID");
+  const [backdropVisible, setBackdropVisible] = React.useState(false);
 
   const [username, setUsername] = React.useState("USERNAME");
 
@@ -71,9 +81,16 @@ function NavBar() {
   };
 
   const { isAuthenticated, user } = useAuth0();
-
+  const navigate = useNavigate();
   const handleClose = () => {
     setAnchorEl(null);
+    if (backdropVisible) {
+      onBackDropItemClick();
+    }
+  };
+
+  const toHero = () => {
+    navigate("/");
   };
 
   const setServicesID = useCallback(() => {
@@ -83,10 +100,16 @@ function NavBar() {
     if (mapID) {
       mapID.classList.remove("currItem");
     }
+    if (creditsID) {
+      creditsID.classList.remove("currItem");
+    }
+    if (aboutID) {
+      aboutID.classList.remove("currItem");
+    }
     if (requestsID) {
       requestsID.classList.remove("currItem");
     }
-  }, [servicesID, mapID, requestsID]);
+  }, [servicesID, mapID, requestsID, creditsID, aboutID]);
 
   const setMapID = useCallback(() => {
     if (servicesID) {
@@ -95,10 +118,16 @@ function NavBar() {
     if (mapID) {
       mapID.classList.add("currItem");
     }
+    if (creditsID) {
+      creditsID.classList.remove("currItem");
+    }
+    if (aboutID) {
+      aboutID.classList.remove("currItem");
+    }
     if (requestsID) {
       requestsID.classList.remove("currItem");
     }
-  }, [servicesID, mapID, requestsID]);
+  }, [servicesID, mapID, requestsID, creditsID, aboutID]);
 
   const setRequestsID = useCallback(() => {
     if (servicesID) {
@@ -107,10 +136,56 @@ function NavBar() {
     if (mapID) {
       mapID.classList.remove("currItem");
     }
+    if (creditsID) {
+      creditsID.classList.remove("currItem");
+    }
+    if (aboutID) {
+      aboutID.classList.remove("currItem");
+    }
     if (requestsID) {
       requestsID.classList.add("currItem");
     }
-  }, [servicesID, mapID, requestsID]);
+  }, [servicesID, mapID, requestsID, creditsID, aboutID]);
+
+  const setCreditsID = useCallback(() => {
+    if (servicesID) {
+      servicesID.classList.remove("currItem");
+    }
+    if (mapID) {
+      mapID.classList.remove("currItem");
+    }
+    if (requestsID) {
+      requestsID.classList.remove("currItem");
+    }
+    if (creditsID) {
+      console.log("make bold");
+      creditsID.classList.add("currItem");
+    }
+    if (aboutID) {
+      console.log("make bold");
+      aboutID.classList.remove("currItem");
+    }
+  }, [servicesID, mapID, requestsID, creditsID, aboutID]);
+
+  const setAboutID = useCallback(() => {
+    if (servicesID) {
+      servicesID.classList.remove("currItem");
+    }
+    if (mapID) {
+      mapID.classList.remove("currItem");
+    }
+    if (requestsID) {
+      requestsID.classList.remove("currItem");
+    }
+    if (creditsID) {
+      console.log("make bold");
+      creditsID.classList.remove("currItem");
+    }
+    if (aboutID) {
+      console.log("make bold");
+      aboutID.classList.add("currItem");
+    }
+  }, [servicesID, mapID, requestsID, creditsID, aboutID]);
 
   useEffect(() => {
     const hours = today.getHours();
@@ -152,16 +227,43 @@ function NavBar() {
         setServIcon(languageIcon);
         setServicesID();
         break;
+      case "/transport-request":
+        setServIcon(transportIcon);
+        setServicesID();
+        break;
+      case "/map-debug":
+        setServIcon(mapEditingIcon);
+        setServicesID();
+        break;
+      case "/node-data":
+        setServIcon(dbIcon);
+        setServicesID();
+        break;
       case "/all-service-requests":
         setRequestsID();
         break;
-      case "/welcome":
+      case "/floor-map":
         setMapID();
+        break;
+      case "/credit-page":
+        console.log("credit page");
+        setCreditsID();
+        break;
+      case "/about-page":
+        console.log("about page");
+        setAboutID();
         break;
       default:
         setServIcon(homePinIcon);
     }
-  }, [location, setServicesID, setMapID, setRequestsID]);
+  }, [
+    location,
+    setServicesID,
+    setMapID,
+    setRequestsID,
+    setCreditsID,
+    setAboutID,
+  ]);
 
   useEffect(() => {
     if (user) {
@@ -171,6 +273,30 @@ function NavBar() {
       }
     }
   }, [user]);
+
+  const onBackDropClick = () => {
+    if (!backdropVisible) {
+      document.documentElement.style.setProperty(
+        `--${"backdropwidth"}`,
+        0 + "vw",
+      );
+      setBackdropVisible(true);
+    } else if (backdropVisible) {
+      document.documentElement.style.setProperty(
+        `--${"backdropwidth"}`,
+        100 + "vw",
+      );
+      setBackdropVisible(false);
+    }
+  };
+
+  const onBackDropItemClick = () => {
+    document.documentElement.style.setProperty(
+      `--${"backdropwidth"}`,
+      100 + "vw",
+    );
+    setBackdropVisible(false);
+  };
 
   return (
     <div className="navbar">
@@ -183,12 +309,30 @@ function NavBar() {
             "Brigham and Women's Hospital logo, reading " +
             "'Founding member, Mass General Brigham'"
           }
+          onClick={toHero}
         />
-        <p className={"time"}>{timeOfDay}</p>
+
+        <p className={"time"} onClick={toHero}>
+          {timeOfDay}{" "}
+        </p>
       </div>
-      {isAuthenticated && (
-        <div className={"navButtons"}>
-          <Link to={"/"} id={"map"}>
+
+      <div className={"navButtons"}>
+        <Link to={"/about-page"} id={"order"}>
+          <Button className={"alignIcons"} onClick={onBackDropItemClick}>
+            <img
+              src={aboutIcon}
+              className={"iconHeight"}
+              width={"38px"}
+              alt={"About Icon"}
+            />
+            <p id={"aboutID"} className={"itemNames"}>
+              About
+            </p>
+          </Button>
+        </Link>
+        {isAuthenticated && (
+          <Link to={"/floor-map"} id={"map"}>
             <Button className={"alignIcons"}>
               <img src={mapIcon} className={"iconHeight"} alt={"map_icon"} />
               <p id={"mapID"} className={"itemNames"}>
@@ -197,22 +341,25 @@ function NavBar() {
               </p>
             </Button>
           </Link>
-          {username === "admind24x" && (
-            <FormControl>
-              <Link to={"/all-service-requests"} id={"order"}>
-                <Button className={"alignIcons"}>
-                  <img
-                    src={patientListIcon}
-                    className={"iconHeight"}
-                    width={"38px"}
-                  />
-                  <p id={"requestsID"} className={"itemNames"}>
-                    All Requests
-                  </p>
-                </Button>
-              </Link>
-            </FormControl>
-          )}
+        )}
+        {username === "admind24s" && (
+          <FormControl>
+            <Link to={"/all-service-requests"} id={"order"}>
+              <Button className={"alignIcons"}>
+                <img
+                  src={patientListIcon}
+                  className={"iconHeight"}
+                  width={"38px"}
+                  alt={"PatientListIcon"}
+                />
+                <p id={"requestsID"} className={"itemNames"}>
+                  All Requests
+                </p>
+              </Button>
+            </Link>
+          </FormControl>
+        )}
+        {isAuthenticated && (
           <div>
             <Button
               id="services-button"
@@ -226,12 +373,13 @@ function NavBar() {
                   src={currServIcon}
                   className={"iconHeight"}
                   width={"29px"}
+                  alt={"currServIcon"}
                 />
                 <p id={"servicesID"} className={"itemNames"}>
                   Services
                 </p>
               </div>
-              <img src={dropDownIcon} />
+              <img src={dropDownIcon} alt={"dropDownIcon"} />
             </Button>
             <Menu
               id="services-menu"
@@ -244,43 +392,133 @@ function NavBar() {
             >
               <Link to={"/order-flowers"} id={"order"}>
                 <MenuItem onClick={handleClose}>
+                  <img
+                    src={flowerIcon}
+                    className={"iconHeight"}
+                    width={"38px"}
+                    alt={"Flower Icon"}
+                  />
                   <p className={"item"}>Order Flowers</p>
+                </MenuItem>
+              </Link>
+
+              <Link to={"/gift-request"} id={"order"}>
+                <MenuItem onClick={handleClose}>
+                  <img
+                    src={giftIcon}
+                    className={"iconHeight"}
+                    width={"38px"}
+                    alt={"Gift Icon"}
+                  />
+                  <p className={"item"}>Gift Requests</p>
                 </MenuItem>
               </Link>
               <Link to={"/medicine-delivery-request"} id={"order"}>
                 <MenuItem onClick={handleClose}>
+                  <img
+                    src={medicineIcon}
+                    className={"iconHeight"}
+                    width={"38px"}
+                    alt={"Medicine Icon"}
+                  />
                   <p className={"item"}>Medical Delivery</p>
                 </MenuItem>
               </Link>
               <Link to={"/sanitation-request"} id={"order"}>
                 <MenuItem onClick={handleClose}>
+                  <img
+                    src={sanitationIcon}
+                    className={"iconHeight"}
+                    width={"38px"}
+                    alt={"Sanitation Icon"}
+                  />
                   <p className={"item"}>Sanitation Services</p>
                 </MenuItem>
               </Link>
               <Link to={"/security-request"} id={"order"}>
                 <MenuItem onClick={handleClose}>
+                  <img
+                    src={securityIcon}
+                    className={"iconHeight"}
+                    width={"38px"}
+                    alt={"Security Icon"}
+                  />
                   <p className={"item"}>Security Requests</p>
                 </MenuItem>
               </Link>
               <Link to={"/room-scheduling"} id={"order"}>
                 <MenuItem onClick={handleClose}>
+                  <img
+                    src={roomSchedulingIcon}
+                    className={"iconHeight"}
+                    width={"38px"}
+                    alt={"Room Scheduling Icon"}
+                  />
                   <p className={"item"}>Room Scheduling</p>
                 </MenuItem>
               </Link>
               <Link to={"/language-request"} id={"order"}>
                 <MenuItem onClick={handleClose}>
+                  <img
+                    src={languageIcon}
+                    className={"iconHeight"}
+                    width={"38px"}
+                    alt={"Language Icon"}
+                  />
                   <p className={"item"}>Language Request</p>
+                </MenuItem>
+              </Link>
+              <Link to={"/transport-request"} id={"order"}>
+                <MenuItem onClick={handleClose}>
+                  <img
+                    src={transportIcon}
+                    className={"iconHeight"}
+                    width={"38px"}
+                    alt={"Transport Icon"}
+                  />
+                  <p className={"item"}>Transportation Request</p>
                 </MenuItem>
               </Link>
               <Link to={"/map-debug"} id={"order"}>
                 <MenuItem onClick={handleClose}>
+                  <img
+                    src={mapEditingIcon}
+                    className={"iconHeight"}
+                    width={"38px"}
+                    alt={"Map Editing Icon"}
+                  />
                   <p className={"item"}>Map Editing Page</p>
+                </MenuItem>
+              </Link>
+              <Link to={"/node-data"} id={"order"}>
+                <MenuItem onClick={handleClose}>
+                  <img
+                    src={dbIcon}
+                    className={"iconHeight"}
+                    width={"38px"}
+                    alt={"DB Icon"}
+                  />
+                  <p className={"item"}>Manage Database</p>
                 </MenuItem>
               </Link>
             </Menu>
           </div>
-        </div>
-      )}
+        )}
+
+        <Link to={"/credit-page"} id={"order"}>
+          <Button className={"alignIcons"} onClick={onBackDropItemClick}>
+            <img
+              src={creditIcon}
+              className={"iconHeight"}
+              width={"38px"}
+              alt={"Credit Icon"}
+            />
+            <p id={"creditsID"} className={"itemNames"}>
+              Credits
+            </p>
+          </Button>
+        </Link>
+      </div>
       <div className={"rightSide"}>
         {isAuthenticated && <p className={"username"}>{username}</p>}
         <FormControl>
@@ -290,6 +528,128 @@ function NavBar() {
           </ThemeProvider>
         </FormControl>
       </div>
+      <div className={"dropDownButton"}>
+        <Button onClick={onBackDropClick}>
+          <div className={"navDrop"}>
+            <img src={creditIcon} className={"iconHeight"} width={"38px"} />
+          </div>
+        </Button>
+      </div>
+      <div className={"buttonsInDropDown"}>
+        <div className={"itemDropDown"}>
+          <Link to={"/about-page"} id={"order"}>
+            <Button
+              className={"alignIconsDropDown"}
+              onClick={onBackDropItemClick}
+            >
+              <p id={"aboutID"} className={"itemNames"}>
+                About
+              </p>
+              <img
+                src={aboutIcon}
+                className={"iconHeight"}
+                width={"38px"}
+                alt={"About icon"}
+              />
+            </Button>
+          </Link>
+
+          <Link to={"/"} id={"map"}>
+            <Button
+              className={"alignIconsDropDown"}
+              onClick={onBackDropItemClick}
+            >
+              <p id={"mapID"} className={"itemNames"}>
+                Our Map
+              </p>
+              <img src={mapIcon} className={"iconHeight"} alt={"map_icon"} />
+            </Button>
+          </Link>
+        </div>
+        <div className={"itemDropDown"}>
+          <Link to={"/all-service-requests"} id={"order"}>
+            <Button
+              className={"alignIconsDropDown"}
+              onClick={onBackDropItemClick}
+            >
+              <p id={"requestsID"} className={"itemNames"}>
+                All Requests
+              </p>
+              <img
+                src={patientListIcon}
+                className={"iconHeight"}
+                width={"38px"}
+                alt={"Patient List Icon"}
+              />
+            </Button>
+          </Link>
+        </div>
+        <div className={"itemDropDown"}>
+          <Button
+            id="services-button"
+            aria-controls={open ? "services-menu" : undefined}
+            aria-haspopup="true"
+            aria-expanded={open ? "true" : undefined}
+            className={"alignIconsDropDown"}
+            onClick={handleClick}
+          >
+            <img src={dropDownIcon} alt={"drop down icon"} />
+            <div className={"alignIconsDropDown"}>
+              <p id={"servicesID"} className={"itemNames"}>
+                Services
+              </p>
+              <img
+                src={currServIcon}
+                className={"iconHeight"}
+                width={"29px"}
+                alt={"curr serv icon"}
+              />
+            </div>
+          </Button>
+        </div>
+        <div className={"itemDropDown"}>
+          <Link to={"/credit-page"} id={"order"}>
+            <Button
+              className={"alignIconsDropDown"}
+              onClick={onBackDropItemClick}
+            >
+              <p id={"creditsID"} className={"itemNames"}>
+                Credits
+              </p>
+              <img
+                src={creditIcon}
+                className={"iconHeight"}
+                width={"38px"}
+                alt={"credit icon"}
+              />
+            </Button>
+          </Link>
+
+          <Link to={"/about-page"} id={"order"}>
+            <Button
+              className={"alignIconsDropDown"}
+              onClick={onBackDropItemClick}
+            >
+              <p id={"creditsID"} className={"itemNames"}>
+                About
+              </p>
+              <img
+                src={creditIcon}
+                className={"iconHeight"}
+                width={"38px"}
+                alt={"credit icon"}
+              />
+            </Button>
+          </Link>
+        </div>
+        <div className={"itemDropDown"}>
+          <ThemeProvider theme={theme}>
+            {!isAuthenticated && <LoginButton />}
+            {isAuthenticated && <LogoutButton />}
+          </ThemeProvider>
+        </div>
+      </div>
+      <div id={"backDropID"} className={"dropDownBackDrop"} />
       <div className={"blueBar"} />
     </div>
   );

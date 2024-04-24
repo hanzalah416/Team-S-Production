@@ -65,10 +65,10 @@ export function FlowerRequestDisplay(props: {
         </Select>
       </StyledTableCell>
       <StyledTableCell align="center">
-          {props.FlowerRequestForm.FlowerRequests.typeFlower}
+        {props.FlowerRequestForm.FlowerRequests.typeFlower}
       </StyledTableCell>
       <StyledTableCell align="center">
-          {props.FlowerRequestForm.FlowerRequests.customMessage}
+        {props.FlowerRequestForm.FlowerRequests.customMessage}
       </StyledTableCell>
     </TableRow>
   );

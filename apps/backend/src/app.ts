@@ -3,6 +3,7 @@ import express, { Express, NextFunction, Request, Response } from "express";
 import cookieParser from "cookie-parser";
 import logger from "morgan";
 import flowerRequestRouter from "./routes/flowerRequest.ts";
+import giftRequestRouter from "./routes/giftRequest.ts";
 import PrismaClient from "./bin/database-connection.ts";
 import seed from "./seed.ts";
 import logInRouter from "./routes/newAccount.ts";
@@ -20,7 +21,14 @@ import sanitationRouter from "./routes/saniationRoute.ts";
 import roomSchedulingRouter from "./routes/roomScheduling.ts";
 import textPathRouter from "./routes/textPathRouter.ts";
 import MedsForAutofillRouter from "./routes/MedsForAutofillRoutes.ts";
+import ReturnClosestRouter from "./routes/ReturnClosestRouter.ts";
+import ElevatorIdRouter from "./routes/elevatorRoutes.ts";
+import transportRequestRouter from "./routes/transportRequest.ts";
 import { auth } from "express-oauth2-jwt-bearer";
+import allStaffRouter from "./routes/getAllStaff.ts";
+import awsRouter from "./routes/awsRouter.ts";
+
+import employeeCSVRouter from "./routes/csvEmployees.ts";
 
 // import allEdgesRouter from "./routes/getAllEdgesData.ts";
 // import allNodeRouter from "./routes/getAllNodeData.ts";
@@ -49,6 +57,7 @@ app.use(cookieParser()); // Cookie parser
 // Setup routers. ALL ROUTERS MUST use /api as a start point, or they
 // won't be reached by the default proxy and prod setup
 app.use("/api/flower-request", flowerRequestRouter);
+app.use("/api/gift-request", giftRequestRouter);
 app.use("/api/sanitation-request", sanitationRouter);
 // app.use("/api/log-in", logInRouter);
 app.use("/api/nodeEdge", nodeEdgeRouter);
@@ -60,12 +69,18 @@ app.use("/api/edges", allEdgeRouter);
 app.use("/api/medicine-request", medicineRouter);
 app.use("/api/all-requests", allRequests);
 app.use("/api/meds-autofill", MedsForAutofillRouter);
+app.use("/api/transport-request", transportRequestRouter);
+app.use("/api/employee-csv", employeeCSVRouter);
 // app.use("/api/all-node-data", allNodeRouter);
 // app.use("/api/all-edges-data", allEdgesRouter);
 app.use("/api/security-request", securityRouter);
 app.use("/api/room-scheduling", roomSchedulingRouter);
 app.use("/api/pathToText", textPathRouter);
 app.use("/api/language-request", languageRouter);
+app.use("/api/all-staff", allStaffRouter);
+app.use("/api/returnClosest", ReturnClosestRouter);
+app.use("/api/elevatorNodes", ElevatorIdRouter);
+app.use("/api/subscribe-email", awsRouter);
 
 app.use("/healthcheck", (req, res) => {
   res.status(200).send();

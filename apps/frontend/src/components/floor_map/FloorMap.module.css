@@ -53,12 +53,18 @@ body {
   /* Adjust this value as needed to control the distance from the top */
 }
 
+.tips {
+  position: absolute;
+  right: 14px;
+  top: 14px;
+  color: #1a1a1a;
+}
+
 .floorButtonsContainer {
   /* hide scrollbar but allow scrolling */
   /* Hide scrollbar in IE/Edge */
-  * {
-    -ms-overflow-style: none;
-  }
+
+  -ms-overflow-style: none;
 
   /* WebKit (Chrome, Safari, etc.) */
   ::-webkit-scrollbar {
@@ -274,7 +280,7 @@ body {
   display: flex;
   color: black;
   align-items: center; /* Center the contents vertically */
-  justify-content: start; /* Aligns the switch to the start */
+  justify-content: flex-start; /* Aligns the switch to the start */
   padding-left: 20px; /* Adds some padding on the left */
   width: 100%; /* Full width of the container */
   /* Center the switch horizontally */
@@ -328,7 +334,7 @@ body {
 }
 
 .ShowMapKey {
-  bottom: 20px; /* To be placed 20px from bottom once triggered */
+  bottom: 200px; /* To be placed 200px from bottom once triggered */
 }
 
 .Select {
@@ -340,4 +346,25 @@ body {
   max-height: 400px;
   overflow-y: auto;
   overflow-x: hidden;
+}
+
+.floorVoiceSettingContainer {
+  max-height: 200px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.keyButton {
+  all: unset;
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  padding: -1px;
+}
+
+.keyButtonText {
+  all: unset;
+  cursor: pointer;
+  height: 30px;
+  padding: -1px;
 }

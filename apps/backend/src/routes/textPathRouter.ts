@@ -1,5 +1,5 @@
 import express, { Router, Request, Response } from "express";
-import MakeGraph, { GraphNode } from "../makegraph";
+import MakeGraph from "../makegraph";
 import client from "../bin/database-connection.ts";
 import { Node } from "database";
 import { NodeEdge } from "database";
@@ -9,7 +9,10 @@ const router: Router = express.Router();
 
 router.post("/", async function (req: Request, res: Response) {
   try {
-    const graph = new MakeGraph();
+    // Extract startNode, endNode, and algorithm from the request body
+    const { startNode, endNode, algorithm } = req.body;
+
+    const graph = new MakeGraph(algorithm);
 
     // Get data from the database to for node and edge variables
     const nodes = await client.node.findMany();
@@ -23,8 +26,7 @@ router.post("/", async function (req: Request, res: Response) {
       graph.addEdge(edge);
     });
 
-    // Extract startNode, endNode, and algorithm from the request body
-    const { startNode, endNode, algorithm } = req.body;
+    /*
     console.log(
       "Received start and end nodes:",
       startNode,
@@ -33,23 +35,9 @@ router.post("/", async function (req: Request, res: Response) {
       algorithm,
     );
 
-    let path: GraphNode[] = [];
-    switch (algorithm) {
-      case "dijkstra":
-        path = graph.Dijsktra(startNode, endNode);
-        break;
-      case "bfs":
-        path = graph.BFS(startNode, endNode);
-        break;
-      case "dfs":
-        path = graph.DFS(startNode, endNode);
-        break;
-      case "astar":
-        path = graph.AStar(startNode, endNode);
-        break;
-      default:
-        console.error("Unsupported pathfinding algorithm");
-    }
+     */
+
+    const path = graph.findPath(startNode, endNode);
 
     const textDirectionsRaw = PathToText(path.reverse());
     const textDirectionsFilteredJSON = JSON.stringify(
