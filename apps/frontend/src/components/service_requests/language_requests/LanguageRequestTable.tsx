@@ -36,8 +36,12 @@ export function LangRequestDisplay(props: {
 
   return (
     <TableRow>
-      <StyledTableCell align="center">{props.langRequestForm.requestID}</StyledTableCell>
-      <StyledTableCell align="center">{props.langRequestForm.name}</StyledTableCell>
+      <StyledTableCell align="center">
+        {props.langRequestForm.requestID}
+      </StyledTableCell>
+      <StyledTableCell align="center">
+        {props.langRequestForm.name}
+      </StyledTableCell>
       <StyledTableCell align="center">
         {props.langRequestForm.priority}
       </StyledTableCell>

@@ -32,8 +32,12 @@ export function ServiceRequestDisplay(props: {
 
   return (
     <TableRow>
-      <StyledTableCell align="center">{props.allRequestForm.requestID}</StyledTableCell>
-      <StyledTableCell align="center">{props.allRequestForm.name}</StyledTableCell>
+      <StyledTableCell align="center">
+        {props.allRequestForm.requestID}
+      </StyledTableCell>
+      <StyledTableCell align="center">
+        {props.allRequestForm.name}
+      </StyledTableCell>
       <StyledTableCell align="center">
         {props.allRequestForm.priority}
       </StyledTableCell>

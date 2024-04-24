@@ -63,30 +63,30 @@ export function ServiceRequestGetter() {
   );
 
   return (
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 700 }} aria-label="customized table">
-          <TableHead>
-            <TableRow>
-              <StyledTableCell>Request ID</StyledTableCell>
-              <StyledTableCell align="center">Requester's Name</StyledTableCell>
-              <StyledTableCell align="center">Priority</StyledTableCell>
-              <StyledTableCell align="center">Location</StyledTableCell>
-              <StyledTableCell align="center">Type of Request</StyledTableCell>
-              <StyledTableCell align="center">Status</StyledTableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {sortedAllRequestData.map((allRequestForm) => (
-              <ServiceRequestDisplay
-                key={allRequestForm.requestID}
-                allRequestForm={allRequestForm}
-                onUpdateStatus={(newStatus) =>
-                  updateAllRequestStatus(allRequestForm.requestID, newStatus)
-                }
-              />
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+    <TableContainer component={Paper}>
+      <Table sx={{ minWidth: 700 }} aria-label="customized table">
+        <TableHead>
+          <TableRow>
+            <StyledTableCell>Request ID</StyledTableCell>
+            <StyledTableCell align="center">Requester's Name</StyledTableCell>
+            <StyledTableCell align="center">Priority</StyledTableCell>
+            <StyledTableCell align="center">Location</StyledTableCell>
+            <StyledTableCell align="center">Type of Request</StyledTableCell>
+            <StyledTableCell align="center">Status</StyledTableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {sortedAllRequestData.map((allRequestForm) => (
+            <ServiceRequestDisplay
+              key={allRequestForm.requestID}
+              allRequestForm={allRequestForm}
+              onUpdateStatus={(newStatus) =>
+                updateAllRequestStatus(allRequestForm.requestID, newStatus)
+              }
+            />
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
   );
 }
