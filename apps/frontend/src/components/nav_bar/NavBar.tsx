@@ -69,7 +69,7 @@ function NavBar() {
   const requestsID = document.getElementById("requestsID");
   const servicesID = document.getElementById("servicesID");
   const creditsID = document.getElementById("creditsID");
-
+    const aboutID = document.getElementById("aboutID");
   const [backdropVisible, setBackdropVisible] = React.useState(false);
 
   const [username, setUsername] = React.useState("USERNAME");
@@ -97,10 +97,13 @@ function NavBar() {
     if (creditsID) {
       creditsID.classList.remove("currItem");
     }
+      if (aboutID) {
+          aboutID.classList.remove("currItem");
+      }
     if (requestsID) {
       requestsID.classList.remove("currItem");
     }
-  }, [servicesID, mapID, requestsID, creditsID]);
+  }, [servicesID, mapID, requestsID, creditsID, aboutID]);
 
   const setMapID = useCallback(() => {
     if (servicesID) {
@@ -112,10 +115,13 @@ function NavBar() {
     if (creditsID) {
       creditsID.classList.remove("currItem");
     }
+      if (aboutID) {
+          aboutID.classList.remove("currItem");
+      }
     if (requestsID) {
       requestsID.classList.remove("currItem");
     }
-  }, [servicesID, mapID, requestsID, creditsID]);
+  }, [servicesID, mapID, requestsID, creditsID, aboutID]);
 
   const setRequestsID = useCallback(() => {
     if (servicesID) {
@@ -127,10 +133,13 @@ function NavBar() {
     if (creditsID) {
       creditsID.classList.remove("currItem");
     }
+      if (aboutID) {
+          aboutID.classList.remove("currItem");
+      }
     if (requestsID) {
       requestsID.classList.add("currItem");
     }
-  }, [servicesID, mapID, requestsID, creditsID]);
+  }, [servicesID, mapID, requestsID, creditsID, aboutID]);
 
   const setCreditsID = useCallback(() => {
     if (servicesID) {
@@ -146,7 +155,33 @@ function NavBar() {
       console.log("make bold");
       creditsID.classList.add("currItem");
     }
-  }, [servicesID, mapID, requestsID, creditsID]);
+      if (aboutID) {
+          console.log("make bold");
+         aboutID.classList.remove("currItem");
+      }
+
+  }, [servicesID, mapID, requestsID, creditsID, aboutID]);
+
+    const setAboutID = useCallback(() => {
+        if (servicesID) {
+            servicesID.classList.remove("currItem");
+        }
+        if (mapID) {
+            mapID.classList.remove("currItem");
+        }
+        if (requestsID) {
+            requestsID.classList.remove("currItem");
+        }
+        if (creditsID) {
+            console.log("make bold");
+            creditsID.classList.remove("currItem");
+        }
+        if (aboutID) {
+            console.log("make bold");
+            aboutID.classList.add("currItem");
+        }
+
+    }, [servicesID, mapID, requestsID, creditsID, aboutID]);
 
   useEffect(() => {
     const hours = today.getHours();
@@ -203,17 +238,21 @@ function NavBar() {
       case "/all-service-requests":
         setRequestsID();
         break;
-      case "/":
+      case "/floor-map":
         setMapID();
         break;
       case "/credit-page":
         console.log("credit page");
         setCreditsID();
         break;
+        case "/about-page":
+            console.log("about page");
+            setAboutID();
+            break;
       default:
         setServIcon(homePinIcon);
     }
-  }, [location, setServicesID, setMapID, setRequestsID, setCreditsID]);
+  }, [location, setServicesID, setMapID, setRequestsID, setCreditsID, setAboutID]);
 
   useEffect(() => {
     if (user) {
@@ -261,8 +300,24 @@ function NavBar() {
           }
         />
         <p className={"time"}>{timeOfDay}</p>
+
       </div>
+
       <div className={"navButtons"}>
+          <Link to={"/about-page"} id={"order"}>
+              <Button className={"alignIcons"} onClick={onBackDropItemClick}>
+                  <img
+                      src={aboutIcon}
+                      className={"iconHeight"}
+                      width={"38px"}
+                      alt={"About Icon"}
+
+                  />
+                  <p id={"aboutID"} className={"itemNames"}>
+                      About
+                  </p>
+              </Button>
+          </Link>
         {isAuthenticated && (
           <Link to={"/floor-map"} id={"map"}>
             <Button className={"alignIcons"}>
@@ -273,6 +328,7 @@ function NavBar() {
               </p>
             </Button>
           </Link>
+
         )}
         {username === "admind24s" && (
           <FormControl>
@@ -293,6 +349,7 @@ function NavBar() {
         )}
         {isAuthenticated && (
           <div>
+
             <Button
               id="services-button"
               aria-controls={open ? "services-menu" : undefined}
@@ -438,6 +495,9 @@ function NavBar() {
             </p>
           </Button>
         </Link>
+
+
+
         <Link to={"/about-page"} id={"order"}>
           <Button className={"alignIcons"} onClick={onBackDropItemClick}>
             <img
@@ -451,6 +511,7 @@ function NavBar() {
             </p>
           </Button>
         </Link>
+
       </div>
       <div className={"rightSide"}>
         {isAuthenticated && <p className={"username"}>{username}</p>}
@@ -470,6 +531,23 @@ function NavBar() {
       </div>
       <div className={"buttonsInDropDown"}>
         <div className={"itemDropDown"}>
+            <Link to={"/about-page"} id={"order"}>
+                <Button
+                    className={"alignIconsDropDown"}
+                    onClick={onBackDropItemClick}
+                >
+                    <p id={"aboutID"} className={"itemNames"}>
+                        About
+                    </p>
+                    <img
+                        src={aboutIcon}
+                        className={"iconHeight"}
+                        width={"38px"}
+                        alt={"About icon"}
+                    />
+                </Button>
+            </Link>
+
           <Link to={"/"} id={"map"}>
             <Button
               className={"alignIconsDropDown"}
@@ -540,6 +618,9 @@ function NavBar() {
               />
             </Button>
           </Link>
+
+
+
           <Link to={"/about-page"} id={"order"}>
             <Button
               className={"alignIconsDropDown"}
@@ -556,6 +637,7 @@ function NavBar() {
               />
             </Button>
           </Link>
+
         </div>
         <div className={"itemDropDown"}>
           <ThemeProvider theme={theme}>
