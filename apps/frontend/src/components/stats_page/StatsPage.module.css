@@ -1,5 +1,6 @@
 .statsContainer {
-  width: 80%;
+  width: 50%;
+    height: 100%;
   margin: 60px auto 50px; /* Adjusted top margin */
   padding: 20px;
   background-color: #f4f4f9;
@@ -35,4 +36,20 @@ ul {
 
 .contributor strong {
   color: #2a2a2a;
+}
+
+.pieChartContainer {
+    position: relative;
+    right: 40px; /* Adjust this value to position the legend */
+    top: 0px; /* Adjust this value to position the legend */
+    left: 40px;
+}
+
+.pieChartContainer .recharts-legend-wrapper {
+    position: absolute;
+
+}
+
+.MuiChartsLegend-series {
+    translate: 15px 80px;
 }

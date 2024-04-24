@@ -38,8 +38,8 @@ const Stats = () => {
     securityRequest: 0,
       transportRequest: 0,
   });
-  const [assignBar, setAssignBar] = useState<AssignBarData[]>([]);
-  const [priorityBar, setPriorityBar] = useState<PriorityBarData[]>([]);
+  const [, setAssignBar] = useState<AssignBarData[]>([]);
+  const [, setPriorityBar] = useState<PriorityBarData[]>([]);
 
   useEffect(() => {
     async function fetchData() {
@@ -75,55 +75,66 @@ const Stats = () => {
         justifyContent: "center",
       }}
     >
-      <div className={styles.statsContainer}>
-        <PieChart
-          series={[
-            {
-              data: [
-                {
-                  id: 0,
-                  value: pieData.flowerRequest,
-                  label: "Flower Requests",
-                },
-                {
-                  id: 1,
-                  value: pieData.languageRequest,
-                  label: "Language Requests",
-                },
-                {
-                  id: 2,
-                  value: pieData.medicineRequest,
-                  label: "Medicine Requests",
-                },
-                {
-                  id: 3,
-                  value: pieData.sanitationRequest,
-                  label: "Sanitation Requests",
-                },
-                {
-                  id: 4,
-                  value: pieData.schedulingRequest,
-                  label: "Scheduling Requests",
-                },
-                {
-                  id: 5,
-                  value: pieData.securityRequest,
-                  label: "Security Requests",
-                },
-                  {
-                      id: 6,
-                      value: pieData.transportRequest,
-                      label: "Transport Requests",
-                  }
-              ],
-            },
-          ]}
-          width={400}
-          height={200}
-        />
-          {/*<Button onClick={useEffect}></Button>*/}
-      </div>
+        <div className={styles.statsContainer}>
+            <h1>Number of service requests by request type</h1>
+            <div className={styles.pieChartContainer}>
+                <PieChart
+                    series={[
+                        {
+                            arcLabelMinAngle: 45,
+                            data: [
+                                {
+                                    id: 0,
+                                    value: pieData.flowerRequest,
+                                    label: "Flower Requests",
+                                },
+                                {
+                                    id: 1,
+                                    value: pieData.languageRequest,
+                                    label: "Language Requests",
+                                },
+                                {
+                                    id: 2,
+                                    value: pieData.medicineRequest,
+                                    label: "Medicine Requests",
+                                },
+                                {
+                                    id: 3,
+                                    value: pieData.sanitationRequest,
+                                    label: "Sanitation Requests",
+                                },
+                                {
+                                    id: 4,
+                                    value: pieData.schedulingRequest,
+                                    label: "Scheduling Requests",
+                                },
+                                {
+                                    id: 5,
+                                    value: pieData.securityRequest,
+                                    label: "Security Requests",
+                                },
+                                {
+                                    id: 6,
+                                    value: pieData.transportRequest,
+                                    label: "Transport Requests",
+                                }
+
+
+                            ],
+                        },
+                    ]}
+                    width={400}
+                    height={200}
+                />
+                {/*<Button onClick={useEffect}></Button>*/}
+            </div>
+
+        </div>
+
     </div>
+
+
+
   );
 };
 
