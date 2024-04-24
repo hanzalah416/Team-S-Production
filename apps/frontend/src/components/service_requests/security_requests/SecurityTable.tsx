@@ -7,22 +7,27 @@ import MenuItem from "@mui/material/MenuItem";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
+    backgroundColor: theme.palette.common.white,
+    color: theme.palette.common.black,
   },
   [`&.${tableCellClasses.body}`]: {
     fontSize: 14,
   },
 }));
 
-export function ServiceRequestDisplay(props: {
-  allRequestForm: {
+export function SecurityDisplay(props: {
+  SecurityForm: {
     requestID: number;
     name: string;
     priority: string;
     location: string;
     requestType: string;
     status: string;
+    SecurityRequest: {
+      orderNumberSec: number;
+      securityType: string;
+      threatType: string;
+    };
   };
   onUpdateStatus: (newStatus: string) => void;
 }) {
@@ -33,23 +38,20 @@ export function ServiceRequestDisplay(props: {
   return (
     <TableRow>
       <StyledTableCell align="center">
-        {props.allRequestForm.requestID}
+        {props.SecurityForm.requestID}
       </StyledTableCell>
       <StyledTableCell align="center">
-        {props.allRequestForm.name}
+        {props.SecurityForm.name}
       </StyledTableCell>
       <StyledTableCell align="center">
-        {props.allRequestForm.priority}
+        {props.SecurityForm.priority}
       </StyledTableCell>
       <StyledTableCell align="center">
-        {props.allRequestForm.location}
-      </StyledTableCell>
-      <StyledTableCell align="center">
-        {props.allRequestForm.requestType}
+        {props.SecurityForm.location}
       </StyledTableCell>
       <StyledTableCell align="center">
         <Select
-          value={props.allRequestForm.status}
+          value={props.SecurityForm.status}
           onChange={handleStatusChange}
           displayEmpty
           inputProps={{ "aria-label": "Without label" }}
@@ -61,6 +63,12 @@ export function ServiceRequestDisplay(props: {
           <MenuItem value={"in_progress"}>In Progress</MenuItem>
           <MenuItem value={"closed"}>Closed</MenuItem>
         </Select>
+      </StyledTableCell>
+      <StyledTableCell align="center">
+        {props.SecurityForm.SecurityRequest?.securityType ?? "Crowd Control"}
+      </StyledTableCell>
+      <StyledTableCell align="center">
+        {props.SecurityForm.SecurityRequest?.threatType ?? "Terrorism"}
       </StyledTableCell>
     </TableRow>
   );

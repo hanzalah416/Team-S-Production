@@ -7,22 +7,27 @@ import MenuItem from "@mui/material/MenuItem";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
+    backgroundColor: theme.palette.common.white,
+    color: theme.palette.common.black,
   },
   [`&.${tableCellClasses.body}`]: {
     fontSize: 14,
   },
 }));
 
-export function ServiceRequestDisplay(props: {
-  allRequestForm: {
+export function RoomSchedulingDisplay(props: {
+  RoomForm: {
     requestID: number;
     name: string;
     priority: string;
     location: string;
     requestType: string;
     status: string;
+    RoomScheduling: {
+      requestNumber: number;
+      startTime: string;
+      endTime: string;
+    };
   };
   onUpdateStatus: (newStatus: string) => void;
 }) {
@@ -33,23 +38,18 @@ export function ServiceRequestDisplay(props: {
   return (
     <TableRow>
       <StyledTableCell align="center">
-        {props.allRequestForm.requestID}
+        {props.RoomForm.requestID}
+      </StyledTableCell>
+      <StyledTableCell align="center">{props.RoomForm.name}</StyledTableCell>
+      <StyledTableCell align="center">
+        {props.RoomForm.priority}
       </StyledTableCell>
       <StyledTableCell align="center">
-        {props.allRequestForm.name}
-      </StyledTableCell>
-      <StyledTableCell align="center">
-        {props.allRequestForm.priority}
-      </StyledTableCell>
-      <StyledTableCell align="center">
-        {props.allRequestForm.location}
-      </StyledTableCell>
-      <StyledTableCell align="center">
-        {props.allRequestForm.requestType}
+        {props.RoomForm.location}
       </StyledTableCell>
       <StyledTableCell align="center">
         <Select
-          value={props.allRequestForm.status}
+          value={props.RoomForm.status}
           onChange={handleStatusChange}
           displayEmpty
           inputProps={{ "aria-label": "Without label" }}
@@ -61,6 +61,12 @@ export function ServiceRequestDisplay(props: {
           <MenuItem value={"in_progress"}>In Progress</MenuItem>
           <MenuItem value={"closed"}>Closed</MenuItem>
         </Select>
+      </StyledTableCell>
+      <StyledTableCell align="center">
+        {props.RoomForm.RoomScheduling.startTime}
+      </StyledTableCell>
+      <StyledTableCell align="center">
+        {props.RoomForm.RoomScheduling.endTime}
       </StyledTableCell>
     </TableRow>
   );
