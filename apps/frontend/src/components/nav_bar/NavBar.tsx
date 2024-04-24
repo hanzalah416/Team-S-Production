@@ -498,19 +498,7 @@ function NavBar() {
 
 
 
-        <Link to={"/about-page"} id={"order"}>
-          <Button className={"alignIcons"} onClick={onBackDropItemClick}>
-            <img
-              src={aboutIcon}
-              className={"iconHeight"}
-              width={"38px"}
-              alt={"Credit Icon"}
-            />
-            <p id={"creditsID"} className={"itemNames"}>
-              About
-            </p>
-          </Button>
-        </Link>
+
 
       </div>
       <div className={"rightSide"}>
