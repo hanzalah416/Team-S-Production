@@ -1,0 +1,25 @@
+@import url("https://fonts.googleapis.com/css2?family=Jaldi:wght@400;700&display=swap");
+.heading {
+    color: black;
+    font-size: 80px;
+    alignItems: 'center';
+    justifyContent: 'center';
+    text-align: center;
+}
+
+.secondary {
+    color: black;
+    font-size: 20px;
+    text-align: center;
+
+}
+
+.iaintreadinallat {
+  color: black;
+  margin-left: 70px;
+  margin-right: 70px;
+}
+
+.text {
+  color: black;
+}

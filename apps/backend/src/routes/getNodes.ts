@@ -81,4 +81,27 @@ router.patch("/:id", async (req, res) => {
   }
 });
 
+router.delete("/:id", async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const deletedNode = await prisma.node.delete({
+      where: {
+        nodeID: id,
+      },
+    });
+
+    if (!deletedNode) {
+      console.error("No node found with the given ID!");
+      res.sendStatus(204); // No Content, the node was not found
+    } else {
+      console.log("Deleted node:", deletedNode);
+      res.status(200).json(deletedNode); // Successfully deleted the node
+    }
+  } catch (error) {
+    console.error(`Error deleting node : ${error}`);
+    res.sendStatus(500); // Internal Server Error
+  }
+});
+
 export default router;

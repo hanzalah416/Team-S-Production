@@ -1,5 +1,5 @@
 //Imports
-import MakeGraph, { GraphNode } from "../makegraph.ts";
+import MakeGraph from "../makegraph.ts";
 import { TotalDistanceGraph } from "../PathDistanceCalculater.ts";
 
 //A function to calculate the closest node to a particular start node from an array of end nodes
@@ -8,9 +8,9 @@ export function ReturnClosestNode(
   endNodes: string[],
   graph: MakeGraph,
 ) {
-  let path: GraphNode[] = [];
   //const graph = new MakeGraph(algorithm);
   let curShortest = 99999;
+  let currentId: string = "";
 
   //Calculate the total distance to each end node and compare to the current shortest
   endNodes.forEach((node) => {
@@ -19,10 +19,10 @@ export function ReturnClosestNode(
     const distance = TotalDistanceGraph(tempPath);
     //Compare
     if (distance < curShortest) {
-      path = tempPath;
       curShortest = distance;
+      currentId = node;
     }
   });
 
-  return path;
+  return currentId;
 }

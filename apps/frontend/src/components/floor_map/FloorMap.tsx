@@ -29,20 +29,8 @@ import f1Map from "../assets/HospitalMap/01_thefirstfloor.png";
 import f2Map from "../assets/HospitalMap/02_thesecondfloor.png";
 import f3Map from "../assets/HospitalMap/03_thethirdfloor.png";
 import PathToTextDisplay from "./PathToTextDisplay.tsx";
-import ATMIcon from "../assets/MapKeyIcons/ATMIcon.png";
-import BusStopIcon from "../assets/MapKeyIcons/BusStopIcon.png";
-import CafeIcon from "../assets/MapKeyIcons/CafeIcon.png";
-import DiningIcon from "../assets/MapKeyIcons/DiningIcon.png";
-import ElevatorIcon from "../assets/MapKeyIcons/ElevatorIcon.png";
-import EmergencyIcon from "../assets/MapKeyIcons/EmergencyIcon.png";
-import EntranceIcon from "../assets/MapKeyIcons/EntranceIcon.png";
-import EscalatorIcon from "../assets/MapKeyIcons/EscalatorIcon.png";
-import HandicapIcon from "../assets/MapKeyIcons/HandicapIcon.png";
-import ParkingIcon from "../assets/MapKeyIcons/ParkingIcon.png";
-import RestroomIcon from "../assets/MapKeyIcons/RestroomIcon.png";
-import ValetIcon from "../assets/MapKeyIcons/ValetIcon.png";
-import VendingIcon from "../assets/MapKeyIcons/VendingIcon.png";
-import WaitingIcon from "../assets/MapKeyIcons/WaitingIcon.png";
+
+import KeySelection from "./KeySelection.tsx";
 import Tooltip from "../ToolTip";
 
 const tips = `
@@ -76,7 +64,7 @@ If the map supports multiple levels, you can use the "Level Select" toggle to vi
 
 const MiniMap = lazy(() => import("./MiniMap.tsx"));
 
-interface Position {
+export interface Position {
   label: string;
   id: string;
   top: string;
@@ -134,38 +122,45 @@ function FloorMap() {
         }
       }
 
-      const startNode = locations.find(
-        (loc) => loc.id === fullPath[startIndex],
-      );
-      const endNode = locations.find(
-        (loc) => loc.id === fullPath[Math.max(endIndex - 1, startIndex)],
-      );
+      // Fetch all nodes within the segment
+      const segmentNodes = fullPath
+        .slice(startIndex, endIndex)
+        .map((id) => locations.find((loc) => loc.id === id))
+        .filter((loc) => loc);
 
-      if (!startNode || !endNode) {
-        console.log("Start or end node not found, unable to zoom.");
+      if (segmentNodes.length === 0) {
+        console.log("No nodes found in the segment, unable to zoom.");
         return;
       }
 
       const mapWidth = 5000; // Full width of the map in pixels
       const mapHeight = 3400; // Full height of the map in pixels
 
-      // Convert pixel values to percentages of the full map dimensions
-      const minXPercent = Math.min(
-        (parseInt(startNode.left) / mapWidth) * 100,
-        (parseInt(endNode.left) / mapWidth) * 100,
-      );
-      const maxXPercent = Math.max(
-        (parseInt(startNode.left) / mapWidth) * 100,
-        (parseInt(endNode.left) / mapWidth) * 100,
-      );
-      const minYPercent = Math.min(
-        (parseInt(startNode.top) / mapHeight) * 100,
-        (parseInt(endNode.top) / mapHeight) * 100,
-      );
-      const maxYPercent = Math.max(
-        (parseInt(startNode.top) / mapHeight) * 100,
-        (parseInt(endNode.top) / mapHeight) * 100,
-      );
+      // Calculate bounding box of all nodes
+      let minX = Infinity,
+        maxX = -Infinity,
+        minY = Infinity,
+        maxY = -Infinity;
+
+      segmentNodes.forEach((node) => {
+        if (node) {
+          // Check if node is not undefined
+          const x = parseInt(node.left);
+          const y = parseInt(node.top);
+          if (!isNaN(x) && !isNaN(y)) {
+            // Also check if the parsed values are valid numbers
+            minX = Math.min(minX, x);
+            maxX = Math.max(maxX, x);
+            minY = Math.min(minY, y);
+            maxY = Math.max(maxY, y);
+          }
+        }
+      });
+
+      const minXPercent = (minX / mapWidth) * 100;
+      const maxXPercent = (maxX / mapWidth) * 100;
+      const minYPercent = (minY / mapHeight) * 100;
+      const maxYPercent = (maxY / mapHeight) * 100;
 
       setTimeout(() => {
         if (transformRef.current?.instance.wrapperComponent) {
@@ -210,24 +205,9 @@ function FloorMap() {
     }
 
     // Use attribute selector to find all elements where class starts with "_mapDot"
-
-    // Use attribute selector to find all elements where class starts with "_mapDot"
     const allDots = dotContainer.querySelectorAll('[class^="_mapDot"]');
     if (allDots.length === 0) {
-      return;
-    }
-
-    // Filter dots to include only those that are not transparent
-    const dots = Array.from(allDots).filter((dot) => {
-      const style = (dot as HTMLElement).style;
-      return (
-        style.backgroundColor !== "transparent" &&
-        style.backgroundColor !== "rgba(0, 0, 0, 0)"
-      );
-    });
-
-    if (dots.length === 0) {
-      console.log("No non-transparent dot elements found.");
+      console.log("No dot elements found.");
       return;
     }
 
@@ -236,7 +216,7 @@ function FloorMap() {
       minY = Infinity,
       maxY = -Infinity;
 
-    dots.forEach((dot: Element) => {
+    allDots.forEach((dot: Element) => {
       const style = (dot as HTMLElement).style;
       const top = parseFloat(style.top);
       const left = parseFloat(style.left);
@@ -565,8 +545,8 @@ function FloorMap() {
   };
 
   const floorMaps = {
-    L1: l1Map,
     L2: l2Map,
+    L1: l1Map,
     "01": f1Map,
     "02": f2Map,
     "03": f3Map,
@@ -1019,86 +999,12 @@ function FloorMap() {
             </Suspense>
           </div>
 
-          <div
-            className={`${styles.MapKey} ${showMapKey ? styles.ShowMapKey : ""}`}
-          >
-            <img src={ATMIcon} alt="ATM icon" className={styles.MapKeyIcon} />
-            <div className={styles.MapKeyItem}>ATM</div>
-            <img
-              src={BusStopIcon}
-              alt="Bus Stop icon"
-              className={styles.MapKeyIcon}
-            />
-            <div className={styles.MapKeyItem}>Bus Stop</div>
-            <img src={CafeIcon} alt="Cafe icon" className={styles.MapKeyIcon} />
-            <div className={styles.MapKeyItem}>Cafe</div>
-            <img
-              src={DiningIcon}
-              alt="Dining icon"
-              className={styles.MapKeyIcon}
-            />
-            <div className={styles.MapKeyItem}>Food Service</div>
-            <img
-              src={ElevatorIcon}
-              alt="Elevator icon"
-              className={styles.MapKeyIcon}
-            />
-            <div className={styles.MapKeyItem}>Elevator</div>
-            <img
-              src={EmergencyIcon}
-              alt="Emergency icon"
-              className={styles.MapKeyIcon}
-            />
-            <div className={styles.MapKeyItem}>Emergency</div>
-            <img
-              src={EntranceIcon}
-              alt="Entrance icon"
-              className={styles.MapKeyIcon}
-            />
-            <div className={styles.MapKeyItem}>Entrance</div>
-            <img
-              src={EscalatorIcon}
-              alt="Escalator icon"
-              className={styles.MapKeyIcon}
-            />
-            <div className={styles.MapKeyItem}>Escalator</div>
-            <img
-              src={HandicapIcon}
-              alt="Handicapped entrance icon"
-              className={styles.MapKeyIcon}
-            />
-            <div className={styles.MapKeyItem}>Handicapped Entrance</div>
-            <img
-              src={ParkingIcon}
-              alt="Parking icon"
-              className={styles.MapKeyIcon}
-            />
-            <div className={styles.MapKeyItem}>Parking</div>
-            <img
-              src={RestroomIcon}
-              alt="Restroom icon"
-              className={styles.MapKeyIcon}
-            />
-            <div className={styles.MapKeyItem}>Restroom</div>
-            <img
-              src={ValetIcon}
-              alt="Valet icon"
-              className={styles.MapKeyIcon}
-            />
-            <div className={styles.MapKeyItem}>Valet</div>
-            <img
-              src={VendingIcon}
-              alt="Vending icon"
-              className={styles.MapKeyIcon}
-            />
-            <div className={styles.MapKeyItem}>Vending</div>
-            <img
-              src={WaitingIcon}
-              alt="Waiting room icon"
-              className={styles.MapKeyIcon}
-            />
-            <div className={styles.MapKeyItem}>Waiting Room</div>
-          </div>
+          <KeySelection
+            startNode={startPosition?.id}
+            showMapKey={showMapKey}
+            getPositionById={getPositionById}
+            handleSelection={handleSelection}
+          />
         </div>
       </div>
     </div>

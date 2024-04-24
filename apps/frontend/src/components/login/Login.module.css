@@ -67,9 +67,11 @@
   position: absolute;
   top: 0%;
   left: 50%;
-  transform: translate(-50%, 950%);
+  transform: translate(-50%, 0%);
   text-align: center;
-  color: white;
+  color: black;
+  background: white;
+  margin-top: 10px;
 }
 
 .disclaimer {

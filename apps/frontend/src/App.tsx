@@ -26,6 +26,8 @@ import LanguageRequest from "./components/service_requests/language_requests/Lan
 import CreditPage from "./components/credit_page/CreditPage.tsx";
 import TransportRequest from "./components/service_requests/internalTransportation/TransportRequest.tsx";
 import GiftForm from "./components/service_requests/gift_request/giftForm.tsx";
+import { AboutPage } from "./components/about_page/AboutPage.tsx";
+
 
 function App() {
   const router = createBrowserRouter([
@@ -179,6 +181,17 @@ function App() {
             </>
           ),
         },
+        
+        {
+          path: "/about-page",
+          element: (
+            <>
+              <AboutPage />
+              <Layout />
+            </>
+          ),
+        },
+          
         // ... other routes
       ],
     },
