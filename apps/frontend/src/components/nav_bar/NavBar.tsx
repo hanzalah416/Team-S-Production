@@ -70,7 +70,7 @@ function NavBar() {
   const requestsID = document.getElementById("requestsID");
   const servicesID = document.getElementById("servicesID");
   const creditsID = document.getElementById("creditsID");
-  const statsID = document.getElementById("statsID");
+  // const statsID = document.getElementById("statsID");
 
   const [backdropVisible, setBackdropVisible] = React.useState(false);
 
@@ -99,13 +99,10 @@ function NavBar() {
     if (creditsID) {
       creditsID.classList.remove("currItem");
     }
-    if (statsID) {
-      statsID.classList.remove("currItem");
-    }
     if (requestsID) {
       requestsID.classList.remove("currItem");
     }
-  }, [servicesID, mapID, requestsID, creditsID, statsID]);
+  }, [servicesID, mapID, requestsID, creditsID]);
 
   const setMapID = useCallback(() => {
     if (servicesID) {
@@ -117,13 +114,11 @@ function NavBar() {
     if (creditsID) {
       creditsID.classList.remove("currItem");
     }
-    if (statsID) {
-      statsID.classList.remove("currItem");
-    }
+
     if (requestsID) {
       requestsID.classList.remove("currItem");
     }
-  }, [servicesID, mapID, requestsID, creditsID, statsID]);
+  }, [servicesID, mapID, requestsID, creditsID]);
 
   const setRequestsID = useCallback(() => {
     if (servicesID) {
@@ -135,13 +130,11 @@ function NavBar() {
     if (creditsID) {
       creditsID.classList.remove("currItem");
     }
-    if (statsID) {
-      statsID.classList.remove("currItem");
-    }
+
     if (requestsID) {
       requestsID.classList.add("currItem");
     }
-  }, [servicesID, mapID, requestsID, creditsID, statsID]);
+  }, [servicesID, mapID, requestsID, creditsID]);
 
   const setCreditsID = useCallback(() => {
     if (servicesID) {
@@ -153,14 +146,11 @@ function NavBar() {
     if (requestsID) {
       requestsID.classList.remove("currItem");
     }
-    if (statsID) {
-      statsID.classList.remove("currItem");
-    }
     if (creditsID) {
       console.log("make bold");
       creditsID.classList.add("currItem");
     }
-  }, [servicesID, mapID, requestsID, creditsID, statsID]);
+  }, [servicesID, mapID, requestsID, creditsID]);
   const setStatsID = useCallback(() => {
     if (servicesID) {
       servicesID.classList.remove("currItem");
@@ -171,14 +161,11 @@ function NavBar() {
     if (requestsID) {
       requestsID.classList.remove("currItem");
     }
-    if (statsID) {
-      statsID.classList.add("currItem");
-    }
     if (creditsID) {
       console.log("make bold");
       creditsID.classList.remove("currItem");
     }
-  }, [servicesID, mapID, requestsID, creditsID, statsID]);
+  }, [servicesID, mapID, requestsID, creditsID]);
 
   useEffect(() => {
     const hours = today.getHours();
@@ -243,6 +230,7 @@ function NavBar() {
         setCreditsID();
         break;
       case "/stats-page":
+          setServIcon(statsIcon);
         setStatsID();
         break;
       default:
