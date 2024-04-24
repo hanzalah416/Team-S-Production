@@ -12,9 +12,8 @@ import { FormDataProvider } from "./components/service_requests/FormDataContext.
 import FloorMap from "./components/floor_map/FloorMap.tsx";
 import HeroPage from "./components/login/Login.tsx";
 import NodeDataPage from "./components/nodes/NodeDataPage.tsx";
-import { ServiceRequestGetter } from "./components/service_requests/all_requests/AllServiceRequestsGetter.tsx";
-import OutlinedAlerts from "./components/service_requests/ServiceNotice.tsx";
-import Stack from "@mui/material/Stack";
+// import { ServiceRequestGetter } from "./components/service_requests/all_requests/AllServiceRequestsGetter.tsx";
+import DisplaySRData from "./components/service_requests/all_requests/DisplaySRData.tsx";
 import OrderConfirmation from "./components/service_requests/OrderConfirmation.tsx";
 import SanitationForm from "./components/service_requests/sanitation_services/sanitationForm.tsx";
 import FloorMapDebug from "./components/floor_map/FloorMapDebug.tsx";
@@ -28,7 +27,6 @@ import TransportRequest from "./components/service_requests/internalTransportati
 import EmailForm from "./components/EmailConnection/EmailForm.tsx";
 import GiftForm from "./components/service_requests/gift_request/giftForm.tsx";
 import { AboutPage } from "./components/about_page/AboutPage.tsx";
-
 
 function App() {
   const router = createBrowserRouter([
@@ -102,10 +100,7 @@ function App() {
           path: "/all-service-requests",
           element: (
             <>
-              <Stack spacing={5}>
-                <OutlinedAlerts />
-                <ServiceRequestGetter />
-              </Stack>
+              <DisplaySRData />
               <Layout />
             </>
           ),

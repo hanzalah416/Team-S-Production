@@ -13,7 +13,7 @@ securityRouter.post("/", async function (req: Request, res: Response) {
     // Attempt to create in the database
     const serviceRequest = await prisma.serviceRequest.create({
       data: {
-        name,
+        name: name,
         priority,
         location,
         requestType: "Security",

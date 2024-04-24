@@ -7,22 +7,26 @@ import MenuItem from "@mui/material/MenuItem";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
+    backgroundColor: theme.palette.common.white,
+    color: theme.palette.common.black,
   },
   [`&.${tableCellClasses.body}`]: {
     fontSize: 14,
   },
 }));
 
-export function ServiceRequestDisplay(props: {
-  allRequestForm: {
+export function LangRequestDisplay(props: {
+  langRequestForm: {
     requestID: number;
     name: string;
     priority: string;
     location: string;
     requestType: string;
     status: string;
+    LanguageRequest: {
+      orderNumber: number;
+      language: string;
+    };
   };
   onUpdateStatus: (newStatus: string) => void;
 }) {
@@ -33,23 +37,20 @@ export function ServiceRequestDisplay(props: {
   return (
     <TableRow>
       <StyledTableCell align="center">
-        {props.allRequestForm.requestID}
+        {props.langRequestForm.requestID}
       </StyledTableCell>
       <StyledTableCell align="center">
-        {props.allRequestForm.name}
+        {props.langRequestForm.name}
       </StyledTableCell>
       <StyledTableCell align="center">
-        {props.allRequestForm.priority}
+        {props.langRequestForm.priority}
       </StyledTableCell>
       <StyledTableCell align="center">
-        {props.allRequestForm.location}
-      </StyledTableCell>
-      <StyledTableCell align="center">
-        {props.allRequestForm.requestType}
+        {props.langRequestForm.location}
       </StyledTableCell>
       <StyledTableCell align="center">
         <Select
-          value={props.allRequestForm.status}
+          value={props.langRequestForm.status}
           onChange={handleStatusChange}
           displayEmpty
           inputProps={{ "aria-label": "Without label" }}
@@ -61,6 +62,12 @@ export function ServiceRequestDisplay(props: {
           <MenuItem value={"in_progress"}>In Progress</MenuItem>
           <MenuItem value={"closed"}>Closed</MenuItem>
         </Select>
+      </StyledTableCell>
+      {/*<StyledTableCell align="right">*/}
+      {/*  {props.langRequestForm.LanguageRequest.orderNumber}*/}
+      {/*</StyledTableCell>*/}
+      <StyledTableCell align="center">
+        {props.langRequestForm.LanguageRequest.language}
       </StyledTableCell>
     </TableRow>
   );

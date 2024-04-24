@@ -16,8 +16,10 @@ import SearchIcon from "@mui/icons-material/Search";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
+    backgroundColor: theme.palette.common.white,
+    color: theme.palette.common.black,
+    fontWeight: "bold",
+    textAlign: "center",
   },
   [`&.${tableCellClasses.body}`]: {
     fontSize: 14,
@@ -57,7 +59,6 @@ export function ServiceRequestGetter() {
     newStatus: string,
   ) => {
     try {
-      // Assuming you have an API endpoint to update the status of a request
       await axios.patch(`/api/all-requests/${requestID}`, {
         status: newStatus,
       });
@@ -94,11 +95,11 @@ export function ServiceRequestGetter() {
           <TableHead>
             <TableRow>
               <StyledTableCell>Requester ID</StyledTableCell>
-              <StyledTableCell align="right">Employee</StyledTableCell>
-              <StyledTableCell align="right">Priority</StyledTableCell>
-              <StyledTableCell align="right">Location</StyledTableCell>
-              <StyledTableCell align="right">Type of Request</StyledTableCell>
-              <StyledTableCell align="right">Status</StyledTableCell>
+              <StyledTableCell align="center">Employee</StyledTableCell>
+              <StyledTableCell align="center">Priority</StyledTableCell>
+              <StyledTableCell align="center">Location</StyledTableCell>
+              <StyledTableCell align="center">Type of Request</StyledTableCell>
+              <StyledTableCell align="center">Status</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
