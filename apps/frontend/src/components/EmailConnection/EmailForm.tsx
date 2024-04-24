@@ -11,9 +11,9 @@ const EmailForm: React.FC<EmailFormProps> = ({ topicArn }) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await subscribeEmail(topicArn, email); // Call the SNS subscription function
+      await subscribeEmail(topicArn, email);
       alert("Subscription successful!");
-      setEmail(""); // Clear the input after successful subscription
+      setEmail("");
     } catch (error) {
       console.error("Error subscribing email:", error);
       alert("Subscription failed. Please try again.");
