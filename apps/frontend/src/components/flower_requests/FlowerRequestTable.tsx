@@ -64,12 +64,12 @@ export function FlowerRequestDisplay(props: {
           <MenuItem value={"closed"}>Closed</MenuItem>
         </Select>
       </StyledTableCell>
-      {/*<StyledTableCell align="center">*/}
-      {/*    {props.FlowerRequestForm.FlowerRequests.typeFlower}*/}
-      {/*</StyledTableCell>*/}
-      {/*<StyledTableCell align="center">*/}
-      {/*    {props.FlowerRequestForm.FlowerRequests.customMessage}*/}
-      {/*</StyledTableCell>*/}
+      <StyledTableCell align="center">
+          {props.FlowerRequestForm.FlowerRequests.typeFlower}
+      </StyledTableCell>
+      <StyledTableCell align="center">
+          {props.FlowerRequestForm.FlowerRequests.customMessage}
+      </StyledTableCell>
     </TableRow>
   );
 }
