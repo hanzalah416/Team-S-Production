@@ -331,19 +331,6 @@ function NavBar() {
                 </p>
               </Button>
             </Link>
-            <Link to={"/stats-page"} id={"order"}>
-              <Button className={"alignIcons"} onClick={onBackDropItemClick}>
-                <img
-                  src={statsIcon}
-                  className={"iconHeight"}
-                  width={"38px"}
-                  alt={"Stats Icon"}
-                />
-                <p id={"statsID"} className={"itemNames"}>
-                  Statistics
-                </p>
-              </Button>
-            </Link>
           </FormControl>
         )}
         {isAuthenticated && (
@@ -476,6 +463,19 @@ function NavBar() {
                   <p className={"item"}>Manage Database</p>
                 </MenuItem>
               </Link>
+                <Link to={"/stats-page"} id={"order"}>
+                    <MenuItem onClick={handleClose}>
+                            <img
+                                src={statsIcon}
+                                className={"iconHeight"}
+                                width={"38px"}
+                                alt={"Stats Icon"}
+                            />
+                            <p className={"item"}>
+                                Statistics
+                            </p>
+                    </MenuItem>
+                </Link>
             </Menu>
           </div>
         )}
