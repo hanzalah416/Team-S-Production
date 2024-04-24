@@ -48,7 +48,7 @@ const Login: React.FC = () => {
                 className={styles.coverImage}
                 style={{
                   display: index === currentImageIndex ? "block" : "none",
-                    opacity: index === currentImageIndex ? 0 : 0, // Set opacity based on currentImageIndex
+                  opacity: index === currentImageIndex ? 0 : 0, // Set opacity based on currentImageIndex
                 }}
               />
             ))}
@@ -82,17 +82,28 @@ const Login: React.FC = () => {
             }}
           >
             <span
-              style={{ color: "navy", fontSize: "18px", marginTop: "150px", fontWeight: "500", fontFamily: "calibri, sans-serif" }}
+              style={{
+                color: "navy",
+                fontSize: "18px",
+                marginTop: "150px",
+                fontWeight: "500",
+                fontFamily: "calibri, sans-serif",
+              }}
             >
               View Map
             </span>
           </Button>
-            <img
-                src={arrow}
-                alt="Curly arrow pointing towards map button"
-                className={styles.arrowImage}
-                style={{width: "150px", height: "auto", marginLeft: "50px", marginTop: "20px"}}
-            />
+          <img
+            src={arrow}
+            alt="Curly arrow pointing towards map button"
+            className={styles.arrowImage}
+            style={{
+              width: "150px",
+              height: "auto",
+              marginLeft: "50px",
+              marginTop: "20px",
+            }}
+          />
         </div>
       </div>
       <div className={styles.bottomHalfContainer}>
@@ -130,7 +141,6 @@ const Login: React.FC = () => {
             Engineering (Prof. Wong) and is not to be confused with the actual
             Brigham & Women’s Hospital website
           </p>
-
         </div>
       </div>
     </div>
