@@ -545,8 +545,8 @@ function FloorMap() {
   };
 
   const floorMaps = {
+      L2: l2Map,
     L1: l1Map,
-    L2: l2Map,
     "01": f1Map,
     "02": f2Map,
     "03": f3Map,
