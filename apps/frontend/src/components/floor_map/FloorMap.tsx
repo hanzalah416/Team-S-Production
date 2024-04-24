@@ -128,38 +128,45 @@ function FloorMap() {
         }
       }
 
-      const startNode = locations.find(
-        (loc) => loc.id === fullPath[startIndex],
-      );
-      const endNode = locations.find(
-        (loc) => loc.id === fullPath[Math.max(endIndex - 1, startIndex)],
-      );
+      // Fetch all nodes within the segment
+      const segmentNodes = fullPath
+        .slice(startIndex, endIndex)
+        .map((id) => locations.find((loc) => loc.id === id))
+        .filter((loc) => loc);
 
-      if (!startNode || !endNode) {
-        console.log("Start or end node not found, unable to zoom.");
+      if (segmentNodes.length === 0) {
+        console.log("No nodes found in the segment, unable to zoom.");
         return;
       }
 
       const mapWidth = 5000; // Full width of the map in pixels
       const mapHeight = 3400; // Full height of the map in pixels
 
-      // Convert pixel values to percentages of the full map dimensions
-      const minXPercent = Math.min(
-        (parseInt(startNode.left) / mapWidth) * 100,
-        (parseInt(endNode.left) / mapWidth) * 100,
-      );
-      const maxXPercent = Math.max(
-        (parseInt(startNode.left) / mapWidth) * 100,
-        (parseInt(endNode.left) / mapWidth) * 100,
-      );
-      const minYPercent = Math.min(
-        (parseInt(startNode.top) / mapHeight) * 100,
-        (parseInt(endNode.top) / mapHeight) * 100,
-      );
-      const maxYPercent = Math.max(
-        (parseInt(startNode.top) / mapHeight) * 100,
-        (parseInt(endNode.top) / mapHeight) * 100,
-      );
+      // Calculate bounding box of all nodes
+      let minX = Infinity,
+        maxX = -Infinity,
+        minY = Infinity,
+        maxY = -Infinity;
+
+      segmentNodes.forEach((node) => {
+        if (node) {
+          // Check if node is not undefined
+          const x = parseInt(node.left);
+          const y = parseInt(node.top);
+          if (!isNaN(x) && !isNaN(y)) {
+            // Also check if the parsed values are valid numbers
+            minX = Math.min(minX, x);
+            maxX = Math.max(maxX, x);
+            minY = Math.min(minY, y);
+            maxY = Math.max(maxY, y);
+          }
+        }
+      });
+
+      const minXPercent = (minX / mapWidth) * 100;
+      const maxXPercent = (maxX / mapWidth) * 100;
+      const minYPercent = (minY / mapHeight) * 100;
+      const maxYPercent = (maxY / mapHeight) * 100;
 
       setTimeout(() => {
         if (transformRef.current?.instance.wrapperComponent) {
@@ -204,24 +211,9 @@ function FloorMap() {
     }
 
     // Use attribute selector to find all elements where class starts with "_mapDot"
-
-    // Use attribute selector to find all elements where class starts with "_mapDot"
     const allDots = dotContainer.querySelectorAll('[class^="_mapDot"]');
     if (allDots.length === 0) {
-      return;
-    }
-
-    // Filter dots to include only those that are not transparent
-    const dots = Array.from(allDots).filter((dot) => {
-      const style = (dot as HTMLElement).style;
-      return (
-        style.backgroundColor !== "transparent" &&
-        style.backgroundColor !== "rgba(0, 0, 0, 0)"
-      );
-    });
-
-    if (dots.length === 0) {
-      console.log("No non-transparent dot elements found.");
+      console.log("No dot elements found.");
       return;
     }
 
@@ -230,7 +222,7 @@ function FloorMap() {
       minY = Infinity,
       maxY = -Infinity;
 
-    dots.forEach((dot: Element) => {
+    allDots.forEach((dot: Element) => {
       const style = (dot as HTMLElement).style;
       const top = parseFloat(style.top);
       const left = parseFloat(style.left);
@@ -559,8 +551,8 @@ function FloorMap() {
   };
 
   const floorMaps = {
-    L1: l1Map,
     L2: l2Map,
+    L1: l1Map,
     "01": f1Map,
     "02": f2Map,
     "03": f3Map,

@@ -16,13 +16,14 @@ const Login: React.FC = () => {
   const navigateMap = () => {
     navigate("/floor-map");
   };
+
   const images = [heroImage, heroImage1, heroImage2, heroImage3];
 
   useEffect(() => {
     const interval = setInterval(() => {
       // Update the index to display the next image
       setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
-    }, 3000); // Change the duration here (in milliseconds)
+    }, 5000); // Change the duration here (in milliseconds)
 
     return () => clearInterval(interval); // Cleanup the interval on component unmount
   }, [images.length]); // Empty dependency array to run this effect only once on component mount

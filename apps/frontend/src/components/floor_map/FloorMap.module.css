@@ -63,9 +63,8 @@ body {
 .floorButtonsContainer {
   /* hide scrollbar but allow scrolling */
   /* Hide scrollbar in IE/Edge */
-  * {
-    -ms-overflow-style: none;
-  }
+
+  -ms-overflow-style: none;
 
   /* WebKit (Chrome, Safari, etc.) */
   ::-webkit-scrollbar {
@@ -281,7 +280,7 @@ body {
   display: flex;
   color: black;
   align-items: center; /* Center the contents vertically */
-  justify-content: start; /* Aligns the switch to the start */
+  justify-content: flex-start; /* Aligns the switch to the start */
   padding-left: 20px; /* Adds some padding on the left */
   width: 100%; /* Full width of the container */
   /* Center the switch horizontally */
