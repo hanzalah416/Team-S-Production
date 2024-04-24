@@ -8,8 +8,8 @@ import { SNSClient, SubscribeCommand } from "@aws-sdk/client-sns";
 const snsClient = new SNSClient({
   region: "us-east-2", // Replace with your AWS region
   credentials: {
-    accessKeyId: "YOUR_ACCESS_KEY_ID", // Replace with your AWS access key ID
-    secretAccessKey: "YOUR_SECRET_ACCESS_KEY", // Replace with your AWS secret access key
+    accessKeyId: "AKIA4MTWLL2KFO44KCM5", // Replace with your AWS access key ID
+    secretAccessKey: "BjHmIH8ignOiExL0QyTS/WDNde6l97/Ss3Mei4ob", // Replace with your AWS secret access key
   },
 });
 
@@ -36,8 +36,9 @@ export const subscribeEmail = async (topicArn: string, email: string) => {
 
 // Example usage
 try {
-  const email = "example@example.com"; // Replace with the email you want to subscribe
-  const topicArn = "YOUR_TOPIC_ARN"; // Replace with your actual SNS topic ARN
+  const email = "kimberlyallise32@gmail.com"; // Replace with the email you want to subscribe
+  const topicArn =
+    "arn:aws:sns:us-east-2:851725475476:Appointment_Confirmation"; // Replace with your actual SNS topic ARN
   const subscriptionResponse = await subscribeEmail(topicArn, email);
   console.log("Subscription successful:", subscriptionResponse);
 } catch (error) {
