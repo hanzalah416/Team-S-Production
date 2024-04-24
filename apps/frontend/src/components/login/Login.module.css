@@ -7,7 +7,6 @@
   font-family: "Girard", sans-serif;
   font-size: 50px;
   font-weight: 800;
-
   padding: 8px;
   animation: slideIn 5s ease forwards;
 }
@@ -33,15 +32,16 @@
 }
 
 .container {
-  position: absolute;
+  position: relative;
   left: 0;
-  top: 75px;
+  top: 45px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: flex-start;
   width: 100%;
   height: calc(100vh - 75px);
+  padding: 0;
 }
 
 .imageContainer {
@@ -58,6 +58,7 @@
   height: calc(100vh - 75px);
   position: relative;
   object-fit: cover;
+    animation: slideIn 5s ease forwards;
 }
 
 .arrowImage {
@@ -85,11 +86,29 @@
 @keyframes slideIn {
   from {
     transform: translateX(0);
-    opacity: 0;
+    opacity: 0.5;
   }
   to {
+    opacity: 2;
+  }
+}
+
+@keyframes slideInOut {
+  0% {
+    transform: translateX(0);
+    opacity: 0;
+  }
+  25% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  75% {
     transform: translateY(0);
     opacity: 2;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 0;
   }
 }
 
@@ -100,4 +119,54 @@
 .arrowImage {
     max-height: 200px;
     max-width: 200px;
+}
+
+.down {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+}
+
+.bottomHalfContainer {
+  position: relative;
+  left: 0;
+  top: 45px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+  padding: 0;
+  background-color: #f2f2f3;
+}
+
+.lightBlueBar {
+  top: 70px;
+  left: 0;
+  width: 100%;
+  height: 44px;
+  background-color: #289ba5;
+}
+
+.cardsAligned {
+  display: flex;
+  flex-direction: row;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+  column-gap: 15px;
+  row-gap: 15px;
+}
+
+.footer {
+  width: 100%;
+  height: 44px;
+  background-color: #848484;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
 }

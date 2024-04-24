@@ -24,6 +24,10 @@ export default function PathToTextDisplay(props: {
   algo: string;
   onChangeFloor: (floor: string) => void;
   zoomToSegment: (segmentIndex: number) => void;
+  voice: number;
+  volume: number;
+  pitch: number;
+  rate: number;
 }) {
   //Keep track of which lists are open
   const [openLists, setOpenLists] = useState<boolean[]>([]);
@@ -163,7 +167,10 @@ export default function PathToTextDisplay(props: {
 
     const voices = speechSynthesis.getVoices();
 
-    text.voice = voices[1];
+    text.voice = voices[props.voice];
+    text.pitch = props.pitch;
+    text.volume = props.volume;
+    text.rate = props.rate;
 
     speechSynthesis.speak(text);
   }

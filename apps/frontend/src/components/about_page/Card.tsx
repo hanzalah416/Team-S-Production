@@ -1,28 +1,31 @@
 import Tooltip from "@mui/material/Tooltip";
 
-
 interface ProjectCardProps {
-    description: string;
-    imgUrl: string;
-    label: string;
+  description: string;
+  imgUrl: string;
+  label: string;
 }
+
 
 const ProjectCard: React.FC<ProjectCardProps> = ({description, imgUrl, label}) => {
     return (
 
-        <div style={{display: 'flex', flexDirection: 'column', width: '29%'}}>
+        <div style={{display: 'flex', flexDirection: 'column'}}>
             <Tooltip title={description}>
                 <img src={imgUrl} style={{
-                    width: '100%',
-                    height: '100%',
+
+                    width: '30vh',
+                    height: '30vh',
                     objectFit: 'cover',
+                    justifyContent: 'center',
                 }}/>
 
             </Tooltip>
-            <h1 style={{color: "black",  alignItems:"center", fontSize: '40px'}}>{label}</h1>
+            <h1 style={{color: "black",  alignItems:"center", fontSize: '30px',textAlign: 'center',}}>{label}</h1>
         </div>
 
     );
+
 
 };
 export default ProjectCard;

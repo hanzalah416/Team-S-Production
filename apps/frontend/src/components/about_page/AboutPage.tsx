@@ -71,52 +71,56 @@ const Project = [
 ];
 
 export const AboutPage = () => {
+  return (
+    <section
+      style={{
+        display: "flex",
+        flexWrap: "wrap",
+        alignItems: "center",
+        justifyContent: "center",
+        gap: "30px",
+        paddingTop: "120px",
+        paddingBottom: "40px",
+      }}
+    >
+      <div
+        style={{
+          alignItems: "center",
+          justifyContent: "center",
+          gap: "30px",
+        }}
+      >
+        <h1 className={styles.heading}>Our Team</h1>
+      </div>
 
-    return (
+      <div
+        style={{
+          display: "flex",
+          flexWrap: "wrap",
+          justifyContent: "center",
+          gap: "35px",
+        }}
+      >
+        {Project.map((item) => (
+          <Card {...item} key={item.description} />
+        ))}
+      </div>
+      <div>
+        <h1 className={styles.secondary}>WPI Computer Science Department</h1>
 
-        <section style={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: '30px',
-            paddingTop: '120px',
-            paddingBottom: '40px',
-        }}>
-            <div style={{
+        <h1 className={styles.secondary}>Professor Wilson Wong</h1>
 
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '30px',
+        <h1 className={styles.secondary}>Team Coach: Youssef Benchikhi </h1>
 
-            }}>
-                <h1 className={styles.heading}>Our Team</h1>
-
-
-            </div>
-
-
-            <div style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '35px'}}>
-                {
-                    Project.map(item => <Card {...item} key={item.description}/>)
-
-                }
-            </div>
-            <div>
-            <h1 className={styles.secondary}>WPI Computer Science Department</h1>
-
-            <h1 className={styles.secondary}>Professor Wilson Wong</h1>
-
-            <h1 className={styles.secondary}>Team Coach: Youssef Benchikhi </h1>
-
-            <p className={styles.iaintreadinallat}>We would like to thank Brigham and Women's Hospital and their
-                representative Andrew Shinn</p>
-            <p className={styles.text}>
-                *The Brigham & Women’s Hospital maps and data used in
-                this application are copyrighted and provided for the sole use of educational purposes.
-            </p>
-            </div>
-        </section>
-    );
-
+        <p className={styles.iaintreadinallat}>
+          We would like to thank Brigham and Women's Hospital and their
+          representative Andrew Shinn
+        </p>
+        <p className={styles.text}>
+          *The Brigham & Women’s Hospital maps and data used in this application
+          are copyrighted and provided for the sole use of educational purposes.
+        </p>
+      </div>
+    </section>
+  );
 };
