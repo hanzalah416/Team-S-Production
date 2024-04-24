@@ -33,6 +33,13 @@ model FlowerRequests {
   servreq       ServiceRequest @relation(fields: [orderNumber], references: [requestID])
 }
 
+model GiftRequests {
+  orderNumber   Int            @id
+  typeGift      String
+  customMessage String
+  servreq       ServiceRequest @relation(fields: [orderNumber], references: [requestID])
+}
+
 model MedicineRequests {
   medicineNumber Int            @id
   typeMedicine   String
@@ -89,6 +96,7 @@ model ServiceRequest {
   requestType       String
   status            RequestStatus      @default(unassigned)
   FlowerRequests    FlowerRequests?
+  GiftRequests      GiftRequests?
   SecurityRequests  SecurityRequest?
   MedicineRequests  MedicineRequests?
   SanitationRequest SanitationRequest?

@@ -5,8 +5,8 @@
   perspective: 70vh;
 }
 
-.ll1,
 .ll2,
+.ll1,
 .f1,
 .f2,
 .f3 {
@@ -66,35 +66,35 @@ header {
 }
 
 .ll2 {
-  perspective: 69vh;
-  translate: 0vh 4vw;
-  z-index: 2;
-}
-
-.ll1 {
   perspective: 75vh;
   translate: 0vh 8vw;
   z-index: 1;
 }
 
+.ll1 {
+  perspective: 69vh;
+  translate: 0vh 4vw;
+  z-index: 2;
+}
+
 .f2:hover ~ .f3,
 .f1:hover ~ .f3,
-.ll1:hover ~ .f3,
-.ll2:hover ~ .f3 {
+.ll2:hover ~ .f3,
+.ll1:hover ~ .f3 {
   translate: 00vh -12vw 0vh; /* Adjust the vertical translation */
 }
 
 .f1:hover ~ .f2,
-.ll1:hover ~ .f2,
-.ll2:hover ~ .f2 {
+.ll2:hover ~ .f2,
+.ll1:hover ~ .f2 {
   translate: 0vh -8vw;
 }
 
-.ll1:hover ~ .f1,
-.ll2:hover ~ .f1 {
+.ll2:hover ~ .f1,
+.ll1:hover ~ .f1 {
   translate: 0vh -4vw;
 }
 
-.ll1:hover ~ .ll2 {
+.ll2:hover ~ .ll1 {
   translate: 0vh 0vw;
 }
