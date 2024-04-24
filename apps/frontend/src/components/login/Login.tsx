@@ -9,6 +9,7 @@ import Button from "@mui/material/Button";
 // import bwhLogo from "../assets/bwh-logo.svg";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import arrow from "../assets/arrow.png";
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
@@ -77,11 +78,17 @@ const Login: React.FC = () => {
             }}
           >
             <span
-              style={{ color: "black", fontSize: "18px", marginTop: "150px" }}
+              style={{ color: "navy", fontSize: "18px", marginTop: "150px", fontWeight: "500", fontFamily: "calibri, sans-serif" }}
             >
               View Map
             </span>
           </Button>
+            <img
+                src={arrow}
+                alt="Curly arrow pointing towards map button"
+                className={styles.arrowImage}
+                style={{width: "150px", height: "auto", marginLeft: "50px", marginTop: "20px"}}
+            />
         </div>
       </div>
     </div>

@@ -2,10 +2,11 @@
 @import url("https://fonts.googleapis.com/css2?family=Jaldi:wght@400;700&display=swap");
 
 .heading {
-  color: black;
+  color: #1c3573;
   text-align: center;
-  font-family: "Inter", sans-serif;
+  font-family: "Girard", sans-serif;
   font-size: 50px;
+  font-weight: 800;
 
   padding: 8px;
   animation: slideIn 5s ease forwards;
@@ -18,13 +19,14 @@
   padding: 20px;
   font-weight: lighter;
   font-family: "Inter", sans-serif;
+  font-style: italic;
   animation: slideIn 5s ease forwards;
 }
 
 .textContainer {
   flex: 1; /* Adjust flex value as needed */
   padding: 10px;
-  background-color: #f0f0f0;
+  background-color: #efefef;
   min-width: 200px; /* Set a minimum width */
   height: calc(100vh - 75px);
   animation: slideIn 5s ease forwards;
@@ -69,14 +71,15 @@
   left: 50%;
   transform: translate(-50%, 0%);
   text-align: center;
-  color: black;
-  background: white;
+  color: #313a75;
   margin-top: 10px;
 }
 
 .disclaimer {
   font-weight: 800;
+  font-style: italic;
   width: 100%;
+  text-shadow: -1px -1px 0 #eff3fc, 1px -1px 0 #eff3fc, -1px 1px 0 #eff3fc, 1px 1px 0 #eff3fc; /* Creates an outline */
 }
 
 @keyframes slideIn {
@@ -92,4 +95,9 @@
 
 .slideshow {
   animation: slideIn 5s ease forwards;
+}
+
+.arrowImage {
+    max-height: 200px;
+    max-width: 200px;
 }
