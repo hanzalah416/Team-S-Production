@@ -349,6 +349,12 @@ body {
   overflow-x: hidden;
 }
 
+.floorVoiceSettingContainer {
+  max-height: 200px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
 .keyButton {
   all: unset;
   cursor: pointer;

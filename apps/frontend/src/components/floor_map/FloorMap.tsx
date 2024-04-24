@@ -105,6 +105,7 @@ function FloorMap() {
   const [speechVolume, setSpeechVolume] = useState(1);
   const [speechPitch, setSpeechPitch] = useState(1);
   const [speechRate, setSpeechRate] = useState(1);
+  const [speechVoice, setSpeechVoice] = useState(4);
 
   const zoomToPathSegment = useCallback(
     (segmentIndex: number) => {
@@ -704,6 +705,10 @@ function FloorMap() {
                 value: speechPitch,
               },
             ]}
+            voiceOption={{
+              setValue: setSpeechVoice,
+              value: speechVoice,
+            }}
           />
           <Box className={styles.directionsBox}>Directions</Box>
           {!pathFound && (
@@ -724,6 +729,10 @@ function FloorMap() {
                   algo={algorithm}
                   onChangeFloor={handleFloorChange} // Passing the method as a prop
                   zoomToSegment={zoomToPathSegment}
+                  voice={speechVoice}
+                  volume={speechVolume}
+                  pitch={speechPitch}
+                  rate={speechRate}
                 />
               )}
             </div>

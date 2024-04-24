@@ -8,6 +8,14 @@ import Typography from "@mui/material/Typography";
 import Slider from "@mui/material/Slider";
 import MuiInput from "@mui/material/Input";
 import VolumeUp from "@mui/icons-material/VolumeUp";
+import List from "@mui/material/List";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemText from "@mui/material/ListItemText";
+import Collapse from "@mui/material/Collapse";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import styles from "./FloorMap.module.css";
+import AudiotrackIcon from "@mui/icons-material/Audiotrack";
+import TurtleIcon from "../assets/Turtle.svg";
 
 const Input = styled(MuiInput)`
   width: 42px;
@@ -21,7 +29,18 @@ interface Options {
   min: number;
 }
 
-export function TextToVoiceSelector(props: { options: Options[] }) {
+interface VoiceOption {
+  setValue: (value: number) => void;
+  value: number;
+}
+
+export function TextToVoiceSelector(props: {
+  options: Options[];
+  voiceOption: VoiceOption;
+}) {
+  const voices = speechSynthesis.getVoices();
+
+  const [open, setOpen] = useState(false);
   const handleSliderChange = (
     event: Event,
     newValue: number | number[],
@@ -52,23 +71,77 @@ export function TextToVoiceSelector(props: { options: Options[] }) {
   function switchSelector() {
     showSelector ? setShowSelector(false) : setShowSelector(true);
   }
+  function GetIcon(nameRaw: string) {
+    const name = nameRaw.toLowerCase();
+    switch (name) {
+      case "volume":
+        return <VolumeUp style={{ color: "black" }} />;
+      case "pitch":
+        return <AudiotrackIcon style={{ color: "black" }} />;
+      case "rate":
+        return (
+          <img src={TurtleIcon} alt="Turtle Icon" style={{ minHeight: 24 }} />
+        );
+      default:
+        return <VolumeUp style={{ color: "black" }} />;
+    }
+  }
 
   return (
     <div>
       {/*Button to turn the selector on and off*/}
-      <button onClick={switchSelector}></button>
+      <br />
+      <button type="button" onClick={switchSelector} style={{ color: "black" }}>
+        Voice Settings
+      </button>
 
       {showSelector && (
         <div>
+          <ListItemButton onClick={() => setOpen(!open)}>
+            <ListItemText
+              primary="Voices"
+              style={{ color: "black", fontWeight: "bold", fontSize: "16px" }}
+            />
+            <ExpandMoreIcon
+              sx={{ transform: open ? "rotate(180deg)" : "none" }}
+              style={{ color: "black" }}
+            />
+          </ListItemButton>
+          <div className={styles.floorVoiceSettingContainer}>
+            {/*Dropdown to select the voice*/}
+
+            <Collapse in={open} timeout="auto" unmountOnExit>
+              <List
+                component="div"
+                disablePadding
+                sx={{ width: "380px", maxWidth: 380, bgcolor: "#efefef" }}
+              >
+                {voices.map((voice, index) => (
+                  <ListItemButton
+                    key={index}
+                    sx={{ pl: 4 }}
+                    onClick={() => {
+                      props.voiceOption.setValue(index);
+                      console.log(index);
+                    }}
+                  >
+                    <ListItemText
+                      primary={voice.name}
+                      style={{ color: "black", fontSize: "16px" }}
+                    />
+                  </ListItemButton>
+                ))}
+              </List>
+            </Collapse>
+          </div>
+
           {props.options.map((option: Options) => (
             <Box sx={{ width: 250 }}>
               <Typography id="input-slider" gutterBottom color={"black"}>
                 {option.name}
               </Typography>
               <Grid container spacing={2} alignItems="center">
-                <Grid item>
-                  <VolumeUp style={{ color: "black" }} />
-                </Grid>
+                <Grid item>{GetIcon(option.name)}</Grid>
                 <Grid item xs>
                   <Slider
                     max={option.max}
