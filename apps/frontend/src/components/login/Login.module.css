@@ -83,11 +83,11 @@
 @keyframes slideIn {
   from {
     transform: translateX(0);
-    opacity: 0;
+    opacity: 0.5;
   }
   to {
     transform: translateY(0);
-    opacity: 2;
+    opacity: 1;
   }
 }
 
