@@ -25,6 +25,7 @@ import { AppState, Auth0Provider } from "@auth0/auth0-react";
 import LanguageRequest from "./components/service_requests/language_requests/LanguageRequest.tsx";
 import CreditPage from "./components/credit_page/CreditPage.tsx";
 import TransportRequest from "./components/service_requests/internalTransportation/TransportRequest.tsx";
+import EmailForm from "./components/EmailConnection/EmailForm.tsx";
 
 function App() {
   const router = createBrowserRouter([
@@ -120,6 +121,15 @@ function App() {
           element: (
             <>
               <MedicineDeliveryForm />
+              <Layout />
+            </>
+          ),
+        },
+        {
+          path: "/sign-up-email",
+          element: (
+            <>
+              <EmailForm topicArn="arn:aws:sns:us-east-2:851725475476:Appointment_Confirmation" />
               <Layout />
             </>
           ),
