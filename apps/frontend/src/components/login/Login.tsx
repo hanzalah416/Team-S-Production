@@ -41,7 +41,8 @@ const Login: React.FC = () => {
                 className={styles.coverImage}
                 style={{
                   display: index === currentImageIndex ? "block" : "none",
-                  transition: "opacity 2s ease-in",
+                    opacity: index === currentImageIndex ? 1 : 0, // Set opacity based on currentImageIndex
+                    transition: 'opacity 1s ease', // Define transition property inline
                 }}
               />
             ))}
