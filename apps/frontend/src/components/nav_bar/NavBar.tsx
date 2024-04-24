@@ -19,6 +19,9 @@ import creditIcon from "../assets/NavBarIcons/credit_menu.svg";
 import transportIcon from "../assets/NavBarIcons/InternalTransportIcon.svg";
 import mapEditingIcon from "../assets/NavBarIcons/MapEditingIcon.svg";
 import dbIcon from "../assets/NavBarIcons/dbIcon.svg";
+import giftIcon from "../assets/NavBarIcons/gift_icon.svg";
+import aboutIcon from "../assets/NavBarIcons/about.svg";
+import {useNavigate} from "react-router-dom";
 import { LoginButton } from "../LoginButton.tsx";
 import { LogoutButton } from "../LogoutButton.tsx";
 import { createTheme, FormControl, ThemeProvider } from "@mui/material";
@@ -68,7 +71,7 @@ function NavBar() {
   const requestsID = document.getElementById("requestsID");
   const servicesID = document.getElementById("servicesID");
   const creditsID = document.getElementById("creditsID");
-
+  const aboutID = document.getElementById("aboutID");
   const [backdropVisible, setBackdropVisible] = React.useState(false);
 
   const [username, setUsername] = React.useState("USERNAME");
@@ -78,13 +81,19 @@ function NavBar() {
   };
 
   const { isAuthenticated, user } = useAuth0();
-
+const navigate = useNavigate();
   const handleClose = () => {
     setAnchorEl(null);
     if (backdropVisible) {
       onBackDropItemClick();
     }
   };
+
+    const toHero = () => {
+       navigate("/");
+    };
+
+
 
   const setServicesID = useCallback(() => {
     if (servicesID) {
@@ -96,10 +105,13 @@ function NavBar() {
     if (creditsID) {
       creditsID.classList.remove("currItem");
     }
+    if (aboutID) {
+      aboutID.classList.remove("currItem");
+    }
     if (requestsID) {
       requestsID.classList.remove("currItem");
     }
-  }, [servicesID, mapID, requestsID, creditsID]);
+  }, [servicesID, mapID, requestsID, creditsID, aboutID]);
 
   const setMapID = useCallback(() => {
     if (servicesID) {
@@ -111,10 +123,13 @@ function NavBar() {
     if (creditsID) {
       creditsID.classList.remove("currItem");
     }
+    if (aboutID) {
+      aboutID.classList.remove("currItem");
+    }
     if (requestsID) {
       requestsID.classList.remove("currItem");
     }
-  }, [servicesID, mapID, requestsID, creditsID]);
+  }, [servicesID, mapID, requestsID, creditsID, aboutID]);
 
   const setRequestsID = useCallback(() => {
     if (servicesID) {
@@ -126,10 +141,13 @@ function NavBar() {
     if (creditsID) {
       creditsID.classList.remove("currItem");
     }
+    if (aboutID) {
+      aboutID.classList.remove("currItem");
+    }
     if (requestsID) {
       requestsID.classList.add("currItem");
     }
-  }, [servicesID, mapID, requestsID, creditsID]);
+  }, [servicesID, mapID, requestsID, creditsID, aboutID]);
 
   const setCreditsID = useCallback(() => {
     if (servicesID) {
@@ -145,7 +163,31 @@ function NavBar() {
       console.log("make bold");
       creditsID.classList.add("currItem");
     }
-  }, [servicesID, mapID, requestsID, creditsID]);
+    if (aboutID) {
+      console.log("make bold");
+      aboutID.classList.remove("currItem");
+    }
+  }, [servicesID, mapID, requestsID, creditsID, aboutID]);
+
+  const setAboutID = useCallback(() => {
+    if (servicesID) {
+      servicesID.classList.remove("currItem");
+    }
+    if (mapID) {
+      mapID.classList.remove("currItem");
+    }
+    if (requestsID) {
+      requestsID.classList.remove("currItem");
+    }
+    if (creditsID) {
+      console.log("make bold");
+      creditsID.classList.remove("currItem");
+    }
+    if (aboutID) {
+      console.log("make bold");
+      aboutID.classList.add("currItem");
+    }
+  }, [servicesID, mapID, requestsID, creditsID, aboutID]);
 
   useEffect(() => {
     const hours = today.getHours();
@@ -202,17 +244,28 @@ function NavBar() {
       case "/all-service-requests":
         setRequestsID();
         break;
-      case "/":
+      case "/floor-map":
         setMapID();
         break;
       case "/credit-page":
         console.log("credit page");
         setCreditsID();
         break;
+      case "/about-page":
+        console.log("about page");
+        setAboutID();
+        break;
       default:
         setServIcon(homePinIcon);
     }
-  }, [location, setServicesID, setMapID, setRequestsID, setCreditsID]);
+  }, [
+    location,
+    setServicesID,
+    setMapID,
+    setRequestsID,
+    setCreditsID,
+    setAboutID,
+  ]);
 
   useEffect(() => {
     if (user) {
@@ -258,10 +311,30 @@ function NavBar() {
             "Brigham and Women's Hospital logo, reading " +
             "'Founding member, Mass General Brigham'"
           }
+          onClick={toHero}
         />
-        <p className={"time"}>{timeOfDay}</p>
+
+
+          <p className={"time"} onClick={toHero}>{timeOfDay} </p>
+
+
+
       </div>
+
       <div className={"navButtons"}>
+        <Link to={"/about-page"} id={"order"}>
+          <Button className={"alignIcons"} onClick={onBackDropItemClick}>
+            <img
+              src={aboutIcon}
+              className={"iconHeight"}
+              width={"38px"}
+              alt={"About Icon"}
+            />
+            <p id={"aboutID"} className={"itemNames"}>
+              About
+            </p>
+          </Button>
+        </Link>
         {isAuthenticated && (
           <Link to={"/floor-map"} id={"map"}>
             <Button className={"alignIcons"}>
@@ -273,7 +346,7 @@ function NavBar() {
             </Button>
           </Link>
         )}
-        {username === "admind24x" && (
+        {username === "admind24s" && (
           <FormControl>
             <Link to={"/all-service-requests"} id={"order"}>
               <Button className={"alignIcons"}>
@@ -330,6 +403,18 @@ function NavBar() {
                     alt={"Flower Icon"}
                   />
                   <p className={"item"}>Order Flowers</p>
+                </MenuItem>
+              </Link>
+
+              <Link to={"/gift-request"} id={"order"}>
+                <MenuItem onClick={handleClose}>
+                  <img
+                    src={giftIcon}
+                    className={"iconHeight"}
+                    width={"38px"}
+                    alt={"Gift Icon"}
+                  />
+                  <p className={"item"}>Gift Requests</p>
                 </MenuItem>
               </Link>
               <Link to={"/medicine-delivery-request"} id={"order"}>
@@ -456,6 +541,23 @@ function NavBar() {
       </div>
       <div className={"buttonsInDropDown"}>
         <div className={"itemDropDown"}>
+          <Link to={"/about-page"} id={"order"}>
+            <Button
+              className={"alignIconsDropDown"}
+              onClick={onBackDropItemClick}
+            >
+              <p id={"aboutID"} className={"itemNames"}>
+                About
+              </p>
+              <img
+                src={aboutIcon}
+                className={"iconHeight"}
+                width={"38px"}
+                alt={"About icon"}
+              />
+            </Button>
+          </Link>
+
           <Link to={"/"} id={"map"}>
             <Button
               className={"alignIconsDropDown"}
@@ -517,6 +619,23 @@ function NavBar() {
             >
               <p id={"creditsID"} className={"itemNames"}>
                 Credits
+              </p>
+              <img
+                src={creditIcon}
+                className={"iconHeight"}
+                width={"38px"}
+                alt={"credit icon"}
+              />
+            </Button>
+          </Link>
+
+          <Link to={"/about-page"} id={"order"}>
+            <Button
+              className={"alignIconsDropDown"}
+              onClick={onBackDropItemClick}
+            >
+              <p id={"creditsID"} className={"itemNames"}>
+                About
               </p>
               <img
                 src={creditIcon}

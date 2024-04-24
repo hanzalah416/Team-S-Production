@@ -9,6 +9,13 @@ import Button from "@mui/material/Button";
 // import bwhLogo from "../assets/bwh-logo.svg";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import arrow from "../assets/arrow.png";
+import HeroPageCard from "./HeroPageCard";
+import flowerIcon from "../assets/NavBarIcons/flowers_icon.svg";
+import mapIcon from "../assets/NavBarIcons/map_icon.svg";
+import aboutIcon from "../assets/NavBarIcons/about.svg";
+import giftIcon from "../assets/NavBarIcons/gift_icon.svg";
+import toolsIcon from "../assets/NavBarIcons/tools_icon.svg";
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
@@ -16,19 +23,20 @@ const Login: React.FC = () => {
   const navigateMap = () => {
     navigate("/floor-map");
   };
+
   const images = [heroImage, heroImage1, heroImage2, heroImage3];
 
   useEffect(() => {
     const interval = setInterval(() => {
       // Update the index to display the next image
       setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
-    }, 3000); // Change the duration here (in milliseconds)
+    }, 5000); // Change the duration here (in milliseconds)
 
     return () => clearInterval(interval); // Cleanup the interval on component unmount
   }, [images.length]); // Empty dependency array to run this effect only once on component mount
 
   return (
-    <div>
+    <div className={styles.down}>
       <div className={styles.container}>
         <div className={styles.imageContainer}>
           <div className={styles.slideshow}>
@@ -40,7 +48,7 @@ const Login: React.FC = () => {
                 className={styles.coverImage}
                 style={{
                   display: index === currentImageIndex ? "block" : "none",
-                  transition: "opacity 2s ease-in",
+                    opacity: index === currentImageIndex ? 0 : 0, // Set opacity based on currentImageIndex
                 }}
               />
             ))}
@@ -55,8 +63,6 @@ const Login: React.FC = () => {
           </div>
         </div>
         <div className={styles.textContainer}>
-          <br />
-          <br />
           <h1 className={styles.heading}>Brigham and Women's Hospital</h1>
           <br />
           <p className={styles.heading2}>
@@ -76,11 +82,55 @@ const Login: React.FC = () => {
             }}
           >
             <span
-              style={{ color: "black", fontSize: "18px", marginTop: "150px" }}
+              style={{ color: "navy", fontSize: "18px", marginTop: "150px", fontWeight: "500", fontFamily: "calibri, sans-serif" }}
             >
               View Map
             </span>
           </Button>
+            <img
+                src={arrow}
+                alt="Curly arrow pointing towards map button"
+                className={styles.arrowImage}
+                style={{width: "150px", height: "auto", marginLeft: "50px", marginTop: "20px"}}
+            />
+        </div>
+      </div>
+      <div className={styles.bottomHalfContainer}>
+        <div className={styles.lightBlueBar} />
+        <div className={styles.cardsAligned}>
+          <HeroPageCard
+            image={flowerIcon}
+            title={"Order some flowers"}
+            link={"order-flowers"}
+          />
+          <HeroPageCard
+            image={mapIcon}
+            title={"Visit Our Map"}
+            link={"floor-map"}
+          />
+          <HeroPageCard
+            image={giftIcon}
+            title={"Order a gift"}
+            link={"gift-request"}
+          />
+          <HeroPageCard
+            image={aboutIcon}
+            title={"About this site"}
+            link={"about-page"}
+          />
+          <HeroPageCard
+            image={toolsIcon}
+            title={"Tools Used"}
+            link={"credit-page"}
+          />
+        </div>
+        <div className={styles.footer}>
+          <p>
+            This website is a term project exercise for WPI CS 3733 Software
+            Engineering (Prof. Wong) and is not to be confused with the actual
+            Brigham & Women’s Hospital website
+          </p>
+
         </div>
       </div>
     </div>
