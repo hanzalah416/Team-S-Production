@@ -31,12 +31,6 @@ Location: Select from the dropdown where the flowers should be delivered or wher
 
 Request Type: Choose the type of flowers you are requesting. If you need more than one type, you might be able to select multiple options, or if you can only select one, choose the primary type and specify further in the custom message.
 
-POPPIES
-
-ROSES
-
-TULIPS
-
 Enter Custom Message: If you’d like to include a message with the flowers or have specific instructions for the arrangement, enter that information here.
 
 Status: If applicable, select the current status of the request. This might be intended for the administrators to update, rather than the requester.
