@@ -438,19 +438,19 @@ function NavBar() {
             </p>
           </Button>
         </Link>
-          <Link to={"/about-page"} id={"order"}>
-              <Button className={"alignIcons"} onClick={onBackDropItemClick}>
-                  <img
-                      src={aboutIcon}
-                      className={"iconHeight"}
-                      width={"38px"}
-                      alt={"Credit Icon"}
-                  />
-                  <p id={"creditsID"} className={"itemNames"}>
-                      About
-                  </p>
-              </Button>
-          </Link>
+        <Link to={"/about-page"} id={"order"}>
+          <Button className={"alignIcons"} onClick={onBackDropItemClick}>
+            <img
+              src={aboutIcon}
+              className={"iconHeight"}
+              width={"38px"}
+              alt={"Credit Icon"}
+            />
+            <p id={"creditsID"} className={"itemNames"}>
+              About
+            </p>
+          </Button>
+        </Link>
       </div>
       <div className={"rightSide"}>
         {isAuthenticated && <p className={"username"}>{username}</p>}
@@ -540,22 +540,22 @@ function NavBar() {
               />
             </Button>
           </Link>
-            <Link to={"/about-page"} id={"order"}>
-                <Button
-                    className={"alignIconsDropDown"}
-                    onClick={onBackDropItemClick}
-                >
-                    <p id={"creditsID"} className={"itemNames"}>
-                       About
-                    </p>
-                    <img
-                        src={creditIcon}
-                        className={"iconHeight"}
-                        width={"38px"}
-                        alt={"credit icon"}
-                    />
-                </Button>
-            </Link>
+          <Link to={"/about-page"} id={"order"}>
+            <Button
+              className={"alignIconsDropDown"}
+              onClick={onBackDropItemClick}
+            >
+              <p id={"creditsID"} className={"itemNames"}>
+                About
+              </p>
+              <img
+                src={creditIcon}
+                className={"iconHeight"}
+                width={"38px"}
+                alt={"credit icon"}
+              />
+            </Button>
+          </Link>
         </div>
         <div className={"itemDropDown"}>
           <ThemeProvider theme={theme}>

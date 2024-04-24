@@ -13,32 +13,29 @@ interface MiniMapProps {
 const MiniMap: React.FC<MiniMapProps> = ({ onChangeFloor }) => {
   return (
     <div className={styles.outerOuterDiv}>
-        <div className={styles.outerDiv}>
-
-            <div className={styles.ll2} onClick={() => onChangeFloor("L2")}>
-                <header>L2</header>
-                <img src={ll2} alt="map" className={styles.mmimg}/>
-            </div>
-
-            <div className={styles.ll1} onClick={() => onChangeFloor("L1")}>
-                <header>L1</header>
-                <img src={ll1} alt="map" className={styles.mmimg}/>
-            </div>
-            <div className={styles.f1} onClick={() => onChangeFloor("01")}>
-                <header>1</header>
-                <img src={f1} alt="map" className={styles.mmimg}/>
-            </div>
-            <div className={styles.f2} onClick={() => onChangeFloor("02")}>
-                <header>2</header>
-                <img src={f2} alt="map" className={styles.mmimg}/>
-            </div>
-            <div className={styles.f3} onClick={() => onChangeFloor("03")}>
-                <header>3</header>
-                <img src={f3} alt="map" className={styles.mmimg}/>
-
-            </div>
-
+      <div className={styles.outerDiv}>
+        <div className={styles.ll2} onClick={() => onChangeFloor("L2")}>
+          <header>L2</header>
+          <img src={ll2} alt="map" className={styles.mmimg} />
         </div>
+
+        <div className={styles.ll1} onClick={() => onChangeFloor("L1")}>
+          <header>L1</header>
+          <img src={ll1} alt="map" className={styles.mmimg} />
+        </div>
+        <div className={styles.f1} onClick={() => onChangeFloor("01")}>
+          <header>1</header>
+          <img src={f1} alt="map" className={styles.mmimg} />
+        </div>
+        <div className={styles.f2} onClick={() => onChangeFloor("02")}>
+          <header>2</header>
+          <img src={f2} alt="map" className={styles.mmimg} />
+        </div>
+        <div className={styles.f3} onClick={() => onChangeFloor("03")}>
+          <header>3</header>
+          <img src={f3} alt="map" className={styles.mmimg} />
+        </div>
+      </div>
     </div>
   );
 };

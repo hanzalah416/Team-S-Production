@@ -66,16 +66,15 @@ header {
 }
 
 .ll2 {
-    perspective: 75vh;
-    translate: 0vh 8vw;
-    z-index: 1;
+  perspective: 75vh;
+  translate: 0vh 8vw;
+  z-index: 1;
 }
 
 .ll1 {
-
-    perspective: 69vh;
-    translate: 0vh 4vw;
-    z-index: 2;
+  perspective: 69vh;
+  translate: 0vh 4vw;
+  z-index: 2;
 }
 
 .f2:hover ~ .f3,

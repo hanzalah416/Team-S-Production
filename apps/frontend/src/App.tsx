@@ -170,15 +170,15 @@ function App() {
             </>
           ),
         },
-         {
-              path: "/about-page",
-              element: (
-                  <>
-                      <AboutPage />
-                      <Layout />
-                  </>
-              ),
-         },
+        {
+          path: "/about-page",
+          element: (
+            <>
+              <AboutPage />
+              <Layout />
+            </>
+          ),
+        },
         // ... other routes
       ],
     },

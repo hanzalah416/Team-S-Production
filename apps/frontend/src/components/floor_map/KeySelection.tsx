@@ -38,8 +38,6 @@ const KeySelection: React.FC<floorMapFunctions> = ({
   handleSelection,
   getPositionById,
 }) => {
-
-
   const algo = "astar";
   const fetchData = useCallback(
     async (currentEndNodes: string[]) => {
