@@ -614,15 +614,15 @@ const StaticFloorMapDebug = () => {
   }, []);
 
   const floorMaps = {
-    L1: l1Map,
     L2: l2Map,
+    L1: l1Map,
     "1": f1Map,
     "2": f2Map,
     "3": f3Map,
   };
 
   const FloorSwitcher = () => {
-    const floorOrder = ["L1", "L2", "1", "2", "3"];
+    const floorOrder = ["L2", "L1", "1", "2", "3"];
     const sortedFloors = Object.keys(floorMaps).sort(
       (a, b) => floorOrder.indexOf(a) - floorOrder.indexOf(b),
     );

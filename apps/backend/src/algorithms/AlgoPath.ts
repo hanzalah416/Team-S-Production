@@ -1,52 +1,90 @@
 import MakeGraph from "../makegraph.ts";
 import { GraphNode, NBMap, Pathfinding } from "../makegraph.ts";
 
-export abstract class Pathfinder implements Pathfinding {
-  startNode: GraphNode | undefined;
-  endNode: GraphNode | undefined;
-  gCost: Map<GraphNode, number> = new Map();
-  hCost: Map<GraphNode, number> = new Map();
-  fCost: Map<GraphNode, number> = new Map();
-  pathFound: boolean = false;
-  sameFloor: boolean = false;
-  arrivedFrom: NBMap = new Map();
-  queue: GraphNode[] = [];
-  closedList: GraphNode[] = [];
-
+export class Pathfinder implements Pathfinding {
   public findPath(graph: MakeGraph, start: string, end: string) {
-    this.setUpGraph(graph, start, end);
-    return this.pathFinding(graph);
-  }
-
-  public setUpGraph(graph: MakeGraph, start: string, end: string) {
     //Get start and end nodes from map
-    this.startNode = graph.nodeMap.get(start);
-    this.endNode = graph.nodeMap.get(end);
+    const startNode = graph.nodeMap.get(start);
+    const endNode = graph.nodeMap.get(end);
 
     //Ensure that the start and end nodes are not identical
-    if (!this.startNode || !this.endNode) {
+    if (!startNode || !endNode) {
       console.error("nodes not found.");
       return [];
     }
 
-    this.queue = [this.startNode]; //Queue of open nodes
-    this.arrivedFrom.set(this.startNode, this.startNode); //Add arrived from for the start node
+    const arrivedFrom: NBMap = new Map(); //Map that contains the node to node parent relationship
+    const queue: GraphNode[] = [startNode]; //Queue of open nodes
+    arrivedFrom.set(startNode, startNode); //Add arrived from for the start node
+    const closedList: GraphNode[] = []; // List of closed
+
+    //Map of different costs
+    const gCost: Map<GraphNode, number> = new Map();
+    const hCost: Map<GraphNode, number> = new Map();
+    const fCost: Map<GraphNode, number> = new Map();
 
     //Set start node costs
-    this.gCost.set(this.startNode, 0);
-    this.hCost.set(this.startNode, 0);
-    this.fCost.set(this.startNode, 0);
+    gCost.set(startNode, 0);
+    hCost.set(startNode, 0);
+    fCost.set(startNode, 0);
 
     //Set end node costs
-    this.gCost.set(this.endNode, 0);
-    this.hCost.set(this.endNode, 0);
-    this.fCost.set(this.endNode, 0);
+    gCost.set(endNode, 0);
+    hCost.set(endNode, 0);
+    fCost.set(endNode, 0);
 
-    if (this.startNode.floor === this.endNode.floor) {
-      this.sameFloor = true;
-      console.log(this.sameFloor);
+    let pathFound = false;
+    let sameFloor = false;
+    if (startNode.floor === endNode.floor) {
+      sameFloor = true;
+      console.log(sameFloor);
     }
-  }
+    while (queue.length > 0) {
+      // Sort the queue based on the total estimated cost from start to end via each node
+      queue.sort((a, b) => {
+        return fCost.get(a)! - fCost.get(b)!;
+      });
 
-  abstract pathFinding(graph: MakeGraph): GraphNode[];
+      //Make the current node the top of the queue (node with the lowest cost)
+      const currentNode = queue.shift()!;
+      closedList.push(currentNode);
+
+      //If the current node is equal to the end node break the loop and begin tracing the path
+      if (currentNode === endNode) {
+        pathFound = true;
+        break;
+      }
+
+      //Add available neighbors of the node to the queue
+      currentNode.neighbors.forEach((neighbor) => {
+        //See if node has already been added
+
+        if (!closedList.includes(neighbor)) {
+          if (!arrivedFrom.has(neighbor)) {
+            arrivedFrom.set(neighbor, currentNode);
+          }
+
+          //Calculate the g,h, and f cost for the nodes and add them to the map
+          const gCostNeighbor =
+            gCost.get(currentNode)! +
+            graph.getCost(neighbor, currentNode, sameFloor);
+          const hCostNeighbor = graph.getCost(neighbor, endNode, sameFloor);
+          const fCostNeighbor = gCostNeighbor + hCostNeighbor;
+
+          //Set the costs for neighbors
+          gCost.set(neighbor, gCostNeighbor);
+          hCost.set(neighbor, hCostNeighbor);
+          fCost.set(neighbor, fCostNeighbor);
+
+          //Check if node is already in the open queue
+          if (!queue.includes(neighbor)) {
+            queue.push(neighbor);
+          }
+        }
+      });
+    }
+
+    //Back trace path
+    return graph.backTracePath(arrivedFrom, pathFound, startNode, endNode);
+  }
 }
