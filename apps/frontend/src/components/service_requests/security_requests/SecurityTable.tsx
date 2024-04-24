@@ -65,10 +65,10 @@ export function SecurityDisplay(props: {
         </Select>
       </StyledTableCell>
       <StyledTableCell align="center">
-        {props.SecurityForm.SecurityRequest.securityType}
+        {props.SecurityForm.SecurityRequest?.securityType ?? "Crowd Control"}
       </StyledTableCell>
       <StyledTableCell align="center">
-        {props.SecurityForm.SecurityRequest.threatType}
+        {props.SecurityForm.SecurityRequest?.threatType ?? "Terrorism"}
       </StyledTableCell>
     </TableRow>
   );
