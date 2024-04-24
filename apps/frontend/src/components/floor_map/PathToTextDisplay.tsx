@@ -15,7 +15,7 @@ import ImportExportIcon from "@mui/icons-material/ImportExport";
 import SyncIcon from "@mui/icons-material/Sync";
 import FmdGoodIcon from "@mui/icons-material/FmdGood";
 import styles from "./FloorMap.module.css";
-import { GetEstimatedTime } from "./PathDistanceCalculater.ts";
+import { GetEstimatedTime } from "./pathToTextDisplayFunc.ts";
 import DirectionsWalkIcon from "@mui/icons-material/DirectionsWalk";
 
 export default function PathToTextDisplay(props: {
