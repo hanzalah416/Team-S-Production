@@ -23,6 +23,10 @@
 }
 
 .textContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   flex: 1; /* Adjust flex value as needed */
   padding: 10px;
   background-color: #efefef;
@@ -134,13 +138,13 @@
 }
 
 .bottomHalfContainer {
-  position: relative;
-  left: 0;
-  top: 45px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  align-items: flex-start;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  top: 45px;
+  align-content: center;
   width: 100%;
   padding: 0;
   background-color: #f2f2f3;
@@ -162,8 +166,10 @@
   align-items: center;
   flex-wrap: wrap;
   justify-content: center;
-  column-gap: 15px;
-  row-gap: 15px;
+  column-gap: clamp(15px, 50%, 50px);
+  row-gap: clamp(40px, 50%, 50px);
+  max-width: clamp(400px, 75%, 1400px);
+  max-height: clamp(900px, 75%, 1300px);
 }
 
 .footer {
