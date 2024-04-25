@@ -18,7 +18,6 @@ const MiniMap: React.FC<MiniMapProps> = ({ onChangeFloor }) => {
           <header>L2</header>
           <img src={ll2} alt="map" className={styles.mmimg} />
         </div>
-
         <div className={styles.ll1} onClick={() => onChangeFloor("L1")}>
           <header>L1</header>
           <img src={ll1} alt="map" className={styles.mmimg} />

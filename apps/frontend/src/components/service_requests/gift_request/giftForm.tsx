@@ -8,37 +8,19 @@ import Autocomplete from "@mui/material/Autocomplete";
 import "./giftForm.css";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
-// import Radio from "@mui/material/Radio";
-// import RadioGroup from "@mui/material/RadioGroup";
-// import FormControlLabel from "@mui/material/FormControlLabel";
 import FormLabel from "@mui/material/FormLabel";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Unstable_Grid2"; // Grid version 2
 import Paper from "@mui/material/Paper";
 import axios from "axios";
-// import BackgroundImg from "./blue-background.jpg";
 import BackgroundImg2 from "../../assets/blue-background2.jpg";
 import styles from "../../login/Login.module.css";
 import teddybear from "../../assets/GiftPhotos/teddybeargift.png";
 import coloringbook from "../../assets/GiftPhotos/coloringbook.webp";
 import fruit from "../../assets/GiftPhotos/fruitgift.png";
-
-//Interface for positions
-interface Position {
-  label: string;
-  id: string;
-  top: string;
-  left: string;
-}
-
-//Interface for nodes
-interface Node {
-  xcoord: string;
-  ycoord: string;
-  id: string;
-  longName: string;
-}
+import { Position } from "../../common/PositionInterface.ts";
+import { Node } from "../../common/NodeInterface.ts";
 
 // Interface for Staff
 interface Staff {
@@ -88,6 +70,7 @@ export default function GiftForm() {
           id: node.id,
           top: `${node.ycoord}px`,
           left: `${node.xcoord}px`,
+          floor: node.floor,
         }));
 
         setLocations(formattedLocations);

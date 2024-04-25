@@ -6,6 +6,7 @@
   text-align: center;
   font-family: "Girard", sans-serif;
   font-size: clamp(45px, 50%, 50px);
+
   font-weight: 800;
   padding: 8px;
   animation: slideIn 5s ease forwards;
@@ -259,3 +260,4 @@
     bottom: -50vh;
   }
 }
+
