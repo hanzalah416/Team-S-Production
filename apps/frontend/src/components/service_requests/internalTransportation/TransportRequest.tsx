@@ -14,22 +14,8 @@ import {
 import MenuItem from "@mui/material/MenuItem";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
-interface Node {
-  xcoord: string;
-  ycoord: string;
-  id: string;
-  longName: string;
-  // Add other properties if needed
-}
-
-interface Position {
-  label: string;
-  id: string;
-  top: string;
-  left: string;
-}
-
+import { Position } from "../../common/PositionInterface.ts";
+import { Node } from "../../common/NodeInterface.ts";
 interface Staff {
   employeeName: string;
 }
@@ -141,6 +127,7 @@ const TransportRequest: React.FC = () => {
           id: node.id,
           top: `${node.ycoord}px`,
           left: `${node.xcoord}px`,
+          floor: node.floor,
         }));
 
         setLocations(formattedLocations);

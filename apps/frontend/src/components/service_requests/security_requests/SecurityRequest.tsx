@@ -18,6 +18,8 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import BackgroundImg2 from "../../assets/blue-background2.jpg";
 import Tooltip from "../../ToolTip";
+import { Position } from "../../common/PositionInterface.ts";
+import { Node } from "../../common/NodeInterface.ts";
 
 const tips = `
 Name of Requester: Type in the full name of the individual requesting the room reservation.
@@ -40,6 +42,7 @@ interface Position {
   top: string;
   left: string;
 }
+
 
 //Interface for nodes
 interface Node {
@@ -98,6 +101,7 @@ export default function SecurityRequest() {
           id: node.id,
           top: `${node.ycoord}px`,
           left: `${node.xcoord}px`,
+          floor: node.floor,
         }));
         console.log(formattedLocations);
         setLocations(formattedLocations);

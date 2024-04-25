@@ -21,6 +21,8 @@ import Paper from "@mui/material/Paper";
 import BackgroundImg2 from "../assets/blue-background2.jpg";
 import Tooltip from "../ToolTip";
 import styles from "../login/Login.module.css";
+import { Position } from "../common/PositionInterface.ts";
+import { Node } from "../common/NodeInterface.ts";
 
 const tips = `
 Name of Requester: Enter the name of the person requesting the flowers.
@@ -35,21 +37,6 @@ Enter Custom Message: If you’d like to include a message with the flowers or h
 
 Status: If applicable, select the current status of the request. This might be intended for the administrators to update, rather than the requester.
 `;
-
-interface Position {
-  label: string;
-  id: string;
-  top: string;
-  left: string;
-}
-
-//Interface for nodes
-interface Node {
-  xcoord: string;
-  ycoord: string;
-  id: string;
-  longName: string;
-}
 
 // Interface for Staff
 interface Staff {
@@ -102,6 +89,7 @@ const OrderFlowers: React.FC = () => {
           id: node.id,
           top: `${node.ycoord}px`,
           left: `${node.xcoord}px`,
+          floor: node.floor,
         }));
 
         setLocations(formattedLocations);
