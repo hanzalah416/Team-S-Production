@@ -9,7 +9,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { SecurityForm } from "./SecurityForm.ts";
-import { SecurityDisplay } from "./SecurityTable.tsx";
+import { SecurityRequestDisplay } from "./SecurityTable.tsx";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -23,7 +23,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   },
 }));
 
-export default function RoomGetter() {
+export default function SecurityGetter() {
   const [SecurityData, setSecurityData] = useState<SecurityForm[]>([]);
 
   useEffect(() => {
@@ -75,7 +75,7 @@ export default function RoomGetter() {
         </TableHead>
         <TableBody>
           {sortedSecurityData.map((SecurityForm) => (
-            <SecurityDisplay
+            <SecurityRequestDisplay
               key={SecurityForm.requestID}
               SecurityForm={SecurityForm}
               onUpdateStatus={(newStatus) =>
