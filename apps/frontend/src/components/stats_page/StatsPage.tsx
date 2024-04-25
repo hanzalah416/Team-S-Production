@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from "react";
-import styles from "./StatsPage.module.css"; // Importing the CSS file
+// import styles from "./StatsPage.module.css"; // Importing the CSS file
 import BackgroundImg2 from "../assets/blue-background2.jpg";
-import { PieChart } from "@mui/x-charts/PieChart";
+// import { PieChart } from "@mui/x-charts/PieChart";
 //import Button from "@mui/material/Button";
 import axios from "axios";
+import Typography from "@mui/material/Typography";
+import {Grid} from "@mui/material";
+import {PieChart, Bar, Legend, Pie, XAxis, YAxis, Tooltip, Cell, CartesianGrid, BarChart} from "recharts";
+
 
 type PieData = {
   flowerRequest: number;
@@ -28,6 +32,8 @@ type PriorityBarData = {
     high: number;
     emergency: number;
 };
+
+
 const Stats = () => {
   const [pieData, setPieData] = useState<PieData>({
     flowerRequest: 0,
@@ -58,6 +64,28 @@ const Stats = () => {
     }
     fetchData().then();
   }, []);
+
+    const pieChartData = [
+        { name: 'Flower Requests', value: pieData.flowerRequest, color: '#ff0000'},
+        { name: 'Language Requests', value: pieData.languageRequest, color: '#00ff00'},
+        { name: 'Medicine Requests', value: pieData.medicineRequest, color: '#0000ff'},
+        { name: 'Sanitation Requests', value: pieData.sanitationRequest, color: '#ffff00' },
+        { name: 'Scheduling Requests', value: pieData.schedulingRequest, color: '#ff00ff'},
+        { name: 'Security Requests', value: pieData.securityRequest, color:'#00ffff'},
+        { name: 'Transportation Requests', value: pieData.transportRequest, color: '#ffa500'},
+    ];
+
+    const barChartData = [
+        { name: 'Category 1', value: 100 },
+        { name: 'Category 2', value: 200 },
+        { name: 'Category 3', value: 300 },
+        { name: 'Category 4', value: 400 },
+        { name: 'Category 5', value: 500 },
+        { name: 'Category 6', value: 600 },
+        { name: 'Category 7', value: 700 },
+    ];
+
+
   return (
     <div
       style={{
@@ -75,62 +103,39 @@ const Stats = () => {
         justifyContent: "center",
       }}
     >
-        <div className={styles.statsContainer}>
-            <h1>Number of service requests by request type</h1>
-            <div className={styles.pieChartContainer}>
-                <PieChart
-                    series={[
-                        {
-                            arcLabelMinAngle: 45,
-                            data: [
-                                {
-                                    id: 0,
-                                    value: pieData.flowerRequest,
-                                    label: "Flower Requests",
-                                },
-                                {
-                                    id: 1,
-                                    value: pieData.languageRequest,
-                                    label: "Language Requests",
-                                },
-                                {
-                                    id: 2,
-                                    value: pieData.medicineRequest,
-                                    label: "Medicine Requests",
-                                },
-                                {
-                                    id: 3,
-                                    value: pieData.sanitationRequest,
-                                    label: "Sanitation Requests",
-                                },
-                                {
-                                    id: 4,
-                                    value: pieData.schedulingRequest,
-                                    label: "Scheduling Requests",
-                                },
-                                {
-                                    id: 5,
-                                    value: pieData.securityRequest,
-                                    label: "Security Requests",
-                                },
-                                {
-                                    id: 6,
-                                    value: pieData.transportRequest,
-                                    label: "Transport Requests",
-                                }
+      
+            <Typography variant="h4" gutterBottom>
+                Statistics
+            </Typography>
+
+            <Grid container spacing={3}>
+                <Grid item xs={12} md={6}>
+                    <Typography variant="h6">Service requests by service type</Typography>
+                    <PieChart width={600} height={600}>
+                        <Pie dataKey="value" data={pieChartData} nameKey="name" cx="60%" cy="50%" outerRadius={200} fill="#8884d8">
+                            {pieChartData.map((entry, index) => (
+                                <Cell key={`cell-${index}`} fill={entry.color} />
+                            ))}
+                        </Pie>
+                        <Tooltip />
+                        <Legend wrapperStyle={{ bottom: 0, left: '50%', transform: 'translateX(-40%)' }} layout="horizontal"/>
+                    </PieChart>
+                </Grid>
 
 
-                            ],
-                        },
-                    ]}
-                    width={400}
-                    height={200}
-                />
-                {/*<Button onClick={useEffect}></Button>*/}
-            </div>
-
-        </div>
-
+                <Grid item xs={12} md={6}>
+                    <Typography variant="h6">Bar Graph</Typography>
+                    <BarChart width={500} height={300} data={barChartData}>
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis dataKey="name" />
+                        <YAxis />
+                        <Tooltip />
+                        <Legend />
+                        <Bar dataKey="value" fill="#8884d8" />
+                    </BarChart>
+                </Grid>
+            </Grid>
+        
     </div>
 
 

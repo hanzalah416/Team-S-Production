@@ -53,3 +53,7 @@ ul {
 .MuiChartsLegend-series {
     translate: 15px 80px;
 }
+
+.legend {
+    translate: 30px 50px
+}
