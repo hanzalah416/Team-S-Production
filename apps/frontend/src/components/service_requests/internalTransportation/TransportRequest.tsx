@@ -20,7 +20,6 @@ interface Node {
   ycoord: string;
   id: string;
   longName: string;
-  // Add other properties if needed
 }
 
 interface Position {

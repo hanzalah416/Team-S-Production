@@ -12,84 +12,91 @@ import { TransportationForm } from "./TransportationForm.ts";
 import { TransportationDisplay } from "./TransportationTable.tsx";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
-    [`&.${tableCellClasses.head}`]: {
-        backgroundColor: theme.palette.common.white,
-        color: theme.palette.common.black,
-        fontWeight: "bold",
-        textAlign: "center",
-    },
-    [`&.${tableCellClasses.body}`]: {
-        fontSize: 14,
-    },
+  [`&.${tableCellClasses.head}`]: {
+    backgroundColor: theme.palette.common.white,
+    color: theme.palette.common.black,
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+  [`&.${tableCellClasses.body}`]: {
+    fontSize: 14,
+  },
 }));
 
 export default function TransportationGetter() {
-    const [TransportationData, setTransportationData] = useState<TransportationForm[]>([]);
+  const [TransportationData, setTransportationData] = useState<
+    TransportationForm[]
+  >([]);
 
-    useEffect(() => {
-        async function fetchData() {
-            const res = await axios.get("/api/transport-request");
-            setTransportationData(res.data);
-            console.log(res.data);
-            console.log("successfully got data from get request");
-        }
-        fetchData().then();
-    }, []);
+  useEffect(() => {
+    async function fetchData() {
+      const res = await axios.get("/api/transport-request");
+      setTransportationData(res.data);
+      console.log(res.data);
+      console.log("successfully got data from get request");
+    }
+    fetchData().then();
+  }, []);
 
-    // Function to update the status of all requests
-    const updateTransportationStatus = async (
-        requestID: number,
-        newStatus: string,
-    ) => {
-        try {
-            await axios.patch(`/api/all-requests/${requestID}`, {
-                status: newStatus,
-            });
-            setTransportationData((prevData) =>
-                prevData.map((request) =>
-                    request.requestID === requestID
-                        ? { ...request, status: newStatus }
-                        : request,
-                ),
-            );
-        } catch (error) {
-            console.error("Error updating all request status:", error);
-        }
-    };
+  // Function to update the status of all requests
+  const updateTransportationStatus = async (
+    requestID: number,
+    newStatus: string,
+  ) => {
+    try {
+      await axios.patch(`/api/all-requests/${requestID}`, {
+        status: newStatus,
+      });
+      setTransportationData((prevData) =>
+        prevData.map((request) =>
+          request.requestID === requestID
+            ? { ...request, status: newStatus }
+            : request,
+        ),
+      );
+    } catch (error) {
+      console.error("Error updating all request status:", error);
+    }
+  };
 
-    // Sort the data by orderNumber before rendering
-    const sortedTransportationData = [...TransportationData].sort(
-        (a, b) => a.requestID - b.requestID,
-    );
+  // Sort the data by orderNumber before rendering
+  const sortedTransportationData = [...TransportationData].sort(
+    (a, b) => a.requestID - b.requestID,
+  );
 
-    return (
-        <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 700 }} aria-label="customized table">
-                <TableHead>
-                    <TableRow>
-                        <StyledTableCell align="center">Request ID</StyledTableCell>
-                        <StyledTableCell align="center">Requester's Name</StyledTableCell>
-                        <StyledTableCell align="center">Priority</StyledTableCell>
-                        <StyledTableCell align="center">Location</StyledTableCell>
-                        <StyledTableCell align="center">Status</StyledTableCell>
-                        <StyledTableCell align="center">Patient Name</StyledTableCell>
-                        <StyledTableCell align="center">Transportation Type</StyledTableCell>
-                        <StyledTableCell align="center">Start Location</StyledTableCell>
-                        <StyledTableCell align="center">End Location</StyledTableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {sortedTransportationData.map((TransportationForm) => (
-                        <TransportationDisplay
-                            key={TransportationForm.requestID}
-                            TransportationForm={TransportationForm}
-                            onUpdateStatus={(newStatus) =>
-                                updateTransportationStatus(TransportationForm.requestID, newStatus)
-                            }
-                        />
-                    ))}
-                </TableBody>
-            </Table>
-        </TableContainer>
-    );
+  return (
+    <TableContainer component={Paper}>
+      <Table sx={{ minWidth: 700 }} aria-label="customized table">
+        <TableHead>
+          <TableRow>
+            <StyledTableCell align="center">Request ID</StyledTableCell>
+            <StyledTableCell align="center">Requester's Name</StyledTableCell>
+            <StyledTableCell align="center">Priority</StyledTableCell>
+            <StyledTableCell align="center">Location</StyledTableCell>
+            <StyledTableCell align="center">Status</StyledTableCell>
+            <StyledTableCell align="center">Patient Name</StyledTableCell>
+            <StyledTableCell align="center">
+              Transportation Type
+            </StyledTableCell>
+            <StyledTableCell align="center">Start Location</StyledTableCell>
+            <StyledTableCell align="center">End Location</StyledTableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {sortedTransportationData.map((TransportationForm) => (
+            <TransportationDisplay
+              key={TransportationForm.requestID}
+              TransportationForm={TransportationForm}
+              onUpdateStatus={(newStatus) =>
+                updateTransportationStatus(
+                  TransportationForm.requestID,
+                  newStatus,
+                )
+              }
+            />
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
+  );
 }

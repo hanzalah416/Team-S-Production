@@ -48,6 +48,9 @@ router.get("/", async function (req: Request, res: Response) {
   try {
     // Fetch the PatientName and PatientRoom from Prisma
     const serviceRequests = await prisma.serviceRequest.findMany({
+      where: {
+        requestType: "Gift",
+      },
       include: {
         GiftRequests: {
           select: {
