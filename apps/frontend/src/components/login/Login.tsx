@@ -9,7 +9,6 @@ import Button from "@mui/material/Button";
 // import bwhLogo from "../assets/bwh-logo.svg";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-
 import HeroPageCard from "./HeroPageCard";
 import flowerIcon from "../assets/NavBarIcons/flowers_icon.svg";
 import mapIcon from "../assets/NavBarIcons/map_icon.svg";

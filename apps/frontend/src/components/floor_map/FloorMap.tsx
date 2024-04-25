@@ -35,17 +35,19 @@ import Tooltip from "../ToolTip";
 import { TextToVoiceSelector } from "./TextToVoiceSelector.tsx";
 
 const tips = `
-1.Enter Starting Point:
+Enter Starting Point:
 
 Click on the dropdown menu under “Enter Starting Point”.
 
 Select the building or specific entrance you are currently located at from the list provided.
 
-1.Enter Destination:
+
+Enter Destination:
 
 Click on the dropdown menu under “Enter Destination”.
 
 Choose the building or specific area you want to go to from the list.
+
 
 Directions:
 
@@ -685,8 +687,8 @@ function FloorMap() {
               {
                 name: "Rate",
                 setValue: setSpeechRate,
-                max: 10,
-                min: 0.1,
+                max: 2,
+                min: 0.5,
                 value: speechRate,
               },
               {
