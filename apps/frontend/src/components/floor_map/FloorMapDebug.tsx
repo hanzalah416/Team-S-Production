@@ -623,7 +623,7 @@ const StaticFloorMapDebug = () => {
 
   const floorMaps = {
       L2: l2Map,
-    L1: l1Map,
+    L1: l1Map, // switched order
     "1": f1Map,
     "2": f2Map,
     "3": f3Map,
