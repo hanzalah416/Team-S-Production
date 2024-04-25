@@ -17,10 +17,10 @@ import Button from "@mui/material/Button";
 import Grid from "@mui/material/Unstable_Grid2"; // Grid version 2
 import Paper from "@mui/material/Paper";
 import axios from "axios";
-// import BackgroundImg from "./blue-background.jpg";
 import BackgroundImg2 from "../../assets/blue-background2.jpg";
-// import {useAuth0} from "@auth0/auth0-react";
 import Tooltip from "../../ToolTip";
+import { Position } from "../../common/PositionInterface.ts";
+import { Node } from "../../common/NodeInterface.ts";
 
 const tips = `
 Name of Requester: Enter your full name here.
@@ -45,21 +45,6 @@ Select Can enter without supervision if it is okay for the team to enter the are
 
 Status: If the form allows you to set a status, click on the dropdown menu to choose the current status of the request. This might be applicable if the form is used for tracking ongoing requests.
 `;
-//Interface for positions
-interface Position {
-  label: string;
-  id: string;
-  top: string;
-  left: string;
-}
-
-//Interface for nodes
-interface Node {
-  xcoord: string;
-  ycoord: string;
-  id: string;
-  longName: string;
-}
 
 // Interface for Staff
 interface Staff {
@@ -109,6 +94,7 @@ export default function SanitationForm() {
           id: node.id,
           top: `${node.ycoord}px`,
           left: `${node.xcoord}px`,
+          floor: node.floor,
         }));
 
         setLocations(formattedLocations);

@@ -265,7 +265,7 @@ body {
 .mMap {
   position: absolute;
   right: -50%;
-  top: 37%;
+  top: 47%;
   width: min-content;
   height: min-content;
   transition: right 0.3s ease;
@@ -360,6 +360,16 @@ body {
   width: 30px;
   height: 30px;
   padding: -1px;
+  background-color: transparent;
+  border: none;
+}
+.keyButton:hover {
+  border: 2px solid #163a95;
+  border-radius: 20px;
+}
+.keyButtonText:hover {
+  border: 2px solid #163993;
+  border-radius: 20px;
 }
 
 .keyButtonText {

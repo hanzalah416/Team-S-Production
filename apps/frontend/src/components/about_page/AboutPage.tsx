@@ -28,7 +28,7 @@ const Project = [
     label: "Matt Crane",
   },
   {
-    description: "Assistant Lead Software Engineers, Full Stack Developer",
+    description: "Assistant Lead Software Engineer, Full Stack Developer",
     imgUrl: kim,
     label: "Kim Cummings",
   },
@@ -54,7 +54,7 @@ const Project = [
   },
 
   {
-    description: "Assistant Lead Software Engineers, Full Stack Developer",
+    description: "Assistant Lead Software Engineer, Full Stack Developer",
     imgUrl: nate,
     label: "Nathaniel Schneider",
   },
