@@ -13,33 +13,30 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
 }) => {
   return (
     <div style={{ display: "flex", flexDirection: "column" }}>
-        <div className = {styles.memberContainer}>
+      <div className={styles.memberContainer}>
         <Tooltip title={description}>
-
           <img
-          src={imgUrl}
+            src={imgUrl}
+            style={{
+              width: "30vh",
+              height: "30vh",
+              objectFit: "cover",
+              justifyContent: "center",
+            }}
+          />
+        </Tooltip>
+        <h1
           style={{
-            width: "30vh",
-            height: "30vh",
-            objectFit: "cover",
-            justifyContent: "center",
+            color: "black",
+            alignItems: "center",
+            fontSize: "20px",
+            textAlign: "center",
           }}
-        />
-      </Tooltip>
-      <h1
-        style={{
-          color: "black",
-          alignItems: "center",
-          fontSize: "20px",
-          textAlign: "center",
-        }}
-      >
-        {label}
-      </h1>
-            </div>
-
-
-            </div>
+        >
+          {label}
+        </h1>
+      </div>
+    </div>
   );
 };
 export default ProjectCard;

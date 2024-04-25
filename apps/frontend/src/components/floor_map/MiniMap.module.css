@@ -72,12 +72,12 @@ header {
 }
 
 .ll2 {
-    perspective: 75vh;
-    translate: 0vh 6vw;
-    z-index: 1;
+  perspective: 75vh;
+  translate: 0vh 6vw;
+  z-index: 1;
 }
 .f2:hover ~ .f3 {
-    translate: 00vh -9vw 0vh;
+  translate: 00vh -9vw 0vh;
 }
 .f1:hover ~ .f3,
 .ll2:hover ~ .f3,

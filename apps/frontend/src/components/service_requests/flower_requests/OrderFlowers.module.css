@@ -235,20 +235,20 @@ body {
 .tulips {
   width: 20px;
   height: 20px;
-    background-color: white;
-    border: none;
+  background-color: white;
+  border: none;
 }
 
 .roses {
   width: 2px;
-    background-color: transparent;
-    border: none;
+  background-color: transparent;
+  border: none;
 }
 
 .poppies {
   width: 2px;
-    background-color: transparent;
-    border: none;
+  background-color: transparent;
+  border: none;
 }
 
 .imageContainer {

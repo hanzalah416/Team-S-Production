@@ -5,7 +5,6 @@ const router: Router = express.Router();
 // HTTP protocol
 
 router.post("/", async function (req: Request, res: Response) {
-  // Attempt to save the high score
   try {
     const {
       name,
@@ -57,6 +56,9 @@ router.get("/", async function (req: Request, res: Response) {
   try {
     // Fetch the PatientName and PatientRoom from Prisma
     const serviceRequests = await prisma.serviceRequest.findMany({
+      where: {
+        requestType: "Transport",
+      },
       include: {
         TransportRequest: {
           select: {
