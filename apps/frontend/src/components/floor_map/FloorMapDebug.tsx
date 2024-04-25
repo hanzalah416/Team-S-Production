@@ -6,7 +6,7 @@ import React, {
   useReducer,
 } from "react";
 import styles from "./FloorMapDebug.module.css";
-import { Button, FormControlLabel, Checkbox, Typography, MenuItem, Select, Autocomplete, TextField } from "@mui/material";
+import { Button, FormControlLabel, Checkbox, Typography,  Autocomplete, TextField, Select, MenuItem} from "@mui/material";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import axios from "axios";
 import { NodeEdge } from "database";
@@ -229,8 +229,9 @@ const StaticFloorMapDebug = () => {
       setEditableNode((prev) => ({ ...prev, [name]: value }));
     };
 
-    const handleInputChangeFloor = (value) => {
-      setEditableNode((prev) => ({ ...prev, floor: value }));
+    const handleInputChangeFloor = (event: React.ChangeEvent<HTMLInputElement>) => {
+      const { name, value } = event.target;
+      setEditableNode((prev) => ({ ...prev, [name]: value }));
     };
 
     const handleInputChangeID = (
@@ -337,24 +338,20 @@ const StaticFloorMapDebug = () => {
               </tr>
               <tr>
                 <td className={styles.label}>Floor:</td>
-                <td className={styles.autocomplete}>
-                  <Autocomplete
+                <td >
+                  <Select
                       value={editableNode.floor}
-                      onChange={(event, value) => handleInputChangeFloor(value)} // Use onChange to handle changes
-                      options={["L2", "L1", "1", "2", "3"]}
-                      renderInput={(params) => (
-                          <TextField
-                              {...params}
-                              label="Floor"
-                              variant="outlined"
-                              className={styles.dropdown} // You can adjust the className if needed
-                              InputProps={{
-                                ...params.InputProps,
-                                'aria-label': 'Select Floor', // ARIA label for accessibility
-                              }}
-                          />
-                      )}
-                  />
+                      name="floor"
+                      onChange={handleInputChangeFloor} // Use onChange to handle changes
+                      className={styles.dropdown} // You can adjust the className if needed
+                      inputProps={{"aria-label": "Select Floor"}} // ARIA label for accessibility
+                  >
+                    {["L2", "L1", "1", "2", "3"].map((floorNumber) => (
+                        <MenuItem key={floorNumber} value={floorNumber}>
+                          {floorNumber}
+                        </MenuItem>
+                    ))}
+                  </Select>
                 </td>
               </tr>
               <tr>
@@ -463,10 +460,9 @@ const StaticFloorMapDebug = () => {
       setNewEdgeDetails(null);
     }, []);
 
-    const handleInputChange = (event: React.BaseSyntheticEvent<HTMLInputElement>) => {
+    const handleInputChange = (event) => {
       const { name, value } = event.target;
-      setEditableEdge({ ...editableEdge, [name]: value});
-      console.log(editableEdge);
+      setEditableEdge((prev) => ({ ...prev, [name]: value }));
     };
 
 
@@ -512,26 +508,6 @@ const StaticFloorMapDebug = () => {
       fetchEdges(); // Fetch all nodes again to reflect the update
     };
 
-    // const handleClickOutside = useCallback(
-    //   (event: MouseEvent) => {
-    //     if (
-    //       popupRef.current &&
-    //       event.target instanceof Node &&
-    //       !popupRef.current.contains(event.target)
-    //     ) {
-    //       handleClose();
-    //     }
-    //   },
-    //   [handleClose],
-    // );
-    //
-    // useEffect(() => {
-    //   document.addEventListener("mousedown", handleClickOutside);
-    //   return () => {
-    //     document.removeEventListener("mousedown", handleClickOutside);
-    //   };
-    // }, [handleClickOutside]);
-
     if (!editableEdge) return null;
 
     return (
@@ -546,43 +522,44 @@ const StaticFloorMapDebug = () => {
               <tr>
                 <td className={styles.label}>Start Node:</td>
                 <td>
-                  <Select
-                      name="startNode"
+                  <Autocomplete
                       value={editableEdge.startNode}
-                      onChange={handleInputChange}
-                      className={styles.dropdown}
-                      inputProps={{"aria-label": "Select Node ID"}}
-                  >
-                    <MenuItem value="" disabled>
-                      Select Node ID
-                    </MenuItem>
-                    {nodes.map((node) => (
-                        <MenuItem key={node.id} value={node.id}>
-                          {node.id}
-                        </MenuItem>
-                    ))}
-                  </Select>
+                      onChange={(event, value) => handleInputChange({ target: { name: 'startNode', value } })}
+                      options={nodes.map((node) => node.id)}
+                      renderInput={(params) => (
+                          <TextField
+                              {...params}
+                              variant="outlined"
+                              className={styles.autocomplete}
+                              InputProps={{
+                                ...params.InputProps,
+                                'aria-label': 'Select Node ID', // ARIA label for accessibility
+                              }}
+                          />
+                      )}
+                  />
                 </td>
               </tr>
               <tr>
                 <td className={styles.label}>End Node:</td>
                 <td>
-                <Select
-                    name="endNode"
-                    value={editableEdge.endNode}
-                    onChange={handleInputChange}
-                    className={styles.dropdown}
-                    inputProps={{"aria-label": "Select Node ID"}}
-                >
-                  <MenuItem value="" disabled>
-                    Select Node ID
-                  </MenuItem>
-                  {nodes.map((node) => (
-                      <MenuItem key={node.id} value={node.id}>
-                        {node.id}
-                      </MenuItem>
-                  ))}
-                </Select>
+                  <Autocomplete
+                      sx={{ minWidth: 200, color: "#3B54A0" }}
+                      value={editableEdge.endNode}
+                      onChange={(event, value) => handleInputChange({ target: { name: 'endNode', value } })}
+                      options={nodes.map((node) => node.id)}
+                      renderInput={(params) => (
+                          <TextField
+                              {...params}
+                              variant="outlined"
+                              className={styles.autocomplete}
+                              InputProps={{
+                                ...params.InputProps,
+                                'aria-label': 'Select Node ID', // ARIA label for accessibility
+                              }}
+                          />
+                      )}
+                  />
                 </td>
               </tr>
             </tbody>
