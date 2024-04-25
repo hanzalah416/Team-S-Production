@@ -6096,6 +6096,7 @@ __metadata:
     react-router-dom: "npm:^6.11.2"
     react-swipeable-views: "npm:^0.14.0"
     react-zoom-pan-pinch: "npm:^3.1.0"
+    recharts: "npm:^2.12.6"
     sass: "npm:^1.62.1"
     serve: "npm:^14.2.0"
     sort-by: "npm:^1.2.0"

@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from "react";
-// import styles from "./StatsPage.module.css"; // Importing the CSS file
-import BackgroundImg2 from "../assets/blue-background2.jpg";
-// import { PieChart } from "@mui/x-charts/PieChart";
-//import Button from "@mui/material/Button";
+import BackgroundImg2 from "../assets/blue-background2.jpg";;
 import axios from "axios";
 import Typography from "@mui/material/Typography";
 import {Grid} from "@mui/material";
@@ -17,6 +14,7 @@ type PieData = {
   sanitationRequest: number;
   securityRequest: number;
   transportRequest: number;
+    giftRequest: number,
 };
 type AssignBarData = {
   requestType: string;
@@ -43,6 +41,7 @@ const Stats = () => {
     sanitationRequest: 0,
     securityRequest: 0,
       transportRequest: 0,
+      giftRequest: 0,
   });
   const [, setAssignBar] = useState<AssignBarData[]>([]);
   const [, setPriorityBar] = useState<PriorityBarData[]>([]);
@@ -73,6 +72,8 @@ const Stats = () => {
         { name: 'Scheduling Requests', value: pieData.schedulingRequest, color: '#ff00ff'},
         { name: 'Security Requests', value: pieData.securityRequest, color:'#00ffff'},
         { name: 'Transportation Requests', value: pieData.transportRequest, color: '#ffa500'},
+        { name: 'Gift Requests', value: pieData.giftRequest, color:'#00ffff'},
+        { name: 'Language Requests', value: pieData.languageRequest, color: '#ffa500'},
     ];
 
     const barChartData = [
@@ -84,6 +85,7 @@ const Stats = () => {
         { name: 'Category 6', value: 600 },
         { name: 'Category 7', value: 700 },
     ];
+
 
 
   return (
@@ -112,12 +114,21 @@ const Stats = () => {
                 <Grid item xs={12} md={6}>
                     <Typography variant="h6">Service requests by service type</Typography>
                     <PieChart width={600} height={600}>
-                        <Pie dataKey="value" data={pieChartData} nameKey="name" cx="60%" cy="50%" outerRadius={200} fill="#8884d8">
+                        <Pie
+                            dataKey="value"
+                            data={pieChartData}
+                            nameKey="name"
+                            cx="50%"
+                            cy="50%"
+                            outerRadius={100}
+                            fill="#8884d8"
+                            label
+                        >
                             {pieChartData.map((entry, index) => (
                                 <Cell key={`cell-${index}`} fill={entry.color} />
                             ))}
                         </Pie>
-                        <Tooltip />
+
                         <Legend wrapperStyle={{ bottom: 0, left: '50%', transform: 'translateX(-40%)' }} layout="horizontal"/>
                     </PieChart>
                 </Grid>

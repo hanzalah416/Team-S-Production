@@ -21,6 +21,7 @@ import mapEditingIcon from "../assets/NavBarIcons/MapEditingIcon.svg";
 import dbIcon from "../assets/NavBarIcons/dbIcon.svg";
 import giftIcon from "../assets/NavBarIcons/gift_icon.svg";
 import aboutIcon from "../assets/NavBarIcons/about.svg";
+import statsIcon from "../assets/NavBarIcons/stats_icon.svg";
 import { useNavigate } from "react-router-dom";
 import { LoginButton } from "../LoginButton.tsx";
 import { LogoutButton } from "../LogoutButton.tsx";
@@ -231,6 +232,10 @@ function NavBar() {
         setServIcon(transportIcon);
         setServicesID();
         break;
+        case "/stats-page":
+            setServIcon(statsIcon);
+            setServicesID();
+            break;
       case "/map-debug":
         setServIcon(mapEditingIcon);
         setServicesID();
@@ -490,6 +495,17 @@ function NavBar() {
                   <p className={"item"}>Map Editing Page</p>
                 </MenuItem>
               </Link>
+                <Link to={"/stats-page"} id={"order"}>
+                    <MenuItem onClick={handleClose}>
+                        <img
+                            src={statsIcon}
+                            className={"iconHeight"}
+                            width={"38px"}
+                            alt={"Map Editing Icon"}
+                        />
+                        <p className={"item"}>Site Statistics</p>
+                    </MenuItem>
+                </Link>
               <Link to={"/node-data"} id={"order"}>
                 <MenuItem onClick={handleClose}>
                   <img

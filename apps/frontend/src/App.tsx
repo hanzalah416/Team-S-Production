@@ -27,7 +27,7 @@ import TransportRequest from "./components/service_requests/internalTransportati
 import EmailForm from "./components/EmailConnection/EmailForm.tsx";
 import GiftForm from "./components/service_requests/gift_request/giftForm.tsx";
 import { AboutPage } from "./components/about_page/AboutPage.tsx";
-
+import StatsPage from "./components/stats_page/StatsPage.tsx";
 function App() {
   const router = createBrowserRouter([
     {
@@ -196,6 +196,15 @@ function App() {
             </>
           ),
         },
+          {
+              path: "/stats-page",
+              element: (
+                  <>
+                      <StatsPage />
+                      <Layout />
+                  </>
+              ),
+          },
 
         // ... other routes
       ],
