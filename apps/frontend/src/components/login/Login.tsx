@@ -9,7 +9,7 @@ import Button from "@mui/material/Button";
 // import bwhLogo from "../assets/bwh-logo.svg";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import arrow from "../assets/arrow.png";
+
 import HeroPageCard from "./HeroPageCard";
 import flowerIcon from "../assets/NavBarIcons/flowers_icon.svg";
 import mapIcon from "../assets/NavBarIcons/map_icon.svg";
@@ -55,7 +55,7 @@ const Login: React.FC = () => {
           </div>
 
           <div className={styles.textOverlay}>
-            <p className={styles.disclaimer}>
+            <p className={styles.disclaimer2}>
               This website is a term project exercise for WPI CS 3733 Software
               Engineering (Prof. Wong) and is not to be confused with the actual
               Brigham & Women’s Hospital website
@@ -72,6 +72,7 @@ const Login: React.FC = () => {
           <br />
           <Button
             onClick={navigateMap}
+            className = {styles.viewMap}
             color="primary"
             style={{
               backgroundImage: `url(${mapImage})`,
@@ -81,29 +82,11 @@ const Login: React.FC = () => {
               height: "200px", // Adjust button height as needed
             }}
           >
-            <span
-              style={{
-                color: "navy",
-                fontSize: "18px",
-                marginTop: "150px",
-                fontWeight: "500",
-                fontFamily: "calibri, sans-serif",
-              }}
-            >
-              View Map
-            </span>
+              <div className={styles.view}> click to view map</div>
+
+
           </Button>
-          <img
-            src={arrow}
-            alt="Curly arrow pointing towards map button"
-            className={styles.arrowImage}
-            style={{
-              width: "150px",
-              height: "auto",
-              marginLeft: "50px",
-              marginTop: "20px",
-            }}
-          />
+
         </div>
       </div>
       <div className={styles.bottomHalfContainer}>
@@ -136,7 +119,7 @@ const Login: React.FC = () => {
           />
         </div>
         <div className={styles.footer}>
-          <p>
+          <p className={styles.disclaimerBottom}>
             This website is a term project exercise for WPI CS 3733 Software
             Engineering (Prof. Wong) and is not to be confused with the actual
             Brigham & Women’s Hospital website

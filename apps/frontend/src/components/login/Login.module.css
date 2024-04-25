@@ -76,6 +76,9 @@
   margin-top: 10px;
 }
 
+
+
+
 .disclaimer {
   font-weight: 800;
   font-style: italic;
@@ -85,6 +88,18 @@
     1px -1px 0 #eff3fc,
     -1px 1px 0 #eff3fc,
     1px 1px 0 #eff3fc; /* Creates an outline */
+}
+
+.disclaimer2 {
+    font-weight: 800;
+    font-style: italic;
+    color: red;
+    width: 100%;
+    text-shadow:
+            -1px -1px 0 #eff3fc,
+            1px -1px 0 #eff3fc,
+            -1px 1px 0 #eff3fc,
+            1px 1px 0 #eff3fc; /* Creates an outline */
 }
 
 @keyframes slideIn {
@@ -173,4 +188,16 @@
   display: flex;
   justify-content: center;
   flex-direction: column;
+}
+
+.viewMap {
+    margin-top: 150px;
+    color: #1a1a1a;
+
+}
+
+.view{
+    font-size: 17px;
+    color: black;
+    margin-top: 150px;
 }
