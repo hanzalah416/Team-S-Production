@@ -13,14 +13,14 @@ import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import FormLabel from "@mui/material/FormLabel";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
-import poppies from "../assets/FlowerPhotos/poppies.png";
-import tulips from "../assets/FlowerPhotos/tulips.png";
-import roses from "../assets/FlowerPhotos/rose.png";
+import poppies from "../../assets/FlowerPhotos/poppies.png";
+import tulips from "../../assets/FlowerPhotos/tulips.png";
+import roses from "../../assets/FlowerPhotos/rose.png";
 import Grid from "@mui/material/Unstable_Grid2"; // Grid version 2
 import Paper from "@mui/material/Paper";
-import BackgroundImg2 from "../assets/blue-background2.jpg";
-import Tooltip from "../ToolTip";
-import styles from "../login/Login.module.css";
+import BackgroundImg2 from "../../assets/blue-background2.jpg";
+import Tooltip from "../../ToolTip.tsx";
+import styles from "../../login/Login.module.css";
 
 const tips = `
 Name of Requester: Enter the name of the person requesting the flowers.

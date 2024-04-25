@@ -15,20 +15,21 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   },
 }));
 
-export function SecurityRequestDisplay(props: {
-  SecurityForm: {
+export function GiftDisplay(props: {
+  GiftForm: {
     requestID: number;
     name: string;
     priority: string;
     location: string;
     requestType: string;
     status: string;
-    SecurityRequests: {
-      orderNumberSec: number;
-      threatType: string;
-      securityType: string;
+    GiftRequests: {
+      orderNumber: number;
+      typeGift: string;
+      customMessage: string;
     };
   };
+
   onUpdateStatus: (newStatus: string) => void;
 }) {
   const handleStatusChange = (event: SelectChangeEvent<string>) => {
@@ -38,20 +39,18 @@ export function SecurityRequestDisplay(props: {
   return (
     <TableRow>
       <StyledTableCell align="center">
-        {props.SecurityForm.requestID}
+        {props.GiftForm.requestID}
+      </StyledTableCell>
+      <StyledTableCell align="center">{props.GiftForm.name}</StyledTableCell>
+      <StyledTableCell align="center">
+        {props.GiftForm.priority}
       </StyledTableCell>
       <StyledTableCell align="center">
-        {props.SecurityForm.name}
-      </StyledTableCell>
-      <StyledTableCell align="center">
-        {props.SecurityForm.priority}
-      </StyledTableCell>
-      <StyledTableCell align="center">
-        {props.SecurityForm.location}
+        {props.GiftForm.location}
       </StyledTableCell>
       <StyledTableCell align="center">
         <Select
-          value={props.SecurityForm.status}
+          value={props.GiftForm.status}
           onChange={handleStatusChange}
           displayEmpty
           inputProps={{ "aria-label": "Without label" }}
@@ -65,10 +64,14 @@ export function SecurityRequestDisplay(props: {
         </Select>
       </StyledTableCell>
       <StyledTableCell align="center">
-        {props.SecurityForm.SecurityRequests.threatType}
+        {props && props.GiftForm && props.GiftForm.GiftRequests
+          ? props.GiftForm.GiftRequests.typeGift || "NA"
+          : "NA"}
       </StyledTableCell>
       <StyledTableCell align="center">
-        {props.SecurityForm.SecurityRequests.securityType}
+        {props && props.GiftForm && props.GiftForm.GiftRequests
+          ? props.GiftForm.GiftRequests.customMessage || "NA"
+          : "NA"}
       </StyledTableCell>
     </TableRow>
   );

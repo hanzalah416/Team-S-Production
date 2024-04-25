@@ -34,6 +34,9 @@ import KeySelection from "./KeySelection.tsx";
 import Tooltip from "../ToolTip";
 import { TextToVoiceSelector } from "./TextToVoiceSelector.tsx";
 
+import { Position } from "../common/PositionInterface.ts";
+import { Node } from "../common/NodeInterface.ts";
+
 const tips = `
 Enter Starting Point:
 
@@ -66,22 +69,6 @@ If the map supports multiple levels, you can use the "Level Select" toggle to vi
 `;
 
 const MiniMap = lazy(() => import("./MiniMap.tsx"));
-
-export interface Position {
-  label: string;
-  id: string;
-  top: string;
-  left: string;
-  floor: string;
-}
-
-interface Node {
-  xcoord: string;
-  ycoord: string;
-  id: string;
-  longName: string;
-  floor: string;
-}
 
 function FloorMap() {
   const [resetFloorsUIKey, setResetFloorsUIKey] = useState(0);

@@ -8,8 +8,8 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { SecurityForm } from "./SecurityForm.ts";
-import { SecurityRequestDisplay } from "./SecurityTable.tsx";
+import { TransportationForm } from "./TransportationForm.ts";
+import { TransportationDisplay } from "./TransportationTable.tsx";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -23,13 +23,15 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   },
 }));
 
-export default function SecurityGetter() {
-  const [SecurityData, setSecurityData] = useState<SecurityForm[]>([]);
+export default function TransportationGetter() {
+  const [TransportationData, setTransportationData] = useState<
+    TransportationForm[]
+  >([]);
 
   useEffect(() => {
     async function fetchData() {
-      const res = await axios.get("/api/security-request");
-      setSecurityData(res.data);
+      const res = await axios.get("/api/transport-request");
+      setTransportationData(res.data);
       console.log(res.data);
       console.log("successfully got data from get request");
     }
@@ -37,12 +39,15 @@ export default function SecurityGetter() {
   }, []);
 
   // Function to update the status of all requests
-  const updateSecurityStatus = async (requestID: number, newStatus: string) => {
+  const updateTransportationStatus = async (
+    requestID: number,
+    newStatus: string,
+  ) => {
     try {
       await axios.patch(`/api/all-requests/${requestID}`, {
         status: newStatus,
       });
-      setSecurityData((prevData) =>
+      setTransportationData((prevData) =>
         prevData.map((request) =>
           request.requestID === requestID
             ? { ...request, status: newStatus }
@@ -55,7 +60,7 @@ export default function SecurityGetter() {
   };
 
   // Sort the data by orderNumber before rendering
-  const sortedSecurityData = [...SecurityData].sort(
+  const sortedTransportationData = [...TransportationData].sort(
     (a, b) => a.requestID - b.requestID,
   );
 
@@ -69,17 +74,24 @@ export default function SecurityGetter() {
             <StyledTableCell align="center">Priority</StyledTableCell>
             <StyledTableCell align="center">Location</StyledTableCell>
             <StyledTableCell align="center">Status</StyledTableCell>
-            <StyledTableCell align="center">Security Type</StyledTableCell>
-            <StyledTableCell align="center">Threat Type</StyledTableCell>
+            <StyledTableCell align="center">Patient Name</StyledTableCell>
+            <StyledTableCell align="center">
+              Transportation Type
+            </StyledTableCell>
+            <StyledTableCell align="center">Start Location</StyledTableCell>
+            <StyledTableCell align="center">End Location</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {sortedSecurityData.map((SecurityForm) => (
-            <SecurityRequestDisplay
-              key={SecurityForm.requestID}
-              SecurityForm={SecurityForm}
+          {sortedTransportationData.map((TransportationForm) => (
+            <TransportationDisplay
+              key={TransportationForm.requestID}
+              TransportationForm={TransportationForm}
               onUpdateStatus={(newStatus) =>
-                updateSecurityStatus(SecurityForm.requestID, newStatus)
+                updateTransportationStatus(
+                  TransportationForm.requestID,
+                  newStatus,
+                )
               }
             />
           ))}

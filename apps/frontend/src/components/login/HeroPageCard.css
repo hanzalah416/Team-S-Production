@@ -60,3 +60,26 @@
 .img:hover {
   transform: scale(1);
 }
+
+@media all and (max-width: 500px) {
+  .img {
+    height: 114px;
+    margin-bottom: 25px;
+  }
+
+  .hero-page-cards {
+    height: 250px;
+    width: 238px;
+  }
+
+  .blueTextBack {
+    width: 238px;
+    height: 78px;
+  }
+
+  .textTitle {
+    font-size: 24px;
+    line-height: 1.2;
+    inline-size: 215px;
+  }
+}

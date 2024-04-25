@@ -18,6 +18,8 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import BackgroundImg2 from "../../assets/blue-background2.jpg";
 import Tooltip from "../../ToolTip";
+import { Position } from "../../common/PositionInterface.ts";
+import { Node } from "../../common/NodeInterface.ts";
 
 const tips = `
 Name of Requester: Enter the full name of the person requiring language assistance.
@@ -31,21 +33,6 @@ Language: Choose the language for which assistance is required from the dropdown
 Status: If the form allows for setting a status, select the current status of the request, like 'new', 'pending', 'approved', or 'completed'.
 
 `;
-//Interface for positions
-interface Position {
-  label: string;
-  id: string;
-  top: string;
-  left: string;
-}
-
-//Interface for nodes
-interface Node {
-  xcoord: string;
-  ycoord: string;
-  id: string;
-  longName: string;
-}
 
 // Interface for Staff
 interface Staff {
@@ -97,6 +84,7 @@ export default function MedicineDeliveryForm() {
           id: node.id,
           top: `${node.ycoord}px`,
           left: `${node.xcoord}px`,
+          floor: node.floor,
         }));
 
         setLocations(formattedLocations);

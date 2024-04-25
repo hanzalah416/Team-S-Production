@@ -38,7 +38,7 @@ const Project = [
     size: "35px",
   },
   {
-    description: "Assistant Lead Software Engineers, Full Stack Developer",
+    description: "Assistant Lead Software Engineer, Full Stack Developer",
     imgUrl: kim,
     label: "Kim Cummings",
     font: "Elia",
@@ -79,7 +79,7 @@ const Project = [
   },
 
   {
-    description: "Assistant Lead Software Engineers, Full Stack Developer",
+    description: "Assistant Lead Software Engineer, Full Stack Developer",
     imgUrl: nate,
     label: "Nathaniel Schneider",
     font: "Elia",
