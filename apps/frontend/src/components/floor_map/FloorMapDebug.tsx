@@ -152,11 +152,6 @@ const StaticFloorMapDebug = () => {
     edges.push(newEdge);
   };
 
-  // const resetNodesAndEdges = async () => {
-  //   let csv_nodes: string[][] = readCSVFile("L1Nodes.csv");
-  //   console.log(csv_nodes);
-  // };
-
   const fetchNodes = async () => {
     try {
       const response = await axios.get("/api/nodes");
@@ -685,8 +680,8 @@ const StaticFloorMapDebug = () => {
         .then(() => console.log("test1"))
         .then(fetchNodes)
         .then(() => console.log("test2"));
-    setNewNodeDetails(emptyNode);
-    setNewNodeDetails(null);
+    await fetchNodes(); // Fetch all nodes again to reflect the update
+
   };
 
   const resetNodesAndEdgesReal = async () => {
@@ -699,6 +694,7 @@ const StaticFloorMapDebug = () => {
           console.error(error);
         });
     console.log("test0");
+    await fetchNodes(); // Fetch all nodes again to reflect the update
 
   };
 
