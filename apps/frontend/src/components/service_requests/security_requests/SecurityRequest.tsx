@@ -35,22 +35,6 @@ Start Date: Click on the field to open a calendar view and select the date when 
 End Date: Similarly, select or enter the date when the reservation will end
 
 `;
-//Interface for positions
-interface Position {
-  label: string;
-  id: string;
-  top: string;
-  left: string;
-}
-
-
-//Interface for nodes
-interface Node {
-  xcoord: string;
-  ycoord: string;
-  id: string;
-  longName: string;
-}
 
 // Interface for Staff
 interface Staff {
