@@ -24,6 +24,7 @@ import l2Map from "../assets/HospitalMap/00_thelowerlevel2.png";
 import f1Map from "../assets/HospitalMap/01_thefirstfloor.png";
 import f2Map from "../assets/HospitalMap/02_thesecondfloor.png";
 import f3Map from "../assets/HospitalMap/03_thethirdfloor.png";
+import {SelectChangeEvent} from "@mui/material/Select";
 // import fs from "fs";
 // import readCSVFile from "../../../../backend/src/Readcsv.ts";
 
@@ -234,14 +235,15 @@ const StaticFloorMapDebug = () => {
       setEditableNode((prev) => ({ ...prev, [name]: value }));
     };
 
-    const handleInputChangeFloor = (
-      event: React.ChangeEvent<HTMLInputElement>,
-    ) => {
-      const { name, value } = event.target;
-      setEditableNode({ ...editableNode, [name]: value });
-    };
+      const handleInputChangeFloor = (
+          event: SelectChangeEvent<string>,
+      ) => {
+          const { name, value } = event.target;
+          setEditableNode((prev) => ({ ...prev, [name]: value }));
+      };
 
-    const handleInputChangeID = (
+
+      const handleInputChangeID = (
       event: React.ChangeEvent<HTMLInputElement>,
     ) => {
       const { name, value } = event.target;
@@ -468,7 +470,7 @@ const StaticFloorMapDebug = () => {
     }, []);
 
     const handleInputChange = (
-      event: React.BaseSyntheticEvent<HTMLInputElement>,
+        event: SelectChangeEvent<string>,
     ) => {
       const { name, value } = event.target;
       setEditableEdge({ ...editableEdge, [name]: value });
