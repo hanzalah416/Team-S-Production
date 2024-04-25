@@ -704,21 +704,29 @@ const StaticFloorMapDebug = () => {
     const LoadingOverlay = () => (
         <div style={{
             position: 'fixed',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)', // Centers the box
-            width: '300px',  // Fixed width
-            height: '100px',  // Fixed height
-            backgroundColor: 'rgba(0,0,0,0.75)',  // Slightly darker background
+            top: 0,
+            left: 0,
+            width: '100vw',  // Cover the full viewport width
+            height: '100vh',  // Cover the full viewport height
+            backgroundColor: 'rgba(0,0,0,0.5)',  // Semi-transparent background
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
-            borderRadius: '10px',  // Rounded corners
-            zIndex: 1000  // Make sure it covers other UI elements
+            zIndex: 1000  // Ensure it covers other UI elements
         }}>
-            <Typography variant="h6" style={{ color: 'white' }}>
-                Resetting Data...
-            </Typography>
+            <div style={{
+                width: '300px',  // Fixed width for the inner box
+                height: '100px',  // Fixed height for the inner box
+                backgroundColor: 'rgba(0,0,0,0.75)',  // Darker background for the box
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                borderRadius: '10px'  // Rounded corners for the box
+            }}>
+                <Typography variant="h6" style={{ color: 'white' }}>
+                    Resetting Data...
+                </Typography>
+            </div>
         </div>
     );
 
