@@ -48,11 +48,14 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           <img
             src={imgUrl}
             style={{
-              width: "30vh",
-              height: "30vh",
-              objectFit: "cover",
-              justifyContent: "center",
-              cursor: "pointer", // Added cursor style for better user experience
+                width: "220px",
+                height: "30vh",
+                borderRadius:"50%",
+                border:"8px solid #fff",
+                objectFit: "cover",
+                boxShadow:"0 10px 60px rgba(255,26,26,0.22)",
+                justifyContent: "center",
+                cursor: "pointer", // Added cursor style for better user experience
             }}
           />
         </Tooltip>
