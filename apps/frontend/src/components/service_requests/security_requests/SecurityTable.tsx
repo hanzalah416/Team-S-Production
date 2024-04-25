@@ -15,7 +15,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   },
 }));
 
-export function SecurityDisplay(props: {
+export function SecurityRequestDisplay(props: {
   SecurityForm: {
     requestID: number;
     name: string;
@@ -23,10 +23,10 @@ export function SecurityDisplay(props: {
     location: string;
     requestType: string;
     status: string;
-    SecurityRequest: {
+    SecurityRequests: {
       orderNumberSec: number;
-      securityType: string;
       threatType: string;
+      securityType: string;
     };
   };
   onUpdateStatus: (newStatus: string) => void;
@@ -65,10 +65,10 @@ export function SecurityDisplay(props: {
         </Select>
       </StyledTableCell>
       <StyledTableCell align="center">
-        {props.SecurityForm.SecurityRequest?.securityType ?? "Crowd Control"}
+        {props.SecurityForm.SecurityRequests.threatType}
       </StyledTableCell>
       <StyledTableCell align="center">
-        {props.SecurityForm.SecurityRequest?.threatType ?? "Terrorism"}
+        {props.SecurityForm.SecurityRequests.securityType}
       </StyledTableCell>
     </TableRow>
   );

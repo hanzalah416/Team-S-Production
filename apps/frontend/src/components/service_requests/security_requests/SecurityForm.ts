@@ -5,7 +5,7 @@ export type SecurityForm = {
   location: string;
   requestType: string;
   status: string;
-  SecurityRequest: {
+  SecurityRequests: {
     orderNumberSec: number;
     securityType: string;
     threatType: string;
