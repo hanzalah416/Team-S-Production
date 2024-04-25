@@ -704,14 +704,16 @@ const StaticFloorMapDebug = () => {
     const LoadingOverlay = () => (
         <div style={{
             position: 'fixed',
-            top: 80,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            backgroundColor: 'rgba(0,0,0,0.5)',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)', // Centers the box
+            width: '300px',  // Fixed width
+            height: '100px',  // Fixed height
+            backgroundColor: 'rgba(0,0,0,0.75)',  // Slightly darker background
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
+            borderRadius: '10px',  // Rounded corners
             zIndex: 1000  // Make sure it covers other UI elements
         }}>
             <Typography variant="h6" style={{ color: 'white' }}>
@@ -720,7 +722,7 @@ const StaticFloorMapDebug = () => {
         </div>
     );
 
-  // Ensure fetchNodes and fetchEdges are correctly implemented
+    // Ensure fetchNodes and fetchEdges are correctly implemented
   const fetchNodes = async () => {
     try {
       const response = await axios.get("/api/nodes");
