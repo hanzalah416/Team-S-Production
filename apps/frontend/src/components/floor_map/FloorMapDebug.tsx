@@ -231,6 +231,7 @@ const StaticFloorMapDebug = () => {
     }, []);
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        console.log("inputchangefirst");
       const { name, value } = event.target;
       setEditableNode((prev) => ({ ...prev, [name]: value }));
     };
@@ -238,6 +239,7 @@ const StaticFloorMapDebug = () => {
       const handleInputChangeFloor = (
           event: SelectChangeEvent<string>,
       ) => {
+          console.log("inputchangefloor");
           const { name, value } = event.target;
           setEditableNode((prev) => ({ ...prev, [name]: value }));
       };
@@ -473,6 +475,7 @@ const StaticFloorMapDebug = () => {
         event: SelectChangeEvent<string>,
     ) => {
       const { name, value } = event.target;
+      console.log("inputchange");
       setEditableEdge({ ...editableEdge, [name]: value });
       console.log(editableEdge);
     };
