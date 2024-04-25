@@ -4,12 +4,18 @@ interface ProjectCardProps {
   description: string;
   imgUrl: string;
   label: string;
+  font: string;
+  color: string;
+  size: string;
 }
 
 const ProjectCard: React.FC<ProjectCardProps> = ({
   description,
   imgUrl,
   label,
+  font,
+  color,
+  size,
 }) => {
   return (
     <div style={{ display: "flex", flexDirection: "column" }}>
@@ -20,15 +26,19 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
             width: "30vh",
             height: "30vh",
             objectFit: "cover",
+            marginLeft: "auto",
+            marginRight: "auto",
             justifyContent: "center",
           }}
         />
       </Tooltip>
+        <br />
       <h1
         style={{
-          color: "black",
+          color: color,
+          fontFamily: font,
           alignItems: "center",
-          fontSize: "30px",
+          fontSize: size,
           textAlign: "center",
         }}
       >

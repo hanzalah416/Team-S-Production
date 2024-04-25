@@ -8,6 +8,7 @@ import FlowerRequestGetter from "../../flower_requests/FlowerRequestTableHead.ts
 import SanitationGetter from "../sanitation_services/SanitationTableHead.tsx";
 import SecurityGetter from "../security_requests/SecurityTableHead.tsx";
 import RoomGetter from "../Room_Scheduling/RoomTableHeader.tsx";
+
 export default function DisplaySRData() {
   const tabNames = [
     "All Requests",
@@ -30,11 +31,11 @@ export default function DisplaySRData() {
   ];
 
   return (
-    <div>
-      <h1>Service Request Data</h1>
-      <br />
-      <Tabs tabNames={tabNames} tabContents={tabContent} />
-      <OutlinedAlerts />
-    </div>
+      <div>
+          <h1>Service Request Data</h1>
+          <br/>
+          <Tabs tabNames={tabNames} tabContents={tabContent}/>
+          <OutlinedAlerts/>
+      </div>
   );
 }
