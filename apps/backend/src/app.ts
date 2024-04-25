@@ -3,6 +3,7 @@ import express, { Express, NextFunction, Request, Response } from "express";
 import cookieParser from "cookie-parser";
 import logger from "morgan";
 import flowerRequestRouter from "./routes/flowerRequest.ts";
+import giftRequestRouter from "./routes/giftRequest.ts";
 import PrismaClient from "./bin/database-connection.ts";
 import seed from "./seed.ts";
 import logInRouter from "./routes/newAccount.ts";
@@ -10,6 +11,7 @@ import languageRouter from "./routes/languageRequest.ts";
 const app: Express = express(); // Setup the backend
 import pathfinderRouter from "./routes/getShortestPath.ts";
 import nodeRouter from "./routes/getNodes.ts";
+import resetNodesRouter from "./routes/resetNodes.ts";
 import csvRouter from "./routes/csvRouter.ts";
 import nodeEdgeRouter from "./routes/nodeEdge.ts";
 import allEdgeRouter from "./routes/getAllEdgesData.ts";
@@ -23,11 +25,9 @@ import MedsForAutofillRouter from "./routes/MedsForAutofillRoutes.ts";
 import ReturnClosestRouter from "./routes/ReturnClosestRouter.ts";
 import ElevatorIdRouter from "./routes/elevatorRoutes.ts";
 import transportRequestRouter from "./routes/transportRequest.ts";
-import priorityDataRouter from "./routes/priorityData.ts";
-import assignDataRouter from "./routes/assignData.ts";
 import { auth } from "express-oauth2-jwt-bearer";
 import allStaffRouter from "./routes/getAllStaff.ts";
-import pieDataRouter from "./routes/pieData.ts";
+import awsRouter from "./routes/awsRouter.ts";
 
 import employeeCSVRouter from "./routes/csvEmployees.ts";
 
@@ -58,13 +58,14 @@ app.use(cookieParser()); // Cookie parser
 // Setup routers. ALL ROUTERS MUST use /api as a start point, or they
 // won't be reached by the default proxy and prod setup
 app.use("/api/flower-request", flowerRequestRouter);
+app.use("/api/gift-request", giftRequestRouter);
 app.use("/api/sanitation-request", sanitationRouter);
 // app.use("/api/log-in", logInRouter);
 app.use("/api/nodeEdge", nodeEdgeRouter);
+app.use("/api/reset-nodes", resetNodesRouter);
 app.use("/api/csv", csvRouter);
 app.use("/api/create-user", logInRouter);
 app.use("/api/pathfind", pathfinderRouter);
-app.use("/api/get-pie-data", pieDataRouter);
 app.use("/api/nodes", nodeRouter);
 app.use("/api/edges", allEdgeRouter);
 app.use("/api/medicine-request", medicineRouter);
@@ -79,10 +80,9 @@ app.use("/api/room-scheduling", roomSchedulingRouter);
 app.use("/api/pathToText", textPathRouter);
 app.use("/api/language-request", languageRouter);
 app.use("/api/all-staff", allStaffRouter);
-app.use("/api/priority-data", priorityDataRouter);
-app.use("/api/assign-data", assignDataRouter);
 app.use("/api/returnClosest", ReturnClosestRouter);
 app.use("/api/elevatorNodes", ElevatorIdRouter);
+app.use("/api/subscribe-email", awsRouter);
 
 app.use("/healthcheck", (req, res) => {
   res.status(200).send();

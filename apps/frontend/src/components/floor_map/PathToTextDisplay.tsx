@@ -7,7 +7,7 @@ import ListSubheader from "@mui/material/ListSubheader";
 import Collapse from "@mui/material/Collapse";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
-import { Directions, directionType } from "../../../../backend/src/textPath.ts";
+import { Directions, directionType } from "./pathToTextDisplayFunc.ts";
 import TurnLeftIcon from "@mui/icons-material/TurnLeft";
 import TurnRightIcon from "@mui/icons-material/TurnRight";
 import StraightIcon from "@mui/icons-material/Straight";
@@ -15,7 +15,7 @@ import ImportExportIcon from "@mui/icons-material/ImportExport";
 import SyncIcon from "@mui/icons-material/Sync";
 import FmdGoodIcon from "@mui/icons-material/FmdGood";
 import styles from "./FloorMap.module.css";
-import { GetEstimatedTime } from "../../../../backend/src/PathDistanceCalculater.ts";
+import { GetEstimatedTime } from "./pathToTextDisplayFunc.ts";
 import DirectionsWalkIcon from "@mui/icons-material/DirectionsWalk";
 
 export default function PathToTextDisplay(props: {
@@ -24,6 +24,10 @@ export default function PathToTextDisplay(props: {
   algo: string;
   onChangeFloor: (floor: string) => void;
   zoomToSegment: (segmentIndex: number) => void;
+  voice: number;
+  volume: number;
+  pitch: number;
+  rate: number;
 }) {
   //Keep track of which lists are open
   const [openLists, setOpenLists] = useState<boolean[]>([]);
@@ -163,7 +167,10 @@ export default function PathToTextDisplay(props: {
 
     const voices = speechSynthesis.getVoices();
 
-    text.voice = voices[1];
+    text.voice = voices[props.voice];
+    text.pitch = props.pitch;
+    text.volume = props.volume;
+    text.rate = props.rate;
 
     speechSynthesis.speak(text);
   }

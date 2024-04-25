@@ -63,9 +63,8 @@ body {
 .floorButtonsContainer {
   /* hide scrollbar but allow scrolling */
   /* Hide scrollbar in IE/Edge */
-  * {
-    -ms-overflow-style: none;
-  }
+
+  -ms-overflow-style: none;
 
   /* WebKit (Chrome, Safari, etc.) */
   ::-webkit-scrollbar {
@@ -266,7 +265,7 @@ body {
 .mMap {
   position: absolute;
   right: -50%;
-  top: 37%;
+  top: 47%;
   width: min-content;
   height: min-content;
   transition: right 0.3s ease;
@@ -281,7 +280,7 @@ body {
   display: flex;
   color: black;
   align-items: center; /* Center the contents vertically */
-  justify-content: start; /* Aligns the switch to the start */
+  justify-content: flex-start; /* Aligns the switch to the start */
   padding-left: 20px; /* Adds some padding on the left */
   width: 100%; /* Full width of the container */
   /* Center the switch horizontally */
@@ -349,12 +348,28 @@ body {
   overflow-x: hidden;
 }
 
+.floorVoiceSettingContainer {
+  max-height: 200px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
 .keyButton {
   all: unset;
   cursor: pointer;
   width: 30px;
   height: 30px;
   padding: -1px;
+  background-color: transparent;
+  border: none;
+}
+.keyButton:hover {
+  border: 2px solid #163a95;
+  border-radius: 20px;
+}
+.keyButtonText:hover {
+  border: 2px solid #163993;
+  border-radius: 20px;
 }
 
 .keyButtonText {

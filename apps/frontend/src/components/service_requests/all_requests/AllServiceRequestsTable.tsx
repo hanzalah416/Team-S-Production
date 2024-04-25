@@ -32,18 +32,22 @@ export function ServiceRequestDisplay(props: {
 
   return (
     <TableRow>
-      <StyledTableCell>{props.allRequestForm.requestID}</StyledTableCell>
-      <StyledTableCell>{props.allRequestForm.name}</StyledTableCell>
-      <StyledTableCell align="right">
+      <StyledTableCell align="center">
+        {props.allRequestForm.requestID}
+      </StyledTableCell>
+      <StyledTableCell align="center">
+        {props.allRequestForm.name}
+      </StyledTableCell>
+      <StyledTableCell align="center">
         {props.allRequestForm.priority}
       </StyledTableCell>
-      <StyledTableCell align="right">
+      <StyledTableCell align="center">
         {props.allRequestForm.location}
       </StyledTableCell>
-      <StyledTableCell align="right">
+      <StyledTableCell align="center">
         {props.allRequestForm.requestType}
       </StyledTableCell>
-      <StyledTableCell align="right">
+      <StyledTableCell align="center">
         <Select
           value={props.allRequestForm.status}
           onChange={handleStatusChange}

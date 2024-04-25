@@ -14,13 +14,13 @@ const MiniMap: React.FC<MiniMapProps> = ({ onChangeFloor }) => {
   return (
     <div className={styles.outerOuterDiv}>
       <div className={styles.outerDiv}>
-        <div className={styles.ll1} onClick={() => onChangeFloor("L1")}>
-          <header>LL1</header>
-          <img src={ll1} alt="map" className={styles.mmimg} />
-        </div>
         <div className={styles.ll2} onClick={() => onChangeFloor("L2")}>
-          <header>LL2</header>
+          <header>L2</header>
           <img src={ll2} alt="map" className={styles.mmimg} />
+        </div>
+        <div className={styles.ll1} onClick={() => onChangeFloor("L1")}>
+          <header>L1</header>
+          <img src={ll1} alt="map" className={styles.mmimg} />
         </div>
         <div className={styles.f1} onClick={() => onChangeFloor("01")}>
           <header>1</header>

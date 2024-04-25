@@ -15,15 +15,8 @@ import VendingIcon from "../assets/MapKeyIcons/VendingIcon.png";
 import WaitingIcon from "../assets/MapKeyIcons/WaitingIcon.png";
 import styles from "./FloorMap.module.css";
 import axios from "axios";
-import { useCallback, useState } from "react";
-
-export interface Position {
-  label: string;
-  id: string;
-  top: string;
-  left: string;
-  floor: string;
-}
+import { useCallback } from "react";
+import { Position } from "../common/PositionInterface.ts";
 
 interface floorMapFunctions {
   handleSelection: (value: Position | null, type: "start" | "end") => void;
@@ -38,8 +31,6 @@ const KeySelection: React.FC<floorMapFunctions> = ({
   handleSelection,
   getPositionById,
 }) => {
-  const [, setEndNodes] = useState<string[]>([""]);
-
   const algo = "astar";
   const fetchData = useCallback(
     async (currentEndNodes: string[]) => {
@@ -205,7 +196,7 @@ const KeySelection: React.FC<floorMapFunctions> = ({
         ];
         break;
     }
-    setEndNodes(idArray); // This still updates the state for other potential uses.
+    // This still updates the state for other potential uses.
     fetchData(idArray);
   }
 

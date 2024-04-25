@@ -1,0 +1,85 @@
+.hero-page-cards {
+  display: flex;
+  flex-direction: column;
+  height: 360px;
+  width: 345px;
+  background-color: #d9d9d9;
+  border-radius: 25px;
+  align-items: center;
+  justify-content: flex-end;
+  filter: drop-shadow(0px 4px 5.2px rgba(0, 0, 0, 0.5));
+  transition-duration: 0.25s;
+}
+
+.hero-page-cards:hover {
+  background-color: #cbcaca;
+}
+
+.toHover {
+  cursor: pointer;
+}
+
+.toHover :hover {
+  transform: scale(1.05);
+}
+
+.blueTextBack {
+  background-color: #003b9c;
+  color: white;
+  width: 345px;
+  height: 112px;
+  border-radius: 0 0 25px 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.blueTextBack:hover {
+  transform: scale(1);
+  /*background-color: #002b6b;*/
+}
+
+.textTitle {
+  font-family: "Poppins", sans-serif;
+  font-size: 36px;
+  font-weight: 600;
+  color: white;
+  margin: 0;
+  padding: 0;
+}
+
+.textTitle:hover {
+  transform: scale(1);
+}
+
+.img {
+  height: 175px;
+  margin-bottom: 35px;
+}
+
+.img:hover {
+  transform: scale(1);
+}
+
+@media all and (max-width: 500px) {
+  .img {
+    height: 114px;
+    margin-bottom: 25px;
+  }
+
+  .hero-page-cards {
+    height: 250px;
+    width: 238px;
+  }
+
+  .blueTextBack {
+    width: 238px;
+    height: 78px;
+  }
+
+  .textTitle {
+    font-size: 24px;
+    line-height: 1.2;
+    inline-size: 215px;
+  }
+}

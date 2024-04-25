@@ -1,83 +1,42 @@
-// OrderFlowers.tsx
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import TextField from "@mui/material/TextField";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import Autocomplete from "@mui/material/Autocomplete";
-import "./OrderFlowers.module.css";
+import "./giftForm.css";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import FormLabel from "@mui/material/FormLabel";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
-import poppies from "../assets/FlowerPhotos/poppies.png";
-import tulips from "../assets/FlowerPhotos/tulips.png";
-import roses from "../assets/FlowerPhotos/rose.png";
 import Grid from "@mui/material/Unstable_Grid2"; // Grid version 2
 import Paper from "@mui/material/Paper";
-import BackgroundImg2 from "../assets/blue-background2.jpg";
-import Tooltip from "../ToolTip";
-import styles from "../login/Login.module.css";
-
-const tips = `
-Name of Requester: Enter the name of the person requesting the flowers.
-
-Priority: Use the dropdown to choose the urgency of your request (e.g., standard, priority, urgent).
-
-Location: Select from the dropdown where the flowers should be delivered or where they are needed.
-
-Request Type: Choose the type of flowers you are requesting. If you need more than one type, you might be able to select multiple options, or if you can only select one, choose the primary type and specify further in the custom message.
-
-POPPIES
-
-ROSES
-
-TULIPS
-
-Enter Custom Message: If you’d like to include a message with the flowers or have specific instructions for the arrangement, enter that information here.
-
-Status: If applicable, select the current status of the request. This might be intended for the administrators to update, rather than the requester.
-`;
-
-interface Position {
-  label: string;
-  id: string;
-  top: string;
-  left: string;
-}
-
-//Interface for nodes
-interface Node {
-  xcoord: string;
-  ycoord: string;
-  id: string;
-  longName: string;
-}
+import axios from "axios";
+import BackgroundImg2 from "../../assets/blue-background2.jpg";
+import styles from "../../login/Login.module.css";
+import teddybear from "../../assets/GiftPhotos/teddybeargift.png";
+import coloringbook from "../../assets/GiftPhotos/coloringbook.webp";
+import fruit from "../../assets/GiftPhotos/fruitgift.png";
+import { Position } from "../../common/PositionInterface.ts";
+import { Node } from "../../common/NodeInterface.ts";
 
 // Interface for Staff
 interface Staff {
   employeeName: string;
 }
-
-const OrderFlowers: React.FC = () => {
+export default function GiftForm() {
   const [staffName, setStaffName] = useState<Staff | null>(null);
   const [priority, setPriority] = useState("");
   const [location, setLocation] = useState<Position | null>(null);
-  const [typeFlower, setTypeFlower] = useState("");
+  const [typeGift, setTypeGift] = useState("");
   const [customMessage, setCustomMessage] = useState("");
   const [status, setStatus] = useState("");
-
   const [locations, setLocations] = useState<Position[]>([]);
   const [staffNames, setStaffNames] = useState<Staff[]>([]);
-
-  const navigate = useNavigate();
-
-  const handleChangeName = (value: Staff | null) => {
-    setStaffName(value);
-  };
+  const navigate = useNavigate(); //Function to navigate to other pages
+  // const {getAccessTokenSilently} = useAuth0();
 
   const toggleScrolling = (disableScroll: boolean) => {
     if (disableScroll) {
@@ -87,15 +46,18 @@ const OrderFlowers: React.FC = () => {
     }
   };
 
+  const handleChangeName = (value: Staff | null) => {
+    setStaffName(value);
+  };
+
+  const handleChangeLocation = (value: Position | null) => {
+    setLocation(value);
+  };
   const handlePriorityChange = (event: SelectChangeEvent) => {
     setPriority(event.target.value as string);
   };
   const handleStatusChange = (event: SelectChangeEvent) => {
     setStatus(event.target.value as string);
-  };
-
-  const handleChangeLocation = (value: Position | null) => {
-    setLocation(value);
   };
 
   useEffect(() => {
@@ -108,6 +70,7 @@ const OrderFlowers: React.FC = () => {
           id: node.id,
           top: `${node.ycoord}px`,
           left: `${node.xcoord}px`,
+          floor: node.floor,
         }));
 
         setLocations(formattedLocations);
@@ -128,55 +91,41 @@ const OrderFlowers: React.FC = () => {
       .catch((error) => console.error("Failed to fetch staff data:", error));
   }, []);
 
-  function clear() {
-    setStaffName(null);
-    setPriority("");
-    setLocation(null);
-    setTypeFlower("");
-    setCustomMessage("");
-    setStatus("");
-  }
-
   async function submit() {
-    if (
-      staffName == null ||
-      priority == "" ||
-      location == null ||
-      typeFlower == "" ||
-      customMessage == "" ||
-      status == ""
-    ) {
-      alert("Please fill out all information on the page");
-      return;
-    }
-
-    const orderFlowerSent = {
-      name: staffName.employeeName,
+    const newEntry = {
+      name: staffName?.employeeName,
       priority: priority,
-      location: location.label,
-      typeFlower: typeFlower,
+      location: location?.label,
+      typeGift: typeGift,
       customMessage: customMessage,
       status: status,
     };
-    console.log(orderFlowerSent);
-
+    // const token = await getAccessTokenSilently();
     await axios
-      .post("/api/flower-request", orderFlowerSent, {
+      .post("/api/gift-request", newEntry, {
         headers: {
           "Content-Type": "application/json",
         },
       })
       .then(() => {
-        console.log("Order sent successfully");
+        console.log("Gift request sent successfully");
         navigate("/payment-info");
       })
       .catch(() => {
-        console.log("Order failed to send");
-        console.log(orderFlowerSent);
-        alert("Order failed to send. Please try again later");
+        console.log("Gift request failed to send");
+        console.log(newEntry);
+        alert("Gift request failed to send. Please try again later.");
       });
-
     clear();
+  }
+
+  function clear() {
+    setStaffName(null);
+    setPriority("");
+    setLocation(null);
+    setTypeGift("");
+    setCustomMessage("");
+    setStatus("");
   }
 
   return (
@@ -203,19 +152,14 @@ const OrderFlowers: React.FC = () => {
         <br />
         <br />
 
-        <Paper elevation={4} style={{ padding: 10 }}>
+        <Paper elevation={4}>
           <br />
-          <p className={"title"} style={{ position: "relative" }}>
-            Flower Request Form
-            <Tooltip
-              style={{ position: "absolute", right: "20px", top: 0 }}
-              tips={tips}
-            />
-          </p>
-          <br />
-          <div className={"breakline"}></div>
+          <p className={"title"}>Gift Request Form </p>
+          <p className={"names"}>Dorothy Alexander</p>
 
           <Stack alignItems="center" justifyContent="center" spacing={3} p={4}>
+            <div className={"breakline"}></div>
+            <br />
             <Stack
               spacing={2}
               direction="row"
@@ -274,10 +218,10 @@ const OrderFlowers: React.FC = () => {
                   onChange={handlePriorityChange}
                   sx={{ minWidth: 250, color: "#3B54A0" }}
                 >
-                  <MenuItem value={"low"}>Low</MenuItem>
-                  <MenuItem value={"medium"}>Medium</MenuItem>
-                  <MenuItem value={"high"}>High</MenuItem>
-                  <MenuItem value={"emergency"}>Emergency</MenuItem>
+                  <MenuItem value={"Low"}>Low</MenuItem>
+                  <MenuItem value={"Medium"}>Medium</MenuItem>
+                  <MenuItem value={"High"}>High</MenuItem>
+                  <MenuItem value={"Emergency"}>Emergency</MenuItem>
                 </Select>
               </div>
             </Stack>
@@ -325,25 +269,24 @@ const OrderFlowers: React.FC = () => {
                 }}
                 id="demo-simple-select-label"
               >
-                Flower Type
+                Gift Type
               </InputLabel>
-              <br />
               <div style={{ display: "flex" }}>
                 <img
-                  src={poppies}
+                  src={coloringbook}
                   alt="Covering 3/4 page"
                   className={styles.poppies}
                   style={{ width: "200px", height: "auto" }}
                 />
 
                 <img
-                  src={roses}
+                  src={fruit}
                   alt="Covering 3/4 page"
                   className={styles.roses}
                   style={{ width: "200px", height: "auto" }}
                 />
                 <img
-                  src={tulips}
+                  src={teddybear}
                   alt="Covering 3/4 page"
                   className={styles.tulips}
                   style={{ width: "200px", height: "auto" }}
@@ -351,51 +294,48 @@ const OrderFlowers: React.FC = () => {
               </div>
               <ToggleButtonGroup
                 color="primary"
-                value={typeFlower} // Use the state value here
+                value={typeGift} // Use the state value here
                 exclusive
                 onChange={(
                   _event: React.MouseEvent<HTMLElement>,
                   newValue: string | null,
                 ) => {
                   if (newValue !== null) {
-                    setTypeFlower(newValue); // Update state on change
+                    setTypeGift(newValue); // Update state on change
                   }
                 }}
-                aria-label="Sanitation Type Buttons"
-                sx={{ minWidth: 140 }}
+                aria-label="Gift Type Buttons"
+                sx={{ minWidth: 120 }}
               >
                 <ToggleButton
                   style={{
                     color: "#10778c",
                     outlineColor: "#949DB5",
                     borderColor: "#949DB5",
-                    width: 200,
                   }}
-                  value="Poppies"
+                  value="Coloring Book"
                 >
-                  Poppies
+                  Coloring Book
                 </ToggleButton>
                 <ToggleButton
                   style={{
                     color: "#10778c",
                     outlineColor: "#949DB5",
                     borderColor: "#949DB5",
-                    width: 200,
                   }}
-                  value="Roses"
+                  value="Chocolate Strawberries"
                 >
-                  Roses
+                  Chocolate Strawberries
                 </ToggleButton>
                 <ToggleButton
                   style={{
                     color: "#10778c",
                     outlineColor: "#949DB5",
                     borderColor: "#949DB5",
-                    width: 200,
                   }}
-                  value="Tulips"
+                  value="Teddy Bear"
                 >
-                  Tulips
+                  Teddy Bear
                 </ToggleButton>
               </ToggleButtonGroup>
             </div>
@@ -451,8 +391,8 @@ const OrderFlowers: React.FC = () => {
                 <MenuItem value={"closed"}>Closed</MenuItem>
               </Select>
             </div>
-            <br />
 
+            <br />
             <Stack
               spacing={3}
               direction="row"
@@ -488,6 +428,4 @@ const OrderFlowers: React.FC = () => {
       </Grid>
     </div>
   );
-};
-
-export default OrderFlowers;
+}

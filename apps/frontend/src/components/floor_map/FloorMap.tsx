@@ -32,19 +32,25 @@ import PathToTextDisplay from "./PathToTextDisplay.tsx";
 
 import KeySelection from "./KeySelection.tsx";
 import Tooltip from "../ToolTip";
+import { TextToVoiceSelector } from "./TextToVoiceSelector.tsx";
+
+import { Position } from "../common/PositionInterface.ts";
+import { Node } from "../common/NodeInterface.ts";
 
 const tips = `
-1.Enter Starting Point:
+Enter Starting Point:
 
 Click on the dropdown menu under “Enter Starting Point”.
 
 Select the building or specific entrance you are currently located at from the list provided.
 
-1.Enter Destination:
+
+Enter Destination:
 
 Click on the dropdown menu under “Enter Destination”.
 
 Choose the building or specific area you want to go to from the list.
+
 
 Directions:
 
@@ -63,22 +69,6 @@ If the map supports multiple levels, you can use the "Level Select" toggle to vi
 `;
 
 const MiniMap = lazy(() => import("./MiniMap.tsx"));
-
-export interface Position {
-  label: string;
-  id: string;
-  top: string;
-  left: string;
-  floor: string;
-}
-
-interface Node {
-  xcoord: string;
-  ycoord: string;
-  id: string;
-  longName: string;
-  floor: string;
-}
 
 function FloorMap() {
   const [resetFloorsUIKey, setResetFloorsUIKey] = useState(0);
@@ -100,6 +90,11 @@ function FloorMap() {
   const [showMapKey, setShowMapKey] = useState(false);
   const transformRef = useRef<ReactZoomPanPinchContentRef>(null);
   const [shouldAutoZoom, setShouldAutoZoom] = useState(true);
+
+  const [speechVolume, setSpeechVolume] = useState(1);
+  const [speechPitch, setSpeechPitch] = useState(1);
+  const [speechRate, setSpeechRate] = useState(1);
+  const [speechVoice, setSpeechVoice] = useState(4);
 
   const zoomToPathSegment = useCallback(
     (segmentIndex: number) => {
@@ -545,8 +540,8 @@ function FloorMap() {
   };
 
   const floorMaps = {
-    L1: l1Map,
     L2: l2Map,
+    L1: l1Map,
     "01": f1Map,
     "02": f2Map,
     "03": f3Map,
@@ -667,6 +662,35 @@ function FloorMap() {
           >
             Clear Path
           </Button>
+          <TextToVoiceSelector
+            options={[
+              {
+                name: "Volume",
+                setValue: setSpeechVolume,
+                max: 1,
+                min: 0,
+                value: speechVolume,
+              },
+              {
+                name: "Rate",
+                setValue: setSpeechRate,
+                max: 2,
+                min: 0.5,
+                value: speechRate,
+              },
+              {
+                name: "Pitch",
+                setValue: setSpeechPitch,
+                max: 2,
+                min: 0.1,
+                value: speechPitch,
+              },
+            ]}
+            voiceOption={{
+              setValue: setSpeechVoice,
+              value: speechVoice,
+            }}
+          />
           <Box className={styles.directionsBox}>Directions</Box>
           {!pathFound && (
             <Box className={styles.pathNotFoundBox}>Path not found</Box>
@@ -686,6 +710,10 @@ function FloorMap() {
                   algo={algorithm}
                   onChangeFloor={handleFloorChange} // Passing the method as a prop
                   zoomToSegment={zoomToPathSegment}
+                  voice={speechVoice}
+                  volume={speechVolume}
+                  pitch={speechPitch}
+                  rate={speechRate}
                 />
               )}
             </div>
