@@ -10,6 +10,9 @@ import SecurityGetter from "../security_requests/SecurityTableHead.tsx";
 import RoomGetter from "../Room_Scheduling/RoomTableHeader.tsx";
 import TransportationGetter from "../internalTransportation/TransportationTableHead.tsx";
 import GiftGetter from "../gift_request/giftTableHead.tsx";
+import styles from "./DisplaySRData.module.css";
+
+
 
 export default function DisplaySRData() {
   const tabNames = [
@@ -37,7 +40,8 @@ export default function DisplaySRData() {
   ];
 
   return (
-    <div>
+      //
+    <div className={styles.outerDiv} >
       <h1>Service Request Data</h1>
       <br />
       <Tabs tabNames={tabNames} tabContents={tabContent} />
