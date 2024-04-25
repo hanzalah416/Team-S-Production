@@ -29,7 +29,7 @@ const Login: React.FC = () => {
     const interval = setInterval(() => {
       // Update the index to display the next image
       setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
-    }, 5000); // Change the duration here (in milliseconds)
+    }, 8000); // Change the duration here (in milliseconds)
 
     return () => clearInterval(interval); // Cleanup the interval on component unmount
   }, [images.length]); // Empty dependency array to run this effect only once on component mount
@@ -54,7 +54,6 @@ const Login: React.FC = () => {
                 className={styles.coverImage}
                 style={{
                   display: index === currentImageIndex ? "block" : "none",
-                  opacity: index === currentImageIndex ? 0 : 0, // Set opacity based on currentImageIndex
                 }}
               />
             ))}

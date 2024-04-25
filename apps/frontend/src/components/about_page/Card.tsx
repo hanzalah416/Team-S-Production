@@ -1,5 +1,5 @@
 import Tooltip from "@mui/material/Tooltip";
-
+import styles from "./AboutPage.module.css";
 interface ProjectCardProps {
   description: string;
   imgUrl: string;
@@ -13,8 +13,10 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
 }) => {
   return (
     <div style={{ display: "flex", flexDirection: "column" }}>
-      <Tooltip title={description}>
-        <img
+        <div className = {styles.memberContainer}>
+        <Tooltip title={description}>
+
+          <img
           src={imgUrl}
           style={{
             width: "30vh",
@@ -28,13 +30,16 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
         style={{
           color: "black",
           alignItems: "center",
-          fontSize: "30px",
+          fontSize: "20px",
           textAlign: "center",
         }}
       >
         {label}
       </h1>
-    </div>
+            </div>
+
+
+            </div>
   );
 };
 export default ProjectCard;

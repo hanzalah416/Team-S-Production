@@ -63,7 +63,7 @@
     height: calc(100vh - 75px);
     position: relative;
     object-fit: cover;
-    animation: slideIn 5s ease forwards;
+    animation: slideInOut 8s ease forwards;
 }
 
 .arrowImage {
@@ -105,32 +105,25 @@
     1px 1px 0 #eff3fc; /* Creates an outline */
 }
 
-@keyframes slideIn {
-    from {
-        transform: translateX(0);
-        opacity: 0.5;
-    }
-    to {
-        opacity: 2;
-    }
-}
+
 
 @keyframes slideInOut {
     0% {
         transform: translateX(0);
-        opacity: 0;
+        opacity: 0.25;
     }
+
     25% {
-        transform: translateY(0);
+        transform: translateX(0);
         opacity: 1;
     }
     75% {
-        transform: translateY(0);
-        opacity: 2;
+        transform: translateX(0);
+        opacity: 1;
+
     }
     100% {
-        transform: translateY(0);
-        opacity: 0;
+        opacity: 0.4;
     }
 }
 
