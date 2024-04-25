@@ -16,6 +16,8 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import BackgroundImg2 from "../../assets/blue-background2.jpg";
 import Tooltip from "../../ToolTip";
+import { Position } from "../../common/PositionInterface.ts";
+import { Node } from "../../common/NodeInterface.ts";
 
 const tips = `
 Name of Requester: Enter the full name of the person making the request.
@@ -30,19 +32,6 @@ Security Type: Here, choose the type of security response you require, which cou
 
 Status: If the form allows setting a status, select the appropriate one from the dropdown menu. This could reflect whether it’s a new request, in progress, or completed.
 `;
-interface Node {
-  xcoord: string;
-  ycoord: string;
-  id: string;
-  longName: string;
-}
-
-interface Position {
-  label: string;
-  id: string;
-  top: string;
-  left: string;
-}
 
 interface Staff {
   employeeName: string;
@@ -97,6 +86,7 @@ const SecurityRequest: React.FC = () => {
           id: node.id,
           top: `${node.ycoord}px`,
           left: `${node.xcoord}px`,
+          floor: node.floor,
         }));
 
         setLocations(formattedLocations);

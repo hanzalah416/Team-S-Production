@@ -15,6 +15,8 @@ import MenuItem from "@mui/material/MenuItem";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Tooltip from "../../ToolTip";
+import { Position } from "../../common/PositionInterface.ts";
+import { Node } from "../../common/NodeInterface.ts";
 
 const tips = `
 Name of Requester: Enter the full name of the person requiring language assistance.
@@ -28,20 +30,6 @@ Language: Choose the language for which assistance is required from the dropdown
 Status: If the form allows for setting a status, select the current status of the request, like 'new', 'pending', 'approved', or 'completed'.
 
 `;
-interface Node {
-  xcoord: string;
-  ycoord: string;
-  id: string;
-  longName: string;
-  // Add other properties if needed
-}
-
-interface Position {
-  label: string;
-  id: string;
-  top: string;
-  left: string;
-}
 
 // Interface for Staff
 interface Staff {
@@ -141,6 +129,7 @@ const LanguageRequest: React.FC = () => {
           id: node.id,
           top: `${node.ycoord}px`,
           left: `${node.xcoord}px`,
+          floor: node.floor,
         }));
 
         setLocations(formattedLocations);

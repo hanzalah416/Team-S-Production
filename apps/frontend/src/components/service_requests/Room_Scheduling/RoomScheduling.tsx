@@ -1,16 +1,11 @@
 import React, { useState, useEffect } from "react";
 import InputLabel from "@mui/material/InputLabel";
-// import MenuItem from "@mui/material/MenuItem";
 import TextField from "@mui/material/TextField";
-// import Select, { SelectChangeEvent } from "@mui/material/Select";
 import Autocomplete from "@mui/material/Autocomplete";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Unstable_Grid2"; // Grid version 2
 import Paper from "@mui/material/Paper";
-// import RadioGroup from "@mui/material/RadioGroup";
-// import FormControlLabel from "@mui/material/FormControlLabel";
-// import Radio from "@mui/material/Radio";
 import styles from "./RoomScheduling.module.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -18,6 +13,8 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import BackgroundImg2 from "../../assets/blue-background2.jpg";
 import Tooltip from "../../ToolTip";
+import { Position } from "../../common/PositionInterface.ts";
+import { Node } from "../../common/NodeInterface.ts";
 
 const tips = `
 Name of Requester: Type in the full name of the individual requesting the room reservation.
@@ -33,21 +30,6 @@ Start Date: Click on the field to open a calendar view and select the date when 
 End Date: Similarly, select or enter the date when the reservation will end
 
 `;
-//Interface for positions
-interface Position {
-  label: string;
-  id: string;
-  top: string;
-  left: string;
-}
-
-//Interface for nodes
-interface Node {
-  xcoord: string;
-  ycoord: string;
-  id: string;
-  longName: string;
-}
 
 // Interface for Staff
 interface Staff {
@@ -98,6 +80,7 @@ export default function RoomScheduling() {
           id: node.id,
           top: `${node.ycoord}px`,
           left: `${node.xcoord}px`,
+          floor: node.floor,
         }));
         console.log(formattedLocations);
         setLocations(formattedLocations);
