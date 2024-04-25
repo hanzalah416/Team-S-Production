@@ -27,7 +27,7 @@ export default function DisplaySRData() {
     <FlowerRequestGetter />,
     <MedicineRequestGetter />,
     <SanitationGetter />,
-      <GiftGetter />,
+    <GiftGetter />,
     <SecurityGetter />,
     <RoomGetter />,
     <LanguageRequestGetter />,
