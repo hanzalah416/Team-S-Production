@@ -12,8 +12,6 @@ import TransportationGetter from "../internalTransportation/TransportationTableH
 import GiftGetter from "../gift_request/giftTableHead.tsx";
 import styles from "./DisplaySRData.module.css";
 
-
-
 export default function DisplaySRData() {
   const tabNames = [
     "All Requests",
@@ -40,7 +38,6 @@ export default function DisplaySRData() {
   ];
 
   return (
-      //
     <div className={styles.outerDiv} >
       <h1>Service Request Data</h1>
       <br />
