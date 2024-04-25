@@ -11,6 +11,7 @@ import ken from "../assets/abtPage/ken.png";
 import li from "../assets/abtPage/li.png";
 import Card from "./Card";
 import styles from "./AboutPage.module.css";
+import BackgroundImg2 from "../assets/blue-background2.jpg";
 const Project = [
 
     {
@@ -76,55 +77,72 @@ const Project = [
 
 export const AboutPage = () => {
     return (
-        <section
+        <div
             style={{
+                backgroundImage: `url(${BackgroundImg2})`,
+                height: "100vh",
+                width: "100vw",
+                backgroundSize: "cover",
+                backgroundRepeat: "no-repeat",
+                minHeight: "100%",
+                backgroundPosition: "center center",
+                overflowX: "hidden",
                 display: "flex",
                 flexWrap: "wrap",
                 alignItems: "center",
                 justifyContent: "center",
-                gap: "30px",
-                paddingTop: "120px",
-                paddingBottom: "40px",
             }}
         >
-            <div
-                style={{
-                    alignItems: "center",
-                    justifyContent: "center",
-                    gap: "30px",
-                }}
-            >
-                <h1 className={styles.heading}>Our Team</h1>
-            </div>
-
-            <div
+            <section
                 style={{
                     display: "flex",
                     flexWrap: "wrap",
+                    alignItems: "center",
                     justifyContent: "center",
-                    gap: "35px",
+                    gap: "30px",
+                    paddingTop: "120px",
+                    paddingBottom: "40px",
                 }}
             >
-                {Project.map((item) => (
-                    <Card {...item} key={item.description} />
-                ))}
-            </div>
-            <div>
-                <h1 className={styles.secondary}>WPI Computer Science Department</h1>
+                <div
+                    style={{
+                        alignItems: "center",
+                        justifyContent: "center",
+                        gap: "30px",
+                    }}
+                >
+                    <h1 className={styles.heading}>Our Team</h1>
+                </div>
 
-                <h1 className={styles.secondary}>Professor Wilson Wong</h1>
+                <div
+                    style={{
+                        display: "flex",
+                        flexWrap: "wrap",
+                        justifyContent: "center",
+                        gap: "35px",
+                    }}
+                >
+                    {Project.map((item) => (
+                        <Card {...item} key={item.description} />
+                    ))}
+                </div>
+                <div>
+                    <h1 className={styles.secondary}>WPI Computer Science Department</h1>
 
-                <h1 className={styles.secondary}>Team Coach: Youssef Benchikhi </h1>
+                    <h1 className={styles.secondary}>Professor Wilson Wong</h1>
 
-                <p className={styles.iaintreadinallat}>
-                    We would like to thank Brigham and Women's Hospital and their
-                    representative Andrew Shinn
-                </p>
-                <p className={styles.text}>
-                    *The Brigham & Women’s Hospital maps and data used in this application
-                    are copyrighted and provided for the sole use of educational purposes.
-                </p>
-            </div>
-        </section>
+                    <h1 className={styles.secondary}>Team Coach: Youssef Benchikhi </h1>
+
+                    <p className={styles.iaintreadinallat}>
+                        We would like to thank Brigham and Women's Hospital and their
+                        representative Andrew Shinn
+                    </p>
+                    <p className={styles.text}>
+                        *The Brigham & Women’s Hospital maps and data used in this application
+                        are copyrighted and provided for the sole use of educational purposes.
+                    </p>
+                </div>
+            </section>
+        </div>
     );
 };
