@@ -16,14 +16,7 @@ import WaitingIcon from "../assets/MapKeyIcons/WaitingIcon.png";
 import styles from "./FloorMap.module.css";
 import axios from "axios";
 import { useCallback } from "react";
-
-export interface Position {
-  label: string;
-  id: string;
-  top: string;
-  left: string;
-  floor: string;
-}
+import { Position } from "../common/PositionInterface.ts";
 
 interface floorMapFunctions {
   handleSelection: (value: Position | null, type: "start" | "end") => void;

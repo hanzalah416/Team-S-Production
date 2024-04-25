@@ -360,6 +360,16 @@ body {
   width: 30px;
   height: 30px;
   padding: -1px;
+  background-color: transparent;
+  border: none;
+}
+.keyButton:hover {
+  border: 2px solid #163a95;
+  border-radius: 20px;
+}
+.keyButtonText:hover {
+  border: 2px solid #163993;
+  border-radius: 20px;
 }
 
 .keyButtonText {
