@@ -96,12 +96,12 @@
 }
 
 .redCustomButton {
-    color: black;
+  color: black;
 
-    background-color: red;
-    border: 1px solid black;
-    cursor: pointer;
-    margin: 10px;
+  background-color: red;
+  border: 1px solid black;
+  cursor: pointer;
+  margin: 10px;
 }
 
 .detailsTable {

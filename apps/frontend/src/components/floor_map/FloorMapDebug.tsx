@@ -622,7 +622,7 @@ const StaticFloorMapDebug = () => {
   }, []);
 
   const floorMaps = {
-      L2: l2Map,
+    L2: l2Map,
     L1: l1Map, // switched order
     "1": f1Map,
     "2": f2Map,
@@ -714,34 +714,34 @@ const StaticFloorMapDebug = () => {
           }}
         >
           <div className={styles.checkboxContainer}>
-              <Button
-                  variant="contained"
-                  className={styles.csvButton}
-                  style={{
-                      backgroundColor: "#003b9c",
-                      fontFamily: "Poppins",
-                      fontSize: 14,
-                      textAlign: "center",
-                      margin: "6px",
-                  }}
-                  // onClick={() => resetNodesAndEdges()}
-              >
-                  Reset Nodes and Edges
-              </Button>
-              <Button
-                  variant="contained"
-                  href="/node-data"
-                  className={styles.csvButton}
-                  style={{
-                      backgroundColor: "#003b9c",
-                      fontFamily: "Poppins",
-                      fontSize: 14,
-                      textAlign: "center",
-                      margin: "6px",
-                  }}
-              >
-                  Import/Export Nodes
-              </Button>
+            <Button
+              variant="contained"
+              className={styles.csvButton}
+              style={{
+                backgroundColor: "#003b9c",
+                fontFamily: "Poppins",
+                fontSize: 14,
+                textAlign: "center",
+                margin: "6px",
+              }}
+              // onClick={() => resetNodesAndEdges()}
+            >
+              Reset Nodes and Edges
+            </Button>
+            <Button
+              variant="contained"
+              href="/node-data"
+              className={styles.csvButton}
+              style={{
+                backgroundColor: "#003b9c",
+                fontFamily: "Poppins",
+                fontSize: 14,
+                textAlign: "center",
+                margin: "6px",
+              }}
+            >
+              Import/Export Nodes
+            </Button>
 
             <FormControlLabel
               control={
@@ -777,7 +777,6 @@ const StaticFloorMapDebug = () => {
               }
             />
 
-
             <Button
               variant="contained"
               className={styles.csvButton}
@@ -786,7 +785,7 @@ const StaticFloorMapDebug = () => {
                 fontFamily: "Poppins",
                 fontSize: 14,
                 textAlign: "center",
-                  margin: "6px",
+                margin: "6px",
               }}
               onClick={() => setNewNodeDetails(emptyNode)}
             >
@@ -800,14 +799,12 @@ const StaticFloorMapDebug = () => {
                 fontFamily: "Poppins",
                 fontSize: 14,
                 textAlign: "center",
-                  margin: "6px",
+                margin: "6px",
               }}
               onClick={() => setNewEdgeDetails(emptyEdge)}
             >
               Add Edge
             </Button>
-
-
           </div>
           <TransformComponent>
             <div className={styles.mapAndDots}>
