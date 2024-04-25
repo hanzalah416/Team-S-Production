@@ -95,6 +95,15 @@
   margin: 10px;
 }
 
+.redCustomButton {
+    color: black;
+
+    background-color: red;
+    border: 1px solid black;
+    cursor: pointer;
+    margin: 10px;
+}
+
 .detailsTable {
   width: 100%; /* Ensures the table takes the full width of the popup */
   border-collapse: collapse; /* Optional: for better table cell border handling */
