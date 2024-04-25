@@ -687,8 +687,8 @@ function FloorMap() {
               {
                 name: "Rate",
                 setValue: setSpeechRate,
-                max: 10,
-                min: 0.1,
+                max: 2,
+                min: 0.5,
                 value: speechRate,
               },
               {
