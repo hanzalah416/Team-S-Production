@@ -3,7 +3,8 @@ import BackgroundImg2 from "../assets/blue-background2.jpg";;
 import axios from "axios";
 import Typography from "@mui/material/Typography";
 import {Grid} from "@mui/material";
-import {PieChart, Bar, Legend, Pie, XAxis, YAxis, Tooltip, Cell, CartesianGrid, BarChart} from "recharts";
+import { BarChart } from '@mui/x-charts/BarChart';
+import { PieChart } from "@mui/x-charts/PieChart";
 
 
 type PieData = {
@@ -43,8 +44,8 @@ const Stats = () => {
       transportRequest: 0,
       giftRequest: 0,
   });
-  const [, setAssignBar] = useState<AssignBarData[]>([]);
-  const [, setPriorityBar] = useState<PriorityBarData[]>([]);
+  const [assignBar, setAssignBar] = useState<AssignBarData[]>([]);
+  const [priorityBar, setPriorityBar] = useState<PriorityBarData[]>([]);
 
   useEffect(() => {
     async function fetchData() {
