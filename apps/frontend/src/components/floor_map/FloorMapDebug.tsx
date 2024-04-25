@@ -6,7 +6,7 @@ import React, {
   useReducer,
 } from "react";
 import styles from "./FloorMapDebug.module.css";
-import { Button, FormControlLabel, Checkbox, Typography, MenuItem, Select } from "@mui/material";
+import { Button, FormControlLabel, Checkbox, Typography, MenuItem, Select, Autocomplete, TextField } from "@mui/material";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import axios from "axios";
 import { NodeEdge } from "database";
@@ -229,9 +229,8 @@ const StaticFloorMapDebug = () => {
       setEditableNode((prev) => ({ ...prev, [name]: value }));
     };
 
-    const handleInputChangeFloor = (event: React.ChangeEvent<HTMLInputElement>) => {
-      const { name, value } = event.target;
-      setEditableNode({ ...editableNode, [name]: value });
+    const handleInputChangeFloor = (value) => {
+      setEditableNode((prev) => ({ ...prev, floor: value }));
     };
 
     const handleInputChangeID = (
@@ -338,20 +337,24 @@ const StaticFloorMapDebug = () => {
               </tr>
               <tr>
                 <td className={styles.label}>Floor:</td>
-                <td>
-                  <Select
+                <td className={styles.autocomplete}>
+                  <Autocomplete
                       value={editableNode.floor}
-                      name="floor"
-                      onChange={handleInputChangeFloor} // Use onChange to handle changes
-                      className={styles.dropdown} // You can adjust the className if needed
-                      inputProps={{"aria-label": "Select Floor"}} // ARIA label for accessibility
-                  >
-                    {["L2", "L1", "1", "2", "3"].map((floorNumber) => (
-                        <MenuItem key={floorNumber} value={floorNumber}>
-                          {floorNumber}
-                        </MenuItem>
-                    ))}
-                  </Select>
+                      onChange={(event, value) => handleInputChangeFloor(value)} // Use onChange to handle changes
+                      options={["L2", "L1", "1", "2", "3"]}
+                      renderInput={(params) => (
+                          <TextField
+                              {...params}
+                              label="Floor"
+                              variant="outlined"
+                              className={styles.dropdown} // You can adjust the className if needed
+                              InputProps={{
+                                ...params.InputProps,
+                                'aria-label': 'Select Floor', // ARIA label for accessibility
+                              }}
+                          />
+                      )}
+                  />
                 </td>
               </tr>
               <tr>

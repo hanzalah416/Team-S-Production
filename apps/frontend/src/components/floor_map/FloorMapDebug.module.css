@@ -138,3 +138,10 @@
   color: black; /* Ensures the text color is black */
   margin-right: 30px;
 }
+
+.autocomplete {
+  width: 100%; /* Makes the input field take up the full width of its container */
+  height: 45px;
+  color: black; /* Ensures the text color is black */
+  margin-right: 30px;
+}
