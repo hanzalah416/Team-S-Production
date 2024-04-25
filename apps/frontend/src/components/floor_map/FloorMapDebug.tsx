@@ -66,7 +66,7 @@ const StaticFloorMapDebug = () => {
   const [newEdgeDetails, setNewEdgeDetails] = useState<NodeEdge | null>(null);
   const [dragging, setDragging] = useState<boolean>(false);
   const [draggedNode, setDraggedNode] = useState<Node | null>(null);
-    const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const emptyNode: Node = {
     xcoord: "",
     ycoord: "",
@@ -687,50 +687,54 @@ const StaticFloorMapDebug = () => {
     console.log("Nodes and edges fetched after reset.");
   };
 
-    const resetNodesAndEdges = async () => {
-        console.log("Starting reset process...");
-        setIsLoading(true);  // Start loading
-        try {
-            await resetNodesAndEdgesReal();
-            console.log("Reset process completed, fetching nodes and edges...");
-            await fetchNodes();
-            await fetchEdges();
-            console.log("Nodes and edges fetched after reset.");
-        } catch (error) {
-            console.error("Error during the reset process:", error);
-        }
-        setIsLoading(false);  // Stop loading
-    };
-    const LoadingOverlay = () => (
-        <div style={{
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            width: '100vw',  // Cover the full viewport width
-            height: '100vh',  // Cover the full viewport height
-            backgroundColor: 'rgba(0,0,0,0.5)',  // Semi-transparent background
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            zIndex: 1000  // Ensure it covers other UI elements
-        }}>
-            <div style={{
-                width: '300px',  // Fixed width for the inner box
-                height: '100px',  // Fixed height for the inner box
-                backgroundColor: 'rgba(0,0,0,0.75)',  // Darker background for the box
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                borderRadius: '10px'  // Rounded corners for the box
-            }}>
-                <Typography variant="h6" style={{ color: 'white' }}>
-                    Resetting Data...
-                </Typography>
-            </div>
-        </div>
-    );
+  const resetNodesAndEdges = async () => {
+    console.log("Starting reset process...");
+    setIsLoading(true); // Start loading
+    try {
+      await resetNodesAndEdgesReal();
+      console.log("Reset process completed, fetching nodes and edges...");
+      await fetchNodes();
+      await fetchEdges();
+      console.log("Nodes and edges fetched after reset.");
+    } catch (error) {
+      console.error("Error during the reset process:", error);
+    }
+    setIsLoading(false); // Stop loading
+  };
+  const LoadingOverlay = () => (
+    <div
+      style={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        width: "100vw", // Cover the full viewport width
+        height: "100vh", // Cover the full viewport height
+        backgroundColor: "rgba(0,0,0,0.5)", // Semi-transparent background
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        zIndex: 1000, // Ensure it covers other UI elements
+      }}
+    >
+      <div
+        style={{
+          width: "300px", // Fixed width for the inner box
+          height: "100px", // Fixed height for the inner box
+          backgroundColor: "rgba(0,0,0,0.75)", // Darker background for the box
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          borderRadius: "10px", // Rounded corners for the box
+        }}
+      >
+        <Typography variant="h6" style={{ color: "white" }}>
+          Resetting Data...
+        </Typography>
+      </div>
+    </div>
+  );
 
-    // Ensure fetchNodes and fetchEdges are correctly implemented
+  // Ensure fetchNodes and fetchEdges are correctly implemented
   const fetchNodes = async () => {
     try {
       const response = await axios.get("/api/nodes");
@@ -751,216 +755,216 @@ const StaticFloorMapDebug = () => {
     }
   };
   return (
-      <div className={styles.container}>
-          {isLoading && <LoadingOverlay/>}
-          {selectedNodeDetails && (
-              <NodeDetailsPopup
-                  node={selectedNodeDetails}
-                  onSave={handleUpdateNode}
-                  fetchNodes={fetchNodes}
-              />
-          )}
+    <div className={styles.container}>
+      {isLoading && <LoadingOverlay />}
+      {selectedNodeDetails && (
+        <NodeDetailsPopup
+          node={selectedNodeDetails}
+          onSave={handleUpdateNode}
+          fetchNodes={fetchNodes}
+        />
+      )}
 
-          {newNodeDetails && (
-              <NodeDetailsPopup
-                  node={newNodeDetails}
-                  onSave={handleAddNode}
-                  fetchNodes={fetchNodes}
-              />
-          )}
+      {newNodeDetails && (
+        <NodeDetailsPopup
+          node={newNodeDetails}
+          onSave={handleAddNode}
+          fetchNodes={fetchNodes}
+        />
+      )}
 
-          {selectedEdgeDetails && (
-              <EdgeDetailsPopup
-                  edge={selectedEdgeDetails}
-                  onSave={handleUpdateEdge}
-                  fetchEdges={fetchEdges}
-              />
-          )}
+      {selectedEdgeDetails && (
+        <EdgeDetailsPopup
+          edge={selectedEdgeDetails}
+          onSave={handleUpdateEdge}
+          fetchEdges={fetchEdges}
+        />
+      )}
 
-          {newEdgeDetails && (
-              <EdgeDetailsPopup
-                  edge={newEdgeDetails}
-                  onSave={handleAddEdge}
-                  fetchEdges={fetchEdges}
-              />
-          )}
+      {newEdgeDetails && (
+        <EdgeDetailsPopup
+          edge={newEdgeDetails}
+          onSave={handleAddEdge}
+          fetchEdges={fetchEdges}
+        />
+      )}
 
-          <div className={styles.mapContainer}>
-              <FloorSwitcher/>
+      <div className={styles.mapContainer}>
+        <FloorSwitcher />
 
-              <TransformWrapper
-                  doubleClick={{
-                      disabled: true,
-                  }}
-              >
-                  <div className={styles.checkboxContainer}>
-                      <Button
-                          variant="contained"
-                          href="/node-data"
-                          className={styles.csvButton}
-                          style={{
-                              backgroundColor: "#003b9c",
-                              fontFamily: "Poppins",
-                              fontSize: 14,
-                              textAlign: "center",
-                              margin: "6px",
-                          }}
-                      >
-                          Import/Export Nodes
-                      </Button>
+        <TransformWrapper
+          doubleClick={{
+            disabled: true,
+          }}
+        >
+          <div className={styles.checkboxContainer}>
+            <Button
+              variant="contained"
+              href="/node-data"
+              className={styles.csvButton}
+              style={{
+                backgroundColor: "#003b9c",
+                fontFamily: "Poppins",
+                fontSize: 14,
+                textAlign: "center",
+                margin: "6px",
+              }}
+            >
+              Import/Export Nodes
+            </Button>
 
-                      <Button
-                          variant="contained"
-                          className={styles.csvButton}
-                          style={{
-                              backgroundColor: "#003b9c",
-                              fontFamily: "Poppins",
-                              fontSize: 14,
-                              textAlign: "center",
-                              margin: "6px",
-                          }}
-                          onClick={() => resetNodesAndEdges()}
-                      >
-                          Reset Nodes and Edges
-                      </Button>
+            <Button
+              variant="contained"
+              className={styles.csvButton}
+              style={{
+                backgroundColor: "#003b9c",
+                fontFamily: "Poppins",
+                fontSize: 14,
+                textAlign: "center",
+                margin: "6px",
+              }}
+              onClick={() => resetNodesAndEdges()}
+            >
+              Reset Nodes and Edges
+            </Button>
 
-                      <FormControlLabel
-                          control={
-                              <Checkbox
-                                  checked={showEdges}
-                                  onChange={(e) => setShowEdges(e.target.checked)}
-                              />
-                          }
-                          label={
-                              <Typography
-                                  className={styles.checkboxLabel}
-                                  onClick={(e) => e.stopPropagation()}
-                              >
-                                  Display Edges
-                              </Typography>
-                          }
-                      />
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={showEdges}
+                  onChange={(e) => setShowEdges(e.target.checked)}
+                />
+              }
+              label={
+                <Typography
+                  className={styles.checkboxLabel}
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  Display Edges
+                </Typography>
+              }
+            />
 
-                      <FormControlLabel
-                          control={
-                              <Checkbox
-                                  checked={showNodes}
-                                  onChange={(e) => setShowNodes(e.target.checked)}
-                              />
-                          }
-                          label={
-                              <Typography
-                                  className={styles.checkboxLabel}
-                                  onClick={(e) => e.stopPropagation()}
-                              >
-                                  Display Nodes
-                              </Typography>
-                          }
-                      />
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={showNodes}
+                  onChange={(e) => setShowNodes(e.target.checked)}
+                />
+              }
+              label={
+                <Typography
+                  className={styles.checkboxLabel}
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  Display Nodes
+                </Typography>
+              }
+            />
 
-                      <Button
-                          variant="contained"
-                          className={styles.csvButton}
-                          style={{
-                              backgroundColor: "#003b9c",
-                              fontFamily: "Poppins",
-                              fontSize: 14,
-                              textAlign: "center",
-                              margin: "6px",
-                          }}
-                          onClick={() => setNewNodeDetails(emptyNode)}
-                      >
-                          Add Node
-                      </Button>
-                      <Button
-                          variant="contained"
-                          className={styles.csvButton}
-                          style={{
-                              backgroundColor: "#003b9c",
-                              fontFamily: "Poppins",
-                              fontSize: 14,
-                              textAlign: "center",
-                              margin: "6px",
-                          }}
-                          onClick={() => setNewEdgeDetails(emptyEdge)}
-                      >
-                          Add Edge
-                      </Button>
-                  </div>
-                  <TransformComponent>
-                      <div className={styles.mapAndDots}>
-                          <img
-                              src={floorMaps[currentFloor as keyof typeof floorMaps]}
-                              alt={`Floor ${currentFloor}`}
-                              className={styles.mapImage}
-                          />
-                          <svg
-                              className={styles.overlay}
-                              viewBox="0 0 5000 3400"
-                              onMouseMove={handleMouseMove}
-                              onMouseUp={handleMouseUp}
-                          >
-                              {showEdges &&
-                                  edges.map((edge) => {
-                                      const startNode = nodes.find(
-                                          (node) => node.id === edge.startNode,
-                                      );
-                                      const endNode = nodes.find(
-                                          (node) => node.id === edge.endNode,
-                                      );
-                                      if (
-                                          startNode &&
-                                          endNode &&
-                                          startNode.floor === currentFloor &&
-                                          endNode.floor === currentFloor
-                                      ) {
-                                          const startPosition = getPositionById(startNode.id);
-                                          const endPosition = getPositionById(endNode.id);
-                                          return (
-                                              <line
-                                                  key={`${edge.startNode}-${edge.endNode}`}
-                                                  x1={startPosition.x}
-                                                  y1={startPosition.y}
-                                                  x2={endPosition.x}
-                                                  y2={endPosition.y}
-                                                  stroke="blue"
-                                                  strokeWidth="5"
-                                                  onClick={() =>
-                                                      handleEdgeClick(edge.startNode, edge.endNode)
-                                                  }
-                                                  style={{cursor: "pointer"}}
-                                              />
-                                          );
-                                      }
-                                      return null;
-                                  })}
-                              {showNodes &&
-                                  nodes
-                                      .filter((node) => node.floor === currentFloor)
-                                      .map((node) => {
-                                          const position = getPositionById(node.id);
-                                          const isSelected = node === selectedNodeDetails;
-                                          return (
-                                              <circle
-                                                  key={node.id}
-                                                  cx={position.x}
-                                                  cy={position.y}
-                                                  r="9"
-                                                  fill="red"
-                                                  stroke={isSelected ? "black" : "none"}
-                                                  strokeWidth={isSelected ? "3" : "0"}
-                                                  onClick={() => handleNodeClick(node.id)}
-                                                  onMouseDown={(e) => handleMouseDown(node, e)}
-                                                  style={{cursor: "pointer"}} // Makes it clear the node is clickable
-                                              />
-                                          );
-                                      })}
-                          </svg>
-                      </div>
-                  </TransformComponent>
-              </TransformWrapper>
+            <Button
+              variant="contained"
+              className={styles.csvButton}
+              style={{
+                backgroundColor: "#003b9c",
+                fontFamily: "Poppins",
+                fontSize: 14,
+                textAlign: "center",
+                margin: "6px",
+              }}
+              onClick={() => setNewNodeDetails(emptyNode)}
+            >
+              Add Node
+            </Button>
+            <Button
+              variant="contained"
+              className={styles.csvButton}
+              style={{
+                backgroundColor: "#003b9c",
+                fontFamily: "Poppins",
+                fontSize: 14,
+                textAlign: "center",
+                margin: "6px",
+              }}
+              onClick={() => setNewEdgeDetails(emptyEdge)}
+            >
+              Add Edge
+            </Button>
           </div>
+          <TransformComponent>
+            <div className={styles.mapAndDots}>
+              <img
+                src={floorMaps[currentFloor as keyof typeof floorMaps]}
+                alt={`Floor ${currentFloor}`}
+                className={styles.mapImage}
+              />
+              <svg
+                className={styles.overlay}
+                viewBox="0 0 5000 3400"
+                onMouseMove={handleMouseMove}
+                onMouseUp={handleMouseUp}
+              >
+                {showEdges &&
+                  edges.map((edge) => {
+                    const startNode = nodes.find(
+                      (node) => node.id === edge.startNode,
+                    );
+                    const endNode = nodes.find(
+                      (node) => node.id === edge.endNode,
+                    );
+                    if (
+                      startNode &&
+                      endNode &&
+                      startNode.floor === currentFloor &&
+                      endNode.floor === currentFloor
+                    ) {
+                      const startPosition = getPositionById(startNode.id);
+                      const endPosition = getPositionById(endNode.id);
+                      return (
+                        <line
+                          key={`${edge.startNode}-${edge.endNode}`}
+                          x1={startPosition.x}
+                          y1={startPosition.y}
+                          x2={endPosition.x}
+                          y2={endPosition.y}
+                          stroke="blue"
+                          strokeWidth="5"
+                          onClick={() =>
+                            handleEdgeClick(edge.startNode, edge.endNode)
+                          }
+                          style={{ cursor: "pointer" }}
+                        />
+                      );
+                    }
+                    return null;
+                  })}
+                {showNodes &&
+                  nodes
+                    .filter((node) => node.floor === currentFloor)
+                    .map((node) => {
+                      const position = getPositionById(node.id);
+                      const isSelected = node === selectedNodeDetails;
+                      return (
+                        <circle
+                          key={node.id}
+                          cx={position.x}
+                          cy={position.y}
+                          r="9"
+                          fill="red"
+                          stroke={isSelected ? "black" : "none"}
+                          strokeWidth={isSelected ? "3" : "0"}
+                          onClick={() => handleNodeClick(node.id)}
+                          onMouseDown={(e) => handleMouseDown(node, e)}
+                          style={{ cursor: "pointer" }} // Makes it clear the node is clickable
+                        />
+                      );
+                    })}
+              </svg>
+            </div>
+          </TransformComponent>
+        </TransformWrapper>
       </div>
+    </div>
   );
 };
 
