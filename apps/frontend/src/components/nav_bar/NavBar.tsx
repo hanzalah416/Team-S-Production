@@ -361,7 +361,8 @@ function NavBar() {
         )}
         {isAuthenticated && (
           <div>
-            <Button
+
+              <Button
               id="services-button"
               aria-controls={open ? "services-menu" : undefined}
               aria-haspopup="true"
