@@ -265,7 +265,7 @@ body {
 .mMap {
   position: absolute;
   right: -50%;
-  top: 37%;
+  top: 47%;
   width: min-content;
   height: min-content;
   transition: right 0.3s ease;

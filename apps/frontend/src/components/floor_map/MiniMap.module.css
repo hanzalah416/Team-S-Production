@@ -1,6 +1,6 @@
 .outerDiv {
-  height: 40vh;
-  width: 30vw;
+  height: 10vh;
+  width: 20vw;
   position: relative;
   perspective: 70vh;
 }
@@ -11,7 +11,7 @@
 .f2,
 .f3 {
   right: 1vw;
-  height: 25vh;
+  height: 18vh;
   width: auto;
   transform: rotate(10deg) rotateY(-15deg) rotateX(45deg) rotateZ(10deg);
   transform-style: flat;
@@ -51,13 +51,13 @@ header {
 
 .f3 {
   perspective: 72vh;
-  translate: 0vh -8vw;
+  translate: 0vh -6vw;
   z-index: 5;
 }
 
 .f2 {
   perspective: 71vh;
-  translate: 0vh -4vw;
+  translate: 0vh -3vw;
   z-index: 4;
 }
 
@@ -65,29 +65,30 @@ header {
   z-index: 3;
 }
 
-.ll2 {
-  perspective: 75vh;
-  translate: 0vh 8vw;
-  z-index: 1;
-}
-
 .ll1 {
   perspective: 69vh;
-  translate: 0vh 4vw;
+  translate: 0vh 3vw;
   z-index: 2;
 }
 
-.f2:hover ~ .f3,
+.ll2 {
+    perspective: 75vh;
+    translate: 0vh 6vw;
+    z-index: 1;
+}
+.f2:hover ~ .f3 {
+    translate: 00vh -9vw 0vh;
+}
 .f1:hover ~ .f3,
 .ll2:hover ~ .f3,
 .ll1:hover ~ .f3 {
-  translate: 00vh -12vw 0vh; /* Adjust the vertical translation */
+  translate: 00vh -8vw 0vh; /* Adjust the vertical translation */
 }
 
 .f1:hover ~ .f2,
 .ll2:hover ~ .f2,
 .ll1:hover ~ .f2 {
-  translate: 0vh -8vw;
+  translate: 0vh -6vw;
 }
 
 .ll2:hover ~ .f1,
@@ -96,5 +97,5 @@ header {
 }
 
 .ll2:hover ~ .ll1 {
-  translate: 0vh 0vw;
+  translate: 0vh -2vw;
 }
