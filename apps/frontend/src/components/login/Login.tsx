@@ -15,7 +15,7 @@ import mapIcon from "../assets/NavBarIcons/map_icon.svg";
 import aboutIcon from "../assets/NavBarIcons/about.svg";
 import giftIcon from "../assets/NavBarIcons/gift_icon.svg";
 import toolsIcon from "../assets/NavBarIcons/tools_icon.svg";
-
+import downArrow from "../assets/HeroPhotos/viewMoreArrow.svg";
 const Login: React.FC = () => {
   const navigate = useNavigate();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -34,7 +34,14 @@ const Login: React.FC = () => {
     return () => clearInterval(interval); // Cleanup the interval on component unmount
   }, [images.length]); // Empty dependency array to run this effect only once on component mount
 
-  return (
+    const scrollToDiv = () => {
+        const targetDiv = document.getElementById('targetDiv');
+        if (targetDiv) {
+            targetDiv.scrollIntoView({behavior: 'smooth'});
+        }
+    };
+
+        return (
     <div className={styles.down}>
       <div className={styles.container}>
         <div className={styles.imageContainer}>
@@ -53,15 +60,18 @@ const Login: React.FC = () => {
             ))}
           </div>
 
-          <div className={styles.textOverlay}>
-            <p className={styles.disclaimer}>
-              This website is a term project exercise for WPI CS 3733 Software
-              Engineering (Prof. Wong) and is not to be confused with the actual
-              Brigham & Women’s Hospital website
-            </p>
-          </div>
+            <div className={styles.textOverlay}>
+                <p className={styles.disclaimer2}>
+                    This website is a term project exercise for WPI CS 3733 Software
+                    Engineering (Prof. Wong) and is not to be confused with the actual
+                    Brigham & Women’s Hospital website
+                </p>
+
+                <img className={styles.downArrow} src={downArrow} onClick={scrollToDiv}/>
+
+            </div>
         </div>
-        <div className={styles.textContainer}>
+          <div className={styles.textContainer}>
           <h1 className={styles.heading}>Brigham and Women's Hospital</h1>
           <br />
           <p className={styles.heading2}>
@@ -71,6 +81,7 @@ const Login: React.FC = () => {
           <br />
           <Button
             onClick={navigateMap}
+            className = {styles.viewMap}
             color="primary"
             style={{
               backgroundImage: `url(${mapImage})`,
@@ -80,21 +91,14 @@ const Login: React.FC = () => {
               height: "200px", // Adjust button height as needed
             }}
           >
-            <span
-              style={{
-                color: "navy",
-                fontSize: "18px",
-                marginTop: "150px",
-                fontWeight: "500",
-                fontFamily: "calibri, sans-serif",
-              }}
-            >
-              View Map
-            </span>
+              <div className={styles.view}> Click to View Map</div>
+
+
           </Button>
+
         </div>
       </div>
-      <div className={styles.bottomHalfContainer}>
+      <div className={styles.bottomHalfContainer} id="targetDiv">
         <div className={styles.lightBlueBar} />
         <div className={styles.cardsAligned}>
           <HeroPageCard
@@ -124,7 +128,7 @@ const Login: React.FC = () => {
           />
         </div>
         <div className={styles.footer}>
-          <p>
+          <p className={styles.disclaimerBottom}>
             This website is a term project exercise for WPI CS 3733 Software
             Engineering (Prof. Wong) and is not to be confused with the actual
             Brigham & Women’s Hospital website
