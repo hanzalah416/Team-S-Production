@@ -5,7 +5,7 @@ export type GiftForm = {
     location: string;
     requestType: string;
     status: string;
-    GiftRequest: {
+    GiftRequests: {
         orderNumber: number;
         typeGift: string;
         customMessage: string;

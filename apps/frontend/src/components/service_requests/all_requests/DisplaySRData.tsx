@@ -20,6 +20,8 @@ export default function DisplaySRData() {
     "Security Requests",
     "Room Scheduling",
     "Language Requests",
+      "Transportation Requests",
+      "Gift Requests",
   ];
 
   const tabContent = [
@@ -27,12 +29,11 @@ export default function DisplaySRData() {
     <FlowerRequestGetter />,
     <MedicineRequestGetter />,
     <SanitationGetter />,
-    <GiftGetter />,
     <SecurityGetter />,
     <RoomGetter />,
     <LanguageRequestGetter />,
     <TransportationGetter />,
-
+    <GiftGetter />
   ];
 
   return (

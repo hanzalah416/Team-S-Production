@@ -8,8 +8,8 @@ export type TransportationForm = {
     TransportRequest: {
         requestNumber: number;
         patientName: string;
-        transportationType: string;
         startLocation: string;
         endLocation: string;
+        transportationType: string;
     };
 };

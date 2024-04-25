@@ -23,7 +23,7 @@ export function GiftDisplay(props: {
     location: string;
     requestType: string;
     status: string;
-    GiftRequest: {
+    GiftRequests: {
         orderNumber: number;
         typeGift: string;
         customMessage: string;
@@ -66,10 +66,10 @@ onUpdateStatus: (newStatus: string) => void;
                 </Select>
             </StyledTableCell>
             <StyledTableCell align="center">
-                {props.GiftForm.GiftRequest.typeGift}
+                {props.GiftForm.GiftRequests.typeGift}
             </StyledTableCell>
             <StyledTableCell align="center">
-                {props.GiftForm.GiftRequest.customMessage}
+                {props.GiftForm.GiftRequests.customMessage}
             </StyledTableCell>
         </TableRow>
     );
