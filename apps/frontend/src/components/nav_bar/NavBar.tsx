@@ -21,6 +21,7 @@ import mapEditingIcon from "../assets/NavBarIcons/MapEditingIcon.svg";
 import dbIcon from "../assets/NavBarIcons/dbIcon.svg";
 import giftIcon from "../assets/NavBarIcons/gift_icon.svg";
 import aboutIcon from "../assets/NavBarIcons/about.svg";
+import { useNavigate } from "react-router-dom";
 import { LoginButton } from "../LoginButton.tsx";
 import { LogoutButton } from "../LogoutButton.tsx";
 import { createTheme, FormControl, ThemeProvider } from "@mui/material";
@@ -80,12 +81,16 @@ function NavBar() {
   };
 
   const { isAuthenticated, user } = useAuth0();
-
+  const navigate = useNavigate();
   const handleClose = () => {
     setAnchorEl(null);
     if (backdropVisible) {
       onBackDropItemClick();
     }
+  };
+
+  const toHero = () => {
+    navigate("/");
   };
 
   const setServicesID = useCallback(() => {
@@ -304,8 +309,12 @@ function NavBar() {
             "Brigham and Women's Hospital logo, reading " +
             "'Founding member, Mass General Brigham'"
           }
+          onClick={toHero}
         />
-        <p className={"time"}>{timeOfDay}</p>
+
+        <p className={"time"} onClick={toHero}>
+          {timeOfDay}{" "}
+        </p>
       </div>
 
       <div className={"navButtons"}>

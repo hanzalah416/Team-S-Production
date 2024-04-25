@@ -1,7 +1,7 @@
 import MakeGraph from "../makegraph.ts";
 import { GraphNode, NBMap, Pathfinding } from "../makegraph.ts";
 
-export class Pathfinder implements Pathfinding {
+export abstract class Pathfinder implements Pathfinding {
   public findPath(graph: MakeGraph, start: string, end: string) {
     //Get start and end nodes from map
     const startNode = graph.nodeMap.get(start);
@@ -67,8 +67,13 @@ export class Pathfinder implements Pathfinding {
           //Calculate the g,h, and f cost for the nodes and add them to the map
           const gCostNeighbor =
             gCost.get(currentNode)! +
-            graph.getCost(neighbor, currentNode, sameFloor);
-          const hCostNeighbor = graph.getCost(neighbor, endNode, sameFloor);
+            this.GetDistance(graph, neighbor, currentNode, sameFloor);
+          const hCostNeighbor = this.GetDistance(
+            graph,
+            neighbor,
+            endNode,
+            sameFloor,
+          );
           const fCostNeighbor = gCostNeighbor + hCostNeighbor;
 
           //Set the costs for neighbors
@@ -87,4 +92,11 @@ export class Pathfinder implements Pathfinding {
     //Back trace path
     return graph.backTracePath(arrivedFrom, pathFound, startNode, endNode);
   }
+
+  abstract GetDistance(
+    graph: MakeGraph,
+    node: GraphNode,
+    goal: GraphNode,
+    sameFloor: boolean,
+  ): number;
 }

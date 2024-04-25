@@ -4,7 +4,6 @@ import prisma from "../bin/database-connection.ts";
 const languageRouter: Router = express.Router();
 
 // HTTP protocol
-
 languageRouter.post("/", async function (req: Request, res: Response) {
   // Attempt to save the high score
   try {

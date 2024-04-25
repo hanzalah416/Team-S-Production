@@ -2,94 +2,221 @@
 @import url("https://fonts.googleapis.com/css2?family=Jaldi:wght@400;700&display=swap");
 
 .heading {
-  color: black;
-  text-align: center;
-  font-family: "Inter", sans-serif;
-  font-size: 50px;
-
-  padding: 8px;
-  animation: slideIn 5s ease forwards;
+    color: #1c3573;
+    text-align: center;
+    font-family: "Girard", sans-serif;
+    font-size: 50px;
+    font-weight: 800;
+    padding: 8px;
+    animation: slideIn 5s ease forwards;
 }
 
 .heading2 {
-  color: black;
-  text-align: center;
-  font-size: 20px;
-  padding: 20px;
-  font-weight: lighter;
-  font-family: "Inter", sans-serif;
-  animation: slideIn 5s ease forwards;
+    color: black;
+    text-align: center;
+    font-size: 20px;
+    padding: 20px;
+    font-weight: lighter;
+    font-family: "Inter", sans-serif;
+    font-style: italic;
+    animation: slideIn 5s ease forwards;
 }
 
 .textContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   flex: 1; /* Adjust flex value as needed */
   padding: 10px;
-  background-color: #f0f0f0;
+  background-color: #efefef;
   min-width: 200px; /* Set a minimum width */
   height: calc(100vh - 75px);
   animation: slideIn 5s ease forwards;
+
 }
 
 .container {
-  position: absolute;
-  left: 0;
-  top: 75px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: flex-start;
-  width: 100%;
-  height: calc(100vh - 75px);
+    position: relative;
+    left: 0;
+    top: 45px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+    height: calc(100vh - 75px);
+    padding: 0;
 }
 
 .imageContainer {
-  flex: 3;
-  position: relative;
-  object-fit: cover;
-  min-width: 200px;
-  height: calc(100vh - 75px);
-  animation: slideIn 5s ease forwards;
+    flex: 3;
+    position: relative;
+    object-fit: cover;
+    min-width: 200px;
+    height: calc(100vh - 75px);
+    animation: slideIn 5s ease forwards;
 }
 
 .coverImage {
-  width: 200vh;
-  height: calc(100vh - 75px);
-  position: relative;
-  object-fit: cover;
+    width: 200vh;
+    height: calc(100vh - 75px);
+    position: relative;
+    object-fit: cover;
+    animation: slideIn 5s ease forwards;
 }
 
 .arrowImage {
-  position: relative;
-  object-fit: cover;
+    position: relative;
+    object-fit: cover;
 }
 
 .textOverlay {
-  position: absolute;
-  top: 0%;
-  left: 50%;
-  transform: translate(-50%, 0%);
-  text-align: center;
-  color: black;
-  background: white;
-  margin-top: 10px;
+    position: absolute;
+    top: 0%;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    text-align: center;
+    color: #313a75;
+    margin-top: 10px;
+    flex-direction: column;
+    height: 100%;
 }
 
+
 .disclaimer {
-  font-weight: 800;
-  width: 100%;
+    font-weight: 800;
+    font-style: italic;
+    width: 100%;
+    text-shadow: -1px -1px 0 #eff3fc,
+    1px -1px 0 #eff3fc,
+    -1px 1px 0 #eff3fc,
+    1px 1px 0 #eff3fc; /* Creates an outline */
+}
+
+.disclaimer2 {
+    font-weight: 800;
+    font-style: italic;
+    color: red;
+    width: 100%;
+    text-shadow: -1px -1px 0 #eff3fc,
+    1px -1px 0 #eff3fc,
+    -1px 1px 0 #eff3fc,
+    1px 1px 0 #eff3fc; /* Creates an outline */
 }
 
 @keyframes slideIn {
-  from {
-    transform: translateX(0);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 2;
-  }
+    from {
+        transform: translateX(0);
+        opacity: 0.5;
+    }
+    to {
+        opacity: 2;
+    }
+}
+
+@keyframes slideInOut {
+    0% {
+        transform: translateX(0);
+        opacity: 0;
+    }
+    25% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    75% {
+        transform: translateY(0);
+        opacity: 2;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 0;
+    }
 }
 
 .slideshow {
-  animation: slideIn 5s ease forwards;
+    animation: slideIn 5s ease forwards;
 }
+
+.arrowImage {
+    max-height: 200px;
+    max-width: 200px;
+}
+
+.down {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+}
+
+.bottomHalfContainer {
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  top: 45px;
+  align-content: center;
+  width: 100%;
+  padding: 0;
+  background-color: #f2f2f3;
+}
+
+.lightBlueBar {
+    top: 70px;
+    left: 0;
+    width: 100%;
+    height: 44px;
+    background-color: #289ba5;
+}
+
+.cardsAligned {
+
+  display: flex;
+  flex-direction: row;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+  column-gap: clamp(15px, 50%, 50px);
+  row-gap: clamp(40px, 50%, 50px);
+  max-width: clamp(400px, 75%, 1400px);
+  max-height: clamp(900px, 75%, 1300px);
+
+}
+
+.footer {
+    width: 100%;
+    height: 44px;
+    background-color: #848484;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.viewMap {
+
+    margin-top: 150px;
+    color: #1a1a1a;
+
+}
+
+.view {
+    font-size: 17px;
+    color: black;
+    margin-top: 150px;
+    font-family: "Inter", sans-serif;
+    text-decoration: none;
+    text-transform: none;
+}
+
+.downArrow {
+    position: relative;
+    left: 40%;
+    bottom: -65vh
+}
+
