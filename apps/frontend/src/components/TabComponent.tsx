@@ -21,7 +21,8 @@ const Tabs: React.FC<TabsProps> = ({ tabNames, tabContents }) => {
     <Box sx={{ width: "100%", typography: "body1" }}>
       <TabContext value={value}>
         <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-          <TabList onChange={handleChange} aria-label="lab API tabs example">
+          <TabList onChange={handleChange} variant="scrollable"
+                   scrollButtons="auto" aria-label="lab API tabs example">
             {tabNames.map((name, index) => (
               <Tab key={index} label={name} value={(index + 1).toString()} />
             ))}

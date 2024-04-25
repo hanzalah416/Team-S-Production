@@ -6,7 +6,7 @@ import {
   useNavigate,
 } from "react-router-dom";
 import NavBar from "./components/nav_bar/NavBar.tsx";
-import OrderFlowers from "./components/flower_requests/OrderFlowers.tsx";
+import OrderFlowers from "./components/service_requests/flower_requests/OrderFlowers.tsx";
 import OrderPayment from "./components/service_requests/payment/OrderPayment.tsx";
 import { FormDataProvider } from "./components/service_requests/FormDataContext.tsx";
 import FloorMap from "./components/floor_map/FloorMap.tsx";

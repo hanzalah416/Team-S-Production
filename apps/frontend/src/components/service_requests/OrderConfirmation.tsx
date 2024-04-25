@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "../flower_requests/OrderFlowers.module.css";
+import styles from "./flower_requests/OrderFlowers.module.css";
 import checkMark from "../assets/checkmark.webp";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
