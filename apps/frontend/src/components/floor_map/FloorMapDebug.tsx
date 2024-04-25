@@ -428,7 +428,7 @@ const StaticFloorMapDebug = () => {
               <button
                 id="delete"
                 onClick={handleDeleteNode}
-                className={styles.customButton}
+                className={styles.redCustomButton}
               >
                 Delete Node
               </button>
@@ -622,15 +622,15 @@ const StaticFloorMapDebug = () => {
   }, []);
 
   const floorMaps = {
-    L1: l1Map,
     L2: l2Map,
+    L1: l1Map, // switched order
     "1": f1Map,
     "2": f2Map,
     "3": f3Map,
   };
 
   const FloorSwitcher = () => {
-    const floorOrder = ["L1", "L2", "1", "2", "3"];
+    const floorOrder = ["L2", "L1", "1", "2", "3"];
     const sortedFloors = Object.keys(floorMaps).sort(
       (a, b) => floorOrder.indexOf(a) - floorOrder.indexOf(b),
     );
@@ -716,6 +716,20 @@ const StaticFloorMapDebug = () => {
           <div className={styles.checkboxContainer}>
             <Button
               variant="contained"
+              className={styles.csvButton}
+              style={{
+                backgroundColor: "#003b9c",
+                fontFamily: "Poppins",
+                fontSize: 14,
+                textAlign: "center",
+                margin: "6px",
+              }}
+              // onClick={() => resetNodesAndEdges()}
+            >
+              Reset Nodes and Edges
+            </Button>
+            <Button
+              variant="contained"
               href="/node-data"
               className={styles.csvButton}
               style={{
@@ -723,10 +737,12 @@ const StaticFloorMapDebug = () => {
                 fontFamily: "Poppins",
                 fontSize: 14,
                 textAlign: "center",
+                margin: "6px",
               }}
             >
               Import/Export Nodes
             </Button>
+
             <FormControlLabel
               control={
                 <Checkbox
@@ -760,7 +776,7 @@ const StaticFloorMapDebug = () => {
                 </Typography>
               }
             />
-            <br />
+
             <Button
               variant="contained"
               className={styles.csvButton}
@@ -769,12 +785,12 @@ const StaticFloorMapDebug = () => {
                 fontFamily: "Poppins",
                 fontSize: 14,
                 textAlign: "center",
+                margin: "6px",
               }}
               onClick={() => setNewNodeDetails(emptyNode)}
             >
               Add Node
             </Button>
-            <br />
             <Button
               variant="contained"
               className={styles.csvButton}
@@ -783,24 +799,11 @@ const StaticFloorMapDebug = () => {
                 fontFamily: "Poppins",
                 fontSize: 14,
                 textAlign: "center",
+                margin: "6px",
               }}
               onClick={() => setNewEdgeDetails(emptyEdge)}
             >
               Add Edge
-            </Button>
-            <br />
-            <Button
-              variant="contained"
-              className={styles.csvButton}
-              style={{
-                backgroundColor: "#003b9c",
-                fontFamily: "Poppins",
-                fontSize: 14,
-                textAlign: "center",
-              }}
-              // onClick={() => resetNodesAndEdges()}
-            >
-              Reset Nodes and Edges
             </Button>
           </div>
           <TransformComponent>
