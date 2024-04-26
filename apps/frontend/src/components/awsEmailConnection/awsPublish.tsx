@@ -6,7 +6,7 @@ import axios from "axios";
 // interface EmailFormProps {
 //     topicArn: string;
 // }
-export default function awsPublishForm() {
+export default function AwsPublishForm() {
   const [topicARN, setTopicARN] = useState("");
   const [message, setMessage] = useState("");
 

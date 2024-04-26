@@ -27,6 +27,7 @@ import TransportRequest from "./components/service_requests/internalTransportati
 import EmailForm from "./components/awsEmailConnection/EmailForm.tsx";
 import GiftForm from "./components/service_requests/gift_request/giftForm.tsx";
 import { AboutPage } from "./components/about_page/AboutPage.tsx";
+import AwsPublishForm from "./components/awsEmailConnection/awsPublish.tsx";
 
 function App() {
   const router = createBrowserRouter([
@@ -136,7 +137,7 @@ function App() {
           path: "/message-publish",
           element: (
             <>
-              <awsPublishForm />
+              <AwsPublishForm />
               <Layout />
             </>
           ),
