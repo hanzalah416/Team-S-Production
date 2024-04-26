@@ -599,11 +599,14 @@ function FloorMap() {
         <div className={styles.signInForm}>
           <Tooltip className={styles.tips} tips={tips} />
           <div className={styles.boldtag}>Enter Starting Point</div>
-          <SpeechToText
-            handleSelection={handleSelection}
-            startPosition={startPosition}
-            getPositionById={getPositionById}
-          />
+          {"SpeechRecognition" in window ||
+            ("webkitSpeechRecognition" in window && (
+              <SpeechToText
+                handleSelection={handleSelection}
+                startPosition={startPosition}
+                getPositionById={getPositionById}
+              />
+            ))}
           <Autocomplete
             key={`start-position-${resetKey}`}
             options={sortedLocations}

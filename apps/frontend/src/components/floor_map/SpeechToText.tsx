@@ -1,9 +1,12 @@
 import { Node } from "../common/NodeInterface.ts";
 import { Position } from "../common/PositionInterface.ts";
 import { useEffect, useState } from "react";
-import stringSimilarity from "string-similarity";
+import FindClosestMatch from "../HelperFunctions/FindClosestMatch.ts";
 import SpeechKey from "./SpeechKey.ts";
+import isFirstWord from "../HelperFunctions/IsFirstWord.ts";
+import { GetSecondWord } from "../HelperFunctions/GetSecondWord.ts";
 
+//Function to turn speech into text
 export default function SpeechToText(props: {
   handleSelection: (value: Position | null, type: "start" | "end") => void;
   getPositionById: (id: string) => Position;
@@ -50,7 +53,7 @@ export default function SpeechToText(props: {
 
   function handleClick() {
     recognition.start();
-    console.log("Ready to receive Color");
+    console.log("Ready to receive Location");
   }
 
   recognition.onresult = (event) => {
@@ -58,7 +61,7 @@ export default function SpeechToText(props: {
     console.log(spokenLocationRaw);
     //console.log(sortedLocations);
 
-    if (isFirstWordClosest(spokenLocationRaw)) {
+    if (isFirstWord(spokenLocationRaw, ["closest", "nearest"])) {
       const keyTypes = [
         "atm",
         "busstop",
@@ -75,8 +78,8 @@ export default function SpeechToText(props: {
         "waitingroom",
       ];
 
-      const locationType = findClosestMatch(
-        getSecondWord(spokenLocationRaw),
+      const locationType = FindClosestMatch(
+        GetSecondWord(spokenLocationRaw),
         keyTypes,
       );
 
@@ -89,66 +92,24 @@ export default function SpeechToText(props: {
         );
       }
     } else if (!props.startPosition) {
-      const spokenLocation = findClosestMatch(
+      const spokenLocation = FindClosestMatch(
         spokenLocationRaw,
         sortedLocations,
       );
-      props.handleSelection(findLocationByLongName(spokenLocation), "start");
+
+      props.handleSelection(FindLocationByLongName(spokenLocation), "start");
     } else {
-      const spokenLocation = findClosestMatch(
+      const spokenLocation = FindClosestMatch(
         spokenLocationRaw,
         sortedLocations,
       );
-      props.handleSelection(findLocationByLongName(spokenLocation), "end");
+
+      props.handleSelection(FindLocationByLongName(spokenLocation), "end");
     }
   };
 
-  function isFirstWordClosest(input: string): boolean {
-    // Remove leading and trailing whitespace
-    const trimmedInput = input.trim();
-
-    // Split the string into words
-    const words = trimmedInput.split(" ");
-
-    // Get the first word (if any words exist)
-    const firstWord = words.length > 0 ? words[0] : "";
-
-    // Check if the first word is "closest" (case-sensitive)
-    return firstWord === "closest";
-  }
-  function getSecondWord(input: string): string {
-    // Remove leading and trailing whitespace
-    const trimmedInput = input.trim();
-
-    // Split the string into words
-    const words = trimmedInput.split(" ");
-
-    // Check if there is at least a second word
-    if (words.length > 1) {
-      // Return the second word
-      return words[1];
-    } else {
-      // Return undefined if there's no second word
-      return "undefined";
-    }
-  }
-
-  const findClosestMatch = (input: string, options: string[]): string => {
-    let bestMatch = "null";
-    let bestScore = -Infinity;
-
-    options.forEach((option) => {
-      const similarityScore = stringSimilarity.compareTwoStrings(input, option);
-      if (similarityScore > bestScore) {
-        bestScore = similarityScore;
-        bestMatch = option;
-      }
-    });
-
-    return bestMatch;
-  };
-
-  const findLocationByLongName = (longNameToFind: string): Position | null => {
+  //Find the location based on long name given
+  const FindLocationByLongName = (longNameToFind: string): Position | null => {
     const foundLocation = locations.find(
       (location) =>
         location.label.toLowerCase() === longNameToFind.toLowerCase(),
