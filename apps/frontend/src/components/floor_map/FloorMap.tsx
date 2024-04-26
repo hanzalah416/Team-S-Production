@@ -602,6 +602,7 @@ function FloorMap() {
           <SpeechToText
             handleSelection={handleSelection}
             startPosition={startPosition}
+            getPositionById={getPositionById}
           />
           <Autocomplete
             key={`start-position-${resetKey}`}
