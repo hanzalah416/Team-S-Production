@@ -10,6 +10,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { FlowerRequestForm } from "./FlowerRequestForm.ts";
 import { FlowerRequestDisplay } from "./FlowerRequestTable.tsx";
+import styles from "../all_requests/DisplaySRData.module.css";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -65,34 +66,36 @@ export default function FlowerRequestGetter() {
   );
 
   return (
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 700 }} aria-label="customized table">
-        <TableHead>
-          <TableRow>
-            <StyledTableCell align="center">Request ID</StyledTableCell>
-            <StyledTableCell align="center">Requester's Name</StyledTableCell>
-            <StyledTableCell align="center">Priority</StyledTableCell>
-            <StyledTableCell align="center">Location</StyledTableCell>
-            <StyledTableCell align="center">Status</StyledTableCell>
-            <StyledTableCell align="center">Flower Type</StyledTableCell>
-            <StyledTableCell align="center">Custom Message</StyledTableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {sortedFlowerRequestData.map((FlowerRequestForm) => (
-            <FlowerRequestDisplay
-              key={FlowerRequestForm.requestID}
-              FlowerRequestForm={FlowerRequestForm}
-              onUpdateStatus={(newStatus) =>
-                updateFlowerRequestStatus(
-                  FlowerRequestForm.requestID,
-                  newStatus,
-                )
-              }
-            />
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+    <div className={styles.tabsContainer2}>
+      <TableContainer component={Paper}>
+        <Table sx={{ minWidth: 700 }} aria-label="customized table">
+          <TableHead>
+            <TableRow>
+              <StyledTableCell align="center">Request ID</StyledTableCell>
+              <StyledTableCell align="center">Requester's Name</StyledTableCell>
+              <StyledTableCell align="center">Priority</StyledTableCell>
+              <StyledTableCell align="center">Location</StyledTableCell>
+              <StyledTableCell align="center">Status</StyledTableCell>
+              <StyledTableCell align="center">Flower Type</StyledTableCell>
+              <StyledTableCell align="center">Custom Message</StyledTableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {sortedFlowerRequestData.map((FlowerRequestForm) => (
+              <FlowerRequestDisplay
+                key={FlowerRequestForm.requestID}
+                FlowerRequestForm={FlowerRequestForm}
+                onUpdateStatus={(newStatus) =>
+                  updateFlowerRequestStatus(
+                    FlowerRequestForm.requestID,
+                    newStatus,
+                  )
+                }
+              />
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </div>
   );
 }

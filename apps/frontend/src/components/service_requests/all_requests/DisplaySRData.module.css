@@ -1,13 +1,18 @@
+html,
+body {
+  height: 100%;
+  overflow-y: hidden; /* Prevents vertical scrolling on the entire page */
+  margin: 0; /* Removes default margin */
+}
 .outerDiv {
-    position: absolute; /* Fixes the position relative to the viewport */
-    top: 0;
+  position: absolute; /* Fixes the position relative to the viewport */
+  top: 0;
   margin-top: 80px;
   width: 100vw;
-    left: 0;
+  left: 0;
   height: 100%;
-    overflow-x:hidden;
-    overflow-y: auto;
-    background-color: #ffffff;
+  overflow: hidden;
+  background-color: #ffffff;
 
   /*display: flex;*/
   /*flex-direction: column;*/
@@ -15,10 +20,28 @@
 }
 
 .label {
-    transform: translate(12px, 30px);
-    margin-bottom: 30px;/* Move right by 12px and down by 30px */
+  transform: translate(12px, 30px);
+  margin-bottom: 30px; /* Move right by 12px and down by 30px */
 }
 .tabsContainer {
-     /* Adjust based on your layout needs */
-    overflow-y: auto; /* Enables vertical scrolling within the tabs */
+  overflow-y: auto;
+  overflow-x: hidden;
+  width: 100vw; /* Full width of the viewport */
+  position: relative; /* Needed if you want to position elements inside absolutely */
+  max-height: calc(100vh - 400px);
+}
+
+.tabsContainer2 {
+  overflow-y: auto;
+  overflow-x: hidden;
+  width: 100vw; /* Full width of the viewport */
+  position: relative; /* Needed if you want to position elements inside absolutely */
+  max-height: calc(100vh - 300px);
+}
+
+.alerts {
+  position: fixed; /* Keeps the alerts at the bottom regardless of scrolling */
+  bottom: 0; /* Aligns at the bottom */
+  width: 100vw; /* Full width of the viewport */
+  background: #fff; /* Optional: background color for better visibility */
 }
