@@ -66,11 +66,11 @@ router.get(
             ).length,
       schedulingRequest:
         serviceRequests.filter(
-          (request) => request.requestType === "Scheduling",
+          (request) => request.requestType === "Room Scheduling",
         ) == undefined
           ? 0
           : serviceRequests.filter(
-              (request) => request.requestType === "Scheduling",
+              (request) => request.requestType === "Room Scheduling",
             ).length,
       sanitationRequest:
         serviceRequests.filter(

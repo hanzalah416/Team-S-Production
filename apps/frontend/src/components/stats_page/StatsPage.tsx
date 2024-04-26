@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 // import BackgroundImg2 from "../assets/blue-background2.jpg";
 import axios from "axios";
-import Typography from "@mui/material/Typography";
-import { Grid } from "@mui/material";
+// import Typography from "@mui/material/Typography";;
 // import { BarChart } from '@mui/x-charts/BarChart';
 import { PieChart } from "@mui/x-charts/PieChart";
+
+// import {Grid} from "@mui/material";
 
 type PieData = {
   flowerRequest: number;
@@ -64,74 +65,34 @@ const Stats = () => {
     fetchData().then();
   }, []);
 
-  const pieChartData = [
-    { name: "Flower Requests", value: pieData.flowerRequest, color: "#ff0000" },
-    {
-      name: "Language Requests",
-      value: pieData.languageRequest,
-      color: "#00ff00",
-    },
-    {
-      name: "Medicine Requests",
-      value: pieData.medicineRequest,
-      color: "#0000ff",
-    },
-    {
-      name: "Sanitation Requests",
-      value: pieData.sanitationRequest,
-      color: "#ffff00",
-    },
-    {
-      name: "Scheduling Requests",
-      value: pieData.schedulingRequest,
-      color: "#ff00ff",
-    },
-    {
-      name: "Security Requests",
-      value: pieData.securityRequest,
-      color: "#00ffff",
-    },
-    {
-      name: "Transportation Requests",
-      value: pieData.transportRequest,
-      color: "#ffa500",
-    },
-    { name: "Gift Requests", value: pieData.giftRequest, color: "#00ffff" },
-  ];
 
-  return (
-    <div
-    // style={{
-    //   backgroundImage: `url(${BackgroundImg2})`,
-    //   height: "100vh",
-    //   width: "100vw",
-    //   backgroundSize: "cover",
-    //   backgroundRepeat: "no-repeat",
-    //   minHeight: "100%",
-    //   backgroundPosition: "center center",
-    //   overflowX: "hidden",
-    //   display: "flex",
-    //   flexWrap: "wrap",
-    //   alignItems: "center",
-    //   justifyContent: "center",
-    // }}
-    >
-      <Grid container spacing={3}>
-        <Grid item xs={12} md={6}>
-          <Typography variant="h6">Service requests by service type</Typography>
-          <PieChart
-            series={[
-              {
-                data: pieChartData,
-              },
-            ]}
-            width={400}
-            height={200}
-          />
-        </Grid>
-      </Grid>
-    </div>
-  );
+
+
+    return (
+        <div style={{display: 'flex', justifyContent: 'flex-start'}}>
+            <div style={{marginRight: '1000px'}}>
+                <PieChart
+                    series={[
+                        {
+                            data: [
+                                {id: 0, value: pieData.securityRequest, label: 'Security', color: ''},
+                                {id: 1, value: pieData.transportRequest, label: 'Transport', color: ''},
+                                {id: 2, value: pieData.medicineRequest, label: 'Medicine', color: ''},
+                                {id: 3, value: pieData.languageRequest, label: 'Language', color: ''},
+                                {id: 4, value: pieData.schedulingRequest, label: 'Scheduling', color: ''},
+                                {id: 5, value: pieData.giftRequest, label: 'Gift'},
+                                {id: 6, value: pieData.sanitationRequest, label: 'Sanitation', color: ''},
+                                {id: 7, value: pieData.flowerRequest, label: 'Flower', color: ''},
+                            ],
+                        },
+                    ]}
+                    width={400}
+                    height={400}
+                />
+            </div>
+
+        </div>
+    );
 };
 
 export default Stats;
