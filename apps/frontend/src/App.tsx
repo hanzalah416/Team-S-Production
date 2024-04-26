@@ -196,15 +196,15 @@ function App() {
             </>
           ),
         },
-          {
-              path: "/stats-page",
-              element: (
-                  <>
-                      <StatsPage />
-                      <Layout />
-                  </>
-              ),
-          },
+        {
+          path: "/stats-page",
+          element: (
+            <>
+              <StatsPage />
+              <Layout />
+            </>
+          ),
+        },
 
         // ... other routes
       ],

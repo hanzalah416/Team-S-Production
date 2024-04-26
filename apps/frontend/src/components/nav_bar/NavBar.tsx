@@ -232,10 +232,10 @@ function NavBar() {
         setServIcon(transportIcon);
         setServicesID();
         break;
-        case "/stats-page":
-            setServIcon(statsIcon);
-            setServicesID();
-            break;
+      case "/stats-page":
+        setServIcon(statsIcon);
+        setServicesID();
+        break;
       case "/map-debug":
         setServIcon(mapEditingIcon);
         setServicesID();
@@ -495,17 +495,17 @@ function NavBar() {
                   <p className={"item"}>Map Editing Page</p>
                 </MenuItem>
               </Link>
-                <Link to={"/stats-page"} id={"order"}>
-                    <MenuItem onClick={handleClose}>
-                        <img
-                            src={statsIcon}
-                            className={"iconHeight"}
-                            width={"38px"}
-                            alt={"Map Editing Icon"}
-                        />
-                        <p className={"item"}>Site Statistics</p>
-                    </MenuItem>
-                </Link>
+              <Link to={"/stats-page"} id={"order"}>
+                <MenuItem onClick={handleClose}>
+                  <img
+                    src={statsIcon}
+                    className={"iconHeight"}
+                    width={"38px"}
+                    alt={"Map Editing Icon"}
+                  />
+                  <p className={"item"}>Site Statistics</p>
+                </MenuItem>
+              </Link>
               <Link to={"/node-data"} id={"order"}>
                 <MenuItem onClick={handleClose}>
                   <img

@@ -51,7 +51,7 @@ router.get(
         (request) => request.requestType === "Medicine",
       ).length,
       schedulingRequest: serviceRequests.filter(
-        (request) => request.requestType === "Scheduling",
+        (request) => request.requestType === "Room Scheduling",
       ).length,
       sanitationRequest: serviceRequests.filter(
         (request) => request.requestType === "Sanitation",
@@ -61,6 +61,9 @@ router.get(
       ).length,
       transportRequest: serviceRequests.filter(
         (request) => request.requestType === "Transport",
+      ).length,
+      giftRequest: serviceRequests.filter(
+        (request) => request.requestType === "Gift",
       ).length,
     };
 
