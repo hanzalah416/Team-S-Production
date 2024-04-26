@@ -461,10 +461,13 @@ const StaticFloorMapDebug = () => {
       setNewEdgeDetails(null);
     }, []);
 
-    const handleInputChange = (event) => {
-      const { name, value } = event.target;
-      setEditableEdge((prev) => ({ ...prev, [name]: value }));
-    };
+      const handleInputChange = (event: { target: { name: string, value: string | null } }) => {
+          const { name, value } = event.target;
+          setEditableEdge(prev => ({
+              ...prev,
+              [name]: value ?? ''  // Use nullish coalescing to default to empty string if null
+          }));
+      };
 
     const handleSave = async () => {
       const url = `/api/edges`;

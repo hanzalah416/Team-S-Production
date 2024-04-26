@@ -1,8 +1,24 @@
 .outerDiv {
-  margin-top: 70px;
+    position: absolute; /* Fixes the position relative to the viewport */
+    top: 0;
+  margin-top: 80px;
   width: 100vw;
+    left: 0;
   height: 100%;
+    overflow-x:hidden;
+    overflow-y: auto;
+    background-color: #ffffff;
+
   /*display: flex;*/
   /*flex-direction: column;*/
   /*justify-content: flex-start;*/
+}
+
+.label {
+    transform: translate(12px, 30px);
+    margin-bottom: 30px;/* Move right by 12px and down by 30px */
+}
+.tabsContainer {
+     /* Adjust based on your layout needs */
+    overflow-y: auto; /* Enables vertical scrolling within the tabs */
 }

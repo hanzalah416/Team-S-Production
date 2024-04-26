@@ -40,10 +40,14 @@ export default function DisplaySRData() {
   return (
     //
     <div className={styles.outerDiv}>
+        <div className={styles.label}>
       <h1>Service Request Data</h1>
+        </div>
       <br />
-      <Tabs tabNames={tabNames} tabContents={tabContent} />
-      <OutlinedAlerts />
+
+            <Tabs tabNames={tabNames} tabContents={tabContent}/>
+
+        <OutlinedAlerts/>
     </div>
   );
 }
