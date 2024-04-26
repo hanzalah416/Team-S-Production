@@ -13,15 +13,22 @@ import Card from "./Card";
 import styles from "./AboutPage.module.css";
 import BackgroundImg2 from "../assets/blue-background2.jpg";
 const Project = [
+    {
+        description: "Full Stack Developer , quote1:TBD",
+        imgUrl: dor,
+        label: "Dorothy Alexander",
+        font: "Elia",
+        color: "#D0B136",
+        size: "30px",
+    },
+
   {
     description: "Project Manager, Full Stack Developer, quote1:TBD",
     imgUrl: jacob,
     label: "Jacob Antepli",
-  },
-  {
-    description: "Full Stack Developer , quote1:TBD",
-    imgUrl: dor,
-    label: "Dorothy Alexander",
+    font: "Elia",
+    color: "#292877",
+    size: "35px",
   },
 
   {
@@ -29,37 +36,58 @@ const Project = [
       "Assistant Lead Software Engineer, Full Stack Developer,quote1:TBD",
     imgUrl: kim,
     label: "Kim Cummings",
+    font: "Elia",
+    color: "#292877",
+    size: "35px",
   },
 
   {
     description: "Lead Software Engineer, Full Stack Developer,quote1:TBD",
     imgUrl: matt,
     label: "Matt Crane",
+    font: "Elia",
+    color: "#292877",
+    size: "35px",
   },
   {
     description: "Full Stack Developer.quote1:TBD",
     imgUrl: went,
     label: "Wentao Yu",
+    font: "Elia",
+    color: "#292877",
+    size: "35px",
   },
   {
     description: "Documentation Analyst, Full Stack Developer.quote1:TBD",
     imgUrl: chris,
     label: "Christopher Hunt",
+    font: "Elia",
+    color: "#292877",
+    size: "35px",
   },
   {
     description: "Full Stack Developer, Scrum Master,quote1:TBD",
     imgUrl: li,
     label: "Jeffrey Li",
+    font: "Elia",
+    color: "#292877",
+    size: "35px",
   },
   {
     description: "Full Stack Developer, Product Owner,quote1:TBD",
     imgUrl: jav,
     label: "Javier Moncada",
+    font: "Elia",
+    color: "#292877",
+    size: "35px",
   },
   {
     description: "Full Stack Developer,quote1:TBD",
     imgUrl: hanz,
     label: "Hanzalah Qamar",
+    font: "Elia",
+    color: "#292877",
+    size: "35px",
   },
 
   {
@@ -67,11 +95,17 @@ const Project = [
       "Assistant Lead Software Engineer, Full Stack Developer.quote1:TBD",
     imgUrl: nate,
     label: "Nathaniel Schneider",
+    font: "Elia",
+    color: "#292877",
+    size: "35px",
   },
   {
     description: "Full Stack Developer.quote1:TBD",
     imgUrl: ken,
     label: "Ken Sebastian",
+    font: "Elia",
+    color: "#292877",
+    size: "35px",
   },
 ];
 
