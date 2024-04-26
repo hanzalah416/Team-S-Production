@@ -39,9 +39,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   font,
   color,
   size,
-
-
-                                                 }) => {
+}) => {
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
@@ -58,19 +56,19 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           <img
             src={imgUrl}
             style={{
-                bottom: "20px",
-                position: "relative",
-                width: "30vh",
-                height: "30vh",
-                objectFit: "cover",
-                marginLeft: "auto",
-                marginRight: "auto",
-                justifyContent: "center",
-                cursor: "pointer", // Added cursor style for better user experience
+              bottom: "20px",
+              position: "relative",
+              width: "30vh",
+              height: "30vh",
+              objectFit: "cover",
+              marginLeft: "auto",
+              marginRight: "auto",
+              justifyContent: "center",
+              cursor: "pointer", // Added cursor style for better user experience
             }}
           />
         </Tooltip>
-          <br />
+        <br />
         <h1
           style={{
             position: "relative",
@@ -80,7 +78,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
             fontSize: size,
             textAlign: "center",
             cursor: "pointer", // Added cursor style for better user experience
-            bottom: "20px"
+            bottom: "20px",
           }}
           onClick={handleClickOpen}
         >

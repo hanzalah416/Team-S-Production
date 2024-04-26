@@ -91,7 +91,6 @@ export function ServiceRequestGetter() {
           ),
         }}
       />
-
       <div className={styles.tabsContainer}>
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 700 }} aria-label="customized table">
@@ -107,7 +106,6 @@ export function ServiceRequestGetter() {
                 <StyledTableCell align="center">Status</StyledTableCell>
               </TableRow>
             </TableHead>
-
             <TableBody>
               {sortedFilteredData.map((allRequestForm) => (
                 <ServiceRequestDisplay

@@ -76,6 +76,7 @@ export function LanguageRequestGetter() {
               <StyledTableCell align="center">Priority</StyledTableCell>
               <StyledTableCell align="center">Location</StyledTableCell>
               <StyledTableCell align="center">Status</StyledTableCell>
+              {/*<StyledTableCell align="right">Order Number</StyledTableCell>*/}
               <StyledTableCell align="center">Language</StyledTableCell>
             </TableRow>
             {/*asdf*/}

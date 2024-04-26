@@ -36,6 +36,7 @@ import { TextToVoiceSelector } from "./TextToVoiceSelector.tsx";
 
 import { Position } from "../common/PositionInterface.ts";
 import { Node } from "../common/NodeInterface.ts";
+import SpeechToText from "./SpeechToText.tsx";
 
 const tips = `
 Enter Starting Point:
@@ -598,6 +599,10 @@ function FloorMap() {
         <div className={styles.signInForm}>
           <Tooltip className={styles.tips} tips={tips} />
           <div className={styles.boldtag}>Enter Starting Point</div>
+          <SpeechToText
+            handleSelection={handleSelection}
+            startPosition={startPosition}
+          />
           <Autocomplete
             key={`start-position-${resetKey}`}
             options={sortedLocations}

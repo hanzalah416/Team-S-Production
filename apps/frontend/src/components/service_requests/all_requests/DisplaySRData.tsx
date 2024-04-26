@@ -44,7 +44,6 @@ export default function DisplaySRData() {
         <h1>Service Request Data</h1>
       </div>
       <br />
-
       <Tabs tabNames={tabNames} tabContents={tabContent} />
       <div className={styles.alerts}>
         <OutlinedAlerts />
