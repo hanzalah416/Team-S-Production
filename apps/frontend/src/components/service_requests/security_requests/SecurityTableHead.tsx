@@ -10,7 +10,6 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { SecurityForm } from "./SecurityForm.ts";
 import { SecurityRequestDisplay } from "./SecurityTable.tsx";
-import styles from "../all_requests/DisplaySRData.module.css";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -61,33 +60,31 @@ export default function SecurityGetter() {
   );
 
   return (
-    <div className={styles.tabsContainer2}>
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 700 }} aria-label="customized table">
-          <TableHead>
-            <TableRow>
-              <StyledTableCell align="center">Request ID</StyledTableCell>
-              <StyledTableCell align="center">Requester's Name</StyledTableCell>
-              <StyledTableCell align="center">Priority</StyledTableCell>
-              <StyledTableCell align="center">Location</StyledTableCell>
-              <StyledTableCell align="center">Status</StyledTableCell>
-              <StyledTableCell align="center">Security Type</StyledTableCell>
-              <StyledTableCell align="center">Threat Type</StyledTableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {sortedSecurityData.map((SecurityForm) => (
-              <SecurityRequestDisplay
-                key={SecurityForm.requestID}
-                SecurityForm={SecurityForm}
-                onUpdateStatus={(newStatus) =>
-                  updateSecurityStatus(SecurityForm.requestID, newStatus)
-                }
-              />
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-    </div>
+    <TableContainer component={Paper}>
+      <Table sx={{ minWidth: 700 }} aria-label="customized table">
+        <TableHead>
+          <TableRow>
+            <StyledTableCell align="center">Request ID</StyledTableCell>
+            <StyledTableCell align="center">Requester's Name</StyledTableCell>
+            <StyledTableCell align="center">Priority</StyledTableCell>
+            <StyledTableCell align="center">Location</StyledTableCell>
+            <StyledTableCell align="center">Status</StyledTableCell>
+            <StyledTableCell align="center">Security Type</StyledTableCell>
+            <StyledTableCell align="center">Threat Type</StyledTableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {sortedSecurityData.map((SecurityForm) => (
+            <SecurityRequestDisplay
+              key={SecurityForm.requestID}
+              SecurityForm={SecurityForm}
+              onUpdateStatus={(newStatus) =>
+                updateSecurityStatus(SecurityForm.requestID, newStatus)
+              }
+            />
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
   );
 }
