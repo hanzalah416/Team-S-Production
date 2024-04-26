@@ -95,11 +95,10 @@
   margin: 10px;
 }
 
-
 .redCustomButton {
   color: black;
 
-  background-color: red;
+  background-color: lightcoral;
   border: 1px solid black;
   cursor: pointer;
   margin: 10px;
@@ -117,6 +116,7 @@
 
 .label {
   font-weight: bold; /* Optional: to differentiate labels from values */
+  padding: 5px;
 }
 
 .labelEdgeMode {

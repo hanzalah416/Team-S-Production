@@ -15,6 +15,7 @@ import {
   TextField,
   Select,
   MenuItem,
+  SelectChangeEvent,
 } from "@mui/material";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import axios from "axios";
@@ -45,6 +46,13 @@ interface Edge {
   edgeID: string;
   startNode: string;
   endNode: string;
+}
+
+interface eventCompact {
+  target: {
+    name: string;
+    value: string | null;
+  };
 }
 
 interface NodeDetailsPopupProps {
@@ -98,6 +106,14 @@ const StaticFloorMapDebug = () => {
     edgeID: "",
     startNode: "",
     endNode: "",
+  };
+
+  const handleExitEdgeMode = () => {
+    setEdgeMode(false);
+    setStartNodeAndEndNode(false);
+    setStartNodeExists(false);
+    setEdgeModeStartNode(null);
+    setEdgeModeEndNode(null);
   };
 
   const updateNodePosition = (id: string, newX: number, newY: number) => {
@@ -175,7 +191,6 @@ const StaticFloorMapDebug = () => {
     edges.push(newEdge);
   };
 
-
   useEffect(() => {
     fetchNodes();
     console.log("nodes");
@@ -231,8 +246,6 @@ const StaticFloorMapDebug = () => {
     return;
   };
 
-
-
   const handleEdgeClick = (startnode: string, endNode: string) => {
     const edge = edges.find(
       (edge) => startnode === edge.startNode && endNode === edge.endNode,
@@ -265,9 +278,7 @@ const StaticFloorMapDebug = () => {
       setEditableNode((prev) => ({ ...prev, [name]: value }));
     };
 
-    const handleInputChangeFloor = (
-      event: React.ChangeEvent<HTMLInputElement>,
-    ) => {
+    const handleInputChangeFloor = (event: SelectChangeEvent<string>) => {
       const { name, value } = event.target;
       setEditableNode((prev) => ({ ...prev, [name]: value }));
     };
@@ -316,9 +327,9 @@ const StaticFloorMapDebug = () => {
             shortName: editableNode.shortName,
           });
 
-          onSave(response.data); // Update local state with the response
-          handleClose(); // Close the popup
-          await fetchNodes(); // Fetch all nodes again to reflect the update
+          onSave(response.data);
+          handleClose();
+          await fetchNodes();
         } catch (error) {
           console.error("Error adding node:", error);
         }
@@ -329,16 +340,11 @@ const StaticFloorMapDebug = () => {
       if (!node) return;
       const url = `/api/nodes/${node.id}`;
       // console.log(url);
-      await axios
-        .delete(url)
-        .then(() => {
-          // console.log(`Deleted node from url ${url}. response: ${response}`);
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-      handleClose(); // Close the popup
-      await fetchNodes(); // Fetch all nodes again to reflect the update
+      await axios.delete(url).catch((error) => {
+        console.error(error);
+      });
+      handleClose();
+      await fetchNodes();
     };
 
     return (
@@ -380,9 +386,8 @@ const StaticFloorMapDebug = () => {
                   <Select
                     value={editableNode.floor}
                     name="floor"
-                    onChange={handleInputChangeFloor} // Use onChange to handle changes
-                    className={styles.dropdown} // You can adjust the className if needed
-                    inputProps={{ "aria-label": "Select Floor" }} // ARIA label for accessibility
+                    onChange={handleInputChangeFloor}
+                    className={styles.dropdown}
                   >
                     {["L2", "L1", "1", "2", "3"].map((floorNumber) => (
                       <MenuItem key={floorNumber} value={floorNumber}>
@@ -498,7 +503,7 @@ const StaticFloorMapDebug = () => {
       setNewEdgeDetails(null);
     }, []);
 
-    const handleInputChange = (event) => {
+    const handleInputChange = (event: eventCompact) => {
       const { name, value } = event.target;
       setEditableEdge((prev) => ({ ...prev, [name]: value }));
     };
@@ -533,6 +538,8 @@ const StaticFloorMapDebug = () => {
           console.error("Error deleting old edge", error);
         }
       }
+
+      handleClose();
     };
 
     const handleDeleteEdge = async () => {
@@ -574,7 +581,6 @@ const StaticFloorMapDebug = () => {
                         className={styles.autocomplete}
                         InputProps={{
                           ...params.InputProps,
-                          "aria-label": "Select Node ID", // ARIA label for accessibility
                         }}
                       />
                     )}
@@ -618,7 +624,7 @@ const StaticFloorMapDebug = () => {
               <button
                 id="delete"
                 onClick={handleDeleteEdge}
-                className={styles.customButton}
+                className={styles.redCustomButton}
               >
                 Delete Edge
               </button>
@@ -950,105 +956,92 @@ const StaticFloorMapDebug = () => {
             </Button>
 
             {!edgeMode && (
-                  <Button
-                      variant="contained"
-                      className={styles.csvButton}
-                      style={{
-                        backgroundColor: "#289ba5",
-                        fontFamily: "Poppins",
-                        fontSize: 14,
-                        textAlign: "center",
-                        margin: "6px",
-                      }}
-                      onClick={() => setEdgeMode(true)}
-                  >
-                  Enable Edge-Adding Mode
-                </Button>
+              <Button
+                variant="contained"
+                className={styles.csvButton}
+                style={{
+                  backgroundColor: "#289ba5",
+                  fontFamily: "Poppins",
+                  fontSize: 14,
+                  textAlign: "center",
+                  margin: "6px",
+                }}
+                onClick={() => setEdgeMode(true)}
+              >
+                Enable Edge-Adding Mode
+              </Button>
             )}
 
             {edgeMode && (
-                <div>
-                  <Button
-                      variant="contained"
-                      className={styles.csvButton}
-                      style={{
-                        backgroundColor: "#289ba5",
-                        fontFamily: "Poppins",
-                        fontSize: 14,
-                        textAlign: "center",
-                        margin: "6px",
-                      }}
-                      onClick={() => setEdgeMode(false)}
-                  >
-                    Exit Edge-Adding Mode
-                  </Button>
+              <div>
+                <Button
+                  variant="contained"
+                  className={styles.csvButton}
+                  style={{
+                    backgroundColor: "#289ba5",
+                    fontFamily: "Poppins",
+                    fontSize: 14,
+                    textAlign: "center",
+                    margin: "6px",
+                  }}
+                  onClick={() => handleExitEdgeMode()}
+                >
+                  Exit Edge-Adding Mode
+                </Button>
 
-                  <tbody>
+                <tbody className={styles.detailsTable}>
                   <tr>
                     <td className={styles.labelEdgeMode}>Start Node:</td>
-                    <td>
-                      <input
-                          type="text"
-                          name="id"
-                          value={edgeModeStartNode?.id}
-                          className={styles.inputField}
-                      />
+                    <td className={styles.labelEdgeMode}>
+                      {edgeModeStartNode?.id}
                     </td>
                   </tr>
                   <tr>
                     <td className={styles.labelEdgeMode}>End Node:</td>
-                    <td>
-                      <input
-                          type="text"
-                          name="longName"
-                          value={edgeModeEndNode?.id}
-                          className={styles.inputField}
-                      />
+                    <td className={styles.labelEdgeMode}>
+                      {edgeModeEndNode?.id}
                     </td>
                   </tr>
-                  </tbody>
-                  {startNodeAndEndNode && (
-                      <Button
-                          variant="contained"
-                          className={styles.csvButton}
-                          style={{
-                            backgroundColor: "#289ba5",
-                            fontFamily: "Poppins",
-                            fontSize: 14,
-                            textAlign: "center",
-                            margin: "6px",
-                          }}
-                          onClick={handleSaveEdgeMode}
-                      >
-                        Save New Edge
-                      </Button>
-                  )}
-                </div>
-
+                </tbody>
+                {startNodeAndEndNode && (
+                  <Button
+                    variant="contained"
+                    className={styles.csvButton}
+                    style={{
+                      backgroundColor: "#289ba5",
+                      fontFamily: "Poppins",
+                      fontSize: 14,
+                      textAlign: "center",
+                      margin: "6px",
+                    }}
+                    onClick={handleSaveEdgeMode}
+                  >
+                    Save New Edge
+                  </Button>
+                )}
+              </div>
             )}
-
-
           </div>
           <TransformComponent>
             <div className={styles.mapAndDots}>
               <img
-                  src={floorMaps[currentFloor as keyof typeof floorMaps]}
-                  alt={`Floor ${currentFloor}`}
-                  className={styles.mapImage}
+                src={floorMaps[currentFloor as keyof typeof floorMaps]}
+                alt={`Floor ${currentFloor}`}
+                className={styles.mapImage}
               />
               <svg
-                  className={styles.overlay}
-                  viewBox="0 0 5000 3400"
-                  onMouseMove={handleMouseMove}
-                  onMouseUp={handleMouseUp}
+                className={styles.overlay}
+                viewBox="0 0 5000 3400"
+                onMouseMove={handleMouseMove}
+                onMouseUp={handleMouseUp}
               >
                 {showEdges &&
-                    edges.map((edge) => {
-                      const startNode = nodes.find(
-                          (node) => node.id === edge.startNode,
-                      );
-                      const endNode = nodes.find(
-                          (node) => node.id === edge.endNode,
+                  edges.map((edge) => {
+                    const startNode = nodes.find(
+                      (node) => node.id === edge.startNode,
+                    );
+                    const endNode = nodes.find(
+                      (node) => node.id === edge.endNode,
                     );
                     if (
                       startNode &&
