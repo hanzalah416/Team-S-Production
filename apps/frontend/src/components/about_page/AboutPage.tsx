@@ -37,7 +37,7 @@ const Project = [
     imgUrl: kim,
     label: "Kim Cummings",
     font: "Elia",
-    color: "#292877",
+    color: "#D0B136",
     size: "35px",
   },
 
@@ -54,7 +54,7 @@ const Project = [
     imgUrl: went,
     label: "Wentao Yu",
     font: "Elia",
-    color: "#292877",
+    color: "#D0B136",
     size: "35px",
   },
   {
@@ -63,14 +63,14 @@ const Project = [
     label: "Christopher Hunt",
     font: "Elia",
     color: "#292877",
-    size: "35px",
+    size: "32px",
   },
   {
     description: "Full Stack Developer, Scrum Master,quote1:TBD",
     imgUrl: li,
     label: "Jeffrey Li",
     font: "Elia",
-    color: "#292877",
+    color: "#D0B136",
     size: "35px",
   },
   {
@@ -86,8 +86,8 @@ const Project = [
     imgUrl: hanz,
     label: "Hanzalah Qamar",
     font: "Elia",
-    color: "#292877",
-    size: "35px",
+    color: "#D0B136",
+    size: "33px",
   },
 
   {
@@ -97,14 +97,14 @@ const Project = [
     label: "Nathaniel Schneider",
     font: "Elia",
     color: "#292877",
-    size: "35px",
+    size: "29px",
   },
   {
     description: "Full Stack Developer.quote1:TBD",
     imgUrl: ken,
     label: "Ken Sebastian",
     font: "Elia",
-    color: "#292877",
+    color: "#D0B136",
     size: "35px",
   },
 ];
@@ -157,7 +157,9 @@ export const AboutPage = () => {
           }}
         >
           {Project.map((item) => (
+              <div className={styles.pictureBackground}>
             <Card {...item} key={item.description} />
+              </div>
           ))}
         </div>
         <div>
