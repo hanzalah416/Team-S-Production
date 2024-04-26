@@ -19,99 +19,114 @@ import yellowPin from "./yellow-pin.png";
 
 const Project = [
     {
-        description: "Full Stack Developer , quote1:TBD",
+        description: "",
         imgUrl: dor,
         label: "Dorothy Alexander",
+        title: "Position: Full Stack Developer ",
         font: "Elia",
         color: "#D0B136",
-        size: "30px",
+        size: "25px",
     },
 
   {
     description: "Project Manager, Full Stack Developer, quote1:TBD",
     imgUrl: jacob,
     label: "Jacob Antepli",
+      title: "Position: Project Manager, Full Stack Developer ",
     font: "Elia",
     color: "#292877",
     size: "35px",
   },
 
-  {
-    description:
-      "Assistant Lead Software Engineer, Full Stack Developer,quote1:TBD",
-    imgUrl: kim,
-    label: "Kim Cummings",
-    font: "Elia",
-    color: "#D0B136",
-    size: "35px",
-  },
+
 
   {
-    description: "Lead Software Engineer, Full Stack Developer,quote1:TBD",
+    description: "\"The average person admires perfection and seeks to obtain it. But what’s the point of achieving perfection? There is none. Nothing. Not a single thing ... If something is perfect, then there is nothing left. There is no room for imagination. No place left for that person to gain additional knowledge or abilities. Do you know what that means? For scientists such as us, perfection only brings despair. It is our job to create things more wonderful than anything before them, but never to obtain perfection.” – Kurotsuchi Mayuri  " +
+        "",
     imgUrl: matt,
     label: "Matt Crane",
+      title: "Position: Lead Software Engineer, Full Stack Developer ",
     font: "Elia",
-    color: "#292877",
+      color: "#D0B136",
     size: "35px",
   },
+    {
+        description:
+            "  \"The past is a basket, it catches all that's tragic. Everything is different now\" - Mother Mpther",
+        imgUrl: kim,
+        label: "Kim Cummings",
+        title: "Position: Assistant Lead, Full Stack Developer ",
+        font: "Elia",
+        color: "#D0B136",
+        size: "30px",
+    },
+
   {
-    description: "Full Stack Developer.quote1:TBD",
-    imgUrl: went,
-    label: "Wentao Yu",
-    font: "Elia",
-    color: "#D0B136",
-    size: "35px",
-  },
-  {
-    description: "Documentation Analyst, Full Stack Developer.quote1:TBD",
+    description: " \"Everything in moderation, including moderation\" -Oscar Wilde ",
     imgUrl: chris,
     label: "Christopher Hunt",
+      title: "Position: Documentation Analyst, Full Stack Developer ",
     font: "Elia",
-    color: "#292877",
-    size: "32px",
+      color: "#D0B136",
+    size: "29px",
+
   },
   {
-    description: "Full Stack Developer, Scrum Master,quote1:TBD",
+    description: " ",
     imgUrl: li,
     label: "Jeffrey Li",
+      title: "Position: Scrum Master, Full Stack Developer ",
     font: "Elia",
-    color: "#D0B136",
+      color: "#292877",
     size: "35px",
   },
   {
-    description: "Full Stack Developer, Product Owner,quote1:TBD",
+    description: " ",
     imgUrl: jav,
     label: "Javier Moncada",
+      title: "Position: Product Owner, Full Stack Developer ",
     font: "Elia",
-    color: "#292877",
-    size: "35px",
+      color: "#D0B136",
+    size: "30px",
   },
   {
-    description: "Full Stack Developer,quote1:TBD",
+    description: " “Never look back unless you are planning to go that way.” -Henry David Thoreau",
     imgUrl: hanz,
     label: "Hanzalah Qamar",
+      title: "Position: Full Stack Developer ",
     font: "Elia",
-    color: "#D0B136",
-    size: "33px",
+      color: "#292877",
+    size: "29px",
   },
 
   {
     description:
-      "Assistant Lead Software Engineer, Full Stack Developer.quote1:TBD",
+      " ",
     imgUrl: nate,
     label: "Nathaniel Schneider",
+      title: "Position: Assistant Lead, Full Stack Developer ",
     font: "Elia",
-    color: "#292877",
-    size: "29px",
+      color: "#D0B136",
+    size: "25px",
   },
   {
-    description: "Full Stack Developer.quote1:TBD",
+    description: "\"To know what you know and what you do not know, that is true knowledge.\" - Confucius ",
     imgUrl: ken,
     label: "Ken Sebastian",
+      title: "Position: Full Stack Developer ",
     font: "Elia",
-    color: "#D0B136",
+      color: "#292877",
     size: "35px",
   },
+    {
+        description: "\"I came, I saw I conquered\" -Julius Caesar  ",
+        imgUrl: went,
+        label: "Wentao Yu",
+        title: "Position: Full Stack Developer ",
+        font: "Elia",
+        color: "#D0B136",
+        size: "35px",
+    },
 ];
 
 export const AboutPage = () => {
