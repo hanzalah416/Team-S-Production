@@ -4,10 +4,10 @@ const router: Router = express.Router();
 
 const snsClient = new SNSClient({ region: "YOUR_REGION" });
 
+// this is a post request that uses aws snsclient to connect with aws and subsribe people to an email list
 router.post("/", async function (req: Request, res: Response) {
   const { email } = req.body;
-  const topicArn =
-    "arn:aws:sns:us-east-2:851725475476:Appointment_Confirmation";
+  const topicArn = "arn:aws:sns:us-east-2:851725475476:Hospital_Alerts";
 
   try {
     const response = await snsClient.send(

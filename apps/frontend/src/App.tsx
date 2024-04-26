@@ -24,7 +24,7 @@ import { AppState, Auth0Provider } from "@auth0/auth0-react";
 import LanguageRequest from "./components/service_requests/language_requests/LanguageRequest.tsx";
 import CreditPage from "./components/credit_page/CreditPage.tsx";
 import TransportRequest from "./components/service_requests/internalTransportation/TransportRequest.tsx";
-import EmailForm from "./components/EmailConnection/EmailForm.tsx";
+import EmailForm from "./components/awsEmailConnection/EmailForm.tsx";
 import GiftForm from "./components/service_requests/gift_request/giftForm.tsx";
 import { AboutPage } from "./components/about_page/AboutPage.tsx";
 
