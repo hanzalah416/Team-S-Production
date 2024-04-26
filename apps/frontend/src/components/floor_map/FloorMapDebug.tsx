@@ -6,7 +6,16 @@ import React, {
   useReducer,
 } from "react";
 import styles from "./FloorMapDebug.module.css";
-import { Button, FormControlLabel, Checkbox, Typography,  Autocomplete, TextField, Select, MenuItem} from "@mui/material";
+import {
+  Button,
+  FormControlLabel,
+  Checkbox,
+  Typography,
+  Autocomplete,
+  TextField,
+  Select,
+  MenuItem,
+} from "@mui/material";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import axios from "axios";
 import { NodeEdge } from "database";
@@ -339,7 +348,7 @@ const StaticFloorMapDebug = () => {
               </tr>
               <tr>
                 <td className={styles.label}>Floor:</td>
-                <td >
+                <td>
                   <Select
                     value={editableNode.floor}
                     name="floor"
@@ -461,13 +470,15 @@ const StaticFloorMapDebug = () => {
       setNewEdgeDetails(null);
     }, []);
 
-      const handleInputChange = (event: { target: { name: string, value: string | null } }) => {
-          const { name, value } = event.target;
-          setEditableEdge(prev => ({
-              ...prev,
-              [name]: value ?? ''  // Use nullish coalescing to default to empty string if null
-          }));
-      };
+    const handleInputChange = (event: {
+      target: { name: string; value: string | null };
+    }) => {
+      const { name, value } = event.target;
+      setEditableEdge((prev) => ({
+        ...prev,
+        [name]: value ?? "", // Use nullish coalescing to default to empty string if null
+      }));
+    };
 
     const handleSave = async () => {
       const url = `/api/edges`;
@@ -526,20 +537,24 @@ const StaticFloorMapDebug = () => {
                 <td className={styles.label}>Start Node:</td>
                 <td>
                   <Autocomplete
-                      value={editableEdge.startNode}
-                      onChange={(event, value) => handleInputChange({ target: { name: 'startNode', value } })}
-                      options={nodes.map((node) => node.id)}
-                      renderInput={(params) => (
-                          <TextField
-                              {...params}
-                              variant="outlined"
-                              className={styles.autocomplete}
-                              InputProps={{
-                                ...params.InputProps,
-                                'aria-label': 'Select Node ID', // ARIA label for accessibility
-                              }}
-                          />
-                      )}
+                    value={editableEdge.startNode}
+                    onChange={(event, value) =>
+                      handleInputChange({
+                        target: { name: "startNode", value },
+                      })
+                    }
+                    options={nodes.map((node) => node.id)}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        variant="outlined"
+                        className={styles.autocomplete}
+                        InputProps={{
+                          ...params.InputProps,
+                          "aria-label": "Select Node ID", // ARIA label for accessibility
+                        }}
+                      />
+                    )}
                   />
                 </td>
               </tr>
@@ -547,21 +562,23 @@ const StaticFloorMapDebug = () => {
                 <td className={styles.label}>End Node:</td>
                 <td>
                   <Autocomplete
-                      sx={{ minWidth: 200, color: "#3B54A0" }}
-                      value={editableEdge.endNode}
-                      onChange={(event, value) => handleInputChange({ target: { name: 'endNode', value } })}
-                      options={nodes.map((node) => node.id)}
-                      renderInput={(params) => (
-                          <TextField
-                              {...params}
-                              variant="outlined"
-                              className={styles.autocomplete}
-                              InputProps={{
-                                ...params.InputProps,
-                                'aria-label': 'Select Node ID', // ARIA label for accessibility
-                              }}
-                          />
-                      )}
+                    sx={{ minWidth: 200, color: "#3B54A0" }}
+                    value={editableEdge.endNode}
+                    onChange={(event, value) =>
+                      handleInputChange({ target: { name: "endNode", value } })
+                    }
+                    options={nodes.map((node) => node.id)}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        variant="outlined"
+                        className={styles.autocomplete}
+                        InputProps={{
+                          ...params.InputProps,
+                          "aria-label": "Select Node ID", // ARIA label for accessibility
+                        }}
+                      />
+                    )}
                   />
                 </td>
               </tr>
