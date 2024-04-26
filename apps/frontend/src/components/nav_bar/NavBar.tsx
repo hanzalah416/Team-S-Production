@@ -313,6 +313,7 @@ function NavBar() {
             "'Founding member, Mass General Brigham'"
           }
           onClick={toHero}
+          style={{ cursor: "pointer" }} // Makes it clear the logo is clickable
         />
 
         <p className={"time"} onClick={toHero}>
