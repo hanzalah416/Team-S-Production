@@ -1,40 +1,39 @@
 .outerDiv {
-    position: fixed; /* Fixes the position relative to the viewport */
-    top: 0;
-    margin-top: 80px;
-    width: 100vw;
-    left: 0;
-    height: 100%;
-    overflow-y: hidden;
-    overflow-x: hidden;
+  position: fixed; /* Fixes the position relative to the viewport */
+  top: 0;
+  margin-top: 80px;
+  width: 100vw;
+  left: 0;
+  height: 100%;
+  overflow-y: hidden;
+  overflow-x: hidden;
 
-    background-color: #ffffff;
-
+  background-color: #ffffff;
 }
 
 .label {
-    transform: translate(12px, 30px);
-    margin-bottom: 30px; /* Move right by 12px and down by 30px */
+  transform: translate(12px, 30px);
+  margin-bottom: 30px; /* Move right by 12px and down by 30px */
 }
 .tabsContainer {
-    overflow-y: auto;
-    overflow-x: hidden;
-    width: 100vw; /* Full width of the viewport */
-    position: relative; /* Needed if you want to position elements inside absolutely */
-    max-height: calc(100vh - 400px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  width: 100vw; /* Full width of the viewport */
+  position: relative; /* Needed if you want to position elements inside absolutely */
+  max-height: calc(100vh - 400px);
 }
 
 .tabsContainer2 {
-    overflow-y: auto;
-    overflow-x: hidden;
-    width: 100vw; /* Full width of the viewport */
-    position: relative; /* Needed if you want to position elements inside absolutely */
-    max-height: calc(100vh - 300px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  width: 100vw; /* Full width of the viewport */
+  position: relative; /* Needed if you want to position elements inside absolutely */
+  max-height: calc(100vh - 300px);
 }
 
 .alerts {
-    position: fixed; /* Keeps the alerts at the bottom regardless of scrolling */
-    bottom: 0; /* Aligns at the bottom */
-    width: 100vw; /* Full width of the viewport */
-    background: #fff; /* Optional: background color for better visibility */
+  position: fixed; /* Keeps the alerts at the bottom regardless of scrolling */
+  bottom: 0; /* Aligns at the bottom */
+  width: 100vw; /* Full width of the viewport */
+  background: #fff; /* Optional: background color for better visibility */
 }

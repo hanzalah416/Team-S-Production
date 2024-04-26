@@ -66,40 +66,40 @@ export default function TransportationGetter() {
   );
 
   return (
-      <div className={styles.tabsContainer2}>
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 700 }} aria-label="customized table">
-        <TableHead>
-          <TableRow>
-            <StyledTableCell align="center">Request ID</StyledTableCell>
-            <StyledTableCell align="center">Requester's Name</StyledTableCell>
-            <StyledTableCell align="center">Priority</StyledTableCell>
-            <StyledTableCell align="center">Location</StyledTableCell>
-            <StyledTableCell align="center">Status</StyledTableCell>
-            <StyledTableCell align="center">Patient Name</StyledTableCell>
-            <StyledTableCell align="center">
-              Transportation Type
-            </StyledTableCell>
-            <StyledTableCell align="center">Start Location</StyledTableCell>
-            <StyledTableCell align="center">End Location</StyledTableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {sortedTransportationData.map((TransportationForm) => (
-            <TransportationDisplay
-              key={TransportationForm.requestID}
-              TransportationForm={TransportationForm}
-              onUpdateStatus={(newStatus) =>
-                updateTransportationStatus(
-                  TransportationForm.requestID,
-                  newStatus,
-                )
-              }
-            />
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
-      </div>
+    <div className={styles.tabsContainer2}>
+      <TableContainer component={Paper}>
+        <Table sx={{ minWidth: 700 }} aria-label="customized table">
+          <TableHead>
+            <TableRow>
+              <StyledTableCell align="center">Request ID</StyledTableCell>
+              <StyledTableCell align="center">Requester's Name</StyledTableCell>
+              <StyledTableCell align="center">Priority</StyledTableCell>
+              <StyledTableCell align="center">Location</StyledTableCell>
+              <StyledTableCell align="center">Status</StyledTableCell>
+              <StyledTableCell align="center">Patient Name</StyledTableCell>
+              <StyledTableCell align="center">
+                Transportation Type
+              </StyledTableCell>
+              <StyledTableCell align="center">Start Location</StyledTableCell>
+              <StyledTableCell align="center">End Location</StyledTableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {sortedTransportationData.map((TransportationForm) => (
+              <TransportationDisplay
+                key={TransportationForm.requestID}
+                TransportationForm={TransportationForm}
+                onUpdateStatus={(newStatus) =>
+                  updateTransportationStatus(
+                    TransportationForm.requestID,
+                    newStatus,
+                  )
+                }
+              />
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </div>
   );
 }

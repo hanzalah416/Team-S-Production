@@ -15,7 +15,6 @@ import InputAdornment from "@mui/material/InputAdornment";
 import SearchIcon from "@mui/icons-material/Search";
 import styles from "./DisplaySRData.module.css";
 
-
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.white,
@@ -92,33 +91,35 @@ export function ServiceRequestGetter() {
           ),
         }}
       />
-        <div className={styles.tabsContainer}>
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 700 }} aria-label="customized table">
-          <TableHead>
-            <TableRow>
-              <StyledTableCell>Requester ID</StyledTableCell>
-              <StyledTableCell align="center">Employee</StyledTableCell>
-              <StyledTableCell align="center">Priority</StyledTableCell>
-              <StyledTableCell align="center">Location</StyledTableCell>
-              <StyledTableCell align="center">Type of Request</StyledTableCell>
-              <StyledTableCell align="center">Status</StyledTableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {sortedFilteredData.map((allRequestForm) => (
-              <ServiceRequestDisplay
-                key={allRequestForm.requestID}
-                allRequestForm={allRequestForm}
-                onUpdateStatus={(newStatus) =>
-                  updateAllRequestStatus(allRequestForm.requestID, newStatus)
-                }
-              />
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-    </div>
+      <div className={styles.tabsContainer}>
+        <TableContainer component={Paper}>
+          <Table sx={{ minWidth: 700 }} aria-label="customized table">
+            <TableHead>
+              <TableRow>
+                <StyledTableCell>Requester ID</StyledTableCell>
+                <StyledTableCell align="center">Employee</StyledTableCell>
+                <StyledTableCell align="center">Priority</StyledTableCell>
+                <StyledTableCell align="center">Location</StyledTableCell>
+                <StyledTableCell align="center">
+                  Type of Request
+                </StyledTableCell>
+                <StyledTableCell align="center">Status</StyledTableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {sortedFilteredData.map((allRequestForm) => (
+                <ServiceRequestDisplay
+                  key={allRequestForm.requestID}
+                  allRequestForm={allRequestForm}
+                  onUpdateStatus={(newStatus) =>
+                    updateAllRequestStatus(allRequestForm.requestID, newStatus)
+                  }
+                />
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </div>
     </div>
   );
 }

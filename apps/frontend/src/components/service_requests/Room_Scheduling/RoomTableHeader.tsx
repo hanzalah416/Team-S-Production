@@ -66,36 +66,36 @@ export default function SanitationGetter() {
   );
 
   return (
-      <div className={styles.tabsContainer2}>
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 700 }} aria-label="customized table">
-        <TableHead>
-          <TableRow>
-            <StyledTableCell align="center">Request ID</StyledTableCell>
-            <StyledTableCell align="center">Requester's Name</StyledTableCell>
-            <StyledTableCell align="center">Priority</StyledTableCell>
-            <StyledTableCell align="center">Location</StyledTableCell>
-            <StyledTableCell align="center">Status</StyledTableCell>
-            <StyledTableCell align="center">Sart Time</StyledTableCell>
-            <StyledTableCell align="center">End Time</StyledTableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {sortedRoomData.map((RoomSchedulingForm) => (
-            <RoomSchedulingDisplay
-              key={RoomSchedulingForm.requestID}
-              RoomForm={RoomSchedulingForm}
-              onUpdateStatus={(newStatus) =>
-                updateRoomSchedulingStatus(
-                  RoomSchedulingForm.requestID,
-                  newStatus,
-                )
-              }
-            />
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
-      </div>
+    <div className={styles.tabsContainer2}>
+      <TableContainer component={Paper}>
+        <Table sx={{ minWidth: 700 }} aria-label="customized table">
+          <TableHead>
+            <TableRow>
+              <StyledTableCell align="center">Request ID</StyledTableCell>
+              <StyledTableCell align="center">Requester's Name</StyledTableCell>
+              <StyledTableCell align="center">Priority</StyledTableCell>
+              <StyledTableCell align="center">Location</StyledTableCell>
+              <StyledTableCell align="center">Status</StyledTableCell>
+              <StyledTableCell align="center">Sart Time</StyledTableCell>
+              <StyledTableCell align="center">End Time</StyledTableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {sortedRoomData.map((RoomSchedulingForm) => (
+              <RoomSchedulingDisplay
+                key={RoomSchedulingForm.requestID}
+                RoomForm={RoomSchedulingForm}
+                onUpdateStatus={(newStatus) =>
+                  updateRoomSchedulingStatus(
+                    RoomSchedulingForm.requestID,
+                    newStatus,
+                  )
+                }
+              />
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </div>
   );
 }
