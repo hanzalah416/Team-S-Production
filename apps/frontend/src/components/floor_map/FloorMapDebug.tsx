@@ -11,8 +11,10 @@ import {
   FormControlLabel,
   Checkbox,
   Typography,
-  MenuItem,
+  Autocomplete,
+  TextField,
   Select,
+  MenuItem,
 } from "@mui/material";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import axios from "axios";
@@ -24,7 +26,6 @@ import l2Map from "../assets/HospitalMap/00_thelowerlevel2.png";
 import f1Map from "../assets/HospitalMap/01_thefirstfloor.png";
 import f2Map from "../assets/HospitalMap/02_thesecondfloor.png";
 import f3Map from "../assets/HospitalMap/03_thethirdfloor.png";
-import { SelectChangeEvent } from "@mui/material/Select";
 // import fs from "fs";
 // import readCSVFile from "../../../../backend/src/Readcsv.ts";
 
@@ -76,6 +77,12 @@ const StaticFloorMapDebug = () => {
   const [dragging, setDragging] = useState<boolean>(false);
   const [draggedNode, setDraggedNode] = useState<Node | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [edgeMode, setEdgeMode] = useState(false);
+  const [edgeModeStartNode, setEdgeModeStartNode] = useState<Node | null>(null);
+  const [edgeModeEndNode, setEdgeModeEndNode] = useState<Node | null>(null);
+  const [startNodeExists, setStartNodeExists] = useState(false);
+  const [startNodeAndEndNode, setStartNodeAndEndNode] = useState(false);
+
   const emptyNode: Node = {
     xcoord: "",
     ycoord: "",
@@ -111,6 +118,7 @@ const StaticFloorMapDebug = () => {
     node: Node,
     event: React.MouseEvent<SVGCircleElement, MouseEvent>,
   ) => {
+    if (edgeMode) return;
     setDragging(true);
     setDraggedNode(node);
     event.stopPropagation();
@@ -167,25 +175,6 @@ const StaticFloorMapDebug = () => {
     edges.push(newEdge);
   };
 
-  // const fetchNodes = async () => {
-  //   try {
-  //     const response = await axios.get("/api/nodes");
-  //
-  //       console.log("Fetched nodes:", response.data);
-  //     setNodes(response.data);
-  //   } catch (error) {
-  //     console.error("Failed to fetch nodes:", error);
-  //   }
-  // };
-  //
-  // const fetchEdges = async () => {
-  //   try {
-  //     const response = await axios.get("/api/edges");
-  //     setEdges(response.data);
-  //   } catch (error) {
-  //     console.error("Failed to fetch edges:", error);
-  //   }
-  // };
 
   useEffect(() => {
     fetchNodes();
@@ -195,13 +184,54 @@ const StaticFloorMapDebug = () => {
   }, []);
 
   const handleNodeClick = (nodeId: string) => {
+    if (edgeMode) {
+      const node = nodes.find((node) => node.id === nodeId);
+      if (!node) {
+        return;
+      }
+      if (startNodeExists) {
+        setEdgeModeEndNode(node);
+        setStartNodeExists(false);
+        setStartNodeAndEndNode(true);
+        return;
+      } else {
+        setEdgeModeStartNode(node);
+        setStartNodeExists(true);
+        return;
+      }
+    }
     const node = nodes.find((node) => node.id === nodeId);
     if (!node) {
       return;
     }
-
     setSelectedNodeDetails(node);
   };
+
+  const handleSaveEdgeMode = async () => {
+    const url = `/api/edges`;
+    console.log(url);
+    try {
+      const response = await axios.post(url, {
+        edgeID: edgeModeStartNode?.id + "_" + edgeModeEndNode?.id,
+        startNode: edgeModeStartNode?.id,
+        endNode: edgeModeEndNode?.id,
+      });
+      console.log(response);
+      handleAddEdge(response.data); // Update local state with the response
+      await fetchEdges(); // Fetch all nodes again to reflect the update
+    } catch (error) {
+      console.error("Error updating edge details:", error);
+      alert("Edge edit failed: try again");
+    }
+
+    setStartNodeAndEndNode(false);
+    setEdgeModeStartNode(null);
+    setEdgeModeEndNode(null);
+
+    return;
+  };
+
+
 
   const handleEdgeClick = (startnode: string, endNode: string) => {
     const edge = edges.find(
@@ -231,13 +261,13 @@ const StaticFloorMapDebug = () => {
     }, []);
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-      console.log("inputchangefirst");
       const { name, value } = event.target;
       setEditableNode((prev) => ({ ...prev, [name]: value }));
     };
 
-    const handleInputChangeFloor = (event: SelectChangeEvent<string>) => {
-      console.log("inputchangefloor");
+    const handleInputChangeFloor = (
+      event: React.ChangeEvent<HTMLInputElement>,
+    ) => {
       const { name, value } = event.target;
       setEditableNode((prev) => ({ ...prev, [name]: value }));
     };
@@ -468,11 +498,9 @@ const StaticFloorMapDebug = () => {
       setNewEdgeDetails(null);
     }, []);
 
-    const handleInputChange = (event: SelectChangeEvent<string>) => {
+    const handleInputChange = (event) => {
       const { name, value } = event.target;
-      console.log("inputchange");
-      setEditableEdge({ ...editableEdge, [name]: value });
-      console.log(editableEdge);
+      setEditableEdge((prev) => ({ ...prev, [name]: value }));
     };
 
     const handleSave = async () => {
@@ -517,26 +545,6 @@ const StaticFloorMapDebug = () => {
       fetchEdges(); // Fetch all nodes again to reflect the update
     };
 
-    // const handleClickOutside = useCallback(
-    //   (event: MouseEvent) => {
-    //     if (
-    //       popupRef.current &&
-    //       event.target instanceof Node &&
-    //       !popupRef.current.contains(event.target)
-    //     ) {
-    //       handleClose();
-    //     }
-    //   },
-    //   [handleClose],
-    // );
-    //
-    // useEffect(() => {
-    //   document.addEventListener("mousedown", handleClickOutside);
-    //   return () => {
-    //     document.removeEventListener("mousedown", handleClickOutside);
-    //   };
-    // }, [handleClickOutside]);
-
     if (!editableEdge) return null;
 
     return (
@@ -551,43 +559,50 @@ const StaticFloorMapDebug = () => {
               <tr>
                 <td className={styles.label}>Start Node:</td>
                 <td>
-                  <Select
-                    name="startNode"
+                  <Autocomplete
                     value={editableEdge.startNode}
-                    onChange={handleInputChange}
-                    className={styles.dropdown}
-                    inputProps={{ "aria-label": "Select Node ID" }}
-                  >
-                    <MenuItem value="" disabled>
-                      Select Node ID
-                    </MenuItem>
-                    {nodes.map((node) => (
-                      <MenuItem key={node.id} value={node.id}>
-                        {node.id}
-                      </MenuItem>
-                    ))}
-                  </Select>
+                    onChange={(event, value) =>
+                      handleInputChange({
+                        target: { name: "startNode", value },
+                      })
+                    }
+                    options={nodes.map((node) => node.id)}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        variant="outlined"
+                        className={styles.autocomplete}
+                        InputProps={{
+                          ...params.InputProps,
+                          "aria-label": "Select Node ID", // ARIA label for accessibility
+                        }}
+                      />
+                    )}
+                  />
                 </td>
               </tr>
               <tr>
                 <td className={styles.label}>End Node:</td>
                 <td>
-                  <Select
-                    name="endNode"
+                  <Autocomplete
+                    sx={{ minWidth: 200, color: "#3B54A0" }}
                     value={editableEdge.endNode}
-                    onChange={handleInputChange}
-                    className={styles.dropdown}
-                    inputProps={{ "aria-label": "Select Node ID" }}
-                  >
-                    <MenuItem value="" disabled>
-                      Select Node ID
-                    </MenuItem>
-                    {nodes.map((node) => (
-                      <MenuItem key={node.id} value={node.id}>
-                        {node.id}
-                      </MenuItem>
-                    ))}
-                  </Select>
+                    onChange={(event, value) =>
+                      handleInputChange({ target: { name: "endNode", value } })
+                    }
+                    options={nodes.map((node) => node.id)}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        variant="outlined"
+                        className={styles.autocomplete}
+                        InputProps={{
+                          ...params.InputProps,
+                          "aria-label": "Select Node ID", // ARIA label for accessibility
+                        }}
+                      />
+                    )}
+                  />
                 </td>
               </tr>
             </tbody>
@@ -796,6 +811,7 @@ const StaticFloorMapDebug = () => {
       console.error("Failed to fetch edges:", error);
     }
   };
+
   return (
     <div className={styles.container}>
       {isLoading && <LoadingOverlay />}
@@ -932,27 +948,107 @@ const StaticFloorMapDebug = () => {
             >
               Add Edge
             </Button>
+
+            {!edgeMode && (
+                  <Button
+                      variant="contained"
+                      className={styles.csvButton}
+                      style={{
+                        backgroundColor: "#289ba5",
+                        fontFamily: "Poppins",
+                        fontSize: 14,
+                        textAlign: "center",
+                        margin: "6px",
+                      }}
+                      onClick={() => setEdgeMode(true)}
+                  >
+                  Enable Edge-Adding Mode
+                </Button>
+            )}
+
+            {edgeMode && (
+                <div>
+                  <Button
+                      variant="contained"
+                      className={styles.csvButton}
+                      style={{
+                        backgroundColor: "#289ba5",
+                        fontFamily: "Poppins",
+                        fontSize: 14,
+                        textAlign: "center",
+                        margin: "6px",
+                      }}
+                      onClick={() => setEdgeMode(false)}
+                  >
+                    Exit Edge-Adding Mode
+                  </Button>
+
+                  <tbody>
+                  <tr>
+                    <td className={styles.labelEdgeMode}>Start Node:</td>
+                    <td>
+                      <input
+                          type="text"
+                          name="id"
+                          value={edgeModeStartNode?.id}
+                          className={styles.inputField}
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className={styles.labelEdgeMode}>End Node:</td>
+                    <td>
+                      <input
+                          type="text"
+                          name="longName"
+                          value={edgeModeEndNode?.id}
+                          className={styles.inputField}
+                      />
+                    </td>
+                  </tr>
+                  </tbody>
+                  {startNodeAndEndNode && (
+                      <Button
+                          variant="contained"
+                          className={styles.csvButton}
+                          style={{
+                            backgroundColor: "#289ba5",
+                            fontFamily: "Poppins",
+                            fontSize: 14,
+                            textAlign: "center",
+                            margin: "6px",
+                          }}
+                          onClick={handleSaveEdgeMode}
+                      >
+                        Save New Edge
+                      </Button>
+                  )}
+                </div>
+
+            )}
+
+
           </div>
           <TransformComponent>
             <div className={styles.mapAndDots}>
               <img
-                src={floorMaps[currentFloor as keyof typeof floorMaps]}
-                alt={`Floor ${currentFloor}`}
-                className={styles.mapImage}
+                  src={floorMaps[currentFloor as keyof typeof floorMaps]}
+                  alt={`Floor ${currentFloor}`}
+                  className={styles.mapImage}
               />
               <svg
-                className={styles.overlay}
-                viewBox="0 0 5000 3400"
-                onMouseMove={handleMouseMove}
-                onMouseUp={handleMouseUp}
+                  className={styles.overlay}
+                  viewBox="0 0 5000 3400"
+                  onMouseMove={handleMouseMove}
+                  onMouseUp={handleMouseUp}
               >
                 {showEdges &&
-                  edges.map((edge) => {
-                    const startNode = nodes.find(
-                      (node) => node.id === edge.startNode,
-                    );
-                    const endNode = nodes.find(
-                      (node) => node.id === edge.endNode,
+                    edges.map((edge) => {
+                      const startNode = nodes.find(
+                          (node) => node.id === edge.startNode,
+                      );
+                      const endNode = nodes.find(
+                          (node) => node.id === edge.endNode,
                     );
                     if (
                       startNode &&
