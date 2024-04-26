@@ -10,6 +10,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { LangRequestDisplay } from "./LanguageRequestTable.tsx";
+import styles from "../all_requests/DisplaySRData.module.css";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -65,35 +66,37 @@ export function LanguageRequestGetter() {
   );
 
   return (
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 700 }} aria-label="customized table">
-        <TableHead>
-          <TableRow>
-            <StyledTableCell align="center">Request ID</StyledTableCell>
-            <StyledTableCell align="center">Requester's Name</StyledTableCell>
-            <StyledTableCell align="center">Priority</StyledTableCell>
-            <StyledTableCell align="center">Location</StyledTableCell>
-            <StyledTableCell align="center">Status</StyledTableCell>
-            {/*<StyledTableCell align="right">Order Number</StyledTableCell>*/}
-            <StyledTableCell align="center">Language</StyledTableCell>
-          </TableRow>
-          {/*asdf*/}
-        </TableHead>
-        <TableBody>
-          {sortedLanguageRequestData.map((LanguageRequestForm) => (
-            <LangRequestDisplay
-              key={LanguageRequestForm.requestID}
-              langRequestForm={LanguageRequestForm}
-              onUpdateStatus={(newStatus) =>
-                updateLanguageRequestStatus(
-                  LanguageRequestForm.requestID,
-                  newStatus,
-                )
-              }
-            />
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+    <div className={styles.tabsContainer2}>
+      <TableContainer component={Paper}>
+        <Table sx={{ minWidth: 700 }} aria-label="customized table">
+          <TableHead>
+            <TableRow>
+              <StyledTableCell align="center">Request ID</StyledTableCell>
+              <StyledTableCell align="center">Requester's Name</StyledTableCell>
+              <StyledTableCell align="center">Priority</StyledTableCell>
+              <StyledTableCell align="center">Location</StyledTableCell>
+              <StyledTableCell align="center">Status</StyledTableCell>
+              {/*<StyledTableCell align="right">Order Number</StyledTableCell>*/}
+              <StyledTableCell align="center">Language</StyledTableCell>
+            </TableRow>
+            {/*asdf*/}
+          </TableHead>
+          <TableBody>
+            {sortedLanguageRequestData.map((LanguageRequestForm) => (
+              <LangRequestDisplay
+                key={LanguageRequestForm.requestID}
+                langRequestForm={LanguageRequestForm}
+                onUpdateStatus={(newStatus) =>
+                  updateLanguageRequestStatus(
+                    LanguageRequestForm.requestID,
+                    newStatus,
+                  )
+                }
+              />
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </div>
   );
 }

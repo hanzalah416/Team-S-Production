@@ -16,6 +16,9 @@ interface ProjectCardProps {
   description: string;
   imgUrl: string;
   label: string;
+  font: string;
+  color: string;
+  size: string;
 }
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -31,6 +34,9 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   description,
   imgUrl,
   label,
+  font,
+  color,
+  size,
 }) => {
   const [open, setOpen] = useState(false);
 
@@ -48,24 +54,29 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           <img
             src={imgUrl}
             style={{
-              width: "220px",
+              bottom: "20px",
+              position: "relative",
+              width: "30vh",
               height: "30vh",
-              borderRadius: "50%",
-              border: "8px solid #fff",
               objectFit: "cover",
-              boxShadow: "0 10px 60px rgba(255,26,26,0.22)",
+              marginLeft: "auto",
+              marginRight: "auto",
               justifyContent: "center",
               cursor: "pointer", // Added cursor style for better user experience
             }}
           />
         </Tooltip>
+        <br />
         <h1
           style={{
-            color: "black",
+            position: "relative",
+            color: color,
+            fontFamily: font,
             alignItems: "center",
-            fontSize: "20px",
+            fontSize: size,
             textAlign: "center",
             cursor: "pointer", // Added cursor style for better user experience
+            bottom: "20px",
           }}
           onClick={handleClickOpen}
         >
