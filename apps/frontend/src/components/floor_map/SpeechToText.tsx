@@ -5,6 +5,8 @@ import FindClosestMatch from "../HelperFunctions/FindClosestMatch.ts";
 import SpeechKey from "./SpeechKey.ts";
 import isFirstWord from "../HelperFunctions/IsFirstWord.ts";
 import { GetSecondWord } from "../HelperFunctions/GetSecondWord.ts";
+import MicIcon from "@mui/icons-material/Mic";
+import styles from "./FloorMap.module.css";
 
 //Function to turn speech into text
 export default function SpeechToText(props: {
@@ -119,7 +121,9 @@ export default function SpeechToText(props: {
 
   return (
     <div>
-      <button onClick={handleClick}>Start</button>
+      <button onClick={handleClick} className={styles.micButton}>
+        <MicIcon />
+      </button>
     </div>
   );
 }

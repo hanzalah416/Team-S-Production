@@ -32,6 +32,7 @@ const fetchData = async (startNode: string, currentEndNodes: string[]) => {
   }
 };
 
+//Get Key Selection equivalent but without frontend and an inputed type
 function SpeechKey(
   startNode: string,
   handleSelection: (value: Position | null, type: "start" | "end") => void,
