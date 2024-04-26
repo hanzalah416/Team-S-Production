@@ -20,7 +20,6 @@ interface ProjectCardProps {
   font: string;
   color: string;
   size: string;
-  fontWeight: string;
 }
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
