@@ -75,8 +75,8 @@ const EmailForm: React.FC<EmailFormProps> = ({ topicArn }) => {
                 justifyContent="center"
                 style={{ minHeight: "100vh" }}
             >
-                <Paper style={{ padding: 30, width: "50%", maxWidth: 800, margin: '20px auto', marginTop: '5%' }}>
-                    <Typography variant="h5" style={{ textAlign: 'center', marginBottom: 20 }}>Subscirbe Service Requests</Typography>
+                <Paper style={{ padding: 85, width: "50%", maxWidth: 700, margin: '20px auto', marginTop: '5%' }}>
+                    <Typography variant="h4" style={{ textAlign: 'center', marginBottom: 20 }}>Subscirbe Service Requests</Typography>
                     <form onSubmit={handleSubmit}>
                         <div style={{ height: 400, width: '100%' }}>
                             <DataGrid rows={rows} columns={columns} checkboxSelection />
