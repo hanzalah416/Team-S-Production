@@ -10,6 +10,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { SanitationForm } from "./SanitationForm.ts";
 import { SanitationDisplay } from "./SanitationTable.tsx";
+import styles from "../all_requests/DisplaySRData.module.css";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -63,6 +64,7 @@ export default function SanitationGetter() {
   );
 
   return (
+      <div className={styles.tabsContainer2}>
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
         <TableHead>
@@ -89,5 +91,6 @@ export default function SanitationGetter() {
         </TableBody>
       </Table>
     </TableContainer>
+    </div>
   );
 }

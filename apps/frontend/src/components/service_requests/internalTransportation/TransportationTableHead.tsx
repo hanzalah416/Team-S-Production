@@ -10,6 +10,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { TransportationForm } from "./TransportationForm.ts";
 import { TransportationDisplay } from "./TransportationTable.tsx";
+import styles from "../all_requests/DisplaySRData.module.css";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -65,6 +66,7 @@ export default function TransportationGetter() {
   );
 
   return (
+      <div className={styles.tabsContainer2}>
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
         <TableHead>
@@ -98,5 +100,6 @@ export default function TransportationGetter() {
         </TableBody>
       </Table>
     </TableContainer>
+      </div>
   );
 }

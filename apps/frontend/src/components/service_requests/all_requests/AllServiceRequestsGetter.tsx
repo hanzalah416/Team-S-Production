@@ -13,6 +13,8 @@ import Paper from "@mui/material/Paper";
 import TextField from "@mui/material/TextField";
 import InputAdornment from "@mui/material/InputAdornment";
 import SearchIcon from "@mui/icons-material/Search";
+import styles from "./DisplaySRData.module.css";
+
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -90,6 +92,7 @@ export function ServiceRequestGetter() {
           ),
         }}
       />
+        <div className={styles.tabsContainer}>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 700 }} aria-label="customized table">
           <TableHead>
@@ -115,6 +118,7 @@ export function ServiceRequestGetter() {
           </TableBody>
         </Table>
       </TableContainer>
+    </div>
     </div>
   );
 }
