@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import { subscribeEmail } from "./EmailApi.ts"; // Import the SNS subscription function
 import { DataGrid, GRID_CHECKBOX_SELECTION_COL_DEF } from '@mui/x-data-grid';
 
-
-
 interface EmailFormProps {
     topicArn: string;
 }

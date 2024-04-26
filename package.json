@@ -58,6 +58,7 @@
     "@mui/icons-material": "^5.15.15",
     "@mui/lab": "^5.0.0-alpha.170",
     "@mui/material": "^5.15.14",
+    "@mui/x-data-grid": "^7.3.0",
     "@yarnpkg/pnpify": "^4.0.0-rc.45",
     "dotenv": "^16.4.5",
     "dotenv-cli": "^7.4.0",
