@@ -36,6 +36,8 @@ import { TextToVoiceSelector } from "./TextToVoiceSelector.tsx";
 
 import { Position } from "../common/PositionInterface.ts";
 import { Node } from "../common/NodeInterface.ts";
+import ThreeDPathfind from "./3DPathfinding.tsx";
+
 
 const tips = `
 Enter Starting Point:
@@ -90,12 +92,10 @@ function FloorMap() {
   const [showMapKey, setShowMapKey] = useState(false);
   const transformRef = useRef<ReactZoomPanPinchContentRef>(null);
   const [shouldAutoZoom, setShouldAutoZoom] = useState(true);
-
   const [speechVolume, setSpeechVolume] = useState(1);
   const [speechPitch, setSpeechPitch] = useState(1);
   const [speechRate, setSpeechRate] = useState(1);
   const [speechVoice, setSpeechVoice] = useState(4);
-
   const zoomToPathSegment = useCallback(
     (segmentIndex: number) => {
       setShouldAutoZoom(false);
@@ -191,7 +191,7 @@ function FloorMap() {
     },
     [fullPath, locations, transformRef, setShouldAutoZoom],
   );
-
+    const [ThreeDView, setThreeDView] = useState(false);
   const calculateAndZoom = () => {
     const dotContainer = document.querySelector('[class^="_dotsContainer"]');
     if (!dotContainer) {
@@ -441,7 +441,6 @@ function FloorMap() {
       document.body.style.overflow = "";
     }
   };
-
   const handleSelection = (value: Position | null, type: "start" | "end") => {
     setShouldAutoZoom(true);
     if (type === "start") {
@@ -592,450 +591,469 @@ function FloorMap() {
     setMapChecked((prev) => !prev);
   };
 
+  const handleThreeD = () => {
+      setThreeDView(!ThreeDView);
+  };
+
   return (
     <div className={styles.wholePage}>
-      <div className={styles.container}>
-        <div className={styles.signInForm}>
-          <Tooltip className={styles.tips} tips={tips} />
-          <div className={styles.boldtag}>Enter Starting Point</div>
-          <Autocomplete
-            key={`start-position-${resetKey}`}
-            options={sortedLocations}
-            getOptionLabel={(option) => option.label || "Unknown"}
-            isOptionEqualToValue={(option, value) => option.id === value.id}
-            value={startPosition}
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                label=""
-                InputLabelProps={{
-                  style: {
-                    fontFamily: "Poppins",
-                    fontSize: 14,
-                    textAlign: "center",
-                  },
-                }}
-              />
-            )}
-            onOpen={() => toggleScrolling(true)}
-            onClose={() => toggleScrolling(false)}
-            onChange={(event, value) => handleSelection(value, "start")}
-          />
-          <div className={styles.boldtag}>Enter Destination</div>
-          <Autocomplete
-            key={`end-position-${resetKey}`}
-            options={sortedLocations}
-            getOptionLabel={(option) => option.label || "Unknown"}
-            isOptionEqualToValue={(option, value) => option.id === value.id}
-            value={endPosition}
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                label=""
-                InputLabelProps={{
-                  style: {
-                    fontFamily: "Poppins",
-                    fontSize: 14,
-                    textAlign: "center",
-                  },
-                }}
-              />
-            )}
-            onOpen={() => toggleScrolling(true)}
-            onClose={() => toggleScrolling(false)}
-            onChange={(event, value) => handleSelection(value, "end")}
-          />
-
-          <Button
-            variant="outlined"
-            className={styles.clearButton}
-            onClick={clearInputs}
-            style={{
-              marginTop: "10px",
-              backgroundColor: "#f1f1f1",
-              color: "#000",
-              fontFamily: "Poppins",
-              fontSize: 14,
-              textAlign: "center",
-              borderColor: "black",
-            }}
-          >
-            Clear Path
-          </Button>
-          <TextToVoiceSelector
-            options={[
-              {
-                name: "Volume",
-                setValue: setSpeechVolume,
-                max: 1,
-                min: 0,
-                value: speechVolume,
-              },
-              {
-                name: "Rate",
-                setValue: setSpeechRate,
-                max: 2,
-                min: 0.5,
-                value: speechRate,
-              },
-              {
-                name: "Pitch",
-                setValue: setSpeechPitch,
-                max: 2,
-                min: 0.1,
-                value: speechPitch,
-              },
-            ]}
-            voiceOption={{
-              setValue: setSpeechVoice,
-              value: speechVoice,
-            }}
-          />
-          <Box className={styles.directionsBox}>Directions</Box>
-          {!pathFound && (
-            <Box className={styles.pathNotFoundBox}>Path not found</Box>
-          )}
-
-          <div className={styles.boldtag2}>
-            {/*<div className={styles.boldtag2}>Floors for the Current Path:</div>*/}
-
-            <div
-              key={resetFloorsUIKey}
-              className={styles.floorButtonsContainer}
-            >
-              {startPosition && endPosition && (
-                <PathToTextDisplay
-                  startNode={startPosition.id}
-                  endNode={endPosition.id}
-                  algo={algorithm}
-                  onChangeFloor={handleFloorChange} // Passing the method as a prop
-                  zoomToSegment={zoomToPathSegment}
-                  voice={speechVoice}
-                  volume={speechVolume}
-                  pitch={speechPitch}
-                  rate={speechRate}
-                />
-              )}
-            </div>
-          </div>
-
-          <div className={styles.mbDiv}>
-            <div style={{ display: "flex", flexDirection: "column" }}></div>
-          </div>
-        </div>
-
-        <div className={styles.mapArea}>
-          <div className={styles.MapButtons}>
-            <div className={styles.mMapbox}>
-              <FormControlLabel
-                control={
-                  <Switch
-                    checked={mapChecked}
-                    onChange={handleChange}
-                    sx={{
-                      fontSize: 9,
-                      "& .MuiSwitch-switchBase": {
-                        // Thumb color when unchecked
-                        "&.Mui-checked": {
-                          color: "#003b9c", // Thumb color when checked
-                        },
-                        "&.Mui-checked + .MuiSwitch-track": {
-                          backgroundColor: "#0251d4", // Track color when checked
-                        },
-                      },
-                    }}
-                  />
-                }
-                label="Level Select"
-              />
-            </div>
-            <div className={styles.mMapbox}>
-              <FormControlLabel
-                control={
-                  <Switch
-                    checked={showNodes}
-                    onChange={toggleNodesVisibility}
-                    name="showNodes"
-                    sx={{
-                      fontSize: 9,
-                      "& .MuiSwitch-switchBase": {
-                        // Thumb color when unchecked
-                        "&.Mui-checked": {
-                          color: "#003b9c", // Thumb color when checked
-                        },
-                        "&.Mui-checked + .MuiSwitch-track": {
-                          backgroundColor: "#0251d4", // Track color when checked
-                        },
-                      },
-                    }}
-                  />
-                }
-                label="Toggle Nodes"
-              />
-            </div>
-            <div className={styles.mMapbox}>
-              <FormControlLabel
-                control={
-                  <Switch
-                    checked={showMapKey}
-                    onChange={handleMapKeyVisibility}
-                    sx={{
-                      fontSize: 9,
-                      "& .MuiSwitch-switchBase": {
-                        // Thumb color when unchecked
-                        "&.Mui-checked": {
-                          color: "#003b9c", // Thumb color when checked
-                        },
-                        "&.Mui-checked + .MuiSwitch-track": {
-                          backgroundColor: "#0251d4", // Track color when checked
-                        },
-                      },
-                    }}
-                  />
-                }
-                label="Show Key"
-              />
-            </div>
-            <Select
-              value={algorithm}
-              onChange={handleAlgorithmChange}
-              displayEmpty
-              inputProps={{ "aria-label": "Select Pathfinding Algorithm" }}
-              sx={{
-                marginBottom: "10px",
-                fontFamily: "Poppins",
-                fontSize: 12,
-                colorSecondary: "red",
-              }}
-            >
-              <MenuItem value="astar">A* Search</MenuItem>
-              <MenuItem value="bfs">Breadth-First Search</MenuItem>
-              <MenuItem value="dfs" /*disabled style={{ color: 'gray' }}*/>
-                Depth-First Search
-              </MenuItem>
-              <MenuItem value="dijkstra">Dijkstra's Algorithm</MenuItem>
-            </Select>
-          </div>
-
-          <TransformWrapper
-            ref={transformRef} // Set the ref to access the instance
-            initialScale={1}
-            initialPositionX={0}
-            initialPositionY={0}
-          >
-            {() => (
-              <>
-                <TransformComponent>
-                  {renderFloorNodes()}
-                  <img
-                    src={floorMaps[currentFloor as keyof typeof floorMaps]}
-                    alt="map"
-                    className={styles.hmapImage}
-                  />
-
-                  <div className={styles.dotsContainer}>
-                    {filteredQueueNodeIDs.map((nodeID, index) => {
-                      if (nodeID.length === 3) {
-                        // Skip floor change markers
-                        return null;
-                      }
-
-                      const point = getPositionById(nodeID);
-                      if (point) {
-                        const isActualStartNode = fullPath[0] === nodeID;
-                        const isActualEndNode =
-                          fullPath[fullPath.length - 1] === nodeID;
-                        const isDisplayedStartNode = index === 0;
-
-                        const isDisplayedEndNode =
-                          index === filteredQueueNodeIDs.length - 1;
-                        const isMultifloorEndNode =
-                          !isDisplayedStartNode &&
-                          !isDisplayedEndNode &&
-                          fullPath.includes(nodeID) &&
-                          (getFloorNumber(nodeID) !==
-                            getFloorNumber(filteredQueueNodeIDs[index - 1]) ||
-                            getFloorNumber(nodeID) !==
-                              getFloorNumber(filteredQueueNodeIDs[index + 1]));
-
-                        const isMultifloorStartNode =
-                          index > 0 &&
-                          filteredQueueNodeIDs[index - 1].length === 3 &&
-                          !isActualEndNode;
-
-                        let nodeColor,
-                          lastFloorLabel = "";
-                        if (isMultifloorStartNode) {
-                          nodeColor = "MediumOrchid"; // Set color to purple for intermediary start nodes
-                          const fullPathIndex = fullPath.indexOf(nodeID);
-                          if (fullPathIndex !== -1 && fullPathIndex > 1) {
-                            const targetNodeID = fullPath[fullPathIndex - 2];
-                            lastFloorLabel = targetNodeID.slice(-2);
-                            switch (lastFloorLabel) {
-                              case "01":
-                                lastFloorLabel = "1";
-                                break;
-                              case "02":
-                                lastFloorLabel = "2";
-                                break;
-                              case "03":
-                                lastFloorLabel = "3";
-                                break;
-                            }
-                            // Extract the last two characters
-                            // console.log(lastFloorLabel);
-                          }
-                        } else if (isActualStartNode) {
-                          nodeColor = "#19a300"; // Green for the actual start node
-                        } else if (isActualEndNode) {
-                          nodeColor = "red"; // Red for the actual end node
-                          // Print the nodes around the actual end node if it's not near the start of the array
-                          const fullPathIndex = fullPath.indexOf(nodeID);
-                          if (fullPathIndex !== -1 && fullPathIndex > 1) {
-                            // Additional logic to check the length of the node before the end node
-                            if (fullPath[fullPathIndex - 1].length === 3) {
-                              // Check if the preceding node is a floor change marker
-                              // Log the node before the marker
-                            }
-                          }
-                        } else if (isMultifloorEndNode) {
-                          nodeColor = "#fcec08"; // Yellow for multifloor nodes
-                        } else {
-                          nodeColor = "transparent"; // Transparent for other nodes
-                        }
-
-                        let nextFloorLabel = "";
-                        if (isMultifloorEndNode) {
-                          const nextNodeID = filteredQueueNodeIDs[index + 1];
-                          const nextFloor = getFloorNumber(nextNodeID);
-                          switch (nextFloor) {
-                            case "01":
-                              nextFloorLabel = "1";
-                              break;
-                            case "02":
-                              nextFloorLabel = "2";
-                              break;
-                            case "03":
-                              nextFloorLabel = "3";
-                              break;
-                            default:
-                              if (!nextFloor) {
-                                throw new Error("Next floor was null");
-                              }
-                              nextFloorLabel = nextFloor.slice(-2); // Extract floor from ID
-                              break;
-                          }
-                        }
-
-                        return (
-                          <div
-                            key={nodeID}
-                            className={`${styles.mapDot} ${
-                              isDisplayedStartNode || isDisplayedEndNode
-                                ? styles.endNodeAnimation
-                                : ""
-                            } ${isDisplayedStartNode ? styles.startNode : ""} ${
-                              isDisplayedEndNode ? styles.endNode : ""
-                            } ${
-                              isMultifloorEndNode || isMultifloorStartNode
-                                ? styles.multifloorNode
-                                : ""
-                            }`}
-                            style={{
-                              top: point.top,
-                              left: point.left,
-                              backgroundColor: nodeColor,
-                              display: "block",
+        <div className={styles.container}>
+            <div className={styles.signInForm}>
+                <Tooltip className={styles.tips} tips={tips}/>
+                <div className={styles.boldtag}>Enter Starting Point</div>
+                <Autocomplete
+                    key={`start-position-${resetKey}`}
+                    options={sortedLocations}
+                    getOptionLabel={(option) => option.label || "Unknown"}
+                    isOptionEqualToValue={(option, value) => option.id === value.id}
+                    value={startPosition}
+                    renderInput={(params) => (
+                        <TextField
+                            {...params}
+                            label=""
+                            InputLabelProps={{
+                                style: {
+                                    fontFamily: "Poppins",
+                                    fontSize: 14,
+                                    textAlign: "center",
+                                },
                             }}
-                          >
-                            {(isMultifloorEndNode || isMultifloorStartNode) && (
-                              <div className={styles.floorSwitchText}>
-                                {isMultifloorStartNode
-                                  ? lastFloorLabel
-                                  : nextFloorLabel
-                                    ? nextFloorLabel
-                                    : ""}
-                              </div>
-                            )}
-                          </div>
-                        );
-                      }
-                      return null;
-                    })}
-                  </div>
-                  <svg
-                    className={styles.pathSvg}
+                        />
+                    )}
+                    onOpen={() => toggleScrolling(true)}
+                    onClose={() => toggleScrolling(false)}
+                    onChange={(event, value) => handleSelection(value, "start")}
+                />
+                <div className={styles.boldtag}>Enter Destination</div>
+                <Autocomplete
+                    key={`end-position-${resetKey}`}
+                    options={sortedLocations}
+                    getOptionLabel={(option) => option.label || "Unknown"}
+                    isOptionEqualToValue={(option, value) => option.id === value.id}
+                    value={endPosition}
+                    renderInput={(params) => (
+                        <TextField
+                            {...params}
+                            label=""
+                            InputLabelProps={{
+                                style: {
+                                    fontFamily: "Poppins",
+                                    fontSize: 14,
+                                    textAlign: "center",
+                                },
+                            }}
+                        />
+                    )}
+                    onOpen={() => toggleScrolling(true)}
+                    onClose={() => toggleScrolling(false)}
+                    onChange={(event, value) => handleSelection(value, "end")}
+                />
+
+                <Button
+                    variant="outlined"
+                    className={styles.clearButton}
+                    onClick={clearInputs}
                     style={{
-                      position: "absolute",
-                      top: 0,
-                      left: 0,
-                      width: "100%",
-                      height: "100%",
+                        marginTop: "10px",
+                        backgroundColor: "#f1f1f1",
+                        color: "#000",
+                        fontFamily: "Poppins",
+                        fontSize: 14,
+                        textAlign: "center",
+                        borderColor: "black",
                     }}
-                  >
-                    {filteredQueueNodeIDs
-                      .slice(0, -1) // Exclude the last node ID as it's used as the end node for the last segment
-                      .map((startNodeID, index) => {
-                        const endNodeID = filteredQueueNodeIDs[index + 1];
+                >
+                    Clear Path
+                </Button>
+                <TextToVoiceSelector
+                    options={[
+                        {
+                            name: "Volume",
+                            setValue: setSpeechVolume,
+                            max: 1,
+                            min: 0,
+                            value: speechVolume,
+                        },
+                        {
+                            name: "Rate",
+                            setValue: setSpeechRate,
+                            max: 2,
+                            min: 0.5,
+                            value: speechRate,
+                        },
+                        {
+                            name: "Pitch",
+                            setValue: setSpeechPitch,
+                            max: 2,
+                            min: 0.1,
+                            value: speechPitch,
+                        },
+                    ]}
+                    voiceOption={{
+                        setValue: setSpeechVoice,
+                        value: speechVoice,
+                    }}
+                />
+                <Box className={styles.directionsBox}>Directions</Box>
+                {!pathFound && (
+                    <Box className={styles.pathNotFoundBox}>Path not found</Box>
+                )}
 
-                        // Only get segments for non-floor-change nodes
-                        if (
-                          startNodeID.length !== 3 &&
-                          endNodeID.length !== 3
-                        ) {
-                          const segments = getLineSegments(
-                            startNodeID,
-                            endNodeID,
-                          );
+                <div className={styles.boldtag2}>
+                    {/*<div className={styles.boldtag2}>Floors for the Current Path:</div>*/}
 
-                          return segments.map((segment, segmentIndex) => {
-                            const startPoint = getPositionById(
-                              segment.startNodeID,
-                            );
-                            const endPoint = getPositionById(segment.endNodeID);
-                            const lineColor = getLineColor(segment.floor!);
+                    <div
+                        key={resetFloorsUIKey}
+                        className={styles.floorButtonsContainer}
+                    >
+                        {startPosition && endPosition && (
+                            <PathToTextDisplay
+                                startNode={startPosition.id}
+                                endNode={endPosition.id}
+                                algo={algorithm}
+                                onChangeFloor={handleFloorChange} // Passing the method as a prop
+                                zoomToSegment={zoomToPathSegment}
+                                voice={speechVoice}
+                                volume={speechVolume}
+                                pitch={speechPitch}
+                                rate={speechRate}
+                            />
+                        )}
+                    </div>
+                </div>
 
-                            return (
-                              <line
-                                key={`${segment.startNodeID}-${segment.endNodeID}-${segmentIndex}`}
-                                className={styles.line}
-                                x1={`${parseFloat(startPoint.left)}%`}
-                                y1={`${parseFloat(startPoint.top)}%`}
-                                x2={`${parseFloat(endPoint.left)}%`}
-                                y2={`${parseFloat(endPoint.top)}%`}
-                                strokeLinecap="round"
-                                stroke={lineColor}
-                                strokeWidth="2"
-                              />
-                            );
-                          });
-                        }
+                <div className={styles.mbDiv}>
+                    <div style={{display: "flex", flexDirection: "column"}}></div>
+                </div>
+            </div>
 
-                        return null;
-                      })}
-                  </svg>
-                </TransformComponent>
-              </>
-            )}
-          </TransformWrapper>
+            <div className={styles.mapArea} style={{visibility: ThreeDView ? "visible" : "hidden" }}>
+                <div className={styles.MapButtons}>
+                    <div className={styles.mMapbox}>
+                        <FormControlLabel
+                            control={
+                                <Switch
+                                    checked={mapChecked}
+                                    onChange={handleChange}
+                                    sx={{
+                                        fontSize: 9,
+                                        "& .MuiSwitch-switchBase": {
+                                            // Thumb color when unchecked
+                                            "&.Mui-checked": {
+                                                color: "#003b9c", // Thumb color when checked
+                                            },
+                                            "&.Mui-checked + .MuiSwitch-track": {
+                                                backgroundColor: "#0251d4", // Track color when checked
+                                            },
+                                        },
+                                    }}
+                                />
+                            }
+                            label="Level Select"
+                        />
+                    </div>
+                    <div className={styles.mMapbox}>
+                        <FormControlLabel
+                            control={
+                                <Switch
+                                    checked={showNodes}
+                                    onChange={toggleNodesVisibility}
+                                    name="showNodes"
+                                    sx={{
+                                        fontSize: 9,
+                                        "& .MuiSwitch-switchBase": {
+                                            // Thumb color when unchecked
+                                            "&.Mui-checked": {
+                                                color: "#003b9c", // Thumb color when checked
+                                            },
+                                            "&.Mui-checked + .MuiSwitch-track": {
+                                                backgroundColor: "#0251d4", // Track color when checked
+                                            },
+                                        },
+                                    }}
+                                />
+                            }
+                            label="Toggle Nodes"
+                        />
+                    </div>
+                    <div className={styles.mMapbox}>
+                        <FormControlLabel
+                            control={
+                                <Switch
+                                    checked={showMapKey}
+                                    onChange={handleMapKeyVisibility}
+                                    sx={{
+                                        fontSize: 9,
+                                        "& .MuiSwitch-switchBase": {
+                                            // Thumb color when unchecked
+                                            "&.Mui-checked": {
+                                                color: "#003b9c", // Thumb color when checked
+                                            },
+                                            "&.Mui-checked + .MuiSwitch-track": {
+                                                backgroundColor: "#0251d4", // Track color when checked
+                                            },
+                                        },
+                                    }}
+                                />
+                            }
+                            label="Show Key"
+                        />
+                    </div>
+                    <Select
+                        value={algorithm}
+                        onChange={handleAlgorithmChange}
+                        displayEmpty
+                        inputProps={{"aria-label": "Select Pathfinding Algorithm"}}
+                        sx={{
+                            marginBottom: "10px",
+                            fontFamily: "Poppins",
+                            fontSize: 12,
+                            colorSecondary: "red",
+                        }}
+                    >
+                        <MenuItem value="astar">A* Search</MenuItem>
+                        <MenuItem value="bfs">Breadth-First Search</MenuItem>
+                        <MenuItem value="dfs" /*disabled style={{ color: 'gray' }}*/>
+                            Depth-First Search
+                        </MenuItem>
+                        <MenuItem value="dijkstra">Dijkstra's Algorithm</MenuItem>
+                    </Select>
+                </div>
 
-          <div
-            className={`${styles.mMap} ${mapChecked ? styles.showMMap : ""}`}
-          >
-            <Suspense fallback={<div>MiniMap loading please wait...</div>}>
-              <MiniMap onChangeFloor={handleFloorChange} />
-            </Suspense>
-          </div>
+                <TransformWrapper
+                    ref={transformRef} // Set the ref to access the instance
+                    initialScale={1}
+                    initialPositionX={0}
+                    initialPositionY={0}
+                >
+                    {() => (
+                        <>
+                            <TransformComponent>
+                                {renderFloorNodes()}
+                                <img
+                                    src={floorMaps[currentFloor as keyof typeof floorMaps]}
+                                    alt="map"
+                                    className={styles.hmapImage}
+                                />
 
-          <KeySelection
-            startNode={startPosition?.id}
-            showMapKey={showMapKey}
-            getPositionById={getPositionById}
-            handleSelection={handleSelection}
-          />
+                                <div className={styles.dotsContainer}>
+                                    {filteredQueueNodeIDs.map((nodeID, index) => {
+                                        if (nodeID.length === 3) {
+                                            // Skip floor change markers
+                                            return null;
+                                        }
+
+                                        const point = getPositionById(nodeID);
+                                        if (point) {
+                                            const isActualStartNode = fullPath[0] === nodeID;
+                                            const isActualEndNode =
+                                                fullPath[fullPath.length - 1] === nodeID;
+                                            const isDisplayedStartNode = index === 0;
+
+                                            const isDisplayedEndNode =
+                                                index === filteredQueueNodeIDs.length - 1;
+                                            const isMultifloorEndNode =
+                                                !isDisplayedStartNode &&
+                                                !isDisplayedEndNode &&
+                                                fullPath.includes(nodeID) &&
+                                                (getFloorNumber(nodeID) !==
+                                                    getFloorNumber(filteredQueueNodeIDs[index - 1]) ||
+                                                    getFloorNumber(nodeID) !==
+                                                    getFloorNumber(filteredQueueNodeIDs[index + 1]));
+
+                                            const isMultifloorStartNode =
+                                                index > 0 &&
+                                                filteredQueueNodeIDs[index - 1].length === 3 &&
+                                                !isActualEndNode;
+
+                                            let nodeColor,
+                                                lastFloorLabel = "";
+                                            if (isMultifloorStartNode) {
+                                                nodeColor = "MediumOrchid"; // Set color to purple for intermediary start nodes
+                                                const fullPathIndex = fullPath.indexOf(nodeID);
+                                                if (fullPathIndex !== -1 && fullPathIndex > 1) {
+                                                    const targetNodeID = fullPath[fullPathIndex - 2];
+                                                    lastFloorLabel = targetNodeID.slice(-2);
+                                                    switch (lastFloorLabel) {
+                                                        case "01":
+                                                            lastFloorLabel = "1";
+                                                            break;
+                                                        case "02":
+                                                            lastFloorLabel = "2";
+                                                            break;
+                                                        case "03":
+                                                            lastFloorLabel = "3";
+                                                            break;
+                                                    }
+                                                    // Extract the last two characters
+                                                    // console.log(lastFloorLabel);
+                                                }
+                                            } else if (isActualStartNode) {
+                                                nodeColor = "#19a300"; // Green for the actual start node
+                                            } else if (isActualEndNode) {
+                                                nodeColor = "red"; // Red for the actual end node
+                                                // Print the nodes around the actual end node if it's not near the start of the array
+                                                const fullPathIndex = fullPath.indexOf(nodeID);
+                                                if (fullPathIndex !== -1 && fullPathIndex > 1) {
+                                                    // Additional logic to check the length of the node before the end node
+                                                    if (fullPath[fullPathIndex - 1].length === 3) {
+                                                        // Check if the preceding node is a floor change marker
+                                                        // Log the node before the marker
+                                                    }
+                                                }
+                                            } else if (isMultifloorEndNode) {
+                                                nodeColor = "#fcec08"; // Yellow for multifloor nodes
+                                            } else {
+                                                nodeColor = "transparent"; // Transparent for other nodes
+                                            }
+
+                                            let nextFloorLabel = "";
+                                            if (isMultifloorEndNode) {
+                                                const nextNodeID = filteredQueueNodeIDs[index + 1];
+                                                const nextFloor = getFloorNumber(nextNodeID);
+                                                switch (nextFloor) {
+                                                    case "01":
+                                                        nextFloorLabel = "1";
+                                                        break;
+                                                    case "02":
+                                                        nextFloorLabel = "2";
+                                                        break;
+                                                    case "03":
+                                                        nextFloorLabel = "3";
+                                                        break;
+                                                    default:
+                                                        if (!nextFloor) {
+                                                            throw new Error("Next floor was null");
+                                                        }
+                                                        nextFloorLabel = nextFloor.slice(-2); // Extract floor from ID
+                                                        break;
+                                                }
+                                            }
+
+                                            return (
+                                                <div
+                                                    key={nodeID}
+                                                    className={`${styles.mapDot} ${
+                                                        isDisplayedStartNode || isDisplayedEndNode
+                                                            ? styles.endNodeAnimation
+                                                            : ""
+                                                    } ${isDisplayedStartNode ? styles.startNode : ""} ${
+                                                        isDisplayedEndNode ? styles.endNode : ""
+                                                    } ${
+                                                        isMultifloorEndNode || isMultifloorStartNode
+                                                            ? styles.multifloorNode
+                                                            : ""
+                                                    }`}
+                                                    style={{
+                                                        top: point.top,
+                                                        left: point.left,
+                                                        backgroundColor: nodeColor,
+                                                        display: "block",
+                                                    }}
+                                                >
+                                                    {(isMultifloorEndNode || isMultifloorStartNode) && (
+                                                        <div className={styles.floorSwitchText}>
+                                                            {isMultifloorStartNode
+                                                                ? lastFloorLabel
+                                                                : nextFloorLabel
+                                                                    ? nextFloorLabel
+                                                                    : ""}
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            );
+                                        }
+                                        return null;
+                                    })}
+                                </div>
+                                <svg
+                                    className={styles.pathSvg}
+                                    style={{
+                                        position: "absolute",
+                                        top: 0,
+                                        left: 0,
+                                        width: "100%",
+                                        height: "100%",
+                                    }}
+                                >
+                                    {filteredQueueNodeIDs
+                                        .slice(0, -1) // Exclude the last node ID as it's used as the end node for the last segment
+                                        .map((startNodeID, index) => {
+                                            const endNodeID = filteredQueueNodeIDs[index + 1];
+
+                                            // Only get segments for non-floor-change nodes
+                                            if (
+                                                startNodeID.length !== 3 &&
+                                                endNodeID.length !== 3
+                                            ) {
+                                                const segments = getLineSegments(
+                                                    startNodeID,
+                                                    endNodeID,
+                                                );
+
+                                                return segments.map((segment, segmentIndex) => {
+                                                    const startPoint = getPositionById(
+                                                        segment.startNodeID,
+                                                    );
+                                                    const endPoint = getPositionById(segment.endNodeID);
+                                                    const lineColor = getLineColor(segment.floor!);
+
+                                                    return (
+                                                        <line
+                                                            key={`${segment.startNodeID}-${segment.endNodeID}-${segmentIndex}`}
+                                                            className={styles.line}
+                                                            x1={`${parseFloat(startPoint.left)}%`}
+                                                            y1={`${parseFloat(startPoint.top)}%`}
+                                                            x2={`${parseFloat(endPoint.left)}%`}
+                                                            y2={`${parseFloat(endPoint.top)}%`}
+                                                            strokeLinecap="round"
+                                                            stroke={lineColor}
+                                                            strokeWidth="2"
+                                                        />
+                                                    );
+                                                });
+                                            }
+
+                                            return null;
+                                        })}
+                                </svg>
+                            </TransformComponent>
+                        </>
+                    )}
+                </TransformWrapper>
+                <div
+                    className={`${styles.mMap} ${mapChecked ? styles.showMMap : ""}`}
+                >
+                    <Suspense fallback={<div>MiniMap loading please wait...</div>}>
+                        <MiniMap onChangeFloor={handleFloorChange}/>
+                    </Suspense>
+                </div>
+
+
+                <KeySelection
+                    startNode={startPosition?.id}
+                    showMapKey={showMapKey}
+                    getPositionById={getPositionById}
+                    handleSelection={handleSelection}
+                />
+            </div>
+            <div className={styles.ThreeD} style={{visibility: !ThreeDView ? "visible" : "hidden"}}>
+                <ThreeDPathfind onChangeFloor={handleFloorChange}/>
+            </div>
         </div>
-      </div>
+        {/*{fullPath.length > 0 && (*/}
+        <Button className={styles.threeDpath}
+                style={{
+                    backgroundColor: "rgb(0, 59, 156)",
+                    fontFamily: "Poppins",
+                        fontSize: "14px",
+                        textAlign: "center",
+                        color: "white"}}
+                    onClick={handleThreeD}
+            >{!ThreeDView ? "3D Pathfinding" : "2D Pathfinding"}</Button>
+        {/*)}*/}
     </div>
+
   );
 }
 

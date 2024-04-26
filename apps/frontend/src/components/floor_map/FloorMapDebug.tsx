@@ -6,7 +6,14 @@ import React, {
   useReducer,
 } from "react";
 import styles from "./FloorMapDebug.module.css";
-import { Button, FormControlLabel, Checkbox, Typography, MenuItem, Select } from "@mui/material";
+import {
+  Button,
+  FormControlLabel,
+  Checkbox,
+  Typography,
+  MenuItem,
+  Select,
+} from "@mui/material";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import axios from "axios";
 import { NodeEdge } from "database";
@@ -143,8 +150,6 @@ const StaticFloorMapDebug = () => {
     );
   };
 
-
-
   const handleUpdateEdge = (updatedEdge: NodeEdge) => {
     setEdges((prevEdges) =>
       prevEdges.map((edge) =>
@@ -229,7 +234,9 @@ const StaticFloorMapDebug = () => {
       setEditableNode((prev) => ({ ...prev, [name]: value }));
     };
 
-    const handleInputChangeFloor = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleInputChangeFloor = (
+      event: React.ChangeEvent<HTMLInputElement>,
+    ) => {
       const { name, value } = event.target;
       setEditableNode({ ...editableNode, [name]: value });
     };
@@ -316,11 +323,11 @@ const StaticFloorMapDebug = () => {
                 <td className={styles.label}>ID:</td>
                 <td>
                   <input
-                      type="text"
-                      name="id"
-                      value={editableNode.id}
-                      onChange={handleInputChangeID}
-                      className={styles.inputField}
+                    type="text"
+                    name="id"
+                    value={editableNode.id}
+                    onChange={handleInputChangeID}
+                    className={styles.inputField}
                   />
                 </td>
               </tr>
@@ -328,11 +335,11 @@ const StaticFloorMapDebug = () => {
                 <td className={styles.label}>Name:</td>
                 <td>
                   <input
-                      type="text"
-                      name="longName"
-                      value={editableNode.longName}
-                      onChange={handleInputChange}
-                      className={styles.inputField}
+                    type="text"
+                    name="longName"
+                    value={editableNode.longName}
+                    onChange={handleInputChange}
+                    className={styles.inputField}
                   />
                 </td>
               </tr>
@@ -340,16 +347,16 @@ const StaticFloorMapDebug = () => {
                 <td className={styles.label}>Floor:</td>
                 <td>
                   <Select
-                      value={editableNode.floor}
-                      name="floor"
-                      onChange={handleInputChangeFloor} // Use onChange to handle changes
-                      className={styles.dropdown} // You can adjust the className if needed
-                      inputProps={{"aria-label": "Select Floor"}} // ARIA label for accessibility
+                    value={editableNode.floor}
+                    name="floor"
+                    onChange={handleInputChangeFloor} // Use onChange to handle changes
+                    className={styles.dropdown} // You can adjust the className if needed
+                    inputProps={{ "aria-label": "Select Floor" }} // ARIA label for accessibility
                   >
                     {["L2", "L1", "1", "2", "3"].map((floorNumber) => (
-                        <MenuItem key={floorNumber} value={floorNumber}>
-                          {floorNumber}
-                        </MenuItem>
+                      <MenuItem key={floorNumber} value={floorNumber}>
+                        {floorNumber}
+                      </MenuItem>
                     ))}
                   </Select>
                 </td>
@@ -460,12 +467,13 @@ const StaticFloorMapDebug = () => {
       setNewEdgeDetails(null);
     }, []);
 
-    const handleInputChange = (event: React.BaseSyntheticEvent<HTMLInputElement>) => {
+    const handleInputChange = (
+      event: React.BaseSyntheticEvent<HTMLInputElement>,
+    ) => {
       const { name, value } = event.target;
-      setEditableEdge({ ...editableEdge, [name]: value});
+      setEditableEdge({ ...editableEdge, [name]: value });
       console.log(editableEdge);
     };
-
 
     const handleSave = async () => {
       const url = `/api/edges`;
@@ -544,19 +552,19 @@ const StaticFloorMapDebug = () => {
                 <td className={styles.label}>Start Node:</td>
                 <td>
                   <Select
-                      name="startNode"
-                      value={editableEdge.startNode}
-                      onChange={handleInputChange}
-                      className={styles.dropdown}
-                      inputProps={{"aria-label": "Select Node ID"}}
+                    name="startNode"
+                    value={editableEdge.startNode}
+                    onChange={handleInputChange}
+                    className={styles.dropdown}
+                    inputProps={{ "aria-label": "Select Node ID" }}
                   >
                     <MenuItem value="" disabled>
                       Select Node ID
                     </MenuItem>
                     {nodes.map((node) => (
-                        <MenuItem key={node.id} value={node.id}>
-                          {node.id}
-                        </MenuItem>
+                      <MenuItem key={node.id} value={node.id}>
+                        {node.id}
+                      </MenuItem>
                     ))}
                   </Select>
                 </td>
@@ -564,22 +572,22 @@ const StaticFloorMapDebug = () => {
               <tr>
                 <td className={styles.label}>End Node:</td>
                 <td>
-                <Select
+                  <Select
                     name="endNode"
                     value={editableEdge.endNode}
                     onChange={handleInputChange}
                     className={styles.dropdown}
-                    inputProps={{"aria-label": "Select Node ID"}}
-                >
-                  <MenuItem value="" disabled>
-                    Select Node ID
-                  </MenuItem>
-                  {nodes.map((node) => (
+                    inputProps={{ "aria-label": "Select Node ID" }}
+                  >
+                    <MenuItem value="" disabled>
+                      Select Node ID
+                    </MenuItem>
+                    {nodes.map((node) => (
                       <MenuItem key={node.id} value={node.id}>
                         {node.id}
                       </MenuItem>
-                  ))}
-                </Select>
+                    ))}
+                  </Select>
                 </td>
               </tr>
             </tbody>

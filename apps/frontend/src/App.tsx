@@ -196,7 +196,6 @@ function App() {
             </>
           ),
         },
-
         // ... other routes
       ],
     },

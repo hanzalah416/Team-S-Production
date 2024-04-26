@@ -294,7 +294,6 @@ body {
   width: 210px; /* Auto width based on content */
   z-index: 4; /* Ensure it is above the TransformComponent */
   display: flex;
-
   flex-direction: column; /* Stack children vertically */
   justify-content: flex-start;
   padding: 10px; /* Adds some spacing around the controls */
@@ -377,4 +376,24 @@ body {
   cursor: pointer;
   height: 30px;
   padding: -1px;
+}
+
+.threeDpath {
+    position: absolute;
+    /*right: -40%;*/
+    /*top: -80%;*/
+    top: -12vh; /* Adjust to place it right at the top */
+    left: 45vw; /* Right aligned */
+    z-index: 4;
+}
+
+.threeD {
+    left: 40%;
+    bottom: 50%;
+    position: relative;
+
+}
+
+.showTreeD {
+    z-index: 5;
 }

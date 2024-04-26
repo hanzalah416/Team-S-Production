@@ -310,6 +310,7 @@ function NavBar() {
             "'Founding member, Mass General Brigham'"
           }
           onClick={toHero}
+          style={{cursor: "pointer"}}
         />
 
         <p className={"time"} onClick={toHero}>
