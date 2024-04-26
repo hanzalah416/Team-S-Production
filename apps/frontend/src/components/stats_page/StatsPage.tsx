@@ -50,7 +50,7 @@ const Stats = () => {
       const pie = await axios.get("/api/get-pie-data");
 
       console.log(pie);
-        setPieData(pie.data);
+      setPieData(pie.data);
       console.log("Successfully got data from get request");
       // const assign = await axios.get("/api/assign-data");
       //   setAssignBar(assign.data);
@@ -119,7 +119,15 @@ const Stats = () => {
       <Grid container spacing={3}>
         <Grid item xs={12} md={6}>
           <Typography variant="h6">Service requests by service type</Typography>
-          <PieChart series={pieChartData} width={400} height={200} />
+          <PieChart
+            series={[
+              {
+                data: pieChartData,
+              },
+            ]}
+            width={400}
+            height={200}
+          />
         </Grid>
       </Grid>
     </div>

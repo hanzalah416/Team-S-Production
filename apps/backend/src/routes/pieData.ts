@@ -41,30 +41,67 @@ router.get(
       },
     });
     const pieData = {
-      flowerRequest: serviceRequests.filter(
-        (request) => request.requestType === "Flower",
-      ).length,
-      languageRequest: serviceRequests.filter(
-        (request) => request.requestType === "Language",
-      ).length,
-      medicineRequest: serviceRequests.filter(
-        (request) => request.requestType === "Medicine",
-      ).length,
-      schedulingRequest: serviceRequests.filter(
-        (request) => request.requestType === "Room Scheduling",
-      ).length,
-      sanitationRequest: serviceRequests.filter(
-        (request) => request.requestType === "Sanitation",
-      ).length,
-      securityRequest: serviceRequests.filter(
-        (request) => request.requestType === "Security",
-      ).length,
-      transportRequest: serviceRequests.filter(
-        (request) => request.requestType === "Transport",
-      ).length,
-      giftRequest: serviceRequests.filter(
-        (request) => request.requestType === "Gift",
-      ).length,
+      flowerRequest:
+        serviceRequests.filter((request) => request.requestType === "Flower") ==
+        undefined
+          ? 0
+          : serviceRequests.filter(
+              (request) => request.requestType === "Flower",
+            ).length,
+      languageRequest:
+        serviceRequests.filter(
+          (request) => request.requestType === "Language",
+        ) == undefined
+          ? 0
+          : serviceRequests.filter(
+              (request) => request.requestType === "Language",
+            ).length,
+      medicineRequest:
+        serviceRequests.filter(
+          (request) => request.requestType === "Medicine",
+        ) == undefined
+          ? 0
+          : serviceRequests.filter(
+              (request) => request.requestType === "Medicine",
+            ).length,
+      schedulingRequest:
+        serviceRequests.filter(
+          (request) => request.requestType === "Scheduling",
+        ) == undefined
+          ? 0
+          : serviceRequests.filter(
+              (request) => request.requestType === "Scheduling",
+            ).length,
+      sanitationRequest:
+        serviceRequests.filter(
+          (request) => request.requestType === "Sanitation",
+        ) == undefined
+          ? 0
+          : serviceRequests.filter(
+              (request) => request.requestType === "Sanitation",
+            ).length,
+      securityRequest:
+        serviceRequests.filter(
+          (request) => request.requestType === "Security",
+        ) == undefined
+          ? 0
+          : serviceRequests.filter(
+              (request) => request.requestType === "Security",
+            ).length,
+      transportRequest:
+        serviceRequests.filter(
+          (request) => request.requestType === "Transport",
+        ) == undefined
+          ? 0
+          : serviceRequests.filter(
+              (request) => request.requestType === "Transport",
+            ).length,
+      giftRequest:
+        serviceRequests.filter((request) => request.requestType === "Gift") ==
+        undefined
+          ? 0
+          : serviceRequests.filter((request) => request.requestType === "Gift")
+              .length,
     };
 
     if (serviceRequests.length === 0) {
