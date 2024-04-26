@@ -12,6 +12,11 @@ import li from "../assets/abtPage/li.png";
 import Card from "./Card";
 import styles from "./AboutPage.module.css";
 import BackgroundImg2 from "../assets/blue-background2.jpg";
+import bluePin1 from "./blue-pin.png";
+//import bluePin2 from "./blue-pin2.png";
+//import bluePin3 from "./blue-pin3.png";
+import yellowPin from "./yellow-pin.png";
+
 const Project = [
     {
         description: "Full Stack Developer , quote1:TBD",
@@ -113,6 +118,8 @@ export const AboutPage = () => {
   return (
     <div
       style={{
+        zIndex: '2',
+        top: "10px",
         backgroundImage: `url(${BackgroundImg2})`,
         height: "100vh",
         width: "100vw",
@@ -157,9 +164,30 @@ export const AboutPage = () => {
           }}
         >
           {Project.map((item) => (
-              <div className={styles.pictureBackground}>
-            <Card {...item} key={item.description} />
-              </div>
+            <div className={styles.pictureBackground}>
+                {item.label === 'Dorothy Alexander' ? (
+                    <img src={yellowPin} className={styles.yellowPin} />
+                ) :
+                item.label === 'Kim Cummings' ? (
+                    <img src={yellowPin} className={styles.yellowPin} />
+                ) :
+                item.label === 'Wentao Yu' ? (
+                    <img src={yellowPin} className={styles.yellowPin} />
+                ) :
+                item.label === 'Jeffrey Li' ? (
+                    <img src={yellowPin} className={styles.yellowPin} />
+                ) :
+                item.label === 'Hanzalah Qamar' ? (
+                    <img src={yellowPin} className={styles.yellowPin} />
+                ) :
+                item.label === 'Ken Sebastian' ? (
+                    <img src={yellowPin} className={styles.yellowPin} />
+                ) :
+                (
+                    <img src={bluePin1} className={styles.bluePin1} />
+                )}
+                <Card {...item} key={item.description} />
+            </div>
           ))}
         </div>
         <div>

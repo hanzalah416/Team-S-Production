@@ -56,6 +56,8 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           <img
             src={imgUrl}
             style={{
+                bottom: "20px",
+                position: "relative",
                 width: "30vh",
                 height: "30vh",
                 objectFit: "cover",
@@ -69,12 +71,14 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           <br />
         <h1
           style={{
+            position: "relative",
             color: color,
             fontFamily: font,
             alignItems: "center",
             fontSize: size,
             textAlign: "center",
             cursor: "pointer", // Added cursor style for better user experience
+            bottom: "20px"
           }}
           onClick={handleClickOpen}
         >

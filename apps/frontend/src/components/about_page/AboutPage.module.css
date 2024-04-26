@@ -57,6 +57,7 @@
 
 
 .pictureBackground {
+    position: relative;
     justify-content: center;
     align-content: center;
     object-fit: cover;
@@ -64,4 +65,47 @@
     width: 33vh;
     height: 40vh;
     border-radius: 4px;
+    z-index: 1;
+}
+
+.bluePin1 {
+    position: relative;
+    z-index: 3;
+    margin-right: auto;
+    margin-left: auto;
+    max-width: 50px;
+    max-height: 50px;
+    bottom: 5px;
+    left: 15px;
+}
+
+.bluePin2 {
+    position: relative;
+    z-index: 3;
+    margin-right: auto;
+    margin-left: auto;
+    max-width: 50px;
+    max-height: 50px;
+    bottom: 25px;
+    right: 10px;
+}
+
+.bluePin3 {
+    position: relative;
+    z-index: 3;
+    margin-right: auto;
+    margin-left: auto;
+    max-width: 50px;
+    max-height: 50px;
+    bottom: 10px;
+}
+
+.yellowPin {
+    position: relative;
+    z-index: 3;
+    margin-right: auto;
+    margin-left: auto;
+    max-width: 50px;
+    max-height: 50px;
+    bottom: 25px;
 }
