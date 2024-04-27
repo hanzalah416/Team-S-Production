@@ -97,18 +97,17 @@ body {
 }
 
 .FloorSequence {
-    position: absolute;
-    top: 10px;  /* Keeps it 20px from the top */
-    right: 20px; /* Anchors the container to the right, 20px from the edge */
-    z-index: 5; /* Ensures it stays on top of other content */
-    background: transparent; /* Semi-transparent background for better visibility */
-    border-radius: 5px; /* Rounded corners for aesthetics */
-    display: flex; /* Ensures the contents are laid out in a row */
-    flex-direction: row-reverse; /* Reverses the order of flex items to extend to the left */
-    justify-content: flex-start; /* Aligns content to the right */
-    padding: 8px; /* Padding around the content */
+  position: absolute;
+  top: 10px; /* Keeps it 20px from the top */
+  right: 20px; /* Anchors the container to the right, 20px from the edge */
+  z-index: 5; /* Ensures it stays on top of other content */
+  background: transparent; /* Semi-transparent background for better visibility */
+  border-radius: 5px; /* Rounded corners for aesthetics */
+  display: flex; /* Ensures the contents are laid out in a row */
+  flex-direction: row-reverse; /* Reverses the order of flex items to extend to the left */
+  justify-content: flex-start; /* Aligns content to the right */
+  padding: 8px; /* Padding around the content */
 }
-
 
 .hmap-image {
   height: 100%; /* Make the image fill the container height */
