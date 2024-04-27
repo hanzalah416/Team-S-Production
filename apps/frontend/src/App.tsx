@@ -27,8 +27,12 @@ import TransportRequest from "./components/service_requests/internalTransportati
 import EmailForm from "./components/awsEmailConnection/EmailForm.tsx";
 import GiftForm from "./components/service_requests/gift_request/giftForm.tsx";
 import { AboutPage } from "./components/about_page/AboutPage.tsx";
+import MobileFlower from "./components/service_requests/flower_requests/MobileFlower.tsx";
 
 function App() {
+  const isMobile = navigator.userAgent.match(
+    /(iPad)|(iPhone)|(iPod)|(android)|(webOS)/i,
+  );
   const router = createBrowserRouter([
     {
       children: [
@@ -54,7 +58,8 @@ function App() {
           path: "/order-flowers",
           element: (
             <>
-              <OrderFlowers />
+              {isMobile && <MobileFlower />}
+              {!isMobile && <OrderFlowers />}
               <Layout />
             </>
           ),
