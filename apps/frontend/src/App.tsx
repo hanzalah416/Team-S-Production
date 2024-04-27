@@ -31,6 +31,7 @@ import MobileFlower from "./components/service_requests/flower_requests/MobileFl
 import MobileGift from "./components/service_requests/gift_request/MobileGift.tsx";
 import MobileMedicine from "./components/service_requests/medicine_delivery/MobileMedicine.tsx";
 import MobileSanitation from "./components/service_requests/sanitation_services/MobileSanitation.tsx";
+import MobileSecurity from "./components/service_requests/security_requests/MobileSecurity.tsx";
 
 function App() {
   const isMobile = navigator.userAgent.match(
@@ -72,7 +73,8 @@ function App() {
           path: "/security-request",
           element: (
             <>
-              <SecurityRequest />
+              {isMobile && <MobileSecurity />}
+              {!isMobile && <SecurityRequest />}
               <Layout />
             </>
           ),
