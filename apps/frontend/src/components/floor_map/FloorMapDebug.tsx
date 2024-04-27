@@ -27,8 +27,7 @@ import l2Map from "../assets/HospitalMap/00_thelowerlevel2.png";
 import f1Map from "../assets/HospitalMap/01_thefirstfloor.png";
 import f2Map from "../assets/HospitalMap/02_thesecondfloor.png";
 import f3Map from "../assets/HospitalMap/03_thethirdfloor.png";
-// import fs from "fs";
-// import readCSVFile from "../../../../backend/src/Readcsv.ts";
+
 
 // Interfaces
 interface Node {
