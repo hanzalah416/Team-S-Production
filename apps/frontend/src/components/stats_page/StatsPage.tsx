@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 // import Typography from "@mui/material/Typography";;
 // import { BarChart } from '@mui/x-charts/BarChart';
-import { PieChart } from "@mui/x-charts/PieChart";
+import { PieChart } from "@mui/x-charts";
 
 // import {Grid} from "@mui/material";
 
