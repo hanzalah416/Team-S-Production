@@ -55,24 +55,24 @@ ul {
 
 .legend {
   text-color: white;
-    font-size: 300px;
-    position: absolute;
-    top: 20px;
-    right: 20px;
+  font-size: 300px;
+  position: absolute;
+  top: 20px;
+  right: 20px;
 }
 
 .custom-pie-chart .recharts-legend-wrapper {
-    /* Specify the desired positioning */
-    position: absolute;
-    top: 20px;
-    right: 20px;
+  /* Specify the desired positioning */
+  position: absolute;
+  top: 20px;
+  right: 20px;
 }
 
 .containter {
-    height: 100vh;
-    width: 100vw;
+  height: 100vh;
+  width: 100vw;
 }
 
 .legendtext {
-    color: white;
+  color: white;
 }

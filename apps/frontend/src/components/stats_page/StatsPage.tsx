@@ -65,34 +65,65 @@ const Stats = () => {
     fetchData().then();
   }, []);
 
-
-
-
-    return (
-        <div style={{display: 'flex', justifyContent: 'flex-start'}}>
-            <div style={{marginRight: '1000px'}}>
-                <PieChart
-                    series={[
-                        {
-                            data: [
-                                {id: 0, value: pieData.securityRequest, label: 'Security', color: ''},
-                                {id: 1, value: pieData.transportRequest, label: 'Transport', color: ''},
-                                {id: 2, value: pieData.medicineRequest, label: 'Medicine', color: ''},
-                                {id: 3, value: pieData.languageRequest, label: 'Language', color: ''},
-                                {id: 4, value: pieData.schedulingRequest, label: 'Scheduling', color: ''},
-                                {id: 5, value: pieData.giftRequest, label: 'Gift'},
-                                {id: 6, value: pieData.sanitationRequest, label: 'Sanitation', color: ''},
-                                {id: 7, value: pieData.flowerRequest, label: 'Flower', color: ''},
-                            ],
-                        },
-                    ]}
-                    width={400}
-                    height={400}
-                />
-            </div>
-
-        </div>
-    );
+  return (
+    <div style={{ display: "flex", justifyContent: "flex-start" }}>
+      <div style={{ marginRight: "1000px" }}>
+        <PieChart
+          series={[
+            {
+              data: [
+                {
+                  id: 0,
+                  value: pieData.securityRequest,
+                  label: "Security",
+                  color: "",
+                },
+                {
+                  id: 1,
+                  value: pieData.transportRequest,
+                  label: "Transport",
+                  color: "",
+                },
+                {
+                  id: 2,
+                  value: pieData.medicineRequest,
+                  label: "Medicine",
+                  color: "",
+                },
+                {
+                  id: 3,
+                  value: pieData.languageRequest,
+                  label: "Language",
+                  color: "",
+                },
+                {
+                  id: 4,
+                  value: pieData.schedulingRequest,
+                  label: "Scheduling",
+                  color: "",
+                },
+                { id: 5, value: pieData.giftRequest, label: "Gift" },
+                {
+                  id: 6,
+                  value: pieData.sanitationRequest,
+                  label: "Sanitation",
+                  color: "",
+                },
+                {
+                  id: 7,
+                  value: pieData.flowerRequest,
+                  label: "Flower",
+                  color: "",
+                },
+              ],
+            },
+          ]}
+          width={400}
+          height={400}
+        />
+      </div>
+    </div>
+  );
 };
 
 export default Stats;
