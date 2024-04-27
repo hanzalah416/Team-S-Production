@@ -243,10 +243,22 @@ const StaticFloorMapDebug = () => {
     setSelectedNodeDetails(node);
   };
 
-  const handleMapClick = () => {
+  const handleMapClick = (event) => {
     if (!nodeMode) return;
-
-    }
+    const mouseX = event.clientX;
+    const mouseY = event.clientY;
+    console.log(mouseX);
+    console.log(mouseY);
+    const partialNode: Node = {
+      xcoord: mouseX,
+      ycoord: mouseY,
+      id: "",
+      longName: "",
+      floor: "",
+      building: "",
+      nodeType: "",
+      shortName: "",
+    };
     setQuickNodeDetails(partialNode);
   };
 
@@ -1058,7 +1070,7 @@ const StaticFloorMapDebug = () => {
       )}
 
       <div className={styles.mapContainer}
-           onClick={() => handleMapClick()}
+           onClick={() => handleMapClick(event)}
       >
         <FloorSwitcher />
         <Toggles />
