@@ -16,6 +16,7 @@ interface ProjectCardProps {
   description: string;
   imgUrl: string;
   label: string;
+  title: string;
   font: string;
   color: string;
   size: string;
@@ -34,6 +35,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   description,
   imgUrl,
   label,
+    title,
   font,
   color,
   size,
@@ -89,9 +91,10 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
         aria-labelledby="project-dialog-title"
         open={open}
       >
-        <DialogTitle sx={{ m: 0, p: 2 }} id="project-dialog-title">
-          {label}
+        <DialogTitle sx={{ m: 0, p: 2 }} id="project-dialog-title" >
+          {title}
         </DialogTitle>
+
         <IconButton
           aria-label="close"
           onClick={handleClose}
@@ -105,7 +108,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           <CloseIcon />
         </IconButton>
         <DialogContent dividers>
-          <Typography gutterBottom>{description}</Typography>
+          <Typography gutterBottom className = {styles.quote}>{description}</Typography>
         </DialogContent>
         <DialogActions>
           <Button autoFocus onClick={handleClose}>
