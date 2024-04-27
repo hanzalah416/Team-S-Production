@@ -30,6 +30,7 @@ import { AboutPage } from "./components/about_page/AboutPage.tsx";
 import MobileFlower from "./components/service_requests/flower_requests/MobileFlower.tsx";
 import MobileGift from "./components/service_requests/gift_request/MobileGift.tsx";
 import MobileMedicine from "./components/service_requests/medicine_delivery/MobileMedicine.tsx";
+import MobileSanitation from "./components/service_requests/sanitation_services/MobileSanitation.tsx";
 
 function App() {
   const isMobile = navigator.userAgent.match(
@@ -116,7 +117,8 @@ function App() {
           path: "/sanitation-request",
           element: (
             <>
-              <SanitationForm />
+              {isMobile && <MobileSanitation />}
+              {!isMobile && <SanitationForm />}
               <Layout />
             </>
           ),
