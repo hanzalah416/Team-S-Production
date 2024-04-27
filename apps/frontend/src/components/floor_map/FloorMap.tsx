@@ -37,6 +37,7 @@ import { TextToVoiceSelector } from "./TextToVoiceSelector.tsx";
 import { Position } from "../common/PositionInterface.ts";
 import { Node } from "../common/NodeInterface.ts";
 import SpeechToText from "./SpeechToText.tsx";
+import FloorSequenceDisplay from "./FloorSequenceDisplay.tsx";
 
 const tips = `
 Enter Starting Point:
@@ -738,98 +739,104 @@ function FloorMap() {
           </div>
         </div>
 
-        <div className={styles.mapArea}>
-          <div className={styles.MapButtons}>
-            <div className={styles.mMapbox}>
-              <FormControlLabel
-                control={
-                  <Switch
-                    checked={mapChecked}
-                    onChange={handleChange}
-                    sx={{
-                      fontSize: 9,
-                      "& .MuiSwitch-switchBase": {
-                        // Thumb color when unchecked
-                        "&.Mui-checked": {
-                          color: "#003b9c", // Thumb color when checked
-                        },
-                        "&.Mui-checked + .MuiSwitch-track": {
-                          backgroundColor: "#0251d4", // Track color when checked
-                        },
-                      },
-                    }}
-                  />
-                }
-                label="Level Select"
-              />
-            </div>
-            <div className={styles.mMapbox}>
-              <FormControlLabel
-                control={
-                  <Switch
-                    checked={showNodes}
-                    onChange={toggleNodesVisibility}
-                    name="showNodes"
-                    sx={{
-                      fontSize: 9,
-                      "& .MuiSwitch-switchBase": {
-                        // Thumb color when unchecked
-                        "&.Mui-checked": {
-                          color: "#003b9c", // Thumb color when checked
-                        },
-                        "&.Mui-checked + .MuiSwitch-track": {
-                          backgroundColor: "#0251d4", // Track color when checked
-                        },
-                      },
-                    }}
-                  />
-                }
-                label="Toggle Nodes"
-              />
-            </div>
-            <div className={styles.mMapbox}>
-              <FormControlLabel
-                control={
-                  <Switch
-                    checked={showMapKey}
-                    onChange={handleMapKeyVisibility}
-                    sx={{
-                      fontSize: 9,
-                      "& .MuiSwitch-switchBase": {
-                        // Thumb color when unchecked
-                        "&.Mui-checked": {
-                          color: "#003b9c", // Thumb color when checked
-                        },
-                        "&.Mui-checked + .MuiSwitch-track": {
-                          backgroundColor: "#0251d4", // Track color when checked
-                        },
-                      },
-                    }}
-                  />
-                }
-                label="Show Key"
-              />
-            </div>
-            <Select
-              value={algorithm}
-              onChange={handleAlgorithmChange}
-              displayEmpty
-              inputProps={{ "aria-label": "Select Pathfinding Algorithm" }}
-              sx={{
-                marginBottom: "10px",
-                fontFamily: "Poppins",
-                fontSize: 12,
-                colorSecondary: "red",
-              }}
-            >
-              <MenuItem value="astar">A* Search</MenuItem>
-              <MenuItem value="bfs">Breadth-First Search</MenuItem>
-              <MenuItem value="dfs" /*disabled style={{ color: 'gray' }}*/>
-                Depth-First Search
-              </MenuItem>
-              <MenuItem value="dijkstra">Dijkstra's Algorithm</MenuItem>
-            </Select>
-          </div>
+          <div className={styles.mapArea}>
+
+              <div className={styles.FloorSequence}>
+                  <FloorSequenceDisplay path={fullPath}/>
+              </div>
+
+              <div className={styles.MapButtons}>
+
+                  <div className={styles.mMapbox}>
+                      <FormControlLabel
+                          control={
+                              <Switch
+                                  checked={mapChecked}
+                                  onChange={handleChange}
+                                  sx={{
+                                      fontSize: 9,
+                                      "& .MuiSwitch-switchBase": {
+                                          // Thumb color when unchecked
+                                          "&.Mui-checked": {
+                                              color: "#003b9c", // Thumb color when checked
+                                          },
+                                          "&.Mui-checked + .MuiSwitch-track": {
+                                              backgroundColor: "#0251d4", // Track color when checked
+                                          },
+                                      },
+                                  }}
+                              />
+                          }
+                          label="Level Select"
+                      />
+                  </div>
+                  <div className={styles.mMapbox}>
+                      <FormControlLabel
+                          control={
+                              <Switch
+                                  checked={showNodes}
+                                  onChange={toggleNodesVisibility}
+                                  name="showNodes"
+                                  sx={{
+                                      fontSize: 9,
+                                      "& .MuiSwitch-switchBase": {
+                                          // Thumb color when unchecked
+                                          "&.Mui-checked": {
+                                              color: "#003b9c", // Thumb color when checked
+                                          },
+                                          "&.Mui-checked + .MuiSwitch-track": {
+                                              backgroundColor: "#0251d4", // Track color when checked
+                                          },
+                                      },
+                                  }}
+                              />
+                          }
+                          label="Toggle Nodes"
+                      />
+                  </div>
+                  <div className={styles.mMapbox}>
+                      <FormControlLabel
+                          control={
+                              <Switch
+                                  checked={showMapKey}
+                                  onChange={handleMapKeyVisibility}
+                                  sx={{
+                                      fontSize: 9,
+                                      "& .MuiSwitch-switchBase": {
+                                          // Thumb color when unchecked
+                                          "&.Mui-checked": {
+                                              color: "#003b9c", // Thumb color when checked
+                                          },
+                                          "&.Mui-checked + .MuiSwitch-track": {
+                                              backgroundColor: "#0251d4", // Track color when checked
+                                          },
+                                      },
+                                  }}
+                              />
+                          }
+                          label="Show Key"
+                      />
+                  </div>
+                  <Select
+                      value={algorithm}
+                      onChange={handleAlgorithmChange}
+                      displayEmpty
+                      inputProps={{"aria-label": "Select Pathfinding Algorithm"}}
+                      sx={{
+                          marginBottom: "10px",
+                          fontFamily: "Poppins",
+                          fontSize: 12,
+                          colorSecondary: "red",
+                      }}
+                  >
+                      <MenuItem value="astar">A* Search</MenuItem>
+                      <MenuItem value="bfs">Breadth-First Search</MenuItem>
+                      <MenuItem value="dfs" /*disabled style={{ color: 'gray' }}*/>
+                          Depth-First Search
+                      </MenuItem>
+                      <MenuItem value="dijkstra">Dijkstra's Algorithm</MenuItem>
+                  </Select>
+              </div>
 
           <TransformWrapper
             ref={transformRef} // Set the ref to access the instance
