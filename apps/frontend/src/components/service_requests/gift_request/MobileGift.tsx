@@ -1,58 +1,38 @@
-import BackgroundImg2 from "../../assets/blue-background2.jpg";
-import "../AllMobile.css";
-import {
-  Autocomplete,
-  Button,
-  FormLabel,
-  InputLabel,
-  MenuItem,
-  Select,
-  Stack,
-  TextField,
-} from "@mui/material";
-import { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { SelectChangeEvent } from "@mui/material";
-import axios from "axios";
-import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import TextField from "@mui/material/TextField";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
+import Autocomplete from "@mui/material/Autocomplete";
+import "./giftForm.css";
 import ToggleButton from "@mui/material/ToggleButton";
-
-interface Position {
-  label: string;
-  id: string;
-  top: string;
-  left: string;
-}
-
-//Interface for nodes
-interface Node {
-  xcoord: string;
-  ycoord: string;
-  id: string;
-  longName: string;
-}
+import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
+import FormLabel from "@mui/material/FormLabel";
+import Stack from "@mui/material/Stack";
+import Button from "@mui/material/Button";
+import axios from "axios";
+import BackgroundImg2 from "../../assets/blue-background2.jpg";
+import { Position } from "../../common/PositionInterface.ts";
+import { Node } from "../../common/NodeInterface.ts";
+import "../AllMobile.css";
 
 // Interface for Staff
 interface Staff {
   employeeName: string;
 }
 
-const MobileFlower: React.FC = () => {
+const MobileGift = () => {
   const [staffName, setStaffName] = useState<Staff | null>(null);
   const [priority, setPriority] = useState("");
   const [location, setLocation] = useState<Position | null>(null);
-  const [typeFlower, setTypeFlower] = useState("");
+  const [typeGift, setTypeGift] = useState("");
   const [customMessage, setCustomMessage] = useState("");
   const [status, setStatus] = useState("");
-
   const [locations, setLocations] = useState<Position[]>([]);
   const [staffNames, setStaffNames] = useState<Staff[]>([]);
-
-  const navigate = useNavigate();
-
-  const handleChangeName = (value: Staff | null) => {
-    setStaffName(value);
-  };
+  const navigate = useNavigate(); //Function to navigate to other pages
+  // const {getAccessTokenSilently} = useAuth0();
 
   const toggleScrolling = (disableScroll: boolean) => {
     if (disableScroll) {
@@ -62,15 +42,18 @@ const MobileFlower: React.FC = () => {
     }
   };
 
+  const handleChangeName = (value: Staff | null) => {
+    setStaffName(value);
+  };
+
+  const handleChangeLocation = (value: Position | null) => {
+    setLocation(value);
+  };
   const handlePriorityChange = (event: SelectChangeEvent) => {
     setPriority(event.target.value as string);
   };
   const handleStatusChange = (event: SelectChangeEvent) => {
     setStatus(event.target.value as string);
-  };
-
-  const handleChangeLocation = (value: Position | null) => {
-    setLocation(value);
   };
 
   useEffect(() => {
@@ -83,6 +66,7 @@ const MobileFlower: React.FC = () => {
           id: node.id,
           top: `${node.ycoord}px`,
           left: `${node.xcoord}px`,
+          floor: node.floor,
         }));
 
         setLocations(formattedLocations);
@@ -103,55 +87,41 @@ const MobileFlower: React.FC = () => {
       .catch((error) => console.error("Failed to fetch staff data:", error));
   }, []);
 
-  function clear() {
-    setStaffName(null);
-    setPriority("");
-    setLocation(null);
-    setTypeFlower("");
-    setCustomMessage("");
-    setStatus("");
-  }
-
   async function submit() {
-    if (
-      staffName == null ||
-      priority == "" ||
-      location == null ||
-      typeFlower == "" ||
-      customMessage == "" ||
-      status == ""
-    ) {
-      alert("Please fill out all information on the page");
-      return;
-    }
-
-    const orderFlowerSent = {
-      name: staffName.employeeName,
+    const newEntry = {
+      name: staffName?.employeeName,
       priority: priority,
-      location: location.label,
-      typeFlower: typeFlower,
+      location: location?.label,
+      typeGift: typeGift,
       customMessage: customMessage,
       status: status,
     };
-    console.log(orderFlowerSent);
-
+    // const token = await getAccessTokenSilently();
     await axios
-      .post("/api/flower-request", orderFlowerSent, {
+      .post("/api/gift-request", newEntry, {
         headers: {
           "Content-Type": "application/json",
         },
       })
       .then(() => {
-        console.log("Order sent successfully");
+        console.log("Gift request sent successfully");
         navigate("/payment-info");
       })
       .catch(() => {
-        console.log("Order failed to send");
-        console.log(orderFlowerSent);
-        alert("Order failed to send. Please try again later");
+        console.log("Gift request failed to send");
+        console.log(newEntry);
+        alert("Gift request failed to send. Please try again later.");
       });
-
     clear();
+  }
+
+  function clear() {
+    setStaffName(null);
+    setPriority("");
+    setLocation(null);
+    setTypeGift("");
+    setCustomMessage("");
+    setStatus("");
   }
 
   return (
@@ -172,12 +142,9 @@ const MobileFlower: React.FC = () => {
       }}
     >
       <div className={"mainBox"}>
-        <br />
-        <p className={"title"} style={{ position: "relative" }}>
-          Flower Request Form
-        </p>
-
-        <div className={"breakline"} />
+        <p className={"title"}>Gift Request Form </p>
+        <p className={"names"}>Dorothy Alexander</p>
+        <div className={"breakline"}></div>
 
         <Stack alignItems="center" justifyContent="center" spacing={3} p={4}>
           <Stack
@@ -200,7 +167,6 @@ const MobileFlower: React.FC = () => {
                 sx={{ minWidth: 250, color: "#3B54A0" }}
                 options={staffNames}
                 getOptionLabel={(option) => option.employeeName || "Unknown"}
-                //isOptionEqualToValue={(option, value) => option.id === value.id}
                 value={staffName}
                 renderInput={(params) => (
                   <TextField
@@ -238,10 +204,10 @@ const MobileFlower: React.FC = () => {
                 onChange={handlePriorityChange}
                 sx={{ minWidth: 250, color: "#3B54A0" }}
               >
-                <MenuItem value={"low"}>Low</MenuItem>
-                <MenuItem value={"medium"}>Medium</MenuItem>
-                <MenuItem value={"high"}>High</MenuItem>
-                <MenuItem value={"emergency"}>Emergency</MenuItem>
+                <MenuItem value={"Low"}>Low</MenuItem>
+                <MenuItem value={"Medium"}>Medium</MenuItem>
+                <MenuItem value={"High"}>High</MenuItem>
+                <MenuItem value={"Emergency"}>Emergency</MenuItem>
               </Select>
             </div>
           </Stack>
@@ -289,56 +255,53 @@ const MobileFlower: React.FC = () => {
               }}
               id="demo-simple-select-label"
             >
-              Flower Type
+              Gift Type
             </InputLabel>
             <ToggleButtonGroup
               color="primary"
+              value={typeGift} // Use the state value here
               orientation={"vertical"}
-              value={typeFlower} // Use the state value here
               exclusive
               onChange={(
                 _event: React.MouseEvent<HTMLElement>,
                 newValue: string | null,
               ) => {
                 if (newValue !== null) {
-                  setTypeFlower(newValue); // Update state on change
+                  setTypeGift(newValue); // Update state on change
                 }
               }}
-              aria-label="Sanitation Type Buttons"
-              sx={{ minWidth: 140 }}
+              aria-label="Gift Type Buttons"
+              sx={{ minWidth: 120 }}
             >
               <ToggleButton
                 style={{
                   color: "#10778c",
                   outlineColor: "#949DB5",
                   borderColor: "#949DB5",
-                  width: 200,
                 }}
-                value="Poppies"
+                value="Coloring Book"
               >
-                Poppies
+                Coloring Book
               </ToggleButton>
               <ToggleButton
                 style={{
                   color: "#10778c",
                   outlineColor: "#949DB5",
                   borderColor: "#949DB5",
-                  width: 200,
                 }}
-                value="Roses"
+                value="Chocolate Strawberries"
               >
-                Roses
+                Chocolate Strawberries
               </ToggleButton>
               <ToggleButton
                 style={{
                   color: "#10778c",
                   outlineColor: "#949DB5",
                   borderColor: "#949DB5",
-                  width: 200,
                 }}
-                value="Tulips"
+                value="Teddy Bear"
               >
-                Tulips
+                Teddy Bear
               </ToggleButton>
             </ToggleButtonGroup>
           </div>
@@ -349,21 +312,24 @@ const MobileFlower: React.FC = () => {
                 color: "#3B54A0",
                 fontStyle: "italic",
               }}
+              id="demo-controlled-radio-buttons-group"
             >
               Enter Custom Message
             </FormLabel>
-            <textarea
-              style={{
-                width: "65vw", // Set the width to make it larger
-                height: "10vh", // Set the height to make it taller
-                backgroundColor: "white", // Set the background color to white
-                border: "1px solid #ccc", // Add a border for better visibility
-                borderRadius: "5px", // Optional: Add rounded corners for aesthetics
-                padding: "5px", // Optional: Add padding for better spacing
-              }}
-              value={customMessage}
-              onChange={(e) => setCustomMessage(e.target.value)}
-            />
+            <form>
+              <textarea
+                style={{
+                  width: "65vw", // Set the width to make it larger
+                  height: "10vh", // Set the height to make it taller
+                  backgroundColor: "white", // Set the background color to white
+                  border: "1px solid #ccc", // Add a border for better visibility
+                  borderRadius: "5px", // Optional: Add rounded corners for aesthetics
+                  padding: "5px", // Optional: Add padding for better spacing
+                }}
+                value={customMessage}
+                onChange={(e) => setCustomMessage(e.target.value)}
+              />
+            </form>
           </div>
 
           <div>
@@ -390,8 +356,8 @@ const MobileFlower: React.FC = () => {
               <MenuItem value={"closed"}>Closed</MenuItem>
             </Select>
           </div>
-          <br />
 
+          <br />
           <Stack
             spacing={3}
             direction="column"
@@ -428,4 +394,4 @@ const MobileFlower: React.FC = () => {
   );
 };
 
-export default MobileFlower;
+export default MobileGift;

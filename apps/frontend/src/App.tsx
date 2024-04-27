@@ -28,6 +28,7 @@ import EmailForm from "./components/awsEmailConnection/EmailForm.tsx";
 import GiftForm from "./components/service_requests/gift_request/giftForm.tsx";
 import { AboutPage } from "./components/about_page/AboutPage.tsx";
 import MobileFlower from "./components/service_requests/flower_requests/MobileFlower.tsx";
+import MobileGift from "./components/service_requests/gift_request/MobileGift.tsx";
 
 function App() {
   const isMobile = navigator.userAgent.match(
@@ -186,7 +187,8 @@ function App() {
           path: "/gift-request",
           element: (
             <>
-              <GiftForm />
+              {isMobile && <MobileGift />}
+              {!isMobile && <GiftForm />}
               <Layout />
             </>
           ),
