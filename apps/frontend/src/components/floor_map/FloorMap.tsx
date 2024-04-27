@@ -53,6 +53,11 @@ Click on the dropdown menu under “Enter Destination”.
 
 Choose the building or specific area you want to go to from the list.
 
+Mic: 
+You can use the mic to enter your destinations with your voice. It will fill in start and end accordingly and you can even say 
+"nearest or closest [Some type that can be found in the key]" and as long as there is a valid starting point it will direct you 
+there. You have to press the mic button each time you want to fill in your starting or ending destination
+
 
 Directions:
 
@@ -599,11 +604,15 @@ function FloorMap() {
       <div className={styles.container}>
         <div className={styles.signInForm}>
           <Tooltip className={styles.tips} tips={tips} />
+          {"SpeechRecognition" in window ||
+            ("webkitSpeechRecognition" in window && (
+              <SpeechToText
+                handleSelection={handleSelection}
+                startPosition={startPosition}
+                getPositionById={getPositionById}
+              />
+            ))}
           <div className={styles.boldtag}>Enter Starting Point</div>
-          <SpeechToText
-            handleSelection={handleSelection}
-            startPosition={startPosition}
-          />
           <Autocomplete
             key={`start-position-${resetKey}`}
             options={sortedLocations}

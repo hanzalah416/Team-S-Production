@@ -392,3 +392,9 @@ body {
   height: 30px;
   padding: -1px;
 }
+
+.micButton {
+  margin-top: 20px;
+  margin-bottom: -25px;
+  background-color: #163a95;
+}

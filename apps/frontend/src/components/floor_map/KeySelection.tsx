@@ -14,9 +14,9 @@ import ValetIcon from "../assets/MapKeyIcons/ValetIcon.png";
 import VendingIcon from "../assets/MapKeyIcons/VendingIcon.png";
 import WaitingIcon from "../assets/MapKeyIcons/WaitingIcon.png";
 import styles from "./FloorMap.module.css";
-import axios from "axios";
 import { useCallback } from "react";
 import { Position } from "../common/PositionInterface.ts";
+import { GetClosestNode } from "../HelperFunctions/GetClosestNode.ts";
 
 interface floorMapFunctions {
   handleSelection: (value: Position | null, type: "start" | "end") => void;
@@ -66,138 +66,11 @@ const KeySelection: React.FC<floorMapFunctions> = ({
     [startNode, algo, getPositionById, handleSelection],
   );
 
-  async function getClosestNode(type: string) {
-    let idArray: string[] = [];
-
-    switch (type) {
-      case "atm":
-        idArray = ["FSERV00101", "FSERV00101"];
-        break;
-      case "busstop":
-        idArray = [
-          "DEXIT00102",
-          "FEXIT00301",
-          "GEXIT001L1",
-          "AEXIT001L2",
-          "FEXIT00101",
-          "FEXIT00201",
-          "FEXIT00301",
-          "GEXIT00101",
-        ];
-        break;
-      case "cafe":
-        idArray = [
-          "ARETL00101",
-          "ASTAI00101",
-          "HRETL00102",
-          "DRETL00102",
-          "BHALL02602",
-          "FRETL00201",
-        ];
-        break;
-      case "elevator":
-        idArray = await getElevatorIds();
-        break;
-      case "emergency":
-        idArray = ["FDEPT00501"];
-        break;
-      case "entrance":
-        idArray = [
-          "DEXIT00102",
-          "FEXIT00301",
-          "GEXIT001L1",
-          "AEXIT001L2",
-          "FEXIT00101",
-          "FEXIT00201",
-          "FEXIT00301",
-          "GEXIT00101",
-        ];
-        break;
-      case "escalator":
-        idArray = [
-          "FSTAI00301",
-          "HSTAI00302",
-          "GSTAI01301",
-          "GSTAI00501",
-          "GSTAI008L1",
-          "GSTAI02802",
-          "GSTAI02602",
-          "GSTAI00903",
-        ];
-        break;
-      case "handicapped":
-        idArray = [
-          "FEXIT00301",
-          "FEXIT00101",
-          "FEXIT00201",
-          "FEXIT00301",
-          "GEXIT00101",
-        ];
-        break;
-      case "parking":
-        idArray = ["AEXIT001L2"];
-        break;
-      case "restroom":
-        idArray = [
-          "AREST00101",
-          "AREST00103",
-          "BREST00102",
-          "BREST00202",
-          "BREST00302",
-          "BREST00402",
-          "BREST00502",
-          "CREST001L1",
-          "CREST001L2",
-          "CREST002L1",
-          "CREST002L2",
-          "CREST003L1",
-          "CREST004L1",
-          "DREST00102",
-          "DREST00202",
-          "DREST00302",
-          "DREST00402",
-          "EREST00101",
-          "EREST00201",
-          "EREST00301",
-          "GREST01201",
-          "GREST00602",
-          "GREST03102",
-          "GREST01203",
-          "GREST004L2",
-          "IREST00103",
-          "IREST00203",
-          "IREST00303",
-          "IREST00403",
-          "IREST00503",
-          "FREST00101",
-          "HBATH00102",
-          "HBATH00103",
-          "HBATH00203",
-        ];
-        break;
-      case "valet":
-        idArray = ["BINFO00202", "FEXIT00201", "FSERV00501"];
-        break;
-      case "vending":
-        idArray = ["CRETL001L1", "FRETL00101", "HRETL00202"];
-        break;
-      case "waitingroom":
-        idArray = [
-          "ADEPT00101",
-          "ADEPT00201",
-          "ADEPT00301",
-          "CDEPT002L1",
-          "CDEPT003L1",
-          "DDEPT00402",
-          "EDEPT00101",
-          "GDEPT00702",
-          "HDEPT00103",
-          "HDEPT00203",
-        ];
-        break;
-    }
-    // This still updates the state for other potential uses.
-    fetchData(idArray);
+  //Function to handle clicks
+  function HandleClick(type: string) {
+    GetClosestNode(type).then((returnedList) => {
+      fetchData(returnedList);
+    });
   }
 
   return (
@@ -205,14 +78,14 @@ const KeySelection: React.FC<floorMapFunctions> = ({
       <button
         type="button"
         className={styles.keyButton}
-        onClick={() => getClosestNode("atm")}
+        onClick={() => HandleClick("atm")}
       >
         <img src={ATMIcon} alt="ATM icon" className={styles.MapKeyIcon} />
       </button>
       <button
         type="button"
         className={styles.keyButtonText}
-        onClick={() => getClosestNode("atm")}
+        onClick={() => HandleClick("atm")}
       >
         <div className={styles.MapKeyItem}>ATM</div>
       </button>
@@ -220,7 +93,7 @@ const KeySelection: React.FC<floorMapFunctions> = ({
       <button
         type="button"
         className={styles.keyButton}
-        onClick={() => getClosestNode("busstop")}
+        onClick={() => HandleClick("busstop")}
       >
         <img
           src={BusStopIcon}
@@ -231,7 +104,7 @@ const KeySelection: React.FC<floorMapFunctions> = ({
       <button
         type="button"
         className={styles.keyButtonText}
-        onClick={() => getClosestNode("busstop")}
+        onClick={() => HandleClick("busstop")}
       >
         <div className={styles.MapKeyItem}>Bus Stop</div>
       </button>
@@ -239,14 +112,14 @@ const KeySelection: React.FC<floorMapFunctions> = ({
       <button
         type="button"
         className={styles.keyButton}
-        onClick={() => getClosestNode("cafe")}
+        onClick={() => HandleClick("cafe")}
       >
         <img src={CafeIcon} alt="Cafe icon" className={styles.MapKeyIcon} />
       </button>
       <button
         type="button"
         className={styles.keyButtonText}
-        onClick={() => getClosestNode("cafe")}
+        onClick={() => HandleClick("cafe")}
       >
         <div className={styles.MapKeyItem}>Cafe</div>
       </button>
@@ -254,14 +127,14 @@ const KeySelection: React.FC<floorMapFunctions> = ({
       <button
         type="button"
         className={styles.keyButton}
-        onClick={() => getClosestNode("cafe")}
+        onClick={() => HandleClick("cafe")}
       >
         <img src={DiningIcon} alt="Dining icon" className={styles.MapKeyIcon} />
       </button>
       <button
         type="button"
         className={styles.keyButtonText}
-        onClick={() => getClosestNode("cafe")}
+        onClick={() => HandleClick("cafe")}
       >
         <div className={styles.MapKeyItem}>Food Service</div>
       </button>
@@ -269,7 +142,7 @@ const KeySelection: React.FC<floorMapFunctions> = ({
       <button
         type="button"
         className={styles.keyButton}
-        onClick={() => getClosestNode("elevator")}
+        onClick={() => HandleClick("elevator")}
       >
         <img
           src={ElevatorIcon}
@@ -280,7 +153,7 @@ const KeySelection: React.FC<floorMapFunctions> = ({
       <button
         type="button"
         className={styles.keyButtonText}
-        onClick={() => getClosestNode("elevator")}
+        onClick={() => HandleClick("elevator")}
       >
         <div className={styles.MapKeyItem}>Elevator</div>
       </button>
@@ -288,7 +161,7 @@ const KeySelection: React.FC<floorMapFunctions> = ({
       <button
         type="button"
         className={styles.keyButton}
-        onClick={() => getClosestNode("emergency")}
+        onClick={() => HandleClick("emergency")}
       >
         <img
           src={EmergencyIcon}
@@ -299,7 +172,7 @@ const KeySelection: React.FC<floorMapFunctions> = ({
       <button
         type="button"
         className={styles.keyButtonText}
-        onClick={() => getClosestNode("emergency")}
+        onClick={() => HandleClick("emergency")}
       >
         <div className={styles.MapKeyItem}>Emergency</div>
       </button>
@@ -307,7 +180,7 @@ const KeySelection: React.FC<floorMapFunctions> = ({
       <button
         type="button"
         className={styles.keyButton}
-        onClick={() => getClosestNode("entrance")}
+        onClick={() => HandleClick("entrance")}
       >
         <img
           src={EntranceIcon}
@@ -318,7 +191,7 @@ const KeySelection: React.FC<floorMapFunctions> = ({
       <button
         type="button"
         className={styles.keyButtonText}
-        onClick={() => getClosestNode("entrance")}
+        onClick={() => HandleClick("entrance")}
       >
         <div className={styles.MapKeyItem}>Entrance</div>
       </button>
@@ -326,7 +199,7 @@ const KeySelection: React.FC<floorMapFunctions> = ({
       <button
         type="button"
         className={styles.keyButton}
-        onClick={() => getClosestNode("escalator")}
+        onClick={() => HandleClick("escalator")}
       >
         <img
           src={EscalatorIcon}
@@ -337,7 +210,7 @@ const KeySelection: React.FC<floorMapFunctions> = ({
       <button
         type="button"
         className={styles.keyButtonText}
-        onClick={() => getClosestNode("escalator")}
+        onClick={() => HandleClick("escalator")}
       >
         <div className={styles.MapKeyItem}>Escalator</div>
       </button>
@@ -345,7 +218,7 @@ const KeySelection: React.FC<floorMapFunctions> = ({
       <button
         type="button"
         className={styles.keyButton}
-        onClick={() => getClosestNode("handicapped")}
+        onClick={() => HandleClick("handicapped")}
       >
         <img
           src={HandicapIcon}
@@ -356,7 +229,7 @@ const KeySelection: React.FC<floorMapFunctions> = ({
       <button
         type="button"
         className={styles.keyButtonText}
-        onClick={() => getClosestNode("handicapped")}
+        onClick={() => HandleClick("handicapped")}
       >
         <div className={styles.MapKeyItem}>Handicapped Entrance</div>
       </button>
@@ -364,7 +237,7 @@ const KeySelection: React.FC<floorMapFunctions> = ({
       <button
         type="button"
         className={styles.keyButton}
-        onClick={() => getClosestNode("parking")}
+        onClick={() => HandleClick("parking")}
       >
         <img
           src={ParkingIcon}
@@ -375,7 +248,7 @@ const KeySelection: React.FC<floorMapFunctions> = ({
       <button
         type="button"
         className={styles.keyButtonText}
-        onClick={() => getClosestNode("parking")}
+        onClick={() => HandleClick("parking")}
       >
         <div className={styles.MapKeyItem}>Parking</div>
       </button>
@@ -383,7 +256,7 @@ const KeySelection: React.FC<floorMapFunctions> = ({
       <button
         type="button"
         className={styles.keyButton}
-        onClick={() => getClosestNode("restroom")}
+        onClick={() => HandleClick("restroom")}
       >
         <img
           src={RestroomIcon}
@@ -394,7 +267,7 @@ const KeySelection: React.FC<floorMapFunctions> = ({
       <button
         type="button"
         className={styles.keyButtonText}
-        onClick={() => getClosestNode("restroom")}
+        onClick={() => HandleClick("restroom")}
       >
         <div className={styles.MapKeyItem}>Restroom</div>
       </button>
@@ -402,14 +275,14 @@ const KeySelection: React.FC<floorMapFunctions> = ({
       <button
         type="button"
         className={styles.keyButton}
-        onClick={() => getClosestNode("valet")}
+        onClick={() => HandleClick("valet")}
       >
         <img src={ValetIcon} alt="Valet icon" className={styles.MapKeyIcon} />
       </button>
       <button
         type="button"
         className={styles.keyButtonText}
-        onClick={() => getClosestNode("valet")}
+        onClick={() => HandleClick("valet")}
       >
         <div className={styles.MapKeyItem}>Valet</div>
       </button>
@@ -417,7 +290,7 @@ const KeySelection: React.FC<floorMapFunctions> = ({
       <button
         type="button"
         className={styles.keyButton}
-        onClick={() => getClosestNode("vending")}
+        onClick={() => HandleClick("vending")}
       >
         <img
           src={VendingIcon}
@@ -428,7 +301,7 @@ const KeySelection: React.FC<floorMapFunctions> = ({
       <button
         type="button"
         className={styles.keyButtonText}
-        onClick={() => getClosestNode("vending")}
+        onClick={() => HandleClick("vending")}
       >
         <div className={styles.MapKeyItem}>Vending</div>
       </button>
@@ -436,7 +309,7 @@ const KeySelection: React.FC<floorMapFunctions> = ({
       <button
         type="button"
         className={styles.keyButton}
-        onClick={() => getClosestNode("waitingroom")}
+        onClick={() => HandleClick("waitingroom")}
       >
         <img
           src={WaitingIcon}
@@ -447,30 +320,12 @@ const KeySelection: React.FC<floorMapFunctions> = ({
       <button
         type="button"
         className={styles.keyButtonText}
-        onClick={() => getClosestNode("waitingroom")}
+        onClick={() => HandleClick("waitingroom")}
       >
         <div className={styles.MapKeyItem}>Waiting Room</div>
       </button>
     </div>
   );
 };
-
-interface NodeId {
-  nodeID: string;
-}
-
-async function getElevatorIds() {
-  try {
-    const response = await axios.get<NodeId[]>("/api/elevatorNodes");
-    const elevIds = response.data.map((elevator) => elevator.nodeID.toString());
-
-    console.log(elevIds);
-
-    return elevIds; // Return if needed
-  } catch (error) {
-    console.error("Error fetching elevator id's data:", error);
-    throw error; // Throw error for handling elsewhere
-  }
-}
 
 export default KeySelection;
