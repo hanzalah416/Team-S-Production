@@ -29,6 +29,7 @@ import GiftForm from "./components/service_requests/gift_request/giftForm.tsx";
 import { AboutPage } from "./components/about_page/AboutPage.tsx";
 import MobileFlower from "./components/service_requests/flower_requests/MobileFlower.tsx";
 import MobileGift from "./components/service_requests/gift_request/MobileGift.tsx";
+import MobileMedicine from "./components/service_requests/medicine_delivery/MobileMedicine.tsx";
 
 function App() {
   const isMobile = navigator.userAgent.match(
@@ -124,7 +125,8 @@ function App() {
           path: "/medicine-delivery-request",
           element: (
             <>
-              <MedicineDeliveryForm />
+              {isMobile && <MobileMedicine />}
+              {!isMobile && <MedicineDeliveryForm />}
               <Layout />
             </>
           ),

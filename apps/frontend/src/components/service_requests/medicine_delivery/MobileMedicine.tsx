@@ -1,38 +1,38 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import TextField from "@mui/material/TextField";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import Autocomplete from "@mui/material/Autocomplete";
-import "./giftForm.css";
-import ToggleButton from "@mui/material/ToggleButton";
-import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
 import FormLabel from "@mui/material/FormLabel";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
+import FreeSoloCreateOptionDialog from "./TextBoxMD.tsx";
 import axios from "axios";
-import BackgroundImg2 from "../../assets/blue-background2.jpg";
+import { useNavigate } from "react-router-dom";
 import { Position } from "../../common/PositionInterface.ts";
 import { Node } from "../../common/NodeInterface.ts";
+import BackgroundImg2 from "../../assets/blue-background2.jpg";
 import "../AllMobile.css";
 
-// Interface for Staff
 interface Staff {
   employeeName: string;
 }
 
-const MobileGift = () => {
+const MobileMedicine: React.FC = () => {
   const [staffName, setStaffName] = useState<Staff | null>(null);
   const [priority, setPriority] = useState("");
   const [location, setLocation] = useState<Position | null>(null);
-  const [typeGift, setTypeGift] = useState("");
-  const [customMessage, setCustomMessage] = useState("");
+  const [nameMedicine, setNameMedicine] = useState("");
+  const [typeMedicine, setTypeMedicine] = useState("");
   const [status, setStatus] = useState("");
   const [locations, setLocations] = useState<Position[]>([]);
   const [staffNames, setStaffNames] = useState<Staff[]>([]);
+
   const navigate = useNavigate(); //Function to navigate to other pages
-  // const {getAccessTokenSilently} = useAuth0();
 
   const toggleScrolling = (disableScroll: boolean) => {
     if (disableScroll) {
@@ -46,14 +46,15 @@ const MobileGift = () => {
     setStaffName(value);
   };
 
-  const handleChangeLocation = (value: Position | null) => {
-    setLocation(value);
-  };
   const handlePriorityChange = (event: SelectChangeEvent) => {
     setPriority(event.target.value as string);
   };
   const handleStatusChange = (event: SelectChangeEvent) => {
     setStatus(event.target.value as string);
+  };
+
+  const handleChangeLocation = (value: Position | null) => {
+    setLocation(value);
   };
 
   useEffect(() => {
@@ -92,25 +93,25 @@ const MobileGift = () => {
       name: staffName?.employeeName,
       priority: priority,
       location: location?.label,
-      typeGift: typeGift,
-      customMessage: customMessage,
+      typeMedicine: typeMedicine,
+      nameMedicine: nameMedicine,
       status: status,
     };
-    // const token = await getAccessTokenSilently();
+
     await axios
-      .post("/api/gift-request", newEntry, {
+      .post("/api/medicine-request", newEntry, {
         headers: {
           "Content-Type": "application/json",
         },
       })
       .then(() => {
-        console.log("Gift request sent successfully");
-        navigate("/payment-info");
+        console.log("Sanitation request sent successfully");
+        navigate("/order-flowers-result");
       })
       .catch(() => {
-        console.log("Gift request failed to send");
+        console.log("Sanitation request  failed to send");
         console.log(newEntry);
-        alert("Gift request failed to send. Please try again later.");
+        alert("Sanitation request failed to send. Please try again later");
       });
     clear();
   }
@@ -119,8 +120,8 @@ const MobileGift = () => {
     setStaffName(null);
     setPriority("");
     setLocation(null);
-    setTypeGift("");
-    setCustomMessage("");
+    setTypeMedicine("");
+    setNameMedicine("");
     setStatus("");
   }
 
@@ -142,11 +143,12 @@ const MobileGift = () => {
       }}
     >
       <div className={"mainBox"}>
-        <p className={"title-mobile"}>Gift Request Form </p>
-        <p className={"names-mobile"}>Dorothy Alexander</p>
-        <div className={"breakline"}></div>
-
-        <Stack alignItems="center" justifyContent="center" spacing={3} p={4}>
+        <p className={"title-mobile"} style={{ position: "relative" }}>
+          Medicine Delivery Request Form
+        </p>
+        <p className={"names-mobile"}>Kim Cummings & Riley Yu</p>
+        <Stack alignItems="center" justifyContent="center" spacing={3}>
+          <div className={"breakline"}></div>
           <Stack
             spacing={2}
             direction="column"
@@ -159,7 +161,7 @@ const MobileGift = () => {
                   color: "#3B54A0",
                   fontStyle: "italic",
                 }}
-                id="demo-simple-select-label"
+                id="staffName-dropdown"
               >
                 Name of Requester
               </InputLabel>
@@ -167,6 +169,7 @@ const MobileGift = () => {
                 sx={{ minWidth: 250, color: "#3B54A0" }}
                 options={staffNames}
                 getOptionLabel={(option) => option.employeeName || "Unknown"}
+                //isOptionEqualToValue={(option, value) => option.id === value.id}
                 value={staffName}
                 renderInput={(params) => (
                   <TextField
@@ -190,7 +193,6 @@ const MobileGift = () => {
               <InputLabel
                 style={{
                   color: "#3B54A0",
-                  fontStyle: "italic",
                 }}
                 id="priority-dropdown"
               >
@@ -248,62 +250,42 @@ const MobileGift = () => {
           </div>
 
           <div>
-            <InputLabel
+            <FormLabel
               style={{
                 color: "#3B54A0",
                 fontStyle: "italic",
               }}
-              id="demo-simple-select-label"
+              id="demo-controlled-radio-buttons-group"
             >
-              Gift Type
-            </InputLabel>
-            <ToggleButtonGroup
-              color="primary"
-              value={typeGift} // Use the state value here
-              orientation={"vertical"}
-              exclusive
-              onChange={(
-                _event: React.MouseEvent<HTMLElement>,
-                newValue: string | null,
-              ) => {
-                if (newValue !== null) {
-                  setTypeGift(newValue); // Update state on change
-                }
+              Type of Medicine
+            </FormLabel>
+            <RadioGroup
+              aria-labelledby="demo-controlled-radio-buttons-group"
+              name="controlled-radio-buttons-group"
+              value={typeMedicine}
+              onChange={(e) => {
+                setTypeMedicine(e.target.value);
               }}
-              aria-label="Gift Type Buttons"
-              sx={{ minWidth: 120 }}
             >
-              <ToggleButton
+              <FormControlLabel
                 style={{
-                  color: "#10778c",
-                  outlineColor: "#949DB5",
-                  borderColor: "#949DB5",
+                  color: "#3D4A6B",
+                  font: "Jaldi",
                 }}
-                value="Coloring Book"
-              >
-                Coloring Book
-              </ToggleButton>
-              <ToggleButton
+                value="Over the Counter"
+                control={<Radio />}
+                label="Over the Counter"
+              />
+              <FormControlLabel
                 style={{
-                  color: "#10778c",
-                  outlineColor: "#949DB5",
-                  borderColor: "#949DB5",
+                  color: "#3D4A6B",
+                  font: "Jaldi",
                 }}
-                value="Chocolate Strawberries"
-              >
-                Chocolate Strawberries
-              </ToggleButton>
-              <ToggleButton
-                style={{
-                  color: "#10778c",
-                  outlineColor: "#949DB5",
-                  borderColor: "#949DB5",
-                }}
-                value="Teddy Bear"
-              >
-                Teddy Bear
-              </ToggleButton>
-            </ToggleButtonGroup>
+                value="Prescription"
+                control={<Radio />}
+                label="Prescription"
+              />
+            </RadioGroup>
           </div>
 
           <div>
@@ -314,22 +296,13 @@ const MobileGift = () => {
               }}
               id="demo-controlled-radio-buttons-group"
             >
-              Enter Custom Message
+              Medicine Name
             </FormLabel>
-            <form>
-              <textarea
-                style={{
-                  width: "65vw", // Set the width to make it larger
-                  height: "10vh", // Set the height to make it taller
-                  backgroundColor: "white", // Set the background color to white
-                  border: "1px solid #ccc", // Add a border for better visibility
-                  borderRadius: "5px", // Optional: Add rounded corners for aesthetics
-                  padding: "5px", // Optional: Add padding for better spacing
-                }}
-                value={customMessage}
-                onChange={(e) => setCustomMessage(e.target.value)}
-              />
-            </form>
+            <FreeSoloCreateOptionDialog
+              nameMedicine={nameMedicine}
+              setNameMedicine={setNameMedicine}
+              boxWidth={250}
+            />
           </div>
 
           <div>
@@ -356,8 +329,6 @@ const MobileGift = () => {
               <MenuItem value={"closed"}>Closed</MenuItem>
             </Select>
           </div>
-
-          <br />
           <Stack
             spacing={3}
             direction="column"
@@ -394,4 +365,4 @@ const MobileGift = () => {
   );
 };
 
-export default MobileGift;
+export default MobileMedicine;

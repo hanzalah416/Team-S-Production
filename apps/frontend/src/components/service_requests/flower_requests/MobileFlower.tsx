@@ -173,7 +173,7 @@ const MobileFlower: React.FC = () => {
     >
       <div className={"mainBox"}>
         <br />
-        <p className={"title"} style={{ position: "relative" }}>
+        <p className={"title-mobile"} style={{ position: "relative" }}>
           Flower Request Form
         </p>
 

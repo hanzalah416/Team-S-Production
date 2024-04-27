@@ -17,3 +17,18 @@
   height: 2px;
   background-color: #10778c;
 }
+
+.names-mobile {
+  font-family: Poppins, sans-serif;
+  font-size: 15px;
+  color: navy;
+  font-style: italic;
+}
+
+.title-mobile {
+  font-family: Verdana, sans-serif;
+  color: navy;
+  text-align: center;
+  font-size: 25px;
+  font-style: normal;
+}

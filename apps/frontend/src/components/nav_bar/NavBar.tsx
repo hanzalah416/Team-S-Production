@@ -210,6 +210,10 @@ function NavBar() {
         setServIcon(flowerIcon);
         setServicesID();
         break;
+      case "/gift-request":
+        setServIcon(giftIcon);
+        setServicesID();
+        break;
       case "/medicine-delivery-request":
         setServIcon(medicineIcon);
         setServicesID();
