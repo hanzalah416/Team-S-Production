@@ -36,6 +36,8 @@ import { TextToVoiceSelector } from "./TextToVoiceSelector.tsx";
 
 import { Position } from "../common/PositionInterface.ts";
 import { Node } from "../common/NodeInterface.ts";
+import SpeechToText from "./SpeechToText.tsx";
+import FloorSequenceDisplay from "./FloorSequenceDisplay.tsx";
 
 const tips = `
 Enter Starting Point:
@@ -50,6 +52,11 @@ Enter Destination:
 Click on the dropdown menu under “Enter Destination”.
 
 Choose the building or specific area you want to go to from the list.
+
+Mic: 
+You can use the mic to enter your destinations with your voice. It will fill in start and end accordingly and you can even say 
+"nearest or closest [Some type that can be found in the key]" and as long as there is a valid starting point it will direct you 
+there. You have to press the mic button each time you want to fill in your starting or ending destination
 
 
 Directions:
@@ -597,6 +604,14 @@ function FloorMap() {
       <div className={styles.container}>
         <div className={styles.signInForm}>
           <Tooltip className={styles.tips} tips={tips} />
+          {"SpeechRecognition" in window ||
+            ("webkitSpeechRecognition" in window && (
+              <SpeechToText
+                handleSelection={handleSelection}
+                startPosition={startPosition}
+                getPositionById={getPositionById}
+              />
+            ))}
           <div className={styles.boldtag}>Enter Starting Point</div>
           <Autocomplete
             key={`start-position-${resetKey}`}
@@ -725,6 +740,10 @@ function FloorMap() {
         </div>
 
         <div className={styles.mapArea}>
+          <div className={styles.FloorSequence}>
+            <FloorSequenceDisplay path={fullPath} />
+          </div>
+
           <div className={styles.MapButtons}>
             <div className={styles.mMapbox}>
               <FormControlLabel

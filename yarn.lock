@@ -1101,7 +1101,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/runtime@npm:^7.2.0":
+"@babel/runtime@npm:^7.2.0, @babel/runtime@npm:^7.24.0":
   version: 7.24.4
   resolution: "@babel/runtime@npm:7.24.4"
   dependencies:
@@ -1955,7 +1955,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mui/system@npm:^5.15.15":
+"@mui/system@npm:^5.15.14, @mui/system@npm:^5.15.15":
   version: 5.15.15
   resolution: "@mui/system@npm:5.15.15"
   dependencies:
@@ -2010,6 +2010,42 @@ __metadata:
     "@types/react":
       optional: true
   checksum: b3cbe2d0aa7ec65969752dababc39fc6e0b8bb1a9cf8b9bac42ca40e3dd3eaa59b79765bd259019318acc7421d64b9f421bc67e776a581d7c9da6a1c0c50bfbc
+  languageName: node
+  linkType: hard
+
+"@mui/x-data-grid@npm:^7.3.0":
+  version: 7.3.0
+  resolution: "@mui/x-data-grid@npm:7.3.0"
+  dependencies:
+    "@babel/runtime": "npm:^7.24.0"
+    "@mui/system": "npm:^5.15.14"
+    "@mui/utils": "npm:^5.15.14"
+    clsx: "npm:^2.1.0"
+    prop-types: "npm:^15.8.1"
+    reselect: "npm:^4.1.8"
+  peerDependencies:
+    "@mui/material": ^5.15.14
+    react: ^17.0.0 || ^18.0.0
+    react-dom: ^17.0.0 || ^18.0.0
+  checksum: 4f74145688a443add28ba181b76a9877f4339e6b18ecb71b0dde62f8d2cfd1284fe348f92081fda91e301cba9a370b3efe2c175cbdf0c863d8411ca644dce865
+  languageName: node
+  linkType: hard
+
+"@mui/x-data-grid@npm:^7.3.1":
+  version: 7.3.1
+  resolution: "@mui/x-data-grid@npm:7.3.1"
+  dependencies:
+    "@babel/runtime": "npm:^7.24.0"
+    "@mui/system": "npm:^5.15.14"
+    "@mui/utils": "npm:^5.15.14"
+    clsx: "npm:^2.1.0"
+    prop-types: "npm:^15.8.1"
+    reselect: "npm:^4.1.8"
+  peerDependencies:
+    "@mui/material": ^5.15.14
+    react: ^17.0.0 || ^18.0.0
+    react-dom: ^17.0.0 || ^18.0.0
+  checksum: 8f375a536eb357794d280ba9ba28d0ed10930d047d7cf6a9e0edde7ac29b152f7b3c683843fd015ae0e9ddc8b393505b03565a164532c42a000d9a59c3cd83fb
   languageName: node
   linkType: hard
 
@@ -3024,6 +3060,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/dom-speech-recognition@npm:^0.0.4":
+  version: 0.0.4
+  resolution: "@types/dom-speech-recognition@npm:0.0.4"
+  checksum: d19266dc3a58610c517885eef46e54011ee6e59aa9a9fc703fc094731b0c34dd7c547d76cc0a48a1eb43a289b5bf787f6275c30a04a98e13942d3c2629f67ca3
+  languageName: node
+  linkType: hard
+
 "@types/emscripten@npm:^1.39.6":
   version: 1.39.10
   resolution: "@types/emscripten@npm:1.39.10"
@@ -3338,6 +3381,13 @@ __metadata:
     "@types/mime": "npm:*"
     "@types/node": "npm:*"
   checksum: 49aa21c367fffe4588fc8c57ea48af0ea7cbadde7418bc53cde85d8bd57fd2a09a293970d9ea86e79f17a87f8adeb3e20da76aab38e1c4d1567931fa15c8af38
+  languageName: node
+  linkType: hard
+
+"@types/string-similarity@npm:^4":
+  version: 4.0.2
+  resolution: "@types/string-similarity@npm:4.0.2"
+  checksum: f23b4d176de52ba46b47b85c8895b2dc6e09dedf89efcc231cd03736daf0412fdf080bd7ba515a118a8ac0edff499963c3b5cad9dddbff91237f6f6b171c954c
   languageName: node
   linkType: hard
 
@@ -5968,9 +6018,11 @@ __metadata:
     "@mui/lab": "npm:^5.0.0-alpha.170"
     "@mui/material": "npm:^5.15.15"
     "@mui/utils": "npm:^5.15.14"
+    "@mui/x-data-grid": "npm:^7.3.1"
     "@popperjs/core": "npm:^2.11.8"
     "@tanstack/react-table": "npm:^8.9.3"
     "@types/bootstrap": "npm:^5.2.6"
+    "@types/dom-speech-recognition": "npm:^0.0.4"
     "@types/node": "npm:^20.2.5"
     "@types/papaparse": "npm:^5.3.14"
     "@types/prop-types": "npm:^15.7.5"
@@ -5980,6 +6032,7 @@ __metadata:
     "@types/react-router-bootstrap": "npm:^0.26.0"
     "@types/react-router-dom": "npm:^5.3.3"
     "@types/react-swipeable-views": "npm:^0"
+    "@types/string-similarity": "npm:^4"
     "@vitejs/plugin-react-swc": "npm:^3.0.0"
     autoprefixer: "npm:^10.4.18"
     axios: "npm:^1.4.0"
@@ -6011,12 +6064,17 @@ __metadata:
     sass: "npm:^1.62.1"
     serve: "npm:^14.2.0"
     sort-by: "npm:^1.2.0"
+    string-similarity: "npm:^4.0.4"
     tailwindcss: "npm:^3.4.1"
     tsconfig-custom: "workspace:*"
     typescript: "npm:^5.0.2"
     vite: "npm:^4.3.9"
     vite-plugin-eslint: "npm:^1.8.1"
     vitest: "npm:^0.34.1"
+  peerDependencies:
+    "@mui/material": ^5.15.14
+    react: ^17.0.0 || ^18.0.0
+    react-dom: ^17.0.0 || ^18.0.0
   languageName: unknown
   linkType: soft
 
@@ -8573,6 +8631,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"reselect@npm:^4.1.8":
+  version: 4.1.8
+  resolution: "reselect@npm:4.1.8"
+  checksum: 199984d9872f71cd207f4aa6e6fd2bd48d95154f7aa9b3aee3398335f39f5491059e732f28c12e9031d5d434adab2c458dc8af5afb6564d0ad37e1644445e09c
+  languageName: node
+  linkType: hard
+
 "resolve-alpn@npm:^1.0.0":
   version: 1.2.1
   resolution: "resolve-alpn@npm:1.2.1"
@@ -9082,9 +9147,12 @@ __metadata:
     "@mui/lab": "npm:^5.0.0-alpha.170"
     "@mui/material": "npm:^5.15.14"
     "@mui/types": "npm:^7.2.14"
+    "@mui/x-data-grid": "npm:^7.3.0"
+    "@types/dom-speech-recognition": "npm:^0.0.4"
     "@types/papaparse": "npm:^5.3.14"
     "@types/react": "npm:^18.0.37"
     "@types/react-dom": "npm:^18.0.11"
+    "@types/string-similarity": "npm:^4"
     "@vitest/ui": "npm:^0.33.0"
     "@yarnpkg/pnpify": "npm:^4.0.0-rc.45"
     dotenv: "npm:^16.4.5"
@@ -9104,6 +9172,7 @@ __metadata:
     react-dom: "npm:^18.2.0"
     react-responsive-carousel: "npm:^3.2.23"
     react-zoom-pan-pinch: "npm:^3.4.4"
+    string-similarity: "npm:^4.0.4"
     styled-components: "npm:^6.1.8"
     tsconfig-custom: "workspace:*"
     turbo: "npm:latest"
@@ -9183,6 +9252,13 @@ __metadata:
   version: 3.7.0
   resolution: "std-env@npm:3.7.0"
   checksum: 6ee0cca1add3fd84656b0002cfbc5bfa20340389d9ba4720569840f1caa34bce74322aef4c93f046391583e50649d0cf81a5f8fe1d411e50b659571690a45f12
+  languageName: node
+  linkType: hard
+
+"string-similarity@npm:^4.0.4":
+  version: 4.0.4
+  resolution: "string-similarity@npm:4.0.4"
+  checksum: 53365fe64d4958e88951f0016b2174aaea330f762f522be6081bae4cac3e3396f723c8ec4091c0b0e266129652ead5dde3683c31d3a07ff1b6aa35057de28b1b
   languageName: node
   linkType: hard
 

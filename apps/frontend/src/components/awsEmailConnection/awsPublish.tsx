@@ -12,8 +12,8 @@ export default function AwsPublishForm() {
 
   async function submit() {
     const newEntry = {
-      message: message,
-      topicArn: topicARN,
+      Message: message,
+      TopicArn: topicARN,
     };
 
     await axios

@@ -1,27 +1,31 @@
 import express, { Router, Request, Response } from "express";
-import AWS from "aws-sdk";
+import { SNSClient, PublishCommand } from "@aws-sdk/client-sns";
+
 const router: Router = express.Router();
 
-// this is a post request that will allow the admin to send out mass emails
+const snsClient = new SNSClient({
+  region: "us-east-2",
+  credentials: {
+    accessKeyId: "AKIA4MTWLL2KFO44KCM5",
+    secretAccessKey: "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",
+  },
+});
+
+// post request to send mass emails
 router.post("/", async function (req: Request, res: Response) {
   const { message, topicArn } = req.body;
-  const params = {
-    Message: message,
-    TopicArn: topicArn,
-  };
 
   try {
-    // Create promise and SNS service object
-    const publishTextPromise = new AWS.SNS({ apiVersion: "2010-03-31" })
-      .publish(params)
-      .promise();
-
-    // Handle promise's fulfilled state
-    const data = await publishTextPromise;
-    console.log(
-      `Message ${params.Message} sent to the topic ${params.TopicArn}`,
+    const response = await snsClient.send(
+      new PublishCommand({
+        Message: message,
+        TopicArn: topicArn,
+      }),
     );
-    console.log("MessageID is " + data.MessageId);
+
+    console.log(
+      `Message "${message}" sent to the topic "${topicArn}", MessageId: ${response.MessageId}`,
+    );
 
     res.status(200).json({ message: "Message sent successfully" });
   } catch (err) {
