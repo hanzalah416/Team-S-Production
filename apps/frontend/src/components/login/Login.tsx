@@ -1,6 +1,7 @@
 // import React, { useState} from "react";
 import styles from "./Login.module.css";
 import heroImage from "../assets/HeroPhotos/heroImage.png";
+import EmailPhoto from"../assets/HeroPhotos/EmailPhoto.png";
 import heroImage1 from "../assets/HeroPhotos/nurse6.jpg";
 import heroImage2 from "../assets/HeroPhotos/Temp1.png";
 import heroImage3 from "../assets/HeroPhotos/Temp3.png";
@@ -21,6 +22,9 @@ const Login: React.FC = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const navigateMap = () => {
     navigate("/floor-map");
+  };
+  const navigateEmail = () => {
+        navigate("/sign-up-email");
   };
 
   const images = [heroImage, heroImage1, heroImage2, heroImage3];
@@ -95,6 +99,20 @@ const Login: React.FC = () => {
           >
             <div className={styles.view}> Click to View Map</div>
           </Button>
+          <Button
+            onClick={navigateEmail}
+            className={styles.viewMap}
+            color="primary"
+            style={{
+                backgroundImage: `url(${EmailPhoto})`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+                width: "200px", // Adjust button width as needed
+                height: "200px", // Adjust button height as needed
+            }}
+          >
+            <div className={styles.view}> Click to Subscribe </div>
+        </Button>
         </div>
       </div>
       <div className={styles.bottomHalfContainer} id="targetDiv">

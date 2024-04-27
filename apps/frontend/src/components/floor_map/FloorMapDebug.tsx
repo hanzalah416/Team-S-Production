@@ -11,8 +11,11 @@ import {
   FormControlLabel,
   Checkbox,
   Typography,
-  MenuItem,
+  Autocomplete,
+  TextField,
   Select,
+  MenuItem,
+  SelectChangeEvent,
 } from "@mui/material";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import axios from "axios";
@@ -24,7 +27,6 @@ import l2Map from "../assets/HospitalMap/00_thelowerlevel2.png";
 import f1Map from "../assets/HospitalMap/01_thefirstfloor.png";
 import f2Map from "../assets/HospitalMap/02_thesecondfloor.png";
 import f3Map from "../assets/HospitalMap/03_thethirdfloor.png";
-import { SelectChangeEvent } from "@mui/material/Select";
 // import fs from "fs";
 // import readCSVFile from "../../../../backend/src/Readcsv.ts";
 
@@ -44,6 +46,13 @@ interface Edge {
   edgeID: string;
   startNode: string;
   endNode: string;
+}
+
+interface eventCompact {
+  target: {
+    name: string;
+    value: string | null;
+  };
 }
 
 interface NodeDetailsPopupProps {
@@ -76,6 +85,12 @@ const StaticFloorMapDebug = () => {
   const [dragging, setDragging] = useState<boolean>(false);
   const [draggedNode, setDraggedNode] = useState<Node | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [edgeMode, setEdgeMode] = useState(false);
+  const [edgeModeStartNode, setEdgeModeStartNode] = useState<Node | null>(null);
+  const [edgeModeEndNode, setEdgeModeEndNode] = useState<Node | null>(null);
+  const [startNodeExists, setStartNodeExists] = useState(false);
+  const [startNodeAndEndNode, setStartNodeAndEndNode] = useState(false);
+
   const emptyNode: Node = {
     xcoord: "",
     ycoord: "",
@@ -91,6 +106,14 @@ const StaticFloorMapDebug = () => {
     edgeID: "",
     startNode: "",
     endNode: "",
+  };
+
+  const handleExitEdgeMode = () => {
+    setEdgeMode(false);
+    setStartNodeAndEndNode(false);
+    setStartNodeExists(false);
+    setEdgeModeStartNode(null);
+    setEdgeModeEndNode(null);
   };
 
   const updateNodePosition = (id: string, newX: number, newY: number) => {
@@ -111,6 +134,7 @@ const StaticFloorMapDebug = () => {
     node: Node,
     event: React.MouseEvent<SVGCircleElement, MouseEvent>,
   ) => {
+    if (edgeMode) return;
     setDragging(true);
     setDraggedNode(node);
     event.stopPropagation();
@@ -167,26 +191,6 @@ const StaticFloorMapDebug = () => {
     edges.push(newEdge);
   };
 
-  // const fetchNodes = async () => {
-  //   try {
-  //     const response = await axios.get("/api/nodes");
-  //
-  //       console.log("Fetched nodes:", response.data);
-  //     setNodes(response.data);
-  //   } catch (error) {
-  //     console.error("Failed to fetch nodes:", error);
-  //   }
-  // };
-  //
-  // const fetchEdges = async () => {
-  //   try {
-  //     const response = await axios.get("/api/edges");
-  //     setEdges(response.data);
-  //   } catch (error) {
-  //     console.error("Failed to fetch edges:", error);
-  //   }
-  // };
-
   useEffect(() => {
     fetchNodes();
     console.log("nodes");
@@ -195,12 +199,51 @@ const StaticFloorMapDebug = () => {
   }, []);
 
   const handleNodeClick = (nodeId: string) => {
+    if (edgeMode) {
+      const node = nodes.find((node) => node.id === nodeId);
+      if (!node) {
+        return;
+      }
+      if (startNodeExists) {
+        setEdgeModeEndNode(node);
+        setStartNodeExists(false);
+        setStartNodeAndEndNode(true);
+        return;
+      } else {
+        setEdgeModeStartNode(node);
+        setStartNodeExists(true);
+        return;
+      }
+    }
     const node = nodes.find((node) => node.id === nodeId);
     if (!node) {
       return;
     }
-
     setSelectedNodeDetails(node);
+  };
+
+  const handleSaveEdgeMode = async () => {
+    const url = `/api/edges`;
+    console.log(url);
+    try {
+      const response = await axios.post(url, {
+        edgeID: edgeModeStartNode?.id + "_" + edgeModeEndNode?.id,
+        startNode: edgeModeStartNode?.id,
+        endNode: edgeModeEndNode?.id,
+      });
+      console.log(response);
+      handleAddEdge(response.data); // Update local state with the response
+      await fetchEdges(); // Fetch all nodes again to reflect the update
+    } catch (error) {
+      console.error("Error updating edge details:", error);
+      alert("Edge edit failed: try again");
+    }
+
+    setStartNodeAndEndNode(false);
+    setEdgeModeStartNode(null);
+    setEdgeModeEndNode(null);
+
+    return;
   };
 
   const handleEdgeClick = (startnode: string, endNode: string) => {
@@ -231,13 +274,11 @@ const StaticFloorMapDebug = () => {
     }, []);
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-      console.log("inputchangefirst");
       const { name, value } = event.target;
       setEditableNode((prev) => ({ ...prev, [name]: value }));
     };
 
     const handleInputChangeFloor = (event: SelectChangeEvent<string>) => {
-      console.log("inputchangefloor");
       const { name, value } = event.target;
       setEditableNode((prev) => ({ ...prev, [name]: value }));
     };
@@ -286,9 +327,9 @@ const StaticFloorMapDebug = () => {
             shortName: editableNode.shortName,
           });
 
-          onSave(response.data); // Update local state with the response
-          handleClose(); // Close the popup
-          await fetchNodes(); // Fetch all nodes again to reflect the update
+          onSave(response.data);
+          handleClose();
+          await fetchNodes();
         } catch (error) {
           console.error("Error adding node:", error);
         }
@@ -299,16 +340,11 @@ const StaticFloorMapDebug = () => {
       if (!node) return;
       const url = `/api/nodes/${node.id}`;
       // console.log(url);
-      await axios
-        .delete(url)
-        .then(() => {
-          // console.log(`Deleted node from url ${url}. response: ${response}`);
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-      handleClose(); // Close the popup
-      await fetchNodes(); // Fetch all nodes again to reflect the update
+      await axios.delete(url).catch((error) => {
+        console.error(error);
+      });
+      handleClose();
+      await fetchNodes();
     };
 
     return (
@@ -350,9 +386,8 @@ const StaticFloorMapDebug = () => {
                   <Select
                     value={editableNode.floor}
                     name="floor"
-                    onChange={handleInputChangeFloor} // Use onChange to handle changes
-                    className={styles.dropdown} // You can adjust the className if needed
-                    inputProps={{ "aria-label": "Select Floor" }} // ARIA label for accessibility
+                    onChange={handleInputChangeFloor}
+                    className={styles.dropdown}
                   >
                     {["L2", "L1", "1", "2", "3"].map((floorNumber) => (
                       <MenuItem key={floorNumber} value={floorNumber}>
@@ -468,11 +503,9 @@ const StaticFloorMapDebug = () => {
       setNewEdgeDetails(null);
     }, []);
 
-    const handleInputChange = (event: SelectChangeEvent<string>) => {
+    const handleInputChange = (event: eventCompact) => {
       const { name, value } = event.target;
-      console.log("inputchange");
-      setEditableEdge({ ...editableEdge, [name]: value });
-      console.log(editableEdge);
+      setEditableEdge((prev) => ({ ...prev, [name]: value }));
     };
 
     const handleSave = async () => {
@@ -505,6 +538,8 @@ const StaticFloorMapDebug = () => {
           console.error("Error deleting old edge", error);
         }
       }
+
+      handleClose();
     };
 
     const handleDeleteEdge = async () => {
@@ -516,26 +551,6 @@ const StaticFloorMapDebug = () => {
       handleClose(); // Close the popup
       fetchEdges(); // Fetch all nodes again to reflect the update
     };
-
-    // const handleClickOutside = useCallback(
-    //   (event: MouseEvent) => {
-    //     if (
-    //       popupRef.current &&
-    //       event.target instanceof Node &&
-    //       !popupRef.current.contains(event.target)
-    //     ) {
-    //       handleClose();
-    //     }
-    //   },
-    //   [handleClose],
-    // );
-    //
-    // useEffect(() => {
-    //   document.addEventListener("mousedown", handleClickOutside);
-    //   return () => {
-    //     document.removeEventListener("mousedown", handleClickOutside);
-    //   };
-    // }, [handleClickOutside]);
 
     if (!editableEdge) return null;
 
@@ -551,43 +566,49 @@ const StaticFloorMapDebug = () => {
               <tr>
                 <td className={styles.label}>Start Node:</td>
                 <td>
-                  <Select
-                    name="startNode"
+                  <Autocomplete
                     value={editableEdge.startNode}
-                    onChange={handleInputChange}
-                    className={styles.dropdown}
-                    inputProps={{ "aria-label": "Select Node ID" }}
-                  >
-                    <MenuItem value="" disabled>
-                      Select Node ID
-                    </MenuItem>
-                    {nodes.map((node) => (
-                      <MenuItem key={node.id} value={node.id}>
-                        {node.id}
-                      </MenuItem>
-                    ))}
-                  </Select>
+                    onChange={(event, value) =>
+                      handleInputChange({
+                        target: { name: "startNode", value },
+                      })
+                    }
+                    options={nodes.map((node) => node.id)}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        variant="outlined"
+                        className={styles.autocomplete}
+                        InputProps={{
+                          ...params.InputProps,
+                        }}
+                      />
+                    )}
+                  />
                 </td>
               </tr>
               <tr>
                 <td className={styles.label}>End Node:</td>
                 <td>
-                  <Select
-                    name="endNode"
+                  <Autocomplete
+                    sx={{ minWidth: 200, color: "#3B54A0" }}
                     value={editableEdge.endNode}
-                    onChange={handleInputChange}
-                    className={styles.dropdown}
-                    inputProps={{ "aria-label": "Select Node ID" }}
-                  >
-                    <MenuItem value="" disabled>
-                      Select Node ID
-                    </MenuItem>
-                    {nodes.map((node) => (
-                      <MenuItem key={node.id} value={node.id}>
-                        {node.id}
-                      </MenuItem>
-                    ))}
-                  </Select>
+                    onChange={(event, value) =>
+                      handleInputChange({ target: { name: "endNode", value } })
+                    }
+                    options={nodes.map((node) => node.id)}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        variant="outlined"
+                        className={styles.autocomplete}
+                        InputProps={{
+                          ...params.InputProps,
+                          "aria-label": "Select Node ID", // ARIA label for accessibility
+                        }}
+                      />
+                    )}
+                  />
                 </td>
               </tr>
             </tbody>
@@ -603,7 +624,7 @@ const StaticFloorMapDebug = () => {
               <button
                 id="delete"
                 onClick={handleDeleteEdge}
-                className={styles.customButton}
+                className={styles.redCustomButton}
               >
                 Delete Edge
               </button>
@@ -796,6 +817,7 @@ const StaticFloorMapDebug = () => {
       console.error("Failed to fetch edges:", error);
     }
   };
+
   return (
     <div className={styles.container}>
       {isLoading && <LoadingOverlay />}
@@ -932,6 +954,73 @@ const StaticFloorMapDebug = () => {
             >
               Add Edge
             </Button>
+
+            {!edgeMode && (
+              <Button
+                variant="contained"
+                className={styles.csvButton}
+                style={{
+                  backgroundColor: "#289ba5",
+                  fontFamily: "Poppins",
+                  fontSize: 14,
+                  textAlign: "center",
+                  margin: "6px",
+                }}
+                onClick={() => setEdgeMode(true)}
+              >
+                Enable Edge-Adding Mode
+              </Button>
+            )}
+
+            {edgeMode && (
+              <div>
+                <Button
+                  variant="contained"
+                  className={styles.csvButton}
+                  style={{
+                    backgroundColor: "#289ba5",
+                    fontFamily: "Poppins",
+                    fontSize: 14,
+                    textAlign: "center",
+                    margin: "6px",
+                  }}
+                  onClick={() => handleExitEdgeMode()}
+                >
+                  Exit Edge-Adding Mode
+                </Button>
+
+                <tbody className={styles.detailsTable}>
+                  <tr>
+                    <td className={styles.labelEdgeMode}>Start Node:</td>
+                    <td className={styles.labelEdgeMode}>
+                      {edgeModeStartNode?.id}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className={styles.labelEdgeMode}>End Node:</td>
+                    <td className={styles.labelEdgeMode}>
+                      {edgeModeEndNode?.id}
+                    </td>
+                  </tr>
+                </tbody>
+                {startNodeAndEndNode && (
+                  <Button
+                    variant="contained"
+                    className={styles.csvButton}
+                    style={{
+                      backgroundColor: "#289ba5",
+                      fontFamily: "Poppins",
+                      fontSize: 14,
+                      textAlign: "center",
+                      margin: "6px",
+                    }}
+                    onClick={handleSaveEdgeMode}
+                  >
+                    Save New Edge
+                  </Button>
+                )}
+              </div>
+            )}
           </div>
           <TransformComponent>
             <div className={styles.mapAndDots}>
