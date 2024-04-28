@@ -32,6 +32,7 @@ import MobileGift from "./components/service_requests/gift_request/MobileGift.ts
 import MobileMedicine from "./components/service_requests/medicine_delivery/MobileMedicine.tsx";
 import MobileSanitation from "./components/service_requests/sanitation_services/MobileSanitation.tsx";
 import MobileSecurity from "./components/service_requests/security_requests/MobileSecurity.tsx";
+import MobileScheduling from "./components/service_requests/Room_Scheduling/MobileScheduling.tsx";
 
 function App() {
   const isMobile = navigator.userAgent.match(
@@ -148,7 +149,8 @@ function App() {
           path: "/room-scheduling",
           element: (
             <>
-              <RoomScheduling />
+              {isMobile && <MobileScheduling />}
+              {!isMobile && <RoomScheduling />}
               <Layout />
             </>
           ),
