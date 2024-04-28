@@ -101,3 +101,7 @@
   max-height: 50px;
   bottom: 25px;
 }
+
+.quote {
+  font-style: italic;
+}

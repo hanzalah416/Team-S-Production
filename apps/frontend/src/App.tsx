@@ -27,6 +27,7 @@ import TransportRequest from "./components/service_requests/internalTransportati
 import EmailForm from "./components/awsEmailConnection/EmailForm.tsx";
 import GiftForm from "./components/service_requests/gift_request/giftForm.tsx";
 import { AboutPage } from "./components/about_page/AboutPage.tsx";
+import AwsPublishForm from "./components/awsEmailConnection/awsPublish.tsx";
 
 function App() {
   const router = createBrowserRouter([
@@ -127,7 +128,16 @@ function App() {
           path: "/sign-up-email",
           element: (
             <>
-              <EmailForm topicArn="arn:aws:sns:us-east-2:851725475476:Appointment_Confirmation" />
+              <EmailForm topicArn="arn:aws:sns:us-east-2:851725475476:Hospital_Alerts" />
+              <Layout />
+            </>
+          ),
+        },
+        {
+          path: "/message-publish",
+          element: (
+            <>
+              <AwsPublishForm />
               <Layout />
             </>
           ),
