@@ -35,6 +35,7 @@ import MobileSecurity from "./components/service_requests/security_requests/Mobi
 import MobileScheduling from "./components/service_requests/Room_Scheduling/MobileScheduling.tsx";
 import MobileLanguage from "./components/service_requests/language_requests/MobileLanguage.tsx";
 import MobileTransportation from "./components/service_requests/internalTransportation/MobileTransportation.tsx";
+import ErrorPage from "./components/error_page/ErrorPage.tsx";
 
 function App() {
   const isMobile = navigator.userAgent.match(
@@ -104,7 +105,8 @@ function App() {
           path: "/node-data",
           element: (
             <>
-              <NodeDataPage />
+              {isMobile && <ErrorPage />}
+              {!isMobile && <NodeDataPage />}
               <Layout />
             </>
           ),
@@ -161,7 +163,8 @@ function App() {
           path: "/map-debug",
           element: (
             <>
-              <FloorMapDebug />
+              {isMobile && <ErrorPage />}
+              {!isMobile && <FloorMapDebug />}
               <Layout />
             </>
           ),

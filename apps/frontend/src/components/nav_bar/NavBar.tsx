@@ -60,6 +60,10 @@ function NavBar() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
+  const isMobile = navigator.userAgent.match(
+    /(iPad)|(iPhone)|(iPod)|(android)|(webOS)/i,
+  );
+
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const today = new Date();
   const [timeOfDay, updateTimeOfDay] = React.useState("");
@@ -488,29 +492,34 @@ function NavBar() {
                     <p className={"item"}>Transportation Request</p>
                   </MenuItem>
                 </Link>
-                <Link to={"/map-debug"} id={"order"}>
-                  <MenuItem onClick={handleClose}>
-                    <img
-                      src={mapEditingIcon}
-                      className={"iconHeight"}
-                      width={"38px"}
-                      alt={"Map Editing Icon"}
-                    />
-                    <p className={"item"}>Map Editing Page</p>
-                  </MenuItem>
-                </Link>
 
-                <Link to={"/node-data"} id={"order"}>
-                  <MenuItem onClick={handleClose}>
-                    <img
-                      src={dbIcon}
-                      className={"iconHeight"}
-                      width={"38px"}
-                      alt={"DB Icon"}
-                    />
-                    <p className={"item"}>Manage Database</p>
-                  </MenuItem>
-                </Link>
+                {!isMobile && (
+                  <Link to={"/map-debug"} id={"order"}>
+                    <MenuItem onClick={handleClose}>
+                      <img
+                        src={mapEditingIcon}
+                        className={"iconHeight"}
+                        width={"38px"}
+                        alt={"Map Editing Icon"}
+                      />
+                      <p className={"item"}>Map Editing Page</p>
+                    </MenuItem>
+                  </Link>
+                )}
+
+                {!isMobile && (
+                  <Link to={"/node-data"} id={"order"}>
+                    <MenuItem onClick={handleClose}>
+                      <img
+                        src={dbIcon}
+                        className={"iconHeight"}
+                        width={"38px"}
+                        alt={"DB Icon"}
+                      />
+                      <p className={"item"}>Manage Database</p>
+                    </MenuItem>
+                  </Link>
+                )}
               </>
             )}
           </Menu>
