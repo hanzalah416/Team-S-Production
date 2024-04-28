@@ -27,9 +27,21 @@ import TransportRequest from "./components/service_requests/internalTransportati
 import EmailForm from "./components/awsEmailConnection/EmailForm.tsx";
 import GiftForm from "./components/service_requests/gift_request/giftForm.tsx";
 import { AboutPage } from "./components/about_page/AboutPage.tsx";
+import MobileFlower from "./components/service_requests/flower_requests/MobileFlower.tsx";
+import MobileGift from "./components/service_requests/gift_request/MobileGift.tsx";
+import MobileMedicine from "./components/service_requests/medicine_delivery/MobileMedicine.tsx";
+import MobileSanitation from "./components/service_requests/sanitation_services/MobileSanitation.tsx";
+import MobileSecurity from "./components/service_requests/security_requests/MobileSecurity.tsx";
+import MobileScheduling from "./components/service_requests/Room_Scheduling/MobileScheduling.tsx";
+import MobileLanguage from "./components/service_requests/language_requests/MobileLanguage.tsx";
+import MobileTransportation from "./components/service_requests/internalTransportation/MobileTransportation.tsx";
+import ErrorPage from "./components/error_page/ErrorPage.tsx";
 import AwsPublishForm from "./components/awsEmailConnection/awsPublish.tsx";
 
 function App() {
+  const isMobile = navigator.userAgent.match(
+    /(iPad)|(iPhone)|(iPod)|(android)|(webOS)/i,
+  );
   const router = createBrowserRouter([
     {
       children: [
@@ -55,7 +67,8 @@ function App() {
           path: "/order-flowers",
           element: (
             <>
-              <OrderFlowers />
+              {isMobile && <MobileFlower />}
+              {!isMobile && <OrderFlowers />}
               <Layout />
             </>
           ),
@@ -65,7 +78,8 @@ function App() {
           path: "/security-request",
           element: (
             <>
-              <SecurityRequest />
+              {isMobile && <MobileSecurity />}
+              {!isMobile && <SecurityRequest />}
               <Layout />
             </>
           ),
@@ -92,7 +106,8 @@ function App() {
           path: "/node-data",
           element: (
             <>
-              <NodeDataPage />
+              {isMobile && <ErrorPage />}
+              {!isMobile && <NodeDataPage />}
               <Layout />
             </>
           ),
@@ -110,7 +125,8 @@ function App() {
           path: "/sanitation-request",
           element: (
             <>
-              <SanitationForm />
+              {isMobile && <MobileSanitation />}
+              {!isMobile && <SanitationForm />}
               <Layout />
             </>
           ),
@@ -119,7 +135,8 @@ function App() {
           path: "/medicine-delivery-request",
           element: (
             <>
-              <MedicineDeliveryForm />
+              {isMobile && <MobileMedicine />}
+              {!isMobile && <MedicineDeliveryForm />}
               <Layout />
             </>
           ),
@@ -146,7 +163,8 @@ function App() {
           path: "/room-scheduling",
           element: (
             <>
-              <RoomScheduling />
+              {isMobile && <MobileScheduling />}
+              {!isMobile && <RoomScheduling />}
               <Layout />
             </>
           ),
@@ -155,7 +173,8 @@ function App() {
           path: "/map-debug",
           element: (
             <>
-              <FloorMapDebug />
+              {isMobile && <ErrorPage />}
+              {!isMobile && <FloorMapDebug />}
               <Layout />
             </>
           ),
@@ -164,7 +183,8 @@ function App() {
           path: "/language-request",
           element: (
             <>
-              <LanguageRequest />
+              {isMobile && <MobileLanguage />}
+              {!isMobile && <LanguageRequest />}
               <Layout />
             </>
           ),
@@ -173,7 +193,8 @@ function App() {
           path: "/transport-request",
           element: (
             <>
-              <TransportRequest />
+              {isMobile && <MobileTransportation />}
+              {!isMobile && <TransportRequest />}
               <Layout />
             </>
           ),
@@ -191,7 +212,8 @@ function App() {
           path: "/gift-request",
           element: (
             <>
-              <GiftForm />
+              {isMobile && <MobileGift />}
+              {!isMobile && <GiftForm />}
               <Layout />
             </>
           ),
