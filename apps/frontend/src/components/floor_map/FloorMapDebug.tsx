@@ -84,6 +84,7 @@ const StaticFloorMapDebug = () => {
   const [newEdgeDetails, setNewEdgeDetails] = useState<NodeEdge | null>(null);
   const [dragging, setDragging] = useState<boolean>(false);
   const [draggedNode, setDraggedNode] = useState<Node | null>(null);
+  const [nodeModeDragging, setNodeModeDragging] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState(false);
   const [edgeMode, setEdgeMode] = useState(false);
   const [nodeMode, setNodeMode] = useState(false);
@@ -111,17 +112,6 @@ const StaticFloorMapDebug = () => {
     endNode: "",
   };
 
-  const partialNode: Node = {
-    xcoord: "2500",
-    ycoord: "2500",
-    id: "",
-    longName: "",
-    floor: currentFloor,
-    building: "",
-    nodeType: "",
-    shortName: "",
-  };
-
   const handleExitEdgeMode = () => {
     setEdgeMode(false);
     setStartNodeAndEndNode(false);
@@ -132,8 +122,6 @@ const StaticFloorMapDebug = () => {
 
   const handleEnableNodeMode = () => {
     setNodeMode(true);
-
-    setQuickNodeDetails(partialNode);
   };
 
   const updateNodePosition = (id: string, newX: number, newY: number) => {
@@ -154,15 +142,19 @@ const StaticFloorMapDebug = () => {
     node: Node,
     event: React.MouseEvent<SVGCircleElement, MouseEvent>,
   ) => {
+    console.log("mouseDown called");
+
     if (edgeMode || nodeMode) return;
     setDragging(true);
     setDraggedNode(node);
     event.stopPropagation();
   };
 
+
   const handleMouseMove = (
     event: React.MouseEvent<SVGSVGElement, MouseEvent>,
   ) => {
+    setNodeModeDragging(true);
     if (!dragging || !draggedNode) return;
 
     const svgElement = event.currentTarget as SVGSVGElement;
@@ -180,11 +172,40 @@ const StaticFloorMapDebug = () => {
     updateNodePosition(draggedNode.id, transformedPt.x, transformedPt.y);
   };
 
-  const handleMouseUp = () => {
-    if (!dragging) return;
+  const handleMapMouseUp = (event) => {
+    console.log(" map mouseUp called");
     setDragging(false);
-    setDraggedNode(null);
-    // Optional: persist the node position change to a backend here
+    if (!nodeMode) return;
+    const svgElement = event.currentTarget as SVGSVGElement;
+    const pt = svgElement.createSVGPoint();
+    pt.x = event.clientX;
+    pt.y = event.clientY;
+
+    const screenCTM = svgElement.getScreenCTM();
+    if (!screenCTM) {
+      console.error("Failed to get the screen CTM.");
+      return; // If screenCTM is null, log an error and exit the function early.
+    }
+
+    const transformedPt = pt.matrixTransform(screenCTM.inverse());
+    const mouseX = transformedPt.x;
+    const mouseY = transformedPt.y;
+    console.log(mouseX);
+    console.log(mouseY);
+    const partialNode: Node = {
+      xcoord: String(mouseX),
+      ycoord: String(mouseY),
+      id: "",
+      longName: "",
+      floor: "",
+      building: "",
+      nodeType: "",
+      shortName: "",
+    };
+    if (!nodeModeDragging) {
+      setQuickNodeDetails(partialNode);
+
+    }
   };
 
   const handleUpdateNode = (updatedNode: Node) => {
@@ -240,26 +261,14 @@ const StaticFloorMapDebug = () => {
     if (!node) {
       return;
     }
+    setDragging(false);
     setSelectedNodeDetails(node);
   };
 
-  const handleMapClick = (event) => {
+  const handleMapMouseDown = () => {
+    console.log("mapMouseDown called");
     if (!nodeMode) return;
-    const mouseX = event.clientX;
-    const mouseY = event.clientY;
-    console.log(mouseX);
-    console.log(mouseY);
-    const partialNode: Node = {
-      xcoord: mouseX,
-      ycoord: mouseY,
-      id: "",
-      longName: "",
-      floor: "",
-      building: "",
-      nodeType: "",
-      shortName: "",
-    };
-    setQuickNodeDetails(partialNode);
+    setNodeModeDragging(false);
   };
 
   const handleSaveEdgeMode = async () => {
@@ -331,8 +340,8 @@ const StaticFloorMapDebug = () => {
         try {
           const response = await axios.post(url, {
             nodeID: editableNode.id,
-            xcoord: 2500,
-            ycoord: 2500,
+            xcoord: Number(editableNode.xcoord),
+            ycoord: Number(editableNode.ycoord),
             floor: currentFloor,
             longName: "",
             nodeType: "",
@@ -716,7 +725,7 @@ const StaticFloorMapDebug = () => {
                     value={editableEdge.startNode}
                     onChange={(event, value) =>
                       handleInputChange({
-                        target: { name: "startNode", value },
+                        target: { name: "startNode", value: value },
                       })
                     }
                     options={nodes.map((node) => node.id)}
@@ -1032,7 +1041,7 @@ const StaticFloorMapDebug = () => {
       {quickNodeDetails && (
           <QuickNodeDetailsPopup
               node={quickNodeDetails}
-              onSave={handleUpdateNode}
+              onSave={handleAddNode}
               fetchNodes={fetchNodes}
           />
       )}
@@ -1070,7 +1079,6 @@ const StaticFloorMapDebug = () => {
       )}
 
       <div className={styles.mapContainer}
-           onClick={() => handleMapClick(event)}
       >
         <FloorSwitcher />
         <Toggles />
@@ -1079,6 +1087,7 @@ const StaticFloorMapDebug = () => {
           doubleClick={{
             disabled: true,
           }}
+
         >
           {edgeMode && (
             <div className={styles.modeContainer}>
@@ -1177,7 +1186,7 @@ const StaticFloorMapDebug = () => {
               Add Edge
             </Button>
 
-            {!edgeMode && (
+            {!edgeMode && !nodeMode && (
               <Button
                 variant="contained"
                 className={styles.csvButton}
@@ -1215,7 +1224,7 @@ const StaticFloorMapDebug = () => {
               </Button>
             )}
 
-            {!nodeMode && (
+            {!nodeMode && !edgeMode && (
               <Button
                 variant="contained"
                 className={styles.csvButton}
@@ -1263,8 +1272,9 @@ const StaticFloorMapDebug = () => {
               <svg
                 className={styles.overlay}
                 viewBox="0 0 5000 3400"
+                onMouseDown={handleMapMouseDown}
                 onMouseMove={handleMouseMove}
-                onMouseUp={handleMouseUp}
+                onMouseUp={handleMapMouseUp}
               >
                 {showEdges &&
                   edges.map((edge) => {
@@ -1312,8 +1322,8 @@ const StaticFloorMapDebug = () => {
                           cx={position.x}
                           cy={position.y}
                           r="9"
-                          fill="#6fbede"
-                          stroke={"black"}
+                          fill={isSelected? "#edd142" : "#6fbede"}
+                          stroke={isSelected? "#edd142" : "black"}
                           strokeWidth={isSelected ? "4" : "3"}
                           onClick={() => handleNodeClick(node.id)}
                           onMouseDown={(e) => handleMouseDown(node, e)}
