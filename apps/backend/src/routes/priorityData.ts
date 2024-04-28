@@ -35,7 +35,7 @@ const serviceTypes = [
   "Flower",
   "Language",
   "Medicine",
-  "Scheduling",
+  "Room Scheduling",
   "Sanitation",
   "Security",
   "Transport",
