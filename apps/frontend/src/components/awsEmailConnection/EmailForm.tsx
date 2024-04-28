@@ -1,26 +1,73 @@
 import React, { useState } from "react";
-import { subscribeEmail } from "./EmailApi.ts"; // Import the SNS subscription function
 import { DataGrid, GRID_CHECKBOX_SELECTION_COL_DEF } from "@mui/x-data-grid";
 import BackgroundImg2 from "../assets/blue-background2.jpg";
 import { Paper } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
 import { Typography } from "@mui/material";
-interface EmailFormProps {
+import axios from "axios";
+import { GridRowId } from "@mui/x-data-grid";
+
+interface Row {
+  id: number;
+  serviceRequestName: string;
+  status: string;
   topicArn: string;
 }
 
-const EmailForm: React.FC<EmailFormProps> = ({ topicArn }) => {
+export default function EmailForm() {
   const [email, setEmail] = useState("");
-  const rows = [
-    { id: 1, serviceRequestName: "Order Flowers", status: "Working" },
-    { id: 2, serviceRequestName: "Gift Requests", status: "Working" },
-    { id: 3, serviceRequestName: "Medical Delivery", status: "Working" },
-    { id: 4, serviceRequestName: "Sanitation Services", status: "Working" },
-    { id: 5, serviceRequestName: "Security Requests", status: "Working" },
-    { id: 6, serviceRequestName: "Room Scheduling", status: "Working" },
-    { id: 7, serviceRequestName: "Language Request", status: "Working" },
-    { id: 8, serviceRequestName: "Transportation Request", status: "Working" },
+  const [selectedRows, setSelectedRows] = useState<number[]>([]); // Define selectedRows as an array of numbers
+  const rows: Row[] = [
+    {
+      id: 1,
+      serviceRequestName: "Order Flowers",
+      status: "Working",
+      topicArn: "aws:sns:us-east-2:851725475476:Hospital_Alerts",
+    },
+    {
+      id: 2,
+      serviceRequestName: "Gift Requests",
+      status: "Working",
+      topicArn: "aws:sns:us-east-2:851725475476:Hospital_Alerts",
+    },
+    {
+      id: 3,
+      serviceRequestName: "Medical Delivery",
+      status: "Working",
+      topicArn: "aws:sns:us-east-2:851725475476:Hospital_Alerts",
+    },
+    {
+      id: 4,
+      serviceRequestName: "Sanitation Services",
+      status: "Working",
+      topicArn: "aws:sns:us-east-2:851725475476:Hospital_Alerts",
+    },
+    {
+      id: 5,
+      serviceRequestName: "Security Requests",
+      status: "Working",
+      topicArn: "aws:sns:us-east-2:851725475476:Hospital_Alerts",
+    },
+    {
+      id: 6,
+      serviceRequestName: "Room Scheduling",
+      status: "Working",
+      topicArn: "aws:sns:us-east-2:851725475476:Hospital_Alerts",
+    },
+    {
+      id: 7,
+      serviceRequestName: "Language Request",
+      status: "Working",
+      topicArn: "aws:sns:us-east-2:851725475476:Hospital_Alerts",
+    },
+    {
+      id: 8,
+      serviceRequestName: "Transportation Request",
+      status: "Working",
+      topicArn: "aws:sns:us-east-2:851725475476:Hospital_Alerts",
+    },
   ];
+
   const columns = React.useMemo(
     () => [
       {
@@ -41,15 +88,27 @@ const EmailForm: React.FC<EmailFormProps> = ({ topicArn }) => {
     [],
   );
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleRowSelection = (selection: GridRowId[]) => {
+    const selectedRows = selection.map((rowId) =>
+      rows.findIndex((row) => row.id === Number(rowId)),
+    );
+    setSelectedRows(selectedRows);
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      await subscribeEmail(topicArn, email);
-      alert("Subscription successful!");
+      const promises = selectedRows.map((index) => {
+        const row = rows.find((r) => r.id === index);
+        const topicArn = row ? row.topicArn : null;
+        return axios.post("/subscribe-email", { topicArn, email });
+      });
+      await Promise.all(promises);
+      alert("Subscriptions successful!");
       setEmail("");
     } catch (error) {
       console.error("Error subscribing email:", error);
-      alert("Subscription failed. Please try again.");
+      alert("Subscriptions failed. Please try again.");
     }
   };
 
@@ -87,11 +146,16 @@ const EmailForm: React.FC<EmailFormProps> = ({ topicArn }) => {
             variant="h4"
             style={{ textAlign: "center", marginBottom: 20 }}
           >
-            Subscirbe Service Requests
+            Subscribe Service Requests
           </Typography>
           <form onSubmit={handleSubmit}>
             <div style={{ height: 400, width: "100%" }}>
-              <DataGrid rows={rows} columns={columns} checkboxSelection />
+              <DataGrid
+                rows={rows}
+                columns={columns}
+                checkboxSelection
+                onRowSelectionModelChange={handleRowSelection}
+              />
             </div>
             <label
               htmlFor="emailInput"
@@ -130,6 +194,4 @@ const EmailForm: React.FC<EmailFormProps> = ({ topicArn }) => {
       </Grid>
     </div>
   );
-};
-
-export default EmailForm;
+}
