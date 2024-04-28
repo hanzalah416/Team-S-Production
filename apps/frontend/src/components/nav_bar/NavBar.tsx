@@ -306,6 +306,7 @@ function NavBar() {
   return (
     <div className="navbar">
       {/* Navbar content */}
+        <Button >
       <div className={"leftSide"}>
         <img
           src={bwhLogo}
@@ -321,6 +322,7 @@ function NavBar() {
           {timeOfDay}{" "}
         </p>
       </div>
+        </Button>
 
       <div className={"navButtons"}>
         <Link to={"/about-page"} id={"order"}>

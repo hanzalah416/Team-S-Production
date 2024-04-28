@@ -70,11 +70,12 @@ const Login: React.FC = () => {
               Brigham & Women’s Hospital website
             </p>
 
-            <img
-              className={styles.downArrow}
+    <Button  className={styles.downArrow}>
+    <img
               src={downArrow}
               onClick={scrollToDiv}
             />
+</Button>
           </div>
         </div>
         <div className={styles.textContainer}>

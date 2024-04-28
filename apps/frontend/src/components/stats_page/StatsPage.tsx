@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
-// import BackgroundImg2 from "../assets/blue-background2.jpg";
+import BackgroundImg2 from "../assets/blue-background2.jpg";
 import axios from "axios";
 // import Typography from "@mui/material/Typography";;
 // import { BarChart } from '@mui/x-charts/BarChart';
-import { PieChart } from "@mui/x-charts";
-
+import {PieChart} from "@mui/x-charts";
+import { BarChart } from '@mui/x-charts/BarChart';
+import styles from "../stats_page/StatsPage.module.css";
+// import {data} from "autoprefixer";
+// import {makeStyles} from "@mui/material";
 // import {Grid} from "@mui/material";
 
 type PieData = {
@@ -17,20 +20,20 @@ type PieData = {
   transportRequest: number;
   giftRequest: number;
 };
-// type AssignBarData = {
-//   requestType: string;
-//   notAssigned: number;
-//   assigned: number;
-//   inProgess: number;
-//   closed: number;
-// };
-// type PriorityBarData = {
-//     requestType: string;
-//     low: number;
-//     medium: number;
-//     high: number;
-//     emergency: number;
-// };
+type AssignBarData = {
+  requestType: string;
+  notAssigned: number;
+  assigned: number;
+  inProgress: number;
+  closed: number;
+};
+type PriorityBarData = {
+    requestType: string;
+    low: number;
+    medium: number;
+    high: number;
+    emergency: number;
+};
 
 const Stats = () => {
   const [pieData, setPieData] = useState<PieData>({
@@ -43,8 +46,8 @@ const Stats = () => {
     transportRequest: 0,
     giftRequest: 0,
   });
-  // const [assignBar, setAssignBar] = useState<AssignBarData[]>([]);
-  // const [priorityBar, setPriorityBar] = useState<PriorityBarData[]>([]);
+  const [assignBar, setAssignBar] = useState<AssignBarData[]>([]);
+  const [priorityBar, setPriorityBar] = useState<PriorityBarData[]>([]);
 
   useEffect(() => {
     async function fetchData() {
@@ -53,76 +56,177 @@ const Stats = () => {
       console.log(pie);
       setPieData(pie.data);
       console.log("Successfully got data from get request");
-      // const assign = await axios.get("/api/assign-data");
-      //   setAssignBar(assign.data);
-      //   console.log(assign.data);
-      //   console.log("Successfully got data from get request");
-      //   const priority = await axios.get("/api/priority-data");
-      //   setPriorityBar(priority.data);
-      //   console.log(priority.data);
-      //   console.log("Successfully got data from get request");
+      const assign = await axios.get("/api/assign-data");
+        setAssignBar(assign.data);
+        console.log(assign.data);
+        console.log("Successfully got data from get request");
+        const priority = await axios.get("/api/priority-data");
+        setPriorityBar(priority.data);
+        console.log(priority.data);
+        console.log("Successfully got data from get request");
     }
     fetchData().then();
   }, []);
 
+
   return (
-    <div style={{ display: "flex", justifyContent: "flex-start" }}>
-      <div style={{ marginRight: "1000px" }}>
-        <PieChart
-          series={[
-            {
-              data: [
-                {
-                  id: 0,
-                  value: pieData.securityRequest,
-                  label: "Security",
-                  color: "",
-                },
-                {
-                  id: 1,
-                  value: pieData.transportRequest,
-                  label: "Transport",
-                  color: "",
-                },
-                {
-                  id: 2,
-                  value: pieData.medicineRequest,
-                  label: "Medicine",
-                  color: "",
-                },
-                {
-                  id: 3,
-                  value: pieData.languageRequest,
-                  label: "Language",
-                  color: "",
-                },
-                {
-                  id: 4,
-                  value: pieData.schedulingRequest,
-                  label: "Scheduling",
-                  color: "",
-                },
-                { id: 5, value: pieData.giftRequest, label: "Gift" },
-                {
-                  id: 6,
-                  value: pieData.sanitationRequest,
-                  label: "Sanitation",
-                  color: "",
-                },
-                {
-                  id: 7,
-                  value: pieData.flowerRequest,
-                  label: "Flower",
-                  color: "",
-                },
-              ],
-            },
-          ]}
-          width={400}
-          height={400}
-        />
+
+      <div style={{
+          backgroundImage: `url(${BackgroundImg2})`,
+          height: "100vh",
+          width: "100vw",
+          backgroundSize: "cover",
+          backgroundRepeat: "no-repeat",
+          minHeight: "100%",
+          backgroundPosition: "center center",
+          overflowX: "hidden",
+      }}>
+          <h1>Site Statistics</h1>
+          <div className={styles.alignStuff}>
+
+              <h2 style={{
+                  color: "white"
+
+              }}>
+                  Service requests by service type</h2>
+              <PieChart
+
+                  series={[
+                      {
+
+                          data: [
+                              {
+                                  id: 0,
+                                  value: pieData.securityRequest,
+                                  label: "Security Request",
+                                  color: "blue",
+                              },
+                              {
+                                  id: 1,
+                                  value: pieData.transportRequest,
+                                  label: "Transportation Request",
+                                  color: "green",
+                              },
+                              {
+                                  id: 2,
+                                  value: pieData.medicineRequest,
+                                  label: "Medicine Request",
+                                  color: "red",
+                              },
+                              {
+                                  id: 3,
+                                  value: pieData.languageRequest,
+                                  label: "Language Request",
+                                  color: "orange",
+                              },
+                              {
+                                  id: 4,
+                                  value: pieData.schedulingRequest,
+                                  label: "Scheduling Request",
+                                  color: "yellow",
+                              },
+                              {
+                                  id: 5,
+                                  value: pieData.giftRequest,
+                                  label: "Gift Request",
+                                  color: "white",
+                              },
+                              {
+                                  id: 6,
+                                  value: pieData.sanitationRequest,
+                                  label: "Sanitation Request",
+                                  color: "pink",
+                              },
+                              {
+                                  id: 7,
+                                  value: pieData.flowerRequest,
+                                  label: "Flower Request",
+                                  color: "purple",
+                              },
+                          ],
+                      },
+                  ]}
+                  width={600}
+                  height={600}
+
+                  margin={{
+
+                      right: 80,
+                      top: 80,
+                      bottom: 80,
+                  }}
+
+                  slotProps={{
+                      legend: {
+                          direction: 'row',
+                          position: {vertical: 'bottom', horizontal: 'right'},
+                          padding: 0,
+                      },
+                  }}
+                  sx={{
+                      "& .MuiChartsLegend-series text": {
+                          color: "yellow !important",
+                          fill: "white !important",
+                      },
+                  }}
+              >
+
+              </PieChart>
+
+              <BarChart
+                  dataset = {assignBar}
+                  xAxis={
+                  [
+
+                      {
+                          scaleType: 'band',
+                          dataKey: "requestType",
+
+
+                      }
+
+
+
+
+                  ]
+
+              }
+                  series={[
+                      {dataKey: "notAssigned" , label:"Unassigned"},
+                      {dataKey:"assigned" , label:"Assigned"},
+                      {dataKey:"inProgess" , label:"In Progress"  },
+                      {dataKey: "closed", label:"Closed" },
+
+                  ]}
+
+                  width={500}
+                  height={300}
+       />
+              <BarChart
+                  dataset = {priorityBar}
+                  xAxis={[{ scaleType: 'band', dataKey: "requestType" }]
+
+
+
+              }
+
+                  series={[
+                      {dataKey: "low" , label:"Low Priority"},
+                      {dataKey:"medium" , label:"High Priority"},
+                      {dataKey:"high" , label:"Medium Priority"  },
+                      {dataKey: "emergency", label:"Emergency" },
+
+                  ]}
+
+                  width={500}
+                  height={300}
+              />
+          </div>
+
+
+
+
       </div>
-    </div>
   );
 };
 

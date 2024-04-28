@@ -35,10 +35,11 @@ const serviceTypes = [
   "Flower",
   "Language",
   "Medicine",
-  "Scheduling",
+  "Room Scheduling",
   "Sanitation",
   "Security",
   "Transport",
+  "Gift",
 ];
 router.get(
   "/",
@@ -50,7 +51,7 @@ router.get(
       },
     });
     const priority = [];
-    for (const type in serviceTypes) {
+    for (const type of serviceTypes) {
       priority.push({
         requestType: type,
         notAssigned: serviceRequests.filter(

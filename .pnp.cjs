@@ -7554,6 +7554,7 @@ const RAW_RUNTIME_STATE =
           ["@mui/lab", "virtual:f7b030241781449f9f163484f540f772ec3707fc5214186cd12bce9e472ad0dbf6db26b799fb1d7d9f7a9e4faeedac41da01e533ee775acb5c8a31c546a0661d#npm:5.0.0-alpha.170"],\
           ["@mui/material", "virtual:f7b030241781449f9f163484f540f772ec3707fc5214186cd12bce9e472ad0dbf6db26b799fb1d7d9f7a9e4faeedac41da01e533ee775acb5c8a31c546a0661d#npm:5.15.15"],\
           ["@mui/utils", "virtual:d7c331abb4985bcba64e07c014a5514df8f03f7a01770ab9017dd14273d1485855e37ea71e92e9a3a6d53090e086d372622e83a624237fd14823458642e6867d#npm:5.15.14"],\
+          ["@mui/x-charts", "virtual:f7b030241781449f9f163484f540f772ec3707fc5214186cd12bce9e472ad0dbf6db26b799fb1d7d9f7a9e4faeedac41da01e533ee775acb5c8a31c546a0661d#npm:7.3.1"],\
           ["@mui/x-data-grid", "virtual:f7b030241781449f9f163484f540f772ec3707fc5214186cd12bce9e472ad0dbf6db26b799fb1d7d9f7a9e4faeedac41da01e533ee775acb5c8a31c546a0661d#npm:7.3.0"],\
           ["@popperjs/core", "npm:2.11.8"],\
           ["@tanstack/react-table", "virtual:d3996bc66f5a97675d735c6457b44af0f25df32a5e5981f61ff7f22e93004839ccc5d56298eff651f971a908820429de35800a3f2669be95e1c0f6bb82e8a700#npm:8.11.6"],\
