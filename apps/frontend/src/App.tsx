@@ -33,6 +33,8 @@ import MobileMedicine from "./components/service_requests/medicine_delivery/Mobi
 import MobileSanitation from "./components/service_requests/sanitation_services/MobileSanitation.tsx";
 import MobileSecurity from "./components/service_requests/security_requests/MobileSecurity.tsx";
 import MobileScheduling from "./components/service_requests/Room_Scheduling/MobileScheduling.tsx";
+import MobileLanguage from "./components/service_requests/language_requests/MobileLanguage.tsx";
+import MobileTransportation from "./components/service_requests/internalTransportation/MobileTransportation.tsx";
 
 function App() {
   const isMobile = navigator.userAgent.match(
@@ -168,7 +170,8 @@ function App() {
           path: "/language-request",
           element: (
             <>
-              <LanguageRequest />
+              {isMobile && <MobileLanguage />}
+              {!isMobile && <LanguageRequest />}
               <Layout />
             </>
           ),
@@ -177,7 +180,8 @@ function App() {
           path: "/transport-request",
           element: (
             <>
-              <TransportRequest />
+              {isMobile && <MobileTransportation />}
+              {!isMobile && <TransportRequest />}
               <Layout />
             </>
           ),
