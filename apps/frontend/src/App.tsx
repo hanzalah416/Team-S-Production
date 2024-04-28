@@ -36,6 +36,7 @@ import MobileScheduling from "./components/service_requests/Room_Scheduling/Mobi
 import MobileLanguage from "./components/service_requests/language_requests/MobileLanguage.tsx";
 import MobileTransportation from "./components/service_requests/internalTransportation/MobileTransportation.tsx";
 import ErrorPage from "./components/error_page/ErrorPage.tsx";
+import AwsPublishForm from "./components/awsEmailConnection/awsPublish.tsx";
 
 function App() {
   const isMobile = navigator.userAgent.match(
@@ -144,7 +145,16 @@ function App() {
           path: "/sign-up-email",
           element: (
             <>
-              <EmailForm topicArn="arn:aws:sns:us-east-2:851725475476:Appointment_Confirmation" />
+              <EmailForm topicArn="arn:aws:sns:us-east-2:851725475476:Hospital_Alerts" />
+              <Layout />
+            </>
+          ),
+        },
+        {
+          path: "/message-publish",
+          element: (
+            <>
+              <AwsPublishForm />
               <Layout />
             </>
           ),

@@ -1,10 +1,17 @@
 import { Node } from "../common/NodeInterface.ts";
 import { Position } from "../common/PositionInterface.ts";
 import { useEffect, useState } from "react";
-import stringSimilarity from "string-similarity";
+import FindClosestMatch from "../HelperFunctions/FindClosestMatch.ts";
+import SpeechKey from "./SpeechKey.ts";
+import isFirstWord from "../HelperFunctions/IsFirstWord.ts";
+import { GetSecondWord } from "../HelperFunctions/GetSecondWord.ts";
+import MicIcon from "@mui/icons-material/Mic";
+import styles from "./FloorMap.module.css";
 
+//Function to turn speech into text
 export default function SpeechToText(props: {
   handleSelection: (value: Position | null, type: "start" | "end") => void;
+  getPositionById: (id: string) => Position;
   startPosition: Position | null;
 }) {
   const [locations, setLocations] = useState<Position[]>([]);
@@ -46,16 +53,9 @@ export default function SpeechToText(props: {
   recognition.interimResults = false;
   recognition.maxAlternatives = 1;
 
-  /*
-    document.body.onclick = () => {
-        recognition.start();
-        console.log("Ready to receive a color command.");
-    };
-
-     */
   function handleClick() {
     recognition.start();
-    console.log("Ready to receive Color");
+    console.log("Ready to receive Location");
   }
 
   recognition.onresult = (event) => {
@@ -63,31 +63,55 @@ export default function SpeechToText(props: {
     console.log(spokenLocationRaw);
     //console.log(sortedLocations);
 
-    const spokenLocation = findClosestMatch(spokenLocationRaw, sortedLocations);
+    if (isFirstWord(spokenLocationRaw, ["closest", "nearest"])) {
+      const keyTypes = [
+        "atm",
+        "busstop",
+        "cafe",
+        "elevator",
+        "emergency",
+        "entrance",
+        "escalator",
+        "handicapped",
+        "parking",
+        "restroom",
+        "valet",
+        "vending",
+        "waitingroom",
+      ];
 
-    if (!props.startPosition) {
-      props.handleSelection(findLocationByLongName(spokenLocation), "start");
+      const locationType = FindClosestMatch(
+        GetSecondWord(spokenLocationRaw),
+        keyTypes,
+      );
+
+      if (props.startPosition) {
+        SpeechKey(
+          props.startPosition?.id,
+          props.handleSelection,
+          props.getPositionById,
+          locationType,
+        );
+      }
+    } else if (!props.startPosition) {
+      const spokenLocation = FindClosestMatch(
+        spokenLocationRaw,
+        sortedLocations,
+      );
+
+      props.handleSelection(FindLocationByLongName(spokenLocation), "start");
     } else {
-      props.handleSelection(findLocationByLongName(spokenLocation), "end");
+      const spokenLocation = FindClosestMatch(
+        spokenLocationRaw,
+        sortedLocations,
+      );
+
+      props.handleSelection(FindLocationByLongName(spokenLocation), "end");
     }
   };
 
-  const findClosestMatch = (input: string, options: string[]): string => {
-    let bestMatch = "null";
-    let bestScore = -Infinity;
-
-    options.forEach((option) => {
-      const similarityScore = stringSimilarity.compareTwoStrings(input, option);
-      if (similarityScore > bestScore) {
-        bestScore = similarityScore;
-        bestMatch = option;
-      }
-    });
-
-    return bestMatch;
-  };
-
-  const findLocationByLongName = (longNameToFind: string): Position | null => {
+  //Find the location based on long name given
+  const FindLocationByLongName = (longNameToFind: string): Position | null => {
     const foundLocation = locations.find(
       (location) =>
         location.label.toLowerCase() === longNameToFind.toLowerCase(),
@@ -97,7 +121,9 @@ export default function SpeechToText(props: {
 
   return (
     <div>
-      <button onClick={handleClick}>Start</button>
+      <button onClick={handleClick} className={styles.micButton}>
+        <MicIcon />
+      </button>
     </div>
   );
 }
