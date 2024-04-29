@@ -78,28 +78,27 @@ ul {
 }
 
 .alignStuff {
-    font-size: 40px;
-    text-align: center;
-
+  font-size: 40px;
+  text-align: center;
 }
 
 .alignS {
-    font-size: 40px;
-    text-align: center;
+  font-size: 40px;
+  text-align: center;
 }
 
 .alignChart {
-    color: white;
-justify-items: center;
+  color: white;
+  justify-items: center;
 }
 
 .heading {
-    margin-top: 100px;
-    font-size: 70px;
-    color: white;
-    text-align: center;
+  margin-top: 100px;
+  font-size: 70px;
+  color: white;
+  text-align: center;
 }
 
 .barChartLabels {
-    fill: white !important; /* Change the font color of the labels */
+  fill: white !important; /* Change the font color of the labels */
 }

@@ -51,8 +51,8 @@
 }
 
 .lower {
-    text-decoration: none;
-    text-transform: none;
+  text-decoration: none;
+  text-transform: none;
 }
 
 .time {
@@ -60,8 +60,8 @@
   font-weight: 600;
   font-size: 24px;
   color: #003b9c;
-    text-decoration: none;
-    text-transform: none;
+  text-decoration: none;
+  text-transform: none;
 }
 
 .navButtons {

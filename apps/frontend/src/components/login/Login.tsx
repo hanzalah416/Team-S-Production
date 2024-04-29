@@ -70,16 +70,12 @@ const Login: React.FC = () => {
               Brigham & Women’s Hospital website
             </p>
 
-    <Button  className={styles.downArrow}>
-    <img
-              src={downArrow}
-              onClick={scrollToDiv}
-            />
-</Button>
+            <Button className={styles.downArrow}>
+              <img src={downArrow} onClick={scrollToDiv} />
+            </Button>
           </div>
         </div>
         <div className={styles.textContainer}>
-
           <div>
             <MusicPlayerSlider />
           </div>
@@ -117,10 +113,7 @@ const Login: React.FC = () => {
               height: "200px", // Adjust button height as needed
             }}
           >
-
-
             <div className={styles.view}> Click to Subscribe</div>
-
           </Button>
         </div>
       </div>

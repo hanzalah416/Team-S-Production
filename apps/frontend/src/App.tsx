@@ -42,7 +42,6 @@ import ErrorPage from "./components/error_page/ErrorPage.tsx";
 import AwsPublishForm from "./components/awsEmailConnection/awsPublish.tsx";
 import MobileMap from "./components/floor_map/MobileMap.tsx";
 
-
 function App() {
   const router = createBrowserRouter([
     {
