@@ -27,7 +27,22 @@ import TransportRequest from "./components/service_requests/internalTransportati
 import EmailForm from "./components/awsEmailConnection/EmailForm.tsx";
 import GiftForm from "./components/service_requests/gift_request/giftForm.tsx";
 import { AboutPage } from "./components/about_page/AboutPage.tsx";
+
 import StatsPage from "./components/stats_page/StatsPage.tsx";
+
+import MobileFlower from "./components/service_requests/flower_requests/MobileFlower.tsx";
+import MobileGift from "./components/service_requests/gift_request/MobileGift.tsx";
+import MobileMedicine from "./components/service_requests/medicine_delivery/MobileMedicine.tsx";
+import MobileSanitation from "./components/service_requests/sanitation_services/MobileSanitation.tsx";
+import MobileSecurity from "./components/service_requests/security_requests/MobileSecurity.tsx";
+import MobileScheduling from "./components/service_requests/Room_Scheduling/MobileScheduling.tsx";
+import MobileLanguage from "./components/service_requests/language_requests/MobileLanguage.tsx";
+import MobileTransportation from "./components/service_requests/internalTransportation/MobileTransportation.tsx";
+import ErrorPage from "./components/error_page/ErrorPage.tsx";
+import AwsPublishForm from "./components/awsEmailConnection/awsPublish.tsx";
+import MobileMap from "./components/floor_map/MobileMap.tsx";
+
+
 function App() {
   const router = createBrowserRouter([
     {
@@ -45,7 +60,8 @@ function App() {
           path: "/floor-map",
           element: (
             <>
-              <FloorMap />
+              {isMobile && <MobileMap />}
+              {!isMobile && <FloorMap />}
               <Layout />
             </>
           ),

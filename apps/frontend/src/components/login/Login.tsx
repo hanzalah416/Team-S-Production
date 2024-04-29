@@ -79,6 +79,11 @@ const Login: React.FC = () => {
           </div>
         </div>
         <div className={styles.textContainer}>
+
+          <div>
+            <MusicPlayerSlider />
+          </div>
+
           <h1 className={styles.heading}>Brigham and Women's Hospital</h1>
           <br />
           <p className={styles.heading2}>
@@ -112,7 +117,10 @@ const Login: React.FC = () => {
               height: "200px", // Adjust button height as needed
             }}
           >
-            <div className={styles.view}> Click to Subscribe </div>
+
+
+            <div className={styles.view}> Click to Subscribe</div>
+
           </Button>
         </div>
       </div>

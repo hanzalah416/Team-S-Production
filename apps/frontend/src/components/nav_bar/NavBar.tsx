@@ -366,6 +366,7 @@ function NavBar() {
             </Link>
           </FormControl>
         )}
+
         {isAuthenticated && (
           <div>
             <Button
@@ -376,6 +377,56 @@ function NavBar() {
               onClick={handleClick}
             >
               <div className={"alignIcons"}>
+
+        <div>
+          <Button
+            id="services-button"
+            aria-controls={open ? "services-menu" : undefined}
+            aria-haspopup="true"
+            aria-expanded={open ? "true" : undefined}
+            onClick={handleClick}
+          >
+            <div className={"alignIcons"}>
+              <img
+                src={currServIcon}
+                className={"iconHeight"}
+                width={"29px"}
+                alt={"currServIcon"}
+              />
+              <p id={"servicesID"} className={"itemNames"}>
+                Services
+              </p>
+            </div>
+            <img
+              src={dropDownIcon}
+              alt={"dropDownIcon"}
+              className={"makeItBlue"}
+            />
+          </Button>
+          <Menu
+            id="services-menu"
+            anchorEl={anchorEl}
+            open={open}
+            onClose={handleClose}
+            MenuListProps={{
+              "aria-labelledby": "services-button",
+            }}
+          >
+            <Link to={"/order-flowers"} id={"order"}>
+              <MenuItem onClick={handleClose}>
+                <img
+                  src={flowerIcon}
+                  className={"iconHeight"}
+                  width={"38px"}
+                  alt={"Flower Icon"}
+                />
+                <p className={"item"}>Order Flowers</p>
+              </MenuItem>
+            </Link>
+
+            <Link to={"/gift-request"} id={"order"}>
+              <MenuItem onClick={handleClose}>
+
                 <img
                   src={currServIcon}
                   className={"iconHeight"}
@@ -611,7 +662,11 @@ function NavBar() {
             className={"alignIconsDropDown"}
             onClick={handleClick}
           >
-            <img src={dropDownIcon} alt={"drop down icon"} />
+            <img
+              src={dropDownIcon}
+              className={"makeItBlue"}
+              alt={"drop down icon"}
+            />
             <div className={"alignIconsDropDown"}>
               <p id={"servicesID"} className={"itemNames"}>
                 Services
