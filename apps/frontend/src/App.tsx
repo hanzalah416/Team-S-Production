@@ -232,6 +232,7 @@ function App() {
                     ),
                 },
 
+
                 {
                     path: "/about-page",
                     element: (

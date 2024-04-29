@@ -1,26 +1,54 @@
 import React, { useState } from "react";
-import { subscribeEmail } from "./EmailApi.ts"; // Import the SNS subscription function
-import { DataGrid, GRID_CHECKBOX_SELECTION_COL_DEF } from "@mui/x-data-grid";
+import { DataGrid } from "@mui/x-data-grid";
 import BackgroundImg2 from "../assets/blue-background2.jpg";
 import { Paper } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import Grid from "@mui/material/Unstable_Grid2";
 import { Typography } from "@mui/material";
-interface EmailFormProps {
-  topicArn: string;
-}
+import axios from "axios";
 
-const EmailForm: React.FC<EmailFormProps> = ({ topicArn }) => {
+export default function EmailForm() {
   const [email, setEmail] = useState("");
+  const [topicArn, setTopicArn] = useState("");
   const rows = [
-    { id: 1, serviceRequestName: "Order Flowers", status: "Working" },
-    { id: 2, serviceRequestName: "Gift Requests", status: "Working" },
-    { id: 3, serviceRequestName: "Medical Delivery", status: "Working" },
-    { id: 4, serviceRequestName: "Sanitation Services", status: "Working" },
-    { id: 5, serviceRequestName: "Security Requests", status: "Working" },
-    { id: 6, serviceRequestName: "Room Scheduling", status: "Working" },
-    { id: 7, serviceRequestName: "Language Request", status: "Working" },
-    { id: 8, serviceRequestName: "Transportation Request", status: "Working" },
+    {
+      id: 1,
+      serviceRequestName: "Appointment Confirmation",
+      status: "Working",
+      TopicArn: "arn:aws:sns:us-east-2:851725475476:Appointment_Confirmation",
+    },
+    {
+      id: 2,
+      serviceRequestName: "Appointment Reminder",
+      status: "Working",
+      TopicArn: "arn:aws:sns:us-east-2:851725475476:Appointment_Reminder",
+    },
+    {
+      id: 3,
+      serviceRequestName: "Alerts from Brigham's Hospital",
+      status: "Working",
+      TopicArn: "arn:aws:sns:us-east-2:851725475476:Brigham_Alerts",
+    },
+    {
+      id: 4,
+      serviceRequestName: "Updates from Brigham's Hospital",
+      status: "Working",
+      TopicArn: "arn:aws:sns:us-east-2:851725475476:Brigham_Updates",
+    },
+    {
+      id: 5,
+      serviceRequestName: "Follow Up Emails",
+      status: "Working",
+      TopicArn: "arn:aws:sns:us-east-2:851725475476:Follow-Up",
+    },
+    {
+      id: 6,
+      serviceRequestName: "Brigham's Medicine Magazine",
+      status: "Working",
+      TopicArn: "arn:aws:sns:us-east-2:851725475476:Medicine_Magazine",
+    },
   ];
+  const navigate = useNavigate();
   const columns = React.useMemo(
     () => [
       {
@@ -33,25 +61,40 @@ const EmailForm: React.FC<EmailFormProps> = ({ topicArn }) => {
         headerName: "Status",
         width: 150,
       },
-      {
-        ...GRID_CHECKBOX_SELECTION_COL_DEF,
-        width: 50,
-      },
     ],
     [],
   );
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  function clear() {
+    setEmail("");
+    setTopicArn("");
+  }
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    try {
-      await subscribeEmail(topicArn, email);
-      alert("Subscription successful!");
-      setEmail("");
-    } catch (error) {
-      console.error("Error subscribing email:", error);
-      alert("Subscription failed. Please try again.");
-    }
-  };
+    const emailTopic = {
+      email: email,
+      TopicArn: "arn:aws:sns:us-east-2:851725475476:Hospital_Alerts",
+    };
+
+    await axios
+      .post("/api/subscribe-email", emailTopic, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      .then(() => {
+        console.log("Email Subscribed successfully");
+        navigate("/order-flowers-result");
+        console.log(topicArn);
+      })
+      .catch(() => {
+        console.log("Subscription failed failed");
+        console.log(emailTopic);
+        alert("Subscription failed. Please try again.");
+      });
+    clear();
+  }
 
   return (
     <div
@@ -87,11 +130,11 @@ const EmailForm: React.FC<EmailFormProps> = ({ topicArn }) => {
             variant="h4"
             style={{ textAlign: "center", marginBottom: 20 }}
           >
-            Subscirbe Service Requests
+            List of Subscription Services
           </Typography>
           <form onSubmit={handleSubmit}>
             <div style={{ height: 400, width: "100%" }}>
-              <DataGrid rows={rows} columns={columns} checkboxSelection />
+              <DataGrid rows={rows} columns={columns} />
             </div>
             <label
               htmlFor="emailInput"
@@ -130,6 +173,4 @@ const EmailForm: React.FC<EmailFormProps> = ({ topicArn }) => {
       </Grid>
     </div>
   );
-};
-
-export default EmailForm;
+}
