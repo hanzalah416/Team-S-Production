@@ -80,7 +80,12 @@ ul {
 .alignStuff {
     font-size: 40px;
     text-align: center;
-    margin-top: 50px;
+
+}
+
+.alignS {
+    font-size: 40px;
+    text-align: center;
 }
 
 .alignChart {
@@ -93,4 +98,8 @@ justify-items: center;
     font-size: 70px;
     color: white;
     text-align: center;
+}
+
+.barChartLabels {
+    fill: white !important; /* Change the font color of the labels */
 }

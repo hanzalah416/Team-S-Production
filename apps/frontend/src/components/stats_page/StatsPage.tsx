@@ -3,11 +3,12 @@ import BackgroundImg2 from "../assets/blue-background2.jpg";
 import axios from "axios";
 // import Typography from "@mui/material/Typography";;
 // import { BarChart } from '@mui/x-charts/BarChart';
-import {PieChart} from "@mui/x-charts";
+// import {barElementClasses, PieChart} from "@mui/x-charts";
 import {BarChart} from '@mui/x-charts/BarChart';
 import styles from "../stats_page/StatsPage.module.css";
-import {axisClasses} from "@mui/x-charts";
+import {axisClasses, PieChart} from "@mui/x-charts";
 import Stack from "@mui/material/Stack";
+// import {colors} from "@mui/material";
 // import {data} from "autoprefixer";
 // import {makeStyles} from "@mui/material";
 // import {Grid} from "@mui/material";
@@ -51,20 +52,6 @@ const Stats = () => {
     const [assignBar, setAssignBar] = useState<AssignBarData[]>([]);
     const [priorityBar, setPriorityBar] = useState<PriorityBarData[]>([]);
 
-    const chartSetting = {
-        yAxis: [
-            {
-                label: 'rainfall (mm)',
-            },
-        ],
-        width: 500,
-        height: 300,
-        sx: {
-            [`.${axisClasses.left} .${axisClasses.label}`]: {
-                transform: 'translate(-20px, 0)',
-            },
-        },
-    };
 
 
     useEffect(() => {
@@ -106,7 +93,7 @@ const Stats = () => {
 
             }}> Site Statistics</h1>
             <Stack alignItems="center" justifyContent="center" spacing={3} p={4}>
-            <h2 className={styles.alignStuff}
+            <h2 className={styles.alignS}
                 style={{
                     color: "white"
 
@@ -115,6 +102,7 @@ const Stats = () => {
             <PieChart
 
                 series={[
+
                     {
 
                         data: [
@@ -181,7 +169,7 @@ const Stats = () => {
                 slotProps={{
                     legend: {
                         direction: 'row',
-                        position: {vertical: 'bottom', horizontal: 'right'},
+                        position: {vertical: 'top', horizontal: 'right'},
                         padding: 0,
                     },
                 }}
@@ -189,9 +177,8 @@ const Stats = () => {
                     "& .MuiChartsLegend-series text": {
                         fill: "white !important",
                     },
-                    "& .MuiTypography-root": {
-                        color: "white !important", // Ensure that chart title color is white
-                    },
+
+
                 }}
             />
 
@@ -202,7 +189,8 @@ const Stats = () => {
 
                 }}>Service Requests by Status</h1>
             <BarChart
-                className = {styles.alignChart}
+
+
                 dataset={assignBar}
                 xAxis={
                     [
@@ -219,23 +207,41 @@ const Stats = () => {
 
                 }
                 series={[
+
                     {dataKey: "notAssigned", label: "Unassigned"},
                     {dataKey: "assigned", label: "Assigned"},
                     {dataKey: "inProgess", label: "In Progress"},
                     {dataKey: "closed", label: "Closed"},
 
                 ]}
-                {...chartSetting}
+
                 width={830}
                 height={300}
 
 
-                sx={{
+
+                sx={(theme) => ({
                     "& .MuiChartsLegend-series text": {
                         color: "yellow !important",
                         fill: "white !important",
                     },
-                }}
+
+                    [`.${axisClasses.root}`]: {
+                        [`.${axisClasses.tick}, .${axisClasses.line}`]: {
+                            stroke: 'white',
+                            strokeWidth: 3,
+                        },
+                        [`.${axisClasses.tickLabel}`]: {
+                            fill: 'white',
+                        },
+                    },
+
+                    border: `1px solid rgba(${theme.palette.mode === 'dark' ? '255,255,255' : '0, 0, 0'}, 0.1)`,
+                    backgroundImage: `linear-gradient(rgba(${theme.palette.mode === 'dark' ? '255,255,255' : '0, 0, 0'}, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(${theme.palette.mode === 'dark' ? '255,255,255' : '0, 0, 0'}, 0.1) 1px, transparent 1px)`,
+                    backgroundSize: '35px 35px',
+                    backgroundPosition: '20px 20px, 20px 20px',
+                })}
+
             />
 
             <h1 className={styles.alignStuff}
@@ -248,7 +254,9 @@ const Stats = () => {
                 xAxis={[{scaleType: 'band', dataKey: "requestType"}]
                 }
 
-                series={[
+                series={
+
+                [
                     {dataKey: "low", label: "Low Priority"},
                     {dataKey: "medium", label: "High Priority"},
                     {dataKey: "high", label: "Medium Priority"},
@@ -259,15 +267,28 @@ const Stats = () => {
                 width={800}
                 height={300}
 
-                sx={{
+                sx={(theme) => ({
                     "& .MuiChartsLegend-series text": {
                         color: "yellow !important",
                         fill: "white !important",
                     },
-                    "& .MuiTypography-root": {
-                        color: "white !important", // Ensure that chart title color is white
+
+                    [`.${axisClasses.root}`]: {
+                        [`.${axisClasses.tick}, .${axisClasses.line}`]: {
+                            stroke: 'white',
+                            strokeWidth: 3,
+                        },
+                        [`.${axisClasses.tickLabel}`]: {
+                            fill: 'white',
+                        },
                     },
-                }}
+
+                    border: `1px solid rgba(${theme.palette.mode === 'dark' ? '255,255,255' : '0, 0, 0'}, 0.1)`,
+                    backgroundImage: `linear-gradient(rgba(${theme.palette.mode === 'dark' ? '255,255,255' : '0, 0, 0'}, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(${theme.palette.mode === 'dark' ? '255,255,255' : '0, 0, 0'}, 0.1) 1px, transparent 1px)`,
+                    backgroundSize: '35px 35px',
+                    backgroundPosition: '20px 20px, 20px 20px',
+                })}
+
             />
             </Stack>
 

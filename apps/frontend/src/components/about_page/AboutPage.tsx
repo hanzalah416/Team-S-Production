@@ -11,7 +11,7 @@ import ken from "../assets/abtPage/ken.png";
 import li from "../assets/abtPage/li.png";
 import shinn from "../assets/abtPage/andrewshinn.png";
 import bgw from "../assets/abtPage/bgw.png";
-import youssef from "../assets/abtPage/goat.png";
+import youssef from "../assets/abtPage/youssef.png";
 import willy from "../assets/abtPage/wilsonwong.png";
 import wpi from "../assets/abtPage/WPI.png";
 import Card from "./Card";
@@ -29,7 +29,7 @@ const OurTeam = [
     imgUrl: dor,
     label: "Dorothy Alexander",
     title: "Dorothy Alexander: Full Stack Developer ",
-    font: "Elia",
+    font: "",
     color: "#D0B136",
     size: "25px",
   },
@@ -40,7 +40,7 @@ const OurTeam = [
     imgUrl: jacob,
     label: "Jacob Antepli",
     title: "Jacob Antepli: Project Manager, Full Stack Developer ",
-    font: "Elia",
+    font: "",
     color: "#292877",
     size: "25px",
   },
@@ -52,7 +52,7 @@ const OurTeam = [
     imgUrl: matt,
     label: "Matt Crane",
     title: "Matt Crane: Lead Engineer, Full Stack Developer ",
-    font: "Elia",
+    font: "",
     color: "#D0B136",
     size: "25px",
   },
@@ -62,7 +62,7 @@ const OurTeam = [
     imgUrl: kim,
     label: "Kim Cummings",
     title: "Kim Cummings: Assistant Lead, Full Stack Developer ",
-    font: "Elia",
+    font: "",
     color: "#292877",
     size: "25px",
   },
@@ -73,7 +73,7 @@ const OurTeam = [
     imgUrl: chris,
     label: "Christopher Hunt",
     title: "Christopher Hunt: Documentation Analyst, Full Stack Developer ",
-    font: "Elia",
+    font: "",
     color: "#D0B136",
     size: "25px",
   },
@@ -83,7 +83,7 @@ const OurTeam = [
     imgUrl: li,
     label: "Jeffrey Li",
     title: "Jeffrey Li: Scrum Master, Full Stack Developer ",
-    font: "Elia",
+    font: "",
     color: "#292877",
     size: "25px",
   },
@@ -92,7 +92,7 @@ const OurTeam = [
     imgUrl: jav,
     label: "Javier Moncada",
     title: "Javier Moncada: Product Owner, Full Stack Developer ",
-    font: "Elia",
+    font: "",
     color: "#D0B136",
     size: "25px",
   },
@@ -102,7 +102,7 @@ const OurTeam = [
     imgUrl: hanz,
     label: "Hanzalah Qamar",
     title: "Hanzalah Qamar: Full Stack Developer ",
-    font: "Elia",
+    font: "",
     color: "#292877",
     size: "25px",
   },
@@ -113,9 +113,9 @@ const OurTeam = [
     imgUrl: nate,
     label: "Nathaniel Schneider",
     title: "Nathaniel Schneider: Assistant Lead, Full Stack Developer ",
-    font: "Elia",
+    font: "",
     color: "#D0B136",
-    size: "25px",
+    size: "24px",
   },
   {
     description:
@@ -123,7 +123,7 @@ const OurTeam = [
     imgUrl: ken,
     label: "Ken Sebastian",
     title: "Ken Sebastian: Full Stack Developer ",
-    font: "Elia",
+    font: "",
     color: "#292877",
     size: "25px",
   },
@@ -132,7 +132,7 @@ const OurTeam = [
     imgUrl: went,
     label: "Wentao Yu",
     title: "Wentao Yu: Full Stack Developer ",
-    font: "Elia",
+    font: "",
     color: "#D0B136",
     size: "25px",
   },
@@ -141,16 +141,16 @@ const OurTeam = [
 const Acknowledgements = [
   {
     imgUrl: willy,
-    label: "Prof Wilson Wong",
-    font: "Elia",
+    label: "Prof. Wilson Wong",
+    font: "",
     color: "#292877",
-    size: "26px",
+    size: "27px",
   },
 
   {
     imgUrl: youssef,
     label: "Youssef Benchikhi",
-    font: "Elia",
+    font: "",
     color: "#D0B136",
     size: "27px",
   },
@@ -158,15 +158,15 @@ const Acknowledgements = [
   {
     imgUrl: shinn,
     label: "Andrew Shinn",
-    font: "Elia",
+    font: "",
     color: "#292877",
-    size: "35px",
+    size: "27px",
   },
 
   {
     imgUrl: bgw,
-    label: "Brigham and Womens Hospital",
-    font: "Elia",
+    label: "Brigham and Women's Hospital",
+    font: "",
     color: "#D0B136",
     size: "15px",
   },
@@ -174,7 +174,7 @@ const Acknowledgements = [
   {
     imgUrl: wpi,
     label: "WPI CS Department",
-    font: "Elia",
+    font: "",
     color: "#292877",
     size: "23px",
   },
@@ -265,12 +265,12 @@ export const AboutPage = () => {
               <div className={styles.pictureBackground}>
                 {item.label === "Youssef Benchikhi" ? (
                   <img src={yellowPin} className={styles.yellowPin} />
-                ) : item.label === "Brigham and Womens Hospital" ? (
+                ) : item.label === "Brigham and Women's Hospital" ? (
                   <img src={yellowPin} className={styles.yellowPin} />
                 ) : (
                   <img src={bluePin1} className={styles.bluePin1} />
                 )}
-                <AckCard {...item} key={item.description} />
+                <AckCard {...item} key={item.label} />
               </div>
             ))}
           </div>
