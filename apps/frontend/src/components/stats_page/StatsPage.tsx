@@ -264,7 +264,7 @@ const Stats = () => {
 
                 ]}
 
-                width={800}
+                width={830}
                 height={300}
 
                 sx={(theme) => ({
