@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { DataGrid, GRID_CHECKBOX_SELECTION_COL_DEF } from "@mui/x-data-grid";
+import { DataGrid } from "@mui/x-data-grid";
 import BackgroundImg2 from "../assets/blue-background2.jpg";
 import { Paper } from "@mui/material";
 import { useNavigate } from "react-router-dom";
@@ -60,10 +60,6 @@ export default function EmailForm() {
         field: "status",
         headerName: "Status",
         width: 150,
-      },
-      {
-        ...GRID_CHECKBOX_SELECTION_COL_DEF,
-        width: 50,
       },
     ],
     [],
@@ -134,11 +130,11 @@ export default function EmailForm() {
             variant="h4"
             style={{ textAlign: "center", marginBottom: 20 }}
           >
-            Subscirbe Service Requests
+            List of Subscription Services
           </Typography>
           <form onSubmit={handleSubmit}>
             <div style={{ height: 400, width: "100%" }}>
-              <DataGrid rows={rows} columns={columns} checkboxSelection />
+              <DataGrid rows={rows} columns={columns} />
             </div>
             <label
               htmlFor="emailInput"
