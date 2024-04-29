@@ -59,6 +59,8 @@ function MobileMap() {
   const [speechVoice, setSpeechVoice] = useState(4);
 
   const [destinationChoosen, setDestinationChoosen] = useState(false);
+  const dropDownID = document.getElementById("dropDownID");
+  const [dropDown, setDropDown] = useState(false);
 
   const zoomToPathSegment = useCallback(
     (segmentIndex: number) => {
@@ -494,13 +496,17 @@ function MobileMap() {
   useEffect(() => {
     if (startPosition && endPosition) {
       setDestinationChoosen(true);
+      setDropDown(false);
       document.documentElement.style.setProperty(
         `--${"searchDisplay"}`,
         "none",
       );
+      if (dropDownID) {
+        dropDownID.classList.remove(styles.flipImg);
+      }
       fetchPath(startPosition.id, endPosition.id);
     }
-  }, [fetchPath, startPosition, endPosition]);
+  }, [fetchPath, startPosition, endPosition, dropDownID]);
 
   const getLineColor = (floor: string) => {
     switch (floor) {
@@ -556,10 +562,7 @@ function MobileMap() {
     return segments;
   };
 
-  const dropDownID = document.getElementById("dropDownID");
-  const [dropDown, setDropDown] = useState(false);
-
-  const changeBoarderRadius = () => {
+  const toggleDropDownMenu = () => {
     if (!dropDown) {
       setDropDown(true);
       document.documentElement.style.setProperty(
@@ -717,7 +720,7 @@ function MobileMap() {
             >
               {endPosition.label}
             </p>
-            <Button onClick={changeBoarderRadius}>
+            <Button onClick={toggleDropDownMenu}>
               <img id={"dropDownID"} src={dropDownIcon} />
             </Button>
           </div>
