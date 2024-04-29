@@ -28,6 +28,7 @@ import { LogoutButton } from "../LogoutButton.tsx";
 import { createTheme, FormControl, ThemeProvider } from "@mui/material";
 import { useCallback, useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
+import SpeechNavigate from "./SpeechNavigate.tsx";
 
 declare module "@mui/material/styles" {
   interface Palette {
@@ -337,6 +338,9 @@ function NavBar() {
           <p className={"time"} onClick={toHero}>
             {timeOfDay}{" "}
           </p>
+
+          {"SpeechRecognition" in window ||
+            ("webkitSpeechRecognition" in window && <SpeechNavigate />)}
         </div>
       </Button>
       <div className={"navButtons"}>

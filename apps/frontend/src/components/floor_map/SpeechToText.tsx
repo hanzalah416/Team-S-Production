@@ -8,6 +8,8 @@ import { GetSecondWord } from "../HelperFunctions/GetSecondWord.ts";
 import MicIcon from "@mui/icons-material/Mic";
 import styles from "./FloorMap.module.css";
 import { useNavigate } from "react-router-dom";
+import jingle from "../assets/320181__dland__hint.mp3";
+import PlayJingle from "../HelperFunctions/PlayJingle.ts";
 
 //Function to turn speech into text
 export default function SpeechToText(props: {
@@ -58,6 +60,7 @@ export default function SpeechToText(props: {
 
   function handleClick() {
     recognition.start();
+    PlayJingle("jingle");
     console.log("Ready to receive Location");
   }
 
@@ -65,17 +68,17 @@ export default function SpeechToText(props: {
     const spokenLocationRaw = event.results[0][0].transcript;
     console.log(spokenLocationRaw);
     //console.log(sortedLocations);
+    PlayJingle("outJingle");
 
     if (isFirstWord(spokenLocationRaw, ["go", "navigate"])) {
       const services = [
         "order flowers",
         "sanitation services",
-        "delivery services",
         "language request",
         "room scheduling",
         "security request",
         "transport request",
-        "medicine delivery-request",
+        "medicine delivery request",
         "node data",
         "map editing",
         "manage database",
@@ -95,9 +98,6 @@ export default function SpeechToText(props: {
         case "sanitation services":
           navigate("/sanitation-request");
           break;
-        case "delivery services":
-          navigate("/delivery-request");
-          break;
         case "language request":
           navigate("/language-request");
           break;
@@ -110,7 +110,7 @@ export default function SpeechToText(props: {
         case "transport request":
           navigate("/transport-request");
           break;
-        case "medicine delivery-request":
+        case "medicine delivery request":
           navigate("/medicine-delivery-request");
           break;
         case "node data":
@@ -200,6 +200,7 @@ export default function SpeechToText(props: {
 
   return (
     <div>
+      <audio id="jingle" src={jingle}></audio>
       <button onClick={handleClick} className={styles.micButton}>
         <MicIcon />
       </button>
