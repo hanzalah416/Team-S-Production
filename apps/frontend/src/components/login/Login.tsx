@@ -20,7 +20,7 @@ import downArrow from "../assets/HeroPhotos/viewMoreArrow.svg";
 import MusicPlayerSlider from "../Music_player/MusicPlayer.tsx";
 import animationLeft from "./click-animation-left.gif";
 import animationRight from "./click-animation-right.gif";
-import Stack from '@mui/material/Stack';
+import Stack from "@mui/material/Stack";
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
@@ -30,13 +30,13 @@ const Login: React.FC = () => {
   const navigateMap = () => {
     setShowButtonAnimation(true);
     setTimeout(() => {
-        navigate("/floor-map");
+      navigate("/floor-map");
     }, 1000); // Waits a second before navigating to the floor map page
   };
   const navigateEmail = () => {
     navigate("/sign-up-email");
   };
-    const images = [heroImage, heroImage1, heroImage2, heroImage3];
+  const images = [heroImage, heroImage1, heroImage2, heroImage3];
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -95,34 +95,44 @@ const Login: React.FC = () => {
           </p>
           <br />
 
-          <Stack direction="row" spacing={2}
-            sx={{alignItems: "center",
-              justifyContent: "center"}}>
-            {showButtonAnimation && (
-                <div>
-                    <img src={animationLeft} alt="Animated popup after button press" style={{height: "80px", width: "80px"}} />
-                </div>
-            )}
-          <Button
-            onClick={navigateMap}
-            className={styles.viewMap}
-            color="primary"
-            style={{
-              backgroundImage: `url(${mapImage})`,
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-              width: "200px", // Adjust button width as needed
-              height: "200px", // Adjust button height as needed
-            }}
-            id={"mapButton"}
+          <Stack
+            direction="row"
+            spacing={2}
+            sx={{ alignItems: "center", justifyContent: "center" }}
           >
-            <div className={styles.view}> Click to View Map</div>
-          </Button>
-          {showButtonAnimation && (
-            <div>
-              <img src={animationRight} alt="Animated popup after button press" style={{height: "80px", width: "80px"}} />
-            </div>
-          )}
+            {showButtonAnimation && (
+              <div>
+                <img
+                  src={animationLeft}
+                  alt="Animated popup after button press"
+                  style={{ height: "80px", width: "80px" }}
+                />
+              </div>
+            )}
+            <Button
+              onClick={navigateMap}
+              className={styles.viewMap}
+              color="primary"
+              style={{
+                backgroundImage: `url(${mapImage})`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+                width: "200px", // Adjust button width as needed
+                height: "200px", // Adjust button height as needed
+              }}
+              id={"mapButton"}
+            >
+              <div className={styles.view}> Click to View Map</div>
+            </Button>
+            {showButtonAnimation && (
+              <div>
+                <img
+                  src={animationRight}
+                  alt="Animated popup after button press"
+                  style={{ height: "80px", width: "80px" }}
+                />
+              </div>
+            )}
           </Stack>
 
           <Button
@@ -137,9 +147,7 @@ const Login: React.FC = () => {
               height: "200px", // Adjust button height as needed
             }}
           >
-
             <div className={styles.view}> Click to Subscribe </div>
-
           </Button>
         </div>
       </div>

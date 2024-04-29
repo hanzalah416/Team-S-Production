@@ -62,8 +62,8 @@
   color: #003b9c;
   text-decoration: none;
   text-transform: none;
-    user-select: none;
-    cursor: pointer;
+  user-select: none;
+  cursor: pointer;
 }
 
 .navButtons {

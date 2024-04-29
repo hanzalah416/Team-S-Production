@@ -5,8 +5,6 @@ body {
   font-size: 14px;
 }
 
-
-
 .pathNotFoundBox {
   background-color: red;
   color: white;
@@ -379,7 +377,6 @@ body {
   border: none;
 }
 
-
 .keyButtonText {
   all: unset;
   cursor: pointer;
@@ -411,20 +408,17 @@ body {
   outline: none !important; /* Using !important to ensure override */
 }
 
-
 .keyButton:focus,
 .keyButtonText:focus {
-    outline: none;
+  outline: none;
 }
 
-
 .keyButton:hover {
-    box-shadow: 0 0 0 2px #163a95; /* Add a 2px blue shadow on hover */
-    border-radius: 20px;
+  box-shadow: 0 0 0 2px #163a95; /* Add a 2px blue shadow on hover */
+  border-radius: 20px;
 }
 
 .keyButtonText:hover {
-    box-shadow: 0 0 0 2px #163993; /* Add a 2px darker blue shadow on hover */
-    border-radius: 20px;
+  box-shadow: 0 0 0 2px #163993; /* Add a 2px darker blue shadow on hover */
+  border-radius: 20px;
 }
-
