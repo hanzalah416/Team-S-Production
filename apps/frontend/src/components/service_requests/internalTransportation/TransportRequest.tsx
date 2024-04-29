@@ -16,6 +16,25 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Position } from "../../common/PositionInterface.ts";
 import { Node } from "../../common/NodeInterface.ts";
+import Tooltip from "../../ToolTip";
+
+const tips = `
+Name of Requester: Enter the full name of the staff member requesting patient transportation.
+
+Name of Patient: Enter the name the patient would like the transportation team to refer to them as. 
+
+PickupLocation: Use the dropdown to select the location the patient is to be picked up from. This might refer to a specific department, office, or event location.
+
+PickupLocation: Use the dropdown to select the location the patient is to be dropped off at. This might refer to a specific department, office, or event location.
+
+Transportation Type: Select the type of transportation required from the drop down menu.
+
+Priority: Click on the dropdown menu to indicate the urgency of the request. The options may include urgent, high, medium, or low.
+
+Status: If the form allows for setting a status, select the current status of the request, like 'new', 'pending', 'approved', or 'completed'.
+
+`;
+
 interface Staff {
   employeeName: string;
 }
@@ -173,7 +192,13 @@ const TransportRequest: React.FC = () => {
         <br />
         <Paper elevation={4} style={{ padding: 20 }}>
           <br />
-          <p className={"title"}>Internal Transportation Request Form</p>
+          <p className={"title"} style={{ position: "relative" }}>
+            Transportation Request Form
+            <Tooltip
+              style={{ position: "absolute", right: "40px", top: 0 }}
+              tips={tips}
+            />
+          </p>
           <Stack alignItems="center" justifyContent="center" spacing={3} p={4}>
             <div className={"breakline"}></div>
             <br />
