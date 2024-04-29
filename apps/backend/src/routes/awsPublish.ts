@@ -19,7 +19,7 @@ router.post("/", async function (req: Request, res: Response) {
     const response = await snsClient.send(
       new PublishCommand({
         Message: message,
-        TopicArn: topicArn,
+        TopicArn: "arn:aws:sns:us-east-2:851725475476:Brighams-Hospital",
       }),
     );
 

@@ -1,29 +1,39 @@
 import React, { useState } from "react";
-//import { subscribeEmail } from "./EmailApi.ts";
 import axios from "axios";
-//import styles from "../service_requests/SecurityRequest.module.css";
+import Grid from "@mui/material/Unstable_Grid2";
+import Paper from "@mui/material/Paper";
+import BackgroundImg2 from "../assets/blue-background2.jpg";
+import Tooltip from "../ToolTip.tsx";
+import Stack from "@mui/material/Stack";
+import TextField from "@mui/material/TextField";
+import { useNavigate } from "react-router-dom";
 
-// interface EmailFormProps {
-//     topicArn: string;
-// }
+const tips = `
+This message will be sent to every person who subscribes to the hospital. \n Only do this if there is an important message to send.
+`;
+
 export default function AwsPublishForm() {
-  const [topicARN, setTopicARN] = useState("");
   const [message, setMessage] = useState("");
+  const navigate = useNavigate();
 
-  async function submit() {
+  async function submit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
     const newEntry = {
-      Message: message,
-      TopicArn: topicARN,
+      message: message,
     };
 
     await axios
-      .post("/api/aws-publish", newEntry, {})
+      .post("/api/publish-message", newEntry, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
       .then(() => {
-        console.log("Successfully published messaged");
+        console.log("Successfully published message");
+        navigate("/floor-map");
       })
       .catch(() => {
         console.log("Failed to publish");
-        console.log(newEntry);
         alert("Message failed to publish");
       });
     clear();
@@ -31,30 +41,69 @@ export default function AwsPublishForm() {
 
   function clear() {
     setMessage("");
-    setTopicARN("");
   }
 
   return (
-    <div>
-      <form onSubmit={submit}>
-        <label htmlFor="messageInput">Enter Message:</label>
-        <input
-          type="message"
-          id="messageInput"
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          required
-        />
-        <label htmlFor="topicArn">Enter topic arn:</label>
-        <input
-          type="topic"
-          id="topicInput"
-          value={topicARN}
-          onChange={(e) => setTopicARN(e.target.value)}
-          required
-        />
-        <button type="submit">Message</button>
-      </form>
+    <div
+      style={{
+        backgroundImage: `url(${BackgroundImg2})`,
+        height: "100vh",
+        width: "100vw",
+        backgroundSize: "cover",
+        backgroundRepeat: "no-repeat",
+        minHeight: "100%",
+        backgroundPosition: "center center",
+        overflowX: "hidden",
+      }}
+    >
+      <Grid
+        container
+        spacing={5}
+        direction="column"
+        alignItems="center"
+        justifyContent="center"
+        my={4}
+      >
+        <br />
+        <br />
+        <Paper elevation={4} style={{ padding: 20, width: "60%" }}>
+          <br />
+          <p className={"title"} style={{ position: "relative" }}>
+            Send Out Emails to Patients
+            <Tooltip
+              style={{ position: "absolute", right: "20px", top: 0 }}
+              tips={tips}
+            />
+          </p>
+
+          <Stack alignItems="center" justifyContent="center" spacing={3} p={4}>
+            <div className={"breakline"}></div>
+            <br />
+            <Stack
+              spacing={2}
+              direction="row"
+              alignItems="center"
+              justifyContent="center"
+            >
+              <form onSubmit={submit} style={{ width: "100%" }}>
+                <label htmlFor="messageInput">Enter Message:</label>
+                <TextField
+                  id="messageInput"
+                  label="Message"
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                  required
+                  fullWidth
+                  multiline
+                  rows={6}
+                  style={{ width: "100%" }} // Set the width of the TextField
+                />
+                <button type="submit">Send to Subscribers</button>
+              </form>
+            </Stack>
+          </Stack>
+        </Paper>
+      </Grid>
     </div>
   );
 }

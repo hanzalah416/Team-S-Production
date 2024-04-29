@@ -16,36 +16,42 @@ export default function EmailForm() {
       serviceRequestName: "Appointment Confirmation",
       status: "Working",
       TopicArn: "arn:aws:sns:us-east-2:851725475476:Appointment_Confirmation",
+      info: "Get email updates whenever you make an appointment with us!",
     },
     {
       id: 2,
       serviceRequestName: "Appointment Reminder",
       status: "Working",
       TopicArn: "arn:aws:sns:us-east-2:851725475476:Appointment_Reminder",
+      info: "Get a reminder a day before your appointment with us!",
     },
     {
       id: 3,
       serviceRequestName: "Alerts from Brigham's Hospital",
       status: "Working",
       TopicArn: "arn:aws:sns:us-east-2:851725475476:Brigham_Alerts",
+      info: "Get any urgent alerts related to Brigham's Hospital",
     },
     {
       id: 4,
       serviceRequestName: "Updates from Brigham's Hospital",
       status: "Working",
       TopicArn: "arn:aws:sns:us-east-2:851725475476:Brigham_Updates",
+      info: "Get emailed with any new updates related to Brigham's Hospital",
     },
     {
       id: 5,
       serviceRequestName: "Follow Up Emails",
       status: "Working",
       TopicArn: "arn:aws:sns:us-east-2:851725475476:Follow-Up",
+      info: "Get emails after your appointment with any helpful information",
     },
     {
       id: 6,
       serviceRequestName: "Brigham's Medicine Magazine",
       status: "Working",
       TopicArn: "arn:aws:sns:us-east-2:851725475476:Medicine_Magazine",
+      info: "Get emails with our own magazine detailing the newest medicine discoveries!",
     },
   ];
   const navigate = useNavigate();
@@ -57,9 +63,9 @@ export default function EmailForm() {
         width: 300,
       },
       {
-        field: "status",
-        headerName: "Status",
-        width: 150,
+        field: "info",
+        headerName: "Information",
+        width: 520,
       },
     ],
     [],
@@ -74,7 +80,7 @@ export default function EmailForm() {
     e.preventDefault();
     const emailTopic = {
       email: email,
-      TopicArn: "arn:aws:sns:us-east-2:851725475476:Hospital_Alerts",
+      TopicArn: "arn:aws:sns:us-east-2:851725475476:Brighams-Hospital",
     };
 
     await axios
@@ -85,7 +91,7 @@ export default function EmailForm() {
       })
       .then(() => {
         console.log("Email Subscribed successfully");
-        navigate("/order-flowers-result");
+        navigate("/");
         console.log(topicArn);
       })
       .catch(() => {
@@ -119,9 +125,9 @@ export default function EmailForm() {
       >
         <Paper
           style={{
-            padding: 85,
-            width: "50%",
-            maxWidth: 700,
+            padding: 55,
+            width: 1000,
+            maxWidth: "90%",
             margin: "20px auto",
             marginTop: "5%",
           }}
@@ -133,7 +139,7 @@ export default function EmailForm() {
             List of Subscription Services
           </Typography>
           <form onSubmit={handleSubmit}>
-            <div style={{ height: 400, width: "100%" }}>
+            <div style={{ height: 439, width: "100%" }}>
               <DataGrid rows={rows} columns={columns} />
             </div>
             <label
