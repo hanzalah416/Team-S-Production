@@ -28,7 +28,6 @@ import f1Map from "../assets/HospitalMap/01_thefirstfloor.png";
 import f2Map from "../assets/HospitalMap/02_thesecondfloor.png";
 import f3Map from "../assets/HospitalMap/03_thethirdfloor.png";
 
-
 // Interfaces
 interface Node {
   xcoord: string;
@@ -150,7 +149,6 @@ const StaticFloorMapDebug = () => {
     event.stopPropagation();
   };
 
-
   const handleMouseMove = (
     event: React.MouseEvent<SVGSVGElement, MouseEvent>,
   ) => {
@@ -172,7 +170,11 @@ const StaticFloorMapDebug = () => {
     updateNodePosition(draggedNode.id, transformedPt.x, transformedPt.y);
   };
 
-  const handleMapMouseUp = (event) => {
+  const handleMapMouseUp = (event: {
+    currentTarget: SVGSVGElement;
+    clientX: number;
+    clientY: number;
+  }) => {
     console.log(" map mouseUp called");
     setDragging(false);
     if (!nodeMode) return;
@@ -204,7 +206,6 @@ const StaticFloorMapDebug = () => {
     };
     if (!nodeModeDragging) {
       setQuickNodeDetails(partialNode);
-
     }
   };
 
@@ -330,31 +331,29 @@ const StaticFloorMapDebug = () => {
     };
 
     const handleSave = async () => {
-        if (
-          editableNode.id == ""
-        ) {
-          alert("Please fill out the Node ID.");
-          return;
-        }
-        const url = `/api/nodes`;
-        try {
-          const response = await axios.post(url, {
-            nodeID: editableNode.id,
-            xcoord: Number(editableNode.xcoord),
-            ycoord: Number(editableNode.ycoord),
-            floor: currentFloor,
-            longName: "",
-            nodeType: "",
-            building: "",
-            shortName: "",
-          });
+      if (editableNode.id == "") {
+        alert("Please fill out the Node ID.");
+        return;
+      }
+      const url = `/api/nodes`;
+      try {
+        const response = await axios.post(url, {
+          nodeID: editableNode.id,
+          xcoord: Number(editableNode.xcoord),
+          ycoord: Number(editableNode.ycoord),
+          floor: currentFloor,
+          longName: "",
+          nodeType: "",
+          building: "",
+          shortName: "",
+        });
 
-          onSave(response.data);
-          handleClose();
-          await fetchNodes();
-        } catch (error) {
-          console.error("Error adding node:", error);
-        }
+        onSave(response.data);
+        handleClose();
+        await fetchNodes();
+      } catch (error) {
+        console.error("Error adding node:", error);
+      }
     };
 
     return (
@@ -1039,11 +1038,11 @@ const StaticFloorMapDebug = () => {
       {isLoading && <LoadingOverlay />}
 
       {quickNodeDetails && (
-          <QuickNodeDetailsPopup
-              node={quickNodeDetails}
-              onSave={handleAddNode}
-              fetchNodes={fetchNodes}
-          />
+        <QuickNodeDetailsPopup
+          node={quickNodeDetails}
+          onSave={handleAddNode}
+          fetchNodes={fetchNodes}
+        />
       )}
 
       {selectedNodeDetails && (
@@ -1078,8 +1077,7 @@ const StaticFloorMapDebug = () => {
         />
       )}
 
-      <div className={styles.mapContainer}
-      >
+      <div className={styles.mapContainer}>
         <FloorSwitcher />
         <Toggles />
 
@@ -1087,7 +1085,6 @@ const StaticFloorMapDebug = () => {
           doubleClick={{
             disabled: true,
           }}
-
         >
           {edgeMode && (
             <div className={styles.modeContainer}>
@@ -1322,8 +1319,8 @@ const StaticFloorMapDebug = () => {
                           cx={position.x}
                           cy={position.y}
                           r="9"
-                          fill={isSelected? "#edd142" : "#6fbede"}
-                          stroke={isSelected? "#edd142" : "black"}
+                          fill={isSelected ? "#edd142" : "#6fbede"}
+                          stroke={isSelected ? "#edd142" : "black"}
                           strokeWidth={isSelected ? "4" : "3"}
                           onClick={() => handleNodeClick(node.id)}
                           onMouseDown={(e) => handleMouseDown(node, e)}

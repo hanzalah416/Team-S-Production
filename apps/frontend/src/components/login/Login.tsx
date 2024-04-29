@@ -78,46 +78,48 @@ const Login: React.FC = () => {
             />
           </div>
         </div>
-          <div className={styles.textContainer}>
-              <div><MusicPlayerSlider/></div>
-              <h1 className={styles.heading}>Brigham and Women's Hospital</h1>
-              <br/>
-              <p className={styles.heading2}>
-                  Helping our patients and their families get back to what matters
-                  most.
-              </p>
-              <br/>
-              <Button
-                  onClick={navigateMap}
-                  className={styles.viewMap}
-                  color="primary"
-                  style={{
-                      backgroundImage: `url(${mapImage})`,
-                      backgroundSize: "cover",
-                      backgroundPosition: "center",
-                      width: "200px", // Adjust button width as needed
-                      height: "200px", // Adjust button height as needed
-                  }}
-              >
-                  <div className={styles.view}> Click to View Map</div>
-              </Button>
-              <Button
-                  onClick={navigateEmail}
-                  className={styles.viewMap}
-                  color="primary"
-                  style={{
-                      backgroundImage: `url(${EmailPhoto})`,
-                      backgroundSize: "cover",
-                      backgroundPosition: "center",
-                      width: "200px", // Adjust button width as needed
-                      height: "200px", // Adjust button height as needed
-                  }}
-              >
-                  <div className={styles.view}> Click to Subscribe</div>
-              </Button>
+        <div className={styles.textContainer}>
+          <div>
+            <MusicPlayerSlider />
           </div>
+          <h1 className={styles.heading}>Brigham and Women's Hospital</h1>
+          <br />
+          <p className={styles.heading2}>
+            Helping our patients and their families get back to what matters
+            most.
+          </p>
+          <br />
+          <Button
+            onClick={navigateMap}
+            className={styles.viewMap}
+            color="primary"
+            style={{
+              backgroundImage: `url(${mapImage})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              width: "200px", // Adjust button width as needed
+              height: "200px", // Adjust button height as needed
+            }}
+          >
+            <div className={styles.view}> Click to View Map</div>
+          </Button>
+          <Button
+            onClick={navigateEmail}
+            className={styles.viewMap}
+            color="primary"
+            style={{
+              backgroundImage: `url(${EmailPhoto})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              width: "200px", // Adjust button width as needed
+              height: "200px", // Adjust button height as needed
+            }}
+          >
+            <div className={styles.view}> Click to Subscribe</div>
+          </Button>
+        </div>
       </div>
-        <div className={styles.bottomHalfContainer} id="targetDiv">
+      <div className={styles.bottomHalfContainer} id="targetDiv">
         <div className={styles.lightBlueBar} />
         <div className={styles.cardsAligned}>
           <HeroPageCard
