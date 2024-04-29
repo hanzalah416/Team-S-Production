@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Popover from "@mui/material/Popover";
 import Typography from "@mui/material/Typography";
-import ErrorOutlineOutlinedIcon from "@mui/icons-material/ErrorOutlineOutlined";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import { marked } from "marked";
 
 export default function ToolTip({
@@ -27,7 +27,7 @@ export default function ToolTip({
 
   return (
     <div className={className} style={style}>
-      <ErrorOutlineOutlinedIcon
+      <InfoOutlinedIcon
         onMouseEnter={handlePopoverOpen}
         onMouseLeave={handlePopoverClose}
       />
