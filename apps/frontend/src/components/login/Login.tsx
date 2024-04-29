@@ -17,11 +17,18 @@ import aboutIcon from "../assets/NavBarIcons/about.svg";
 import giftIcon from "../assets/NavBarIcons/gift_icon.svg";
 import toolsIcon from "../assets/NavBarIcons/tools_icon.svg";
 import downArrow from "../assets/HeroPhotos/viewMoreArrow.svg";
+
+setTimeout(() => {
+    console.log("test");
+}, 2000);
+
 const Login: React.FC = () => {
   const navigate = useNavigate();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const navigateMap = () => {
-    navigate("/floor-map");
+    setTimeout(() => {
+        navigate("/floor-map");
+    }, 2000);
   };
   const navigateEmail = () => {
     navigate("/sign-up-email");
@@ -96,6 +103,7 @@ const Login: React.FC = () => {
               width: "200px", // Adjust button width as needed
               height: "200px", // Adjust button height as needed
             }}
+            id={"mapButton"}
           >
             <div className={styles.view}> Click to View Map</div>
           </Button>
