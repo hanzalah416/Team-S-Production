@@ -159,7 +159,7 @@ body {
   color: black;
 }
 
-.container .directionsBlueBox {
+.container .directionsBox {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -176,7 +176,7 @@ body {
   font-size: 20px;
 }
 
-.directionsBlueBox {
+.directionsBox {
   width: 405px;
   margin-top: 20px;
 }
@@ -376,14 +376,6 @@ body {
   background-color: transparent;
   border: none;
 }
-.keyButton:hover {
-  border: 2px solid #163a95;
-  border-radius: 20px;
-}
-.keyButtonText:hover {
-  border: 2px solid #163993;
-  border-radius: 20px;
-}
 
 .keyButtonText {
   all: unset;
@@ -393,7 +385,40 @@ body {
 }
 
 .micButton {
-  margin-top: 20px;
-  margin-bottom: -25px;
+  margin-top: 10px;
   background-color: #163a95;
+  padding-bottom: 5px;
+  padding-top: 5px;
+}
+
+.clearButtonStuff {
+  margin-top: 5px;
+  display: flex; /* Enables flexbox layout */
+  justify-content: space-between; /* Distributes space between items */
+  align-items: center; /* Aligns items vertically at the center */
+}
+
+.clearButton {
+  width: 250px;
+}
+
+.myCustomButton:focus,
+.clearButton:focus,
+.micButton:focus {
+  outline: none !important; /* Using !important to ensure override */
+}
+
+.keyButton:focus,
+.keyButtonText:focus {
+  outline: none;
+}
+
+.keyButton:hover {
+  box-shadow: 0 0 0 2px #163a95; /* Add a 2px blue shadow on hover */
+  border-radius: 20px;
+}
+
+.keyButtonText:hover {
+  box-shadow: 0 0 0 2px #163993; /* Add a 2px darker blue shadow on hover */
+  border-radius: 20px;
 }

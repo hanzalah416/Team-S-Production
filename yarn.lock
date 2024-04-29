@@ -6274,6 +6274,7 @@ __metadata:
     react: "npm:^18.2.0"
     react-bootstrap: "npm:^2.7.4"
     react-dom: "npm:^18.2.0"
+    react-icons: "npm:^5.1.0"
     react-router-bootstrap: "npm:^0.26.2"
     react-router-dom: "npm:^6.11.2"
     react-swipeable-views: "npm:^0.14.0"
@@ -8636,6 +8637,15 @@ __metadata:
   peerDependencies:
     react: ^16.3.0
   checksum: 8161986ef98aa59c7fbfc6cd56913f26578cee7c2073be01e36cd87e2c321efa4f6f518764bb810764f380dc08f81f73faa8d8dffbe86767c0f7dd28c303bb05
+  languageName: node
+  linkType: hard
+
+"react-icons@npm:^5.1.0":
+  version: 5.1.0
+  resolution: "react-icons@npm:5.1.0"
+  peerDependencies:
+    react: "*"
+  checksum: 00f75809b1846a6cfb48e3d64ddc5e931a1fa74aa429cd594dc4a70223a5702deff62638b02c727c0aeb83120a8875d8034b380601c61a4d803a9227387bac22
   languageName: node
   linkType: hard
 
