@@ -2,72 +2,53 @@ import React, { useState } from "react";
 import { DataGrid, GRID_CHECKBOX_SELECTION_COL_DEF } from "@mui/x-data-grid";
 import BackgroundImg2 from "../assets/blue-background2.jpg";
 import { Paper } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import Grid from "@mui/material/Unstable_Grid2";
 import { Typography } from "@mui/material";
 import axios from "axios";
-import { GridRowId } from "@mui/x-data-grid";
-
-interface Row {
-  id: number;
-  serviceRequestName: string;
-  status: string;
-  topicArn: string;
-}
 
 export default function EmailForm() {
   const [email, setEmail] = useState("");
-  const [selectedRows, setSelectedRows] = useState<number[]>([]); // Define selectedRows as an array of numbers
-  const rows: Row[] = [
+  const [topicArn, setTopicArn] = useState("");
+  const rows = [
     {
       id: 1,
-      serviceRequestName: "Order Flowers",
+      serviceRequestName: "Appointment Confirmation",
       status: "Working",
-      topicArn: "aws:sns:us-east-2:851725475476:Hospital_Alerts",
+      TopicArn: "arn:aws:sns:us-east-2:851725475476:Appointment_Confirmation",
     },
     {
       id: 2,
-      serviceRequestName: "Gift Requests",
+      serviceRequestName: "Appointment Reminder",
       status: "Working",
-      topicArn: "aws:sns:us-east-2:851725475476:Hospital_Alerts",
+      TopicArn: "arn:aws:sns:us-east-2:851725475476:Appointment_Reminder",
     },
     {
       id: 3,
-      serviceRequestName: "Medical Delivery",
+      serviceRequestName: "Alerts from Brigham's Hospital",
       status: "Working",
-      topicArn: "aws:sns:us-east-2:851725475476:Hospital_Alerts",
+      TopicArn: "arn:aws:sns:us-east-2:851725475476:Brigham_Alerts",
     },
     {
       id: 4,
-      serviceRequestName: "Sanitation Services",
+      serviceRequestName: "Updates from Brigham's Hospital",
       status: "Working",
-      topicArn: "aws:sns:us-east-2:851725475476:Hospital_Alerts",
+      TopicArn: "arn:aws:sns:us-east-2:851725475476:Brigham_Updates",
     },
     {
       id: 5,
-      serviceRequestName: "Security Requests",
+      serviceRequestName: "Follow Up Emails",
       status: "Working",
-      topicArn: "aws:sns:us-east-2:851725475476:Hospital_Alerts",
+      TopicArn: "arn:aws:sns:us-east-2:851725475476:Follow-Up",
     },
     {
       id: 6,
-      serviceRequestName: "Room Scheduling",
+      serviceRequestName: "Brigham's Medicine Magazine",
       status: "Working",
-      topicArn: "aws:sns:us-east-2:851725475476:Hospital_Alerts",
-    },
-    {
-      id: 7,
-      serviceRequestName: "Language Request",
-      status: "Working",
-      topicArn: "aws:sns:us-east-2:851725475476:Hospital_Alerts",
-    },
-    {
-      id: 8,
-      serviceRequestName: "Transportation Request",
-      status: "Working",
-      topicArn: "aws:sns:us-east-2:851725475476:Hospital_Alerts",
+      TopicArn: "arn:aws:sns:us-east-2:851725475476:Medicine_Magazine",
     },
   ];
-
+  const navigate = useNavigate();
   const columns = React.useMemo(
     () => [
       {
@@ -88,29 +69,36 @@ export default function EmailForm() {
     [],
   );
 
-  const handleRowSelection = (selection: GridRowId[]) => {
-    const selectedRows = selection.map((rowId) =>
-      rows.findIndex((row) => row.id === Number(rowId)),
-    );
-    setSelectedRows(selectedRows);
-  };
+  function clear() {
+    setEmail("");
+    setTopicArn("");
+  }
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    try {
-      const promises = selectedRows.map((index) => {
-        const row = rows.find((r) => r.id === index);
-        const topicArn = row ? row.topicArn : null;
-        return axios.post("/subscribe-email", { topicArn, email });
+    const emailTopic = {
+      email: email,
+      TopicArn: "arn:aws:sns:us-east-2:851725475476:Hospital_Alerts",
+    };
+
+    await axios
+      .post("/api/subscribe-email", emailTopic, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      .then(() => {
+        console.log("Email Subscribed successfully");
+        navigate("/order-flowers-result");
+        console.log(topicArn);
+      })
+      .catch(() => {
+        console.log("Subscription failed failed");
+        console.log(emailTopic);
+        alert("Subscription failed. Please try again.");
       });
-      await Promise.all(promises);
-      alert("Subscriptions successful!");
-      setEmail("");
-    } catch (error) {
-      console.error("Error subscribing email:", error);
-      alert("Subscriptions failed. Please try again.");
-    }
-  };
+    clear();
+  }
 
   return (
     <div
@@ -146,16 +134,11 @@ export default function EmailForm() {
             variant="h4"
             style={{ textAlign: "center", marginBottom: 20 }}
           >
-            Subscribe Service Requests
+            Subscirbe Service Requests
           </Typography>
           <form onSubmit={handleSubmit}>
             <div style={{ height: 400, width: "100%" }}>
-              <DataGrid
-                rows={rows}
-                columns={columns}
-                checkboxSelection
-                onRowSelectionModelChange={handleRowSelection}
-              />
+              <DataGrid rows={rows} columns={columns} checkboxSelection />
             </div>
             <label
               htmlFor="emailInput"
