@@ -148,7 +148,7 @@ function App() {
           path: "/sign-up-email",
           element: (
             <>
-              <EmailForm topicArn="arn:aws:sns:us-east-2:851725475476:Hospital_Alerts" />
+              <EmailForm />
               <Layout />
             </>
           ),
