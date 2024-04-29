@@ -252,18 +252,26 @@ function NavBar() {
         setServicesID();
         break;
       case "/all-service-requests":
+        setServIcon(homePinIcon);
         setRequestsID();
         break;
       case "/floor-map":
+        setServIcon(homePinIcon);
         setMapID();
         break;
       case "/credit-page":
         console.log("credit page");
+        setServIcon(homePinIcon);
         setCreditsID();
         break;
       case "/about-page":
         console.log("about page");
+        setServIcon(homePinIcon);
         setAboutID();
+        break;
+      case "/stats-page":
+        setServIcon(statsIcon);
+        setServicesID();
         break;
       default:
         setServIcon(homePinIcon);
