@@ -36,7 +36,11 @@ import { TextToVoiceSelector } from "./TextToVoiceSelector.tsx";
 
 import { Position } from "../common/PositionInterface.ts";
 import { Node } from "../common/NodeInterface.ts";
-import ThreeDPathfind from "./3DPathfinding.tsx";
+import ll2 from "../assets/HmapNoBackground/00_thelowerlevel2_bg-rm.png";
+import ll1 from "../assets/HmapNoBackground/00_thelowerlevel1_rm-bg.png";
+import f1 from "../assets/HmapNoBackground/01_thefirstfloor_rm-bg.png";
+import f2 from "../assets/HmapNoBackground/02_thesecondfloor_rm-bg.png";
+import f3 from "../assets/HmapNoBackground/03_thethirdfloor_rm-bg.png";
 
 
 const tips = `
@@ -191,7 +195,7 @@ function FloorMap() {
     },
     [fullPath, locations, transformRef, setShouldAutoZoom],
   );
-    const [ThreeDView, setThreeDView] = useState(false);
+    const [ThreeDView, setThreeDView] = useState(true);
   const calculateAndZoom = () => {
     const dotContainer = document.querySelector('[class^="_dotsContainer"]');
     if (!dotContainer) {
@@ -592,6 +596,7 @@ function FloorMap() {
   };
 
   const handleThreeD = () => {
+      handleChange();
       setThreeDView(!ThreeDView);
   };
 
@@ -727,10 +732,10 @@ function FloorMap() {
                 </div>
             </div>
 
-            <div className={styles.mapArea} style={{visibility: ThreeDView ? "visible" : "hidden" }}>
+            <div className={styles.mapArea}>
                 <div className={styles.MapButtons}>
                     <div className={styles.mMapbox}>
-                        <FormControlLabel
+                        {ThreeDView && <FormControlLabel
                             control={
                                 <Switch
                                     checked={mapChecked}
@@ -750,7 +755,7 @@ function FloorMap() {
                                 />
                             }
                             label="Level Select"
-                        />
+                        />}
                     </div>
                     <div className={styles.mMapbox}>
                         <FormControlLabel
@@ -819,8 +824,35 @@ function FloorMap() {
                         <MenuItem value="dijkstra">Dijkstra's Algorithm</MenuItem>
                     </Select>
                 </div>
-
-                <TransformWrapper
+                {!ThreeDView &&
+                    <div className={styles.ThreeD}>
+                        <div className={styles.outerOuterDiv}>
+                            <div className={styles.outerDiv}>
+                                <div className={styles.ll2}>
+                                    <header className={styles.mhead}>L2</header>
+                                    <img src={ll2} alt="map" className={styles.mmimg}/>
+                                </div>
+                                <div className={styles.ll1}>
+                                    <header className={styles.mhead}>L1</header>
+                                    <img src={ll1} alt="map" className={styles.mmimg}/>
+                                </div>
+                                <div className={styles.f1}>
+                                    <header className={styles.mhead}>1</header>
+                                    <img src={f1} alt="map" className={styles.mmimg}/>
+                                </div>
+                                <div className={styles.f2}>
+                                    <header className={styles.mhead}>2</header>
+                                    <img src={f2} alt="map" className={styles.mmimg}/>
+                                </div>
+                                <div className={styles.f3}>
+                                    <header className={styles.mhead}>3</header>
+                                    <img src={f3} alt="map" className={styles.mmimg}/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+                {ThreeDView && <TransformWrapper
                     ref={transformRef} // Set the ref to access the instance
                     initialScale={1}
                     initialPositionX={0}
@@ -835,6 +867,7 @@ function FloorMap() {
                                     alt="map"
                                     className={styles.hmapImage}
                                 />
+
 
                                 <div className={styles.dotsContainer}>
                                     {filteredQueueNodeIDs.map((nodeID, index) => {
@@ -1020,7 +1053,7 @@ function FloorMap() {
                             </TransformComponent>
                         </>
                     )}
-                </TransformWrapper>
+                </TransformWrapper>}
                 <div
                     className={`${styles.mMap} ${mapChecked ? styles.showMMap : ""}`}
                 >
@@ -1028,8 +1061,6 @@ function FloorMap() {
                         <MiniMap onChangeFloor={handleFloorChange}/>
                     </Suspense>
                 </div>
-
-
                 <KeySelection
                     startNode={startPosition?.id}
                     showMapKey={showMapKey}
@@ -1037,11 +1068,7 @@ function FloorMap() {
                     handleSelection={handleSelection}
                 />
             </div>
-            <div className={styles.ThreeD} style={{visibility: !ThreeDView ? "visible" : "hidden"}}>
-                <ThreeDPathfind onChangeFloor={handleFloorChange}/>
-            </div>
         </div>
-        {/*{fullPath.length > 0 && (*/}
         <Button className={styles.threeDpath}
                 style={{
                     backgroundColor: "rgb(0, 59, 156)",
@@ -1050,7 +1077,7 @@ function FloorMap() {
                         textAlign: "center",
                         color: "white"}}
                     onClick={handleThreeD}
-            >{!ThreeDView ? "3D Pathfinding" : "2D Pathfinding"}</Button>
+            >{ThreeDView ? "3D Pathfinding" : "2D Pathfinding"}</Button>
         {/*)}*/}
     </div>
 
