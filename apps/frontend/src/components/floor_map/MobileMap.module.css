@@ -1,5 +1,14 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
 
+:root {
+  --border-radius: 25px;
+  --searchDisplay: flex;
+}
+
+.flipImg {
+  transform: scaleY(-1);
+}
+
 body {
   font-family: "Poppins", sans-serif;
   font-size: 14px;
@@ -17,12 +26,10 @@ body {
   background: #f1f1f1;
   position: fixed;
   padding: 0;
-  top: 180px;
+  top: 80px;
   left: 0;
   width: 100vw;
   height: 100vh;
-  min-height: 580px;
-  min-width: 700px;
 }
 
 .container {
@@ -30,7 +37,7 @@ body {
   margin: 0;
   position: absolute;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-between;
   align-items: center;
   width: 100%;
@@ -40,24 +47,33 @@ body {
 .signInForm {
   padding-left: 30px;
   padding-right: 30px;
-  display: flex;
+  display: var(--searchDisplay);
   flex-direction: column;
-  width: 380px; /* Adjust the width as needed */
-  min-height: calc(100%);
-  max-height: calc(100%);
+  width: 100vw; /* Adjust the width as needed */
   background: #f1f1f1;
-  position: relative;
   z-index: 300;
-  margin-top: -200px;
-  margin-bottom: 10px;
+  filter: drop-shadow(0px 4px 5.2px rgba(0, 0, 0, 0.5));
+  border-radius: 0 0 var(--border-radius) var(--border-radius);
   /* Adjust this value as needed to control the distance from the top */
 }
 
-.tips {
-  position: absolute;
-  right: 14px;
-  top: 14px;
-  color: #1a1a1a;
+.destinationBox {
+  display: flex;
+  flex-direction: row;
+  justify-content: Center;
+  align-items: center;
+  background-color: #289ba5;
+  color: white;
+  padding: 10px;
+  height: 50px;
+  width: 100vw; /* Adjust the width as needed */
+  border-radius: 0 0 15px 15px;
+  text-align: center;
+}
+
+.homePin {
+  padding-right: 15px;
+  padding-left: 15px;
 }
 
 .floorButtonsContainer {
@@ -146,8 +162,8 @@ body {
 }
 
 .boldtag {
-  margin-top: 30px;
-  margin-bottom: 10px;
+  margin-top: 10px;
+  margin-bottom: 5px;
   text-align: left;
   font-weight: bold;
   color: black;
@@ -159,7 +175,7 @@ body {
   color: black;
 }
 
-.container .directionsBox {
+.directionsBlueBox {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -168,17 +184,19 @@ body {
   font-weight: bold;
   line-height: 48px;
 
-  left: calc(-17%);
   position: relative;
   box-sizing: border-box;
   text-align: center;
 
   font-size: 20px;
+  width: 100vw;
 }
 
 .directionsBox {
-  width: 405px;
-  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 @keyframes moveDottedLine {
@@ -304,7 +322,7 @@ body {
   position: absolute;
   top: 20px; /* Adjust to place it right at the top */
   left: 20px; /* Right aligned */
-  width: 210px; /* Auto width based on content */
+  width: fit-content; /* Auto width based on content */
   z-index: 4; /* Ensure it is above the TransformComponent */
   display: flex;
 
@@ -376,6 +394,14 @@ body {
   background-color: transparent;
   border: none;
 }
+.keyButton:hover {
+  border: 2px solid #163a95;
+  border-radius: 20px;
+}
+.keyButtonText:hover {
+  border: 2px solid #163993;
+  border-radius: 20px;
+}
 
 .keyButtonText {
   all: unset;
@@ -385,45 +411,7 @@ body {
 }
 
 .micButton {
-  margin-top: 10px;
-  background-color: #163a95;
-  padding-bottom: 5px;
-  padding-top: 5px;
-}
-
-.clearButtonStuff {
-  margin-top: 5px;
-  display: flex; /* Enables flexbox layout */
-  justify-content: space-between; /* Distributes space between items */
-  align-items: center; /* Aligns items vertically at the center */
-}
-
-.clearButton {
-  width: 250px;
-}
-
-.myCustomButton:focus,
-.clearButton:focus,
-.micButton:focus {
-  outline: none !important; /* Using !important to ensure override */
-}
-
-.keyButton:focus,
-.keyButtonText:focus {
-  outline: none;
-}
-
-.keyButton:hover {
-  box-shadow: 0 0 0 2px #163a95; /* Add a 2px blue shadow on hover */
-  border-radius: 20px;
-}
-
-.keyButtonText:hover {
-  box-shadow: 0 0 0 2px #163993; /* Add a 2px darker blue shadow on hover */
-  border-radius: 20px;
-}
-.navMic {
   margin-top: 20px;
-  margin-bottom: 25px;
+  margin-bottom: -25px;
   background-color: #163a95;
 }

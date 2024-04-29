@@ -19,8 +19,21 @@ import styles from "../../login/Login.module.css";
 import teddybear from "../../assets/GiftPhotos/teddybeargift.png";
 import coloringbook from "../../assets/GiftPhotos/coloringbook.webp";
 import fruit from "../../assets/GiftPhotos/fruitgift.png";
+import Tooltip from "../../ToolTip";
 import { Position } from "../../common/PositionInterface.ts";
 import { Node } from "../../common/NodeInterface.ts";
+
+const tips = `Name of Requester: Enter the full name of the person requiring language assistance.
+
+Priority: Click on the dropdown menu to indicate the urgency of the request. The options may include urgent, high, medium, or low.
+
+Location: Use the dropdown to select the location where the language services are needed. This might refer to a specific department, office, or event location.
+
+Gift Type: Choose the type of gift you are requesting.
+
+Enter Custom Message: If you’d like to include a message with the gift enter that information here.
+
+Status: If the form allows for setting a status, select the current status of the request, like 'new', 'pending', 'approved', or 'completed'.`;
 
 // Interface for Staff
 interface Staff {
@@ -154,7 +167,13 @@ export default function GiftForm() {
 
         <Paper elevation={4}>
           <br />
-          <p className={"title"}>Gift Request Form </p>
+          <p className={"title"} style={{ position: "relative" }}>
+            Gift Request Form
+            <Tooltip
+              style={{ position: "absolute", right: "40px", top: 0 }}
+              tips={tips}
+            />
+          </p>
           <p className={"names"}>Dorothy Alexander</p>
 
           <Stack alignItems="center" justifyContent="center" spacing={3} p={4}>

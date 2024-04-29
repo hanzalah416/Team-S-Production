@@ -1,12 +1,10 @@
 //Imports
 import { useState } from "react";
 import * as React from "react";
-import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import Slider from "@mui/material/Slider";
-import MuiInput from "@mui/material/Input";
 import VolumeUp from "@mui/icons-material/VolumeUp";
 import List from "@mui/material/List";
 import ListItemButton from "@mui/material/ListItemButton";
@@ -14,12 +12,10 @@ import ListItemText from "@mui/material/ListItemText";
 import Collapse from "@mui/material/Collapse";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import styles from "./FloorMap.module.css";
-import AudiotrackIcon from "@mui/icons-material/Audiotrack";
-import TurtleIcon from "../assets/Turtle.svg";
-
-const Input = styled(MuiInput)`
-  width: 42px;
-`;
+// import AudiotrackIcon from "@mui/icons-material/Audiotrack";
+import Button from "@mui/material/Button";
+import SpeedIcon from "@mui/icons-material/Speed";
+import { PiWaveformFill } from "react-icons/pi";
 
 interface Options {
   setValue: (value: number) => void;
@@ -40,6 +36,10 @@ export function TextToVoiceSelector(props: {
 }) {
   const voices = speechSynthesis.getVoices();
 
+  const isMobile = navigator.userAgent.match(
+    /(iPad)|(iPhone)|(iPod)|(android)|(webOS)/i,
+  );
+
   const [open, setOpen] = useState(false);
   const handleSliderChange = (
     event: Event,
@@ -47,21 +47,6 @@ export function TextToVoiceSelector(props: {
     option: Options,
   ) => {
     option.setValue(newValue as number);
-  };
-
-  const handleInputChange = (
-    event: React.ChangeEvent<HTMLInputElement>,
-    option: Options,
-  ) => {
-    option.setValue(event.target.value === "" ? 0 : Number(event.target.value));
-  };
-
-  const handleBlur = (option: Options) => {
-    if (option.value < option.min) {
-      option.setValue(option.min);
-    } else if (option.value > option.max) {
-      option.setValue(option.max);
-    }
   };
 
   //Boolean that controls if the settings are visible
@@ -77,30 +62,49 @@ export function TextToVoiceSelector(props: {
       case "volume":
         return <VolumeUp style={{ color: "black" }} />;
       case "pitch":
-        return <AudiotrackIcon style={{ color: "black" }} />;
+        return <PiWaveformFill style={{ color: "black", fontSize: "24px" }} />;
       case "rate":
-        return (
-          <img src={TurtleIcon} alt="Turtle Icon" style={{ minHeight: 24 }} />
-        );
+        return <SpeedIcon style={{ color: "black" }} />;
       default:
-        return <VolumeUp style={{ color: "black" }} />;
+        return (
+          <VolumeUp className={styles.Poppins} style={{ color: "black" }} />
+        );
     }
   }
 
   return (
     <div>
       {/*Button to turn the selector on and off*/}
-      <br />
-      <button type="button" onClick={switchSelector} style={{ color: "black" }}>
+      {!isMobile}
+      <Button
+        variant="outlined"
+        onClick={switchSelector}
+        className={styles.myCustomButton}
+        style={{
+          backgroundColor: showSelector ? "#163a95" : "#f1f1f1", // Changes color when clicked
+          color: showSelector ? "#f1f1f1" : "#000",
+          fontFamily: "Poppins",
+          fontSize: 14,
+          textAlign: "center",
+          borderColor: "black",
+          width: "100%",
+          marginTop: "10px",
+        }}
+      >
         Voice Settings
-      </button>
+      </Button>
 
       {showSelector && (
         <div>
           <ListItemButton onClick={() => setOpen(!open)}>
             <ListItemText
-              primary="Voices"
-              style={{ color: "black", fontWeight: "bold", fontSize: "16px" }}
+              primary="Choose Voice"
+              style={{
+                color: "black",
+                fontWeight: "bold",
+                fontSize: "16px",
+                textAlign: "left",
+              }}
             />
             <ExpandMoreIcon
               sx={{ transform: open ? "rotate(180deg)" : "none" }}
@@ -108,8 +112,6 @@ export function TextToVoiceSelector(props: {
             />
           </ListItemButton>
           <div className={styles.floorVoiceSettingContainer}>
-            {/*Dropdown to select the voice*/}
-
             <Collapse in={open} timeout="auto" unmountOnExit>
               <List
                 component="div"
@@ -136,10 +138,12 @@ export function TextToVoiceSelector(props: {
           </div>
 
           {props.options.map((option: Options) => (
-            <Box sx={{ width: 250 }}>
-              <Typography id="input-slider" gutterBottom color={"black"}>
-                {option.name}
-              </Typography>
+            <Box sx={{ width: "100%" }}>
+              <Typography
+                id="input-slider"
+                gutterBottom
+                color={"black"}
+              ></Typography>
               <Grid container spacing={2} alignItems="center">
                 <Grid item>{GetIcon(option.name)}</Grid>
                 <Grid item xs>
@@ -152,22 +156,16 @@ export function TextToVoiceSelector(props: {
                       handleSliderChange(event, newValue, option)
                     }
                     aria-labelledby="input-slider"
-                  />
-                </Grid>
-                <Grid item>
-                  <Input
-                    value={option.value}
-                    size="small"
-                    onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                      handleInputChange(event, option)
-                    }
-                    onBlur={() => handleBlur(option)}
-                    inputProps={{
-                      step: 10,
-                      min: 0,
-                      max: 100,
-                      type: "number",
-                      "aria-labelledby": "input-slider",
+                    sx={{
+                      "& .MuiSlider-thumb": {
+                        color: "#163a95", // Changes the thumb color
+                      },
+                      "& .MuiSlider-track": {
+                        color: "#6d92e7", // Changes the color of the track
+                      },
+                      "& .MuiSlider-rail": {
+                        color: "#ccc", // Optional: change the color of the rail if needed
+                      },
                     }}
                   />
                 </Grid>

@@ -1,12 +1,5 @@
-import React, {
-  lazy,
-  Suspense,
-  useCallback,
-  useEffect,
-  useState,
-  useRef,
-} from "react";
-import styles from "./FloorMap.module.css";
+import React, { useCallback, useEffect, useState, useRef } from "react";
+import styles from "./MobileMap.module.css";
 import {
   TransformWrapper,
   TransformComponent,
@@ -30,8 +23,6 @@ import f2Map from "../assets/HospitalMap/02_thesecondfloor.png";
 import f3Map from "../assets/HospitalMap/03_thethirdfloor.png";
 import PathToTextDisplay from "./PathToTextDisplay.tsx";
 
-import KeySelection from "./KeySelection.tsx";
-import Tooltip from "../ToolTip";
 import { TextToVoiceSelector } from "./TextToVoiceSelector.tsx";
 
 import { Position } from "../common/PositionInterface.ts";
@@ -39,52 +30,10 @@ import { Node } from "../common/NodeInterface.ts";
 import SpeechToText from "./SpeechToText.tsx";
 import FloorSequenceDisplay from "./FloorSequenceDisplay.tsx";
 
-const tips = `
-**Enter Starting Point:**
+import dropDownIcon from "../assets/NavBarIcons/drop_down.svg";
+import homePinIcon from "../assets/NavBarIcons/home_pin.svg";
 
--Click on the dropdown menu labeled "Enter Starting Point".
--Select the building or specific entrance where you are currently located from the provided list.
-
-
-**Enter Destination:**
-
--Click on the dropdown menu labeled "Enter Destination".
-
--Choose the building or specific area you want to navigate to from the list.
-
-**Mic:**
-
--You can use the microphone to input your destinations with your voice. Simply press the **mic button** and 
-speak your start or end location.
--You can also say "nearest" or "closest" followed by a specific type that can be found in the map key
-(e.g., **"nearest restroom"**). As long as a valid starting point is provided, the system will
-direct you to the closest relevant location.
-
-
-
-
-
-**Directions:**
-
-- After selecting both your starting point and destination, the map will display
-a highlighted path indicating the best route to take.
-- If the path goes multiple levels, use the **"Level Select"** toggle to view
-different floors and track the path through each level.
-
-
-**Additional Features:**
-
--**“Toggle Nodes”** can be used to show or hide points of interest or decision points like elevators, stairs, and restrooms.
-
--**“Show Key”** may provide you with a legend to decipher different symbols or colors used on the map.
-
--**“A\\* Search”** might be an option to find the shortest path if the map includes a pathfinding algorithm; you can select it to optimize your route.
-
-`;
-
-const MiniMap = lazy(() => import("./MiniMap.tsx"));
-
-function FloorMap() {
+function MobileMap() {
   const [resetFloorsUIKey, setResetFloorsUIKey] = useState(0);
   const [algorithm, setAlgorithm] = useState("astar");
   const [locations, setLocations] = useState<Position[]>([]);
@@ -101,7 +50,6 @@ function FloorMap() {
   );
   const [fullPath, setFullPath] = useState<string[]>([]);
   const [showNodes, setShowNodes] = useState(false);
-  const [showMapKey, setShowMapKey] = useState(false);
   const transformRef = useRef<ReactZoomPanPinchContentRef>(null);
   const [shouldAutoZoom, setShouldAutoZoom] = useState(true);
 
@@ -109,6 +57,10 @@ function FloorMap() {
   const [speechPitch, setSpeechPitch] = useState(1);
   const [speechRate, setSpeechRate] = useState(1);
   const [speechVoice, setSpeechVoice] = useState(4);
+
+  const [destinationChoosen, setDestinationChoosen] = useState(false);
+  const dropDownID = document.getElementById("dropDownID");
+  const [dropDown, setDropDown] = useState(false);
 
   const zoomToPathSegment = useCallback(
     (segmentIndex: number) => {
@@ -306,10 +258,6 @@ function FloorMap() {
     setShowNodes(!showNodes);
   };
 
-  const handleMapKeyVisibility = () => {
-    setShowMapKey(!showMapKey);
-  };
-
   //{styles.mapDot}
 
   const renderFloorNodes = () => {
@@ -405,6 +353,11 @@ function FloorMap() {
   };
 
   const clearInputs = () => {
+    document.documentElement.style.setProperty(
+      `--${"border-radius"}`,
+      25 + "px",
+    );
+    setDropDown(false);
     setStartPosition(null);
     setEndPosition(null);
     setFilteredQueueNodeIDs([]); // Clear filtered node IDs for each floor
@@ -542,9 +495,18 @@ function FloorMap() {
 
   useEffect(() => {
     if (startPosition && endPosition) {
+      setDestinationChoosen(true);
+      setDropDown(false);
+      document.documentElement.style.setProperty(
+        `--${"searchDisplay"}`,
+        "none",
+      );
+      if (dropDownID) {
+        dropDownID.classList.remove(styles.flipImg);
+      }
       fetchPath(startPosition.id, endPosition.id);
     }
-  }, [fetchPath, startPosition, endPosition]);
+  }, [fetchPath, startPosition, endPosition, dropDownID]);
 
   const getLineColor = (floor: string) => {
     switch (floor) {
@@ -600,21 +562,57 @@ function FloorMap() {
     return segments;
   };
 
-  //for slide in of mini map
-  const [mapChecked, setMapChecked] = React.useState(true);
-  const handleChange = () => {
-    setMapChecked((prev) => !prev);
+  const toggleDropDownMenu = () => {
+    if (!dropDown) {
+      setDropDown(true);
+      document.documentElement.style.setProperty(
+        `--${"border-radius"}`,
+        0 + "px",
+      );
+      document.documentElement.style.setProperty(
+        `--${"searchDisplay"}`,
+        "flex",
+      );
+      if (dropDownID) {
+        dropDownID.classList.add(styles.flipImg);
+      }
+    } else {
+      setDropDown(false);
+      document.documentElement.style.setProperty(
+        `--${"border-radius"}`,
+        25 + "px",
+      );
+      document.documentElement.style.setProperty(
+        `--${"searchDisplay"}`,
+        "none",
+      );
+      if (dropDownID) {
+        dropDownID.classList.remove(styles.flipImg);
+      }
+    }
+  };
+
+  const [showButtons, setShowButtons] = useState(false);
+
+  const ToggleButtonsMenu = () => {
+    setShowButtons(!showButtons);
   };
 
   return (
     <div className={styles.wholePage}>
       <div className={styles.container}>
         <div className={styles.signInForm}>
-          <div className={styles.signInFormContainer}>
-            <Tooltip className={styles.tips} tips={tips} />
-          </div>
+          {"SpeechRecognition" in window ||
+            ("webkitSpeechRecognition" in window && (
+              <SpeechToText
+                handleSelection={handleSelection}
+                startPosition={startPosition}
+                getPositionById={getPositionById}
+              />
+            ))}
           <div className={styles.boldtag}>Enter Starting Point</div>
           <Autocomplete
+            size={"small"}
             key={`start-position-${resetKey}`}
             options={sortedLocations}
             getOptionLabel={(option) => option.label || "Unknown"}
@@ -639,6 +637,7 @@ function FloorMap() {
           />
           <div className={styles.boldtag}>Enter Destination</div>
           <Autocomplete
+            size={"small"}
             key={`end-position-${resetKey}`}
             options={sortedLocations}
             getOptionLabel={(option) => option.label || "Unknown"}
@@ -653,6 +652,7 @@ function FloorMap() {
                     fontFamily: "Poppins",
                     fontSize: 14,
                     textAlign: "center",
+                    height: "10px",
                   },
                 }}
               />
@@ -662,36 +662,22 @@ function FloorMap() {
             onChange={(event, value) => handleSelection(value, "end")}
           />
 
-          {/*<Box className={styles.directionsBox2}>.</Box>*/}
-
-          <div className={styles.clearButtonStuff}>
-            {"SpeechRecognition" in window ||
-              ("webkitSpeechRecognition" in window && (
-                <SpeechToText
-                  handleSelection={handleSelection}
-                  startPosition={startPosition}
-                  getPositionById={getPositionById}
-                />
-              ))}
-
-            <Button
-              variant="outlined"
-              className={styles.clearButton}
-              onClick={clearInputs}
-              style={{
-                marginTop: "10px",
-                backgroundColor: "#f1f1f1",
-                color: "#000",
-                fontFamily: "Poppins",
-                fontSize: 14,
-                textAlign: "center",
-                borderColor: "black",
-              }}
-            >
-              Clear Path
-            </Button>
-          </div>
-
+          <Button
+            variant="outlined"
+            className={styles.clearButton}
+            onClick={clearInputs}
+            style={{
+              marginTop: "10px",
+              backgroundColor: "#f1f1f1",
+              color: "#000",
+              fontFamily: "Poppins",
+              fontSize: 14,
+              textAlign: "center",
+              borderColor: "black",
+            }}
+          >
+            Clear Path
+          </Button>
           <TextToVoiceSelector
             options={[
               {
@@ -721,38 +707,24 @@ function FloorMap() {
               value: speechVoice,
             }}
           />
-          <Box className={styles.directionsBox}>Directions</Box>
-          {!pathFound && (
-            <Box className={styles.pathNotFoundBox}>Path not found</Box>
-          )}
-
-          <div className={styles.boldtag2}>
-            {/*<div className={styles.boldtag2}>Floors for the Current Path:</div>*/}
-
-            <div
-              key={resetFloorsUIKey}
-              className={styles.floorButtonsContainer}
-            >
-              {startPosition && endPosition && (
-                <PathToTextDisplay
-                  startNode={startPosition.id}
-                  endNode={endPosition.id}
-                  algo={algorithm}
-                  onChangeFloor={handleFloorChange} // Passing the method as a prop
-                  zoomToSegment={zoomToPathSegment}
-                  voice={speechVoice}
-                  volume={speechVolume}
-                  pitch={speechPitch}
-                  rate={speechRate}
-                />
-              )}
-            </div>
-          </div>
-
-          <div className={styles.mbDiv}>
-            <div style={{ display: "flex", flexDirection: "column" }}></div>
-          </div>
         </div>
+        {destinationChoosen && endPosition && (
+          <div className={styles.destinationBox}>
+            <img src={homePinIcon} className={styles.homePin} />
+            <p
+              style={{
+                fontSize: 15,
+                fontWeight: "bold",
+                fontFamily: "Poppins",
+              }}
+            >
+              {endPosition.label}
+            </p>
+            <Button onClick={toggleDropDownMenu}>
+              <img id={"dropDownID"} src={dropDownIcon} />
+            </Button>
+          </div>
+        )}
 
         <div className={styles.mapArea}>
           <div className={styles.FloorSequence}>
@@ -760,95 +732,75 @@ function FloorMap() {
           </div>
 
           <div className={styles.MapButtons}>
-            <div className={styles.mMapbox}>
-              <FormControlLabel
-                control={
-                  <Switch
-                    checked={mapChecked}
-                    onChange={handleChange}
-                    sx={{
-                      fontSize: 9,
-                      "& .MuiSwitch-switchBase": {
-                        // Thumb color when unchecked
-                        "&.Mui-checked": {
-                          color: "#003b9c", // Thumb color when checked
-                        },
-                        "&.Mui-checked + .MuiSwitch-track": {
-                          backgroundColor: "#0251d4", // Track color when checked
-                        },
-                      },
-                    }}
-                  />
-                }
-                label="Level Select"
-              />
-            </div>
-            <div className={styles.mMapbox}>
-              <FormControlLabel
-                control={
-                  <Switch
-                    checked={showNodes}
-                    onChange={toggleNodesVisibility}
-                    name="showNodes"
-                    sx={{
-                      fontSize: 9,
-                      "& .MuiSwitch-switchBase": {
-                        // Thumb color when unchecked
-                        "&.Mui-checked": {
-                          color: "#003b9c", // Thumb color when checked
-                        },
-                        "&.Mui-checked + .MuiSwitch-track": {
-                          backgroundColor: "#0251d4", // Track color when checked
-                        },
-                      },
-                    }}
-                  />
-                }
-                label="Toggle Nodes"
-              />
-            </div>
-            <div className={styles.mMapbox}>
-              <FormControlLabel
-                control={
-                  <Switch
-                    checked={showMapKey}
-                    onChange={handleMapKeyVisibility}
-                    sx={{
-                      fontSize: 9,
-                      "& .MuiSwitch-switchBase": {
-                        // Thumb color when unchecked
-                        "&.Mui-checked": {
-                          color: "#003b9c", // Thumb color when checked
-                        },
-                        "&.Mui-checked + .MuiSwitch-track": {
-                          backgroundColor: "#0251d4", // Track color when checked
-                        },
-                      },
-                    }}
-                  />
-                }
-                label="Show Key"
-              />
-            </div>
-            <Select
-              value={algorithm}
-              onChange={handleAlgorithmChange}
-              displayEmpty
-              inputProps={{ "aria-label": "Select Pathfinding Algorithm" }}
+            <Button
+              variant={"text"}
+              size={"small"}
+              onClick={ToggleButtonsMenu}
               sx={{
-                marginBottom: "10px",
                 fontFamily: "Poppins",
-                fontSize: 12,
+                fontSize: 10,
                 colorSecondary: "red",
               }}
             >
-              <MenuItem value="astar">A* Search</MenuItem>
-              <MenuItem value="bfs">Breadth-First Search</MenuItem>
-              <MenuItem value="dfs" /*disabled style={{ color: 'gray' }}*/>
-                Depth-First Search
-              </MenuItem>
-              <MenuItem value="dijkstra">Dijkstra's Algorithm</MenuItem>
-            </Select>
+              Show/Hide Buttons
+            </Button>
+            {showButtons && (
+              <>
+                <div className={styles.mMapbox}>
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        checked={showNodes}
+                        size={"small"}
+                        onChange={toggleNodesVisibility}
+                        name="showNodes"
+                        sx={{
+                          fontSize: 2,
+                          "& .MuiSwitch-switchBase": {
+                            // Thumb color when unchecked
+                            "&.Mui-checked": {
+                              color: "#003b9c", // Thumb color when checked
+                            },
+                            "&.Mui-checked + .MuiSwitch-track": {
+                              backgroundColor: "#0251d4", // Track color when checked
+                            },
+                          },
+                        }}
+                      />
+                    }
+                    label={
+                      <p
+                        style={{
+                          fontSize: 12,
+                        }}
+                      >
+                        Toggle Nodes
+                      </p>
+                    }
+                  />
+                </div>
+                <Select
+                  value={algorithm}
+                  size={"small"}
+                  onChange={handleAlgorithmChange}
+                  displayEmpty
+                  inputProps={{ "aria-label": "Select Pathfinding Algorithm" }}
+                  sx={{
+                    marginBottom: "10px",
+                    fontFamily: "Poppins",
+                    fontSize: 12,
+                    colorSecondary: "red",
+                  }}
+                >
+                  <MenuItem value="astar">A* Search</MenuItem>
+                  <MenuItem value="bfs">Breadth-First Search</MenuItem>
+                  <MenuItem value="dfs" /*disabled style={{ color: 'gray' }}*/>
+                    Depth-First Search
+                  </MenuItem>
+                  <MenuItem value="dijkstra">Dijkstra's Algorithm</MenuItem>
+                </Select>
+              </>
+            )}
           </div>
 
           <TransformWrapper
@@ -1052,25 +1004,39 @@ function FloorMap() {
               </>
             )}
           </TransformWrapper>
+        </div>
+        <div className={styles.directionsBox}>
+          <Box className={styles.directionsBlueBox}>Directions</Box>
+          {!pathFound && (
+            <Box className={styles.pathNotFoundBox}>Path not found</Box>
+          )}
 
-          <div
-            className={`${styles.mMap} ${mapChecked ? styles.showMMap : ""}`}
-          >
-            <Suspense fallback={<div>MiniMap loading please wait...</div>}>
-              <MiniMap onChangeFloor={handleFloorChange} />
-            </Suspense>
+          <div className={styles.boldtag2}>
+            {/*<div className={styles.boldtag2}>Floors for the Current Path:</div>*/}
+
+            <div
+              key={resetFloorsUIKey}
+              className={styles.floorButtonsContainer}
+            >
+              {startPosition && endPosition && (
+                <PathToTextDisplay
+                  startNode={startPosition.id}
+                  endNode={endPosition.id}
+                  algo={algorithm}
+                  onChangeFloor={handleFloorChange} // Passing the method as a prop
+                  zoomToSegment={zoomToPathSegment}
+                  voice={speechVoice}
+                  volume={speechVolume}
+                  pitch={speechPitch}
+                  rate={speechRate}
+                />
+              )}
+            </div>
           </div>
-
-          <KeySelection
-            startNode={startPosition?.id}
-            showMapKey={showMapKey}
-            getPositionById={getPositionById}
-            handleSelection={handleSelection}
-          />
         </div>
       </div>
     </div>
   );
 }
 
-export default FloorMap;
+export default MobileMap;

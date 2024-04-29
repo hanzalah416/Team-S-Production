@@ -37,6 +37,8 @@ import MobileLanguage from "./components/service_requests/language_requests/Mobi
 import MobileTransportation from "./components/service_requests/internalTransportation/MobileTransportation.tsx";
 import ErrorPage from "./components/error_page/ErrorPage.tsx";
 import AwsPublishForm from "./components/awsEmailConnection/awsPublish.tsx";
+import MobileMap from "./components/floor_map/MobileMap.tsx";
+import StatsPage from "./components/stats_page/StatsPage.tsx";
 
 function App() {
   const isMobile = navigator.userAgent.match(
@@ -58,7 +60,8 @@ function App() {
           path: "/floor-map",
           element: (
             <>
-              <FloorMap />
+              {isMobile && <MobileMap />}
+              {!isMobile && <FloorMap />}
               <Layout />
             </>
           ),
@@ -145,7 +148,7 @@ function App() {
           path: "/sign-up-email",
           element: (
             <>
-              <EmailForm topicArn="arn:aws:sns:us-east-2:851725475476:Hospital_Alerts" />
+              <EmailForm />
               <Layout />
             </>
           ),
@@ -175,6 +178,16 @@ function App() {
             <>
               {isMobile && <ErrorPage />}
               {!isMobile && <FloorMapDebug />}
+              <Layout />
+            </>
+          ),
+        },
+        {
+          path: "/stats-page",
+          element: (
+            <>
+              {isMobile && <ErrorPage />}
+              {!isMobile && <StatsPage />}
               <Layout />
             </>
           ),

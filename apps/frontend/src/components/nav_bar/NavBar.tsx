@@ -21,6 +21,7 @@ import mapEditingIcon from "../assets/NavBarIcons/MapEditingIcon.svg";
 import dbIcon from "../assets/NavBarIcons/dbIcon.svg";
 import giftIcon from "../assets/NavBarIcons/gift_icon.svg";
 import aboutIcon from "../assets/NavBarIcons/about.svg";
+import statsIcon from "../assets/NavBarIcons/stats_icon.svg";
 import { useNavigate } from "react-router-dom";
 import { LoginButton } from "../LoginButton.tsx";
 import { LogoutButton } from "../LogoutButton.tsx";
@@ -252,18 +253,26 @@ function NavBar() {
         setServicesID();
         break;
       case "/all-service-requests":
+        setServIcon(homePinIcon);
         setRequestsID();
         break;
       case "/floor-map":
+        setServIcon(homePinIcon);
         setMapID();
         break;
       case "/credit-page":
         console.log("credit page");
+        setServIcon(homePinIcon);
         setCreditsID();
         break;
       case "/about-page":
         console.log("about page");
+        setServIcon(homePinIcon);
         setAboutID();
+        break;
+      case "/stats-page":
+        setServIcon(statsIcon);
+        setServicesID();
         break;
       default:
         setServIcon(homePinIcon);
@@ -313,26 +322,27 @@ function NavBar() {
   return (
     <div className="navbar">
       {/* Navbar content */}
-      <div className={"leftSide"}>
-        <img
-          src={bwhLogo}
-          className={"bwh-logo"}
-          alt={
-            "Brigham and Women's Hospital logo, reading " +
-            "'Founding member, Mass General Brigham'"
-          }
-          onClick={toHero}
-          style={{ cursor: "pointer" }} // Makes it clear the logo is clickable
-        />
+      <Button>
+        <div className={"leftSide"}>
+          <img
+            src={bwhLogo}
+            className={"bwh-logo"}
+            alt={
+              "Brigham and Women's Hospital logo, reading " +
+              "'Founding member, Mass General Brigham'"
+            }
+            onClick={toHero}
+            style={{ cursor: "pointer" }} // Makes it clear the logo is clickable
+          />
 
-        <p className={"time"} onClick={toHero}>
-          {timeOfDay}{" "}
-        </p>
+          <p className={"time"} onClick={toHero}>
+            {timeOfDay}{" "}
+          </p>
 
-        {"SpeechRecognition" in window ||
-          ("webkitSpeechRecognition" in window && <SpeechNavigate />)}
-      </div>
-
+          {"SpeechRecognition" in window ||
+            ("webkitSpeechRecognition" in window && <SpeechNavigate />)}
+        </div>
+      </Button>
       <div className={"navButtons"}>
         <Link to={"/about-page"} id={"order"}>
           <Button className={"alignIcons"} onClick={onBackDropItemClick}>
@@ -394,7 +404,11 @@ function NavBar() {
                 Services
               </p>
             </div>
-            <img src={dropDownIcon} alt={"dropDownIcon"} />
+            <img
+              src={dropDownIcon}
+              alt={"dropDownIcon"}
+              className={"makeItBlue"}
+            />
           </Button>
           <Menu
             id="services-menu"
@@ -494,6 +508,17 @@ function NavBar() {
                       alt={"Transport Icon"}
                     />
                     <p className={"item"}>Transportation Request</p>
+                  </MenuItem>
+                </Link>
+                <Link to={"/stats-page"} id={"order"}>
+                  <MenuItem onClick={handleClose}>
+                    <img
+                      src={statsIcon}
+                      className={"iconHeight"}
+                      width={"38px"}
+                      alt={"Transport Icon"}
+                    />
+                    <p className={"item"}>Site Statistics</p>
                   </MenuItem>
                 </Link>
 
@@ -602,7 +627,11 @@ function NavBar() {
             className={"alignIconsDropDown"}
             onClick={handleClick}
           >
-            <img src={dropDownIcon} alt={"drop down icon"} />
+            <img
+              src={dropDownIcon}
+              className={"makeItBlue"}
+              alt={"drop down icon"}
+            />
             <div className={"alignIconsDropDown"}>
               <p id={"servicesID"} className={"itemNames"}>
                 Services
