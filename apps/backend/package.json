@@ -38,6 +38,7 @@
     "@types/node": "^20.2.3",
     "@types/pg": "^8.10.1",
     "@types/supertest": "^2.0.12",
+    "aws-sdk": "^2.1607.0",
     "eslint": "latest",
     "eslint-config-custom": "workspace:*",
     "nodemon": "latest",
