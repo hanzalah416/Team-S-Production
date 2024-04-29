@@ -7,6 +7,7 @@ import isFirstWord from "../HelperFunctions/IsFirstWord.ts";
 import { GetSecondWord } from "../HelperFunctions/GetSecondWord.ts";
 import MicIcon from "@mui/icons-material/Mic";
 import styles from "./FloorMap.module.css";
+import { useNavigate } from "react-router-dom";
 
 //Function to turn speech into text
 export default function SpeechToText(props: {
@@ -53,6 +54,8 @@ export default function SpeechToText(props: {
   recognition.interimResults = false;
   recognition.maxAlternatives = 1;
 
+  const navigate = useNavigate();
+
   function handleClick() {
     recognition.start();
     console.log("Ready to receive Location");
@@ -63,7 +66,83 @@ export default function SpeechToText(props: {
     console.log(spokenLocationRaw);
     //console.log(sortedLocations);
 
-    if (isFirstWord(spokenLocationRaw, ["closest", "nearest"])) {
+    if (isFirstWord(spokenLocationRaw, ["go", "navigate"])) {
+      const services = [
+        "order flowers",
+        "sanitation services",
+        "delivery services",
+        "language request",
+        "room scheduling",
+        "security request",
+        "transport request",
+        "medicine delivery-request",
+        "node data",
+        "map editing",
+        "manage database",
+        "home page",
+        "all service requests",
+        "credit page",
+        "about page",
+        "gift request",
+      ];
+
+      const navigatedService = FindClosestMatch(spokenLocationRaw, services);
+
+      switch (navigatedService) {
+        case "order flowers":
+          navigate("/order-flowers");
+          break;
+        case "sanitation services":
+          navigate("/sanitation-request");
+          break;
+        case "delivery services":
+          navigate("/delivery-request");
+          break;
+        case "language request":
+          navigate("/language-request");
+          break;
+        case "room scheduling":
+          navigate("/room-scheduling");
+          break;
+        case "security request":
+          navigate("/security-request");
+          break;
+        case "transport request":
+          navigate("/transport-request");
+          break;
+        case "medicine delivery-request":
+          navigate("/medicine-delivery-request");
+          break;
+        case "node data":
+          navigate("/node-data");
+          break;
+        case "map editing":
+          navigate("/map-debug");
+          break;
+        case "manage database":
+          navigate("/node-data");
+          break;
+        case "all service requests":
+          navigate("/all-service-requests");
+          break;
+        case "credit page":
+          navigate("/credit-page");
+          break;
+        case "about page":
+          navigate("/about-page");
+          break;
+        case "gift request":
+          navigate("/gift-request");
+          break;
+        case "home page":
+          navigate("/");
+          break;
+
+        default:
+          navigate("/");
+          break;
+      }
+    } else if (isFirstWord(spokenLocationRaw, ["closest", "nearest"])) {
       const keyTypes = [
         "atm",
         "busstop",

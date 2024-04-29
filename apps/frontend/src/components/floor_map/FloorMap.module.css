@@ -159,7 +159,7 @@ body {
   color: black;
 }
 
-.container .directionsBox {
+.container .directionsBlueBox {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -176,7 +176,7 @@ body {
   font-size: 20px;
 }
 
-.directionsBox {
+.directionsBlueBox {
   width: 405px;
   margin-top: 20px;
 }
