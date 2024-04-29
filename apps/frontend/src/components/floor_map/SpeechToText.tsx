@@ -70,12 +70,11 @@ export default function SpeechToText(props: {
       const services = [
         "order flowers",
         "sanitation services",
-        "delivery services",
         "language request",
         "room scheduling",
         "security request",
         "transport request",
-        "medicine delivery-request",
+        "medicine delivery request",
         "node data",
         "map editing",
         "manage database",
@@ -95,9 +94,6 @@ export default function SpeechToText(props: {
         case "sanitation services":
           navigate("/sanitation-request");
           break;
-        case "delivery services":
-          navigate("/delivery-request");
-          break;
         case "language request":
           navigate("/language-request");
           break;
@@ -110,7 +106,7 @@ export default function SpeechToText(props: {
         case "transport request":
           navigate("/transport-request");
           break;
-        case "medicine delivery-request":
+        case "medicine delivery request":
           navigate("/medicine-delivery-request");
           break;
         case "node data":
