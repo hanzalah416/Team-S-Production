@@ -17,6 +17,7 @@ import aboutIcon from "../assets/NavBarIcons/about.svg";
 import giftIcon from "../assets/NavBarIcons/gift_icon.svg";
 import toolsIcon from "../assets/NavBarIcons/tools_icon.svg";
 import downArrow from "../assets/HeroPhotos/viewMoreArrow.svg";
+import MusicPlayerSlider from "../Music_player/MusicPlayer.tsx";
 import animationLeft from "./click-animation-left.gif";
 import animationRight from "./click-animation-right.gif";
 import Stack from '@mui/material/Stack';
@@ -35,58 +36,61 @@ const Login: React.FC = () => {
   const navigateEmail = () => {
     navigate("/sign-up-email");
   };
+    const images = [heroImage, heroImage1, heroImage2, heroImage3];
 
-  const images = [heroImage, heroImage1, heroImage2, heroImage3];
+    useEffect(() => {
+        const interval = setInterval(() => {
+            // Update the index to display the next image
+            setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
+        }, 8000); // Change the duration here (in milliseconds)
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      // Update the index to display the next image
-      setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
-    }, 8000); // Change the duration here (in milliseconds)
+        return () => clearInterval(interval); // Cleanup the interval on component unmount
+    }, [images.length]); // Empty dependency array to run this effect only once on component mount
 
-    return () => clearInterval(interval); // Cleanup the interval on component unmount
-  }, [images.length]); // Empty dependency array to run this effect only once on component mount
+    const scrollToDiv = () => {
+        const targetDiv = document.getElementById("targetDiv");
+        if (targetDiv) {
+            targetDiv.scrollIntoView({ behavior: "smooth" });
+        }
+    };
 
-  const scrollToDiv = () => {
-    const targetDiv = document.getElementById("targetDiv");
-    if (targetDiv) {
-      targetDiv.scrollIntoView({ behavior: "smooth" });
-    }
-  };
+    return (
+        <div className={styles.down}>
+            <div className={styles.container}>
+                <div className={styles.imageContainer}>
+                    <div className={styles.slideshow}>
+                        {images.map((image, index) => (
+                            <img
+                                key={index}
+                                src={image}
+                                alt={`Slide ${index}`}
+                                className={styles.coverImage}
+                                style={{
+                                    display: index === currentImageIndex ? "block" : "none",
+                                }}
+                            />
+                        ))}
+                    </div>
 
-  return (
-    <div className={styles.down}>
-      <div className={styles.container}>
-        <div className={styles.imageContainer}>
-          <div className={styles.slideshow}>
-            {images.map((image, index) => (
-              <img
-                key={index}
-                src={image}
-                alt={`Slide ${index}`}
-                className={styles.coverImage}
-                style={{
-                  display: index === currentImageIndex ? "block" : "none",
-                }}
-              />
-            ))}
-          </div>
+                    <div className={styles.textOverlay}>
+                        <p className={styles.disclaimer2}>
+                            This website is a term project exercise for WPI CS 3733 Software
+                            Engineering (Prof. Wong) and is not to be confused with the actual
+                            Brigham & Women’s Hospital website
+                        </p>
+<Button  className={styles.downArrow}>
+                        <img
 
-          <div className={styles.textOverlay}>
-            <p className={styles.disclaimer2}>
-              This website is a term project exercise for WPI CS 3733 Software
-              Engineering (Prof. Wong) and is not to be confused with the actual
-              Brigham & Women’s Hospital website
-            </p>
-
-            <img
-              className={styles.downArrow}
-              src={downArrow}
-              onClick={scrollToDiv}
-            />
-          </div>
-        </div>
+                            src={downArrow}
+                            onClick={scrollToDiv}
+                        />
+</Button>
+                    </div>
+                </div>
         <div className={styles.textContainer}>
+        <div>
+           <MusicPlayerSlider />
+        </div>
           <h1 className={styles.heading}>Brigham and Women's Hospital</h1>
           <br />
           <p className={styles.heading2}>

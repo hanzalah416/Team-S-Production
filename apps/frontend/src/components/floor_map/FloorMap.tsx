@@ -37,6 +37,7 @@ import { TextToVoiceSelector } from "./TextToVoiceSelector.tsx";
 import { Position } from "../common/PositionInterface.ts";
 import { Node } from "../common/NodeInterface.ts";
 import SpeechToText from "./SpeechToText.tsx";
+import FloorSequenceDisplay from "./FloorSequenceDisplay.tsx";
 
 const tips = `
 Enter Starting Point:
@@ -739,6 +740,10 @@ function FloorMap() {
         </div>
 
         <div className={styles.mapArea}>
+          <div className={styles.FloorSequence}>
+            <FloorSequenceDisplay path={fullPath} />
+          </div>
+
           <div className={styles.MapButtons}>
             <div className={styles.mMapbox}>
               <FormControlLabel

@@ -35,7 +35,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   description,
   imgUrl,
   label,
-    title,
+  title,
   font,
   color,
   size,
@@ -91,7 +91,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
         aria-labelledby="project-dialog-title"
         open={open}
       >
-        <DialogTitle sx={{ m: 0, p: 2 }} id="project-dialog-title" >
+        <DialogTitle sx={{ m: 0, p: 2 }} id="project-dialog-title">
           {title}
         </DialogTitle>
 
@@ -108,7 +108,9 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           <CloseIcon />
         </IconButton>
         <DialogContent dividers>
-          <Typography gutterBottom className = {styles.quote}>{description}</Typography>
+          <Typography gutterBottom className={styles.quote}>
+            {description}
+          </Typography>
         </DialogContent>
         <DialogActions>
           <Button autoFocus onClick={handleClose}>

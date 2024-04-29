@@ -96,6 +96,19 @@ body {
   overflow: hidden;
 }
 
+.FloorSequence {
+  position: absolute;
+  top: 10px; /* Keeps it 20px from the top */
+  right: 20px; /* Anchors the container to the right, 20px from the edge */
+  z-index: 5; /* Ensures it stays on top of other content */
+  background: transparent; /* Semi-transparent background for better visibility */
+  border-radius: 5px; /* Rounded corners for aesthetics */
+  display: flex; /* Ensures the contents are laid out in a row */
+  flex-direction: row-reverse; /* Reverses the order of flex items to extend to the left */
+  justify-content: flex-start; /* Aligns content to the right */
+  padding: 8px; /* Padding around the content */
+}
+
 .hmap-image {
   height: 100%; /* Make the image fill the container height */
   width: auto; /* Adjust width automatically */
@@ -146,7 +159,7 @@ body {
   color: black;
 }
 
-.container .directionsBox {
+.container .directionsBlueBox {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -163,7 +176,7 @@ body {
   font-size: 20px;
 }
 
-.directionsBox {
+.directionsBlueBox {
   width: 405px;
   margin-top: 20px;
 }
@@ -298,7 +311,7 @@ body {
   flex-direction: column; /* Stack children vertically */
   justify-content: flex-start;
   padding: 10px; /* Adds some spacing around the controls */
-  background: rgba(241, 241, 241, 0.7); /* Semi-transparent background */
+  background: rgba(241, 241, 241, 0.9); /* Semi-transparent background */
   border: 1px solid black; /* Black border */
   border-radius: 5px; /* Rounded corners */
 }
