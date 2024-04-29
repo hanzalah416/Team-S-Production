@@ -40,6 +40,10 @@ export function TextToVoiceSelector(props: {
 }) {
   const voices = speechSynthesis.getVoices();
 
+  const isMobile = navigator.userAgent.match(
+    /(iPad)|(iPhone)|(iPod)|(android)|(webOS)/i,
+  );
+
   const [open, setOpen] = useState(false);
   const handleSliderChange = (
     event: Event,
@@ -90,7 +94,7 @@ export function TextToVoiceSelector(props: {
   return (
     <div>
       {/*Button to turn the selector on and off*/}
-      <br />
+      {!isMobile && <br />}
       <button type="button" onClick={switchSelector} style={{ color: "black" }}>
         Voice Settings
       </button>
