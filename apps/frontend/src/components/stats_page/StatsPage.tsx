@@ -100,12 +100,12 @@ const Stats = () => {
             backgroundPosition: "center center",
             overflowX: "hidden",
         }}>
-            <Stack alignItems="center" justifyContent="center" spacing={3} p={4}>
+
             <h1 className={styles.heading} style={{
                 color: "white"
 
             }}> Site Statistics</h1>
-
+            <Stack alignItems="center" justifyContent="center" spacing={3} p={4}>
             <h2 className={styles.alignStuff}
                 style={{
                     color: "white"
@@ -169,7 +169,7 @@ const Stats = () => {
                         ],
                     },
                 ]}
-                width={1600}
+                width={800}
                 height={600}
 
                 margin={{
