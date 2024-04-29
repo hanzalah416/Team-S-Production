@@ -178,28 +178,6 @@ body {
   font-size: 20px;
 }
 
-/*.directionsBox2{*/
-/*    display: flex;*/
-/*    align-items: center;*/
-/*    justify-content: center;*/
-/*    background-color: #003b9c;*/
-/*    color: transparent;*/
-/*    font-weight: bold;*/
-/*    line-height: 10px;*/
-
-/*    left: calc(-17%);*/
-/*    position: relative;*/
-/*    box-sizing: border-box;*/
-/*    text-align: center;*/
-
-/*    font-size: 20px;*/
-/*}*/
-
-/*.directionsBox2 {*/
-/*    width: 405px;*/
-/*    margin-top: 20px;*/
-/*}*/
-
 .directionsBox {
   width: 405px;
   margin-top: 20px;
