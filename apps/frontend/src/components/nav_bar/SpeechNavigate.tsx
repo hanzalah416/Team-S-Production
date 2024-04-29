@@ -3,9 +3,31 @@ import isFirstWord from "../HelperFunctions/IsFirstWord.ts";
 import MicIcon from "@mui/icons-material/Mic";
 import styles from "../floor_map/FloorMap.module.css";
 import { useNavigate } from "react-router-dom";
+import jingle from "../assets/320181__dland__hint.mp3";
+import outJingle from "../assets/320181__dland2__hint.mp3";
+import { useEffect, useState } from "react";
+import PlayJingle from "../HelperFunctions/PlayJingle.ts";
 
 //Function to turn speech into text
 export default function SpeechNavigate() {
+  const [userInteracted, setUserInteracted] = useState(false);
+
+  useEffect(() => {
+    const handleInteraction = () => {
+      setUserInteracted(true);
+    };
+
+    // Add event listeners when the component mounts
+    document.addEventListener("mousedown", handleInteraction);
+    document.addEventListener("keydown", handleInteraction);
+
+    // Clean up event listeners when the component unmounts
+    return () => {
+      document.removeEventListener("mousedown", handleInteraction);
+      document.removeEventListener("keydown", handleInteraction);
+    };
+  }, []);
+
   const SpeechRecognition =
     window.SpeechRecognition || window.webkitSpeechRecognition;
   const recognition = new SpeechRecognition();
@@ -45,7 +67,7 @@ export default function SpeechNavigate() {
   }
 
   function ResetSpeechRecognition() {
-    console.log("Resetting speech recognition...");
+    //console.log("Resetting speech recognition...");
 
     activation.stop(); // Stop the ongoing speech recognition
 
@@ -56,14 +78,18 @@ export default function SpeechNavigate() {
   }
 
   function handleClick() {
+    if (userInteracted) {
+      PlayJingle("jingle");
+    }
     recognition.start();
     activation.stop();
+
     console.log("Ready to receive Location");
   }
 
   activation.onresult = (event) => {
     const rawspeech = event.results[0][0].transcript;
-    console.log(rawspeech);
+    //console.log(rawspeech);
 
     if (rawspeech.toLowerCase().includes("hey brigham")) {
       handleClick();
@@ -74,8 +100,11 @@ export default function SpeechNavigate() {
 
   recognition.onresult = (event) => {
     const spokenLocationRaw = event.results[0][0].transcript;
-    console.log(spokenLocationRaw);
-    //console.log(sortedLocations);
+    //console.log(spokenLocationRaw);
+
+    if (userInteracted) {
+      PlayJingle("outJingle");
+    }
 
     if (isFirstWord(spokenLocationRaw, ["go", "navigate"])) {
       const services = [
@@ -162,6 +191,8 @@ export default function SpeechNavigate() {
 
   return (
     <div>
+      <audio id="jingle" src={jingle}></audio>
+      <audio id="outJingle" src={outJingle}></audio>
       <button onClick={handleClick} className={styles.navMic}>
         <MicIcon />
       </button>
