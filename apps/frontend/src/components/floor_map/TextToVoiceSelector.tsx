@@ -37,6 +37,8 @@ export function TextToVoiceSelector(props: {
 }) {
   const voices = speechSynthesis.getVoices();
 
+
+
   const [open, setOpen] = useState(false);
   const handleSliderChange = (
     event: Event,

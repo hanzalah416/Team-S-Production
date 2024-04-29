@@ -29,7 +29,7 @@ Priority: Use the dropdown to choose the urgency of your request (e.g., standard
 
 Location: Select from the dropdown where the flowers should be delivered or where they are needed.
 
-Request Type: Choose the type of flowers you are requesting. If you need more than one type, you might be able to select multiple options, or if you can only select one, choose the primary type and specify further in the custom message.
+Request Type: Choose the type of flowers you are requesting. If you would like more than one type, choose the primary type and specify further in the custom message.
 
 Enter Custom Message: If you’d like to include a message with the flowers or have specific instructions for the arrangement, enter that information here.
 
@@ -268,10 +268,10 @@ const OrderFlowers: React.FC = () => {
                   onChange={handlePriorityChange}
                   sx={{ minWidth: 250, color: "#3B54A0" }}
                 >
-                  <MenuItem value={"low"}>Low</MenuItem>
-                  <MenuItem value={"medium"}>Medium</MenuItem>
-                  <MenuItem value={"high"}>High</MenuItem>
-                  <MenuItem value={"emergency"}>Emergency</MenuItem>
+                  <MenuItem value={"Low"}>Low</MenuItem>
+                  <MenuItem value={"Medium"}>Medium</MenuItem>
+                  <MenuItem value={"High"}>High</MenuItem>
+                  <MenuItem value={"Emergency"}>Emergency</MenuItem>
                 </Select>
               </div>
             </Stack>
