@@ -38,6 +38,7 @@ import MobileTransportation from "./components/service_requests/internalTranspor
 import ErrorPage from "./components/error_page/ErrorPage.tsx";
 import AwsPublishForm from "./components/awsEmailConnection/awsPublish.tsx";
 import MobileMap from "./components/floor_map/MobileMap.tsx";
+import StatsPage from "./components/stats_page/StatsPage.tsx";
 
 function App() {
     const isMobile = navigator.userAgent.match(
@@ -177,6 +178,16 @@ function App() {
                         <>
                             {isMobile && <ErrorPage />}
                             {!isMobile && <FloorMapDebug />}
+                            <Layout />
+                        </>
+                    ),
+                },
+                {
+                    path: "/stats-page",
+                    element: (
+                        <>
+                            {isMobile && <ErrorPage />}
+                            {!isMobile && <StatsPage />}
                             <Layout />
                         </>
                     ),
