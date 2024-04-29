@@ -29,9 +29,11 @@ import f1Map from "../assets/HospitalMap/01_thefirstfloor.png";
 import f2Map from "../assets/HospitalMap/02_thesecondfloor.png";
 import f3Map from "../assets/HospitalMap/03_thethirdfloor.png";
 import PathToTextDisplay from "./PathToTextDisplay.tsx";
+
 import KeySelection from "./KeySelection.tsx";
 import Tooltip from "../ToolTip";
 import { TextToVoiceSelector } from "./TextToVoiceSelector.tsx";
+
 import { Position } from "../common/PositionInterface.ts";
 import { Node } from "../common/NodeInterface.ts";
 import SpeechToText from "./SpeechToText.tsx";
@@ -719,7 +721,6 @@ function FloorMap() {
               value: speechVoice,
             }}
           />
-
           <Box className={styles.directionsBox}>Directions</Box>
           {!pathFound && (
             <Box className={styles.pathNotFoundBox}>Path not found</Box>

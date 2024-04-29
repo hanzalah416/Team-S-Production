@@ -14,6 +14,10 @@
 }
 
 @font-face {
+  font-family: "Inter";
+}
+
+@font-face {
   font-family: "Elia";
   src: url(SantEliaScript-BoldDEMO.otf);
 }
