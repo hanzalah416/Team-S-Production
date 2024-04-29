@@ -70,12 +70,13 @@ const Login: React.FC = () => {
                             Engineering (Prof. Wong) and is not to be confused with the actual
                             Brigham & Women’s Hospital website
                         </p>
-
+<Button  className={styles.downArrow}>
                         <img
-                            className={styles.downArrow}
+
                             src={downArrow}
                             onClick={scrollToDiv}
                         />
+</Button>
                     </div>
                 </div>
                 <div className={styles.textContainer}>
