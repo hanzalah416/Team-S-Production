@@ -30,6 +30,7 @@ export default function ToolTip({
       <ErrorOutlineOutlinedIcon
         onMouseEnter={handlePopoverOpen}
         onMouseLeave={handlePopoverClose}
+        style={{ transform: "rotate(180deg)" }} // Rotates the icon upside down
       />
       <Popover
         id="mouse-over-popover"

@@ -16,6 +16,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import styles from "./FloorMap.module.css";
 import AudiotrackIcon from "@mui/icons-material/Audiotrack";
 import TurtleIcon from "../assets/Turtle.svg";
+import Button from "@mui/material/Button";
 
 const Input = styled(MuiInput)`
   width: 42px;
@@ -90,10 +91,23 @@ export function TextToVoiceSelector(props: {
   return (
     <div>
       {/*Button to turn the selector on and off*/}
-      <br />
-      <button type="button" onClick={switchSelector} style={{ color: "black" }}>
+      <Button
+        variant="outlined"
+        onClick={switchSelector}
+        className={styles.myCustomButton}
+        style={{
+          backgroundColor: showSelector ? "#163a95" : "#f1f1f1", // Changes color when clicked
+          color: showSelector ? "#f1f1f1" : "#000",
+          fontFamily: "Poppins",
+          fontSize: 14,
+          textAlign: "center",
+          borderColor: "black",
+          width: "100%",
+          marginTop: "10px",
+        }}
+      >
         Voice Settings
-      </button>
+      </Button>
 
       {showSelector && (
         <div>

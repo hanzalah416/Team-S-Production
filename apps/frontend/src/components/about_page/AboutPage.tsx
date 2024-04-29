@@ -216,6 +216,9 @@ export const AboutPage = () => {
             alignItems: "center",
             justifyContent: "center",
             gap: "30px",
+            padding: "10px",
+            background: "rgba(2,2,142,0.7)",
+            borderRadius: "12px",
           }}
         >
           <h1 className={styles.heading}>Our Team</h1>
@@ -251,8 +254,22 @@ export const AboutPage = () => {
           ))}
         </div>
         <div>
-          <h1 className={styles.heading}>Acknowledgements</h1>
-          <br />
+          <div
+            style={{
+              display: "inline-flex", // Use 'inline-flex' to make the div size according to its content
+              alignItems: "center",
+              justifyContent: "center",
+              gap: "30px",
+              padding: "10px",
+              background: "rgba(2,2,142,0.7)",
+              borderRadius: "12px",
+              backgroundSize: "cover",
+              marginBottom: "30px",
+            }}
+          >
+            <h1 className={styles.heading}>Acknowledgements</h1>
+          </div>
+
           <div
             style={{
               display: "flex",
@@ -275,11 +292,26 @@ export const AboutPage = () => {
             ))}
           </div>
           <br />
-          <p className={styles.text}>
-            *The Brigham & Women’s Hospital maps and data used in this
-            application are copyrighted and provided for the sole use of
-            educational purposes.
-          </p>
+
+          <div
+            style={{
+              display: "inline-flex", // Use 'inline-flex' to make the div size according to its content
+              alignItems: "center",
+              justifyContent: "center",
+              gap: "30px",
+              padding: "10px",
+              background: "rgba(2,2,142,0.7)",
+              borderRadius: "12px",
+              backgroundSize: "cover",
+              marginBottom: "30px",
+            }}
+          >
+            <p className={styles.text}>
+              *The Brigham & Women’s Hospital maps and data used in this
+              application are copyrighted and provided for the sole use of
+              educational purposes.
+            </p>
+          </div>
         </div>
       </section>
     </div>

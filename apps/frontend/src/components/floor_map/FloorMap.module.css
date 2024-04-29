@@ -176,6 +176,28 @@ body {
   font-size: 20px;
 }
 
+/*.directionsBox2{*/
+/*    display: flex;*/
+/*    align-items: center;*/
+/*    justify-content: center;*/
+/*    background-color: #003b9c;*/
+/*    color: transparent;*/
+/*    font-weight: bold;*/
+/*    line-height: 10px;*/
+
+/*    left: calc(-17%);*/
+/*    position: relative;*/
+/*    box-sizing: border-box;*/
+/*    text-align: center;*/
+
+/*    font-size: 20px;*/
+/*}*/
+
+/*.directionsBox2 {*/
+/*    width: 405px;*/
+/*    margin-top: 20px;*/
+/*}*/
+
 .directionsBox {
   width: 405px;
   margin-top: 20px;
@@ -393,7 +415,25 @@ body {
 }
 
 .micButton {
-  margin-top: 20px;
-  margin-bottom: -25px;
+  margin-top: 10px;
   background-color: #163a95;
+  padding-bottom: 5px;
+  padding-top: 5px;
+}
+
+.clearButtonStuff {
+  margin-top: 5px;
+  display: flex; /* Enables flexbox layout */
+  justify-content: space-between; /* Distributes space between items */
+  align-items: center; /* Aligns items vertically at the center */
+}
+
+.clearButton {
+  width: 250px;
+}
+
+.myCustomButton:focus,
+.clearButton:focus,
+.micButton:focus {
+  outline: none !important; /* Using !important to ensure override */
 }
