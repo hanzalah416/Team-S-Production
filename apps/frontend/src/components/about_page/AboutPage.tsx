@@ -15,7 +15,7 @@ import youssef from "../assets/abtPage/goat.png";
 import willy from "../assets/abtPage/wilsonwong.png";
 import wpi from "../assets/abtPage/WPI.png";
 import Card from "./Card";
-//import AckCard from "./CardAcknowledgements.tsx";
+import AckCard from "./CardAcknowledgements.tsx";
 import styles from "./AboutPage.module.css";
 import BackgroundImg2 from "../assets/blue-background2.jpg";
 import bluePin1 from "./blue-pin.png";
@@ -246,7 +246,7 @@ export const AboutPage = () => {
               ) : (
                 <img src={bluePin1} className={styles.bluePin1} />
               )}
-              <Card {...item} key={item.description} />
+              <Card {...item} key={item.label} />
             </div>
           ))}
         </div>
@@ -270,7 +270,7 @@ export const AboutPage = () => {
                 ) : (
                   <img src={bluePin1} className={styles.bluePin1} />
                 )}
-                {/*<AckCard {...item} key={item.description} />*/}
+                <AckCard {...item} key={item.label} />
               </div>
             ))}
           </div>
