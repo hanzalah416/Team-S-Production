@@ -585,62 +585,73 @@ function FloorMap() {
   const [showTDNodes, setshowTDNodes] = useState(false);
 
   const renderTDNodes = () => {
-    if (showTDNodes) return null;
+    if (!showTDNodes) return null;
       return locations.map((node) => {
         const isStartNode = startPosition && node.id === startPosition.id;
-        const nodeColor = isStartNode ? "green" : startPosition ? "red" : "green";
+        let nodeColor = isStartNode ? "green" : startPosition ? "red" : "green";
         const tooltipText = `${node.label}, ${node.id}`;
-        const mapWidth = 5000; // Example width, adjust as necessary
-        const mapHeight = 3400; // Example height, adjust as necessary
+        const mapWidth = 5000; // Example width, adjust as necessary //smaller map 546
+        const mapHeight = 3400; // Example height, adjust as necessary ///smaller map 372
         const a = 40; //rotate X Angle deg
         const b = 20; //roate angle deg
         const c = -20;// skew angle deg
         const xtd = ((parseInt(node.top)) / mapHeight) * 100;
-        const ytd = ((parseInt(node.left)) / mapWidth) * 100;
+        const ytd = -((parseInt(node.left)) / mapWidth) * 100;
         const floor = getFloorNumber(node.id);
-        let fm = 0;
+        let fm = 50;
+        let t = 0;
            switch (floor) {
                case "03": {
-                   fm = 65;
+                   t = -15;
+                   nodeColor = "yellow";
                    break;
                }
                case "02": {
-                   fm = 57.5;
+                   t = -7.5;
+                   nodeColor = "orange";
                    break;
                }
                case "01": {
-                   fm = 50;
+                   t = 0;
+                   nodeColor = "brown";
                    break;
                }
                case "L1": {
-                   fm = 42.5;
+                   t = 7.5;
+                   nodeColor = "magenta";
                    break;
                }
                case "L2": {
-                   fm = 35;
+                   t = 15;
+                   nodeColor = "indigo";
                    break;
                }
                default: {
                    console.log("somethings fucking wrong");
-                   fm = 0;
+                   t = 0;
                    break;
                }
            }
         const xTrans = Math.cos(b)*xtd - Math.sin(b)*(Math.cos(a)*fm - Math.sin(a)*ytd) + Math.tan(c)*(Math.sin(b)*xtd + Math.cos(b)*(Math.cos(a)*fm - Math.sin(a)*ytd));
-        const yTrans = Math.sin(b)*xtd + Math.cos(b)*(Math.cos(a)*fm - Math.sin(a)*ytd);
+        const yTrans = Math.sin(b)*xtd + Math.cos(b)*(Math.cos(a)*fm - Math.sin(a)*ytd) + t * (Math.sin(a)*fm + Math.cos(a)*ytd);
         const zTrans = Math.sin(a) * fm + Math.cos(a) * ytd;
+        console.log(xTrans + ", " + yTrans + ", " + zTrans);
 
         return (
+
             <div
                 key={node.id}
                 className={styles.mapDot}
                 style={{
+                position: "absolute",
                 top: "0",
-                left: "0",
-                transform: `translate3d(${xTrans}%, ${yTrans}%, ${zTrans}%)`,
-                zIndex: 1000, // Ensure it's visible above other elements
+                right: "0",
+                width: "9px",
+                height: "9px",
+                borderRadius: "50%",
+                transform: `translate3d(${xTrans}vh, ${yTrans}vh, ${zTrans}vh)`,
+                zIndex: 10, // Ensure it's visible above other elements
                 cursor: "pointer", // Cursor indicates it's clickable
-                borderRadius: "50%", // Makes the div circular
                 backgroundColor: nodeColor, // Dynamic color based on the node status
             }}
                 // onClick={() => handleNodeClick(node)}
@@ -885,9 +896,10 @@ function FloorMap() {
                                     <img src={f2} alt="map" className={`${styles.f2} ${styles.tdimg}`}/>
                                     <img src={f3} alt="map" className={`${styles.f3} ${styles.tdimg}`}/>
                             </div>
-                            <div className={styles.tdDotsContainer}>
-                                {renderTDNodes()}
-                            </div>
+                        <div className={styles.tdDotsContainer}>
+                            {renderTDNodes()}
+                        </div>
+
                     </div>
                 }
                 {ThreeDView && <TransformWrapper

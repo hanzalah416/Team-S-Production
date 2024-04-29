@@ -292,7 +292,7 @@ body {
   top: 20px; /* Adjust to place it right at the top */
   left: 20px; /* Right aligned */
   width: 210px; /* Auto width based on content */
-  z-index: 4; /* Ensure it is above the TransformComponent */
+  z-index: 7; /* Ensure it is above the TransformComponent */
   display: flex;
   flex-direction: column; /* Stack children vertically */
   justify-content: flex-start;
@@ -437,10 +437,8 @@ body {
     height: 90vh;
     left: 0;
     top: 0;
-    background-color: red;
-    opacity: 20%;
     position: absolute;
-    z-index: 0;
+    z-index: 6;
 }
 
 .mmimg {
@@ -452,28 +450,9 @@ body {
     border-radius: 15px;
     border: 3px solid #6fb49f;
 }
-.mhead:hover ~ .mmimg {
-    box-shadow: 2px 2px 2px 2px #6fb49f;
-}
-
-.mhead {
-    position: absolute;
-    z-index: 2;
-    right: 1vw;
-    bottom: 1vh;
-    fontfamily: "Poppins";
-    fontsize: 14;
-    textalign: "center";
-    font-weight: bold;
-    color: black;
-}
 
 .tdimg {
     border: solid 1px lavender;
-}
-.tdimg:hover {
-    box-shadow: 1.5px 1.5px 1.5px 1.5px #6fb49f;
-    /*#99b2d*/
 }
 
 .f3 {
