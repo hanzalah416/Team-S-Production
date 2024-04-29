@@ -390,7 +390,11 @@ function NavBar() {
                 Services
               </p>
             </div>
-            <img src={dropDownIcon} alt={"dropDownIcon"} />
+            <img
+              src={dropDownIcon}
+              alt={"dropDownIcon"}
+              className={"makeItBlue"}
+            />
           </Button>
           <Menu
             id="services-menu"
@@ -598,7 +602,11 @@ function NavBar() {
             className={"alignIconsDropDown"}
             onClick={handleClick}
           >
-            <img src={dropDownIcon} alt={"drop down icon"} />
+            <img
+              src={dropDownIcon}
+              className={"makeItBlue"}
+              alt={"drop down icon"}
+            />
             <div className={"alignIconsDropDown"}>
               <p id={"servicesID"} className={"itemNames"}>
                 Services
