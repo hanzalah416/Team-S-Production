@@ -22,6 +22,7 @@ import dbIcon from "../assets/NavBarIcons/dbIcon.svg";
 import giftIcon from "../assets/NavBarIcons/gift_icon.svg";
 import aboutIcon from "../assets/NavBarIcons/about.svg";
 import statsIcon from "../assets/NavBarIcons/stats_icon.svg";
+import emailIcon from "../assets/NavBarIcons/email_icon.svg";
 import { useNavigate } from "react-router-dom";
 import { LoginButton } from "../LoginButton.tsx";
 import { LogoutButton } from "../LogoutButton.tsx";
@@ -250,6 +251,10 @@ function NavBar() {
         break;
       case "/node-data":
         setServIcon(dbIcon);
+        setServicesID();
+        break;
+      case "/message-publish":
+        setServIcon(emailIcon);
         setServicesID();
         break;
       case "/all-service-requests":
@@ -546,6 +551,20 @@ function NavBar() {
                         alt={"DB Icon"}
                       />
                       <p className={"item"}>Manage Database</p>
+                    </MenuItem>
+                  </Link>
+                )}
+
+                {!isMobile && (
+                  <Link to={"/message-publish"} id={"order"}>
+                    <MenuItem onClick={handleClose}>
+                      <img
+                        src={emailIcon}
+                        className={"iconHeight"}
+                        width={"38px"}
+                        alt={"DB Icon"}
+                      />
+                      <p className={"item"}>Send Out Emails</p>
                     </MenuItem>
                   </Link>
                 )}
