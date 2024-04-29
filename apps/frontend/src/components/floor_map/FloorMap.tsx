@@ -1,28 +1,10 @@
-import React, {
-  lazy,
-  Suspense,
-  useCallback,
-  useEffect,
-  useState,
-  useRef,
-} from "react";
+import React, {lazy, Suspense, useCallback, useEffect, useRef, useState,} from "react";
 import styles from "./FloorMap.module.css";
-import {
-  TransformWrapper,
-  TransformComponent,
-  ReactZoomPanPinchContentRef,
-} from "react-zoom-pan-pinch";
+import {ReactZoomPanPinchContentRef, TransformComponent, TransformWrapper,} from "react-zoom-pan-pinch";
 
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
-import {
-  Box,
-  Button,
-  FormControlLabel,
-  MenuItem,
-  Select,
-  Switch,
-} from "@mui/material";
+import {Box, Button, FormControlLabel, MenuItem, Select, Switch,} from "@mui/material";
 import l1Map from "../assets/HospitalMap/00_thelowerlevel1.png";
 import l2Map from "../assets/HospitalMap/00_thelowerlevel2.png";
 import f1Map from "../assets/HospitalMap/01_thefirstfloor.png";
@@ -32,10 +14,10 @@ import PathToTextDisplay from "./PathToTextDisplay.tsx";
 
 import KeySelection from "./KeySelection.tsx";
 import Tooltip from "../ToolTip";
-import { TextToVoiceSelector } from "./TextToVoiceSelector.tsx";
+import {TextToVoiceSelector} from "./TextToVoiceSelector.tsx";
 
-import { Position } from "../common/PositionInterface.ts";
-import { Node } from "../common/NodeInterface.ts";
+import {Position} from "../common/PositionInterface.ts";
+import {Node} from "../common/NodeInterface.ts";
 import ll2 from "../assets/HmapNoBackground/00_thelowerlevel2_bg-rm.png";
 import ll1 from "../assets/HmapNoBackground/00_thelowerlevel1_rm-bg.png";
 import f1 from "../assets/HmapNoBackground/01_thefirstfloor_rm-bg.png";
@@ -294,6 +276,7 @@ function FloorMap() {
     setShouldAutoZoom(true);
     clearInputs();
     setShowNodes(!showNodes);
+    setshowTDNodes(!showTDNodes);
   };
 
   const handleMapKeyVisibility = () => {
@@ -332,7 +315,7 @@ function FloorMap() {
 
       return (
         <div
-          key={node.id}
+         key={node.id}
           className={styles.mapDot}
           style={{
             top: `${(parseInt(node.top) / mapHeight) * 100}%`, // Convert ycoord to percentage
@@ -599,6 +582,75 @@ function FloorMap() {
       handleChange();
       setThreeDView(!ThreeDView);
   };
+  const [showTDNodes, setshowTDNodes] = useState(false);
+
+  const renderTDNodes = () => {
+    if (showTDNodes) return null;
+      return locations.map((node) => {
+        const isStartNode = startPosition && node.id === startPosition.id;
+        const nodeColor = isStartNode ? "green" : startPosition ? "red" : "green";
+        const tooltipText = `${node.label}, ${node.id}`;
+        const mapWidth = 5000; // Example width, adjust as necessary
+        const mapHeight = 3400; // Example height, adjust as necessary
+        const a = 40; //rotate X Angle deg
+        const b = 20; //roate angle deg
+        const c = -20;// skew angle deg
+        const xtd = ((parseInt(node.top)) / mapHeight) * 100;
+        const ytd = ((parseInt(node.left)) / mapWidth) * 100;
+        const floor = getFloorNumber(node.id);
+        let fm = 0;
+           switch (floor) {
+               case "03": {
+                   fm = 65;
+                   break;
+               }
+               case "02": {
+                   fm = 57.5;
+                   break;
+               }
+               case "01": {
+                   fm = 50;
+                   break;
+               }
+               case "L1": {
+                   fm = 42.5;
+                   break;
+               }
+               case "L2": {
+                   fm = 35;
+                   break;
+               }
+               default: {
+                   console.log("somethings fucking wrong");
+                   fm = 0;
+                   break;
+               }
+           }
+        const xTrans = Math.cos(b)*xtd - Math.sin(b)*(Math.cos(a)*fm - Math.sin(a)*ytd) + Math.tan(c)*(Math.sin(b)*xtd + Math.cos(b)*(Math.cos(a)*fm - Math.sin(a)*ytd));
+        const yTrans = Math.sin(b)*xtd + Math.cos(b)*(Math.cos(a)*fm - Math.sin(a)*ytd);
+        const zTrans = Math.sin(a) * fm + Math.cos(a) * ytd;
+
+        return (
+            <div
+                key={node.id}
+                className={styles.mapDot}
+                style={{
+                top: "0",
+                left: "0",
+                transform: `translate3d(${xTrans}%, ${yTrans}%, ${zTrans}%)`,
+                zIndex: 1000, // Ensure it's visible above other elements
+                cursor: "pointer", // Cursor indicates it's clickable
+                borderRadius: "50%", // Makes the div circular
+                backgroundColor: nodeColor, // Dynamic color based on the node status
+            }}
+                // onClick={() => handleNodeClick(node)}
+                title={tooltipText} // Enhanced tooltip with label and ID
+            ></div>
+        );
+
+    });
+  };
+
 
   return (
     <div className={styles.wholePage}>
@@ -826,30 +878,16 @@ function FloorMap() {
                 </div>
                 {!ThreeDView &&
                     <div className={styles.ThreeD}>
-                        <div className={styles.outerOuterDiv}>
                             <div className={styles.outerDiv}>
-                                <div className={styles.ll2}>
-                                    <header className={styles.mhead}>L2</header>
-                                    <img src={ll2} alt="map" className={styles.mmimg}/>
-                                </div>
-                                <div className={styles.ll1}>
-                                    <header className={styles.mhead}>L1</header>
-                                    <img src={ll1} alt="map" className={styles.mmimg}/>
-                                </div>
-                                <div className={styles.f1}>
-                                    <header className={styles.mhead}>1</header>
-                                    <img src={f1} alt="map" className={styles.mmimg}/>
-                                </div>
-                                <div className={styles.f2}>
-                                    <header className={styles.mhead}>2</header>
-                                    <img src={f2} alt="map" className={styles.mmimg}/>
-                                </div>
-                                <div className={styles.f3}>
-                                    <header className={styles.mhead}>3</header>
-                                    <img src={f3} alt="map" className={styles.mmimg}/>
-                                </div>
+                                    <img src={ll2} alt="map" className={`${styles.ll2} ${styles.tdimg}`}/>
+                                    <img src={ll1} alt="map" className={`${styles.ll1} ${styles.tdimg}`}/>
+                                    <img src={f1} alt="map" className={`${styles.f1} ${styles.tdimg}`}/>
+                                    <img src={f2} alt="map" className={`${styles.f2} ${styles.tdimg}`}/>
+                                    <img src={f3} alt="map" className={`${styles.f3} ${styles.tdimg}`}/>
                             </div>
-                        </div>
+                            <div className={styles.tdDotsContainer}>
+                                {renderTDNodes()}
+                            </div>
                     </div>
                 }
                 {ThreeDView && <TransformWrapper

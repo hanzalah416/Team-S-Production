@@ -29,7 +29,7 @@
   border: 3px solid #6fb49f;
 }
 header:hover ~ .mmimg {
-  box-shadow: 2px 2px 2px 2px #6fb49f;
+  box-shadow: 1.5px 1.5px 1.5px 1.5px #6fb49f;
 }
 
 header {
