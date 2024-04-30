@@ -523,7 +523,7 @@ function NavBar() {
                       width={"38px"}
                       alt={"Transport Icon"}
                     />
-                    <p className={"item"}>Site Statistics</p>
+                    <p className={"item"}>Statistics</p>
                   </MenuItem>
                 </Link>
 
