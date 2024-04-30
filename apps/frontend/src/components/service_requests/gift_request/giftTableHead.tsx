@@ -91,14 +91,21 @@ export default function GiftGetter() {
     return value ? String(value) : undefined;
   };
 
-  const filteredData = giftData.filter((item) =>
-    getNestedValue(item, selectedFilter)
-      ?.toString()
-      .toLowerCase()
-      .includes(searchValue.toLowerCase()),
-  );
+  const filteredData = giftData
+      .filter((item) =>
+      getNestedValue(item, selectedFilter)
+          ?.toString()
+          .toLowerCase()
+          .includes(searchValue.toLowerCase())
+  )
+      .sort((a, b) => {
+          const fieldA = (getNestedValue(a, selectedFilter) || '').toString().toLowerCase();
+          const fieldB = (getNestedValue(b, selectedFilter) || '').toString().toLowerCase();
+          return fieldA.localeCompare(fieldB);
+      });
 
-  return (
+
+    return (
     <div className="flex flex-col gap-5">
       <div className="flex flex-row gap-5">
         <TextField

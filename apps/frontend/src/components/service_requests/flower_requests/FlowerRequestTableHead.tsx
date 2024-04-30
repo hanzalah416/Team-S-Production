@@ -97,14 +97,21 @@ export default function FlowerRequestGetter() {
     [FlowerRequestData],
   );
 
-  const filteredData = FlowerRequestData.filter((item) =>
-    getNestedValue(item, selectedFilter)
-      ?.toString()
-      .toLowerCase()
-      .includes(searchValue.toLowerCase()),
-  );
+    const filteredData = FlowerRequestData
+        .sort((a, b) => {
+            const fieldA = (getNestedValue(a, selectedFilter) || '').toString().toLowerCase();
+            const fieldB = (getNestedValue(b, selectedFilter) || '').toString().toLowerCase();
+            return fieldA.localeCompare(fieldB);
+        })
+        .filter((item) =>
+            getNestedValue(item, selectedFilter)
+                ?.toString()
+                .toLowerCase()
+                .includes(searchValue.toLowerCase())
+        );
 
-  return (
+
+    return (
     <div className="flex flex-col gap-5 mr-5">
       <div className="flex flex-row gap-5">
         <TextField

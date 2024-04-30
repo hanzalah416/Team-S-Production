@@ -66,11 +66,14 @@ export function ServiceRequestGetter() {
       .toLowerCase()
       .includes(searchValue.toLowerCase()),
   );
-  const sortedFilteredData = [...filteredAllRequestData].sort(
-    (a, b) => a.requestID - b.requestID,
-  );
+    const sortedFilteredData = [...filteredAllRequestData].sort((a, b) => {
+        const fieldA = (a[selectedFilter as keyof allRequestForm] ?? '').toString().toLowerCase();
+        const fieldB = (b[selectedFilter as keyof allRequestForm] ?? '').toString().toLowerCase();
+        return fieldA.localeCompare(fieldB);
+    });
 
-  const updateAllRequestStatus = async (
+
+    const updateAllRequestStatus = async (
     requestID: number,
     newStatus: string,
   ) => {

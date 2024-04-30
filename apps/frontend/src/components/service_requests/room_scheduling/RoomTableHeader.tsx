@@ -72,13 +72,18 @@ export default function RoomSchedulingGetter() {
     return value ? String(value) : undefined;
   };
 
-  const filteredData = roomSchedulingData.filter((item) =>
-    getNestedValue(item, selectedFilter)
-      ?.toString()
-      .toLowerCase()
-      .includes(searchValue.toLowerCase()),
-  );
-
+  const filteredData = roomSchedulingData
+      .filter((item) =>
+      getNestedValue(item, selectedFilter)
+          ?.toString()
+          .toLowerCase()
+          .includes(searchValue.toLowerCase())
+  )
+      .sort((a, b) => {
+          const fieldA = (getNestedValue(a, selectedFilter) || '').toString().toLowerCase();
+          const fieldB = (getNestedValue(b, selectedFilter) || '').toString().toLowerCase();
+          return fieldA.localeCompare(fieldB);
+      });
   const onUpdateStatus = useCallback(
     (requestID: number) => async (newStatus: string) => {
       try {
