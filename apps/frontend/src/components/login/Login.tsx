@@ -82,9 +82,7 @@ const Login: React.FC = () => {
           </div>
         </div>
         <div className={styles.textContainer}>
-          <div>
-            {/*<MusicPlayerSlider />*/}
-          </div>
+          <div>{/*<MusicPlayerSlider />*/}</div>
           <h1 className={styles.heading}>Brigham and Women's Hospital</h1>
           <br />
           <p className={styles.heading2}>
