@@ -46,9 +46,12 @@ export function ServiceRequestGetter() {
   };
 
   // Filter the data based on searchValue
-  const filteredAllRequestData = allRequestData.filter((request) =>
-    request.name.toLowerCase().includes(searchValue.toLowerCase()),
-  );
+  const filteredAllRequestData =
+    allRequestData.length != 0
+      ? allRequestData.filter((request) =>
+          request.name.toLowerCase().includes(searchValue.toLowerCase()),
+        )
+      : allRequestData;
 
   // Sort the filtered data by requestID before rendering
   const sortedFilteredData = [...filteredAllRequestData].sort(

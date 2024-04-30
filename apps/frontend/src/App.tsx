@@ -17,7 +17,7 @@ import DisplaySRData from "./components/service_requests/all_requests/DisplaySRD
 import OrderConfirmation from "./components/service_requests/OrderConfirmation.tsx";
 import SanitationForm from "./components/service_requests/sanitation_services/sanitationForm.tsx";
 import FloorMapDebug from "./components/floor_map/FloorMapDebug.tsx";
-import RoomScheduling from "./components/service_requests/Room_Scheduling/RoomScheduling.tsx";
+import RoomScheduling from "./components/service_requests/room_scheduling/RoomScheduling.tsx";
 import MedicineDeliveryForm from "./components/service_requests/medicine_delivery/MedicineDeliveryForm.tsx";
 import SecurityRequest from "./components/service_requests/security_requests/SecurityRequest.tsx";
 import { AppState, Auth0Provider } from "@auth0/auth0-react";
@@ -32,7 +32,7 @@ import MobileGift from "./components/service_requests/gift_request/MobileGift.ts
 import MobileMedicine from "./components/service_requests/medicine_delivery/MobileMedicine.tsx";
 import MobileSanitation from "./components/service_requests/sanitation_services/MobileSanitation.tsx";
 import MobileSecurity from "./components/service_requests/security_requests/MobileSecurity.tsx";
-import MobileScheduling from "./components/service_requests/Room_Scheduling/MobileScheduling.tsx";
+import MobileScheduling from "./components/service_requests/room_scheduling/MobileScheduling.tsx";
 import MobileLanguage from "./components/service_requests/language_requests/MobileLanguage.tsx";
 import MobileTransportation from "./components/service_requests/internalTransportation/MobileTransportation.tsx";
 import ErrorPage from "./components/error_page/ErrorPage.tsx";

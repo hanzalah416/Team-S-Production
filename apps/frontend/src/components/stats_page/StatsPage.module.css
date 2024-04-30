@@ -78,13 +78,17 @@ ul {
 }
 
 .alignStuff {
-  font-size: 40px;
+  font-size: 30px;
   text-align: center;
+  fontfamily: "Poppins";
+  fontstyle: "italic";
 }
 
 .alignS {
-  font-size: 40px;
+  font-size: 30px;
   text-align: center;
+  fontfamily: "Poppins";
+  fontstyle: "italic";
 }
 
 .alignChart {
@@ -93,10 +97,12 @@ ul {
 }
 
 .heading {
-  margin-top: 100px;
-  font-size: 70px;
-  color: white;
+  margin-top: 40px;
+  font-size: 65px;
   text-align: center;
+
+  fontstyle: "italic";
+  color: #3b54a0;
 }
 
 .barChartLabels {

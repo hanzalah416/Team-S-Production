@@ -1,16 +1,18 @@
 import FindClosestMatch from "../HelperFunctions/FindClosestMatch.ts";
 import isFirstWord from "../HelperFunctions/IsFirstWord.ts";
 import MicIcon from "@mui/icons-material/Mic";
-import styles from "../floor_map/FloorMap.module.css";
 import { useNavigate } from "react-router-dom";
 import jingle from "../assets/320181__dland__hint.mp3";
-import outJingle from "../assets/320181__dland2__hint.mp3";
 import { useEffect, useState } from "react";
 import PlayJingle from "../HelperFunctions/PlayJingle.ts";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Switch from "@mui/material/Switch";
+import "./NavBar.css";
 
 //Function to turn speech into text
 export default function SpeechNavigate() {
   const [userInteracted, setUserInteracted] = useState(false);
+  const [voiceOn, setVoiceOn] = useState(false);
 
   useEffect(() => {
     const handleInteraction = () => {
@@ -60,8 +62,6 @@ export default function SpeechNavigate() {
 
   const navigate = useNavigate();
 
-  activation.start();
-
   function StartListening() {
     activation.start();
   }
@@ -71,10 +71,12 @@ export default function SpeechNavigate() {
 
     activation.stop(); // Stop the ongoing speech recognition
 
-    // Start listening again
-    setTimeout(() => {
-      StartListening();
-    }, 1000);
+    if (voiceOn) {
+      // Start listening again
+      setTimeout(() => {
+        StartListening();
+      }, 1000);
+    }
   }
 
   function handleClick() {
@@ -102,10 +104,6 @@ export default function SpeechNavigate() {
     const spokenLocationRaw = event.results[0][0].transcript;
     //console.log(spokenLocationRaw);
 
-    if (userInteracted) {
-      PlayJingle("outJingle");
-    }
-
     if (isFirstWord(spokenLocationRaw, ["go", "navigate"])) {
       const services = [
         "order flowers",
@@ -117,6 +115,7 @@ export default function SpeechNavigate() {
         "medicine delivery request",
         "node data",
         "map editing",
+        "floor map",
         "manage database",
         "home page",
         "all service requests",
@@ -156,6 +155,9 @@ export default function SpeechNavigate() {
         case "map":
           navigate("/floor-map");
           break;
+        case "floor map":
+          navigate("/floor-map");
+          break;
         case "map editing":
           navigate("/map-debug");
           break;
@@ -186,16 +188,53 @@ export default function SpeechNavigate() {
       recognition.stop();
       console.log("Nothing said");
     }
-    activation.start();
+    if (voiceOn) {
+      activation.start();
+    }
   };
 
+  //Handle turning on and off the voice activation
+  function handleChange() {
+    if (voiceOn) {
+      activation.stop();
+      setVoiceOn(false);
+      console.log("turning off voice");
+    } else {
+      setVoiceOn(true);
+      activation.start();
+      console.log("turning on voice");
+    }
+  }
+
   return (
-    <div>
+    <div className={"micSettings"} style={{ marginLeft: 1 }}>
       <audio id="jingle" src={jingle}></audio>
-      <audio id="outJingle" src={outJingle}></audio>
-      <button onClick={handleClick} className={styles.navMic}>
-        <MicIcon />
+      <button onClick={handleClick} className={"navMic"}>
+        <MicIcon style={{ color: "white" }} />
       </button>
+      <FormControlLabel
+        control={
+          <Switch
+            onChange={() => handleChange()}
+            color={"secondary"}
+            sx={{
+              fontSize: 9,
+              "& .MuiSwitch-switchBase": {
+                color: "#474747",
+                // Thumb color when unchecked
+                "&.Mui-checked": {
+                  color: "#003b9c", // Thumb color when checked
+                },
+                "&.Mui-checked + .MuiSwitch-track": {
+                  backgroundColor: "#0251d4", // Track color when checked
+                },
+              },
+            }}
+          />
+        }
+        sx={{ marginLeft: 1 }}
+        label={""}
+      />
     </div>
   );
 }
