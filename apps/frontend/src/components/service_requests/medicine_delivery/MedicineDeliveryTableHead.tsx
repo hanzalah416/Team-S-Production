@@ -86,22 +86,24 @@ export default function MedicineRequestGetter() {
     return value ? String(value) : undefined;
   };
 
-    const filteredData = medicineDeliveryData
-        .filter((item) =>
-            getNestedValue(item, selectedFilter)
-                ?.toString()
-                .toLowerCase()
-                .includes(searchValue.toLowerCase())
-        )
-        .sort((a, b) => {
-            const fieldA = (getNestedValue(a, selectedFilter) || '').toString().toLowerCase();
-            const fieldB = (getNestedValue(b, selectedFilter) || '').toString().toLowerCase();
-            return fieldA.localeCompare(fieldB);
-        });
+  const filteredData = medicineDeliveryData
+    .filter((item) =>
+      getNestedValue(item, selectedFilter)
+        ?.toString()
+        .toLowerCase()
+        .includes(searchValue.toLowerCase()),
+    )
+    .sort((a, b) => {
+      const fieldA = (getNestedValue(a, selectedFilter) || "")
+        .toString()
+        .toLowerCase();
+      const fieldB = (getNestedValue(b, selectedFilter) || "")
+        .toString()
+        .toLowerCase();
+      return fieldA.localeCompare(fieldB);
+    });
 
-
-
-    const onUpdateStatus = useCallback(
+  const onUpdateStatus = useCallback(
     (requestID: number) => async (newStatus: string) => {
       try {
         await axios.patch(`/api/all-requests/${requestID}`, {

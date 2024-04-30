@@ -101,17 +101,21 @@ export default function TransportationGetter() {
   };
 
   const filteredData = transportationData
-      .filter((item) =>
-          getNestedValue(item, selectedFilter)
-              ?.toString()
-              .toLowerCase()
-              .includes(searchValue.toLowerCase())
-      )
-      .sort((a, b) => {
-          const fieldA = (getNestedValue(a, selectedFilter) || '').toString().toLowerCase();
-          const fieldB = (getNestedValue(b, selectedFilter) || '').toString().toLowerCase();
-          return fieldA.localeCompare(fieldB);
-      });
+    .filter((item) =>
+      getNestedValue(item, selectedFilter)
+        ?.toString()
+        .toLowerCase()
+        .includes(searchValue.toLowerCase()),
+    )
+    .sort((a, b) => {
+      const fieldA = (getNestedValue(a, selectedFilter) || "")
+        .toString()
+        .toLowerCase();
+      const fieldB = (getNestedValue(b, selectedFilter) || "")
+        .toString()
+        .toLowerCase();
+      return fieldA.localeCompare(fieldB);
+    });
 
   return (
     <div className="flex flex-col gap-5">

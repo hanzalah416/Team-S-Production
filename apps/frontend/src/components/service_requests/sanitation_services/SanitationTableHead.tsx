@@ -74,17 +74,21 @@ export default function SanitationGetter() {
   };
 
   const filteredData = sanitationData
-      .filter((item) =>
+    .filter((item) =>
       getNestedValue(item, selectedFilter)
-          ?.toString()
-          .toLowerCase()
-          .includes(searchValue.toLowerCase())
-  )
-      .sort((a, b) => {
-          const fieldA = (getNestedValue(a, selectedFilter) || '').toString().toLowerCase();
-          const fieldB = (getNestedValue(b, selectedFilter) || '').toString().toLowerCase();
-          return fieldA.localeCompare(fieldB);
-      });
+        ?.toString()
+        .toLowerCase()
+        .includes(searchValue.toLowerCase()),
+    )
+    .sort((a, b) => {
+      const fieldA = (getNestedValue(a, selectedFilter) || "")
+        .toString()
+        .toLowerCase();
+      const fieldB = (getNestedValue(b, selectedFilter) || "")
+        .toString()
+        .toLowerCase();
+      return fieldA.localeCompare(fieldB);
+    });
 
   const onUpdateStatus = useCallback(
     (requestID: number) => async (newStatus: string) => {
