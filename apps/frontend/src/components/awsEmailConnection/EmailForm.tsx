@@ -4,12 +4,16 @@ import {
   GRID_CHECKBOX_SELECTION_COL_DEF,
   GridRowId,
 } from "@mui/x-data-grid";
+import Tooltip from "../ToolTip.tsx";
 import BackgroundImg2 from "../assets/blue-background2.jpg";
 import { Button, InputLabel, Paper, Stack } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import Grid from "@mui/material/Unstable_Grid2";
 import axios from "axios";
 
+const tips = `
+Check off all the topics that you want to be subscribed to. Remember to confirm the subscription when you receive the email!
+`;
 export default function EmailForm() {
   const [email, setEmail] = useState("");
   const [topicArn, setTopicArn] = useState("");
@@ -24,36 +28,42 @@ export default function EmailForm() {
       serviceRequestName: "Appointment Confirmation",
       status: "Working",
       TopicArn: "arn:aws:sns:us-east-2:851725475476:Appointment_Confirmation",
+      info: "Confirmation that your appointment was scheduled",
     },
     {
       id: 2,
       serviceRequestName: "Appointment Reminder",
       status: "Working",
       TopicArn: "arn:aws:sns:us-east-2:851725475476:Appointment_Reminder",
+      info: "Get reminded before your appointment",
     },
     {
       id: 3,
       serviceRequestName: "Alerts from Brigham's Hospital",
       status: "Working",
       TopicArn: "arn:aws:sns:us-east-2:851725475476:Brigham_Alerts",
+      info: "Urgent alerts related to Brigham's Hospital",
     },
     {
       id: 4,
       serviceRequestName: "Updates from Brigham's Hospital",
       status: "Working",
       TopicArn: "arn:aws:sns:us-east-2:851725475476:Brigham_Updates",
+      info: "New updates related to Brigham's Hospital",
     },
     {
       id: 5,
       serviceRequestName: "Follow Up Emails",
       status: "Working",
       TopicArn: "arn:aws:sns:us-east-2:851725475476:Follow-Up",
+      info: "Helpful information after your appointment",
     },
     {
       id: 6,
       serviceRequestName: "Brigham's Medicine Magazine",
       status: "Working",
       TopicArn: "arn:aws:sns:us-east-2:851725475476:Medicine_Magazine",
+      info: "Our magazine detailing the newest medicine discoveries",
     },
   ];
   const navigate = useNavigate();
@@ -62,12 +72,12 @@ export default function EmailForm() {
       {
         field: "serviceRequestName",
         headerName: "Notification Type",
-        width: 300,
+        width: 250,
       },
       {
-        field: "status",
-        headerName: "Status",
-        width: 150,
+        field: "info",
+        headerName: "Information",
+        width: 400,
       },
       {
         ...GRID_CHECKBOX_SELECTION_COL_DEF,
@@ -151,15 +161,20 @@ export default function EmailForm() {
           <br />
           <p className={"title"} style={{ position: "relative" }}>
             Subscribe to Emails
+            <Tooltip
+              style={{ position: "absolute", right: "40px", top: 0 }}
+              tips={tips}
+            />
           </p>
           <Stack alignItems="center" justifyContent="center" spacing={3} p={4}>
             <div className={"breakline"}></div>
             <br />
-            <div style={{ height: 400, width: "100%" }}>
+            <div style={{ height: 430, width: "100%" }}>
               <InputLabel
                 style={{
                   color: "#3B54A0",
                   fontStyle: "italic",
+                  fontSize: 25,
                 }}
                 id="demo-f-select-label"
               >
