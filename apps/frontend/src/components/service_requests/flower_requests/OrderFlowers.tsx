@@ -23,7 +23,7 @@ import Tooltip from "../../ToolTip.tsx";
 import styles from "../../login/Login.module.css";
 // @ts-expect-error Problem with splides library
 import { Splide, SplideSlide } from "@splidejs/react-splide";
-import "@splidejs/react-splide/css/skyblue";
+import "@splidejs/react-splide/css/sea-green";
 
 const tips = `
 Name of Requester: Enter the name of the person requesting the flowers.
@@ -327,11 +327,21 @@ const OrderFlowers: React.FC = () => {
               <br />
 
 
-                <Splide width={400}
+                <div style={{
+                    marginLeft: "auto",
+                    marginRight: "auto",
+                    justifyContent: "center",
+                    alignItems: "center"
+                }}>
+                <Splide
+                    options={ {
+                    rewind: true,
+                    width : 400,
+                    gap   : '1rem',
+                } }
                     aria-label="Carousel of gifts"
                     style={{
                         width: "400px",
-                        maxWidth: "400px",
                         marginLeft: "auto",
                         marginRight: "auto",
                         justifyContent: "center",
@@ -374,6 +384,7 @@ const OrderFlowers: React.FC = () => {
                             }} />
                     </SplideSlide>
                 </Splide>
+                </div>
 
 
               <ToggleButtonGroup
@@ -396,7 +407,7 @@ const OrderFlowers: React.FC = () => {
                     color: "#10778c",
                     outlineColor: "#949DB5",
                     borderColor: "#949DB5",
-                    width: 200,
+                    width: 100,
                   }}
                   value="Poppies"
                 >
@@ -407,7 +418,7 @@ const OrderFlowers: React.FC = () => {
                     color: "#10778c",
                     outlineColor: "#949DB5",
                     borderColor: "#949DB5",
-                    width: 200,
+                    width: 100,
                   }}
                   value="Roses"
                 >
@@ -418,7 +429,7 @@ const OrderFlowers: React.FC = () => {
                     color: "#10778c",
                     outlineColor: "#949DB5",
                     borderColor: "#949DB5",
-                    width: 200,
+                    width: 100,
                   }}
                   value="Tulips"
                 >

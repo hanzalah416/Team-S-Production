@@ -24,7 +24,7 @@ import { Position } from "../../common/PositionInterface.ts";
 import { Node } from "../../common/NodeInterface.ts";
 // @ts-expect-error Problem with splides library
 import { Splide, SplideSlide } from "@splidejs/react-splide";
-import "@splidejs/react-splide/css/skyblue";
+import "@splidejs/react-splide/css/sea-green";
 
 const tips = `Name of Requester: Enter the full name of the person requiring language assistance.
 
@@ -298,8 +298,17 @@ export default function GiftForm() {
 
 
 
+                <div style={{
+                    justifyContent: "center",
+                    display: "flex",
+                }}>
                 <Splide
                     aria-label="Carousel of gifts"
+                    options={ {
+                        rewind: true,
+                        width : 400,
+                        gap   : '1rem',
+                    } }
                         style={{
                             width: "400px",
                             marginLeft: "auto",
@@ -342,6 +351,7 @@ export default function GiftForm() {
                             }} />
                         </SplideSlide>
                 </Splide>
+              </div>
 
 
               <ToggleButtonGroup
