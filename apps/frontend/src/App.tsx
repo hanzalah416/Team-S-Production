@@ -39,6 +39,7 @@ import ErrorPage from "./components/error_page/ErrorPage.tsx";
 import AwsPublishForm from "./components/awsEmailConnection/awsPublish.tsx";
 import MobileMap from "./components/floor_map/MobileMap.tsx";
 import StatsPage from "./components/stats_page/StatsPage.tsx";
+import SubscribeResult from "./components/awsEmailConnection/SubscribeResult.tsx";
 
 function App() {
   const isMobile = navigator.userAgent.match(
@@ -242,6 +243,15 @@ function App() {
           ),
         },
 
+        {
+          path: "/subscription-result",
+          element: (
+            <>
+              <SubscribeResult />
+              <Layout />
+            </>
+          ),
+        },
         // ... other routes
       ],
     },
