@@ -327,27 +327,25 @@ function NavBar() {
   return (
     <div className="navbar">
       {/* Navbar content */}
-      <Button>
-        <div className={"leftSide"}>
-          <img
-            src={bwhLogo}
-            className={"bwh-logo"}
-            alt={
-              "Brigham and Women's Hospital logo, reading " +
-              "'Founding member, Mass General Brigham'"
-            }
-            onClick={toHero}
-            style={{ cursor: "pointer" }} // Makes it clear the logo is clickable
-          />
+      <div className={"leftSide"}>
+        <img
+          src={bwhLogo}
+          className={"bwh-logo"}
+          alt={
+            "Brigham and Women's Hospital logo, reading " +
+            "'Founding member, Mass General Brigham'"
+          }
+          onClick={toHero}
+          style={{ cursor: "pointer" }} // Makes it clear the logo is clickable
+        />
 
-          <p className={"time"} onClick={toHero}>
-            {timeOfDay}{" "}
-          </p>
+        <p className={"time"} onClick={toHero}>
+          {timeOfDay}{" "}
+        </p>
+        {"SpeechRecognition" in window ||
+          ("webkitSpeechRecognition" in window && <SpeechNavigate />)}
+      </div>
 
-          {"SpeechRecognition" in window ||
-            ("webkitSpeechRecognition" in window && <SpeechNavigate />)}
-        </div>
-      </Button>
       <div className={"navButtons"}>
         <Link to={"/about-page"} id={"order"}>
           <Button className={"alignIcons"} onClick={onBackDropItemClick}>

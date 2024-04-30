@@ -1,16 +1,19 @@
 import FindClosestMatch from "../HelperFunctions/FindClosestMatch.ts";
 import isFirstWord from "../HelperFunctions/IsFirstWord.ts";
 import MicIcon from "@mui/icons-material/Mic";
-import styles from "../floor_map/FloorMap.module.css";
 import { useNavigate } from "react-router-dom";
 import jingle from "../assets/320181__dland__hint.mp3";
 import outJingle from "../assets/320181__dland2__hint.mp3";
 import { useEffect, useState } from "react";
 import PlayJingle from "../HelperFunctions/PlayJingle.ts";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Switch from "@mui/material/Switch";
+import "./NavBar.css";
 
 //Function to turn speech into text
 export default function SpeechNavigate() {
   const [userInteracted, setUserInteracted] = useState(false);
+  const [voiceOn, setVoiceOn] = useState(false);
 
   useEffect(() => {
     const handleInteraction = () => {
@@ -60,8 +63,6 @@ export default function SpeechNavigate() {
 
   const navigate = useNavigate();
 
-  activation.start();
-
   function StartListening() {
     activation.start();
   }
@@ -71,10 +72,12 @@ export default function SpeechNavigate() {
 
     activation.stop(); // Stop the ongoing speech recognition
 
-    // Start listening again
-    setTimeout(() => {
-      StartListening();
-    }, 1000);
+    if (voiceOn) {
+      // Start listening again
+      setTimeout(() => {
+        StartListening();
+      }, 1000);
+    }
   }
 
   function handleClick() {
@@ -189,13 +192,37 @@ export default function SpeechNavigate() {
     activation.start();
   };
 
+  //Handle turning on and off the voice activation
+  function handleChange() {
+    if (voiceOn) {
+      activation.stop();
+      setVoiceOn(false);
+      console.log("turning off voice");
+    } else {
+      setVoiceOn(true);
+      activation.start();
+      console.log("turning on voice");
+    }
+  }
+
   return (
-    <div>
+    <div className={"micSettings"}>
       <audio id="jingle" src={jingle}></audio>
       <audio id="outJingle" src={outJingle}></audio>
-      <button onClick={handleClick} className={styles.navMic}>
-        <MicIcon />
+      <button onClick={handleClick} className={"navMic"}>
+        <MicIcon style={{ color: "white" }} />
       </button>
+      <FormControlLabel
+        control={
+          <Switch
+            onChange={() => handleChange()}
+            color={"secondary"}
+            style={{ color: "#163a95" }}
+          />
+        }
+        label="Voice"
+        sx={{ marginLeft: 1 }}
+      />
     </div>
   );
 }
