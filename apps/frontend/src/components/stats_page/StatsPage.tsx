@@ -45,7 +45,7 @@ Pie Chart: To find the number of service requests by request type, hover over th
 
 Bar Chart (Status): To find the distribution of statuses for each service request, hover over the region for the desired service request, and the number of unassigned requests, assigned requests, in progress requests and closed requests there are for that service request.
 
-Bar Chart (Priority): Similarly to status bar chart, hover over the region for the desired request, and the number of low priority requests, medium priority requests, high priority requests and emergency requests there are for that service request.  
+Bar Chart (Priority): Similarly to the status bar chart, hover over the region for the desired request, and the number of low priority requests, medium priority requests, high priority requests and emergency requests there are for that service request.  
 `;
 const Stats = () => {
   const [pieData, setPieData] = useState<PieData>({
@@ -101,12 +101,14 @@ const Stats = () => {
             alignItems="center"
             justifyContent="center"
             my={4}
-        >
+        > <br/>
+            <br/>
+
             <Paper elevation={4} style={{padding: 20}}>
-                <p className={"title"} style={{position: "relative", fontSize: "65px"}}>
+                <p className={"title"} style={{position: "relative", fontSize: "60px"}}>
                     Statistics
                     <Tooltip
-                        style={{position: "absolute", right: "200px", top: 0}}
+                        style={{position: "absolute", right: "20px", top: 0}}
                         tips={tips}
                     />
                 </p>
