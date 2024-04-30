@@ -18,7 +18,7 @@ export default function SpeechToText(props: {
   startPosition: Position | null;
 }) {
   const [locations, setLocations] = useState<Position[]>([]);
-    const [isRecording, setIsRecording] = useState(false);
+  const [isRecording, setIsRecording] = useState(false);
   const sortedLocations = [...locations]
     .filter((location) => !location.label.includes("Hall")) // Change startsWith to includes
     .sort((a, b) => a.label.localeCompare(b.label))
@@ -59,32 +59,29 @@ export default function SpeechToText(props: {
 
   const navigate = useNavigate();
 
-    function handleClick() {
-        if (!isRecording) {
-            setIsRecording(true);
-            recognition.start();
-            PlayJingle("jingle");
-            console.log("Ready to receive location command.");
-        }
+  function handleClick() {
+    if (!isRecording) {
+      setIsRecording(true);
+      recognition.start();
+      PlayJingle("jingle");
+      console.log("Ready to receive location command.");
     }
+  }
 
-    recognition.onend = () => {
-        setIsRecording(false);
-    };
+  recognition.onend = () => {
+    setIsRecording(false);
+  };
 
-    recognition.onerror = (event) => {
-        console.error("Recognition error:", event.error);
-        setIsRecording(false);  // Handle errors like no speech detected
-    };
+  recognition.onerror = (event) => {
+    console.error("Recognition error:", event.error);
+    setIsRecording(false); // Handle errors like no speech detected
+  };
 
   recognition.onresult = (event) => {
     const spokenLocationRaw = event.results[0][0].transcript;
     console.log(spokenLocationRaw);
     //console.log(sortedLocations);
     PlayJingle("outJingle");
-
-
-
 
     if (isFirstWord(spokenLocationRaw, ["go", "navigate"])) {
       const services = [
@@ -203,7 +200,7 @@ export default function SpeechToText(props: {
 
       props.handleSelection(FindLocationByLongName(spokenLocation), "end");
     }
-      setIsRecording(false);
+    setIsRecording(false);
     console.log("done");
   };
 
@@ -213,18 +210,19 @@ export default function SpeechToText(props: {
       (location) =>
         location.label.toLowerCase() === longNameToFind.toLowerCase(),
     );
-
     return foundLocation !== undefined ? foundLocation : null;
-
   };
 
-
-    const buttonStyle = isRecording ? { backgroundColor: 'red' } : {};
+  const buttonStyle = isRecording ? { backgroundColor: "red" } : {};
 
   return (
     <div>
       <audio id="jingle" src={jingle}></audio>
-      <button onClick={handleClick} className={styles.micButton} style={buttonStyle}>
+      <button
+        onClick={handleClick}
+        className={styles.micButton}
+        style={buttonStyle}
+      >
         <MicIcon />
       </button>
     </div>
