@@ -170,6 +170,17 @@
   display: none;
 }
 
+.navMic {
+  margin-top: 20px;
+  margin-bottom: 25px;
+  margin-left: 10px;
+  background-color: #163a95;
+}
+.micSettings {
+  margin-left: -25px;
+  color: #163a95;
+}
+
 @media all and (max-width: 1024px) {
   .navButtons {
     display: none;
