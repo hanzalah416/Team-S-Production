@@ -207,7 +207,7 @@ export default function SpeechNavigate() {
   }
 
   return (
-    <div className={"micSettings"}>
+    <div className={"micSettings"} style={{ marginLeft: 1 }}>
       <audio id="jingle" src={jingle}></audio>
       <button onClick={handleClick} className={"navMic"}>
         <MicIcon style={{ color: "white" }} />
@@ -232,8 +232,8 @@ export default function SpeechNavigate() {
             }}
           />
         }
-        label="Voice"
         sx={{ marginLeft: 1 }}
+        label={""}
       />
     </div>
   );
