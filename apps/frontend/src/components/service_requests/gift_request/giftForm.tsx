@@ -54,8 +54,6 @@ export default function GiftForm() {
   const navigate = useNavigate(); //Function to navigate to other pages
   // const {getAccessTokenSilently} = useAuth0();
 
-
-
   const toggleScrolling = (disableScroll: boolean) => {
     if (disableScroll) {
       document.body.style.overflow = "hidden";
@@ -296,63 +294,66 @@ export default function GiftForm() {
                 Gift Type
               </InputLabel>
 
-
-
-                <div style={{
-                    justifyContent: "center",
-                    display: "flex",
-                }}>
+              <div
+                style={{
+                  justifyContent: "center",
+                  display: "flex",
+                }}
+              >
                 <Splide
-                    aria-label="Carousel of gifts"
-                    options={ {
-                        rewind: true,
-                        width : 400,
-                        gap   : '1rem',
-                    } }
-                        style={{
-                            width: "400px",
-                            marginLeft: "auto",
-                            marginRight: "auto"
-                }}>
-                        <SplideSlide>
-                            <img
-                                 src={teddybear}
-                                 className={styles.poppies}
-                                 alt="Teddy bear"
-                                 style={{
-                                     width: "300px",
-                                     height: "auto",
-                                     marginLeft: "auto",
-                                     marginRight: "auto"
-                            }} />
-                        </SplideSlide>
-                        <SplideSlide>
-                            <img
-                                 src={fruit}
-                                 className={styles.roses}
-                                 alt="Chocolate covered strawberries"
-                                 style={{
-                                     width: "300px",
-                                     height: "auto",
-                                     marginLeft: "auto",
-                                     marginRight: "auto"
-                            }} />
-                        </SplideSlide>
-                        <SplideSlide>
-                            <img
-                                 src={coloringbook}
-                                 className={styles.tulips}
-                                 alt="Coloring Book"
-                                 style={{
-                                     width: "300px",
-                                     height: "auto",
-                                     marginLeft: "auto",
-                                     marginRight: "auto"
-                            }} />
-                        </SplideSlide>
+                  aria-label="Carousel of gifts"
+                  options={{
+                    rewind: true,
+                    width: 400,
+                    gap: "1rem",
+                  }}
+                  style={{
+                    width: "400px",
+                    marginLeft: "auto",
+                    marginRight: "auto",
+                  }}
+                >
+                  <SplideSlide>
+                    <img
+                      src={teddybear}
+                      className={styles.poppies}
+                      alt="Teddy bear"
+                      style={{
+                        width: "300px",
+                        height: "auto",
+                        marginLeft: "auto",
+                        marginRight: "auto",
+                      }}
+                    />
+                  </SplideSlide>
+                  <SplideSlide>
+                    <img
+                      src={fruit}
+                      className={styles.roses}
+                      alt="Chocolate covered strawberries"
+                      style={{
+                        width: "300px",
+                        height: "auto",
+                        marginLeft: "auto",
+                        marginRight: "auto",
+                      }}
+                    />
+                  </SplideSlide>
+                  <SplideSlide>
+                    <img
+                      src={coloringbook}
+                      className={styles.tulips}
+                      alt="Coloring Book"
+                      style={{
+                        width: "300px",
+                        height: "auto",
+                        marginLeft: "auto",
+                        marginRight: "auto",
+                      }}
+                    />
+                  </SplideSlide>
                 </Splide>
               </div>
-
 
               <ToggleButtonGroup
                 color="primary"

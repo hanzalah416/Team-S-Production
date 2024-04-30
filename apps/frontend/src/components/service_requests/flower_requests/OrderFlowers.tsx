@@ -13,9 +13,9 @@ import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import FormLabel from "@mui/material/FormLabel";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
-import poppies from "../../assets/FlowerPhotos/poppies.png";
-import tulips from "../../assets/FlowerPhotos/tulips.png";
-import roses from "../../assets/FlowerPhotos/rose.png";
+import poppies from "../../assets/FlowerPhotos/poppy2.png";
+import tulips from "../../assets/FlowerPhotos/tulips2.jpg";
+import roses from "../../assets/FlowerPhotos/rose2.png";
 import Grid from "@mui/material/Unstable_Grid2"; // Grid version 2
 import Paper from "@mui/material/Paper";
 import BackgroundImg2 from "../../assets/blue-background2.jpg";
@@ -326,66 +326,70 @@ const OrderFlowers: React.FC = () => {
               </InputLabel>
               <br />
 
-
-                <div style={{
+              <div
+                style={{
+                  marginLeft: "auto",
+                  marginRight: "auto",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Splide
+                  options={{
+                    rewind: true,
+                    width: 400,
+                    gap: "1rem",
+                  }}
+                  aria-label="Carousel of gifts"
+                  style={{
+                    width: "400px",
                     marginLeft: "auto",
                     marginRight: "auto",
                     justifyContent: "center",
-                    alignItems: "center"
-                }}>
-                <Splide
-                    options={ {
-                    rewind: true,
-                    width : 400,
-                    gap   : '1rem',
-                } }
-                    aria-label="Carousel of gifts"
-                    style={{
-                        width: "400px",
+                    alignItems: "center",
+                  }}
+                >
+                  <SplideSlide>
+                    <img
+                      src={poppies}
+                      className={styles.poppies}
+                      alt="Poppies"
+                      style={{
+                        width: "300px",
+                        height: "auto",
                         marginLeft: "auto",
                         marginRight: "auto",
-                        justifyContent: "center",
-                        alignItems: "center"
-                    }}>
-                    <SplideSlide>
-                        <img
-                            src={poppies}
-                            className={styles.poppies}
-                            alt="Poppies"
-                            style={{
-                                width: "300px",
-                                height: "auto",
-                                marginLeft: "auto",
-                                marginRight: "auto"
-                            }} />
-                    </SplideSlide>
-                    <SplideSlide>
-                        <img
-                            src={roses}
-                            className={styles.roses}
-                            alt="Roses"
-                            style={{
-                                width: "300px",
-                                height: "auto",
-                                marginLeft: "auto",
-                                marginRight: "auto"
-                            }} />
-                    </SplideSlide>
-                    <SplideSlide>
-                        <img
-                            src={tulips}
-                            className={styles.tulips}
-                            alt="Tulips"
-                            style={{
-                                width: "300px",
-                                height: "auto",
-                                marginLeft: "auto",
-                                marginRight: "auto"
-                            }} />
-                    </SplideSlide>
+                      }}
+                    />
+                  </SplideSlide>
+                  <SplideSlide>
+                    <img
+                      src={roses}
+                      className={styles.roses}
+                      alt="Roses"
+                      style={{
+                        width: "300px",
+                        height: "auto",
+                        marginLeft: "auto",
+                        marginRight: "auto",
+                      }}
+                    />
+                  </SplideSlide>
+                  <SplideSlide>
+                    <img
+                      src={tulips}
+                      className={styles.tulips}
+                      alt="Tulips"
+                      style={{
+                        width: "300px",
+                        height: "auto",
+                        marginLeft: "auto",
+                        marginRight: "auto",
+                      }}
+                    />
+                  </SplideSlide>
                 </Splide>
-                </div>
-
+              </div>
 
               <ToggleButtonGroup
                 color="primary"
