@@ -41,7 +41,7 @@ ul {
 .pieChartContainer {
   position: relative;
   right: 40px; /* Adjust this value to position the legend */
-  top: 0px; /* Adjust this value to position the legend */
+  top: 0; /* Adjust this value to position the legend */
   left: 40px;
 }
 
@@ -54,7 +54,7 @@ ul {
 }
 
 .legend {
-  text-color: white;
+  color: white;
   font-size: 300px;
   position: absolute;
   top: 20px;
@@ -80,15 +80,15 @@ ul {
 .alignStuff {
   font-size: 30px;
   text-align: center;
-  fontfamily: "Poppins";
-  fontstyle: "italic";
+  font-family: Poppins, sans-serif;
+  font-style: italic;
 }
 
 .alignS {
   font-size: 30px;
   text-align: center;
-  fontfamily: "Poppins";
-  fontstyle: "italic";
+  font-family: Poppins, sans-serif;
+  font-style: italic;
 }
 
 .alignChart {
@@ -101,7 +101,7 @@ ul {
   font-size: 65px;
   text-align: center;
 
-  fontstyle: "italic";
+  font-style: italic;
   color: #3b54a0;
 }
 

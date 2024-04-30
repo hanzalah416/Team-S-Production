@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Jaldi:wght@400;700&display=swap");
+
 @font-face {
   font-family: "Bubble";
   src: url(SmothyBubble-d9D06.otf);
@@ -22,12 +24,11 @@
   src: url(SantEliaScript-BoldDEMO.otf);
 }
 
-@import url("https://fonts.googleapis.com/css2?family=Jaldi:wght@400;700&display=swap");
 .heading {
   color: #ffffff;
   font-size: 80px;
-  alignitems: "center";
-  justifycontent: "center";
+  align-items: center;
+  justify-content: center;
   text-align: center;
   text-shadow:
     -1px -1px 0 #ffffff,
