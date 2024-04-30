@@ -206,19 +206,19 @@ export default function SpeechNavigate() {
   }
 
   return (
-    <div className={"micSettings"}>
+    <div className={"micSettings"}  style={{ marginLeft: 1 }}>
       <audio id="jingle" src={jingle}></audio>
       <audio id="outJingle" src={outJingle}></audio>
-      <button onClick={handleClick} className={"navMic"}>
-        <MicIcon style={{ color: "white" }} />
-      </button>
-      <FormControlLabel
-        control={
-          <Switch
-            onChange={() => handleChange()}
-            color={"secondary"}
-            sx={{
-                fontSize: 9,
+        <button onClick={handleClick} className={"navMic"} style={{backgroundColor: voiceOn ? "#163a95" : "grey"}}>
+            <MicIcon style={{color: "white"}}/>
+        </button>
+        <FormControlLabel
+            control={
+                <Switch
+                    onChange={() => handleChange()}
+                    color={"secondary"}
+                    sx={{
+                        fontSize: 9,
                 "& .MuiSwitch-switchBase": {
                     color: "#474747",
                     // Thumb color when unchecked
@@ -232,8 +232,8 @@ export default function SpeechNavigate() {
             }}
           />
         }
-        label="Voice"
         sx={{ marginLeft: 1 }}
+            label={""}
       />
     </div>
   );
