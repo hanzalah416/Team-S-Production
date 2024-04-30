@@ -48,7 +48,7 @@ router.get(
 
     if (serviceRequests.length === 0) {
       console.error("No requests have been made!");
-      res.sendStatus(204);
+      res.status(204).json(serviceRequests);
     } else {
       console.log("Service requests:", serviceRequests);
       res.status(200).json(serviceRequests);

@@ -7,7 +7,7 @@ const Credits = () => {
     {
       name: "AWS",
       role: "Cloud service that allows deployment of our resources for public view rather than development view.",
-      link: " https://aws.amazon.com/",
+      link: "https://aws.amazon.com/",
     },
     {
       name: "Docker Hub",
