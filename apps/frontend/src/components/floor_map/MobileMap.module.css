@@ -42,11 +42,13 @@ body {
   align-items: center;
   width: 100%;
   height: calc(100% - 100px);
+  background-color: #d6d8d5;
 }
 
 .signInForm {
   padding-left: 30px;
   padding-right: 30px;
+  padding-bottom: 30px;
   display: var(--searchDisplay);
   flex-direction: column;
   width: 100vw; /* Adjust the width as needed */
@@ -69,11 +71,16 @@ body {
   width: 100vw; /* Adjust the width as needed */
   border-radius: 0 0 15px 15px;
   text-align: center;
+  z-index: 10;
 }
 
 .homePin {
   padding-right: 15px;
   padding-left: 15px;
+}
+
+.mapFix {
+  overflow: visible;
 }
 
 .floorButtonsContainer {
@@ -97,32 +104,33 @@ body {
     background: #003b9c; /* color of the thumb */
   }
 
-  width: calc(100% + 60px); /* Add twice the padding to stretch fully */
-  margin-left: -30px; /* Offset the padding on the left */
-  margin-right: -30px;
+  width: 100vw; /* Add twice the padding to stretch fully */
   max-height: 400px;
 }
 
 .mapArea {
-  height: calc(
-    100vh + 110px
-  ); /* Subtract the navbar height or any padding you may have */
+  /* Subtract the navbar height or any padding you may have */
   width: 100vw;
   position: relative;
-  overflow: hidden;
+  overflow: visible;
+}
+
+.mapComponents {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 5px;
 }
 
 .FloorSequence {
-  position: absolute;
-  top: 10px; /* Keeps it 20px from the top */
-  right: 20px; /* Anchors the container to the right, 20px from the edge */
+  position: relative;
   z-index: 5; /* Ensures it stays on top of other content */
   background: transparent; /* Semi-transparent background for better visibility */
   border-radius: 5px; /* Rounded corners for aesthetics */
   display: flex; /* Ensures the contents are laid out in a row */
   flex-direction: row-reverse; /* Reverses the order of flex items to extend to the left */
   justify-content: flex-start; /* Aligns content to the right */
-  padding: 8px; /* Padding around the content */
 }
 
 .hmap-image {
@@ -145,8 +153,8 @@ body {
 
 .mapDot {
   position: absolute;
-  width: 9px;
-  height: 9px;
+  width: 2.5px;
+  height: 2.5px;
   border-radius: 50%;
   transform: translate(-50%, -50%);
   z-index: 3;
@@ -173,6 +181,7 @@ body {
   text-align: center;
   font-weight: bold;
   color: black;
+  width: 100vw;
 }
 
 .directionsBlueBox {
@@ -206,7 +215,7 @@ body {
 }
 
 .line {
-  stroke-dasharray: 3;
+  stroke-dasharray: 2;
   stroke-dashoffset: 20;
   animation: moveDottedLine 1s linear infinite;
   z-index: 100;
@@ -252,7 +261,7 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-size: 7.5px;
+  font-size: 4px;
   color: black;
 }
 
@@ -266,8 +275,8 @@ body {
 
 .multifloorNode {
   position: absolute;
-  width: 10px;
-  height: 10px;
+  width: 5px;
+  height: 5px;
   border-radius: 50%;
   transform: translate(-50%, -50%);
 }
@@ -319,9 +328,6 @@ body {
 }
 
 .MapButtons {
-  position: absolute;
-  top: 20px; /* Adjust to place it right at the top */
-  left: 20px; /* Right aligned */
   width: fit-content; /* Auto width based on content */
   z-index: 4; /* Ensure it is above the TransformComponent */
   display: flex;
@@ -348,6 +354,10 @@ body {
   border: 1px solid black; /* Black border */
   border-radius: 5px; /* Rounded corners */
   transition: bottom 0.3s ease; /* Transform effect to make it come from the bottom */
+}
+
+.zIndexHIGH {
+  z-index: 1000;
 }
 
 .MapKeyItem {
