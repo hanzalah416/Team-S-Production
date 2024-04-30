@@ -366,7 +366,7 @@ function NavBar() {
               <img src={mapIcon} className={"iconHeight"} alt={"map_icon"} />
               <p id={"mapID"} className={"itemNames"}>
                 {" "}
-                Our Map
+               Our Map
               </p>
             </Button>
           </Link>
@@ -524,7 +524,19 @@ function NavBar() {
                     <p className={"item"}>Statistics</p>
                   </MenuItem>
                 </Link>
-
+                  {!isMobile && (
+                      <Link to={"/message-publish"} id={"order"}>
+                          <MenuItem onClick={handleClose}>
+                              <img
+                                  src={emailIcon}
+                                  className={"iconHeight"}
+                                  width={"38px"}
+                                  alt={"DB Icon"}
+                              />
+                              <p className={"item"}>Send Out Emails</p>
+                          </MenuItem>
+                      </Link>
+                  )}
                 {!isMobile && (
                   <Link to={"/map-debug"} id={"order"}>
                     <MenuItem onClick={handleClose}>
@@ -553,19 +565,7 @@ function NavBar() {
                   </Link>
                 )}
 
-                {!isMobile && (
-                  <Link to={"/message-publish"} id={"order"}>
-                    <MenuItem onClick={handleClose}>
-                      <img
-                        src={emailIcon}
-                        className={"iconHeight"}
-                        width={"38px"}
-                        alt={"DB Icon"}
-                      />
-                      <p className={"item"}>Send Out Emails</p>
-                    </MenuItem>
-                  </Link>
-                )}
+
               </>
             )}
           </Menu>

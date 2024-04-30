@@ -119,7 +119,7 @@ const Stats = () => {
                         className={"title"} style={{position: "relative", fontSize: "35px"}}
 
                     >
-                        Service requests by number of requests
+                        Service requests by request type
                     </h2>
                     <PieChart
                         series={[
@@ -159,7 +159,7 @@ const Stats = () => {
                                         id: 5,
                                         value: pieData.giftRequest,
                                         label: "Gift Request",
-                                        color: "white",
+                                        color: "teal",
                                     },
                                     {
                                         id: 6,
