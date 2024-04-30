@@ -21,6 +21,9 @@ import Paper from "@mui/material/Paper";
 import BackgroundImg2 from "../../assets/blue-background2.jpg";
 import Tooltip from "../../ToolTip.tsx";
 import styles from "../../login/Login.module.css";
+// @ts-expect-error Problem with splides library
+import { Splide, SplideSlide } from "@splidejs/react-splide";
+import "@splidejs/react-splide/css/skyblue";
 
 const tips = `
 Name of Requester: Enter the name of the person requesting the flowers.
@@ -322,27 +325,57 @@ const OrderFlowers: React.FC = () => {
                 Flower Type
               </InputLabel>
               <br />
-              <div style={{ display: "flex" }}>
-                <img
-                  src={poppies}
-                  alt="Covering 3/4 page"
-                  className={styles.poppies}
-                  style={{ width: "200px", height: "auto" }}
-                />
 
-                <img
-                  src={roses}
-                  alt="Covering 3/4 page"
-                  className={styles.roses}
-                  style={{ width: "200px", height: "auto" }}
-                />
-                <img
-                  src={tulips}
-                  alt="Covering 3/4 page"
-                  className={styles.tulips}
-                  style={{ width: "200px", height: "auto" }}
-                />
-              </div>
+
+                <Splide width={400}
+                    aria-label="Carousel of gifts"
+                    style={{
+                        width: "400px",
+                        maxWidth: "400px",
+                        marginLeft: "auto",
+                        marginRight: "auto",
+                        justifyContent: "center",
+                        alignItems: "center"
+                    }}>
+                    <SplideSlide>
+                        <img
+                            src={poppies}
+                            className={styles.poppies}
+                            alt="Poppies"
+                            style={{
+                                width: "300px",
+                                height: "auto",
+                                marginLeft: "auto",
+                                marginRight: "auto"
+                            }} />
+                    </SplideSlide>
+                    <SplideSlide>
+                        <img
+                            src={roses}
+                            className={styles.roses}
+                            alt="Roses"
+                            style={{
+                                width: "300px",
+                                height: "auto",
+                                marginLeft: "auto",
+                                marginRight: "auto"
+                            }} />
+                    </SplideSlide>
+                    <SplideSlide>
+                        <img
+                            src={tulips}
+                            className={styles.tulips}
+                            alt="Tulips"
+                            style={{
+                                width: "300px",
+                                height: "auto",
+                                marginLeft: "auto",
+                                marginRight: "auto"
+                            }} />
+                    </SplideSlide>
+                </Splide>
+
+
               <ToggleButtonGroup
                 color="primary"
                 value={typeFlower} // Use the state value here
