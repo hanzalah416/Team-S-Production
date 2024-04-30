@@ -356,9 +356,25 @@ body {
   justify-content: center; /* Center the select horizontally */
 }
 .floorDirectionsContainer {
-  max-height: 400px;
-  overflow-y: auto;
-  overflow-x: hidden;
+    max-height: 400px;  /* Default max-height */
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+
+
+/* Medium devices */
+@media (min-height: 500px) and (max-height: 700px) {
+    .floorDirectionsContainer {
+        max-height: calc(30vh); /* 60% of the viewport height */
+    }
+}
+
+/* Larger devices */
+@media (min-height: 775px) {
+    .floorDirectionsContainer {
+        max-height: calc(39vh); /* 70% of the viewport height */
+    }
 }
 
 .floorVoiceSettingContainer {
