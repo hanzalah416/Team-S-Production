@@ -16,7 +16,7 @@ import { useNavigate } from "react-router-dom";
 import { Position } from "../../common/PositionInterface.ts";
 import { Node } from "../../common/NodeInterface.ts";
 import BackgroundImg2 from "../../assets/blue-background2.jpg";
-import "../AllMobile.css";
+import "../../AllMobile.css";
 
 interface Staff {
   employeeName: string;

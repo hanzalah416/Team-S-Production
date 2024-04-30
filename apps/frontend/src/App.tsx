@@ -40,6 +40,7 @@ import AwsPublishForm from "./components/awsEmailConnection/awsPublish.tsx";
 import MobileMap from "./components/floor_map/MobileMap.tsx";
 import StatsPage from "./components/stats_page/StatsPage.tsx";
 import SubscribeResult from "./components/awsEmailConnection/SubscribeResult.tsx";
+import MobileEmail from "./components/awsEmailConnection/MobileEmail.tsx";
 
 function App() {
   const isMobile = navigator.userAgent.match(
@@ -149,7 +150,8 @@ function App() {
           path: "/sign-up-email",
           element: (
             <>
-              <EmailForm />
+              {isMobile && <MobileEmail />}
+              {!isMobile && <EmailForm />}
               <Layout />
             </>
           ),
