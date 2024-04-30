@@ -6,10 +6,10 @@ import axios from "axios";
 // import {barElementClasses, PieChart} from "@mui/x-charts";
 import { BarChart } from "@mui/x-charts/BarChart";
 // import styles from "../stats_page/StatsPage.module.css";
-import {PieChart } from "@mui/x-charts";
+import { PieChart } from "@mui/x-charts";
 import Stack from "@mui/material/Stack";
 import Tooltip from "../ToolTip.tsx";
-import {Grid, Paper} from "@mui/material";
+import { Grid, Paper } from "@mui/material";
 // import {colors} from "@mui/material";
 // import {data} from "autoprefixer";
 // import {makeStyles} from "@mui/material";
@@ -94,171 +94,172 @@ const Stats = () => {
         overflowX: "hidden",
       }}
     >
-        <Grid
-            container
-            spacing={5}
-            direction="column"
-            alignItems="center"
-            justifyContent="center"
-            my={4}
-        > <br/>
-            <br/>
-
-            <Paper elevation={4} style={{padding: 20}}>
-                <p className={"title"} style={{position: "relative", fontSize: "60px"}}>
-                    Statistics
-                    <Tooltip
-                        style={{position: "absolute", right: "20px", top: 0}}
-                        tips={tips}
-                    />
-                </p>
-                <br/>
-                <div className={"breakline"}></div>
-                <Stack alignItems="center" justifyContent="center" spacing={3} p={4}>
-                    <h2
-                        className={"title"} style={{position: "relative", fontSize: "35px"}}
-
-                    >
-                        Service requests by number of requests
-                    </h2>
-                    <PieChart
-                        series={[
-                            {
-                                data: [
-                                    {
-                                        id: 0,
-                                        value: pieData.securityRequest,
-                                        label: "Security Request",
-                                        color: "blue",
-                                    },
-                                    {
-                                        id: 1,
-                                        value: pieData.transportRequest,
-                                        label: "Transportation Request",
-                                        color: "green",
-                                    },
-                                    {
-                                        id: 2,
-                                        value: pieData.medicineRequest,
-                                        label: "Medicine Request",
-                                        color: "red",
-                                    },
-                                    {
-                                        id: 3,
-                                        value: pieData.languageRequest,
-                                        label: "Language Request",
-                                        color: "orange",
-                                    },
-                                    {
-                                        id: 4,
-                                        value: pieData.schedulingRequest,
-                                        label: "Scheduling Request",
-                                        color: "yellow",
-                                    },
-                                    {
-                                        id: 5,
-                                        value: pieData.giftRequest,
-                                        label: "Gift Request",
-                                        color: "white",
-                                    },
-                                    {
-                                        id: 6,
-                                        value: pieData.sanitationRequest,
-                                        label: "Sanitation Request",
-                                        color: "pink",
-                                    },
-                                    {
-                                        id: 7,
-                                        value: pieData.flowerRequest,
-                                        label: "Flower Request",
-                                        color: "purple",
-                                    },
-                                ],
-                            },
-                        ]}
-                        width={800}
-                        height={600}
-                        margin={{
-                            left: 100,
-                            top: 80,
-                            bottom: 80,
-                        }}
-                        slotProps={{
-                            legend: {
-                                direction: "row",
-                                position: {vertical: "top", horizontal: "right"},
-                                padding: 0,
-                            },
-
-                        }}
-                        sx={{
-                            "& .MuiPieArc-root": {
-                                stroke: "#000", // Black border
-                                strokeWidth: 2, // Width of the border
-                            },
-                            "& .MuiChartsLegend-series text": {
-                                fill: "#3B54A0 !important",
-                            },
-                        }}
-
-
-                    />
-                    <div className={"breakline"}></div>
-                    <h2
-                        className={"title"} style={{position: "relative", fontSize: "35px"}}
-
-                    >
-                        Service Requests by Status
-                    </h2>
-                    <BarChart
-                        dataset={assignBar}
-                        xAxis={[
-                            {
-                                scaleType: "band",
-                                dataKey: "requestType",
-                            },
-                        ]}
-                        series={[
-                            {dataKey: "notAssigned", label: "Unassigned"},
-                            {dataKey: "assigned", label: "Assigned"},
-                            {dataKey: "inProgess", label: "In Progress"},
-                            {dataKey: "closed", label: "Closed"},
-                        ]}
-                        width={830}
-                        height={300}
-                        sx={{
-                            "& .MuiChartsLegend-series text": {
-                                fill: "#3B54A0 !important",
-                            },
-                        }}
-                    />
-                    <div className={"breakline"}></div>
-                    <h2
-                        className={"title"} style={{position: "relative", fontSize: "35px"}}
-
-                    >
-                        Service Requests by Priority
-                    </h2>
-                    <BarChart
-                        dataset={priorityBar}
-                        xAxis={[{scaleType: "band", dataKey: "requestType"}]}
-                        series={[
-                            {dataKey: "low", label: "Low Priority"},
-                            {dataKey: "medium", label: "High Priority"},
-                            {dataKey: "high", label: "Medium Priority"},
-                            {dataKey: "emergency", label: "Emergency"},
-                        ]}
-                        width={830}
-                        height={300}
-                        sx={{
-                            "& .MuiChartsLegend-series text": {
-                                fill: "#3B54A0 !important",
-                            },
-                        }}
-                    />
-                </Stack>
-            </Paper>
-        </Grid>
+      <Grid
+        container
+        spacing={5}
+        direction="column"
+        alignItems="center"
+        justifyContent="center"
+        my={4}
+      >
+        {" "}
+        <br />
+        <br />
+        <Paper elevation={4} style={{ padding: 20 }}>
+          <p
+            className={"title"}
+            style={{ position: "relative", fontSize: "60px" }}
+          >
+            Statistics
+            <Tooltip
+              style={{ position: "absolute", right: "20px", top: 0 }}
+              tips={tips}
+            />
+          </p>
+          <br />
+          <div className={"breakline"}></div>
+          <Stack alignItems="center" justifyContent="center" spacing={3} p={4}>
+            <h2
+              className={"title"}
+              style={{ position: "relative", fontSize: "35px" }}
+            >
+              Service requests by number of requests
+            </h2>
+            <PieChart
+              series={[
+                {
+                  data: [
+                    {
+                      id: 0,
+                      value: pieData.securityRequest,
+                      label: "Security Request",
+                      color: "blue",
+                    },
+                    {
+                      id: 1,
+                      value: pieData.transportRequest,
+                      label: "Transportation Request",
+                      color: "green",
+                    },
+                    {
+                      id: 2,
+                      value: pieData.medicineRequest,
+                      label: "Medicine Request",
+                      color: "red",
+                    },
+                    {
+                      id: 3,
+                      value: pieData.languageRequest,
+                      label: "Language Request",
+                      color: "orange",
+                    },
+                    {
+                      id: 4,
+                      value: pieData.schedulingRequest,
+                      label: "Scheduling Request",
+                      color: "yellow",
+                    },
+                    {
+                      id: 5,
+                      value: pieData.giftRequest,
+                      label: "Gift Request",
+                      color: "white",
+                    },
+                    {
+                      id: 6,
+                      value: pieData.sanitationRequest,
+                      label: "Sanitation Request",
+                      color: "pink",
+                    },
+                    {
+                      id: 7,
+                      value: pieData.flowerRequest,
+                      label: "Flower Request",
+                      color: "purple",
+                    },
+                  ],
+                },
+              ]}
+              width={800}
+              height={600}
+              margin={{
+                left: 100,
+                top: 80,
+                bottom: 80,
+              }}
+              slotProps={{
+                legend: {
+                  direction: "row",
+                  position: { vertical: "top", horizontal: "right" },
+                  padding: 0,
+                },
+              }}
+              sx={{
+                "& .MuiPieArc-root": {
+                  stroke: "#000", // Black border
+                  strokeWidth: 2, // Width of the border
+                },
+                "& .MuiChartsLegend-series text": {
+                  fill: "#3B54A0 !important",
+                },
+              }}
+            />
+            <div className={"breakline"}></div>
+            <h2
+              className={"title"}
+              style={{ position: "relative", fontSize: "35px" }}
+            >
+              Service Requests by Status
+            </h2>
+            <BarChart
+              dataset={assignBar}
+              xAxis={[
+                {
+                  scaleType: "band",
+                  dataKey: "requestType",
+                },
+              ]}
+              series={[
+                { dataKey: "notAssigned", label: "Unassigned" },
+                { dataKey: "assigned", label: "Assigned" },
+                { dataKey: "inProgess", label: "In Progress" },
+                { dataKey: "closed", label: "Closed" },
+              ]}
+              width={830}
+              height={300}
+              sx={{
+                "& .MuiChartsLegend-series text": {
+                  fill: "#3B54A0 !important",
+                },
+              }}
+            />
+            <div className={"breakline"}></div>
+            <h2
+              className={"title"}
+              style={{ position: "relative", fontSize: "35px" }}
+            >
+              Service Requests by Priority
+            </h2>
+            <BarChart
+              dataset={priorityBar}
+              xAxis={[{ scaleType: "band", dataKey: "requestType" }]}
+              series={[
+                { dataKey: "low", label: "Low Priority" },
+                { dataKey: "medium", label: "High Priority" },
+                { dataKey: "high", label: "Medium Priority" },
+                { dataKey: "emergency", label: "Emergency" },
+              ]}
+              width={830}
+              height={300}
+              sx={{
+                "& .MuiChartsLegend-series text": {
+                  fill: "#3B54A0 !important",
+                },
+              }}
+            />
+          </Stack>
+        </Paper>
+      </Grid>
     </div>
   );
 };

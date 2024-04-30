@@ -206,34 +206,38 @@ export default function SpeechNavigate() {
   }
 
   return (
-    <div className={"micSettings"}  style={{ marginLeft: 1 }}>
+    <div className={"micSettings"} style={{ marginLeft: 1 }}>
       <audio id="jingle" src={jingle}></audio>
       <audio id="outJingle" src={outJingle}></audio>
-        <button onClick={handleClick} className={"navMic"} style={{backgroundColor: voiceOn ? "#163a95" : "grey"}}>
-            <MicIcon style={{color: "white"}}/>
-        </button>
-        <FormControlLabel
-            control={
-                <Switch
-                    onChange={() => handleChange()}
-                    color={"secondary"}
-                    sx={{
-                        fontSize: 9,
-                "& .MuiSwitch-switchBase": {
-                    color: "#474747",
-                    // Thumb color when unchecked
-                    "&.Mui-checked": {
-                        color: "#003b9c", // Thumb color when checked
-                    },
-                    "&.Mui-checked + .MuiSwitch-track": {
-                        backgroundColor: "#0251d4", // Track color when checked
-                    },
+      <button
+        onClick={handleClick}
+        className={"navMic"}
+        style={{ backgroundColor: voiceOn ? "#163a95" : "grey" }}
+      >
+        <MicIcon style={{ color: "white" }} />
+      </button>
+      <FormControlLabel
+        control={
+          <Switch
+            onChange={() => handleChange()}
+            color={"secondary"}
+            sx={{
+              fontSize: 9,
+              "& .MuiSwitch-switchBase": {
+                color: "#474747",
+                // Thumb color when unchecked
+                "&.Mui-checked": {
+                  color: "#003b9c", // Thumb color when checked
                 },
+                "&.Mui-checked + .MuiSwitch-track": {
+                  backgroundColor: "#0251d4", // Track color when checked
+                },
+              },
             }}
           />
         }
         sx={{ marginLeft: 1 }}
-            label={""}
+        label={""}
       />
     </div>
   );
