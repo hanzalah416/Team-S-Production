@@ -6,10 +6,10 @@ import axios from "axios";
 // import {barElementClasses, PieChart} from "@mui/x-charts";
 import { BarChart } from "@mui/x-charts/BarChart";
 // import styles from "../stats_page/StatsPage.module.css";
-import {PieChart } from "@mui/x-charts";
+import { PieChart } from "@mui/x-charts";
 import Stack from "@mui/material/Stack";
 import Tooltip from "../ToolTip.tsx";
-import {Grid, Paper} from "@mui/material";
+import { Grid, Paper } from "@mui/material";
 // import {colors} from "@mui/material";
 // import {data} from "autoprefixer";
 // import {makeStyles} from "@mui/material";
@@ -94,6 +94,7 @@ const Stats = () => {
         overflowX: "hidden",
       }}
     >
+
         <Grid
             container
             spacing={5}
@@ -259,6 +260,7 @@ const Stats = () => {
                 </Stack>
             </Paper>
         </Grid>
+
     </div>
   );
 };

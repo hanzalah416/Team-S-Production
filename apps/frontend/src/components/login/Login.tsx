@@ -1,7 +1,7 @@
 // import React, { useState} from "react";
 import styles from "./Login.module.css";
 import heroImage from "../assets/HeroPhotos/heroImage.png";
-import EmailPhoto from "../assets/HeroPhotos/EmailPhoto.png";
+//import EmailPhoto from "../assets/HeroPhotos/EmailPhoto.png";
 import heroImage1 from "../assets/HeroPhotos/nurse6.jpg";
 import heroImage2 from "../assets/HeroPhotos/Temp1.png";
 import heroImage3 from "../assets/HeroPhotos/Temp3.png";
@@ -21,7 +21,7 @@ import downArrow from "../assets/HeroPhotos/viewMoreArrow.svg";
 import animationLeft from "./click-animation-left.gif";
 import animationRight from "./click-animation-right.gif";
 import Stack from "@mui/material/Stack";
-
+import subscribeIcon from "../assets/NavBarIcons/subscribe.svg";
 const Login: React.FC = () => {
   const navigate = useNavigate();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -33,9 +33,7 @@ const Login: React.FC = () => {
       navigate("/floor-map");
     }, 1000); // Waits a second before navigating to the floor map page
   };
-  const navigateEmail = () => {
-    navigate("/sign-up-email");
-  };
+
   const images = [heroImage, heroImage1, heroImage2, heroImage3];
 
   useEffect(() => {
@@ -134,21 +132,6 @@ const Login: React.FC = () => {
               </div>
             )}
           </Stack>
-
-          <Button
-            onClick={navigateEmail}
-            className={styles.viewMap}
-            color="primary"
-            style={{
-              backgroundImage: `url(${EmailPhoto})`,
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-              width: "200px", // Adjust button width as needed
-              height: "200px", // Adjust button height as needed
-            }}
-          >
-            <div className={styles.view}> Click to Subscribe </div>
-          </Button>
         </div>
       </div>
       <div className={styles.bottomHalfContainer} id="targetDiv">
@@ -173,6 +156,11 @@ const Login: React.FC = () => {
             image={aboutIcon}
             title={"About this site"}
             link={"about-page"}
+          />
+          <HeroPageCard
+            title={"Subscribe"}
+            image={subscribeIcon}
+            link={"/sign-up-email"}
           />
           <HeroPageCard
             image={toolsIcon}

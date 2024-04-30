@@ -22,6 +22,9 @@ import fruit from "../../assets/GiftPhotos/fruitgift.png";
 import Tooltip from "../../ToolTip";
 import { Position } from "../../common/PositionInterface.ts";
 import { Node } from "../../common/NodeInterface.ts";
+// @ts-expect-error Problem with splides library
+import { Splide, SplideSlide } from "@splidejs/react-splide";
+import "@splidejs/react-splide/css/sea-green";
 
 const tips = `Name of Requester: Enter the full name of the person requiring language assistance.
 
@@ -50,6 +53,8 @@ export default function GiftForm() {
   const [staffNames, setStaffNames] = useState<Staff[]>([]);
   const navigate = useNavigate(); //Function to navigate to other pages
   // const {getAccessTokenSilently} = useAuth0();
+
+
 
   const toggleScrolling = (disableScroll: boolean) => {
     if (disableScroll) {
@@ -290,27 +295,65 @@ export default function GiftForm() {
               >
                 Gift Type
               </InputLabel>
-              <div style={{ display: "flex" }}>
-                <img
-                  src={coloringbook}
-                  alt="Covering 3/4 page"
-                  className={styles.poppies}
-                  style={{ width: "200px", height: "auto" }}
-                />
 
-                <img
-                  src={fruit}
-                  alt="Covering 3/4 page"
-                  className={styles.roses}
-                  style={{ width: "200px", height: "auto" }}
-                />
-                <img
-                  src={teddybear}
-                  alt="Covering 3/4 page"
-                  className={styles.tulips}
-                  style={{ width: "200px", height: "auto" }}
-                />
+
+
+                <div style={{
+                    justifyContent: "center",
+                    display: "flex",
+                }}>
+                <Splide
+                    aria-label="Carousel of gifts"
+                    options={ {
+                        rewind: true,
+                        width : 400,
+                        gap   : '1rem',
+                    } }
+                        style={{
+                            width: "400px",
+                            marginLeft: "auto",
+                            marginRight: "auto"
+                }}>
+                        <SplideSlide>
+                            <img
+                                 src={teddybear}
+                                 className={styles.poppies}
+                                 alt="Teddy bear"
+                                 style={{
+                                     width: "300px",
+                                     height: "auto",
+                                     marginLeft: "auto",
+                                     marginRight: "auto"
+                            }} />
+                        </SplideSlide>
+                        <SplideSlide>
+                            <img
+                                 src={fruit}
+                                 className={styles.roses}
+                                 alt="Chocolate covered strawberries"
+                                 style={{
+                                     width: "300px",
+                                     height: "auto",
+                                     marginLeft: "auto",
+                                     marginRight: "auto"
+                            }} />
+                        </SplideSlide>
+                        <SplideSlide>
+                            <img
+                                 src={coloringbook}
+                                 className={styles.tulips}
+                                 alt="Coloring Book"
+                                 style={{
+                                     width: "300px",
+                                     height: "auto",
+                                     marginLeft: "auto",
+                                     marginRight: "auto"
+                            }} />
+                        </SplideSlide>
+                </Splide>
               </div>
+
+
               <ToggleButtonGroup
                 color="primary"
                 value={typeGift} // Use the state value here

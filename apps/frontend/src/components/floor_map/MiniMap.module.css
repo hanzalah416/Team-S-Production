@@ -37,9 +37,9 @@ header {
   z-index: 2;
   right: 1vw;
   bottom: 1vh;
-  fontfamily: "Poppins";
-  fontsize: 14;
-  textalign: "center";
+  font-family: Poppins, sans-serif;
+  font-size: 14px;
+  text-align: center;
   font-weight: bold;
   color: black;
 }

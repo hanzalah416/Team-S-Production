@@ -24,6 +24,8 @@
     "@mui/x-charts": "^7.3.1",
     "@mui/x-data-grid": "^7.3.0",
     "@popperjs/core": "^2.11.8",
+    "@splidejs/react-splide": "^0.7.12",
+    "@splidejs/splide": "^4.1.4",
     "@tanstack/react-table": "^8.9.3",
     "@types/dom-speech-recognition": "^0.0.4",
     "autoprefixer": "^10.4.18",
