@@ -17,7 +17,7 @@ import aboutIcon from "../assets/NavBarIcons/about.svg";
 import giftIcon from "../assets/NavBarIcons/gift_icon.svg";
 import toolsIcon from "../assets/NavBarIcons/tools_icon.svg";
 import downArrow from "../assets/HeroPhotos/viewMoreArrow.svg";
-import MusicPlayerSlider from "../Music_player/MusicPlayer.tsx";
+// import MusicPlayerSlider from "../Music_player/MusicPlayer.tsx";
 import animationLeft from "./click-animation-left.gif";
 import animationRight from "./click-animation-right.gif";
 import Stack from "@mui/material/Stack";
@@ -83,7 +83,7 @@ const Login: React.FC = () => {
         </div>
         <div className={styles.textContainer}>
           <div>
-            <MusicPlayerSlider />
+            {/*<MusicPlayerSlider />*/}
           </div>
           <h1 className={styles.heading}>Brigham and Women's Hospital</h1>
           <br />
