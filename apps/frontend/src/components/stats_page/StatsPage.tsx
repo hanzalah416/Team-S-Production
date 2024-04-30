@@ -200,10 +200,8 @@ const Stats = () => {
                         }}
 
 
-
-
                     />
-
+                    <div className={"breakline"}></div>
                     <h2
                         className={"title"} style={{position: "relative", fontSize: "35px"}}
 
@@ -232,7 +230,7 @@ const Stats = () => {
                             },
                         }}
                     />
-
+                    <div className={"breakline"}></div>
                     <h2
                         className={"title"} style={{position: "relative", fontSize: "35px"}}
 
