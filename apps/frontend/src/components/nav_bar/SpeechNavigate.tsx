@@ -3,7 +3,6 @@ import isFirstWord from "../HelperFunctions/IsFirstWord.ts";
 import MicIcon from "@mui/icons-material/Mic";
 import { useNavigate } from "react-router-dom";
 import jingle from "../assets/320181__dland__hint.mp3";
-import outJingle from "../assets/320181__dland2__hint.mp3";
 import { useEffect, useState } from "react";
 import PlayJingle from "../HelperFunctions/PlayJingle.ts";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -105,10 +104,6 @@ export default function SpeechNavigate() {
     const spokenLocationRaw = event.results[0][0].transcript;
     //console.log(spokenLocationRaw);
 
-    if (userInteracted) {
-      PlayJingle("outJingle");
-    }
-
     if (isFirstWord(spokenLocationRaw, ["go", "navigate"])) {
       const services = [
         "order flowers",
@@ -120,6 +115,7 @@ export default function SpeechNavigate() {
         "medicine delivery request",
         "node data",
         "map editing",
+        "floor map",
         "manage database",
         "home page",
         "all service requests",
@@ -159,6 +155,9 @@ export default function SpeechNavigate() {
         case "map":
           navigate("/floor-map");
           break;
+        case "floor map":
+          navigate("/floor-map");
+          break;
         case "map editing":
           navigate("/map-debug");
           break;
@@ -189,7 +188,9 @@ export default function SpeechNavigate() {
       recognition.stop();
       console.log("Nothing said");
     }
-    activation.start();
+    if (voiceOn) {
+      activation.start();
+    }
   };
 
   //Handle turning on and off the voice activation
@@ -208,12 +209,7 @@ export default function SpeechNavigate() {
   return (
     <div className={"micSettings"} style={{ marginLeft: 1 }}>
       <audio id="jingle" src={jingle}></audio>
-      <audio id="outJingle" src={outJingle}></audio>
-      <button
-        onClick={handleClick}
-        className={"navMic"}
-        style={{ backgroundColor: voiceOn ? "#163a95" : "grey" }}
-      >
+      <button onClick={handleClick} className={"navMic"}>
         <MicIcon style={{ color: "white" }} />
       </button>
       <FormControlLabel
