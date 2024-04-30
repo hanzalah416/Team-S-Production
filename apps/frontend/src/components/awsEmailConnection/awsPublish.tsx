@@ -7,6 +7,7 @@ import Tooltip from "../ToolTip.tsx";
 import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
 import { useNavigate } from "react-router-dom";
+import {InputLabel, MenuItem, Select, SelectChangeEvent } from "@mui/material";
 
 const tips = `
 This message will be sent to every person who subscribes to the hospital. \n Only do this if there is an important message to send.
@@ -14,12 +15,17 @@ This message will be sent to every person who subscribes to the hospital. \n Onl
 
 export default function AwsPublishForm() {
   const [message, setMessage] = useState("");
+  const [topicArn, setTopicArn] = useState("");
   const navigate = useNavigate();
 
+  const handleChangeTopicArn = (event: SelectChangeEvent) => {
+    setTopicArn(event.target.value as string);
+  };
   async function submit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const newEntry = {
       message: message,
+      topicArn: topicArn,
     };
 
     await axios
@@ -85,19 +91,55 @@ export default function AwsPublishForm() {
               alignItems="center"
               justifyContent="center"
             >
-              <form onSubmit={submit} style={{ width: "100%" }}>
+              <form onSubmit={submit} style={{width: "100%"}}>
+                <div>
+                  <InputLabel
+                      style={{
+                        color: "#3B54A0",
+                        fontStyle: "italic",
+                      }}
+                      id="demo-simple-select-label"
+                  >
+                    Topic
+                  </InputLabel>
+                  <Select
+                      labelId="demo-simple-select-label"
+                      id="demo-simple-select"
+                      value={topicArn}
+                      label=""
+                      onChange={(e) => {
+                        handleChangeTopicArn(e);
+                      }}
+                      sx={{minWidth: 250}}
+                  >
+                    <MenuItem value={"arn:aws:sns:us-east-2:851725475476:Appointment_Confirmation"}>
+                      Appointment Confirmation</MenuItem>
+                    <MenuItem value={"arn:aws:sns:us-east-2:851725475476:Appointment_Reminder"}>
+                      Appointment Reminder</MenuItem>
+                    <MenuItem value={"arn:aws:sns:us-east-2:851725475476:Brigham_Alerts"}>
+                      Alerts from Brigham's Hospital</MenuItem>
+                    <MenuItem value={"arn:aws:sns:us-east-2:851725475476:Brigham_Updates"}>
+                      Updates from Brigham's Hospital</MenuItem>
+                    <MenuItem value={"arn:aws:sns:us-east-2:851725475476:Follow-Up"}>
+                      Follow Up Emails</MenuItem>
+                    <MenuItem value={"arn:aws:sns:us-east-2:851725475476:Medicine_Magazine"}>
+                      Brigham's Medicine Magazine</MenuItem>
+                  </Select>
+                </div>
+                <div>
                 <label htmlFor="messageInput">Enter Message:</label>
                 <TextField
-                  id="messageInput"
-                  label="Message"
-                  value={message}
-                  onChange={(e) => setMessage(e.target.value)}
-                  required
-                  fullWidth
-                  multiline
-                  rows={6}
-                  style={{ width: "100%" }} // Set the width of the TextField
+                    id="messageInput"
+                    label="Message"
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                    required
+                    fullWidth
+                    multiline
+                    rows={6}
+                    style={{width: "100%"}} // Set the width of the TextField
                 />
+                </div>
                 <button type="submit">Send to Subscribers</button>
               </form>
             </Stack>
