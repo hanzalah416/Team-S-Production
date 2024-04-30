@@ -217,7 +217,19 @@ export default function SpeechNavigate() {
           <Switch
             onChange={() => handleChange()}
             color={"secondary"}
-            style={{ color: "#163a95" }}
+            sx={{
+                fontSize: 9,
+                "& .MuiSwitch-switchBase": {
+                    color: "#474747",
+                    // Thumb color when unchecked
+                    "&.Mui-checked": {
+                        color: "#003b9c", // Thumb color when checked
+                    },
+                    "&.Mui-checked + .MuiSwitch-track": {
+                        backgroundColor: "#0251d4", // Track color when checked
+                    },
+                },
+            }}
           />
         }
         label="Voice"
