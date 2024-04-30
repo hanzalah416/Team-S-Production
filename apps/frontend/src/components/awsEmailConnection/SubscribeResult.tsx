@@ -9,7 +9,7 @@ import BackgroundImg2 from "../assets/blue-background2.jpg";
 export default function SubscribeResult() {
   const navigate = useNavigate();
   const handleBack = () => {
-    navigate("/sign-up-email");
+    navigate("/");
   };
 
   return (
