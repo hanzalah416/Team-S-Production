@@ -2912,6 +2912,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@splidejs/react-splide@npm:^0.7.12":
+  version: 0.7.12
+  resolution: "@splidejs/react-splide@npm:0.7.12"
+  dependencies:
+    "@splidejs/splide": "npm:^4.1.3"
+  checksum: cf3e354af62f6ee5d33d8d474ffe6ab5a4f117e3b62d698cae101d7768a3fc6e496a4a293eb9d2cfd0b1f3fdc839701bdd41c1a46f29b4f2a5ae1c37f6d478bb
+  languageName: node
+  linkType: hard
+
+"@splidejs/splide@npm:^4.1.3, @splidejs/splide@npm:^4.1.4":
+  version: 4.1.4
+  resolution: "@splidejs/splide@npm:4.1.4"
+  checksum: 2944672065a3957f332d08fab1195accbee6b03301e16f063ab9a7dd677a0d06d403d9856f63f6be2544cbe57d9fbfea41617e16fe34f8129164ad65333870e7
+  languageName: node
+  linkType: hard
+
 "@swc/core-darwin-arm64@npm:1.3.104":
   version: 1.3.104
   resolution: "@swc/core-darwin-arm64@npm:1.3.104"
@@ -6237,6 +6253,8 @@ __metadata:
     "@mui/x-charts": "npm:^7.3.1"
     "@mui/x-data-grid": "npm:^7.3.0"
     "@popperjs/core": "npm:^2.11.8"
+    "@splidejs/react-splide": "npm:^0.7.12"
+    "@splidejs/splide": "npm:^4.1.4"
     "@tanstack/react-table": "npm:^8.9.3"
     "@types/bootstrap": "npm:^5.2.6"
     "@types/dom-speech-recognition": "npm:^0.0.4"
@@ -9390,6 +9408,7 @@ __metadata:
     "@mui/types": "npm:^7.2.14"
     "@mui/x-charts": "npm:^7.3.1"
     "@mui/x-data-grid": "npm:^7.3.0"
+    "@splidejs/splide": "npm:^4.1.4"
     "@types/dom-speech-recognition": "npm:^0.0.4"
     "@types/papaparse": "npm:^5.3.14"
     "@types/react": "npm:^18.0.37"
