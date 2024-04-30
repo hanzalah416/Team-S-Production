@@ -169,7 +169,7 @@ export default function EmailForm() {
           <Stack alignItems="center" justifyContent="center" spacing={3} p={4}>
             <div className={"breakline"}></div>
             <br />
-            <div style={{ height: 430, width: "100%" }}>
+            <div style={{ height: 422, width: "100%" }}>
               <InputLabel
                 style={{
                   color: "#3B54A0",
@@ -180,12 +180,17 @@ export default function EmailForm() {
               >
                 Topics for subscription:
               </InputLabel>
+              <br />
               <DataGrid
                 rows={rows}
                 columns={columns}
                 checkboxSelection
                 rowSelectionModel={selectedRows}
                 onRowSelectionModelChange={handleSelectionModelChange}
+                hideFooterPagination
+                hideFooterSelectedRowCount
+                hideFooter
+                autoHeight
               />
             </div>
             <br />
