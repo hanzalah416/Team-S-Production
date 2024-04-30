@@ -138,7 +138,7 @@ export default function GiftGetter() {
           </Select>
         </FormControl>
       </div>
-      <div className={styles.tabsContainer2}>
+      <div className={styles.tabsContainer}>
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 700 }} aria-label="customized table">
             <TableHead>
