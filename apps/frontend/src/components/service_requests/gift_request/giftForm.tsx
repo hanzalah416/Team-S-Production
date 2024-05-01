@@ -315,9 +315,9 @@ export default function GiftForm() {
                 >
                   <SplideSlide>
                     <img
-                      src={teddybear}
-                      className={styles.poppies}
-                      alt="Teddy bear"
+                      src={coloringbook}
+                      className={styles.tulips}
+                      alt="Coloring Book"
                       style={{
                         width: "300px",
                         height: "auto",
@@ -341,9 +341,9 @@ export default function GiftForm() {
                   </SplideSlide>
                   <SplideSlide>
                     <img
-                      src={coloringbook}
-                      className={styles.tulips}
-                      alt="Coloring Book"
+                      src={teddybear}
+                      className={styles.poppies}
+                      alt="Teddy bear"
                       style={{
                         width: "300px",
                         height: "auto",
