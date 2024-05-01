@@ -15,7 +15,7 @@ import axios from "axios";
 import BackgroundImg2 from "../../assets/blue-background2.jpg";
 import { Position } from "../../common/PositionInterface.ts";
 import { Node } from "../../common/NodeInterface.ts";
-import "../AllMobile.css";
+import "../../AllMobile.css";
 
 // Interface for Staff
 interface Staff {

@@ -1,4 +1,4 @@
-import "../AllMobile.css";
+import "../../AllMobile.css";
 import { securityform } from "../../common/securityform.ts";
 import React, { useEffect, useState } from "react";
 import {
