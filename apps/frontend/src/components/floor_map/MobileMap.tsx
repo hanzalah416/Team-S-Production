@@ -604,14 +604,15 @@ function MobileMap() {
       <div className={styles.container}>
         <div className={styles.zIndexHIGH}>
           <div className={styles.signInForm}>
-            {"SpeechRecognition" in window ||
-              ("webkitSpeechRecognition" in window && (
+            {("SpeechRecognition" in window ||
+              "webkitSpeechRecognition" in window) &&
+              (window.SpeechGrammarList || window.webkitSpeechGrammarList) && (
                 <SpeechToText
                   handleSelection={handleSelection}
                   startPosition={startPosition}
                   getPositionById={getPositionById}
                 />
-              ))}
+              )}
             <div className={styles.boldtag}>Enter Starting Point</div>
             <Autocomplete
               size={"small"}

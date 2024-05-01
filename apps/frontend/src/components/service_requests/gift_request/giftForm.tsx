@@ -1,10 +1,9 @@
-import React, {useState, useEffect, useRef} from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import TextField from "@mui/material/TextField";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
-import { SplideInstance } from '@splidejs/react-splide';
 import Autocomplete from "@mui/material/Autocomplete";
 import "./giftForm.css";
 import ToggleButton from "@mui/material/ToggleButton";
@@ -24,7 +23,7 @@ import Tooltip from "../../ToolTip";
 import { Position } from "../../common/PositionInterface.ts";
 import { Node } from "../../common/NodeInterface.ts";
 // @ts-expect-error Problem with splides library
-import { Splide, SplideSlide } from "@splidejs/react-splide";
+import { Splide, SplideSlide, SplideInstance } from "@splidejs/react-splide";
 import "@splidejs/react-splide/css/sea-green";
 
 const tips = `Name of Requester: Enter the full name of the person requiring language assistance.
@@ -63,24 +62,28 @@ export default function GiftForm() {
     }
   };
 
-    const [selectedGift, setSelectedGift] = useState<string>("");
+  const [selectedGift, setSelectedGift] = useState<string>("");
 
-    const splideRef = useRef<SplideInstance | null>(null);
+  const splideRef = useRef<SplideInstance | null>(null);
 
-    const handleGiftTypeChange = (
-        _event: React.MouseEvent<HTMLElement>,
-        newValue: string | null
-    ) => {
-        if (newValue !== null) {
-            setSelectedGift(newValue); // Update the selected flower type
-            // Find the index of the selected flower in the images array
-            const index = ["Coloring Book", "Chocolate Strawberries", "Teddy Bear"].indexOf(newValue);
-            // Move the carousel to the selected image index
-            if (splideRef.current) {
-                splideRef.current.go(index);
-            }
-        }
-    };
+  const handleGiftTypeChange = (
+    _event: React.MouseEvent<HTMLElement>,
+    newValue: string | null,
+  ) => {
+    if (newValue !== null) {
+      setSelectedGift(newValue); // Update the selected flower type
+      // Find the index of the selected flower in the images array
+      const index = [
+        "Coloring Book",
+        "Chocolate Strawberries",
+        "Teddy Bear",
+      ].indexOf(newValue);
+      // Move the carousel to the selected image index
+      if (splideRef.current) {
+        splideRef.current.go(index);
+      }
+    }
+  };
 
   const handleChangeName = (value: Staff | null) => {
     setStaffName(value);
@@ -378,7 +381,7 @@ export default function GiftForm() {
 
               <ToggleButtonGroup
                 color="primary"
-                value={selectedGift}  // Use the state value here
+                value={selectedGift} // Use the state value here
                 exclusive
                 onChange={handleGiftTypeChange}
                 aria-label="Gift Type Buttons"
