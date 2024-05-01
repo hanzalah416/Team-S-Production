@@ -1017,6 +1017,8 @@ function FloorMap() {
 
           <div className={styles.MapButtons}>
             <div className={styles.mMapbox}>
+
+
               {ThreeDView && (
                 <FormControlLabel
                   control={
@@ -1107,6 +1109,19 @@ function FloorMap() {
               </MenuItem>
               <MenuItem value="dijkstra">Dijkstra's Algorithm</MenuItem>
             </Select>
+              <Button
+                  // className={styles.mapBox}
+                  style={{
+                      backgroundColor: "rgb(0, 59, 156)",
+                      fontFamily: "Poppins",
+                      fontSize: "14px",
+                      textAlign: "center",
+                      color: "white",
+                  }}
+                  onClick={handleThreeD}
+              >
+                  {ThreeDView ? "3D Pathfinding" : "2D Pathfinding"}
+              </Button>
           </div>
           {!ThreeDView && (
             <div className={styles.ThreeD}>
@@ -1364,19 +1379,7 @@ function FloorMap() {
           />
         </div>
       </div>
-      <Button
-        className={styles.threeDpath}
-        style={{
-          backgroundColor: "rgb(0, 59, 156)",
-          fontFamily: "Poppins",
-          fontSize: "14px",
-          textAlign: "center",
-          color: "white",
-        }}
-        onClick={handleThreeD}
-      >
-        {ThreeDView ? "3D Pathfinding" : "2D Pathfinding"}
-      </Button>
+
       {/*<Button className={styles.threeDpath}*/}
       {/*        style={{*/}
       {/*            top: "-7vh",*/}
