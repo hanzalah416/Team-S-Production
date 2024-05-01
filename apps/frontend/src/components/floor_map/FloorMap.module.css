@@ -419,7 +419,7 @@ body {
 
 .threeDpath {
   position: absolute;
-  top: -11vh; /* Adjust to place it right at the top */
+  bottom: -11vh; /* Adjust to place it right at the top */
   left: 45vw; /* Right aligned */
   z-index: 4;
 }
@@ -443,6 +443,7 @@ body {
   position: relative;
   display: grid;
   place-items: center;
+  border-left: 1px solid black;
 }
 
 .ll2,
