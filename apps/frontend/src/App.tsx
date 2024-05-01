@@ -43,6 +43,7 @@ import SubscribeResult from "./components/awsEmailConnection/SubscribeResult.tsx
 import MobileEmail from "./components/awsEmailConnection/MobileEmail.tsx";
 import MobileSubResult from "./components/awsEmailConnection/MobileSubResult.tsx";
 import MobileOrderConfirm from "./components/service_requests/MobileOrderConfirm.tsx";
+import MobileOrder from "./components/service_requests/payment/MobileOrder.tsx";
 
 function App() {
   const isMobile = navigator.userAgent.match(
@@ -95,7 +96,8 @@ function App() {
           path: "payment-info",
           element: (
             <>
-              <OrderPayment />
+              {isMobile && <MobileOrder />}
+              {!isMobile && <OrderPayment />}
               <Layout />
             </>
           ),
