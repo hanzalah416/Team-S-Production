@@ -74,10 +74,8 @@ const OrderFlowers: React.FC = () => {
 
     const [selectedFlower, setSelectedFlower] = useState<string>("");
 
-    // Ref for the Splide component
     const splideRef = useRef<never>(null);
 
-    // Handler for changing the selected flower type
     const handleFlowerTypeChange = (
         _event: React.MouseEvent<HTMLElement>,
         newValue: string | null
