@@ -138,13 +138,3 @@
   color: black; /* Ensures the text color is black */
   margin-right: 30px;
 }
-
-.autocomplete {
-  width: 200px; /* Makes the input field take up the full width of its container */
-  padding: 8px; /* Adds some padding inside the input field for better text visibility */
-  border: 1px solid black; /* Adds a black border around the input field */
-  box-sizing: border-box; /* Includes padding and border in the element's total width and height */
-  background-color: white; /* Sets the background color to white */
-  color: black; /* Ensures the text color is black */
-  margin-right: 30px;
-}

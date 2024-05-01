@@ -1,90 +1,78 @@
-import React, { useEffect, useState } from "react";
-import { securityform } from "../../common/securityform.ts";
-import {
-  InputLabel,
-  Select,
-  TextField,
-  Paper,
-  SelectChangeEvent,
-  Button,
-  Grid,
-  Stack,
-  Autocomplete,
-} from "@mui/material";
-import MenuItem from "@mui/material/MenuItem";
+import React, { useState, useEffect } from "react";
+import InputLabel from "@mui/material/InputLabel";
+// import MenuItem from "@mui/material/MenuItem";
+import TextField from "@mui/material/TextField";
+// import Select, { SelectChangeEvent } from "@mui/material/Select";
+import Autocomplete from "@mui/material/Autocomplete";
+import Stack from "@mui/material/Stack";
+import Button from "@mui/material/Button";
+import Grid from "@mui/material/Unstable_Grid2"; // Grid version 2
+import Paper from "@mui/material/Paper";
+// import RadioGroup from "@mui/material/RadioGroup";
+// import FormControlLabel from "@mui/material/FormControlLabel";
+// import Radio from "@mui/material/Radio";
+import styles from "./SecurityRequest.module.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
 import BackgroundImg2 from "../../assets/blue-background2.jpg";
 import Tooltip from "../../ToolTip";
+import { Position } from "../../common/PositionInterface.ts";
+import { Node } from "../../common/NodeInterface.ts";
 
 const tips = `
-Name of Requester: Enter the full name of the person making the request.
+Name of Requester: Type in the full name of the individual requesting the room reservation.
 
-Priority: Click on the dropdown menu to select how urgent the request is. The options typically range from normal to high.
+Room: Select the room you wish to schedule from the dropdown menu. The dropdown should list available rooms or spaces.
 
-Location: Use the dropdown to select the specific location where security assistance is needed.
+Priority: If required, choose the priority of your booking (e.g., high, medium, low). This may influence how the room scheduling is handled if there are conflicting requests.
 
-Threat Type: From the dropdown, select the type of threat or incident. This could be anything from a suspicious person, theft, unauthorized access, etc.
+Status: This dropdown might be used to select the current status of the request, such as 'pending,' 'confirmed,' or 'cancelled.' If you’re just filling out the form for the first time, there may be a default setting or you may need to select 'pending.'
 
-Security Type: Here, choose the type of security response you require, which could be anything from a security patrol, locked down area, increased surveillance, etc.
+Start Date: Click on the field to open a calendar view and select the date when you need the room. Ensure you enter the correct format if typing directly (mm/dd/yyyy).
 
-Status: If the form allows setting a status, select the appropriate one from the dropdown menu. This could reflect whether it’s a new request, in progress, or completed.
+End Date: Similarly, select or enter the date when the reservation will end
+
 `;
-interface Node {
-  xcoord: string;
-  ycoord: string;
-  id: string;
-  longName: string;
-}
 
-interface Position {
-  label: string;
-  id: string;
-  top: string;
-  left: string;
-}
-
+// Interface for Staff
 interface Staff {
   employeeName: string;
 }
 
-const SecurityRequest: React.FC = () => {
+export default function SecurityRequest() {
   const [staffName, setStaffName] = useState<Staff | null>(null);
-  const [requestPriority, setRequestPriority] = useState("");
-  const [requestStatus, setRequestStatus] = useState("");
-  const [securityType, setSecurityType] = useState("");
-  const [threatType, setThreatType] = useState("");
+  const [priority, setPriority] = useState("");
   const [location, setLocation] = useState<Position | null>(null);
-
-  const navigate = useNavigate(); //Function to navigate to other pages
+  const [status, setStatus] = useState("");
   const [locations, setLocations] = useState<Position[]>([]);
   const [staffNames, setStaffNames] = useState<Staff[]>([]);
-  const [submittedRequests, setSubmittedRequests] = useState<securityform[]>(
-    [],
-  );
+  const [threatType, setThreatType] = useState("");
+  const [securityType, setSecurityType] = useState("");
+  const navigate = useNavigate();
+
+  const toggleScrolling = (disableScroll: boolean) => {
+    if (disableScroll) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+  };
 
   const handleChangeName = (value: Staff | null) => {
     setStaffName(value);
   };
 
-  const handleChangeSecurityType = (event: SelectChangeEvent) => {
-    setSecurityType(event.target.value as string);
+  const handlePriorityChange = (event: SelectChangeEvent) => {
+    setPriority(event.target.value as string);
   };
-
-  const handleChangeThreatType = (event: SelectChangeEvent) => {
-    setThreatType(event.target.value as string);
-  };
-
-  const handleChangeRequestStatus = (event: SelectChangeEvent) => {
-    setRequestStatus(event.target.value as string);
+  const handleStatusChange = (event: SelectChangeEvent) => {
+    setStatus(event.target.value as string);
   };
 
   const handleChangeLocation = (value: Position | null) => {
     setLocation(value);
-  };
-
-  const handleChangeRequestPriority = (event: SelectChangeEvent) => {
-    setRequestPriority(event.target.value as string);
   };
 
   useEffect(() => {
@@ -97,15 +85,16 @@ const SecurityRequest: React.FC = () => {
           id: node.id,
           top: `${node.ycoord}px`,
           left: `${node.xcoord}px`,
+          floor: node.floor,
         }));
-
+        console.log(formattedLocations);
         setLocations(formattedLocations);
       })
       .catch((error) => console.error("Failed to fetch node data:", error));
   }, []);
 
   useEffect(() => {
-    // Fetch staff data from the backend
+    // Fetch staff data from backend
     fetch("/api/all-staff")
       .then((response) => response.json())
       .then((staffInfo: Staff[]) => {
@@ -117,23 +106,21 @@ const SecurityRequest: React.FC = () => {
       .catch((error) => console.error("Failed to fetch staff data:", error));
   }, []);
 
+  function clear() {
+    setStaffName(null);
+    setPriority("");
+    setLocation(null);
+    setStatus("");
+    setThreatType("");
+    setSecurityType("");
+  }
+
   async function submit() {
-    if (
-      staffName == null ||
-      location == null ||
-      requestPriority == "" ||
-      requestStatus == "" ||
-      threatType == "" ||
-      securityType == ""
-    ) {
-      alert("Please fill out all of the fields");
-      return;
-    }
-    const securityRequestSent: securityform = {
-      name: staffName.employeeName,
-      location: location.label,
-      status: requestStatus,
-      priority: requestPriority,
+    const securityRequestSent = {
+      name: staffName?.employeeName,
+      priority: priority,
+      location: location?.label,
+      status: status,
       threatType: threatType,
       securityType: securityType,
     };
@@ -145,34 +132,16 @@ const SecurityRequest: React.FC = () => {
         },
       })
       .then(() => {
-        console.log("Order sent successfully");
+        console.log("Schedule request sent successfully");
         navigate("/order-flowers-result");
       })
       .catch(() => {
-        console.log("Order failed to send");
+        console.log("Room Scheduling failed");
         console.log(securityRequestSent);
-        alert("Order failed to send. Please try again later");
+        alert("Scheduling failed to send. Please try again later");
       });
-
-    setSubmittedRequests([...submittedRequests, securityRequestSent]);
+    clear();
   }
-
-  function clear() {
-    setStaffName(null);
-    setRequestPriority("");
-    setLocation(null);
-    setSecurityType("");
-    setThreatType("");
-    setRequestStatus("");
-  }
-
-  const toggleScrolling = (disableScroll: boolean) => {
-    if (disableScroll) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
-  };
 
   return (
     <div
@@ -197,16 +166,18 @@ const SecurityRequest: React.FC = () => {
       >
         <br />
         <br />
-        <Paper elevation={4} style={{ padding: 10 }}>
+
+        <Paper elevation={4} style={{ padding: 20 }}>
           <br />
           <p className={"title"} style={{ position: "relative" }}>
-            Security Request Form
+            Room Scheduling Request Form
             <Tooltip
-              style={{ position: "absolute", right: "40px", top: 0 }}
+              style={{ position: "absolute", right: "20px", top: 0 }}
               tips={tips}
             />
           </p>
-          <p className={"names"}>Ken Sebastian, Javier Moncada</p>
+          <p className={"names"}>Jeffrey Li and Nate Schneider</p>
+
           <Stack alignItems="center" justifyContent="center" spacing={3} p={4}>
             <div className={"breakline"}></div>
             <br />
@@ -257,62 +228,62 @@ const SecurityRequest: React.FC = () => {
                     color: "#3B54A0",
                     fontStyle: "italic",
                   }}
-                  id="priority-dropdown"
+                  id="location-dropdown"
                 >
-                  Priority
+                  Room
                 </InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  value={requestPriority}
-                  label=""
-                  onChange={(e) => {
-                    handleChangeRequestPriority(e);
-                  }}
+                <Autocomplete
                   sx={{ minWidth: 250, color: "#3B54A0" }}
-                >
-                  <MenuItem value={"Low"}>Low</MenuItem>
-                  <MenuItem value={"Medium"}>Medium</MenuItem>
-                  <MenuItem value={"High"}>High</MenuItem>
-                  <MenuItem value={"Emergency"}>Emergency</MenuItem>
-                </Select>
+                  options={locations}
+                  getOptionLabel={(option) => option.label || "Unknown"}
+                  isOptionEqualToValue={(option, value) =>
+                    option.id === value.id
+                  }
+                  value={location}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label=""
+                      InputLabelProps={{
+                        style: {
+                          fontFamily: "Poppins",
+                          fontSize: 14,
+                          textAlign: "center",
+                        },
+                      }}
+                    />
+                  )}
+                  onOpen={() => toggleScrolling(true)}
+                  onClose={() => toggleScrolling(false)}
+                  onChange={(event, value) => handleChangeLocation(value)}
+                />
               </div>
             </Stack>
+
             <div>
               <InputLabel
                 style={{
                   color: "#3B54A0",
                   fontStyle: "italic",
                 }}
-                id="location-dropdown"
+                id="priority-dropdown"
               >
-                Location
+                Priority
               </InputLabel>
-              <Autocomplete
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={priority}
+                label=""
+                onChange={handlePriorityChange}
                 sx={{ minWidth: 518, color: "#3B54A0" }}
-                options={locations}
-                getOptionLabel={(option) => option.label || "Unknown"}
-                isOptionEqualToValue={(option, value) => option.id === value.id}
-                value={location}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    label=""
-                    InputLabelProps={{
-                      style: {
-                        fontFamily: "Poppins",
-                        fontSize: 14,
-                        textAlign: "center",
-                      },
-                    }}
-                  />
-                )}
-                onOpen={() => toggleScrolling(true)}
-                onClose={() => toggleScrolling(false)}
-                onChange={(event, value) => handleChangeLocation(value)}
-              />
+              >
+                <MenuItem value={"Low"}>Low</MenuItem>
+                <MenuItem value={"Medium"}>Medium</MenuItem>
+                <MenuItem value={"High"}>High</MenuItem>
+                <MenuItem value={"Emergency"}>Emergency</MenuItem>
+              </Select>
             </div>
-
             <div>
               <InputLabel
                 style={{
@@ -321,22 +292,23 @@ const SecurityRequest: React.FC = () => {
                 }}
                 id="demo-simple-select-label"
               >
-                Threat Type
+                Status
               </InputLabel>
               <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={status}
+                label=""
+                onChange={handleStatusChange}
                 sx={{ minWidth: 518 }}
-                labelId="threat-type-label"
-                id="threat-type"
-                value={threatType}
-                onChange={handleChangeThreatType} /* add funtion here */
               >
-                <MenuItem value="trespassing">Trespassing</MenuItem>
-                <MenuItem value="terrorism">Terrorism</MenuItem>
-                <MenuItem value="vandalism">Vandalism</MenuItem>
-                <MenuItem value="theft">Theft</MenuItem>
-                <MenuItem value="other">Other</MenuItem>
+                <MenuItem value={"unassigned"}>Unassigned</MenuItem>
+                <MenuItem value={"assigned"}>Assigned</MenuItem>
+                <MenuItem value={"in_progress"}>In Progress</MenuItem>
+                <MenuItem value={"closed"}>Closed</MenuItem>
               </Select>
             </div>
+
             <Stack
               spacing={2}
               direction="row"
@@ -351,20 +323,18 @@ const SecurityRequest: React.FC = () => {
                   }}
                   id="demo-simple-select-label"
                 >
-                  Security Type
+                  Start Date
                 </InputLabel>
-                <Select
-                  sx={{ minWidth: 250 }}
-                  labelId="location-label"
-                  id="serviceLocation"
-                  value={securityType}
-                  onChange={handleChangeSecurityType} /* add funtion here */
-                >
-                  <MenuItem value="bodyguard">Bodyguard</MenuItem>
-                  <MenuItem value="escort">Escort</MenuItem>
-                  <MenuItem value="crowd_control">Crowd Control</MenuItem>
-                  <MenuItem value="other">Other</MenuItem>
-                </Select>
+                <TextField
+                  value={threatType}
+                  id="date"
+                  sx={{ minWidth: 20 }}
+                  type="datetime-local"
+                  className={styles.textBox}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                    setThreatType(e.target.value);
+                  }}
+                />
               </div>
               <div>
                 <InputLabel
@@ -374,27 +344,22 @@ const SecurityRequest: React.FC = () => {
                   }}
                   id="demo-simple-select-label"
                 >
-                  Status
+                  End Date
                 </InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  value={requestStatus}
-                  label=""
-                  onChange={(e) => {
-                    handleChangeRequestStatus(e);
+                <TextField
+                  value={securityType}
+                  sx={{ minWidth: 20 }}
+                  id="date"
+                  type="datetime-local"
+                  className={styles.textBox}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                    setSecurityType(e.target.value);
                   }}
-                  sx={{ minWidth: 250 }}
-                >
-                  <MenuItem value={"unassigned"}>Unassigned</MenuItem>
-                  <MenuItem value={"assigned"}>Assigned</MenuItem>
-                  <MenuItem value={"in_progress"}>In Progress</MenuItem>
-                  <MenuItem value={"closed"}>Closed</MenuItem>
-                </Select>
+                />
               </div>
             </Stack>
-            <br />
 
+            <br />
             <Stack
               spacing={3}
               direction="row"
@@ -427,9 +392,10 @@ const SecurityRequest: React.FC = () => {
             </Stack>
           </Stack>
         </Paper>
+        <br />
+        <br />
+        <br />
       </Grid>
     </div>
   );
-};
-
-export default SecurityRequest;
+}
