@@ -387,8 +387,6 @@ body {
 
 .threeDpath {
     position: absolute;
-    /*right: -40%;*/
-    /*top: -80%;*/
     top: -12vh; /* Adjust to place it right at the top */
     left: 45vw; /* Right aligned */
     z-index: 4;
@@ -401,7 +399,6 @@ body {
     left: 0px;
     top: 0px;
     position: relative;
-    border: solid 1px red;
 }
 
 .showTreeD {
@@ -419,6 +416,7 @@ body {
     place-items: center;
 }
 
+
 .ll2,
 .ll1,
 .f1,
@@ -426,6 +424,7 @@ body {
 .f3 {
     position: absolute;
     height: 40vh;
+    aspect-ratio: 25/17;
     width: auto;
     transform: rotateX(40deg) rotate(20deg) skew(-20deg);
     z-index: 12;
@@ -433,7 +432,7 @@ body {
 
 .tdDotsContainer {
     width: 65vw;
-    height: 90vh;
+    height: 100vh;
     left: 0;
     top: 0;
     position: absolute;
@@ -451,8 +450,10 @@ body {
 }
 
 .tdimg {
-
     border: solid 1px lavender;
+    aspect-ratio: 25 / 17;
+    height:100%;
+    width: 100%;
 }
 
 .f3 {
