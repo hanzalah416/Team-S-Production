@@ -12,7 +12,7 @@ import "./NavBar.css";
 //Function to turn speech into text
 export default function SpeechNavigate() {
   const [userInteracted, setUserInteracted] = useState(false);
-  const [voiceOn, setVoiceOn] = useState(false);
+  let voiceOn = GetVoiceBool();
 
   useEffect(() => {
     const handleInteraction = () => {
@@ -67,7 +67,7 @@ export default function SpeechNavigate() {
   }
 
   function ResetSpeechRecognition() {
-    //console.log("Resetting speech recognition...");
+    console.log("Resetting speech recognition...");
 
     activation.stop(); // Stop the ongoing speech recognition
 
@@ -197,12 +197,23 @@ export default function SpeechNavigate() {
   function handleChange() {
     if (voiceOn) {
       activation.stop();
-      setVoiceOn(false);
+      voiceOn = false;
+      localStorage.setItem("voice", "false");
       console.log("turning off voice");
     } else {
-      setVoiceOn(true);
+      voiceOn = true;
       activation.start();
+      localStorage.setItem("voice", "true");
       console.log("turning on voice");
+    }
+  }
+
+  function GetVoiceBool() {
+    switch (localStorage.getItem("voice")) {
+      case "true":
+        return true;
+      case "false":
+        return false;
     }
   }
 
@@ -215,6 +226,7 @@ export default function SpeechNavigate() {
       <FormControlLabel
         control={
           <Switch
+            defaultChecked={GetVoiceBool()}
             onChange={() => handleChange()}
             color={"secondary"}
             sx={{
@@ -235,6 +247,8 @@ export default function SpeechNavigate() {
         sx={{ marginLeft: 1 }}
         label={""}
       />
+
+      {/*<button onClick={() => localStorage.clear()}>Clear</button>*/}
     </div>
   );
 }
