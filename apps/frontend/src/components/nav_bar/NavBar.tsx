@@ -525,6 +525,7 @@ function NavBar() {
                   <p className={"item"}>Transportation Request</p>
                 </MenuItem>
               </Link>
+              {username === "admind24s" && (
               <Link to={"/stats-page"} id={"order"}>
                 <MenuItem onClick={handleClose}>
                   <img
@@ -536,6 +537,7 @@ function NavBar() {
                   <p className={"item"}>Statistics</p>
                 </MenuItem>
               </Link>
+              )}
               {!isMobile && (
                 <Link to={"/message-publish"} id={"order"}>
                   <MenuItem onClick={handleClose}>
@@ -549,7 +551,7 @@ function NavBar() {
                   </MenuItem>
                 </Link>
               )}
-              {!isMobile && (
+              {(!isMobile && username === "admind24s")&& (
                 <Link to={"/map-debug"} id={"order"}>
                   <MenuItem onClick={handleClose}>
                     <img
@@ -563,7 +565,7 @@ function NavBar() {
                 </Link>
               )}
 
-              {!isMobile && (
+              {(!isMobile && username === "admind24s") && (
                 <Link to={"/node-data"} id={"order"}>
                   <MenuItem onClick={handleClose}>
                     <img
