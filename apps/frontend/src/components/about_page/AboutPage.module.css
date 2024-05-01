@@ -110,3 +110,20 @@
 .quote {
   font-style: italic;
 }
+
+.teamCards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 35px;
+}
+
+@media all and (max-width: 1024px) {
+  .teamCards {
+    flex-direction: column;
+  }
+
+  .heading {
+    font-size: 35px;
+  }
+}

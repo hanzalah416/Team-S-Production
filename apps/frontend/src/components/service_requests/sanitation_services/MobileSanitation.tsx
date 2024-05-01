@@ -1,5 +1,5 @@
 import BackgroundImg2 from "../../assets/blue-background2.jpg";
-import "../AllMobile.css";
+import "../../AllMobile.css";
 
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";

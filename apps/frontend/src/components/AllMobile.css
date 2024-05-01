@@ -25,6 +25,12 @@
   font-style: italic;
 }
 
+.buttonReturn-mobile {
+  justify-content: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .title-mobile {
   font-family: Verdana, sans-serif;
   color: navy;

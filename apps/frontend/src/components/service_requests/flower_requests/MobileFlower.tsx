@@ -1,5 +1,5 @@
 import BackgroundImg2 from "../../assets/blue-background2.jpg";
-import "../AllMobile.css";
+import "../../AllMobile.css";
 import {
   Autocomplete,
   Button,
