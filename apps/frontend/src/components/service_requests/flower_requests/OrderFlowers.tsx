@@ -359,7 +359,7 @@ const OrderFlowers: React.FC = () => {
                     width: 400,
                     gap: "1rem",
                   }}
-                  aria-label="Carousel of gifts"
+                  aria-label="Carousel of Flowers"
                   style={{
                     width: "400px",
                     marginLeft: "auto",
