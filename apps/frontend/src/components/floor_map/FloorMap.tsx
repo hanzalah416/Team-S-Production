@@ -666,13 +666,14 @@ function FloorMap() {
 
           <div className={styles.clearButtonStuff}>
             {("SpeechRecognition" in window ||
-              "webkitSpeechRecognition" in window) && (
-              <SpeechToText
-                handleSelection={handleSelection}
-                startPosition={startPosition}
-                getPositionById={getPositionById}
-              />
-            )}
+              "webkitSpeechRecognition" in window) &&
+              (window.SpeechGrammarList || window.webkitSpeechGrammarList) && (
+                <SpeechToText
+                  handleSelection={handleSelection}
+                  startPosition={startPosition}
+                  getPositionById={getPositionById}
+                />
+              )}
 
             <Button
               variant="outlined"

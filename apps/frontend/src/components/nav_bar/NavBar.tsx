@@ -354,7 +354,10 @@ function NavBar() {
         </p>
         <div className={"micVisibility"}>
           {("SpeechRecognition" in window ||
-            "webkitSpeechRecognition" in window) && <SpeechNavigate />}
+            "webkitSpeechRecognition" in window) &&
+            (window.SpeechGrammarList || window.webkitSpeechGrammarList) && (
+              <SpeechNavigate />
+            )}
         </div>
       </div>
 
