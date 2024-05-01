@@ -30,8 +30,6 @@ import { createTheme, FormControl, ThemeProvider } from "@mui/material";
 import { useCallback, useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import SpeechNavigate from "./SpeechNavigate.tsx";
-import getMobileOperatingSystem from "../HelperFunctions/MobileCheck.ts";
-
 declare module "@mui/material/styles" {
   interface Palette {
     websiteBlue: Palette["primary"];
@@ -356,8 +354,7 @@ function NavBar() {
         </p>
         <div className={"micVisibility"}>
           {("SpeechRecognition" in window ||
-            "webkitSpeechRecognition" in window) &&
-            getMobileOperatingSystem() && <SpeechNavigate />}
+            "webkitSpeechRecognition" in window) && <SpeechNavigate />}
         </div>
       </div>
 
