@@ -30,6 +30,7 @@ import { createTheme, FormControl, ThemeProvider } from "@mui/material";
 import { useCallback, useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import SpeechNavigate from "./SpeechNavigate.tsx";
+import getMobileOperatingSystem from "../HelperFunctions/MobileCheck.ts";
 
 declare module "@mui/material/styles" {
   interface Palette {
@@ -354,8 +355,9 @@ function NavBar() {
           {timeOfDay}{" "}
         </p>
         <div className={"micVisibility"}>
-          {"SpeechRecognition" in window ||
-            ("webkitSpeechRecognition" in window && <SpeechNavigate />)}
+          {("SpeechRecognition" in window ||
+            "webkitSpeechRecognition" in window) &&
+            getMobileOperatingSystem() && <SpeechNavigate />}
         </div>
       </div>
 
@@ -526,17 +528,17 @@ function NavBar() {
                 </MenuItem>
               </Link>
               {username === "admind24s" && (
-              <Link to={"/stats-page"} id={"order"}>
-                <MenuItem onClick={handleClose}>
-                  <img
-                    src={statsIcon}
-                    className={"iconHeight"}
-                    width={"38px"}
-                    alt={"Transport Icon"}
-                  />
-                  <p className={"item"}>Statistics</p>
-                </MenuItem>
-              </Link>
+                <Link to={"/stats-page"} id={"order"}>
+                  <MenuItem onClick={handleClose}>
+                    <img
+                      src={statsIcon}
+                      className={"iconHeight"}
+                      width={"38px"}
+                      alt={"Transport Icon"}
+                    />
+                    <p className={"item"}>Statistics</p>
+                  </MenuItem>
+                </Link>
               )}
               {!isMobile && (
                 <Link to={"/message-publish"} id={"order"}>
@@ -551,7 +553,7 @@ function NavBar() {
                   </MenuItem>
                 </Link>
               )}
-              {(!isMobile && username === "admind24s")&& (
+              {!isMobile && username === "admind24s" && (
                 <Link to={"/map-debug"} id={"order"}>
                   <MenuItem onClick={handleClose}>
                     <img
@@ -565,7 +567,7 @@ function NavBar() {
                 </Link>
               )}
 
-              {(!isMobile && username === "admind24s") && (
+              {!isMobile && username === "admind24s" && (
                 <Link to={"/node-data"} id={"order"}>
                   <MenuItem onClick={handleClose}>
                     <img
