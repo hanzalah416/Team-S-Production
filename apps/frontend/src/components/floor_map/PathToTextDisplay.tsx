@@ -14,7 +14,8 @@ import StraightIcon from "@mui/icons-material/Straight";
 import ImportExportIcon from "@mui/icons-material/ImportExport";
 import SyncIcon from "@mui/icons-material/Sync";
 import FmdGoodIcon from "@mui/icons-material/FmdGood";
-import styles from "./FloorMap.module.css";
+import stylesDesktop from "./FloorMap.module.css";
+import stylesMobile from "./MobileMap.module.css";
 import { GetEstimatedTime } from "./pathToTextDisplayFunc.ts";
 import DirectionsWalkIcon from "@mui/icons-material/DirectionsWalk";
 
@@ -34,6 +35,17 @@ export default function PathToTextDisplay(props: {
   const [data, setData] = useState<Directions[]>([]);
   const [currentFloor] = useState<string[]>([]);
   const [estimatedTime, setEstimatedTime] = useState(0);
+
+  const isMobile = navigator.userAgent.match(
+    /(iPad)|(iPhone)|(iPod)|(android)|(webOS)/i,
+  );
+
+  const [styles, setStyles] = useState(stylesDesktop);
+  useEffect(() => {
+    if (isMobile) {
+      setStyles(stylesMobile);
+    }
+  }, [isMobile]);
 
   const fetchData = useCallback(async () => {
     try {
@@ -178,7 +190,7 @@ export default function PathToTextDisplay(props: {
   return (
     <div className={styles.floorDirectionsContainer}>
       <List
-        sx={{ width: "380px", maxWidth: 380, bgcolor: "#fbfbfb" }}
+        sx={{ bgcolor: "#fbfbfb" }}
         component="nav"
         aria-labelledby="nested-list-subheader"
         subheader={

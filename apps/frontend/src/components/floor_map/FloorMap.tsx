@@ -3,14 +3,14 @@ import React, {
   Suspense,
   useCallback,
   useEffect,
-  useRef,
   useState,
+  useRef,
 } from "react";
 import styles from "./FloorMap.module.css";
 import {
-  ReactZoomPanPinchContentRef,
-  TransformComponent,
   TransformWrapper,
+  TransformComponent,
+  ReactZoomPanPinchContentRef,
 } from "react-zoom-pan-pinch";
 
 import Autocomplete from "@mui/material/Autocomplete";
@@ -41,35 +41,50 @@ import ll1 from "../assets/HmapNoBackground/00_thelowerlevel1_rm-bg.png";
 import f1 from "../assets/HmapNoBackground/01_thefirstfloor_rm-bg.png";
 import f2 from "../assets/HmapNoBackground/02_thesecondfloor_rm-bg.png";
 import f3 from "../assets/HmapNoBackground/03_thethirdfloor_rm-bg.png";
+import SpeechToText from "./SpeechToText.tsx";
+import FloorSequenceDisplay from "./FloorSequenceDisplay.tsx";
+import getMobileOperatingSystem from "../HelperFunctions/MobileCheck.ts";
 
 const tips = `
-Enter Starting Point:
+**Enter Starting Point:**
 
-Click on the dropdown menu under “Enter Starting Point”.
-
-Select the building or specific entrance you are currently located at from the list provided.
-
-
-Enter Destination:
-
-Click on the dropdown menu under “Enter Destination”.
-
-Choose the building or specific area you want to go to from the list.
+-Click on the dropdown menu labeled "Enter Starting Point".
+-Select the building or specific entrance where you are currently located from the provided list.
 
 
-Directions:
+**Enter Destination:**
 
-After selecting both your starting point and destination, the map should display a highlighted path indicating the best route to take.
+-Click on the dropdown menu labeled "Enter Destination".
 
-If the map supports multiple levels, you can use the "Level Select" toggle to view different floors and find the path through each level as needed.
+-Choose the building or specific area you want to navigate to from the list.
 
-1.Additional Features:
+**Mic:**
 
-“Toggle Nodes” can be used to show or hide points of interest or decision points like elevators, stairs, and restrooms.
+-You can use the microphone to input your destinations with your voice. Simply press the **mic button** and 
+speak your start or end location.
+-You can also say "nearest" or "closest" followed by a specific type that can be found in the map key
+(e.g., **"nearest restroom"**). As long as a valid starting point is provided, the system will
+direct you to the closest relevant location.
 
-“Show Key” may provide you with a legend to decipher different symbols or colors used on the map.
 
-“A\\* Search” might be an option to find the shortest path if the map includes a pathfinding algorithm; you can select it to optimize your route.
+
+
+
+**Directions:**
+
+- After selecting both your starting point and destination, the map will display
+a highlighted path indicating the best route to take.
+- If the path goes multiple levels, use the **"Level Select"** toggle to view
+different floors and track the path through each level.
+
+
+**Additional Features:**
+
+-**“Toggle Nodes”** can be used to show or hide points of interest or decision points like elevators, stairs, and restrooms.
+
+-**“Show Key”** may provide you with a legend to decipher different symbols or colors used on the map.
+
+-**“A\\* Search”** might be an option to find the shortest path if the map includes a pathfinding algorithm; you can select it to optimize your route.
 
 `;
 
@@ -95,10 +110,12 @@ function FloorMap() {
   const [showMapKey, setShowMapKey] = useState(false);
   const transformRef = useRef<ReactZoomPanPinchContentRef>(null);
   const [shouldAutoZoom, setShouldAutoZoom] = useState(true);
+
   const [speechVolume, setSpeechVolume] = useState(1);
   const [speechPitch, setSpeechPitch] = useState(1);
   const [speechRate, setSpeechRate] = useState(1);
   const [speechVoice, setSpeechVoice] = useState(4);
+
   const zoomToPathSegment = useCallback(
     (segmentIndex: number) => {
       setShouldAutoZoom(false);
@@ -447,6 +464,7 @@ function FloorMap() {
       document.body.style.overflow = "";
     }
   };
+
   const handleSelection = (value: Position | null, type: "start" | "end") => {
     setShouldAutoZoom(true);
     if (type === "start") {
@@ -846,7 +864,9 @@ function FloorMap() {
     <div className={styles.wholePage}>
       <div className={styles.container}>
         <div className={styles.signInForm}>
-          <Tooltip className={styles.tips} tips={tips} />
+          <div className={styles.signInFormContainer}>
+            <Tooltip className={styles.tips} tips={tips} />
+          </div>
           <div className={styles.boldtag}>Enter Starting Point</div>
           <Autocomplete
             key={`start-position-${resetKey}`}
@@ -896,22 +916,38 @@ function FloorMap() {
             onChange={(event, value) => handleSelection(value, "end")}
           />
 
-          <Button
-            variant="outlined"
-            className={styles.clearButton}
-            onClick={clearInputs}
-            style={{
-              marginTop: "10px",
-              backgroundColor: "#f1f1f1",
-              color: "#000",
-              fontFamily: "Poppins",
-              fontSize: 14,
-              textAlign: "center",
-              borderColor: "black",
-            }}
-          >
-            Clear Path
-          </Button>
+          {/*<Box className={styles.directionsBox2}>.</Box>*/}
+
+          <div className={styles.clearButtonStuff}>
+            {("SpeechRecognition" in window ||
+              "webkitSpeechRecognition" in window) &&
+              (window.SpeechGrammarList || window.webkitSpeechGrammarList) &&
+              getMobileOperatingSystem() && (
+                <SpeechToText
+                  handleSelection={handleSelection}
+                  startPosition={startPosition}
+                  getPositionById={getPositionById}
+                />
+              )}
+
+            <Button
+              variant="outlined"
+              className={styles.clearButton}
+              onClick={clearInputs}
+              style={{
+                marginTop: "10px",
+                backgroundColor: "#f1f1f1",
+                color: "#000",
+                fontFamily: "Poppins",
+                fontSize: 14,
+                textAlign: "center",
+                borderColor: "black",
+              }}
+            >
+              Clear Path
+            </Button>
+          </div>
+
           <TextToVoiceSelector
             options={[
               {
@@ -975,6 +1011,10 @@ function FloorMap() {
         </div>
 
         <div className={styles.mapArea}>
+          <div className={styles.FloorSequence}>
+            <FloorSequenceDisplay path={fullPath} />
+          </div>
+
           <div className={styles.MapButtons}>
             <div className={styles.mMapbox}>
               {ThreeDView && (
@@ -1315,6 +1355,7 @@ function FloorMap() {
               <MiniMap onChangeFloor={handleFloorChange} />
             </Suspense>
           </div>
+
           <KeySelection
             startNode={startPosition?.id}
             showMapKey={showMapKey}

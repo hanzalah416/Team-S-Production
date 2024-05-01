@@ -1,5 +1,14 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
 
+:root {
+  --border-radius: 25px;
+  --searchDisplay: flex;
+}
+
+.flipImg {
+  transform: scaleY(-1);
+}
+
 body {
   font-family: "Poppins", sans-serif;
   font-size: 14px;
@@ -17,12 +26,10 @@ body {
   background: #f1f1f1;
   position: fixed;
   padding: 0;
-  top: 180px;
+  top: 80px;
   left: 0;
   width: 100vw;
   height: 100vh;
-  min-height: 580px;
-  min-width: 700px;
 }
 
 .container {
@@ -30,34 +37,50 @@ body {
   margin: 0;
   position: absolute;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-between;
   align-items: center;
   width: 100%;
   height: calc(100% - 100px);
+  background-color: #d6d8d5;
 }
 
 .signInForm {
   padding-left: 30px;
   padding-right: 30px;
-  display: flex;
+  padding-bottom: 30px;
+  display: var(--searchDisplay);
   flex-direction: column;
-  width: 380px; /* Adjust the width as needed */
-  min-height: calc(100%);
-  max-height: calc(100%);
+  width: 100vw; /* Adjust the width as needed */
   background: #f1f1f1;
-  position: relative;
   z-index: 300;
-  margin-top: -200px;
-  margin-bottom: 10px;
+  filter: drop-shadow(0px 4px 5.2px rgba(0, 0, 0, 0.5));
+  border-radius: 0 0 var(--border-radius) var(--border-radius);
   /* Adjust this value as needed to control the distance from the top */
 }
 
-.tips {
-  position: absolute;
-  right: 14px;
-  top: 14px;
-  color: #1a1a1a;
+.destinationBox {
+  display: flex;
+  flex-direction: row;
+  justify-content: Center;
+  align-items: center;
+  background-color: #289ba5;
+  color: white;
+  padding: 10px;
+  height: 50px;
+  width: 100vw; /* Adjust the width as needed */
+  border-radius: 0 0 15px 15px;
+  text-align: center;
+  z-index: 10;
+}
+
+.homePin {
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+.mapFix {
+  overflow: visible;
 }
 
 .floorButtonsContainer {
@@ -81,32 +104,33 @@ body {
     background: #003b9c; /* color of the thumb */
   }
 
-  width: calc(100% + 60px); /* Add twice the padding to stretch fully */
-  margin-left: -30px; /* Offset the padding on the left */
-  margin-right: -30px;
+  width: 100vw; /* Add twice the padding to stretch fully */
   max-height: 400px;
 }
 
 .mapArea {
-  height: calc(
-    100vh + 110px
-  ); /* Subtract the navbar height or any padding you may have */
+  /* Subtract the navbar height or any padding you may have */
   width: 100vw;
   position: relative;
-  overflow: hidden;
+  overflow: visible;
+}
+
+.mapComponents {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 5px;
 }
 
 .FloorSequence {
-  position: absolute;
-  top: 10px; /* Keeps it 20px from the top */
-  right: 20px; /* Anchors the container to the right, 20px from the edge */
+  position: relative;
   z-index: 5; /* Ensures it stays on top of other content */
   background: transparent; /* Semi-transparent background for better visibility */
   border-radius: 5px; /* Rounded corners for aesthetics */
   display: flex; /* Ensures the contents are laid out in a row */
   flex-direction: row-reverse; /* Reverses the order of flex items to extend to the left */
   justify-content: flex-start; /* Aligns content to the right */
-  padding: 8px; /* Padding around the content */
 }
 
 .hmap-image {
@@ -129,8 +153,8 @@ body {
 
 .mapDot {
   position: absolute;
-  width: 9px;
-  height: 9px;
+  width: 2.5px;
+  height: 2.5px;
   border-radius: 50%;
   transform: translate(-50%, -50%);
   z-index: 3;
@@ -146,8 +170,8 @@ body {
 }
 
 .boldtag {
-  margin-top: 30px;
-  margin-bottom: 10px;
+  margin-top: 10px;
+  margin-bottom: 5px;
   text-align: left;
   font-weight: bold;
   color: black;
@@ -157,9 +181,10 @@ body {
   text-align: center;
   font-weight: bold;
   color: black;
+  width: 100vw;
 }
 
-.container .directionsBox {
+.directionsBlueBox {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -168,17 +193,19 @@ body {
   font-weight: bold;
   line-height: 48px;
 
-  left: calc(-17%);
   position: relative;
   box-sizing: border-box;
   text-align: center;
 
   font-size: 20px;
+  width: 100vw;
 }
 
 .directionsBox {
-  width: 405px;
-  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 @keyframes moveDottedLine {
@@ -188,22 +215,11 @@ body {
 }
 
 .line {
-  stroke-dasharray: 3;
+  stroke-dasharray: 2;
   stroke-dashoffset: 20;
   animation: moveDottedLine 1s linear infinite;
   z-index: 100;
 }
-
-.vertline {
-  stroke-dasharray: 5;
-  stroke-dashoffset: 20;
-  animation: moveDottedLine 1s linear infinite;
-  z-index: 100;
-}
-
-/*.vertLine {*/
-/*    transform: skew(20deg) rotate(-20deg) rotateX(-40deg);*/
-/*}*/
 
 .mapDot.small {
   width: 1px;
@@ -245,7 +261,7 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-size: 7.5px;
+  font-size: 4px;
   color: black;
 }
 
@@ -259,8 +275,8 @@ body {
 
 .multifloorNode {
   position: absolute;
-  width: 10px;
-  height: 10px;
+  width: 5px;
+  height: 5px;
   border-radius: 50%;
   transform: translate(-50%, -50%);
 }
@@ -271,8 +287,8 @@ body {
     opacity: 1;
   }
   50% {
-    transform: scale(1.5) translate(-33%, -33%);
-    opacity: 0.9;
+    transform: scale(1.5) translate(-50%, -50%);
+    opacity: 1;
   }
   100% {
     transform: scale(1) translate(-50%, -50%);
@@ -312,17 +328,14 @@ body {
 }
 
 .MapButtons {
-  position: absolute;
-  top: 20px; /* Adjust to place it right at the top */
-  left: 20px; /* Right aligned */
-  width: 210px; /* Auto width based on content */
-  z-index: 7; /* Ensure it is above the TransformComponent */
+  width: fit-content; /* Auto width based on content */
+  z-index: 4; /* Ensure it is above the TransformComponent */
   display: flex;
 
   flex-direction: column; /* Stack children vertically */
   justify-content: flex-start;
   padding: 10px; /* Adds some spacing around the controls */
-  background: rgba(241, 241, 241, 0.7); /* Semi-transparent background */
+  background: rgba(241, 241, 241, 0.9); /* Semi-transparent background */
   border: 1px solid black; /* Black border */
   border-radius: 5px; /* Rounded corners */
 }
@@ -341,6 +354,10 @@ body {
   border: 1px solid black; /* Black border */
   border-radius: 5px; /* Rounded corners */
   transition: bottom 0.3s ease; /* Transform effect to make it come from the bottom */
+}
+
+.zIndexHIGH {
+  z-index: 1000;
 }
 
 .MapKeyItem {
@@ -367,23 +384,9 @@ body {
   justify-content: center; /* Center the select horizontally */
 }
 .floorDirectionsContainer {
-  max-height: 400px; /* Default max-height */
+  max-height: 400px;
   overflow-y: auto;
   overflow-x: hidden;
-}
-
-/* Medium devices */
-@media (min-height: 500px) and (max-height: 700px) {
-  .floorDirectionsContainer {
-    max-height: calc(30vh); /* 60% of the viewport height */
-  }
-}
-
-/* Larger devices */
-@media (min-height: 775px) {
-  .floorDirectionsContainer {
-    max-height: calc(39vh); /* 70% of the viewport height */
-  }
 }
 
 .floorVoiceSettingContainer {
@@ -417,137 +420,8 @@ body {
   padding: -1px;
 }
 
-.threeDpath {
-  position: absolute;
-  top: -11vh; /* Adjust to place it right at the top */
-  left: 45vw; /* Right aligned */
-  z-index: 4;
-}
-
-.threeD {
-  height: 100%;
-  width: 100%;
-  z-index: 6;
-  left: 0px;
-  top: 0px;
-  position: relative;
-}
-
-.showTreeD {
-  z-index: 5;
-}
-
-.outerDiv {
-  height: 100vh;
-  width: 65vw;
-  position: relative;
-  display: grid;
-  place-items: center;
-}
-
-.ll2,
-.ll1,
-.f1,
-.f2,
-.f3 {
-  position: absolute;
-  height: 40vh;
-  aspect-ratio: 25/17;
-  width: auto;
-  transform: rotateX(40deg) rotate(20deg) skew(-20deg);
-  z-index: 12;
-}
-
-.tdDotsContainer {
-  width: 65vw;
-  height: 100vh;
-  left: 0;
-  top: 0;
-  position: absolute;
-  z-index: 6;
-}
-
-.mmimg {
-  position: relative;
-  z-index: 1;
-  width: auto; /* or any custom size */
-  height: 100%;
-  object-fit: contain;
-  border-radius: 15px;
-  border: 3px solid #6fb49f;
-}
-
-.tdimg {
-  border: solid 1px lavender;
-  aspect-ratio: 25 / 17;
-  height: 100%;
-  width: 100%;
-}
-
 .micButton {
-    margin-top: 10px;
-    background-color: #163a95;
-    padding-bottom: 5px;
-    padding-top: 5px;
+  margin-top: 20px;
+  margin-bottom: -25px;
+  background-color: #163a95;
 }
-
-.clearButtonStuff {
-    margin-top: 5px;
-    display: flex; /* Enables flexbox layout */
-    justify-content: space-between; /* Distributes space between items */
-    align-items: center; /* Aligns items vertically at the center */
-}
-
-.clearButton {
-    width: 250px;
-}
-
-.myCustomButton:focus,
-.clearButton:focus,
-.micButton:focus {
-    outline: none !important; /* Using !important to ensure override */
-}
-
-.keyButton:focus,
-.keyButtonText:focus {
-    outline: none;
-}
-
-.keyButton:hover {
-    box-shadow: 0 0 0 2px #163a95; /* Add a 2px blue shadow on hover */
-    border-radius: 20px;
-}
-
-.keyButtonText:hover {
-    box-shadow: 0 0 0 2px #163993; /* Add a 2px darker blue shadow on hover */
-    border-radius: 20px;
-}
-
-.f3 {
-  perspective: 72vh;
-  translate: 0vh -15vw 0;
-  z-index: 5;
-}
-
-.f2 {
-  perspective: 71vh;
-  translate: 0vh -7.5vw 0;
-  z-index: 4;
-}
-
-.f1 {
-  z-index: 3;
-}
-
-.ll1 {
-  perspective: 69vh;
-  translate: 0vh 7.5vw 0;
-  z-index: 2;
-}
-
-.ll2 {
-  perspective: 68vh;
-  translate: 0vh 15vw 0;
-  z-index: 1;
-}
-
