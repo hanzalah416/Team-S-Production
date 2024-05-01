@@ -485,42 +485,42 @@ body {
 }
 
 .micButton {
-    margin-top: 10px;
-    background-color: #163a95;
-    padding-bottom: 5px;
-    padding-top: 5px;
+  margin-top: 10px;
+  background-color: #163a95;
+  padding-bottom: 5px;
+  padding-top: 5px;
 }
 
 .clearButtonStuff {
-    margin-top: 5px;
-    display: flex; /* Enables flexbox layout */
-    justify-content: space-between; /* Distributes space between items */
-    align-items: center; /* Aligns items vertically at the center */
+  margin-top: 5px;
+  display: flex; /* Enables flexbox layout */
+  justify-content: space-between; /* Distributes space between items */
+  align-items: center; /* Aligns items vertically at the center */
 }
 
 .clearButton {
-    width: 250px;
+  width: 250px;
 }
 
 .myCustomButton:focus,
 .clearButton:focus,
 .micButton:focus {
-    outline: none !important; /* Using !important to ensure override */
+  outline: none !important; /* Using !important to ensure override */
 }
 
 .keyButton:focus,
 .keyButtonText:focus {
-    outline: none;
+  outline: none;
 }
 
 .keyButton:hover {
-    box-shadow: 0 0 0 2px #163a95; /* Add a 2px blue shadow on hover */
-    border-radius: 20px;
+  box-shadow: 0 0 0 2px #163a95; /* Add a 2px blue shadow on hover */
+  border-radius: 20px;
 }
 
 .keyButtonText:hover {
-    box-shadow: 0 0 0 2px #163993; /* Add a 2px darker blue shadow on hover */
-    border-radius: 20px;
+  box-shadow: 0 0 0 2px #163993; /* Add a 2px darker blue shadow on hover */
+  border-radius: 20px;
 }
 
 .f3 {
@@ -550,4 +550,3 @@ body {
   translate: 0vh 15vw 0;
   z-index: 1;
 }
-
