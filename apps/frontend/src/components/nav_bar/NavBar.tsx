@@ -29,7 +29,7 @@ import { LogoutButton } from "../LogoutButton.tsx";
 import { createTheme, FormControl, ThemeProvider } from "@mui/material";
 import { useCallback, useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-import SpeechNavigate from "./SpeechNavigate.tsx";
+import { WebAppsCheck } from "../HelperFunctions/WebAppsCheck.tsx";
 declare module "@mui/material/styles" {
   interface Palette {
     websiteBlue: Palette["primary"];
@@ -352,13 +352,7 @@ function NavBar() {
         <p className={"time"} onClick={toHero}>
           {timeOfDay}{" "}
         </p>
-        {("SpeechRecognition" in window ||
-          "webkitSpeechRecognition" in window) &&
-          (window.SpeechGrammarList || window.webkitSpeechGrammarList) && (
-            <div className={"micVisibility"}>
-              <SpeechNavigate />
-            </div>
-          )}
+        <WebAppsCheck />
       </div>
 
       <div id={"navButtonsID"} className={"navButtons"}>
@@ -712,8 +706,7 @@ function NavBar() {
           </Link>
         </div>
         <div className={"itemDropDown"}>
-          {"SpeechRecognition" in window ||
-            ("webkitSpeechRecognition" in window && <SpeechNavigate />)}
+          <WebAppsCheck />
         </div>
         <div className={"itemDropDown"}>
           <ThemeProvider theme={theme}>
