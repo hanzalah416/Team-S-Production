@@ -29,7 +29,7 @@ import { LogoutButton } from "../LogoutButton.tsx";
 import { createTheme, FormControl, ThemeProvider } from "@mui/material";
 import { useCallback, useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-import { WebAppsCheck } from "../HelperFunctions/WebAppsCheck.tsx";
+import WebAppsCheck from "../HelperFunctions/WebAppsCheck.tsx";
 declare module "@mui/material/styles" {
   interface Palette {
     websiteBlue: Palette["primary"];
@@ -352,7 +352,9 @@ function NavBar() {
         <p className={"time"} onClick={toHero}>
           {timeOfDay}{" "}
         </p>
-        <WebAppsCheck />
+        <div className={"micVisibility"}>
+          <WebAppsCheck />
+        </div>
       </div>
 
       <div id={"navButtonsID"} className={"navButtons"}>
@@ -705,14 +707,15 @@ function NavBar() {
             </Button>
           </Link>
         </div>
-        <div className={"itemDropDown"}>
-          <WebAppsCheck />
-        </div>
+
         <div className={"itemDropDown"}>
           <ThemeProvider theme={theme}>
             {!isAuthenticated && <LoginButton />}
             {isAuthenticated && <LogoutButton />}
           </ThemeProvider>
+        </div>
+        <div className={"itemDropDown"}>
+          <WebAppsCheck />
         </div>
       </div>
       <div id={"backDropID"} className={"dropDownBackDrop"} />

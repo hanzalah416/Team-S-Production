@@ -1,16 +1,10 @@
 import SpeechNavigate from "../nav_bar/SpeechNavigate.tsx";
 
-export function WebAppsCheck() {
+export default function WebAppsCheck() {
   if (
     ("SpeechRecognition" in window || "webkitSpeechRecognition" in window) &&
-    (window.SpeechGrammarList || window.webkitSpeechGrammarList)
+    ("SpeechGrammarList" in window || "webkitSpeechGrammarList" in window)
   ) {
-    return (
-      <div className={"micVisibility"}>
-        <SpeechNavigate />
-      </div>
-    );
-  } else {
-    return <div></div>;
+    return <SpeechNavigate />;
   }
 }

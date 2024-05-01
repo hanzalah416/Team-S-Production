@@ -94,12 +94,18 @@ export default function SpeechToText(props: {
         "medicine delivery request",
         "node data",
         "map editing",
+        "floor map",
         "manage database",
         "home page",
         "all service requests",
         "credit page",
         "about page",
         "gift request",
+        "map",
+        "stats page",
+        "statistics",
+        "subscription page",
+        "email send out",
       ];
 
       const navigatedService = FindClosestMatch(spokenLocationRaw, services);

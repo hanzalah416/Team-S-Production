@@ -43,7 +43,6 @@ import f2 from "../assets/HmapNoBackground/02_thesecondfloor_rm-bg.png";
 import f3 from "../assets/HmapNoBackground/03_thethirdfloor_rm-bg.png";
 import SpeechToText from "./SpeechToText.tsx";
 import FloorSequenceDisplay from "./FloorSequenceDisplay.tsx";
-import getMobileOperatingSystem from "../HelperFunctions/MobileCheck.ts";
 
 const tips = `
 **Enter Starting Point:**
@@ -921,8 +920,8 @@ function FloorMap() {
           <div className={styles.clearButtonStuff}>
             {("SpeechRecognition" in window ||
               "webkitSpeechRecognition" in window) &&
-              (window.SpeechGrammarList || window.webkitSpeechGrammarList) &&
-              getMobileOperatingSystem() && (
+              ("SpeechGrammarList" in window ||
+                "webkitSpeechGrammarList" in window) && (
                 <SpeechToText
                   handleSelection={handleSelection}
                   startPosition={startPosition}
