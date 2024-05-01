@@ -181,6 +181,17 @@ body {
   z-index: 100;
 }
 
+.vertline {
+    stroke-dasharray: 5;
+    stroke-dashoffset: 20;
+    animation: moveDottedLine 1s linear infinite;
+    z-index: 100;
+}
+
+/*.vertLine {*/
+/*    transform: skew(20deg) rotate(-20deg) rotateX(-40deg);*/
+/*}*/
+
 .mapDot.small {
   width: 1px;
   height: 1px;
@@ -387,7 +398,7 @@ body {
 
 .threeDpath {
     position: absolute;
-    top: -12vh; /* Adjust to place it right at the top */
+    top: -11vh; /* Adjust to place it right at the top */
     left: 45vw; /* Right aligned */
     z-index: 4;
 }

@@ -373,9 +373,10 @@ function FloorMap() {
     }
   }, [currentFloor]);
 
-  const getFloorNumber = (nodeID: string) => {
+  const getFloorNumber = (nodeID: string | undefined) => {
     // Get the last two characters
-    return nodeID.slice(-2);
+      if (nodeID) return nodeID!.slice(-2);
+      else return '';
   };
 
   const clearInputs = () => {
@@ -521,21 +522,6 @@ function FloorMap() {
 
   const getLineColor = (floor: string) => {
     switch (floor) {
-        case "03": {
-            return "blue";
-        }
-        case "02": {
-            return "orange";
-        }
-        case "01": {
-            return "red";
-        }
-        case "L1": {
-            return "yellow";
-        }
-        case "L2": {
-            return "black";
-        }
       default:
         return "blue"; // Default color
     }
@@ -693,24 +679,22 @@ function FloorMap() {
     const tdFloorPath = (floor: string) => {
         const actualStartNode = fullPath[0];
         const actualEndNode = fullPath[fullPath.length - 1];
-        // let newfloorCheck = getFloorNumber(actualStartNode);
-        return  (fullPath.filter((id) => getFloorNumber(id) === floor).map((nodeID, index) => {
+        return  fullPath.filter((id) => getFloorNumber(id) === floor).map((nodeID, index, filteredPath) => {
         if (nodeID.length === 3) {
             return null;
         } console.log(index);
-        let nodeColor = "darkgreen";
+        let nodeColor = "transparent";
         const point = getPositionById(nodeID);
-        // if (getFloorNumber(nodeID) !== newfloorCheck) {
-        //     nodeColor = "yellow";
-        //     newfloorCheck = getFloorNumber(nodeID);
-        // }
-        // if (getFloorNumber(fullPath[index + 1]) !== getFloorNumber(fullPath[index])) {nodeColor = "yellow";}
+        if (index === 0 && filteredPath[0] !== actualStartNode) nodeColor = "yellow";
+        if (index === filteredPath.length -1 && filteredPath[filteredPath.length - 1] !== actualEndNode) nodeColor = "yellow";
         const isActualStart = actualStartNode === nodeID;
         const isActualEnd = actualEndNode === nodeID;
         let size = "4px";
         if (isActualStart) {nodeColor = "blue"; size = "8px";};
         if (isActualEnd) {nodeColor = "red"; size = "8px";};
-        return (<div
+        // const xc = parseFloat(point.left);
+        // const yc = parseFloat(point.top);
+        return <div><div
             key={nodeID}
             className={styles.mapDot}
             style={{
@@ -721,12 +705,55 @@ function FloorMap() {
                 backgroundColor: nodeColor,
                 display: "block",
             }}
-        ></div>);
-        }));};
+        ></div>
+            {/*{nodeColor === "yellow" &&*/}
+            {/*    <div*/}
+            {/*        className={styles.vertlineContainer}*/}
+            {/*        style={{*/}
+            {/*            position: "absolute",*/}
+            {/*            left: "0",*/}
+            {/*            top: "0",*/}
+            {/*            height: "100%",*/}
+            {/*            width: "100%",*/}
+            {/*        }}>*/}
+            {/*        <div*/}
+            {/*            className={styles.vertline}*/}
+            {/*            style={{*/}
+            {/*                width: "2px",*/}
+            {/*                height: "7.5vh",*/}
+            {/*                backgroundColor: "blue",*/}
+            {/*                position: "absolute",*/}
+            {/*                top: "parseFloat(point.top)",*/}
+            {/*                left: "parseFloat(point.left)",*/}
+            {/*                transform: "skew(20deg) rotate(-20deg) rotateX(-40deg)",*/}
+            {/*            }}*/}
+            {/*        ></div>*/}
+            {/*    </div>*/}
+            {/*    // <svg style={{zIndex: 10,*/}
+            {/*    //     position: "absolute",*/}
+            {/*    //     top: "0%",*/}
+            {/*    //     left: "0%",*/}
+            {/*    //     transform: "skew(20deg) rotate(-20deg) rotateX(-40deg)"*/}
+            {/*    // }}>*/}
+            {/*    //     <line className={styles.vertline}*/}
+            {/*    //           x1={`${xc}%`}*/}
+            {/*    //           y1={`${yc}%`}*/}
+            {/*    //           x2={`${xc}%`}*/}
+            {/*    //           y2={`100vh`}*/}
+            {/*    //           style={{*/}
+            {/*    //               zIndex: 1,}}*/}
+            {/*    //           strokeLinecap="round"*/}
+            {/*    //           stroke={"black"}*/}
+            {/*    //           strokeWidth="2"/>*/}
+            {/*    // </svg>}</div>);*/}
+            {/*}*/}
+        </div>;
+        });
+    };
 
-    const tdLine = (floor: string) => {
-        return (<svg
-            className={styles.pathSvg}
+            const tdLine = (floor: string) => {
+                return (<svg
+                className={styles.pathSvg}
             style={{
                 position: "absolute",
                 top: 0,
@@ -736,18 +763,17 @@ function FloorMap() {
             }}
         >
             {fullPath.filter((id) => getFloorNumber(id) === floor).map((nodeID, index, filteredPath) => {
-                if(index === filteredPath.length - 1) return null;
+                if (index === filteredPath.length - 1) return null;
                 const endNodeID = filteredPath[index + 1];
-                    if (nodeID.length !== 3 && endNodeID.length !== 3) {
-                        const segments = getTDLineSegments(nodeID, endNodeID, getFloorNumber(nodeID),);
-                        if (segments === null) return null;
-                        return segments.map((segment, segmentIndex) => {
-                            const startPoint = getPositionById(
-                                segment.startNodeID,
-                            );
-                            const endPoint = getPositionById(segment.endNodeID);
+                if (nodeID.length !== 3 && endNodeID.length !== 3) {
+                    const segments = getTDLineSegments(nodeID, endNodeID, getFloorNumber(nodeID),);
+                    if (segments === null) return null;
+                    return segments.map((segment, segmentIndex) => {
+                        const startPoint = getPositionById(
+                            segment.startNodeID,
+                        );
+                        const endPoint = getPositionById(segment.endNodeID);
                             const lineColor = getLineColor(segment.floor!);
-
                             return (
                                 <line
                                     key={`${segment.startNodeID}-${segment.endNodeID}-${segmentIndex}`}
