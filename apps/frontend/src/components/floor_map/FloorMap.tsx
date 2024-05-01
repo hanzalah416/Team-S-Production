@@ -66,7 +66,7 @@ speak your start or end location.
 (e.g., **"nearest restroom"**). As long as a valid starting point is provided, the system will
 direct you to the closest relevant location.
 
-**3D Pathfinding**
+**3D Pathfinding:**
 
 - Click the 3D map to see 3D pathfinding
 - You can click the button again to get back to the original
