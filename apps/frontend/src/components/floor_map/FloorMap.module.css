@@ -443,6 +443,7 @@ body {
   position: relative;
   display: grid;
   place-items: center;
+  border-left: 1px solid black;
 }
 
 .ll2,
