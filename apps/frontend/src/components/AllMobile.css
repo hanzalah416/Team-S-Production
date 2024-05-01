@@ -1,0 +1,47 @@
+.mainBox {
+  width: 80%;
+  margin: 60px auto 50px; /* Adjusted top margin */
+  padding: 20px;
+  background-color: #f4f4f9;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  color: black;
+  align-content: start;
+  align-items: start;
+  justify-items: start;
+  justify-content: start;
+}
+
+.breakline {
+  width: 100%;
+  height: 2px;
+  background-color: #10778c;
+}
+
+.names-mobile {
+  font-family: Poppins, sans-serif;
+  font-size: 15px;
+  color: navy;
+  font-style: italic;
+}
+
+.buttonReturn-mobile {
+  justify-content: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.title-mobile {
+  font-family: Verdana, sans-serif;
+  color: navy;
+  text-align: center;
+  font-size: 25px;
+  font-style: normal;
+}
+
+.errorBox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}

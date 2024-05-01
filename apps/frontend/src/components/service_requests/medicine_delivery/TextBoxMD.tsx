@@ -15,6 +15,7 @@ const filter = createFilterOptions<MedicineOptionType>();
 interface FreeSoloCreateOptionDialogProps {
   nameMedicine: string;
   setNameMedicine: React.Dispatch<React.SetStateAction<string>>;
+  boxWidth: number;
 }
 
 export default function FreeSoloCreateOptionDialog(
@@ -122,7 +123,7 @@ export default function FreeSoloCreateOptionDialog(
         renderOption={(props, option) => (
           <li {...props}>{option.genericName}</li>
         )}
-        sx={{ width: 518 }}
+        sx={{ width: prop.boxWidth }}
         freeSolo
         renderInput={(params) => <TextField {...params} label="" />}
       />

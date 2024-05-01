@@ -182,10 +182,10 @@ body {
 }
 
 .vertline {
-    stroke-dasharray: 5;
-    stroke-dashoffset: 20;
-    animation: moveDottedLine 1s linear infinite;
-    z-index: 100;
+  stroke-dasharray: 5;
+  stroke-dashoffset: 20;
+  animation: moveDottedLine 1s linear infinite;
+  z-index: 100;
 }
 
 /*.vertLine {*/
@@ -389,105 +389,97 @@ body {
   padding: -1px;
 }
 
-
-
-
-
-
-
-
 .threeDpath {
-    position: absolute;
-    top: -11vh; /* Adjust to place it right at the top */
-    left: 45vw; /* Right aligned */
-    z-index: 4;
+  position: absolute;
+  top: -11vh; /* Adjust to place it right at the top */
+  left: 45vw; /* Right aligned */
+  z-index: 4;
 }
 
 .threeD {
-    height: 100%;
-    width: 100%;
-    z-index: 6;
-    left: 0px;
-    top: 0px;
-    position: relative;
+  height: 100%;
+  width: 100%;
+  z-index: 6;
+  left: 0px;
+  top: 0px;
+  position: relative;
 }
 
 .showTreeD {
-    z-index: 5;
+  z-index: 5;
 }
 
 .outerDiv {
-    height: 100vh;
-    width: 65vw;
-    position: relative;
-    display: grid;
-    place-items: center;
+  height: 100vh;
+  width: 65vw;
+  position: relative;
+  display: grid;
+  place-items: center;
 }
-
 
 .ll2,
 .ll1,
 .f1,
 .f2,
 .f3 {
-    position: absolute;
-    height: 40vh;
-    aspect-ratio: 25/17;
-    width: auto;
-    transform: rotateX(40deg) rotate(20deg) skew(-20deg);
-    z-index: 12;
+  position: absolute;
+  height: 40vh;
+  aspect-ratio: 25/17;
+  width: auto;
+  transform: rotateX(40deg) rotate(20deg) skew(-20deg);
+  z-index: 12;
 }
 
 .tdDotsContainer {
-    width: 65vw;
-    height: 100vh;
-    left: 0;
-    top: 0;
-    position: absolute;
-    z-index: 6;
+  width: 65vw;
+  height: 100vh;
+  left: 0;
+  top: 0;
+  position: absolute;
+  z-index: 6;
 }
 
 .mmimg {
-    position: relative;
-    z-index: 1;
-    width: auto; /* or any custom size */
-    height: 100%;
-    object-fit: contain;
-    border-radius: 15px;
-    border: 3px solid #6fb49f;
+  position: relative;
+  z-index: 1;
+  width: auto; /* or any custom size */
+  height: 100%;
+  object-fit: contain;
+  border-radius: 15px;
+  border: 3px solid #6fb49f;
 }
 
 .tdimg {
-    border: solid 1px lavender;
-    aspect-ratio: 25 / 17;
-    height:100%;
-    width: 100%;
+  border: solid 1px lavender;
+  aspect-ratio: 25 / 17;
+  height: 100%;
+  width: 100%;
 }
 
 .f3 {
-    perspective: 72vh;
-    translate: 0vh -15vw 0;
-    z-index: 5;
+  perspective: 72vh;
+  translate: 0vh -15vw 0;
+  z-index: 5;
 }
 
 .f2 {
-    perspective: 71vh;
-    translate: 0vh -7.5vw 0;
-    z-index: 4;
+  perspective: 71vh;
+  translate: 0vh -7.5vw 0;
+  z-index: 4;
 }
 
 .f1 {
-    z-index: 3;
+  z-index: 3;
 }
 
 .ll1 {
-    perspective: 69vh;
-    translate: 0vh 7.5vw 0;
-    z-index: 2;
+  perspective: 69vh;
+  translate: 0vh 7.5vw 0;
+  z-index: 2;
 }
 
 .ll2 {
-    perspective: 68vh;
-    translate: 0vh 15vw 0;
-    z-index: 1;
+  perspective: 68vh;
+  translate: 0vh 15vw 0;
+  z-index: 1;
 }

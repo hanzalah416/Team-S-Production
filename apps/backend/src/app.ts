@@ -28,6 +28,10 @@ import transportRequestRouter from "./routes/transportRequest.ts";
 import { auth } from "express-oauth2-jwt-bearer";
 import allStaffRouter from "./routes/getAllStaff.ts";
 import awsRouter from "./routes/awsRouter.ts";
+import priorityDataRouter from "./routes/priorityData.ts";
+import assignDataRouter from "./routes/assignData.ts";
+import pieDataRouter from "./routes/pieData.ts";
+import awsPublish from "./routes/awsPublish.ts";
 
 import employeeCSVRouter from "./routes/csvEmployees.ts";
 
@@ -59,6 +63,7 @@ app.use(cookieParser()); // Cookie parser
 // won't be reached by the default proxy and prod setup
 app.use("/api/flower-request", flowerRequestRouter);
 app.use("/api/gift-request", giftRequestRouter);
+app.use("/api/get-pie-data", pieDataRouter);
 app.use("/api/sanitation-request", sanitationRouter);
 // app.use("/api/log-in", logInRouter);
 app.use("/api/nodeEdge", nodeEdgeRouter);
@@ -79,10 +84,13 @@ app.use("/api/security-request", securityRouter);
 app.use("/api/room-scheduling", roomSchedulingRouter);
 app.use("/api/pathToText", textPathRouter);
 app.use("/api/language-request", languageRouter);
+app.use("/api/priority-data", priorityDataRouter);
+app.use("/api/assign-data", assignDataRouter);
 app.use("/api/all-staff", allStaffRouter);
 app.use("/api/returnClosest", ReturnClosestRouter);
 app.use("/api/elevatorNodes", ElevatorIdRouter);
 app.use("/api/subscribe-email", awsRouter);
+app.use("/api/publish-message", awsPublish);
 
 app.use("/healthcheck", (req, res) => {
   res.status(200).send();

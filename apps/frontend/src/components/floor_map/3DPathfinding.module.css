@@ -1,13 +1,13 @@
 .outerDiv {
-    background-color: white;
-    height: 80vh;
-    width: 70vw;
-    position: relative;
-    perspective: 70vh;
-    border: solid 1px black;
-    display: flex;
-    justify-content: flex-start;
-    flex-direction: column;
+  background-color: white;
+  height: 80vh;
+  width: 70vw;
+  position: relative;
+  perspective: 70vh;
+  border: solid 1px black;
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
 }
 
 .ll2,
@@ -15,69 +15,69 @@
 .f1,
 .f2,
 .f3 {
-    position: absolute;
-    top: 1vh;
-    height: 50vh;
-    width: auto;
-    transform: rotate(10deg) rotateY(-15deg) rotateX(45deg) rotateZ(10deg);
-    transform-style: flat;
-    transition: translate 0.4s ease-in-out;
+  position: absolute;
+  top: 1vh;
+  height: 50vh;
+  width: auto;
+  transform: rotate(10deg) rotateY(-15deg) rotateX(45deg) rotateZ(10deg);
+  transform-style: flat;
+  transition: translate 0.4s ease-in-out;
 }
 
 .mmimg {
-    position: relative;
-    z-index: 1;
-    width: auto; /* or any custom size */
-    height: 100%;
-    object-fit: contain;
-    border-radius: 15px;
-    border: 3px solid #6fb49f;
+  position: relative;
+  z-index: 1;
+  width: auto; /* or any custom size */
+  height: 100%;
+  object-fit: contain;
+  border-radius: 15px;
+  border: 3px solid #6fb49f;
 }
 .mhead:hover ~ .mmimg {
-    box-shadow: 2px 2px 2px 2px #6fb49f;
+  box-shadow: 2px 2px 2px 2px #6fb49f;
 }
 
 .mhead {
-    position: absolute;
-    z-index: 2;
-    right: 1vw;
-    bottom: 1vh;
-    fontfamily: "Poppins";
-    fontsize: 14;
-    textalign: "center";
-    font-weight: bold;
-    color: black;
+  position: absolute;
+  z-index: 2;
+  right: 1vw;
+  bottom: 1vh;
+  fontfamily: "Poppins";
+  fontsize: 14;
+  textalign: "center";
+  font-weight: bold;
+  color: black;
 }
 
 .mmimg:hover {
-    box-shadow: 1.5px 1.5px 1.5px 1.5px #6fb49f;
-    /*#99b2d*/
+  box-shadow: 1.5px 1.5px 1.5px 1.5px #6fb49f;
+  /*#99b2d*/
 }
 
 .f3 {
-    perspective: 72vh;
-    translate: 0vh -6vw;
-    z-index: 5;
+  perspective: 72vh;
+  translate: 0vh -6vw;
+  z-index: 5;
 }
 
 .f2 {
-    perspective: 71vh;
-    translate: 0vh -3vw;
-    z-index: 4;
+  perspective: 71vh;
+  translate: 0vh -3vw;
+  z-index: 4;
 }
 
 .f1 {
-    z-index: 3;
+  z-index: 3;
 }
 
 .ll1 {
-    perspective: 69vh;
-    translate: 0vh 3vw;
-    z-index: 2;
+  perspective: 69vh;
+  translate: 0vh 3vw;
+  z-index: 2;
 }
 
 .ll2 {
-    perspective: 75vh;
-    translate: 0vh 6vw;
-    z-index: 1;
+  perspective: 75vh;
+  translate: 0vh 6vw;
+  z-index: 1;
 }

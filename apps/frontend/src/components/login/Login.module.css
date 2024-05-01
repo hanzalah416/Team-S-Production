@@ -124,15 +124,15 @@
   100% {
     opacity: 0.4;
   }
+}
 
-  @keyframes slideIn {
-    from {
-      transform: translateX(0);
-      opacity: 0.5;
-    }
-    to {
-      opacity: 2;
-    }
+@keyframes slideIn {
+  from {
+    transform: translateX(0);
+    opacity: 0.5;
+  }
+  to {
+    opacity: 2;
   }
 }
 
@@ -213,7 +213,7 @@
 
 .downArrow {
   position: relative;
-  left: 40%;
+
   bottom: -65vh;
 }
 
