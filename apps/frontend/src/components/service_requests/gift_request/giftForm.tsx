@@ -4,6 +4,7 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import TextField from "@mui/material/TextField";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
+import { SplideInstance } from '@splidejs/react-splide';
 import Autocomplete from "@mui/material/Autocomplete";
 import "./giftForm.css";
 import ToggleButton from "@mui/material/ToggleButton";
@@ -64,7 +65,7 @@ export default function GiftForm() {
 
     const [selectedGift, setSelectedGift] = useState<string>("");
 
-    const splideRef = useRef<never>(null);
+    const splideRef = useRef<SplideInstance | null>(null);
 
     const handleGiftTypeChange = (
         _event: React.MouseEvent<HTMLElement>,
@@ -73,7 +74,7 @@ export default function GiftForm() {
         if (newValue !== null) {
             setSelectedGift(newValue); // Update the selected flower type
             // Find the index of the selected flower in the images array
-            const index = ["Coloring Book", "Chocolate covered strawberries", "Teddy bear"].indexOf(newValue);
+            const index = ["Coloring Book", "Chocolate Strawberries", "Teddy Bear"].indexOf(newValue);
             // Move the carousel to the selected image index
             if (splideRef.current) {
                 splideRef.current.go(index);

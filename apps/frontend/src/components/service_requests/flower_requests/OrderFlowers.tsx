@@ -5,6 +5,7 @@ import axios from "axios";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import TextField from "@mui/material/TextField";
+import { SplideInstance } from '@splidejs/react-splide';
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import Autocomplete from "@mui/material/Autocomplete";
 import "./OrderFlowers.module.css";
@@ -74,7 +75,7 @@ const OrderFlowers: React.FC = () => {
 
     const [selectedFlower, setSelectedFlower] = useState<string>("");
 
-    const splideRef = useRef<never>(null);
+    const splideRef = useRef<SplideInstance | null>(null);
 
     const handleFlowerTypeChange = (
         _event: React.MouseEvent<HTMLElement>,
