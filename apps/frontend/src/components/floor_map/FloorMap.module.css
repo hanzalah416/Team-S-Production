@@ -406,12 +406,9 @@ body {
 }
 
 .outerDiv {
-    background-color: white;
     height: 100vh;
     width: 65vw;
     position: relative;
-    /*perspective: 70vh;*/
-    border: solid 1px black;
     display: grid;
     place-items: center;
 }

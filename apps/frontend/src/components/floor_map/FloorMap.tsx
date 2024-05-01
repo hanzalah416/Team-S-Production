@@ -267,6 +267,7 @@ function FloorMap() {
       handleSelection(node, "end");
       // Toggle node visibility off and change floor to the start node's floor
       setShowNodes(false); // This will hide the nodes
+      setshowTDNodes(false);
       // The floor change to start position's floor is already handled by handleSelection
       setCurrentFloor(formatFloor(startPosition.floor));
     }
@@ -533,11 +534,9 @@ function FloorMap() {
     "03": f3Map,
   };
 
-  const getLineSegments = (startNodeID: string, endNodeID: string) => {
+  const getLineSegments = (startNodeID: string, endNodeID: string, floor: string) => {
     const segments = [];
-    let currentFloor = getFloorNumber(startNodeID);
     let segmentStartNodeID = startNodeID;
-
     for (let i = 1; i < filteredQueueNodeIDs.length; i++) {
       const nodeID = filteredQueueNodeIDs[i];
       const nodeFloor = getFloorNumber(nodeID);
@@ -547,14 +546,14 @@ function FloorMap() {
         continue;
       }
 
-      if (nodeFloor !== currentFloor) {
+      if (nodeFloor !== floor) {
         // Floor change detected, create a segment for the current floor
         segments.push({
           startNodeID: segmentStartNodeID,
           endNodeID: nodeID,
-          floor: currentFloor,
+          floor: floor,
         });
-        currentFloor = nodeFloor; // Update the current floor
+        floor = nodeFloor; // Update the current floor
         segmentStartNodeID = nodeID; // Update the segment start node ID
       }
 
@@ -563,7 +562,7 @@ function FloorMap() {
         segments.push({
           startNodeID: segmentStartNodeID,
           endNodeID: nodeID,
-          floor: currentFloor,
+          floor: floor,
         });
         break;
       }
@@ -572,12 +571,51 @@ function FloorMap() {
     return segments;
   };
 
+    const getTDLineSegments = (startNodeID: string, endNodeID: string, floor: string) => {
+        const segments = [];
+        let segmentStartNodeID = startNodeID;
+        let anyonfloor = true;
+        for (let i = 1; i < filteredQueueNodeIDs.length; i++) {
+            const nodeID = filteredQueueNodeIDs[i];
+            const nodeFloor = getFloorNumber(nodeID);
+
+            // Skip creating segments if the current node is a floor change marker
+            if (nodeID.length === 3) {
+                continue;
+            }
+
+            if (nodeFloor !== floor) {
+                // Floor change detected, create a segment for the current floor
+                segments.push({
+                    startNodeID: segmentStartNodeID,
+                    endNodeID: nodeID,
+                    floor: nodeFloor,
+                });
+                floor = nodeFloor; // Update the current floor
+                segmentStartNodeID = nodeID; // Update the segment start node ID
+                anyonfloor = false;
+            }
+
+            if (nodeID === endNodeID) {
+                // End node reached, create the final segment for the current floor
+                segments.push({
+                    startNodeID: segmentStartNodeID,
+                    endNodeID: nodeID,
+                    floor: floor,
+                });
+                break;
+            }
+        }
+        if (!anyonfloor) return null;
+        return segments;
+    };
+
   //for slide in of mini map
   const [mapChecked, setMapChecked] = React.useState(true);
   const handleChange = () => {
     setMapChecked((prev) => !prev);
   };
-  const [tdindivfloor, settdindivfloor] = React.useState(true);
+  // const [tdindivfloor, settdindivfloor] = React.useState(true);
 
   const handleThreeD = () => {
       handleChange();
@@ -590,170 +628,322 @@ function FloorMap() {
             const isStartNode = startPosition && node.id === startPosition.id;
             let nodeColor = isStartNode ? "green" : startPosition ? "red" : "green";
             const tooltipText = `${node.label}, ${node.id}`;
-            const mapWidth = 5000; // Example width, adjust as necessary //smaller map 546
-            const mapHeight = 3400; // Example height, adjust as necessary ///smaller map 372
-            const degToRad = (deg: number) => (deg * Math.PI) / 180;
-
-            const a = degToRad(40); //rotate X Angle deg
-            const b = degToRad(20); //roate angle deg
-            const c = degToRad(-20);// skew angle deg
-            const xtd = (((parseInt(node.left)) / mapWidth) * 100 * .4);
-            const ytd = (((parseInt(node.top)) / mapHeight) * 100 * .4);
+            const xPercent = (parseInt(node.left) / 5000) * 100;
+            const yPercent = (parseInt(node.top) / 3400) * 100;
             const floor = getFloorNumber(node.id);
-            let t = 0;
             switch (floor) {
                 case "03": {
-                    t = -7.5;
                     nodeColor = "blue";
                     break;
                 }
                 case "02": {
-                    t = 0;
-                    nodeColor = "purple";
+                    nodeColor = "darkblue";
                     break;
                 }
                 case "01": {
-                    t = 7.5;
                     nodeColor = "blue";
                     break;
                 }
                 case "L1": {
-                    t = 15;
-                    nodeColor = "purple";
+                    nodeColor = "darkblue";
                     break;
                 }
                 case "L2": {
-                    t = 22.5;
                     nodeColor = "blue";
                     break;
                 }
                 default: {
                     console.log("somethings fucking wrong");
-                    t = 0;
                     break;
                 }
             }
-            // const xTrans = Math.cos(b) * xtd - Math.sin(b) * skew;
-            // const yTrans = Math.sin(b) * xtd + Math.cos(b) * skew;
-
-            // const rotatedY = ytd * Math.cos(a) - (Math.sin(a) * xtd);
-            // const rotatedZ = ytd * Math.sin(a) + (Math.cos(a) * xtd);
-            // const skewedX = rotatedY + Math.tan(c) * rotatedZ;
-            // const xTranst = Math.cos(b) * xtd + -Math.sin(b) * skewedX;
-            // const yTranst = Math.sin(b) * xtd + Math.cos(b) * skewedX;
-            //inside div
-            const z = 0;
-            const xTrans = Math.cos(b) * xtd - Math.sin(b) * (Math.cos(a) * ytd - Math.sin(a) * z) + Math.tan(c) * (Math.sin(b) * xtd + Math.cos(b) * (Math.cos(a) * ytd - Math.sin(a) * z));
-            const yTrans = Math.sin(b) * xtd + Math.cos(b) * (Math.cos(a) * ytd - Math.sin(a) * z) + t * (Math.sin(a) * ytd + Math.cos(a) * z);
-            const zTrans = Math.sin(a) * ytd; //dont know why there is a z
-            console.log("node XY: " + xtd + ", " + ytd + "\nNode: " + xTrans + ", " + yTrans + ", " + zTrans);
             return (
-
                 <div
                     key={node.id}
                     className={styles.mapDot}
                     style={{
                         position: "absolute",
-                        top: 0,
-                        left: 0,
+                        top: `${yPercent}%`,
+                        left: `${xPercent}%`,
                         width: "4px",
                         height: "4px",
                         borderRadius: "50%",
-                        transform: ` translate3d(${xtd-3}vw, ${ytd}vh, 1vh)`,
-                        zIndex: 10, // Ensure it's visible above other elements
-                        cursor: "pointer", // Cursor indicates it's clickable
-                        backgroundColor: nodeColor, // Dynamic color based on the node status
+                        zIndex: 10, //Ensure it's visible above other elements
+                        cursor: "pointer", //Cursor indicates it's clickable
+                        backgroundColor: nodeColor, //Dynamic color based on the node status
                     }}
                     // onClick={() => handleNodeClick(node)}
                     title={tooltipText} // Enhanced tooltip with label and ID
                 ></div>
+
             );
 
         });
     };
-    const renderTDNodes = () => {
-    if (!showTDNodes) return null;
-      return sortedLocations.map((node) => {
-        const isStartNode = startPosition && node.id === startPosition.id;
-        let nodeColor = isStartNode ? "green" : startPosition ? "red" : "green";
-        const tooltipText = `${node.label}, ${node.id}`;
-        const mapWidth = 5000; // Example width, adjust as necessary //smaller map 546
-        const mapHeight = 3400; // Example height, adjust as necessary ///smaller map 372
-          const degToRad = (deg: number) => (deg * Math.PI) / 180;
 
-          const a = degToRad(40); //rotate X Angle deg
-        const b = degToRad(20); //roate angle deg
-        const c = degToRad(-20);// skew angle deg
-        const xtd = (((parseInt(node.left)) / mapWidth) * 100) * .4;
-        const ytd = (((parseInt(node.top)) / mapHeight) * 100) * .4;
-        const floor = getFloorNumber(node.id);
-        let t = 0;
-           switch (floor) {
-               case "03": {
-                   t = -7.5;
-                   nodeColor = "red";
-                   break;
-               }
-               case "02": {
-                   t = 0;
-                   nodeColor = "green";
-                   break;
-               }
-               case "01": {
-                   t = 7.5;
-                   nodeColor = "red";
-                   break;
-               }
-               case "L1": {
-                   t = 15;
-                   nodeColor = "green";
-                   break;
-               }
-               case "L2": {
-                   t = 22.5;
-                   nodeColor = "red";
-                   break;
-               }
-               default: {
-                   console.log("somethings fucking wrong");
-                   t = 0;
-                   break;
-               }
-           }
-          // const xTrans = Math.cos(b) * xtd - Math.sin(b) * skew;
-          // const yTrans = Math.sin(b) * xtd + Math.cos(b) * skew;
-          const z = 1;
-        const xTrans = Math.cos(b) * xtd - Math.sin(b) * (Math.cos(a) * ytd - Math.sin(a) * z) + Math.tan(c) * (Math.sin(b) * xtd + Math.cos(b) * (Math.cos(a) * ytd - Math.sin(a) * z));
-        const yTrans = Math.sin(b) * xtd + Math.cos(b) * (Math.cos(a) * ytd - Math.sin(a) * z); //+ t * (Math.sin(a) * ytd + Math.cos(a) * z);
-        const zTrans = Math.sin(a) * ytd + Math.cos(a) * z; //dont know why there is a z
-        console.log("node XY: " + xtd + ", " + ytd + "\nNode: " + xTrans + ", " + yTrans + ", " + zTrans);
+    const tdFloorPath = (floor: string) => {
+        return  (fullPath.filter((id) => getFloorNumber(id) === floor || id.length === 3,).map((nodeID, index) => {
+        if (nodeID.length === 3) {
+            // Skip floor change markers
+            return null;
+        }
 
-        return (
+        const point = getPositionById(nodeID);
+        if (point) {
+            const isActualStartNode = fullPath[0] === nodeID;
+            const isActualEndNode =
+                fullPath[fullPath.length - 1] === nodeID;
+            const isDisplayedStartNode = index === 0;
+            const isDisplayedEndNode =
+                index === filteredQueueNodeIDs.length - 1;
+            const isMultifloorEndNode =
+                !isDisplayedStartNode &&
+                !isDisplayedEndNode &&
+                fullPath.includes(nodeID) &&
+                (getFloorNumber(nodeID) !==
+                    getFloorNumber(filteredQueueNodeIDs[index - 1]) ||
+                    getFloorNumber(nodeID) !==
+                    getFloorNumber(filteredQueueNodeIDs[index + 1]));
 
-            <div
-                key={node.id}
-                className={styles.mapDot}
-                style={{
+            const isMultifloorStartNode =
+                index > 0 &&
+                filteredQueueNodeIDs[index - 1].length === 3 &&
+                 !isActualEndNode;
+
+            let nodeColor,
+                lastFloorLabel = "";
+            if (isMultifloorStartNode) {
+                nodeColor = "MediumOrchid"; // Set color to purple for intermediary start nodes
+                const fullPathIndex = fullPath.indexOf(nodeID);
+                if (fullPathIndex !== -1 && fullPathIndex > 1) {
+                    const targetNodeID = fullPath[fullPathIndex - 2];
+                    lastFloorLabel = targetNodeID.slice(-2);
+                    switch (lastFloorLabel) {
+                        case "01":
+                            lastFloorLabel = "1";
+                            break;
+                        case "02":
+                            lastFloorLabel = "2";
+                            break;
+                        case "03":
+                            lastFloorLabel = "3";
+                            break;
+                    }
+                    // Extract the last two characters
+                    // console.log(lastFloorLabel);
+                }
+            } else if (isActualStartNode) {
+                nodeColor = "#19a300"; // Green for the actual start node
+            } else if (isActualEndNode) {
+                nodeColor = "red"; // Red for the actual end node
+                // Print the nodes around the actual end node if it's not near the start of the array
+                const fullPathIndex = fullPath.indexOf(nodeID);
+                if (fullPathIndex !== -1 && fullPathIndex > 1) {
+                    // Additional logic to check the length of the node before the end node
+                    if (fullPath[fullPathIndex - 1].length === 3) {
+                        // Check if the preceding node is a floor change marker
+                        // Log the node before the marker
+                    }
+                }
+            } else if (isMultifloorEndNode) {
+                nodeColor = "#fcec08"; // Yellow for multifloor nodes
+            } else {
+                nodeColor = "transparent"; // Transparent for other nodes
+            }
+
+            let nextFloorLabel = "";
+            if (isMultifloorEndNode) {
+                const nextNodeID = filteredQueueNodeIDs[index + 1];
+                const nextFloor = getFloorNumber(nextNodeID);
+                switch (nextFloor) {
+                    case "01":
+                        nextFloorLabel = "1";
+                        break;
+                    case "02":
+                        nextFloorLabel = "2";
+                        break;
+                    case "03":
+                        nextFloorLabel = "3";
+                        break;
+                    default:
+                        if (!nextFloor) {
+                                // throw new Error("Next floor was null");
+                            return null;
+                        }
+                        nextFloorLabel = nextFloor.slice(-2); // Extract floor from ID
+                        break;
+                }
+            }
+            return (
+                <div
+                    key={nodeID}
+                    className={`${styles.mapDot} ${
+                        isDisplayedStartNode || isDisplayedEndNode
+                            ? styles.endNodeAnimation
+                            : ""
+                    } ${isDisplayedStartNode ? styles.startNode : ""} ${
+                        isDisplayedEndNode ? styles.endNode : ""
+                    } ${
+                        isMultifloorEndNode || isMultifloorStartNode
+                            ? styles.multifloorNode
+                            : ""
+                    }`}
+                    style={{
+                        top: point.top,
+                        left: point.left,
+                        backgroundColor: nodeColor,
+                        display: "block",
+                    }}
+                >
+                    {(isMultifloorEndNode || isMultifloorStartNode) && (
+                        <div className={styles.floorSwitchText}>
+                            {isMultifloorStartNode
+                                ? lastFloorLabel
+                                : nextFloorLabel
+                                    ? nextFloorLabel
+                                    : ""}
+                        </div>
+                    )}
+                </div>
+            );
+        }
+        return null;
+        }));};
+
+    const tdLine = (floor: string) => {
+        return (<svg
+            className={styles.pathSvg}
+            style={{
                 position: "absolute",
-                top: "0",
-                left: "0",
-                width: "4px",
-                height: "4px",
-                borderRadius: "50%",
-                transform: ` translate3d(${xTrans}vw, ${yTrans}vh, 0vh) translateY(${t+8}vw) translateX(26vw)`,
-                zIndex: 10, // Ensure it's visible above other elements
-                cursor: "pointer", // Cursor indicates it's clickable
-                backgroundColor: nodeColor, // Dynamic color based on the node status
+                top: 0,
+                left: 0,
+                width: "100%",
+                height: "100%",
             }}
-                // onClick={() => handleNodeClick(node)}
-                title={tooltipText} // Enhanced tooltip with label and ID
-            ></div>
-        );
+        >
+            {filteredQueueNodeIDs
+                .slice(0, -1) // Exclude the last node ID as it's used as the end node for the last segment
+                .map((startNodeID, index) => {
+                    const endNodeID = filteredQueueNodeIDs[index + 1];
 
-    });
-  };
+                    // Only get segments for non-floor-change nodes
+                    if (
+                        startNodeID.length !== 3 &&
+                        endNodeID.length !== 3
+                    ) {
+                        const segments = getTDLineSegments(
+                            startNodeID,
+                            endNodeID,
+                            floor
+                        );
+                        if (segments === null) return null;
+                        return segments.map((segment, segmentIndex) => {
+                            const startPoint = getPositionById(
+                                segment.startNodeID,
+                            );
+                            const endPoint = getPositionById(segment.endNodeID);
+                            const lineColor = getLineColor(segment.floor!);
 
+                            return (
+                                <line
+                                    key={`${segment.startNodeID}-${segment.endNodeID}-${segmentIndex}`}
+                                    className={styles.line}
+                                    x1={`${parseFloat(startPoint.left)}%`}
+                                    y1={`${parseFloat(startPoint.top)}%`}
+                                    x2={`${parseFloat(endPoint.left)}%`}
+                                    y2={`${parseFloat(endPoint.top)}%`}
+                                    strokeLinecap="round"
+                                    stroke={lineColor}
+                                    strokeWidth="2"
+                                />
+                            );
+                        });
+                    }
 
+                    return null;
+                })}
+        </svg>);
+    };
+
+    //   const renderTDNodes = () => {
+    //   if (!showTDNodes) return null;
+    //     return sortedLocations.map((node) => {
+    //       const isStartNode = startPosition && node.id === startPosition.id;
+    //       let nodeColor = isStartNode ? "green" : startPosition ? "red" : "green";
+    //       const tooltipText = `${node.label}, ${node.id}`;
+    //       const mapWidth = 5000; // Example width, adjust as necessary //smaller map 546
+    //       const mapHeight = 3400; // Example height, adjust as necessary ///smaller map 372
+    //         const degToRad = (deg: number) => (deg * Math.PI) / 180;
+    //
+    //         const a = degToRad(40); //rotate X Angle deg
+    //       const b = degToRad(20); //roate angle deg
+    //       const c = degToRad(-20);// skew angle deg
+    //       const xtd = (((parseInt(node.left)) / mapWidth) * 100) * .4;
+    //       const ytd = (((parseInt(node.top)) / mapHeight) * 100) * .4;
+    //       const floor = getFloorNumber(node.id);
+    //       let t = 0;
+    //          switch (floor) {
+    //              case "03": {
+    //                  t = -7.5;
+    //                  nodeColor = "red";
+    //                  break;
+    //              }
+    //              case "02": {
+    //                  t = 0;
+    //                  nodeColor = "green";
+    //                  break;
+    //              }
+    //              case "01": {
+    //                  t = 7.5;
+    //                  nodeColor = "red";
+    //                  break;
+    //              }
+    //              case "L1": {
+    //                  t = 15;
+    //                  nodeColor = "green";
+    //                  break;
+    //              }
+    //              case "L2": {
+    //                  t = 22.5;
+    //                  nodeColor = "red";
+    //                  break;
+    //              }
+    //              default: {
+    //                  console.log("somethings fucking wrong");
+    //                  t = 0;
+    //                  break;
+    //              }
+    //          }
+    //         // const xTrans = Math.cos(b) * xtd - Math.sin(b) * skew;
+    //         // const yTrans = Math.sin(b) * xtd + Math.cos(b) * skew;
+    //         const z = 1;
+    //       const xTrans = Math.cos(b) * xtd - Math.sin(b) * (Math.cos(a) * ytd - Math.sin(a) * z) + Math.tan(c) * (Math.sin(b) * xtd + Math.cos(b) * (Math.cos(a) * ytd - Math.sin(a) * z));
+    //       const yTrans = Math.sin(b) * xtd + Math.cos(b) * (Math.cos(a) * ytd - Math.sin(a) * z); //+ t * (Math.sin(a) * ytd + Math.cos(a) * z);
+    //       const zTrans = Math.sin(a) * ytd + Math.cos(a) * z; //dont know why there is a z
+    //       console.log("node XY: " + xtd + ", " + ytd + "\nNode: " + xTrans + ", " + yTrans + ", " + zTrans);
+    //       return (
+    //           <div
+    //               key={node.id}
+    //               className={styles.mapDot}
+    //               style={{
+    //               position: "absolute",
+    //               top: `${xTrans}%`,
+    //               left: `${yTrans}%`,
+    //               width: "4px",
+    //               height: "4px",
+    //               borderRadius: "50%",
+    //               // transform: ` translate3d(${xTrans}vw, ${yTrans}vh, 0vh) translateY(${t+8}vw) translateX(26vw)`,
+    //               zIndex: 10, // Ensure it's visible above other elements
+    //               cursor: "pointer", // Cursor indicates it's clickable
+  //               backgroundColor: nodeColor, // Dynamic color based on the node status
+  //           }}
+  //               // onClick={() => handleNodeClick(node)}
+  //               title={tooltipText} // Enhanced tooltip with label and ID
+  //           ></div>
+  //       );
+  //
+  //   });
+  // };
   return (
     <div className={styles.wholePage}>
         <div className={styles.container}>
@@ -981,43 +1171,35 @@ function FloorMap() {
                 {!ThreeDView &&
                     <div className={styles.ThreeD}>
                         <div className={styles.outerDiv}>
-                            {!tdindivfloor && <>
-                                <img src={ll2} alt="map" className={styles.ll2}/>
-                                <img src={ll1} alt="map" className={styles.ll1}/>
-                                <img src={f1} alt="map" className={styles.f1}/>
-                                <img src={f2} alt="map" className={styles.f2}/>
-                                <img src={f3} alt="map" className={styles.f3}/>
-                                <div className={styles.tdDotsContainer}>
-                                    {renderTDNodes()}
+                            {/*{!tdindivfloor && <>*/}
+                            {/*    <img src={ll2} alt="map" className={styles.ll2}/>*/}
+                            {/*    <img src={ll1} alt="map" className={styles.ll1}/>*/}
+                            {/*    <img src={f1} alt="map" className={styles.f1}/>*/}
+                            {/*    <img src={f2} alt="map" className={styles.f2}/>*/}
+                            {/*    <img src={f3} alt="map" className={styles.f3}/>*/}
+                            {/*    <div className={styles.tdDotsContainer}>*/}
+                            {/*        {renderTDNodes()}*/}
 
-                                    <div style={{
-                                        position: "absolute",
-                                        top: "0",
-                                        left: "0",
-                                        width: "20px",
-                                        height: "20px",
-                                        backgroundColor: "green"
-                                    }}></div>
-                                </div>
-
-                            </>}
-                            {tdindivfloor && <>
-                                <div className={styles.ll2}>
-                                    {/*inside div*/}
-                                    <img src={l2Map} alt="map"/> {renderTDFloorNodes("L2")}
-                                </div>
-                                <div className={`${styles.ll1} ${styles.tdimgWrapper}`}>
-                                    <img src={ll1} alt="map"/> {renderTDFloorNodes("L1")}
-                                </div>
-                                <div className={`${styles.f1} ${styles.tdimgWrapper}`}>
-                                <img src={f1} alt="map"/> {renderTDFloorNodes("01")}
-                            </div>
-                            <div className={`${styles.f2} ${styles.tdimgWrapper}`}>
-                                <img src={f2 } alt="map"/> {renderTDFloorNodes("02")}
-                            </div>
-                            <div className={`${styles.f3} ${styles.tdimgWrapper}`}>
-                                <img src={f3} alt="map"/> {renderTDFloorNodes("03")}
-                            </div></>}
+                            {/*        <div style={{*/}
+                            {/*            position: "absolute",*/}
+                            {/*            top: "0",*/}
+                            {/*            left: "0",*/}
+                            {/*            width: "20px",*/}
+                            {/*            height: "20px",*/}
+                            {/*            backgroundColor: "green"*/}
+                            {/*        }}></div>*/}
+                            {/*    </div>*/}
+                            {/*</>}*/}
+                            {/*{tdindivfloor && <>*/}
+                            <div className={styles.ll2}><img src={ll2} alt="map"/>
+                                {renderTDFloorNodes("L2")}
+                                {tdFloorPath("L2")}
+                                {tdLine("L2")}</div>
+                            <div className={styles.ll1}><img src={ll1} alt="map"/> {renderTDFloorNodes("L1")}{tdFloorPath("L1")}{tdLine("L1")}</div>
+                            <div className={styles.f1}><img src={f1} alt="map"/> {renderTDFloorNodes("01")}{tdFloorPath("01")}{tdLine("01")}</div>
+                            <div className={styles.f2}><img src={f2} alt="map"/> {renderTDFloorNodes("02")}{tdFloorPath("02")}{tdLine("02")}</div>
+                            <div className={styles.f3}><img src={f3} alt="map"/> {renderTDFloorNodes("03")}{tdFloorPath("03")}{tdLine("03")}</div>
+                        {/*</>}*/}
                         </div>
                     </div>
                 }
@@ -1051,7 +1233,6 @@ function FloorMap() {
                                             const isActualEndNode =
                                                 fullPath[fullPath.length - 1] === nodeID;
                                             const isDisplayedStartNode = index === 0;
-
                                             const isDisplayedEndNode =
                                                 index === filteredQueueNodeIDs.length - 1;
                                             const isMultifloorEndNode =
@@ -1131,7 +1312,6 @@ function FloorMap() {
                                                         break;
                                                 }
                                             }
-
                                             return (
                                                 <div
                                                     key={nodeID}
@@ -1191,6 +1371,7 @@ function FloorMap() {
                                                 const segments = getLineSegments(
                                                     startNodeID,
                                                     endNodeID,
+                                                    getFloorNumber(startNodeID)
                                                 );
 
                                                 return segments.map((segment, segmentIndex) => {
@@ -1247,17 +1428,17 @@ function FloorMap() {
                         color: "white"}}
                     onClick={handleThreeD}
             >{ThreeDView ? "3D Pathfinding" : "2D Pathfinding"}</Button>
-        <Button className={styles.threeDpath}
-                style={{
-                    top: "-7vh",
-                    left: "40vw",
-                    backgroundColor: "rgb(0, 59, 156)",
-                    fontFamily: "Poppins",
-                    fontSize: "14px",
-                    textAlign: "center",
-                    color: "white"}}
-                onClick={() => {settdindivfloor(!tdindivfloor);}}
-        >{tdindivfloor ? "showing inside div" : "showing math function"}</Button>
+        {/*<Button className={styles.threeDpath}*/}
+        {/*        style={{*/}
+        {/*            top: "-7vh",*/}
+        {/*            left: "40vw",*/}
+        {/*            backgroundColor: "rgb(0, 59, 156)",*/}
+        {/*            fontFamily: "Poppins",*/}
+        {/*            fontSize: "14px",*/}
+        {/*            textAlign: "center",*/}
+        {/*            color: "white"}}*/}
+        {/*        onClick={() => {settdindivfloor(!tdindivfloor);}}*/}
+        {/*>{tdindivfloor ? "showing inside div" : "showing math function"}</Button>*/}
     </div>
 
   );
