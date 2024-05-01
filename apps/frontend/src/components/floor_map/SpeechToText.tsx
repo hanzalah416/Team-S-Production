@@ -45,9 +45,9 @@ export default function SpeechToText(props: {
     sortedLocations.join(" | ") +
     " ;";
   const SpeechRecognition =
-    window.SpeechRecognition || window.webkitSpeechRecognition;
+    window.webkitSpeechRecognition || window.SpeechRecognition;
   const SpeechGrammarList =
-    window.SpeechGrammarList || window.webkitSpeechGrammarList;
+    window.webkitSpeechGrammarList || window.SpeechGrammarList;
   const recognition = new SpeechRecognition();
   const speechRecognitionList = new SpeechGrammarList();
   speechRecognitionList.addFromString(grammar, 1);
