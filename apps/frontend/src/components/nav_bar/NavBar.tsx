@@ -352,13 +352,13 @@ function NavBar() {
         <p className={"time"} onClick={toHero}>
           {timeOfDay}{" "}
         </p>
-        <div className={"micVisibility"}>
-          {("SpeechRecognition" in window ||
-            "webkitSpeechRecognition" in window) &&
-            (window.SpeechGrammarList || window.webkitSpeechGrammarList) && (
+        {("SpeechRecognition" in window ||
+          "webkitSpeechRecognition" in window) &&
+          (window.SpeechGrammarList || window.webkitSpeechGrammarList) && (
+            <div className={"micVisibility"}>
               <SpeechNavigate />
-            )}
-        </div>
+            </div>
+          )}
       </div>
 
       <div id={"navButtonsID"} className={"navButtons"}>
