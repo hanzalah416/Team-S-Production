@@ -33,6 +33,7 @@ import FloorSequenceDisplay from "./FloorSequenceDisplay.tsx";
 
 import dropDownIcon from "../assets/NavBarIcons/drop_down.svg";
 import FmdGoodIcon from "@mui/icons-material/FmdGood";
+import getMobileOperatingSystem from "../HelperFunctions/MobileCheck.ts";
 
 function MobileMap() {
   const [resetFloorsUIKey, setResetFloorsUIKey] = useState(0);
@@ -606,7 +607,8 @@ function MobileMap() {
           <div className={styles.signInForm}>
             {("SpeechRecognition" in window ||
               "webkitSpeechRecognition" in window) &&
-              (window.SpeechGrammarList || window.webkitSpeechGrammarList) && (
+              (window.SpeechGrammarList || window.webkitSpeechGrammarList) &&
+              getMobileOperatingSystem() && (
                 <SpeechToText
                   handleSelection={handleSelection}
                   startPosition={startPosition}

@@ -38,6 +38,7 @@ import { Position } from "../common/PositionInterface.ts";
 import { Node } from "../common/NodeInterface.ts";
 import SpeechToText from "./SpeechToText.tsx";
 import FloorSequenceDisplay from "./FloorSequenceDisplay.tsx";
+import getMobileOperatingSystem from "../HelperFunctions/MobileCheck.ts";
 
 const tips = `
 **Enter Starting Point:**
@@ -667,7 +668,8 @@ function FloorMap() {
           <div className={styles.clearButtonStuff}>
             {("SpeechRecognition" in window ||
               "webkitSpeechRecognition" in window) &&
-              (window.SpeechGrammarList || window.webkitSpeechGrammarList) && (
+              (window.SpeechGrammarList || window.webkitSpeechGrammarList) &&
+              getMobileOperatingSystem() && (
                 <SpeechToText
                   handleSelection={handleSelection}
                   startPosition={startPosition}
