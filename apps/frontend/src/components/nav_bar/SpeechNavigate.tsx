@@ -123,6 +123,7 @@ export default function SpeechNavigate() {
         "about page",
         "gift request",
         "map",
+        "stats page",
       ];
 
       const navigatedService = FindClosestMatch(spokenLocationRaw, services);
@@ -175,6 +176,9 @@ export default function SpeechNavigate() {
           break;
         case "gift request":
           navigate("/gift-request");
+          break;
+        case "stats page":
+          navigate("/stats-page");
           break;
         case "home page":
           navigate("/");
