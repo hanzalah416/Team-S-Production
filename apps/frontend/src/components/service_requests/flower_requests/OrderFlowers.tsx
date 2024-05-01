@@ -1,10 +1,11 @@
 // OrderFlowers.tsx
-import React, { useState, useEffect } from "react";
+import React, {useState, useEffect, useRef} from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import TextField from "@mui/material/TextField";
+import { SplideInstance } from '@splidejs/react-splide';
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import Autocomplete from "@mui/material/Autocomplete";
 import "./OrderFlowers.module.css";
@@ -72,7 +73,26 @@ const OrderFlowers: React.FC = () => {
 
   const navigate = useNavigate();
 
-  const handleChangeName = (value: Staff | null) => {
+    const [selectedFlower, setSelectedFlower] = useState<string>("");
+
+    const splideRef = useRef<SplideInstance | null>(null);
+
+    const handleFlowerTypeChange = (
+        _event: React.MouseEvent<HTMLElement>,
+        newValue: string | null
+    ) => {
+        if (newValue !== null) {
+            setSelectedFlower(newValue); // Update the selected flower type
+            // Find the index of the selected flower in the images array
+            const index = ["Poppies", "Roses", "Tulips"].indexOf(newValue);
+            // Move the carousel to the selected image index
+            if (splideRef.current) {
+                splideRef.current.go(index);
+            }
+        }
+    };
+
+    const handleChangeName = (value: Staff | null) => {
     setStaffName(value);
   };
 
@@ -340,7 +360,7 @@ const OrderFlowers: React.FC = () => {
                     width: 400,
                     gap: "1rem",
                   }}
-                  aria-label="Carousel of gifts"
+                  aria-label="Carousel of Flowers"
                   style={{
                     width: "400px",
                     marginLeft: "auto",
@@ -348,6 +368,7 @@ const OrderFlowers: React.FC = () => {
                     justifyContent: "center",
                     alignItems: "center",
                   }}
+                  ref={splideRef}
                 >
                   <SplideSlide>
                     <img
@@ -392,17 +413,11 @@ const OrderFlowers: React.FC = () => {
               </div>
 
               <ToggleButtonGroup
+
                 color="primary"
-                value={typeFlower} // Use the state value here
+                value={selectedFlower} // Use the state value here
                 exclusive
-                onChange={(
-                  _event: React.MouseEvent<HTMLElement>,
-                  newValue: string | null,
-                ) => {
-                  if (newValue !== null) {
-                    setTypeFlower(newValue); // Update state on change
-                  }
-                }}
+                onChange={handleFlowerTypeChange}
                 aria-label="Sanitation Type Buttons"
                 sx={{ minWidth: 140 }}
               >
