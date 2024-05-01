@@ -1,7 +1,6 @@
 // import React, { useState} from "react";
 import styles from "./Login.module.css";
 import heroImage from "../assets/HeroPhotos/heroImage.png";
-//import EmailPhoto from "../assets/HeroPhotos/EmailPhoto.png";
 import heroImage1 from "../assets/HeroPhotos/nurse6.jpg";
 import heroImage2 from "../assets/HeroPhotos/Temp1.png";
 import heroImage3 from "../assets/HeroPhotos/Temp3.png";
@@ -17,21 +16,11 @@ import aboutIcon from "../assets/NavBarIcons/about.svg";
 import giftIcon from "../assets/NavBarIcons/gift_icon.svg";
 import toolsIcon from "../assets/NavBarIcons/tools_icon.svg";
 import downArrow from "../assets/HeroPhotos/viewMoreArrow.svg";
-// import MusicPlayerSlider from "../Music_player/MusicPlayer.tsx";
-import animationLeft from "./click-animation-left.gif";
-import animationRight from "./click-animation-right.gif";
-import Stack from "@mui/material/Stack";
-import subscribeIcon from "../assets/NavBarIcons/subscribe.svg";
 const Login: React.FC = () => {
   const navigate = useNavigate();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [showButtonAnimation, setShowButtonAnimation] = useState(false);
-
   const navigateMap = () => {
-    setShowButtonAnimation(true);
-    setTimeout(() => {
-      navigate("/floor-map");
-    }, 1000); // Waits a second before navigating to the floor map page
+    navigate("/floor-map");
   };
 
   const images = [heroImage, heroImage1, heroImage2, heroImage3];
@@ -76,13 +65,15 @@ const Login: React.FC = () => {
               Engineering (Prof. Wong) and is not to be confused with the actual
               Brigham & Women’s Hospital website
             </p>
-            <Button className={styles.downArrow}>
-              <img src={downArrow} onClick={scrollToDiv} />
-            </Button>
+
+            <img
+              className={styles.downArrow}
+              src={downArrow}
+              onClick={scrollToDiv}
+            />
           </div>
         </div>
         <div className={styles.textContainer}>
-          <div>{/*<MusicPlayerSlider />*/}</div>
           <h1 className={styles.heading}>Brigham and Women's Hospital</h1>
           <br />
           <p className={styles.heading2}>
@@ -90,46 +81,20 @@ const Login: React.FC = () => {
             most.
           </p>
           <br />
-
-          <Stack
-            direction="row"
-            spacing={2}
-            sx={{ alignItems: "center", justifyContent: "center" }}
+          <Button
+            onClick={navigateMap}
+            className={styles.viewMap}
+            color="primary"
+            style={{
+              backgroundImage: `url(${mapImage})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              width: "200px", // Adjust button width as needed
+              height: "200px", // Adjust button height as needed
+            }}
           >
-            {showButtonAnimation && (
-              <div>
-                <img
-                  src={animationLeft}
-                  alt="Animated popup after button press"
-                  style={{ height: "80px", width: "80px" }}
-                />
-              </div>
-            )}
-            <Button
-              onClick={navigateMap}
-              className={styles.viewMap}
-              color="primary"
-              style={{
-                backgroundImage: `url(${mapImage})`,
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-                width: "200px", // Adjust button width as needed
-                height: "200px", // Adjust button height as needed
-              }}
-              id={"mapButton"}
-            >
-              <div className={styles.view}> Click to View Map</div>
-            </Button>
-            {showButtonAnimation && (
-              <div>
-                <img
-                  src={animationRight}
-                  alt="Animated popup after button press"
-                  style={{ height: "80px", width: "80px" }}
-                />
-              </div>
-            )}
-          </Stack>
+            <div className={styles.view}> Click to View Map</div>
+          </Button>
         </div>
       </div>
       <div className={styles.bottomHalfContainer} id="targetDiv">
@@ -154,11 +119,6 @@ const Login: React.FC = () => {
             image={aboutIcon}
             title={"About this site"}
             link={"about-page"}
-          />
-          <HeroPageCard
-            title={"Subscribe"}
-            image={subscribeIcon}
-            link={"/sign-up-email"}
           />
           <HeroPageCard
             image={toolsIcon}

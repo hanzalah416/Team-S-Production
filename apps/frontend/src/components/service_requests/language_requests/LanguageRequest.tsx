@@ -182,7 +182,6 @@ const LanguageRequest: React.FC = () => {
               tips={tips}
             />
           </p>
-          <p className={"names"}>Ken Sebastian</p>
           <Stack alignItems="center" justifyContent="center" spacing={3} p={4}>
             <div className={"breakline"}></div>
             <br />

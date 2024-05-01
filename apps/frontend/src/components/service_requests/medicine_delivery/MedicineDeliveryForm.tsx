@@ -335,7 +335,6 @@ export default function MedicineDeliveryForm() {
               <FreeSoloCreateOptionDialog
                 nameMedicine={nameMedicine}
                 setNameMedicine={setNameMedicine}
-                boxWidth={518}
               />
             </div>
 

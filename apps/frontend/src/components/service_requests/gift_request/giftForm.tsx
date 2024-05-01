@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
@@ -19,24 +19,8 @@ import styles from "../../login/Login.module.css";
 import teddybear from "../../assets/GiftPhotos/teddybeargift.png";
 import coloringbook from "../../assets/GiftPhotos/coloringbook.webp";
 import fruit from "../../assets/GiftPhotos/fruitgift.png";
-import Tooltip from "../../ToolTip";
 import { Position } from "../../common/PositionInterface.ts";
 import { Node } from "../../common/NodeInterface.ts";
-// @ts-expect-error Problem with splides library
-import { Splide, SplideSlide, SplideInstance } from "@splidejs/react-splide";
-import "@splidejs/react-splide/css/sea-green";
-
-const tips = `Name of Requester: Enter the full name of the person requiring language assistance.
-
-Priority: Click on the dropdown menu to indicate the urgency of the request. The options may include urgent, high, medium, or low.
-
-Location: Use the dropdown to select the location where the language services are needed. This might refer to a specific department, office, or event location.
-
-Gift Type: Choose the type of gift you are requesting.
-
-Enter Custom Message: If you’d like to include a message with the gift enter that information here.
-
-Status: If the form allows for setting a status, select the current status of the request, like 'new', 'pending', 'approved', or 'completed'.`;
 
 // Interface for Staff
 interface Staff {
@@ -59,29 +43,6 @@ export default function GiftForm() {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "";
-    }
-  };
-
-  const [selectedGift, setSelectedGift] = useState<string>("");
-
-  const splideRef = useRef<SplideInstance | null>(null);
-
-  const handleGiftTypeChange = (
-    _event: React.MouseEvent<HTMLElement>,
-    newValue: string | null,
-  ) => {
-    if (newValue !== null) {
-      setSelectedGift(newValue); // Update the selected flower type
-      // Find the index of the selected flower in the images array
-      const index = [
-        "Coloring Book",
-        "Chocolate Strawberries",
-        "Teddy Bear",
-      ].indexOf(newValue);
-      // Move the carousel to the selected image index
-      if (splideRef.current) {
-        splideRef.current.go(index);
-      }
     }
   };
 
@@ -193,13 +154,7 @@ export default function GiftForm() {
 
         <Paper elevation={4}>
           <br />
-          <p className={"title"} style={{ position: "relative" }}>
-            Gift Request Form
-            <Tooltip
-              style={{ position: "absolute", right: "40px", top: 0 }}
-              tips={tips}
-            />
-          </p>
+          <p className={"title"}>Gift Request Form </p>
           <p className={"names"}>Dorothy Alexander</p>
 
           <Stack alignItems="center" justifyContent="center" spacing={3} p={4}>
@@ -316,74 +271,39 @@ export default function GiftForm() {
               >
                 Gift Type
               </InputLabel>
+              <div style={{ display: "flex" }}>
+                <img
+                  src={coloringbook}
+                  alt="Covering 3/4 page"
+                  className={styles.poppies}
+                  style={{ width: "200px", height: "auto" }}
+                />
 
-              <div
-                style={{
-                  justifyContent: "center",
-                  display: "flex",
-                }}
-              >
-                <Splide
-                  aria-label="Carousel of gifts"
-                  options={{
-                    rewind: true,
-                    width: 400,
-                    gap: "1rem",
-                  }}
-                  style={{
-                    width: "400px",
-                    marginLeft: "auto",
-                    marginRight: "auto",
-                  }}
-                  ref={splideRef}
-                >
-                  <SplideSlide>
-                    <img
-                      src={coloringbook}
-                      className={styles.tulips}
-                      alt="Coloring Book"
-                      style={{
-                        width: "300px",
-                        height: "auto",
-                        marginLeft: "auto",
-                        marginRight: "auto",
-                      }}
-                    />
-                  </SplideSlide>
-                  <SplideSlide>
-                    <img
-                      src={fruit}
-                      className={styles.roses}
-                      alt="Chocolate covered strawberries"
-                      style={{
-                        width: "300px",
-                        height: "auto",
-                        marginLeft: "auto",
-                        marginRight: "auto",
-                      }}
-                    />
-                  </SplideSlide>
-                  <SplideSlide>
-                    <img
-                      src={teddybear}
-                      className={styles.poppies}
-                      alt="Teddy bear"
-                      style={{
-                        width: "300px",
-                        height: "auto",
-                        marginLeft: "auto",
-                        marginRight: "auto",
-                      }}
-                    />
-                  </SplideSlide>
-                </Splide>
+                <img
+                  src={fruit}
+                  alt="Covering 3/4 page"
+                  className={styles.roses}
+                  style={{ width: "200px", height: "auto" }}
+                />
+                <img
+                  src={teddybear}
+                  alt="Covering 3/4 page"
+                  className={styles.tulips}
+                  style={{ width: "200px", height: "auto" }}
+                />
               </div>
-
               <ToggleButtonGroup
                 color="primary"
-                value={selectedGift} // Use the state value here
+                value={typeGift} // Use the state value here
                 exclusive
-                onChange={handleGiftTypeChange}
+                onChange={(
+                  _event: React.MouseEvent<HTMLElement>,
+                  newValue: string | null,
+                ) => {
+                  if (newValue !== null) {
+                    setTypeGift(newValue); // Update state on change
+                  }
+                }}
                 aria-label="Gift Type Buttons"
                 sx={{ minWidth: 120 }}
               >

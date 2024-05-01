@@ -7,7 +7,7 @@ const Credits = () => {
     {
       name: "AWS",
       role: "Cloud service that allows deployment of our resources for public view rather than development view.",
-      link: "https://aws.amazon.com/",
+      link: " https://aws.amazon.com/",
     },
     {
       name: "Docker Hub",
@@ -100,11 +100,6 @@ const Credits = () => {
       name: "Match-Sorter",
       role: "Simple, expected, and deterministic best-match sorting of an array in JavaScript",
       link: "https://www.npmjs.com/package/match-sorter",
-    },
-    {
-      name: "Material UI",
-      role: "React component library that implements Google's Material Design principles for creating appealing and responsive user interfaces.",
-      link: "https://mui.com/material-ui/",
     },
     {
       name: "Postcss",

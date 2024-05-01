@@ -7,7 +7,7 @@ import MedicineRequestGetter from "../medicine_delivery/MedicineDeliveryTableHea
 import FlowerRequestGetter from "../flower_requests/FlowerRequestTableHead.tsx";
 import SanitationGetter from "../sanitation_services/SanitationTableHead.tsx";
 import SecurityGetter from "../security_requests/SecurityTableHead.tsx";
-import RoomGetter from "../room_scheduling/RoomTableHeader.tsx";
+import RoomGetter from "../Room_Scheduling/RoomTableHeader.tsx";
 import TransportationGetter from "../internalTransportation/TransportationTableHead.tsx";
 import GiftGetter from "../gift_request/giftTableHead.tsx";
 import styles from "./DisplaySRData.module.css";
@@ -40,14 +40,10 @@ export default function DisplaySRData() {
   return (
     //
     <div className={styles.outerDiv}>
-      <div className={styles.label}>
-        <h1>Service Request Data</h1>
-      </div>
+      <h1>Service Request Data</h1>
       <br />
       <Tabs tabNames={tabNames} tabContents={tabContent} />
-      <div className={styles.alerts}>
-        <OutlinedAlerts />
-      </div>
+      <OutlinedAlerts />
     </div>
   );
 }

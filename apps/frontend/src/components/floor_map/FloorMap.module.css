@@ -96,19 +96,6 @@ body {
   overflow: hidden;
 }
 
-.FloorSequence {
-  position: absolute;
-  top: 10px; /* Keeps it 20px from the top */
-  right: 20px; /* Anchors the container to the right, 20px from the edge */
-  z-index: 5; /* Ensures it stays on top of other content */
-  background: transparent; /* Semi-transparent background for better visibility */
-  border-radius: 5px; /* Rounded corners for aesthetics */
-  display: flex; /* Ensures the contents are laid out in a row */
-  flex-direction: row-reverse; /* Reverses the order of flex items to extend to the left */
-  justify-content: flex-start; /* Aligns content to the right */
-  padding: 8px; /* Padding around the content */
-}
-
 .hmap-image {
   height: 100%; /* Make the image fill the container height */
   width: auto; /* Adjust width automatically */
@@ -321,7 +308,7 @@ body {
   flex-direction: column; /* Stack children vertically */
   justify-content: flex-start;
   padding: 10px; /* Adds some spacing around the controls */
-  background: rgba(241, 241, 241, 0.9); /* Semi-transparent background */
+  background: rgba(241, 241, 241, 0.7); /* Semi-transparent background */
   border: 1px solid black; /* Black border */
   border-radius: 5px; /* Rounded corners */
 }
@@ -366,23 +353,9 @@ body {
   justify-content: center; /* Center the select horizontally */
 }
 .floorDirectionsContainer {
-  max-height: 400px; /* Default max-height */
+  max-height: 400px;
   overflow-y: auto;
   overflow-x: hidden;
-}
-
-/* Medium devices */
-@media (min-height: 500px) and (max-height: 700px) {
-  .floorDirectionsContainer {
-    max-height: calc(30vh); /* 60% of the viewport height */
-  }
-}
-
-/* Larger devices */
-@media (min-height: 775px) {
-  .floorDirectionsContainer {
-    max-height: calc(39vh); /* 70% of the viewport height */
-  }
 }
 
 .floorVoiceSettingContainer {
@@ -399,6 +372,14 @@ body {
   padding: -1px;
   background-color: transparent;
   border: none;
+}
+.keyButton:hover {
+  border: 2px solid #163a95;
+  border-radius: 20px;
+}
+.keyButtonText:hover {
+  border: 2px solid #163993;
+  border-radius: 20px;
 }
 
 .keyButtonText {
@@ -509,41 +490,4 @@ body {
     perspective: 68vh;
     translate: 0vh 15vw 0;
     z-index: 1;
-.micButton {
-  margin-top: 10px;
-  background-color: #163a95;
-  padding-bottom: 5px;
-  padding-top: 5px;
-}
-
-.clearButtonStuff {
-  margin-top: 5px;
-  display: flex; /* Enables flexbox layout */
-  justify-content: space-between; /* Distributes space between items */
-  align-items: center; /* Aligns items vertically at the center */
-}
-
-.clearButton {
-  width: 250px;
-}
-
-.myCustomButton:focus,
-.clearButton:focus,
-.micButton:focus {
-  outline: none !important; /* Using !important to ensure override */
-}
-
-.keyButton:focus,
-.keyButtonText:focus {
-  outline: none;
-}
-
-.keyButton:hover {
-  box-shadow: 0 0 0 2px #163a95; /* Add a 2px blue shadow on hover */
-  border-radius: 20px;
-}
-
-.keyButtonText:hover {
-  box-shadow: 0 0 0 2px #163993; /* Add a 2px darker blue shadow on hover */
-  border-radius: 20px;
 }
