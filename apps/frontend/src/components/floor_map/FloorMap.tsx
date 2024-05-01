@@ -24,35 +24,52 @@ import f1 from "../assets/HmapNoBackground/01_thefirstfloor_rm-bg.png";
 import f2 from "../assets/HmapNoBackground/02_thesecondfloor_rm-bg.png";
 import f3 from "../assets/HmapNoBackground/03_thethirdfloor_rm-bg.png";
 
+import { Position } from "../common/PositionInterface.ts";
+import { Node } from "../common/NodeInterface.ts";
+import SpeechToText from "./SpeechToText.tsx";
+import FloorSequenceDisplay from "./FloorSequenceDisplay.tsx";
+import getMobileOperatingSystem from "../HelperFunctions/MobileCheck.ts";
 
 const tips = `
-Enter Starting Point:
+**Enter Starting Point:**
 
-Click on the dropdown menu under “Enter Starting Point”.
-
-Select the building or specific entrance you are currently located at from the list provided.
-
-
-Enter Destination:
-
-Click on the dropdown menu under “Enter Destination”.
-
-Choose the building or specific area you want to go to from the list.
+-Click on the dropdown menu labeled "Enter Starting Point".
+-Select the building or specific entrance where you are currently located from the provided list.
 
 
-Directions:
+**Enter Destination:**
 
-After selecting both your starting point and destination, the map should display a highlighted path indicating the best route to take.
+-Click on the dropdown menu labeled "Enter Destination".
 
-If the map supports multiple levels, you can use the "Level Select" toggle to view different floors and find the path through each level as needed.
+-Choose the building or specific area you want to navigate to from the list.
 
-1.Additional Features:
+**Mic:**
 
-“Toggle Nodes” can be used to show or hide points of interest or decision points like elevators, stairs, and restrooms.
+-You can use the microphone to input your destinations with your voice. Simply press the **mic button** and 
+speak your start or end location.
+-You can also say "nearest" or "closest" followed by a specific type that can be found in the map key
+(e.g., **"nearest restroom"**). As long as a valid starting point is provided, the system will
+direct you to the closest relevant location.
 
-“Show Key” may provide you with a legend to decipher different symbols or colors used on the map.
 
-“A\\* Search” might be an option to find the shortest path if the map includes a pathfinding algorithm; you can select it to optimize your route.
+
+
+
+**Directions:**
+
+- After selecting both your starting point and destination, the map will display
+a highlighted path indicating the best route to take.
+- If the path goes multiple levels, use the **"Level Select"** toggle to view
+different floors and track the path through each level.
+
+
+**Additional Features:**
+
+-**“Toggle Nodes”** can be used to show or hide points of interest or decision points like elevators, stairs, and restrooms.
+
+-**“Show Key”** may provide you with a legend to decipher different symbols or colors used on the map.
+
+-**“A\\* Search”** might be an option to find the shortest path if the map includes a pathfinding algorithm; you can select it to optimize your route.
 
 `;
 
@@ -797,26 +814,380 @@ function FloorMap() {
 
   return (
     <div className={styles.wholePage}>
-        <div className={styles.container}>
-            <div className={styles.signInForm}>
-                <Tooltip className={styles.tips} tips={tips}/>
-                <div className={styles.boldtag}>Enter Starting Point</div>
-                <Autocomplete
-                    key={`start-position-${resetKey}`}
-                    options={sortedLocations}
-                    getOptionLabel={(option) => option.label || "Unknown"}
-                    isOptionEqualToValue={(option, value) => option.id === value.id}
-                    value={startPosition}
-                    renderInput={(params) => (
-                        <TextField
-                            {...params}
-                            label=""
-                            InputLabelProps={{
-                                style: {
-                                    fontFamily: "Poppins",
-                                    fontSize: 14,
-                                    textAlign: "center",
-                                },
+      <div className={styles.container}>
+        <div className={styles.signInForm}>
+          <div className={styles.signInFormContainer}>
+            <Tooltip className={styles.tips} tips={tips} />
+          </div>
+          <div className={styles.boldtag}>Enter Starting Point</div>
+          <Autocomplete
+            key={`start-position-${resetKey}`}
+            options={sortedLocations}
+            getOptionLabel={(option) => option.label || "Unknown"}
+            isOptionEqualToValue={(option, value) => option.id === value.id}
+            value={startPosition}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                label=""
+                InputLabelProps={{
+                  style: {
+                    fontFamily: "Poppins",
+                    fontSize: 14,
+                    textAlign: "center",
+                  },
+                }}
+              />
+            )}
+            onOpen={() => toggleScrolling(true)}
+            onClose={() => toggleScrolling(false)}
+            onChange={(event, value) => handleSelection(value, "start")}
+          />
+          <div className={styles.boldtag}>Enter Destination</div>
+          <Autocomplete
+            key={`end-position-${resetKey}`}
+            options={sortedLocations}
+            getOptionLabel={(option) => option.label || "Unknown"}
+            isOptionEqualToValue={(option, value) => option.id === value.id}
+            value={endPosition}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                label=""
+                InputLabelProps={{
+                  style: {
+                    fontFamily: "Poppins",
+                    fontSize: 14,
+                    textAlign: "center",
+                  },
+                }}
+              />
+            )}
+            onOpen={() => toggleScrolling(true)}
+            onClose={() => toggleScrolling(false)}
+            onChange={(event, value) => handleSelection(value, "end")}
+          />
+
+          {/*<Box className={styles.directionsBox2}>.</Box>*/}
+
+          <div className={styles.clearButtonStuff}>
+            {("SpeechRecognition" in window ||
+              "webkitSpeechRecognition" in window) &&
+              (window.SpeechGrammarList || window.webkitSpeechGrammarList) &&
+              getMobileOperatingSystem() && (
+                <SpeechToText
+                  handleSelection={handleSelection}
+                  startPosition={startPosition}
+                  getPositionById={getPositionById}
+                />
+              )}
+
+            <Button
+              variant="outlined"
+              className={styles.clearButton}
+              onClick={clearInputs}
+              style={{
+                marginTop: "10px",
+                backgroundColor: "#f1f1f1",
+                color: "#000",
+                fontFamily: "Poppins",
+                fontSize: 14,
+                textAlign: "center",
+                borderColor: "black",
+              }}
+            >
+              Clear Path
+            </Button>
+          </div>
+
+          <TextToVoiceSelector
+            options={[
+              {
+                name: "Volume",
+                setValue: setSpeechVolume,
+                max: 1,
+                min: 0,
+                value: speechVolume,
+              },
+              {
+                name: "Rate",
+                setValue: setSpeechRate,
+                max: 2,
+                min: 0.5,
+                value: speechRate,
+              },
+              {
+                name: "Pitch",
+                setValue: setSpeechPitch,
+                max: 2,
+                min: 0.1,
+                value: speechPitch,
+              },
+            ]}
+            voiceOption={{
+              setValue: setSpeechVoice,
+              value: speechVoice,
+            }}
+          />
+          <Box className={styles.directionsBox}>Directions</Box>
+          {!pathFound && (
+            <Box className={styles.pathNotFoundBox}>Path not found</Box>
+          )}
+
+          <div className={styles.boldtag2}>
+            {/*<div className={styles.boldtag2}>Floors for the Current Path:</div>*/}
+
+            <div
+              key={resetFloorsUIKey}
+              className={styles.floorButtonsContainer}
+            >
+              {startPosition && endPosition && (
+                <PathToTextDisplay
+                  startNode={startPosition.id}
+                  endNode={endPosition.id}
+                  algo={algorithm}
+                  onChangeFloor={handleFloorChange} // Passing the method as a prop
+                  zoomToSegment={zoomToPathSegment}
+                  voice={speechVoice}
+                  volume={speechVolume}
+                  pitch={speechPitch}
+                  rate={speechRate}
+                />
+              )}
+            </div>
+          </div>
+
+          <div className={styles.mbDiv}>
+            <div style={{ display: "flex", flexDirection: "column" }}></div>
+          </div>
+        </div>
+
+        <div className={styles.mapArea}>
+          <div className={styles.FloorSequence}>
+            <FloorSequenceDisplay path={fullPath} />
+          </div>
+
+          <div className={styles.MapButtons}>
+            <div className={styles.mMapbox}>
+              <FormControlLabel
+                control={
+                  <Switch
+                    checked={mapChecked}
+                    onChange={handleChange}
+                    sx={{
+                      fontSize: 9,
+                      "& .MuiSwitch-switchBase": {
+                        // Thumb color when unchecked
+                        "&.Mui-checked": {
+                          color: "#003b9c", // Thumb color when checked
+                        },
+                        "&.Mui-checked + .MuiSwitch-track": {
+                          backgroundColor: "#0251d4", // Track color when checked
+                        },
+                      },
+                    }}
+                  />
+                }
+                label="Level Select"
+              />
+            </div>
+            <div className={styles.mMapbox}>
+              <FormControlLabel
+                control={
+                  <Switch
+                    checked={showNodes}
+                    onChange={toggleNodesVisibility}
+                    name="showNodes"
+                    sx={{
+                      fontSize: 9,
+                      "& .MuiSwitch-switchBase": {
+                        // Thumb color when unchecked
+                        "&.Mui-checked": {
+                          color: "#003b9c", // Thumb color when checked
+                        },
+                        "&.Mui-checked + .MuiSwitch-track": {
+                          backgroundColor: "#0251d4", // Track color when checked
+                        },
+                      },
+                    }}
+                  />
+                }
+                label="Toggle Nodes"
+              />
+            </div>
+            <div className={styles.mMapbox}>
+              <FormControlLabel
+                control={
+                  <Switch
+                    checked={showMapKey}
+                    onChange={handleMapKeyVisibility}
+                    sx={{
+                      fontSize: 9,
+                      "& .MuiSwitch-switchBase": {
+                        // Thumb color when unchecked
+                        "&.Mui-checked": {
+                          color: "#003b9c", // Thumb color when checked
+                        },
+                        "&.Mui-checked + .MuiSwitch-track": {
+                          backgroundColor: "#0251d4", // Track color when checked
+                        },
+                      },
+                    }}
+                  />
+                }
+                label="Show Key"
+              />
+            </div>
+            <Select
+              value={algorithm}
+              onChange={handleAlgorithmChange}
+              displayEmpty
+              inputProps={{ "aria-label": "Select Pathfinding Algorithm" }}
+              sx={{
+                marginBottom: "10px",
+                fontFamily: "Poppins",
+                fontSize: 12,
+                colorSecondary: "red",
+              }}
+            >
+              <MenuItem value="astar">A* Search</MenuItem>
+              <MenuItem value="bfs">Breadth-First Search</MenuItem>
+              <MenuItem value="dfs" /*disabled style={{ color: 'gray' }}*/>
+                Depth-First Search
+              </MenuItem>
+              <MenuItem value="dijkstra">Dijkstra's Algorithm</MenuItem>
+            </Select>
+          </div>
+
+          <TransformWrapper
+            ref={transformRef} // Set the ref to access the instance
+            initialScale={1}
+            initialPositionX={0}
+            initialPositionY={0}
+          >
+            {() => (
+              <>
+                <TransformComponent>
+                  {renderFloorNodes()}
+                  <img
+                    src={floorMaps[currentFloor as keyof typeof floorMaps]}
+                    alt="map"
+                    className={styles.hmapImage}
+                  />
+
+                  <div className={styles.dotsContainer}>
+                    {filteredQueueNodeIDs.map((nodeID, index) => {
+                      if (nodeID.length === 3) {
+                        // Skip floor change markers
+                        return null;
+                      }
+
+                      const point = getPositionById(nodeID);
+                      if (point) {
+                        const isActualStartNode = fullPath[0] === nodeID;
+                        const isActualEndNode =
+                          fullPath[fullPath.length - 1] === nodeID;
+                        const isDisplayedStartNode = index === 0;
+
+                        const isDisplayedEndNode =
+                          index === filteredQueueNodeIDs.length - 1;
+                        const isMultifloorEndNode =
+                          !isDisplayedStartNode &&
+                          !isDisplayedEndNode &&
+                          fullPath.includes(nodeID) &&
+                          (getFloorNumber(nodeID) !==
+                            getFloorNumber(filteredQueueNodeIDs[index - 1]) ||
+                            getFloorNumber(nodeID) !==
+                              getFloorNumber(filteredQueueNodeIDs[index + 1]));
+
+                        const isMultifloorStartNode =
+                          index > 0 &&
+                          filteredQueueNodeIDs[index - 1].length === 3 &&
+                          !isActualEndNode;
+
+                        let nodeColor,
+                          lastFloorLabel = "";
+                        if (isMultifloorStartNode) {
+                          nodeColor = "MediumOrchid"; // Set color to purple for intermediary start nodes
+                          const fullPathIndex = fullPath.indexOf(nodeID);
+                          if (fullPathIndex !== -1 && fullPathIndex > 1) {
+                            const targetNodeID = fullPath[fullPathIndex - 2];
+                            lastFloorLabel = targetNodeID.slice(-2);
+                            switch (lastFloorLabel) {
+                              case "01":
+                                lastFloorLabel = "1";
+                                break;
+                              case "02":
+                                lastFloorLabel = "2";
+                                break;
+                              case "03":
+                                lastFloorLabel = "3";
+                                break;
+                            }
+                            // Extract the last two characters
+                            // console.log(lastFloorLabel);
+                          }
+                        } else if (isActualStartNode) {
+                          nodeColor = "#19a300"; // Green for the actual start node
+                        } else if (isActualEndNode) {
+                          nodeColor = "red"; // Red for the actual end node
+                          // Print the nodes around the actual end node if it's not near the start of the array
+                          const fullPathIndex = fullPath.indexOf(nodeID);
+                          if (fullPathIndex !== -1 && fullPathIndex > 1) {
+                            // Additional logic to check the length of the node before the end node
+                            if (fullPath[fullPathIndex - 1].length === 3) {
+                              // Check if the preceding node is a floor change marker
+                              // Log the node before the marker
+                            }
+                          }
+                        } else if (isMultifloorEndNode) {
+                          nodeColor = "#fcec08"; // Yellow for multifloor nodes
+                        } else {
+                          nodeColor = "transparent"; // Transparent for other nodes
+                        }
+
+                        let nextFloorLabel = "";
+                        if (isMultifloorEndNode) {
+                          const nextNodeID = filteredQueueNodeIDs[index + 1];
+                          const nextFloor = getFloorNumber(nextNodeID);
+                          switch (nextFloor) {
+                            case "01":
+                              nextFloorLabel = "1";
+                              break;
+                            case "02":
+                              nextFloorLabel = "2";
+                              break;
+                            case "03":
+                              nextFloorLabel = "3";
+                              break;
+                            default:
+                              if (!nextFloor) {
+                                throw new Error("Next floor was null");
+                              }
+                              nextFloorLabel = nextFloor.slice(-2); // Extract floor from ID
+                              break;
+                          }
+                        }
+
+                        return (
+                          <div
+                            key={nodeID}
+                            className={`${styles.mapDot} ${
+                              isDisplayedStartNode || isDisplayedEndNode
+                                ? styles.endNodeAnimation
+                                : ""
+                            } ${isDisplayedStartNode ? styles.startNode : ""} ${
+                              isDisplayedEndNode ? styles.endNode : ""
+                            } ${
+                              isMultifloorEndNode || isMultifloorStartNode
+                                ? styles.multifloorNode
+                                : ""
+                            }`}
+                            style={{
+                              top: point.top,
+                              left: point.left,
+                              backgroundColor: nodeColor,
+                              display: "block",
                             }}
                         />
                     )}

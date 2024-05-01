@@ -17,7 +17,7 @@ import DisplaySRData from "./components/service_requests/all_requests/DisplaySRD
 import OrderConfirmation from "./components/service_requests/OrderConfirmation.tsx";
 import SanitationForm from "./components/service_requests/sanitation_services/sanitationForm.tsx";
 import FloorMapDebug from "./components/floor_map/FloorMapDebug.tsx";
-import RoomScheduling from "./components/service_requests/Room_Scheduling/RoomScheduling.tsx";
+import RoomScheduling from "./components/service_requests/room_scheduling/RoomScheduling.tsx";
 import MedicineDeliveryForm from "./components/service_requests/medicine_delivery/MedicineDeliveryForm.tsx";
 import SecurityRequest from "./components/service_requests/security_requests/SecurityRequest.tsx";
 import { AppState, Auth0Provider } from "@auth0/auth0-react";
@@ -27,8 +27,28 @@ import TransportRequest from "./components/service_requests/internalTransportati
 import EmailForm from "./components/awsEmailConnection/EmailForm.tsx";
 import GiftForm from "./components/service_requests/gift_request/giftForm.tsx";
 import { AboutPage } from "./components/about_page/AboutPage.tsx";
+import MobileFlower from "./components/service_requests/flower_requests/MobileFlower.tsx";
+import MobileGift from "./components/service_requests/gift_request/MobileGift.tsx";
+import MobileMedicine from "./components/service_requests/medicine_delivery/MobileMedicine.tsx";
+import MobileSanitation from "./components/service_requests/sanitation_services/MobileSanitation.tsx";
+import MobileSecurity from "./components/service_requests/security_requests/MobileSecurity.tsx";
+import MobileScheduling from "./components/service_requests/room_scheduling/MobileScheduling.tsx";
+import MobileLanguage from "./components/service_requests/language_requests/MobileLanguage.tsx";
+import MobileTransportation from "./components/service_requests/internalTransportation/MobileTransportation.tsx";
+import ErrorPage from "./components/error_page/ErrorPage.tsx";
+import AwsPublishForm from "./components/awsEmailConnection/awsPublish.tsx";
+import MobileMap from "./components/floor_map/MobileMap.tsx";
+import StatsPage from "./components/stats_page/StatsPage.tsx";
+import SubscribeResult from "./components/awsEmailConnection/SubscribeResult.tsx";
+import MobileEmail from "./components/awsEmailConnection/MobileEmail.tsx";
+import MobileSubResult from "./components/awsEmailConnection/MobileSubResult.tsx";
+import MobileOrderConfirm from "./components/service_requests/MobileOrderConfirm.tsx";
+import MobileOrder from "./components/service_requests/payment/MobileOrder.tsx";
 
 function App() {
+  const isMobile = navigator.userAgent.match(
+    /(iPad)|(iPhone)|(iPod)|(android)|(webOS)/i,
+  );
   const router = createBrowserRouter([
     {
       children: [
@@ -45,7 +65,8 @@ function App() {
           path: "/floor-map",
           element: (
             <>
-              <FloorMap />
+              {isMobile && <MobileMap />}
+              {!isMobile && <FloorMap />}
               <Layout />
             </>
           ),
@@ -54,7 +75,8 @@ function App() {
           path: "/order-flowers",
           element: (
             <>
-              <OrderFlowers />
+              {isMobile && <MobileFlower />}
+              {!isMobile && <OrderFlowers />}
               <Layout />
             </>
           ),
@@ -64,7 +86,8 @@ function App() {
           path: "/security-request",
           element: (
             <>
-              <SecurityRequest />
+              {isMobile && <MobileSecurity />}
+              {!isMobile && <SecurityRequest />}
               <Layout />
             </>
           ),
@@ -73,7 +96,8 @@ function App() {
           path: "payment-info",
           element: (
             <>
-              <OrderPayment />
+              {isMobile && <MobileOrder />}
+              {!isMobile && <OrderPayment />}
               <Layout />
             </>
           ),
@@ -82,7 +106,8 @@ function App() {
           path: "/order-flowers-result",
           element: (
             <>
-              <OrderConfirmation />
+              {isMobile && <MobileOrderConfirm />}
+              {!isMobile && <OrderConfirmation />}
               <Layout />
             </>
           ),
@@ -91,7 +116,8 @@ function App() {
           path: "/node-data",
           element: (
             <>
-              <NodeDataPage />
+              {isMobile && <ErrorPage />}
+              {!isMobile && <NodeDataPage />}
               <Layout />
             </>
           ),
@@ -109,7 +135,8 @@ function App() {
           path: "/sanitation-request",
           element: (
             <>
-              <SanitationForm />
+              {isMobile && <MobileSanitation />}
+              {!isMobile && <SanitationForm />}
               <Layout />
             </>
           ),
@@ -118,7 +145,8 @@ function App() {
           path: "/medicine-delivery-request",
           element: (
             <>
-              <MedicineDeliveryForm />
+              {isMobile && <MobileMedicine />}
+              {!isMobile && <MedicineDeliveryForm />}
               <Layout />
             </>
           ),
@@ -127,7 +155,17 @@ function App() {
           path: "/sign-up-email",
           element: (
             <>
-              <EmailForm topicArn="arn:aws:sns:us-east-2:851725475476:Appointment_Confirmation" />
+              {isMobile && <MobileEmail />}
+              {!isMobile && <EmailForm />}
+              <Layout />
+            </>
+          ),
+        },
+        {
+          path: "/message-publish",
+          element: (
+            <>
+              <AwsPublishForm />
               <Layout />
             </>
           ),
@@ -136,7 +174,8 @@ function App() {
           path: "/room-scheduling",
           element: (
             <>
-              <RoomScheduling />
+              {isMobile && <MobileScheduling />}
+              {!isMobile && <RoomScheduling />}
               <Layout />
             </>
           ),
@@ -145,7 +184,18 @@ function App() {
           path: "/map-debug",
           element: (
             <>
-              <FloorMapDebug />
+              {isMobile && <ErrorPage />}
+              {!isMobile && <FloorMapDebug />}
+              <Layout />
+            </>
+          ),
+        },
+        {
+          path: "/stats-page",
+          element: (
+            <>
+              {isMobile && <ErrorPage />}
+              {!isMobile && <StatsPage />}
               <Layout />
             </>
           ),
@@ -154,7 +204,8 @@ function App() {
           path: "/language-request",
           element: (
             <>
-              <LanguageRequest />
+              {isMobile && <MobileLanguage />}
+              {!isMobile && <LanguageRequest />}
               <Layout />
             </>
           ),
@@ -163,7 +214,8 @@ function App() {
           path: "/transport-request",
           element: (
             <>
-              <TransportRequest />
+              {isMobile && <MobileTransportation />}
+              {!isMobile && <TransportRequest />}
               <Layout />
             </>
           ),
@@ -181,7 +233,8 @@ function App() {
           path: "/gift-request",
           element: (
             <>
-              <GiftForm />
+              {isMobile && <MobileGift />}
+              {!isMobile && <GiftForm />}
               <Layout />
             </>
           ),
@@ -192,6 +245,17 @@ function App() {
           element: (
             <>
               <AboutPage />
+              <Layout />
+            </>
+          ),
+        },
+
+        {
+          path: "/subscription-result",
+          element: (
+            <>
+              {isMobile && <MobileSubResult />}
+              {!isMobile && <SubscribeResult />}
               <Layout />
             </>
           ),

@@ -1,0 +1,427 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+
+:root {
+  --border-radius: 25px;
+  --searchDisplay: flex;
+}
+
+.flipImg {
+  transform: scaleY(-1);
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  font-size: 14px;
+}
+
+.pathNotFoundBox {
+  background-color: red;
+  color: white;
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 5px;
+  text-align: center;
+}
+.wholePage {
+  background: #f1f1f1;
+  position: fixed;
+  padding: 0;
+  top: 80px;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+}
+
+.container {
+  padding: 0;
+  margin: 0;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: calc(100% - 100px);
+  background-color: #d6d8d5;
+}
+
+.signInForm {
+  padding-left: 30px;
+  padding-right: 30px;
+  padding-bottom: 30px;
+  display: var(--searchDisplay);
+  flex-direction: column;
+  width: 100vw; /* Adjust the width as needed */
+  background: #f1f1f1;
+  z-index: 300;
+  filter: drop-shadow(0px 4px 5.2px rgba(0, 0, 0, 0.5));
+  border-radius: 0 0 var(--border-radius) var(--border-radius);
+  /* Adjust this value as needed to control the distance from the top */
+}
+
+.destinationBox {
+  display: flex;
+  flex-direction: row;
+  justify-content: Center;
+  align-items: center;
+  background-color: #289ba5;
+  color: white;
+  padding: 10px;
+  height: 50px;
+  width: 100vw; /* Adjust the width as needed */
+  border-radius: 0 0 15px 15px;
+  text-align: center;
+  z-index: 10;
+}
+
+.homePin {
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+.mapFix {
+  overflow: visible;
+}
+
+.floorButtonsContainer {
+  /* hide scrollbar but allow scrolling */
+  /* Hide scrollbar in IE/Edge */
+
+  -ms-overflow-style: none;
+
+  /* WebKit (Chrome, Safari, etc.) */
+  ::-webkit-scrollbar {
+    width: 10px; /* width of the scrollbar */
+  }
+
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1; /* color of the track */
+  }
+
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #003b9c; /* color of the thumb */
+  }
+
+  width: 100vw; /* Add twice the padding to stretch fully */
+  max-height: 400px;
+}
+
+.mapArea {
+  /* Subtract the navbar height or any padding you may have */
+  width: 100vw;
+  position: relative;
+  overflow: visible;
+}
+
+.mapComponents {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 5px;
+}
+
+.FloorSequence {
+  position: relative;
+  z-index: 5; /* Ensures it stays on top of other content */
+  background: transparent; /* Semi-transparent background for better visibility */
+  border-radius: 5px; /* Rounded corners for aesthetics */
+  display: flex; /* Ensures the contents are laid out in a row */
+  flex-direction: row-reverse; /* Reverses the order of flex items to extend to the left */
+  justify-content: flex-start; /* Aligns content to the right */
+}
+
+.hmap-image {
+  height: 100%; /* Make the image fill the container height */
+  width: auto; /* Adjust width automatically */
+  object-fit: cover; /* Cover the area without losing aspect ratio */
+  max-width: none; /* Allow the width to go beyond 100% if necessary */
+}
+
+.transformWrapper {
+  width: 100%;
+  height: 100%;
+}
+
+.transformComponent {
+  position: relative; /* Establish a positioning context for the dots */
+  width: 100%;
+  height: 100%;
+}
+
+.mapDot {
+  position: absolute;
+  width: 2.5px;
+  height: 2.5px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 3;
+}
+
+.dotsContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.boldtag {
+  margin-top: 10px;
+  margin-bottom: 5px;
+  text-align: left;
+  font-weight: bold;
+  color: black;
+}
+.boldtag2 {
+  margin-bottom: -20px;
+  text-align: center;
+  font-weight: bold;
+  color: black;
+  width: 100vw;
+}
+
+.directionsBlueBox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #003b9c;
+  color: white;
+  font-weight: bold;
+  line-height: 48px;
+
+  position: relative;
+  box-sizing: border-box;
+  text-align: center;
+
+  font-size: 20px;
+  width: 100vw;
+}
+
+.directionsBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+@keyframes moveDottedLine {
+  to {
+    stroke-dashoffset: -10;
+  }
+}
+
+.line {
+  stroke-dasharray: 2;
+  stroke-dashoffset: 20;
+  animation: moveDottedLine 1s linear infinite;
+  z-index: 100;
+}
+
+.mapDot.small {
+  width: 1px;
+  height: 1px;
+  z-index: 3;
+}
+
+.pathListContainer {
+  max-height: 150px; /* Set a maximum height for the list */
+  overflow-y: auto; /* Enable vertical scrolling */
+
+  /* Adjust as needed */
+  padding: 5px; /* Add padding for better readability */
+}
+
+.pathList {
+  list-style-type: none; /* Remove default list styles */
+  padding-left: 0; /* Remove default left padding */
+}
+
+.csvButton {
+  bottom: 0;
+  width: 360px;
+  position: fixed;
+  background-color: #003b9c;
+  color: white;
+  font-weight: bold;
+  left: -20px;
+}
+
+.mbDiv {
+  position: absolute;
+  bottom: 0;
+}
+
+.floorSwitchText {
+  font-weight: bold;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 4px;
+  color: black;
+}
+
+.floorSwitcherContainer {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  padding: 5px;
+  z-index: 10; /* Ensure it's above the map */
+}
+
+.multifloorNode {
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1) translate(-50%, -50%);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.5) translate(-50%, -50%);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1) translate(-50%, -50%);
+    opacity: 1;
+  }
+}
+
+.endNodeAnimation {
+  animation: pulse 1.5s infinite;
+
+  transform: translate(-50%, -50%);
+}
+
+.mMap {
+  position: absolute;
+  right: -50%;
+  top: 47%;
+  width: min-content;
+  height: min-content;
+  transition: right 0.3s ease;
+}
+
+.showMMap {
+  right: 0;
+}
+
+.mMapbox {
+  flex: 1;
+  display: flex;
+  color: black;
+  align-items: center; /* Center the contents vertically */
+  justify-content: flex-start; /* Aligns the switch to the start */
+  padding-left: 20px; /* Adds some padding on the left */
+  width: 100%; /* Full width of the container */
+  /* Center the switch horizontally */
+  margin-bottom: 10px; /* Space between switch and select */
+}
+
+.MapButtons {
+  width: fit-content; /* Auto width based on content */
+  z-index: 4; /* Ensure it is above the TransformComponent */
+  display: flex;
+
+  flex-direction: column; /* Stack children vertically */
+  justify-content: flex-start;
+  padding: 10px; /* Adds some spacing around the controls */
+  background: rgba(241, 241, 241, 0.9); /* Semi-transparent background */
+  border: 1px solid black; /* Black border */
+  border-radius: 5px; /* Rounded corners */
+}
+
+.MapKey {
+  position: absolute; /* Places it above the map */
+  bottom: -75%; /* Places it off screen for transformation */
+  left: 20px; /* Left aligned */
+  width: 265px; /* Can be altered for longer key items */
+  z-index: 4; /* Ensure it is above the TransformComponent */
+  display: grid; /* For keeping each key */
+  grid-template-columns: 30px 200px;
+
+  padding: 15px; /* Adds some spacing around the controls */
+  background: rgb(255, 255, 255); /* Semi-transparent background */
+  border: 1px solid black; /* Black border */
+  border-radius: 5px; /* Rounded corners */
+  transition: bottom 0.3s ease; /* Transform effect to make it come from the bottom */
+}
+
+.zIndexHIGH {
+  z-index: 1000;
+}
+
+.MapKeyItem {
+  color: #003b9c;
+  font-size: 21px;
+  text-align: start; /* Sets the text to all left-align */
+  margin-left: 10px; /* Gives the text some room on the left */
+  margin-bottom: 5px; /* Puts line spacing between each key entry */
+  font-family: Jaldi, sans-serif;
+}
+
+.MapKeyIcon {
+  width: 25px;
+  height: 25px;
+}
+
+.ShowMapKey {
+  bottom: 200px; /* To be placed 200px from bottom once triggered */
+}
+
+.Select {
+  display: flex;
+  width: 100%; /* Full width of the container */
+  justify-content: center; /* Center the select horizontally */
+}
+.floorDirectionsContainer {
+  max-height: 400px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.floorVoiceSettingContainer {
+  max-height: 200px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.keyButton {
+  all: unset;
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  padding: -1px;
+  background-color: transparent;
+  border: none;
+}
+.keyButton:hover {
+  border: 2px solid #163a95;
+  border-radius: 20px;
+}
+.keyButtonText:hover {
+  border: 2px solid #163993;
+  border-radius: 20px;
+}
+
+.keyButtonText {
+  all: unset;
+  cursor: pointer;
+  height: 30px;
+  padding: -1px;
+}
+
+.micButton {
+  margin-top: 20px;
+  margin-bottom: -25px;
+  background-color: #163a95;
+}

@@ -1,6 +1,7 @@
 /* nav_bar.css */
 :root {
   --backdropwidth: 100vw;
+  --navButtonsWidth: 0px;
 }
 
 .navbar {
@@ -47,9 +48,12 @@
 
 .bwh-logo {
   height: 60px;
-
-  padding-left: 1rem;
   margin: 0;
+}
+
+.lower {
+  text-decoration: none;
+  text-transform: none;
 }
 
 .time {
@@ -57,6 +61,10 @@
   font-weight: 600;
   font-size: 24px;
   color: #003b9c;
+  text-decoration: none;
+  text-transform: none;
+  user-select: none;
+  cursor: pointer;
 }
 
 .navButtons {
@@ -66,7 +74,7 @@
   font-family: Jaldi, sans-serif;
   position: absolute;
   top: 0;
-  left: calc(50% - 269px);
+  left: calc(50% - calc(var(--navButtonsWidth) / 2));
 }
 
 .item {
@@ -137,6 +145,11 @@
   height: 37px;
 }
 
+.makeItBlue {
+  filter: invert(11%) sepia(83%) saturate(3723%) hue-rotate(215deg)
+    brightness(103%) contrast(92%);
+}
+
 .currItem {
   font-weight: 625;
   text-decoration: underline;
@@ -158,18 +171,33 @@
   display: none;
 }
 
+.navMic {
+  margin-top: 20px;
+  margin-bottom: 25px;
+  margin-left: 10px;
+  background-color: #163a95;
+}
+.micSettings {
+  margin-left: -25px;
+  color: #163a95;
+}
+
+.micVisibility {
+  display: flex;
+}
+
 @media all and (max-width: 1024px) {
   .navButtons {
     display: none;
   }
   .leftSide {
-    padding-left: 0;
+    padding-left: 10px;
     column-gap: 10px;
   }
   .time {
     line-height: 1.2;
     word-break: break-all;
-    inline-size: 215px;
+    inline-size: 175px;
   }
   .rightSide {
     display: none;
@@ -224,5 +252,9 @@
     padding-top: 10px;
     padding-right: 10px;
     border-bottom: 1px solid #777777;
+  }
+
+  .micVisibility {
+    display: none;
   }
 }

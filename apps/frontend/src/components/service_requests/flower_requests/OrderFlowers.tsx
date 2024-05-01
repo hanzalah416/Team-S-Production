@@ -1,5 +1,5 @@
 // OrderFlowers.tsx
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import InputLabel from "@mui/material/InputLabel";
@@ -13,14 +13,17 @@ import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import FormLabel from "@mui/material/FormLabel";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
-import poppies from "../../assets/FlowerPhotos/poppies.png";
-import tulips from "../../assets/FlowerPhotos/tulips.png";
-import roses from "../../assets/FlowerPhotos/rose.png";
+import poppies from "../../assets/FlowerPhotos/poppy2.png";
+import tulips from "../../assets/FlowerPhotos/tulips2.jpg";
+import roses from "../../assets/FlowerPhotos/rose2.png";
 import Grid from "@mui/material/Unstable_Grid2"; // Grid version 2
 import Paper from "@mui/material/Paper";
 import BackgroundImg2 from "../../assets/blue-background2.jpg";
 import Tooltip from "../../ToolTip.tsx";
 import styles from "../../login/Login.module.css";
+// @ts-expect-error Problem with splides library
+import { Splide, SplideSlide, SplideInstance } from "@splidejs/react-splide";
+import "@splidejs/react-splide/css/sea-green";
 
 const tips = `
 Name of Requester: Enter the name of the person requesting the flowers.
@@ -29,7 +32,7 @@ Priority: Use the dropdown to choose the urgency of your request (e.g., standard
 
 Location: Select from the dropdown where the flowers should be delivered or where they are needed.
 
-Request Type: Choose the type of flowers you are requesting. If you need more than one type, you might be able to select multiple options, or if you can only select one, choose the primary type and specify further in the custom message.
+Request Type: Choose the type of flowers you are requesting. If you would like more than one type, choose the primary type and specify further in the custom message.
 
 Enter Custom Message: If you’d like to include a message with the flowers or have specific instructions for the arrangement, enter that information here.
 
@@ -68,6 +71,25 @@ const OrderFlowers: React.FC = () => {
   const [staffNames, setStaffNames] = useState<Staff[]>([]);
 
   const navigate = useNavigate();
+
+  const [selectedFlower, setSelectedFlower] = useState<string>("");
+
+  const splideRef = useRef<SplideInstance | null>(null);
+
+  const handleFlowerTypeChange = (
+    _event: React.MouseEvent<HTMLElement>,
+    newValue: string | null,
+  ) => {
+    if (newValue !== null) {
+      setSelectedFlower(newValue); // Update the selected flower type
+      // Find the index of the selected flower in the images array
+      const index = ["Poppies", "Roses", "Tulips"].indexOf(newValue);
+      // Move the carousel to the selected image index
+      if (splideRef.current) {
+        splideRef.current.go(index);
+      }
+    }
+  };
 
   const handleChangeName = (value: Staff | null) => {
     setStaffName(value);
@@ -268,10 +290,10 @@ const OrderFlowers: React.FC = () => {
                   onChange={handlePriorityChange}
                   sx={{ minWidth: 250, color: "#3B54A0" }}
                 >
-                  <MenuItem value={"low"}>Low</MenuItem>
-                  <MenuItem value={"medium"}>Medium</MenuItem>
-                  <MenuItem value={"high"}>High</MenuItem>
-                  <MenuItem value={"emergency"}>Emergency</MenuItem>
+                  <MenuItem value={"Low"}>Low</MenuItem>
+                  <MenuItem value={"Medium"}>Medium</MenuItem>
+                  <MenuItem value={"High"}>High</MenuItem>
+                  <MenuItem value={"Emergency"}>Emergency</MenuItem>
                 </Select>
               </div>
             </Stack>
@@ -322,39 +344,78 @@ const OrderFlowers: React.FC = () => {
                 Flower Type
               </InputLabel>
               <br />
-              <div style={{ display: "flex" }}>
-                <img
-                  src={poppies}
-                  alt="Covering 3/4 page"
-                  className={styles.poppies}
-                  style={{ width: "200px", height: "auto" }}
-                />
 
-                <img
-                  src={roses}
-                  alt="Covering 3/4 page"
-                  className={styles.roses}
-                  style={{ width: "200px", height: "auto" }}
-                />
-                <img
-                  src={tulips}
-                  alt="Covering 3/4 page"
-                  className={styles.tulips}
-                  style={{ width: "200px", height: "auto" }}
-                />
+              <div
+                style={{
+                  marginLeft: "auto",
+                  marginRight: "auto",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Splide
+                  options={{
+                    rewind: true,
+                    width: 400,
+                    gap: "1rem",
+                  }}
+                  aria-label="Carousel of Flowers"
+                  style={{
+                    width: "400px",
+                    marginLeft: "auto",
+                    marginRight: "auto",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                  ref={splideRef}
+                >
+                  <SplideSlide>
+                    <img
+                      src={poppies}
+                      className={styles.poppies}
+                      alt="Poppies"
+                      style={{
+                        width: "300px",
+                        height: "auto",
+                        marginLeft: "auto",
+                        marginRight: "auto",
+                      }}
+                    />
+                  </SplideSlide>
+                  <SplideSlide>
+                    <img
+                      src={roses}
+                      className={styles.roses}
+                      alt="Roses"
+                      style={{
+                        width: "300px",
+                        height: "auto",
+                        marginLeft: "auto",
+                        marginRight: "auto",
+                      }}
+                    />
+                  </SplideSlide>
+                  <SplideSlide>
+                    <img
+                      src={tulips}
+                      className={styles.tulips}
+                      alt="Tulips"
+                      style={{
+                        width: "300px",
+                        height: "auto",
+                        marginLeft: "auto",
+                        marginRight: "auto",
+                      }}
+                    />
+                  </SplideSlide>
+                </Splide>
               </div>
+
               <ToggleButtonGroup
                 color="primary"
-                value={typeFlower} // Use the state value here
+                value={selectedFlower} // Use the state value here
                 exclusive
-                onChange={(
-                  _event: React.MouseEvent<HTMLElement>,
-                  newValue: string | null,
-                ) => {
-                  if (newValue !== null) {
-                    setTypeFlower(newValue); // Update state on change
-                  }
-                }}
+                onChange={handleFlowerTypeChange}
                 aria-label="Sanitation Type Buttons"
                 sx={{ minWidth: 140 }}
               >
@@ -363,7 +424,7 @@ const OrderFlowers: React.FC = () => {
                     color: "#10778c",
                     outlineColor: "#949DB5",
                     borderColor: "#949DB5",
-                    width: 200,
+                    width: 100,
                   }}
                   value="Poppies"
                 >
@@ -374,7 +435,7 @@ const OrderFlowers: React.FC = () => {
                     color: "#10778c",
                     outlineColor: "#949DB5",
                     borderColor: "#949DB5",
-                    width: 200,
+                    width: 100,
                   }}
                   value="Roses"
                 >
@@ -385,7 +446,7 @@ const OrderFlowers: React.FC = () => {
                     color: "#10778c",
                     outlineColor: "#949DB5",
                     borderColor: "#949DB5",
-                    width: 200,
+                    width: 100,
                   }}
                   value="Tulips"
                 >

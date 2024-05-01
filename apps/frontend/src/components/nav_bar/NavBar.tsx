@@ -21,13 +21,15 @@ import mapEditingIcon from "../assets/NavBarIcons/MapEditingIcon.svg";
 import dbIcon from "../assets/NavBarIcons/dbIcon.svg";
 import giftIcon from "../assets/NavBarIcons/gift_icon.svg";
 import aboutIcon from "../assets/NavBarIcons/about.svg";
+import statsIcon from "../assets/NavBarIcons/stats_icon.svg";
+import emailIcon from "../assets/NavBarIcons/email_icon.svg";
 import { useNavigate } from "react-router-dom";
 import { LoginButton } from "../LoginButton.tsx";
 import { LogoutButton } from "../LogoutButton.tsx";
 import { createTheme, FormControl, ThemeProvider } from "@mui/material";
 import { useCallback, useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-
+import { WebAppsCheck } from "../HelperFunctions/WebAppsCheck.tsx";
 declare module "@mui/material/styles" {
   interface Palette {
     websiteBlue: Palette["primary"];
@@ -60,6 +62,10 @@ function NavBar() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
+  const isMobile = navigator.userAgent.match(
+    /(iPad)|(iPhone)|(iPod)|(android)|(webOS)/i,
+  );
+
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const today = new Date();
   const [timeOfDay, updateTimeOfDay] = React.useState("");
@@ -72,6 +78,7 @@ function NavBar() {
   const servicesID = document.getElementById("servicesID");
   const creditsID = document.getElementById("creditsID");
   const aboutID = document.getElementById("aboutID");
+  const navButtonsID = document.getElementById("navButtonsID");
   const [backdropVisible, setBackdropVisible] = React.useState(false);
 
   const [username, setUsername] = React.useState("USERNAME");
@@ -95,6 +102,16 @@ function NavBar() {
     }
     navigate("/");
   };
+
+  useEffect(() => {
+    if (navButtonsID) {
+      console.log(navButtonsID.clientWidth);
+      document.documentElement.style.setProperty(
+        `--${"navButtonsWidth"}`,
+        navButtonsID.clientWidth + "px",
+      );
+    }
+  });
 
   const setServicesID = useCallback(() => {
     if (servicesID) {
@@ -210,6 +227,10 @@ function NavBar() {
         setServIcon(flowerIcon);
         setServicesID();
         break;
+      case "/gift-request":
+        setServIcon(giftIcon);
+        setServicesID();
+        break;
       case "/medicine-delivery-request":
         setServIcon(medicineIcon);
         setServicesID();
@@ -242,19 +263,31 @@ function NavBar() {
         setServIcon(dbIcon);
         setServicesID();
         break;
+      case "/message-publish":
+        setServIcon(emailIcon);
+        setServicesID();
+        break;
       case "/all-service-requests":
+        setServIcon(homePinIcon);
         setRequestsID();
         break;
       case "/floor-map":
+        setServIcon(homePinIcon);
         setMapID();
         break;
       case "/credit-page":
         console.log("credit page");
+        setServIcon(homePinIcon);
         setCreditsID();
         break;
       case "/about-page":
         console.log("about page");
+        setServIcon(homePinIcon);
         setAboutID();
+        break;
+      case "/stats-page":
+        setServIcon(statsIcon);
+        setServicesID();
         break;
       default:
         setServIcon(homePinIcon);
@@ -313,15 +346,16 @@ function NavBar() {
             "'Founding member, Mass General Brigham'"
           }
           onClick={toHero}
-          style={{cursor: "pointer"}}
+          style={{ cursor: "pointer" }} // Makes it clear the logo is clickable
         />
 
         <p className={"time"} onClick={toHero}>
           {timeOfDay}{" "}
         </p>
+        <WebAppsCheck />
       </div>
 
-      <div className={"navButtons"}>
+      <div id={"navButtonsID"} className={"navButtons"}>
         <Link to={"/about-page"} id={"order"}>
           <Button className={"alignIcons"} onClick={onBackDropItemClick}>
             <img
@@ -363,127 +397,157 @@ function NavBar() {
             </Link>
           </FormControl>
         )}
-        <div>
-          <Button
-            id="services-button"
-            aria-controls={open ? "services-menu" : undefined}
-            aria-haspopup="true"
-            aria-expanded={open ? "true" : undefined}
-            onClick={handleClick}
-          >
-            <div className={"alignIcons"}>
+        <Button
+          id="services-button"
+          aria-controls={open ? "services-menu" : undefined}
+          aria-haspopup="true"
+          aria-expanded={open ? "true" : undefined}
+          onClick={handleClick}
+        >
+          <div className={"alignIcons"}>
+            <img
+              src={currServIcon}
+              className={"iconHeight"}
+              width={"29px"}
+              alt={"currServIcon"}
+            />
+            <p id={"servicesID"} className={"itemNames"}>
+              Services
+            </p>
+          </div>
+          <img
+            src={dropDownIcon}
+            alt={"dropDownIcon"}
+            className={"makeItBlue"}
+          />
+        </Button>
+        <Menu
+          id="services-menu"
+          anchorEl={anchorEl}
+          open={open}
+          onClose={handleClose}
+          MenuListProps={{
+            "aria-labelledby": "services-button",
+          }}
+        >
+          <Link to={"/order-flowers"} id={"order"}>
+            <MenuItem onClick={handleClose}>
               <img
-                src={currServIcon}
+                src={flowerIcon}
                 className={"iconHeight"}
-                width={"29px"}
-                alt={"currServIcon"}
+                width={"38px"}
+                alt={"Flower Icon"}
               />
-              <p id={"servicesID"} className={"itemNames"}>
-                Services
-              </p>
-            </div>
-            <img src={dropDownIcon} alt={"dropDownIcon"} />
-          </Button>
-          <Menu
-            id="services-menu"
-            anchorEl={anchorEl}
-            open={open}
-            onClose={handleClose}
-            MenuListProps={{
-              "aria-labelledby": "services-button",
-            }}
-          >
-            <Link to={"/order-flowers"} id={"order"}>
-              <MenuItem onClick={handleClose}>
-                <img
-                  src={flowerIcon}
-                  className={"iconHeight"}
-                  width={"38px"}
-                  alt={"Flower Icon"}
-                />
-                <p className={"item"}>Order Flowers</p>
-              </MenuItem>
-            </Link>
+              <p className={"item"}>Order Flowers</p>
+            </MenuItem>
+          </Link>
 
-            <Link to={"/gift-request"} id={"order"}>
-              <MenuItem onClick={handleClose}>
-                <img
-                  src={giftIcon}
-                  className={"iconHeight"}
-                  width={"38px"}
-                  alt={"Gift Icon"}
-                />
-                <p className={"item"}>Gift Requests</p>
-              </MenuItem>
-            </Link>
-            {isAuthenticated && (
-              <>
-                <Link to={"/medicine-delivery-request"} id={"order"}>
+          <Link to={"/gift-request"} id={"order"}>
+            <MenuItem onClick={handleClose}>
+              <img
+                src={giftIcon}
+                className={"iconHeight"}
+                width={"38px"}
+                alt={"Gift Icon"}
+              />
+              <p className={"item"}>Gift Requests</p>
+            </MenuItem>
+          </Link>
+          {isAuthenticated && (
+            <>
+              <Link to={"/medicine-delivery-request"} id={"order"}>
+                <MenuItem onClick={handleClose}>
+                  <img
+                    src={medicineIcon}
+                    className={"iconHeight"}
+                    width={"38px"}
+                    alt={"Medicine Icon"}
+                  />
+                  <p className={"item"}>Medical Delivery</p>
+                </MenuItem>
+              </Link>
+              <Link to={"/sanitation-request"} id={"order"}>
+                <MenuItem onClick={handleClose}>
+                  <img
+                    src={sanitationIcon}
+                    className={"iconHeight"}
+                    width={"38px"}
+                    alt={"Sanitation Icon"}
+                  />
+                  <p className={"item"}>Sanitation Services</p>
+                </MenuItem>
+              </Link>
+              <Link to={"/security-request"} id={"order"}>
+                <MenuItem onClick={handleClose}>
+                  <img
+                    src={securityIcon}
+                    className={"iconHeight"}
+                    width={"38px"}
+                    alt={"Security Icon"}
+                  />
+                  <p className={"item"}>Security Requests</p>
+                </MenuItem>
+              </Link>
+              <Link to={"/room-scheduling"} id={"order"}>
+                <MenuItem onClick={handleClose}>
+                  <img
+                    src={roomSchedulingIcon}
+                    className={"iconHeight"}
+                    width={"38px"}
+                    alt={"Room Scheduling Icon"}
+                  />
+                  <p className={"item"}>Room Scheduling</p>
+                </MenuItem>
+              </Link>
+              <Link to={"/language-request"} id={"order"}>
+                <MenuItem onClick={handleClose}>
+                  <img
+                    src={languageIcon}
+                    className={"iconHeight"}
+                    width={"38px"}
+                    alt={"Language Icon"}
+                  />
+                  <p className={"item"}>Language Request</p>
+                </MenuItem>
+              </Link>
+              <Link to={"/transport-request"} id={"order"}>
+                <MenuItem onClick={handleClose}>
+                  <img
+                    src={transportIcon}
+                    className={"iconHeight"}
+                    width={"38px"}
+                    alt={"Transport Icon"}
+                  />
+                  <p className={"item"}>Transportation Request</p>
+                </MenuItem>
+              </Link>
+              {username === "admind24s" && (
+                <Link to={"/stats-page"} id={"order"}>
                   <MenuItem onClick={handleClose}>
                     <img
-                      src={medicineIcon}
-                      className={"iconHeight"}
-                      width={"38px"}
-                      alt={"Medicine Icon"}
-                    />
-                    <p className={"item"}>Medical Delivery</p>
-                  </MenuItem>
-                </Link>
-                <Link to={"/sanitation-request"} id={"order"}>
-                  <MenuItem onClick={handleClose}>
-                    <img
-                      src={sanitationIcon}
-                      className={"iconHeight"}
-                      width={"38px"}
-                      alt={"Sanitation Icon"}
-                    />
-                    <p className={"item"}>Sanitation Services</p>
-                  </MenuItem>
-                </Link>
-                <Link to={"/security-request"} id={"order"}>
-                  <MenuItem onClick={handleClose}>
-                    <img
-                      src={securityIcon}
-                      className={"iconHeight"}
-                      width={"38px"}
-                      alt={"Security Icon"}
-                    />
-                    <p className={"item"}>Security Requests</p>
-                  </MenuItem>
-                </Link>
-                <Link to={"/room-scheduling"} id={"order"}>
-                  <MenuItem onClick={handleClose}>
-                    <img
-                      src={roomSchedulingIcon}
-                      className={"iconHeight"}
-                      width={"38px"}
-                      alt={"Room Scheduling Icon"}
-                    />
-                    <p className={"item"}>Room Scheduling</p>
-                  </MenuItem>
-                </Link>
-                <Link to={"/language-request"} id={"order"}>
-                  <MenuItem onClick={handleClose}>
-                    <img
-                      src={languageIcon}
-                      className={"iconHeight"}
-                      width={"38px"}
-                      alt={"Language Icon"}
-                    />
-                    <p className={"item"}>Language Request</p>
-                  </MenuItem>
-                </Link>
-                <Link to={"/transport-request"} id={"order"}>
-                  <MenuItem onClick={handleClose}>
-                    <img
-                      src={transportIcon}
+                      src={statsIcon}
                       className={"iconHeight"}
                       width={"38px"}
                       alt={"Transport Icon"}
                     />
-                    <p className={"item"}>Transportation Request</p>
+                    <p className={"item"}>Statistics</p>
                   </MenuItem>
                 </Link>
+              )}
+              {!isMobile && (
+                <Link to={"/message-publish"} id={"order"}>
+                  <MenuItem onClick={handleClose}>
+                    <img
+                      src={emailIcon}
+                      className={"iconHeight"}
+                      width={"38px"}
+                      alt={"DB Icon"}
+                    />
+                    <p className={"item"}>Send Out Emails</p>
+                  </MenuItem>
+                </Link>
+              )}
+              {!isMobile && username === "admind24s" && (
                 <Link to={"/map-debug"} id={"order"}>
                   <MenuItem onClick={handleClose}>
                     <img
@@ -495,7 +559,9 @@ function NavBar() {
                     <p className={"item"}>Map Editing Page</p>
                   </MenuItem>
                 </Link>
+              )}
 
+              {!isMobile && username === "admind24s" && (
                 <Link to={"/node-data"} id={"order"}>
                   <MenuItem onClick={handleClose}>
                     <img
@@ -507,10 +573,10 @@ function NavBar() {
                     <p className={"item"}>Manage Database</p>
                   </MenuItem>
                 </Link>
-              </>
-            )}
-          </Menu>
-        </div>
+              )}
+            </>
+          )}
+        </Menu>
 
         <Link to={"/credit-page"} id={"order"}>
           <Button className={"alignIcons"} onClick={onBackDropItemClick}>
@@ -585,7 +651,11 @@ function NavBar() {
             className={"alignIconsDropDown"}
             onClick={handleClick}
           >
-            <img src={dropDownIcon} alt={"drop down icon"} />
+            <img
+              src={dropDownIcon}
+              className={"makeItBlue"}
+              alt={"drop down icon"}
+            />
             <div className={"alignIconsDropDown"}>
               <p id={"servicesID"} className={"itemNames"}>
                 Services
@@ -634,6 +704,9 @@ function NavBar() {
               />
             </Button>
           </Link>
+        </div>
+        <div className={"itemDropDown"}>
+          <WebAppsCheck />
         </div>
         <div className={"itemDropDown"}>
           <ThemeProvider theme={theme}>
