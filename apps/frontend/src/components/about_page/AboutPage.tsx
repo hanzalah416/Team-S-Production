@@ -209,6 +209,7 @@ export const AboutPage = () => {
           gap: "30px",
           paddingTop: "120px",
           paddingBottom: "40px",
+          flexDirection: "column",
         }}
       >
         <div
@@ -224,14 +225,7 @@ export const AboutPage = () => {
           <h1 className={styles.heading}>Our Team</h1>
         </div>
 
-        <div
-          style={{
-            display: "flex",
-            flexWrap: "wrap",
-            justifyContent: "center",
-            gap: "35px",
-          }}
-        >
+        <div className={styles.teamCards}>
           {OurTeam.map((item) => (
             <div className={styles.pictureBackground}>
               {item.label === "Dorothy Alexander" ? (
@@ -253,7 +247,18 @@ export const AboutPage = () => {
             </div>
           ))}
         </div>
-        <div>
+        <div
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: "30px",
+            paddingTop: "120px",
+            paddingBottom: "40px",
+            flexDirection: "column",
+          }}
+        >
           <div
             style={{
               display: "inline-flex", // Use 'inline-flex' to make the div size according to its content
@@ -270,14 +275,7 @@ export const AboutPage = () => {
             <h1 className={styles.heading}>Acknowledgements</h1>
           </div>
 
-          <div
-            style={{
-              display: "flex",
-              flexWrap: "wrap",
-              justifyContent: "center",
-              gap: "35px",
-            }}
-          >
+          <div className={styles.teamCards}>
             {Acknowledgements.map((item) => (
               <div className={styles.pictureBackground}>
                 {item.label === "Youssef Benchikhi" ? (
