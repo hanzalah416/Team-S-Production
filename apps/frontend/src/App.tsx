@@ -41,6 +41,8 @@ import MobileMap from "./components/floor_map/MobileMap.tsx";
 import StatsPage from "./components/stats_page/StatsPage.tsx";
 import SubscribeResult from "./components/awsEmailConnection/SubscribeResult.tsx";
 import MobileEmail from "./components/awsEmailConnection/MobileEmail.tsx";
+import MobileSubResult from "./components/awsEmailConnection/MobileSubResult.tsx";
+import MobileOrderConfirm from "./components/service_requests/MobileOrderConfirm.tsx";
 
 function App() {
   const isMobile = navigator.userAgent.match(
@@ -102,7 +104,8 @@ function App() {
           path: "/order-flowers-result",
           element: (
             <>
-              <OrderConfirmation />
+              {isMobile && <MobileOrderConfirm />}
+              {!isMobile && <OrderConfirmation />}
               <Layout />
             </>
           ),
@@ -249,7 +252,8 @@ function App() {
           path: "/subscription-result",
           element: (
             <>
-              <SubscribeResult />
+              {isMobile && <MobileSubResult />}
+              {!isMobile && <SubscribeResult />}
               <Layout />
             </>
           ),
